@@ -1,0 +1,6 @@
+# The model service. Same Ultralytics version as training.
+fastapi
+uvicorn[standard]
+python-multipart
+ultralytics==8.4.208
+pillow

@@ -1,0 +1,4 @@
+# Pinned so every Colab account trains with the same code. Do not upgrade mid-experiment.
+ultralytics==8.4.208
+mlflow==3.18.0
+pandas

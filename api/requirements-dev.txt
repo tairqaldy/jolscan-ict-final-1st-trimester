@@ -1,0 +1,6 @@
+# Extras for the Gradio demo and the tests. Not needed in the Docker image.
+-r requirements.txt
+gradio
+pandas
+pytest
+httpx
