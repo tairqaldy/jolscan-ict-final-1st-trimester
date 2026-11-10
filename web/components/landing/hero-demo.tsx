@@ -31,25 +31,27 @@ export function HeroDemo() {
   }, [reduce]);
 
   return (
-    <div className="grid gap-3">
-      <DetectionOverlay
-        imageUrl={sample.file}
-        imageWidth={sample.imageWidth}
-        imageHeight={sample.imageHeight}
-        detections={sample.detections}
-        derived={derived}
-        replayKey={run}
-        alt="Illustrated highway with three potholes, each outlined by a detection box"
-      />
+    <div className="grid gap-3 rounded-xl border border-border bg-surface-2 p-4 sm:p-5 shadow-sm transition-all duration-200 hover:border-border-strong">
+      <div className="overflow-hidden rounded-lg border border-border bg-surface">
+        <DetectionOverlay
+          imageUrl={sample.file}
+          imageWidth={sample.imageWidth}
+          imageHeight={sample.imageHeight}
+          detections={sample.detections}
+          derived={derived}
+          replayKey={run}
+          alt="Illustrated highway with three potholes, each outlined by a detection box"
+        />
+      </div>
       <motion.div
         key={run}
         initial={reduce || !hydrated || run === 0 ? false : { opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: duration.slow, delay: 1.4, ease: ease.emphasized }}
-        className="flex flex-wrap items-center gap-x-3 gap-y-2"
+        className="flex flex-wrap items-center gap-x-3 gap-y-2 rounded-lg bg-surface p-3 border border-border/60"
       >
         <SeverityBadge severity={result.severity} size="lg" />
-        <span className="tabular font-display text-2xl font-bold">score {result.score}</span>
+        <span className="tabular font-display text-2xl font-bold text-fg">score {result.score}</span>
         <span className="text-sm text-muted">
           {result.recommendedAction} · {formatSla(result.slaHours)}
         </span>
