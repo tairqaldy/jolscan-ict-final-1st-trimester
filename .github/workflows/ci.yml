@@ -39,7 +39,8 @@ jobs:
         run: python -m compileall -q ml api
 
   # Team rule (CONTRIBUTING.md): rebase on the latest main before merging, so nobody's work is
-  # overwritten. GitHub Free cannot block a merge on a private repo, so this check makes the PR
+  # overwritten. Making this a required check would also reject the claim commits that go straight to
+  # main, so it stays advisory: it makes the PR
   # red instead, and the rule is: never merge a red PR.
   up-to-date:
     if: github.event_name == 'pull_request'

@@ -8,12 +8,14 @@ Six people, two days. The goal is to never block each other and never break `mai
 2. Clone:
 
    ```bash
-   git clone https://github.com/tairqaldy/jolscan-ict-final-1st-trimester.git jolscan
+   git clone https://github.com/tairqaldy/qarau-ict-final-1st-trimester.git jolscan
    ```
 
 3. Find your lane in [docs/TASKS.md](docs/TASKS.md).
 
 ## The workflow: claim, branch, rebase, merge yourself
+
+Start from the pinned issue "Start here" or `docs/TASKS.md`: pick an issue without an assignee, **assign yourself to it**, then claim it as below. Tasks labelled `bare-minimum` are the ones the defense cannot do without; `optional` ones make it better.
 
 Everyone has write access and merges their own pull requests. Two rules keep six people from overwriting each other: **claim before you start**, and **rebase on the latest `main` right before you merge**.
 
@@ -72,9 +74,17 @@ If `main` moved while you waited, GitHub shows **Update branch**: choose **Updat
 
 After merging a change to `web/`, open https://qarau.vercel.app after about two minutes and check that your page works.
 
-### 5. Finish the task
+### 5. Finish the task and write it down
 
-Tick the box of your task in `docs/TASKS.md` in the same pull request, replace the claim with a link to the result, and add your line to `docs/CONTRIBUTION-LOG.md`.
+In the same pull request (the pull request template lists these):
+
+- tick the task in `docs/TASKS.md` and replace the claim with a link to the result;
+- add an entry to your worklog, `docs/worklog/<you>.md`: what you did, the result with a link, decisions and why, what you can explain at the defense (format in `docs/worklog/README.md`);
+- update the lane document your change affects (see `docs/README.md`), and add a decision record in `docs/decisions/` if you chose between real options;
+- add an entry to `docs/AI-USAGE-LOG.md` if an AI tool helped;
+- write `Closes #<issue>` in the pull request description so the task issue closes on merge.
+
+These notes are what you will use to answer your individual question at the defense, and `scripts/contribution_report.py` turns them into the contribution report at the end.
 
 ### Picking up someone else's work
 

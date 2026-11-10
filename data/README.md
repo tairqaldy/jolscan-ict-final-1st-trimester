@@ -102,7 +102,7 @@ This correction addresses only the identified zero-width annotation in the separ
 
 **Version:** `potholes_yolo_v1.zip`, prepared in Colab from `potholes_corrected_v1.zip`. This is a Colab export, not the Roboflow version in the original plan. The ZIP is not stored in this repository.
 
-**Archive provided:** `potholes_yolo_v1.zip` was supplied as a chat attachment and inspected. Amina confirmed that `potholes_yolo_v1.zip` has been uploaded to the [shared project Drive folder](https://drive.google.com/drive/folders/1IKaEi1NAAteP2zYYGZZDZRHt1wrC16GS?usp=sharing). This upload status is user-confirmed; it was not independently verified.
+**Archive provided:** `potholes_yolo_v1.zip` was supplied as a chat attachment and inspected. Amina confirmed that `potholes_yolo_v1.zip` has been uploaded to the shared project Drive folder (link in the team chat; not published here because the folder holds raw photos). This upload status is user-confirmed; it was not independently verified.
 
 The export contains 665 images and 1,739 pothole annotations, converted from Pascal VOC-style XML to YOLO detection TXT. XML bounds were converted directly without a +/-1 shift; box centers use `(min + max) / 2`, sizes use `max - min`, and values are normalized by image dimensions. It has one class: `0 = pothole`. The split was created by sorting image paths and applying `random.Random(42).shuffle`:
 
@@ -136,7 +136,7 @@ Road photos can show faces and licence plates, and EXIF data can hold GPS coordi
 
 - Only images from the public dataset go to Roboflow, Colab or any hosted model.
 - Photos we take ourselves are checked for faces and plates first (task D-12). Only photos that pass may be uploaded anywhere for annotation. Everything else is analysed with the local model only.
-- The repository stays private.
+- The repository is public (decision 0006). Nothing from the datasets is committed except small, screened sample images, and no photo with a person, face or licence plate.
 
 ## Restroom signs dataset card (second module)
 

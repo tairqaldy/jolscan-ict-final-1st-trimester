@@ -106,10 +106,17 @@ def curve_panels(rows: list, key: str, title: str, ylabel: str, out: Path, train
             ax.annotate("chance", (x[0], chance), xytext=(2, 4), textcoords="offset points", color=INK2, fontsize=9)
         best = next((r for r in rb if r.get("best")), None)
         if best and key == "pair_top1_heldout_vs_all164":
-            ax.annotate(f"best: N={best['n_trained']}, {best[key]:.3f}", (best["n_trained"], best[key]), xytext=(0, -20),
-                        textcoords="offset points", ha="center", va="top", fontsize=10, color=INK)
-        ax.set_xticks(x, [f"{n}\n{fmt_params(r['trainable_params'])}" for n, r in zip(x, rb)])
-        ax.set_xlabel(f"{UNIT[b]}\ntrainable parameters")
+            # label in the empty lower part of the panel, with an arrow, so it never sits on a line
+            ax.annotate(f"best: N={best['n_trained']}, {best[key]:.3f}", xy=(best["n_trained"], best[key]),
+                        xytext=(best["n_trained"] + 0.35 * (x.max() - x.min()), ylim[0] + 0.3 * (ylim[1] - ylim[0])),
+                        ha="center", fontsize=10, color=INK,
+                        arrowprops=dict(arrowstyle="-", color=INK2, linewidth=1, shrinkA=2, shrinkB=5))
+        if b == "clip":   # every block has the same size; tick labels with parameter counts would collide
+            ax.set_xticks(x, [str(n) for n in x])
+            ax.set_xlabel(f"{UNIT[b]}, {fmt_params(rb[1]['trainable_params'] if len(rb) > 1 else 0)} parameters each")
+        else:
+            ax.set_xticks(x, [f"{n}\n{fmt_params(r['trainable_params'])}" for n, r in zip(x, rb)])
+            ax.set_xlabel(f"{UNIT[b]}\ntrainable parameters")
         ax.set_ylim(*ylim)
         ax.set_xlim(x.min() - 0.4, x.max() + (2.6 if b == "clip" else 1.3))
         ax.set_title(LABEL[b], loc="left")
@@ -124,6 +131,7 @@ def curve_panels(rows: list, key: str, title: str, ylabel: str, out: Path, train
 
 def params_chart(rows: list, out: Path) -> None:
     fig, ax = plt.subplots(figsize=(7.2, 4.4))
+    ends = {}
     for b in ("clip", "resnet"):
         rb = sorted((r for r in rows if r["backbone"] == b), key=lambda r: r["n_trained"])
         if not rb:
@@ -131,7 +139,13 @@ def params_chart(rows: list, out: Path) -> None:
         x = [r["pct_params_trained"] for r in rb]
         y = [r["pair_top1_heldout_vs_all164"] for r in rb]
         ax.plot(x, y, "-o", color=COLOR[b], markeredgecolor=SURFACE, markeredgewidth=2, label=LABEL[b])
-        ax.annotate(LABEL[b], (x[-1], y[-1]), xytext=(6, 0), textcoords="offset points", color=INK2, fontsize=10, va="center")
+        ends[b] = y[-1]
+    if len(ends) == 2 and abs(ends["clip"] - ends["resnet"]) < 0.03:   # push close end labels apart
+        mid = (ends["clip"] + ends["resnet"]) / 2
+        hi, lo = ("clip", "resnet") if ends["clip"] >= ends["resnet"] else ("resnet", "clip")
+        ends[hi], ends[lo] = mid + 0.015, mid - 0.015
+    for b, ye in ends.items():
+        ax.annotate(LABEL[b], (100, ye), xytext=(8, 0), textcoords="offset points", color=INK2, fontsize=10, va="center")
     ax.set_xlabel("share of the image encoder's parameters that are trained, %")
     ax.set_ylabel("partner found first, held-out restrooms")
     ax.set_xlim(-3, 118)

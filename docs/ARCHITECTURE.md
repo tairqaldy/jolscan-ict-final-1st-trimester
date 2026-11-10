@@ -176,6 +176,25 @@ type RestroomExperimentsFile = {
     genderAccCv: number | null;    // gender accuracy, 5-fold cross-validation on the training set, grouped by restroom
     latencyMs: number | null;      // per image, batch size 1
     device: string | null;         // e.g. "Apple M3 CPU", "Colab T4"
+  }>;                              // R7 is the two-step pipeline (no training): genderAccCv and latencyMs are null
+  served?: string | null;          // run id whose method /restroom/match runs; null until the API runs the pipeline (C-8)
+  servedNote?: string;             // what the app serves today, in words
+  pipeline?: {                     // every approach of ml/restroom/pipeline.py (task C-12)
+    champion: string;              // chosen on training episodes, then validation; test read once
+    served: string | null;
+    selection: string;
+    trainEpisodesProtocol: string;
+    approaches: Array<{ name: string; label: string; val: number; test: number; trainEpisodes: number; trainEpisodesStd: number }>;
+  };
+  layers?: Array<{                 // the layer sweep, mean over 3 seeds (ml/results/restroom/layers.csv, task C-11)
+    backbone: "clip" | "resnet";
+    n_trained: number;             // CLIP: last N of 12 transformer blocks; ResNet50: last N of 5 stages
+    trainable_params: number;
+    pair_top1_heldout_vs_all164: number;      // partner found first among all 164 originals, held-out restrooms
+    pair_top1_heldout_vs_all164_std: number;  // across seeds
+    pair_top1_train: number;       // the same on the training restrooms: the overfitting gap
+    gender_acc_heldout: number;
+    best: boolean;                 // the best N per backbone (ties within 0.005 go to fewer parameters)
   }>;
 };
 ```
