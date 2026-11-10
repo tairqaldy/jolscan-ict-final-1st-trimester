@@ -38,12 +38,13 @@ Apple M5 CPU, 10 November 2026. Matching: correct / queries. Gender: grouped 5-f
 | R1 zero-shot ViT-B/32 | 0.80 (8) | 0.767 (23) | 0.741 | 1.4 min |
 | R2 fine-tune 1 block | 1.00 (10) | 0.867 (26) | 0.680 | 2.9 min |
 | R3 fine-tune 3 blocks | 1.00 (10) | **0.900 (27)** | 0.753 | 7.8 min |
-| R4 fine-tune 6 blocks | not run yet | | | about 14 min on CPU (estimate) |
-| R5 R4 + augmentation | not run yet | | | longer: no caching with augmentation |
+| R4 fine-tune 6 blocks | 1.00 (10) | **1.000 (30)** | 0.643 | 15.3 min (Apple M4 CPU) |
+| R5 R4 + augmentation | cut (task C-4) | | | |
 | R6 gender probe, gender-filter matching | 0.50 (5) | 0.300 (9) | 0.741 | 0.2 min |
 
 - **R0 reproduces the IOAI baseline**: 23 of 30 test queries, 0.767, against the published 0.77.
-- **Champion by the selection rule: R3.** R2 and R3 tie on validation (10/10), and R3 has the higher gender accuracy. Its test score, read once, is 0.90, equal to the IOAI committee's best published score. With 30 test queries, one query is 0.033, so R2 and R3 differ by one query.
+- **Champion by the selection rule: R3.** R2, R3 and R4 tie on validation (10/10), and R3 has the highest gender accuracy. Its test score, read once, is 0.90, equal to the IOAI committee's best published score. With 30 test queries, one query is 0.033, so R2 and R3 differ by one query.
+- **R4 gets all 30 test queries right but is not the champion.** The rule was fixed before the runs and does not look at test; R4 loses the tie-break on gender (0.643, the lowest of the fine-tuned runs). Training more blocks helps matching and hurts gender, the same pattern as the layer experiment. R4 ran on a different laptop (Apple M4) from the other runs (Apple M5), so its latency is not directly comparable. Its checkpoints (`weights/R4-*.pt`, 170 MB each) are on Nazar's laptop, not in Drive yet.
 - **Two-step matching helps even without training.** With zero-shot embeddings, the reference solution's two-step matching gets 1.00 on validation and 0.867 on test for both backbones (in the run files, `two_step`). Fine-tuning adds one more test query (R3).
 - **Gender from one sign is hard.** Zero-shot prompts reach 0.756 on ViT-B/32 and 0.771 on ViT-B/16; the logistic-regression probe is no better (0.741 and 0.774), a linear SVM 0.750, 5-nearest-neighbours 0.659. Many sets only make sense as a pair: an abstract pair of legs or a top hat is "male" only next to its partner. Fine-tuning the pair model makes this worse (0.68–0.75), because it learns to pull the two doors of a restroom together, which removes the difference between them.
 - **So the API's gender filter is a weak matcher.** Picking the most similar candidate of the opposite predicted gender (R6, and `bestMatchId` in `/restroom/match`) gets 0.30–0.47 on test: one wrong gender, on the query or the true partner, breaks the match. The similarity score is the stronger signal.
@@ -87,6 +88,7 @@ python ml/restroom/run.py --run R1
 python ml/restroom/run.py --run R6
 python ml/restroom/run.py --run R2       # 3 min
 python ml/restroom/run.py --run R3       # 8 min
+python ml/restroom/run.py --run R4       # 15 min
 python ml/restroom/export_results.py
 ```
 
