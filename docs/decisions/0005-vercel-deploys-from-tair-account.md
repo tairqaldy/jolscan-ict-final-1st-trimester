@@ -3,7 +3,7 @@
 - **Date:** 2026-11-10
 - **Decided by:** Tair
 - **Task / issue:** W-24
-- **Status:** decided
+- **Status:** replaced by [0006](0006-public-repository.md) for normal deploys; the API deploy stays as a fallback
 
 ## Context
 On the Vercel Hobby plan with a private repository, Vercel blocks every Git deployment whose commit author is not the account owner, so teammates' merges did not deploy and their pull requests show a red "Vercel" check.

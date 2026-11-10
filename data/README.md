@@ -136,7 +136,7 @@ Road photos can show faces and licence plates, and EXIF data can hold GPS coordi
 
 - Only images from the public dataset go to Roboflow, Colab or any hosted model.
 - Photos we take ourselves are checked for faces and plates first (task D-12). Only photos that pass may be uploaded anywhere for annotation. Everything else is analysed with the local model only.
-- The repository stays private.
+- The repository is public (decision 0006). Nothing from the datasets is committed except small, screened sample images, and no photo with a person, face or licence plate.
 
 ## Restroom signs dataset card (second module)
 
