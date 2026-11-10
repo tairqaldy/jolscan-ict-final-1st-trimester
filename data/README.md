@@ -45,19 +45,27 @@ These are observed examples, not error counts. Categories may overlap, and ambig
 
 **Separate automated archive check:** Every JPG has a corresponding XML file. One zero-width box was found in `img-415.xml`: `xmin=273`, `xmax=273`, `ymin=164`, `ymax=165`. This is a technical annotation issue. `img-415.jpg` was not in the visual sample and is not included in the visual observations above.
 
-**Filenames:** Reviewed names use `img-<number>` without a `.rf.` suffix. This does not establish that the dataset has no baked-in augmentation or duplicates. D-4 duplicate detection has not been performed.
+**Filenames:** Reviewed names use `img-<number>` without a `.rf.` suffix. The D-4 check below found no Roboflow stem groups; absence of the suffix alone does not establish that the dataset has no baked-in augmentation or duplicates.
 
 **Recommended follow-up:**
 
 - Agree on a consistent definition of a separate pothole and recheck ambiguous annotations at original resolution.
 - Fix or exclude the degenerate box before training.
 - Verify provenance and rights for watermarked photographs.
-- Perform D-4 duplicate grouping before creating a new split.
+- Use the D-4 duplicate-check results below when preparing a new split.
 - Treat YOLO conversion and the final 70/15/15 split as subsequent tasks; neither is completed by this review.
 
 ## Duplicate groups and leakage (task D-4, done before the split)
 
-How images were grouped (file-name stem, perceptual hash), how many groups and near-duplicates were found, how many images were removed, and the check that no group is in more than one split.
+### Duplicate check
+
+All 665 images were read successfully; there were no read errors.
+
+- Exact duplicates were checked by computing SHA-256 over decoded RGB pixels together with image dimensions. No exact duplicate groups were detected.
+- Near-duplicate candidates were checked with `imagehash.phash` (`hash_size=8`) for every unordered image pair. No pairs had a Hamming distance of 5 or less.
+- Filenames use `img-<number>.jpg`, with no `.rf.` suffixes, so no Roboflow filename-stem groups were identified.
+
+No duplicates were detected by these methods. No images were removed or modified; all 665 remain. This does not guarantee that the dataset is duplicate-free: cropped or substantially transformed copies may evade detection. The check does not resolve annotation, licensing, or privacy issues.
 
 ## Screening checklist (task D-12)
 

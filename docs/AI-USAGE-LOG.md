@@ -67,3 +67,12 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** Added the D-2 review report to `data/README.md`, linked it from the completed D-2 row in `docs/TASKS.md`, and updated Amina's entry in `docs/CONTRIBUTION-LOG.md`.
 - **How I verified it, and who verified it:** Checked the documentation diff and ran `git diff --check`. Amina performed the visual review; the tool did not inspect images or independently verify the findings.
 - **What I rejected or corrected:** Did not infer error counts or percentages, resolve ambiguous annotations, verify image rights, or claim that the dataset is cleaned, deduplicated, licence-verified, or training-ready. No images, annotations, or model code were changed.
+
+### 10 November 2026, Amina (D-4 report)
+
+- **Tool and version:** Copilot SDK in VS Code; the version was not exposed in this session.
+- **Purpose:** Document Amina's completed D-4 duplicate check using the methods and results she supplied.
+- **Key prompt(s), with a link to the transcript:** "Document the completed D-4 duplicate check in data/README.md." The request included the check methods, findings, and reporting constraints. No transcript link is available.
+- **What it produced or changed:** Added D-4 findings to `data/README.md`, marked D-4 complete with a report link in `docs/TASKS.md`, and added D-4 to Amina's contribution entry.
+- **How I verified it, and who verified it:** Checked the documentation diff and ran `git diff --check`. Amina ran the duplicate checks; the tool did not read or compare images.
+- **What I rejected or corrected:** Did not claim that the dataset is guaranteed duplicate-free or that annotation, licensing, or privacy concerns are resolved. No images, annotations, or model code were modified.
