@@ -67,3 +67,39 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** Added the D-2 review report to `data/README.md`, linked it from the completed D-2 row in `docs/TASKS.md`, and updated Amina's entry in `docs/CONTRIBUTION-LOG.md`.
 - **How I verified it, and who verified it:** Checked the documentation diff and ran `git diff --check`. Amina performed the visual review; the tool did not inspect images or independently verify the findings.
 - **What I rejected or corrected:** Did not infer error counts or percentages, resolve ambiguous annotations, verify image rights, or claim that the dataset is cleaned, deduplicated, licence-verified, or training-ready. No images, annotations, or model code were changed.
+
+### 10 November 2026, Amina (D-4 report)
+
+- **Tool and version:** Copilot SDK in VS Code; the version was not exposed in this session.
+- **Purpose:** Document Amina's completed D-4 duplicate check using the methods and results she supplied.
+- **Key prompt(s), with a link to the transcript:** "Document the completed D-4 duplicate check in data/README.md." The request included the check methods, findings, and reporting constraints. No transcript link is available.
+- **What it produced or changed:** Added D-4 findings to `data/README.md`, marked D-4 complete with a report link in `docs/TASKS.md`, and added D-4 to Amina's contribution entry.
+- **How I verified it, and who verified it:** Checked the documentation diff and ran `git diff --check`. Amina ran the duplicate checks; the tool did not read or compare images.
+- **What I rejected or corrected:** Did not claim that the dataset is guaranteed duplicate-free or that annotation, licensing, or privacy concerns are resolved. No images, annotations, or model code were modified.
+
+### 10 November 2026, Amina (XML completeness and validity report)
+
+- **Tool and version:** Copilot SDK in VS Code; the version was not exposed in this session.
+- **Purpose:** Document Amina's supplied XML completeness and structural-check results.
+- **Key prompt(s), with a link to the transcript:** "Append the XML completeness and validity check to data/README.md." The request included the check results and reporting constraints. No transcript link is available.
+- **What it produced or changed:** Added the XML check report to `data/README.md` and updated Amina's contribution entry.
+- **How I verified it, and who verified it:** Checked the documentation diff and ran `git diff --check`. Amina supplied the check results; the tool did not inspect the dataset or XML files.
+- **What I rejected or corrected:** Identified the `img-415.xml` box as the same zero-width issue already reported, not a second defect. Did not infer provenance, impute annotation values, modify the dataset, or claim visual annotation quality was validated.
+
+### 10 November 2026, Amina (annotation correction report)
+
+- **Tool and version:** Copilot SDK in VS Code; the version was not exposed in this session.
+- **Purpose:** Document Amina's completed correction of the zero-width annotation in a separate archive.
+- **Key prompt(s), with a link to the transcript:** "Update data/README.md to document a completed annotation correction." The request included the change, counts, and reporting constraints. No transcript link is available.
+- **What it produced or changed:** Documented the original and corrected archive counts, the single removed object, and the remaining limitations in `data/README.md`; updated Amina's contribution entry.
+- **How I verified it, and who verified it:** Checked the documentation diff and ran `git diff --check`. Amina reports reopening the corrected archive and verifying the total object count; the tool did not inspect either archive.
+- **What I rejected or corrected:** Preserved the original archive's historical check results and stated that it remains unchanged. Did not claim a download link, repository copy, full cleanup, verified licensing/provenance, or training readiness. No archive or dataset files were added or modified by the tool.
+
+### 10 November 2026, team documentation update (requester identity not specified)
+
+- **Tool and version:** Copilot SDK in VS Code; the version was not exposed in this session.
+- **Purpose:** Record the team's decision to proceed with the dataset while preserving the unresolved provenance and usage-rights warning for watermarked images.
+- **Key prompt(s), with a link to the transcript:** "Add a short note to data/README.md" with the supplied team decision and instructions not to treat rights as verified or close D-1. No transcript link is available.
+- **What it produced or changed:** Added the decision note to `data/README.md`.
+- **How I verified it, and who verified it:** Checked the documentation diff and ran `git diff --check`.
+- **What I rejected or corrected:** Did not change the existing warnings, verify licensing or provenance, or close D-1.

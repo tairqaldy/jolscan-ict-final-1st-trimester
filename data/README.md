@@ -41,23 +41,62 @@ The archive contains 665 JPG images, 665 XML annotation files, and 1,740 annotat
 - Stock-photo watermarks appear in `img-565.jpg` (picture-alliance/ZB), `img-409.jpg`, and `img-448.jpg` (Alamy). Verify provenance and rights before publication; a dataset-level licence alone does not establish rights to every included photograph.
 - People are visible in `img-193.jpg`, and vehicle licence plates are visible in `img-448.jpg`. Review and redact as needed before external use, following the privacy requirements below.
 
+**Team decision, 10 November 2026:** Tair confirmed proceeding with the current dataset despite the unresolved provenance and usage rights of watermarked images. This decision does not verify those rights. The provenance warning remains open.
+
 These are observed examples, not error counts. Categories may overlap, and ambiguous cases have not been adjudicated.
 
 **Separate automated archive check:** Every JPG has a corresponding XML file. One zero-width box was found in `img-415.xml`: `xmin=273`, `xmax=273`, `ymin=164`, `ymax=165`. This is a technical annotation issue. `img-415.jpg` was not in the visual sample and is not included in the visual observations above.
 
-**Filenames:** Reviewed names use `img-<number>` without a `.rf.` suffix. This does not establish that the dataset has no baked-in augmentation or duplicates. D-4 duplicate detection has not been performed.
+**Filenames:** Reviewed names use `img-<number>` without a `.rf.` suffix. The D-4 check below found no Roboflow stem groups; absence of the suffix alone does not establish that the dataset has no baked-in augmentation or duplicates.
 
 **Recommended follow-up:**
 
 - Agree on a consistent definition of a separate pothole and recheck ambiguous annotations at original resolution.
-- Fix or exclude the degenerate box before training.
+- The zero-width annotation in the original archive has been removed in the separate corrected archive described below; the original archive remains unchanged.
 - Verify provenance and rights for watermarked photographs.
-- Perform D-4 duplicate grouping before creating a new split.
+- Use the D-4 duplicate-check results below when preparing a new split.
 - Treat YOLO conversion and the final 70/15/15 split as subsequent tasks; neither is completed by this review.
 
 ## Duplicate groups and leakage (task D-4, done before the split)
 
-How images were grouped (file-name stem, perceptual hash), how many groups and near-duplicates were found, how many images were removed, and the check that no group is in more than one split.
+### Duplicate check
+
+All 665 images were read successfully; there were no read errors.
+
+- Exact duplicates were checked by computing SHA-256 over decoded RGB pixels together with image dimensions. No exact duplicate groups were detected.
+- Near-duplicate candidates were checked with `imagehash.phash` (`hash_size=8`) for every unordered image pair. No pairs had a Hamming distance of 5 or less.
+- Filenames use `img-<number>.jpg`, with no `.rf.` suffixes, so no Roboflow filename-stem groups were identified.
+
+No duplicates were detected by these methods. No images were removed or modified; all 665 remain. This does not guarantee that the dataset is duplicate-free: cropped or substantially transformed copies may evade detection. The check does not resolve annotation, licensing, or privacy issues.
+
+### XML completeness and validity check (original archive)
+
+The archive check covered 665 JPG images, 665 XML files, and 1,740 objects.
+
+- No JPG/XML pairs were missing.
+- No class names, bounding-box coordinates, filenames, or image dimensions (`width`, `height`, `depth`) were missing or placeholders.
+- Every XML file contained at least one object.
+- No filename or image-dimension mismatches were found.
+- No coordinates were non-finite or outside the image bounds.
+- None of the checked optional fields (`folder`, `path`, `source/database`) were missing.
+- One structural issue was found: object 3 in `img-415.xml` has a zero-width box (`xmin=273`, `xmax=273`, `ymin=164`, `ymax=165`). This is the same issue noted in the D-2 automated archive check, not a second defect.
+
+No missing-value imputation is needed. Bounding-box coordinates must not be filled with averages. Manually inspect and correct this object, or exclude its invalid annotation. Non-empty metadata does not establish provenance; `Unknown` is not verified source information.
+
+This structural check does not validate visual annotation quality. It also does not establish provenance, licensing, or privacy compliance.
+
+### Annotation correction
+
+A separate archive, `potholes_corrected_v1.zip`, was created in Colab; the original `Archive.zip` was preserved unchanged. In the corrected archive, only object 3 was removed from `annotated-images/img-415.xml`. Its box had zero width (`xmin=273`, `xmax=273`, `ymin=164`, `ymax=165`). Visual inspection did not clearly establish a separate pothole at that location, so no replacement box was added. The image and its other two annotations were retained.
+
+The exported corrected archive was reopened, and its total object count was verified.
+
+| Version | Images | XML files | Annotations |
+|---|---:|---:|---:|
+| Original `Archive.zip` | 665 | 665 | 1,740 |
+| Corrected `potholes_corrected_v1.zip` | 665 | 665 | 1,739 |
+
+This correction addresses only the identified zero-width annotation in the separate corrected archive. It does not make the dataset fully cleaned or training-ready. Licensing and provenance questions and ambiguous visual annotations remain unresolved. YOLO conversion and the final 70/15/15 split have not been performed.
 
 ## Screening checklist (task D-12)
 

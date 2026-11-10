@@ -9,7 +9,7 @@ Fill in your own row as you go. Be specific: task IDs from [TASKS.md](TASKS.md),
 | Tair | Web app, UX, coordination | | |
 | Dameli | Design system and visuals | | |
 | Nazar | Restroom model | | |
-| Amina | Pothole data, model and rules | D-2: visually reviewed 100 image/annotation pairs and documented observations and follow-up recommendations in [`data/README.md`](../data/README.md#visual-review-10-november-2026) | Explain the seeded sample, annotation-versus-image observations, and why flagged examples require follow-up rather than being counted as confirmed errors |
+| Amina | Pothole data, model and rules | D-2: visually reviewed 100 image/annotation pairs and documented observations and follow-up recommendations in [`data/README.md`](../data/README.md#visual-review-10-november-2026). D-4: checked all 665 images for exact and perceptual-hash near duplicates and checked XML completeness and validity; documented the methods and findings in [`data/README.md`](../data/README.md#duplicate-check). Removed the zero-width object from a separate corrected archive and documented the correction in [`data/README.md`](../data/README.md#annotation-correction) | Explain the seeded sample, annotation-versus-image observations, why flagged examples require follow-up rather than being counted as confirmed errors, the limits of the duplicate and XML checks, and why no replacement box was added |
 | Alizhan | Serving and performance | | |
 | Roma | Research, deck, video, QA | | |
 
