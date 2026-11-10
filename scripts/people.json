@@ -1,8 +1,8 @@
 {
   "tair": {"name": "Tair", "lane": "Web app, UX, coordination", "github": ["tairqaldy"], "git_names": ["Tair Kaldybayev"], "git_emails": ["93277307+tairqaldy@users.noreply.github.com"]},
-  "dameli": {"name": "Dameli", "lane": "Design system and visuals", "github": ["dameo111"], "git_names": [], "git_emails": []},
+  "dameli": {"name": "Dameli", "lane": "Design system and visuals", "github": ["dameo111"], "git_names": ["Dameli Kalikhanova"], "git_emails": []},
   "nazar": {"name": "Nazar", "lane": "Restroom model", "github": ["Akanov-Kanta"], "git_names": ["Akanov-Kanta"], "git_emails": []},
-  "amina": {"name": "Amina", "lane": "Pothole data, model and rules", "github": ["omodotori"], "git_names": ["omodotori"], "git_emails": []},
-  "alizhan": {"name": "Alizhan", "lane": "Serving and performance", "github": ["byahsaa"], "git_names": ["asembeko"], "git_emails": ["126233019+byahsaa@users.noreply.github.com"]},
+  "amina": {"name": "Amina", "lane": "Pothole data, model and rules", "github": ["omodotori"], "git_names": ["omodotori", "Aktayeva Amina"], "git_emails": []},
+  "alizhan": {"name": "Alizhan", "lane": "Serving and performance", "github": ["byahsaa"], "git_names": ["asembeko", "byahsaa"], "git_emails": ["126233019+byahsaa@users.noreply.github.com"]},
   "roma": {"name": "Roma", "lane": "Deck, AI audit, QA", "github": [], "git_names": [], "git_emails": []}
 }
