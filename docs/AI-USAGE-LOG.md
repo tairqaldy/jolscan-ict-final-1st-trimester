@@ -22,6 +22,16 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Alizhan (S-3, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Check the existing road API tests against S-3, verify validation errors and keep tests offline.
+- **Key prompt:** "давай, продолжай работу" following the recommendation to do S-13 and check S-3. Full transcript is not exported here.
+- **What it produced:** More specific validation assertions, a fake missing-weights loader, and documentation.
+- **Verification:** 30 API tests passed without model packages or weights, and compileall passed. Alizhan has not yet personally reviewed this entry.
+- **Limits:** Fake-model tests check API behavior and do not measure detection accuracy.
+
+
 ### 10 November 2026, Alizhan (S-1, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.

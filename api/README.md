@@ -144,3 +144,11 @@ python gradio_app.py
 - No endpoint implementation fix was needed for this smoke check. The changes add verification
   and Windows instructions. Team weights, real-road accuracy, web integration, Gradio and Docker
   remain separate tasks; S-1 does not establish that they work.
+
+
+### S-3 input validation checks
+
+`api/test_predict.py` checks a valid image and normalized box, class filtering, invalid
+images, oversized files and confidence values. Fake models are injected and restored by
+pytest's monkeypatch. The missing-weights test also injects a failing fake YOLO so tests do
+not attempt downloads even when Ultralytics is installed.
