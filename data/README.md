@@ -120,6 +120,21 @@ The archive contains `images/{train,val,test}/`, `labels/{train,val,test}/`, `da
 
 All model experiments must use this same frozen split. This export has not been privacy-screened as a public sample set. Provenance, usage rights, privacy screening, and ambiguous annotation concerns remain unresolved. This preparation does not complete D-1 or D-12. **Decision (Tair, 10 November 2026):** the Colab export `potholes_yolo_v1` is accepted in place of the planned Roboflow version and is the frozen dataset version for every pothole run. D-3 is complete. Committing the conversion and split code (suggested in the review of #4) would make the version reproducible from `potholes_corrected_v1.zip`.
 
+## Box-size clustering for R2 (task D-11)
+
+K-means (`k=3`, `random_state=42`, `n_init=20`, scikit-learn 1.6.1) was fit to the natural logarithm of normalized bounding-box area using only the training split: 465 images and 1,198 boxes. The sorted log-space cluster centers were `-5.413906222570803`, `-3.5205198333222225`, and `-1.722409700683948`. Boundaries are the geometric midpoints between adjacent centers, transformed back to normalized area.
+
+The clustering JSON gives thresholds as fractions of image area. R2 computes `areaPct = w * h * 100`, so its equivalent percent-of-image thresholds are:
+
+| Boundary | Normalized image-area fraction | `areaPct` (% of image) |
+|---|---:|---:|
+| `t1` (small / medium) | `0.011479263698068863` | `1.1479263698068863` |
+| `t2` (medium / large) | `0.07269630165893015` | `7.269630165893015` |
+
+Classification uses the full-precision boundaries: small if `areaPct < t1`; medium if `t1 ≤ areaPct < t2`; large if `areaPct ≥ t2`. The 1,198 training boxes were grouped as small 429, medium 499, and large 270. The actual result files are [`pothole_area_clusters.json`](../ml/results/pothole_area_clusters.json) and [`pothole_area_clusters.png`](../ml/results/figs/pothole_area_clusters.png).
+
+These are image-relative size bands, not physical measurements and not validated repair-severity thresholds. D-6 human calibration of repair severity remains a separate task.
+
 ## Screening checklist (task D-12)
 
 Every image that leaves the team is checked for faces and licence plates and has its EXIF removed.

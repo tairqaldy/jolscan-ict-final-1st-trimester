@@ -1,0 +1,26 @@
+{
+  "method": "KMeans on natural log of normalized bounding-box area",
+  "split": "train",
+  "images": 465,
+  "boxes": 1198,
+  "k": 3,
+  "random_state": 42,
+  "n_init": 20,
+  "sklearn_version": "1.6.1",
+  "log_cluster_centers_sorted": [
+    -5.413906222570803,
+    -3.5205198333222225,
+    -1.722409700683948
+  ],
+  "area_thresholds": [
+    0.011479263698068863,
+    0.07269630165893015
+  ],
+  "group_counts": {
+    "small": 429,
+    "medium": 499,
+    "large": 270
+  },
+  "boundary_rule": "small: area < t1; medium: t1 <= area < t2; large: area >= t2",
+  "limitation": "Image-relative box area, not physical pothole size"
+}
