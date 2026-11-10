@@ -102,7 +102,7 @@ This correction addresses only the identified zero-width annotation in the separ
 
 **Version:** `potholes_yolo_v1.zip`, prepared in Colab from `potholes_corrected_v1.zip`. This is a Colab export, not the Roboflow version in the original plan. The ZIP is not stored in this repository.
 
-**Drive link:** Not provided; the supplied value was the placeholder `PASTE_THE_ACTUAL_DRIVE_LINK_HERE`. Upload and link are not verified here.
+**Archive provided:** `potholes_yolo_v1.zip` was supplied as a chat attachment and inspected. **Drive folder:** [Shared project folder](https://drive.google.com/drive/folders/1IKaEi1NAAteP2zYYGZZDZRHt1wrC16GS?usp=sharing). This is a folder link; it does not by itself verify that `potholes_yolo_v1.zip` is present in the folder.
 
 The export contains 665 images and 1,739 pothole annotations, converted from Pascal VOC-style XML to YOLO detection TXT. XML bounds were converted directly without a +/-1 shift; box centers use `(min + max) / 2`, sizes use `max - min`, and values are normalized by image dimensions. It has one class: `0 = pothole`. The split was created by sorting image paths and applying `random.Random(42).shuffle`:
 
@@ -118,7 +118,7 @@ ZIP integrity and exported YOLO values were checked. Six exported images (two pe
 
 The archive contains `images/{train,val,test}/`, `labels/{train,val,test}/`, `data.yaml`, `split_manifest.json`, and `README.txt`. Copies of the actual exported `data.yaml` and `split_manifest.json` are in `data/exports/potholes_yolo_v1/`; the ZIP is not committed.
 
-All model experiments must use this same frozen split. This export has not been privacy-screened as a public sample set. Provenance, usage rights, privacy screening, and ambiguous annotation concerns remain unresolved. This preparation does not complete D-1 or D-12. D-3 remains in progress pending a verified Drive upload/link and Tair's explicit acceptance of the Colab export in place of the planned Roboflow version.
+All model experiments must use this same frozen split. This export has not been privacy-screened as a public sample set. Provenance, usage rights, privacy screening, and ambiguous annotation concerns remain unresolved. This preparation does not complete D-1 or D-12. D-3 remains in progress pending confirmation that the ZIP is in the linked Drive folder and Tair's explicit acceptance of the Colab export in place of the planned Roboflow version.
 
 ## Screening checklist (task D-12)
 
