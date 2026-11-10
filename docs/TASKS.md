@@ -115,7 +115,7 @@ Experiment design: [ML-EXPERIMENT-RESTROOM.md](ML-EXPERIMENT-RESTROOM.md). Code:
 |---|---|---|---|---|---|---|
 | [ ] | S-1 | P0 | Run `api/` locally with the stock weights (`ANY_CLASS=1 MODEL_WEIGHTS=yolo26n.pt`). Fix the starter code where it breaks and commit **Claimed: Alizhan, 10 November 2026 20:24 UTC+05:00, branch api/s1-local-serving.** | — | `GET /health` answers, `POST /predict` returns the contract JSON | 45 m |
 | [ ] | S-2 | P0 | Swap in the team's weights (`jolscan-e0.pt` first, `jolscan-e8.pt` when it exists) | M-3 | Detections on a pothole photo look right | 10 m |
-| [ ] | S-4 | P0 | Connect the web app's local provider to the API with Tair | S-1, W-6 | Upload in the web app shows real boxes | 45 m |
+| [ ] | S-4 | P0 | Connect the web app's local provider to the API with Tair **Claimed: Alizhan, 10 November 2026, branch api/s4-local-integration.** | S-1, W-6 | Upload in the web app shows real boxes | 45 m |
 | [ ] | S-5 | P0 | Gradio app: upload a photo, see boxes and the detection table. This is the course's own interface format | S-1 | Runs locally with `python api/gradio_app.py` | 30 m |
 | [ ] | S-14 | P0 | Wednesday afternoon: install the API environment on the presenting laptop, weights on disk, measure cold start, run once with Wi-Fi off | M-11 | Works offline on that laptop | 45 m |
 | [ ] | S-13 | P0 | Study card: REST and status codes, why FastAPI, Batch, Online and Edge deployment, local against cloud trade-offs, MLOps loop and maturity level | — | Passed three practice questions | 45 m |
