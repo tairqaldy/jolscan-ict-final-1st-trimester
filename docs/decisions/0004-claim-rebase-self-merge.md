@@ -6,7 +6,7 @@
 - **Status:** decided
 
 ## Context
-Six people push to one repository in two days. GitHub Free cannot enforce branch protection on a private repository.
+Six people push to one repository in two days. While the repository was private, GitHub Free could not enforce branch rules at all. Since it became public (decision 0006), `main` is protected against force pushes and deletion; required checks are still not used, because they would also reject the claim commits that go straight to `main`.
 
 ## Options
 1. One person reviews and merges everything.

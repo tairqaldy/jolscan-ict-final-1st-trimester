@@ -28,7 +28,7 @@ From the assignment sheet and the syllabus (sources in [COURSE-GROUNDING.md](COU
 | "Submitted through the LMS and defended in class" | Syl p.6 | The assignment sheet says nothing is submitted. Ask the instructor, and upload the deck and repo link either way | task X-11 |
 | Contribution log: who did what | Syl p.5 | [CONTRIBUTION-LOG.md](CONTRIBUTION-LOG.md) plus git history | CONTRIBUTION-LOG.md |
 | Every member answers an individual question on their own part. A member who cannot explain their part does not get the team mark | Syl pp.5–6 | Each person owns one lane and one study card | section 3, [PRESENTATION.md](PRESENTATION.md) |
-| No personal or biometric data to external AI services or public repositories | Syl p.9 | Private repo. Cloud mode is opt-in. Only screened public dataset images go to cloud services | ARCHITECTURE.md, task D-12 |
+| No personal or biometric data to external AI services or public repositories | Syl p.9 | Public repository (decision 0006), so nothing personal is committed: no photos with people, faces or licence plates, no personal data in docs; teammates use GitHub no-reply emails (task X-18). Cloud mode is opt-in. Only screened public dataset images go to cloud services | ARCHITECTURE.md, task D-12 |
 | Slides or a landing page, source code ready, an MVP-like interface is an advantage | A2 p1 | Landing page, web app, deck | `web/`, PRESENTATION.md |
 | 10 minutes on one laptop: at least 7 minutes of talk, 2–3 minutes of questions | A2 p1 | 8-minute script, timed rehearsals | PRESENTATION.md |
 | Web interface for a model with Streamlit or Gradio (week 9 activity) | Syl p.15, Lec9 p50 | Gradio app on the same weights, next to the custom web app | `api/gradio_app.py` |

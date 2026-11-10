@@ -10,4 +10,5 @@ Write one when you pick a dataset, a model, a metric or a threshold, change a co
 | [0002](0002-colab-export-dataset.md) | The Colab export `potholes_yolo_v1` is the frozen pothole dataset | 2026-11-10 | Tair, on Amina's D-3 report |
 | [0003](0003-pairwise-signage-rules.md) | Signage rules compare the two doors instead of judging each sign | 2026-11-10 | Tair, from measurements on the IOAI training set |
 | [0004](0004-claim-rebase-self-merge.md) | Team workflow: claim, rebase before merging, merge yourself | 2026-11-10 | Tair |
-| [0005](0005-vercel-deploys-from-tair-account.md) | Production deploys are created from Tair's Vercel account | 2026-11-10 | Tair |
+| [0005](0005-vercel-deploys-from-tair-account.md) | Production deploys are created from Tair's Vercel account (replaced by 0006) | 2026-11-10 | Tair |
+| [0006](0006-public-repository.md) | The repository is public | 2026-11-10 | Tair and the team |
