@@ -121,4 +121,13 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** Added the D-3 preparation report and copied the actual `data.yaml` and `split_manifest.json` from the supplied ZIP into `data/exports/potholes_yolo_v1/`. Updated the D-3 task and Amina's contribution entry.
 - **How I verified it, and who verified it:** The tool checked ZIP integrity, image/label counts and pairing, label class/coordinate format, split counts, object totals, and consistency with the manifest. Amina supplied the EXIF and six-image visual-check results; the tool did not perform those checks.
 - **What I rejected or corrected:** Recorded that this was a Colab export rather than Roboflow. Did not mark D-3 complete, claim Tair's acceptance, or claim privacy screening, rights clearance, or fully correct annotations. The archive and images were not added to the repository.
-- **Clarification:** The ZIP was supplied as a chat attachment and inspected. A shared Drive folder link was later provided, but the folder contents were not verified.
+- **Clarification:** The ZIP was supplied as a chat attachment and inspected. Amina later confirmed that it was uploaded to the shared Drive folder; the folder contents were not independently verified.
+
+### 10 November 2026, Amina (D-3 Drive upload confirmation)
+
+- **Tool and version:** Copilot SDK in VS Code; the version was not exposed in this session.
+- **Purpose:** Update the D-3 report with Amina's confirmation that the prepared ZIP has been uploaded to Drive.
+- **Key prompt(s), with a link to the transcript:** "The YOLO dataset ZIP is already uploaded to the linked Drive folder. Its filename is potholes_yolo_v1.zip." No transcript link is available.
+- **What it produced or changed:** Replaced the outdated pending-upload wording in `data/README.md`, D-3 in `docs/TASKS.md`, and Amina's contribution entry with the user-confirmed upload status.
+- **How I verified it, and who verified it:** Checked the documentation diff and ran `git diff --check`. The upload status is confirmed by Amina; the Drive folder contents were not independently inspected.
+- **What I rejected or corrected:** Kept D-3 in progress pending Tair's explicit acceptance of the Colab export in place of the planned Roboflow version.
