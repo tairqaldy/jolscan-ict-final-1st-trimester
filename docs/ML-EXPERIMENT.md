@@ -17,11 +17,11 @@ CLO 5 speaks of classification and clustering and asks for a justified quality m
 
 ## Dataset
 
-- Source: the pothole object-detection dataset already imported into Tair's Roboflow workspace (`pothole-idtb2-pr1td`). **Open item D-1:** record its original name, author, image count and licence in `data/README.md`.
+- Source: a pothole object-detection dataset of 665 images with Pascal VOC boxes, quality-checked in D-2 and D-4 ([data/README.md](../data/README.md)). **Open item D-1:** record its original name, author and licence.
 - The syllabus lists allowed sources: "Only open, licence-clean sources: data.egov.kz, stat.gov.kz, Kaggle Datasets, UCI Machine Learning Repository, OpenML" (Syl p.9). Roboflow Universe is not on that list. D-1 therefore also looks for the same dataset on Kaggle and cites that as the source. If there is none, the licence goes on the Data slide and the team asks the instructor before the defense.
 - One class: `pothole`.
-- Duplicates first, split second. Many Roboflow datasets contain baked-in augmented copies of one photo (files named `<stem>_jpg.rf.<hash>.jpg`). If copies of one photo land in train and in test, the test score is inflated. Task D-4 groups images by stem and by perceptual hash **before** the split, and keeps each group in one split (Sup p10, Lab 6: no test data in training).
-- Split: 70 / 15 / 15 train / validation / test, fixed once. One Roboflow dataset version, exported once, with auto-orient only: **no resize and no offline augmentation**. The zip goes to the shared Drive, and every run uses that zip.
+- Duplicates first, split second. If copies of one photo land in train and in test, the test score is inflated. Task D-4 checked exact and perceptual-hash duplicates **before** the split and found none (Sup p10, Lab 6: no test data in training).
+- Frozen version: **`potholes_yolo_v1`**, a Colab export (accepted on 10 November in place of a Roboflow version). 465 / 100 / 100 train / validation / test images (1,198 / 305 / 236 boxes), shuffled once with seed 42. The D-4 check found no exact or near-duplicate images, so a random split by image does not leak copies across splits. No resize and no offline augmentation. The zip is in the shared Drive; the split manifest with a SHA-256 per image is in `data/exports/potholes_yolo_v1/`. Every run passes `--dataset-version potholes_yolo_v1`.
 - The EDK Global Potholes dataset on Hugging Face is **not** used for training: it has no bounding boxes and its labels were produced by a model. Details in [research/datasets.md](research/datasets.md).
 - The YOLO26 Small model trained inside Roboflow on 3 November is **not** used anywhere: not in the results, not in the app. It was not produced by this experiment.
 

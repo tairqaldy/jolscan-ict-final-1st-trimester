@@ -98,7 +98,7 @@ The exported corrected archive was reopened, and its total object count was veri
 
 This correction addresses only the identified zero-width annotation in the separate corrected archive. It does not make the dataset fully cleaned or training-ready. Licensing and provenance questions and ambiguous visual annotations remain unresolved. At the time of this correction, YOLO conversion and the final 70/15/15 split had not been performed; their subsequent preparation is documented below.
 
-## YOLO dataset preparation (task D-3, in progress)
+## YOLO dataset preparation (task D-3)
 
 **Version:** `potholes_yolo_v1.zip`, prepared in Colab from `potholes_corrected_v1.zip`. This is a Colab export, not the Roboflow version in the original plan. The ZIP is not stored in this repository.
 
@@ -118,7 +118,7 @@ ZIP integrity and exported YOLO values were checked. Six exported images (two pe
 
 The archive contains `images/{train,val,test}/`, `labels/{train,val,test}/`, `data.yaml`, `split_manifest.json`, and `README.txt`. Copies of the actual exported `data.yaml` and `split_manifest.json` are in `data/exports/potholes_yolo_v1/`; the ZIP is not committed.
 
-All model experiments must use this same frozen split. This export has not been privacy-screened as a public sample set. Provenance, usage rights, privacy screening, and ambiguous annotation concerns remain unresolved. This preparation does not complete D-1 or D-12. D-3 remains in progress pending Tair's explicit acceptance of the Colab export in place of the planned Roboflow version.
+All model experiments must use this same frozen split. This export has not been privacy-screened as a public sample set. Provenance, usage rights, privacy screening, and ambiguous annotation concerns remain unresolved. This preparation does not complete D-1 or D-12. **Decision (Tair, 10 November 2026):** the Colab export `potholes_yolo_v1` is accepted in place of the planned Roboflow version and is the frozen dataset version for every pothole run. D-3 is complete. Committing the conversion and split code (suggested in the review of #4) would make the version reproducible from `potholes_corrected_v1.zip`.
 
 ## Screening checklist (task D-12)
 
