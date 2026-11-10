@@ -13,7 +13,8 @@ export function TeamGrid() {
             {m.name.slice(0, 1)}
           </span>
           <p className="mt-3 font-display text-lg font-semibold">{m.name}</p>
-          <p className="text-sm text-muted">{m.role}</p>
+          <p className="text-sm font-medium">{m.role}</p>
+          <p className="mt-1 text-xs text-muted">{m.focus}</p>
         </li>
       ))}
     </ul>

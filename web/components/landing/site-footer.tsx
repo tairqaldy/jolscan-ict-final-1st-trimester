@@ -1,32 +1,49 @@
 import Link from "next/link";
 import { Logo } from "@/components/app/logo";
+import { BRAND, MODULES } from "@/lib/brand";
+import { DATA_CREDITS } from "@/lib/credits";
 import { COURSE } from "@/lib/team";
+
+const linkClass = "text-muted hover:text-fg";
 
 export function SiteFooter() {
   return (
     <footer className="mt-[var(--section-gap)] border-t border-border bg-surface">
       <div className="lane-stripe opacity-60" aria-hidden />
-      <div className="container-page flex flex-col gap-6 py-10 sm:flex-row sm:items-start sm:justify-between">
-        <div className="grid gap-2">
+      <div className="container-page grid gap-8 py-10 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)]">
+        <div className="grid content-start gap-2">
           <Logo />
           <p className="max-w-sm text-sm text-muted">
-            A course project for {COURSE.code} at {COURSE.school}. A prototype, not a production service: numbers marked
-            “Demo data” are placeholders.
+            {COURSE.code} group project, {COURSE.school}. A prototype, not a city or campus service: numbers marked “Demo data” are
+            placeholders.
           </p>
         </div>
         <nav aria-label="Footer">
           <ul className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm">
-            <li><Link href="/app" className="text-muted hover:text-fg">Dashboard</Link></li>
-            <li><Link href="/app/analyze" className="text-muted hover:text-fg">Analyze</Link></li>
-            <li><Link href="/app/rules" className="text-muted hover:text-fg">Rules</Link></li>
-            <li><Link href="/app/model" className="text-muted hover:text-fg">Model</Link></li>
-            <li><Link href="/about" className="text-muted hover:text-fg">About</Link></li>
-            <li><Link href="/design" className="text-muted hover:text-fg">Design system</Link></li>
+            <li><Link href="/app" className={linkClass}>App home</Link></li>
+            <li><Link href={MODULES.roads.href} className={linkClass}>{MODULES.roads.name}</Link></li>
+            <li><Link href={MODULES.restrooms.href} className={linkClass}>{MODULES.restrooms.name}</Link></li>
+            <li><Link href="/app/model" className={linkClass}>Model</Link></li>
+            <li><Link href="/about" className={linkClass}>About</Link></li>
+            <li><Link href="/design" className={linkClass}>Design system</Link></li>
           </ul>
         </nav>
+        <div className="grid content-start gap-2 text-sm">
+          <p className="font-semibold">Data credits</p>
+          <p className="text-muted">
+            Potholes: {DATA_CREDITS.pothole.name}. {DATA_CREDITS.pothole.licence}.
+          </p>
+          <p className="text-muted">
+            Restrooms:{" "}
+            <a href={DATA_CREDITS.restroom.url} className="text-accent-ink underline underline-offset-2">
+              {DATA_CREDITS.restroom.name}
+            </a>
+            , {DATA_CREDITS.restroom.licence}. The sample icons in this app are original drawings.
+          </p>
+        </div>
       </div>
       <div className="container-page border-t border-border py-4 text-xs text-subtle">
-        {COURSE.code} course project · {COURSE.school} · Map data © OpenStreetMap contributors
+        {BRAND.name} · {COURSE.code} group project · {COURSE.school} · {DATA_CREDITS.map.name}
       </div>
     </footer>
   );

@@ -1,4 +1,4 @@
-"""Train one JolScan experiment, log it to MLflow, and write a small result file.
+"""Train one pothole-detection experiment, log it to MLflow, and write a small result file.
 
 Starter script: checked against the Ultralytics 8.4 and MLflow 3 documentation, but not yet run.
 The first person to run it in Colab (task M-1) fixes whatever breaks and commits the fix.

@@ -1,0 +1,216 @@
+{
+  "run": "R6",
+  "smoke": false,
+  "isReal": true,
+  "changed": "gender probe: logistic regression on frozen ViT-B/32 embeddings; match = most similar candidate of the opposite predicted gender (the API's rule)",
+  "model": "clip-vitb32-zs",
+  "params": {
+    "arch": "ViT-B-32",
+    "mode": "gender",
+    "matching": "gender_filter_probe"
+  },
+  "metrics": {
+    "val_match_top1": 0.5,
+    "test_match_top1": 0.3,
+    "gender_acc_cv": 0.7409,
+    "latency_ms": 26.3,
+    "val_match_by_strategy": {
+      "second_best": 0.8,
+      "two_step": 1.0,
+      "two_step_no_reuse": 1.0,
+      "gender_filter_probe": 0.5,
+      "gender_filter_zeroshot": 0.5
+    },
+    "test_match_by_strategy": {
+      "second_best": 0.7667,
+      "two_step": 0.8667,
+      "two_step_no_reuse": 0.8333,
+      "gender_filter_probe": 0.3,
+      "gender_filter_zeroshot": 0.4667
+    },
+    "val_correct": "5/10",
+    "test_correct": "9/30"
+  },
+  "gender": {
+    "zero_shot_prompts": {
+      "accuracy": 0.7561,
+      "precision_female": 0.8333,
+      "recall_female": 0.6402,
+      "f1_macro": 0.7528,
+      "confusion_matrix_rows_true_male_female": [
+        [
+          143,
+          21
+        ],
+        [
+          59,
+          105
+        ]
+      ]
+    },
+    "prompts": {
+      "male": [
+        "a restroom sign for men",
+        "a men's toilet icon",
+        "a pictogram of a man on a restroom door",
+        "a male restroom symbol",
+        "a gents bathroom sign"
+      ],
+      "female": [
+        "a restroom sign for women",
+        "a women's toilet icon",
+        "a pictogram of a woman on a restroom door",
+        "a female restroom symbol",
+        "a ladies bathroom sign"
+      ]
+    },
+    "knn_5_cosine": {
+      "accuracy": 0.6585,
+      "precision_female": 0.6529,
+      "recall_female": 0.6768,
+      "f1_macro": 0.6584,
+      "confusion_matrix_rows_true_male_female": [
+        [
+          105,
+          59
+        ],
+        [
+          53,
+          111
+        ]
+      ],
+      "fold_accuracy": [
+        0.5882,
+        0.6765,
+        0.6406,
+        0.6562,
+        0.7344
+      ],
+      "fold_accuracy_std": 0.0476
+    },
+    "linear_svm": {
+      "accuracy": 0.75,
+      "precision_female": 0.7628,
+      "recall_female": 0.7256,
+      "f1_macro": 0.7499,
+      "confusion_matrix_rows_true_male_female": [
+        [
+          127,
+          37
+        ],
+        [
+          45,
+          119
+        ]
+      ],
+      "fold_accuracy": [
+        0.7059,
+        0.7794,
+        0.7344,
+        0.7188,
+        0.8125
+      ],
+      "fold_accuracy_std": 0.0398
+    },
+    "probe_lr": {
+      "accuracy": 0.7409,
+      "precision_female": 0.7548,
+      "recall_female": 0.7134,
+      "f1_macro": 0.7407,
+      "confusion_matrix_rows_true_male_female": [
+        [
+          126,
+          38
+        ],
+        [
+          47,
+          117
+        ]
+      ],
+      "fold_accuracy": [
+        0.7206,
+        0.75,
+        0.7188,
+        0.7188,
+        0.7969
+      ],
+      "fold_accuracy_std": 0.0304
+    }
+  },
+  "predictions": {
+    "val": [
+      17,
+      20,
+      20,
+      19,
+      3,
+      5,
+      9,
+      11,
+      13,
+      10
+    ],
+    "test": [
+      22,
+      13,
+      25,
+      17,
+      38,
+      38,
+      14,
+      9,
+      58,
+      29,
+      56,
+      51,
+      51,
+      44,
+      51,
+      19,
+      40,
+      38,
+      26,
+      9,
+      23,
+      44,
+      22,
+      9,
+      54,
+      9,
+      20,
+      29,
+      15,
+      58
+    ]
+  },
+  "training": null,
+  "checkpoints": {
+    "probe": "api/weights/restroom-probe-vit-b-32.npz"
+  },
+  "dataset": "IOAI 2025 Restroom Icon Matching (CC-BY-4.0): 82 training restrooms, val 10/20, test 30/60",
+  "versions": {
+    "python": "3.12.16",
+    "torch": "2.15.0",
+    "open_clip": "4.2.1",
+    "sklearn": "1.9.1",
+    "numpy": "2.5.4"
+  },
+  "device": "Apple M5 CPU",
+  "seconds": 9.6,
+  "timestamp": "2026-11-10T07:58:35+00:00",
+  "latency": {
+    "protocol": "median of 60 single images after 5 warm-up, preprocessing + image encoder, runs timed round-robin in one session",
+    "p10_ms": 23.3,
+    "p90_ms": 35.2,
+    "measured_together": [
+      "R0",
+      "R1",
+      "R2",
+      "R3",
+      "R6"
+    ],
+    "load_average_1min": 6.8,
+    "device": "Apple M5 CPU",
+    "timestamp": "2026-11-10T08:19:50+00:00"
+  }
+}

@@ -1,0 +1,8 @@
+run,changed,isReal,matchTop1Val,matchTop1Test,genderAccCv,latencyMs,device
+R0,"baseline: zero-shot CLIP ViT-B/16, second most similar gallery image (IOAI baseline)",True,0.8,0.7667,0.7744,55.1,Apple M5 CPU
+R1,"backbone: ViT-B/32 instead of ViT-B/16, still zero-shot",True,0.8,0.7667,0.7409,25.7,Apple M5 CPU
+R2,"fine-tune last 1 block of ViT-B/32, two models, two-step matching (IOAI reference recipe)",True,1.0,0.8667,0.6799,25.8,Apple M5 CPU
+R3,"as R2, last 3 blocks fine-tuned",True,1.0,0.9,0.753,26.9,Apple M5 CPU
+R4,"ViT-B/32, fine-tune the last 6 transformer blocks (IOAI reference recipe)",False,,,,,
+R5,"R4 plus augmentation (flip, crop, colour jitter)",False,,,,,
+R6,gender probe: logistic regression on frozen ViT-B/32 embeddings; match = most similar candidate of the opposite predicted gender (the API's rule),True,0.5,0.3,0.7409,26.3,Apple M5 CPU

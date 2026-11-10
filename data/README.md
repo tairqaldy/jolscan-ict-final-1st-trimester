@@ -45,3 +45,21 @@ Road photos can show faces and licence plates, and EXIF data can hold GPS coordi
 - Only images from the public dataset go to Roboflow, Colab or any hosted model.
 - Photos we take ourselves are checked for faces and plates first (task D-12). Only photos that pass may be uploaded anywhere for annotation. Everything else is analysed with the local model only.
 - The repository stays private.
+
+## Restroom signs dataset card (second module)
+
+| Field | Value |
+|---|---|
+| Name | Restroom Icon Matching, IOAI 2025 Individual Contest |
+| Publisher | International Olympiad in Artificial Intelligence (IOAI) |
+| URL | https://github.com/IOAI-official/IOAI-2025/tree/main/Individual-Contest/Restroom |
+| Licence | CC-BY-4.0, attribution in `ml/restroom/README.md` and `data/raw/ioai-restroom/ATTRIBUTION.txt` |
+| Training set | 82 restrooms × 4 PNG icons (crop and original, male and female), 328 images |
+| Validation set | 10 cropped queries, 20 original gallery icons, answers in `answer_a.npy` |
+| Test set | 30 queries, 60 gallery icons, answers in `answer_b.npy` |
+| Download | `python ml/restroom/get_data.py` into `data/raw/ioai-restroom/` (45 MB, gitignored), idempotent, verifies the counts |
+| Split | Fixed by IOAI. Grouped 5-fold cross-validation by restroom id inside the training set for gender accuracy |
+| Leakage check (10 Nov 2026) | No validation or test image is a byte-identical copy of a training image, and none has a CLIP ViT-B/32 cosine similarity above 0.93 to any training image (a training crop and its own original: median 0.93; nearest image of another training restroom: median 0.85). This suggests the validation and test restrooms are not in the training set |
+| Privacy | Icons only, no people, no EXIF location. Safe to send to a hosted model |
+
+Embedding caches go to `data/cache/restroom/` (gitignored).

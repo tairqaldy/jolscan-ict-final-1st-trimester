@@ -23,7 +23,22 @@ Reference style: `Lec8 p38` is page 38 of the Lecture 8 deck. `Syl` is the sylla
 
 ## By lane
 
-### Model (Nazar)
+### Restroom model (Nazar)
+
+| Topic | What to cite | Source |
+|---|---|---|
+| Task type | Classification ("what") on each sign, plus similarity between signs | Lec8 p11 |
+| CLIP | Contrastive image–text model trained on 400M pairs, which allows zero-shot classification with text prompts | Lec8 p56 |
+| ViT | The image is split into 16×16 (or 32×32) patches that become tokens; little built-in image bias, so it relies on large pretraining | Lec8 p46–47 |
+| Zero-shot against fine-tuning | Reuse a pretrained backbone, then fine-tune the last layers if needed | Lec8 p38 |
+| Number of trained layers | The assignment's own example of a model change for Option A | A2 p1 |
+| ViT on small data | ViT needs large data; here the large data is CLIP's pretraining, and we only adapt a few blocks on 82 restrooms | Lec8 p54 |
+| Classifier on embeddings | Logistic regression in scikit-learn, as in the labs | Sup p23, Labs 4 and 6 |
+| Grouped cross-validation | k-fold rotates the validation set. Grouping by restroom keeps both signs of one restroom on the same side, so nothing leaks | Sup p26, Sup p10 |
+| Metric | Top-1 matching accuracy is plain accuracy on the queries. With 10 validation queries, one query is 0.10 | Sup p27, Lec8 p42 |
+| Overfitting | More trained layers on little data can raise training fit while validation falls | Sup p24 |
+
+### Pothole model (Amina)
 
 | Topic | What to cite | Source |
 |---|---|---|
@@ -40,7 +55,7 @@ Reference style: `Lec8 p38` is page 38 of the Lecture 8 deck. `Syl` is the sylla
 | Learning rate | Too high diverges, too low stalls | Sup p14 |
 | Not in the course | Named optimizers (SGD, Adam), batch size, epochs. The assignment sheet lists optimizers as an example of what to change, so be ready with a one-line explanation of each | A2 p1 |
 
-### Data and rules (Amina)
+### Pothole data and both rule sets (Amina, Nazar for the signage rules)
 
 | Topic | What to cite | Source |
 |---|---|---|

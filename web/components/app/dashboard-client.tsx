@@ -3,20 +3,22 @@
 import { ArrowRight, CircleCheck, MapPin, ScanSearch } from "lucide-react";
 import Link from "next/link";
 import { useMemo } from "react";
-import { CountUp } from "@/components/motion/count-up";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { SeverityBadge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
 import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageHeader } from "@/components/ui/page-header";
-import { formatDateTime, median } from "@/lib/format";
+import { MODULES } from "@/lib/brand";
+import { formatDate, formatDateTime, median } from "@/lib/format";
+import { MOCK_ANCHOR } from "@/lib/mock/analyses";
 import { SEVERITY_META } from "@/lib/severity";
 import { useAnalyses } from "@/lib/store/history";
 import { rulesStore } from "@/lib/store/settings";
 import { SEVERITIES } from "@/lib/types";
 import { AnalysesTable } from "./analyses-table";
 import { DemoBadge } from "./demo-badge";
+import { Kpi } from "./kpi";
 import { SeverityBars } from "./severity-bars";
 
 export function DashboardClient() {
@@ -57,25 +59,33 @@ export function DashboardClient() {
   return (
     <div className="grid gap-8">
       <PageHeader
-        eyebrow="Dashboard"
+        eyebrow={`${MODULES.roads.name} · ${MODULES.roads.task}`}
         title="Road condition overview"
         description={
           <span className="inline-flex flex-wrap items-center gap-2">
-            Analysed photos from the last 30 days and from this browser. <DemoBadge />
+            Photos analysed in the 30 days to {formatDate(MOCK_ANCHOR)} (demo set) and in this browser. <DemoBadge />
           </span>
         }
         actions={
-          <ButtonLink href="/app/analyze">
+          <ButtonLink href="/app/roads/analyze">
             <ScanSearch aria-hidden /> Analyze a photo
           </ButtonLink>
         }
       />
 
       <Stagger className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
-        <Kpi label="Photos analysed" value={kpis.photos} note="all providers" />
-        <Kpi label="Potholes found" value={kpis.potholes} note={`confidence ≥ ${rules.r1.threshold.toFixed(2)}`} />
-        <Kpi label="Critical segments" value={kpis.critical} note="repair within 24 h" accent />
-        <Kpi label="Median latency" value={kpis.latency} suffix=" ms" note="model time per photo" />
+        <StaggerItem>
+          <Kpi label="Photos analysed" value={kpis.photos} note="all providers" />
+        </StaggerItem>
+        <StaggerItem>
+          <Kpi label="Potholes found" value={kpis.potholes} note={`confidence ≥ ${rules.r1.threshold.toFixed(2)}`} />
+        </StaggerItem>
+        <StaggerItem>
+          <Kpi label="Critical segments" value={kpis.critical} note="repair within 24 h" accentClass="bg-sev-critical" />
+        </StaggerItem>
+        <StaggerItem>
+          <Kpi label="Median latency" value={kpis.latency} suffix=" ms" note="model time per photo" />
+        </StaggerItem>
       </Stagger>
 
       <Stagger inView className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
@@ -100,7 +110,7 @@ export function DashboardClient() {
                 <CardTitle>Recent analyses</CardTitle>
                 <CardDescription>Newest first. Open a row for the full report.</CardDescription>
               </div>
-              <ButtonLink href="/app/reports" variant="ghost" size="sm">
+              <ButtonLink href="/app/roads/reports" variant="ghost" size="sm">
                 All reports <ArrowRight aria-hidden />
               </ButtonLink>
             </CardHeader>
@@ -128,7 +138,7 @@ export function DashboardClient() {
                   {review.slice(0, 6).map((a) => (
                     <li key={a.id}>
                       <Link
-                        href={`/app/reports/${a.id}`}
+                        href={`/app/roads/reports/${a.id}`}
                         className="flex items-center justify-between gap-3 rounded-md border border-border px-3 py-2.5 hover:bg-surface-2"
                       >
                         <span className="min-w-0">
@@ -145,7 +155,7 @@ export function DashboardClient() {
                   {review.length > 6 && (
                     <li className="text-sm text-muted">
                       and {review.length - 6} more in{" "}
-                      <Link href="/app/reports?review=1" className="text-accent-ink underline underline-offset-2">
+                      <Link href="/app/roads/reports?review=1" className="text-accent-ink underline underline-offset-2">
                         Reports
                       </Link>
                     </li>
@@ -163,7 +173,7 @@ export function DashboardClient() {
                 <CardTitle>Hotspots</CardTitle>
                 <CardDescription>Streets with the worst and most frequent findings.</CardDescription>
               </div>
-              <ButtonLink href="/app/map" variant="ghost" size="sm">
+              <ButtonLink href="/app/roads/map" variant="ghost" size="sm">
                 Map <ArrowRight aria-hidden />
               </ButtonLink>
             </CardHeader>
@@ -188,20 +198,5 @@ export function DashboardClient() {
         </StaggerItem>
       </Stagger>
     </div>
-  );
-}
-
-function Kpi({ label, value, note, suffix, accent }: { label: string; value: number; note: string; suffix?: string; accent?: boolean }) {
-  return (
-    <StaggerItem>
-      <div className="relative h-full overflow-hidden rounded-lg border border-border bg-surface p-4 shadow-sm sm:p-5">
-        {accent && <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-sev-critical" />}
-        <p className="text-sm font-medium text-muted">{label}</p>
-        <p className="mt-2 font-display text-4xl font-bold whitespace-nowrap xl:text-5xl">
-          <CountUp value={value} suffix={suffix} />
-        </p>
-        <p className="mt-1 text-xs text-subtle">{note}</p>
-      </div>
-    </StaggerItem>
   );
 }

@@ -1,6 +1,8 @@
 # api/
 
-The model service. It turns a photo into detections and nothing else. Severity rules are applied by the web app, so every provider is scored the same way. The contract is in [docs/ARCHITECTURE.md](../docs/ARCHITECTURE.md), section 2.
+The model service. It turns a road photo into pothole detections, and restroom door signs into gender predictions and a similarity score. Nothing else: the severity rules and the signage rules are applied by the web app, so every provider is scored the same way. The contract is in [docs/ARCHITECTURE.md](../docs/ARCHITECTURE.md), sections 2 and 2b.
+
+Both models are loaded on the first request that needs them, not at start-up. The service starts even without the YOLO weights file: `/predict` then answers 503 with a message, and the restroom endpoints still work. `/health` shows which models are loaded.
 
 The code was checked against the FastAPI, Ultralytics and Gradio documentation but has not been run yet (tasks S-1, S-5, S-8). Whoever runs it first fixes what breaks and commits the fix.
 
@@ -36,6 +38,41 @@ curl -F "file=@photo.jpg" -F "conf=0.25" http://localhost:8000/predict
 
 Then pick the `local` provider in the web app's Settings.
 
+## Restroom endpoints
+
+Code in `restroom.py`, shared upload checks in `imaging.py`. The model is OpenAI CLIP through `open_clip_torch` (ViT-B/32 by default, about 600 MB, downloaded on first use into the Hugging Face cache). The first restroom request takes a few seconds longer while it loads.
+
+```bash
+curl -F "a=@men.png" -F "b=@women.png" http://localhost:8000/restroom/compare
+```
+
+```bash
+curl -F "query=@query.png" -F "gallery=@g1.png" -F "gallery=@g2.png" -F "gallery=@g3.png" http://localhost:8000/restroom/match
+```
+
+- `compare` returns the predicted gender and its confidence for both signs, and their similarity, `(cos + 1) / 2` of the CLIP embeddings.
+- `match` returns the query's prediction and every gallery image as a candidate with id `"0"`, `"1"`, ... in upload order, sorted by similarity. `bestMatchId` is the most similar candidate whose predicted gender is the opposite of the query's, or `null`.
+- Validation is the same as `/predict`: JPEG, PNG or WebP, at most 10 MB per file, at most 60 gallery files. A missing field gives FastAPI's 422.
+
+Configuration:
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `RESTROOM_MODEL` | `ViT-B-32` | open_clip architecture with OpenAI weights, e.g. `ViT-B-16` |
+| `RESTROOM_WEIGHTS` | none | Fine-tuned checkpoint from `ml/restroom/run.py`, the pair model, e.g. `weights/R4-pair.pt` |
+| `RESTROOM_PROBE` | none | Gender probe from `run.py --run R6`, e.g. `weights/restroom-probe-vit-b-32.npz`. Without it, zero-shot text prompts decide the gender. The probe must have been fitted on the same model and weights, or the model refuses to load |
+| `RESTROOM_MODEL_NAME` | derived | Name echoed in responses, e.g. `clip-vitb32-zs` or `clip-vitb32-ft6` |
+
+Measured on the IOAI data (ml/restroom/README.md): gender predictions from one sign are right about three times in four, so `bestMatchId` from the gender filter is often wrong. Treat it as a hint. The similarity score is the stronger signal.
+
+## Tests
+
+```bash
+pip install -r requirements-dev.txt && cd .. && pytest api/
+```
+
+The tests replace CLIP with a tiny fake encoder, so they download nothing and do not need the YOLO weights.
+
 ## Two thresholds
 
 - `conf` on `/predict` (default 0.25) is how low the model service reports boxes.
@@ -56,5 +93,5 @@ python gradio_app.py
 ## Notes
 
 - Weights are never committed. `api/weights/` is in `.gitignore`.
-- Stop the server with Ctrl+C when you are done. It holds a few hundred MB of memory.
+- Stop the server with Ctrl+C when you are done. It holds a few hundred MB of memory, about 1 GB once CLIP is loaded.
 - If port 8000 is taken, pass another `--port` and set `MODEL_API_URL` in `web/.env.local` to match.

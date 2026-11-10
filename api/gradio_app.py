@@ -1,4 +1,4 @@
-"""Gradio demo for the JolScan detector: the course-standard model interface (Lecture 9).
+"""Gradio demo for the Qarau pothole detector: the course-standard model interface (Lecture 9).
 
 Starter code, not yet run (task S-5). Needs requirements-dev.txt.
 
@@ -40,7 +40,7 @@ demo = gr.Interface(
     fn=detect,
     inputs=[gr.Image(type="pil", label="Road photo"), gr.Slider(0.05, 0.95, value=0.25, step=0.05, label="Confidence threshold")],
     outputs=[gr.Image(label="Detections"), gr.Dataframe(label="Potholes found")],
-    title="JolScan pothole detector",
+    title="Qarau pothole detector",
     description="Fine-tuned YOLO detector. ICT1103 group project. Do not upload photos with faces or licence plates.",
     flagging_mode="never",
 )

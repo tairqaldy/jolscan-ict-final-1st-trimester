@@ -1,5 +1,9 @@
 # Rules engine
 
+There are two rule sets, one per module. Part 1 scores potholes. Part 2 checks restroom signage.
+
+# Part 1: Potholes
+
 The model answers "where are the potholes". The rules answer "how urgent is this road segment". Rules are deterministic, editable on the Rules page, and every result lists which rules fired, so the decision can be explained.
 
 All thresholds below are team-defined starting values and are assumptions, not an official road-maintenance standard. The size bands are replaced by data-derived values in task D-11, and the severity bands are checked against human judgment in task D-6.
@@ -66,3 +70,44 @@ The cap on small detections exists because the detector's false alarms (shadows,
 - R3 is meaningful only for forward-facing, roughly level photos such as dashcam frames. In a handheld close-up almost every box counts as in lane.
 - The rules never see road markings, so a pothole on the shoulder of a narrow road can be scored as in lane.
 - Thresholds were set by the team on a small validation set.
+
+# Part 2: Restroom signage
+
+The model answers two questions about a pair of door signs: which gender each sign shows, and how alike the two designs are. The rules turn that into a verdict a facility manager can act on: is it obvious to a visitor which door is which?
+
+Thresholds are team-defined starting values, to be checked on the IOAI validation set (task C-7). They are assumptions, not a building-code requirement.
+
+## Inputs
+
+From the model, for signs `a` and `b`: predicted gender, confidence of that prediction, and the similarity of the two designs (0..1).
+
+## Rules
+
+| ID | Rule | Default | Fails when |
+|---|---|---|---|
+| S1 | Each sign is recognisable | confidence ≥ 0.80 for both signs | Either sign is below 0.80: the model, and likely a visitor, cannot tell its gender at a glance |
+| S2 | The two signs differ | predicted genders differ | Both signs are read as the same gender |
+| S3 | The signs belong to one set | similarity ≥ 0.75 | The two designs look unrelated, so visitors may not read them as a pair |
+
+## Verdict
+
+| Verdict | When | Recommended action |
+|---|---|---|
+| clear | S1, S2 and S3 pass | No action |
+| review | S2 passes, and S1 or S3 fails | Check the sign design on site. Consider replacing the weaker sign so the pair matches |
+| confusing | S2 fails | Replace the signage. Visitors are likely to enter the wrong room |
+
+## Worked examples
+
+**A.** Male sign 0.97, female sign 0.94, similarity 0.88: all rules pass, verdict `clear`.
+
+**B.** Male sign 0.97, female sign 0.62, similarity 0.81: S1 fails for sign b, verdict `review`.
+
+**C.** Both signs read as male (0.71 and 0.66), similarity 0.90: S2 fails, verdict `confusing`.
+
+## Known limits
+
+- The model judges a cropped icon. It never sees the door, the text under the icon, the colour coding or the location.
+- "Recognisable to the model" is a stand-in for "recognisable to a person". The thresholds were not tested with people.
+- The training set is 82 restrooms, mostly from stock photos. Unusual or culture-specific icons may be misread.
+- Accessible and all-gender restrooms are outside the IOAI data, so the model has no class for them.

@@ -1,12 +1,13 @@
 import { useMemo } from "react";
 import { MOCK_ANALYSES } from "@/lib/mock/analyses";
 import type { StoredAnalysis } from "@/lib/types";
+import { storageKey } from "@/lib/brand";
 import { createLocalStore } from "./local-store";
 
 /** Analyses made in this browser. Merged with the seeded demo set for display. */
 const MAX_HISTORY = 40;
 
-export const historyStore = createLocalStore<StoredAnalysis[]>("jolscan:history", [], (raw) =>
+export const historyStore = createLocalStore<StoredAnalysis[]>(storageKey("history"), [], (raw) =>
   Array.isArray(raw)
     ? (raw as StoredAnalysis[]).filter(
         (a) => a && typeof a.id === "string" && typeof a.createdAt === "string" && Array.isArray(a.detections),

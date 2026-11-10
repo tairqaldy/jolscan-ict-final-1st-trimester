@@ -16,6 +16,9 @@ export const axisProps = {
   axisLine: { stroke: "var(--border-strong)" },
 } as const;
 
+/** Axis titles (Recharts <Label>): small, muted, never the only place the unit is stated. */
+export const axisLabelProps = { fill: "var(--muted)", fontSize: 12, style: { textAnchor: "middle" } } as const;
+
 export const gridProps = { stroke: "var(--chart-grid)", vertical: false } as const;
 
 export const tooltipProps = {

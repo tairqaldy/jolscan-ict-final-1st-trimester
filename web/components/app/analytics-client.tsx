@@ -6,16 +6,18 @@ import {
   BarChart,
   CartesianGrid,
   Cell,
+  Label,
   ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
-import { axisProps, ChartCard, DataTable, gridProps, LegendSwatch, tooltipProps } from "@/components/charts/chart-kit";
+import { axisLabelProps, axisProps, ChartCard, DataTable, gridProps, LegendSwatch, tooltipProps } from "@/components/charts/chart-kit";
 import { ModelComparisonChart } from "@/components/charts/model-comparison";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
-import { dayKey, formatDayKey, median, percentile } from "@/lib/format";
+import { dayKey, formatDate, formatDayKey, median, percentile } from "@/lib/format";
+import { MOCK_ANCHOR } from "@/lib/mock/analyses";
 import { SEVERITY_META } from "@/lib/severity";
 import { useAnalyses } from "@/lib/store/history";
 import { rulesStore } from "@/lib/store/settings";
@@ -25,14 +27,20 @@ import { PROVIDER_META } from "./provider-badge";
 
 const DAY = 24 * 60 * 60 * 1000;
 
-export function AnalyticsClient() {
+/** Roads (pothole) charts. */
+export function RoadsAnalytics() {
   const analyses = useAnalyses();
   const rules = rulesStore.useStore();
   const tau = rules.r1.threshold;
 
-  // 30 days ending on the newest analysis (deterministic, no Date.now()).
+  // 30 days ending on the demo anchor date (10 Nov 2026), or on the newest
+  // analysis if this browser has newer ones. Deterministic: no Date.now().
+  const windowEnd = useMemo(
+    () => Math.max(Date.parse(MOCK_ANCHOR), analyses.length ? Date.parse(analyses[0].createdAt) : 0),
+    [analyses],
+  );
   const daily = useMemo(() => {
-    const last = analyses.length ? Date.parse(analyses[0].createdAt) : 0;
+    const last = windowEnd;
     const days = Array.from({ length: 30 }, (_, i) => dayKey(new Date(last - (29 - i) * DAY).toISOString()));
     const rows = days.map((d) => ({ day: d, label: formatDayKey(d), counted: 0, review: 0, photos: 0 }));
     const index = new Map(rows.map((r) => [r.day, r]));
@@ -46,20 +54,19 @@ export function AnalyticsClient() {
       }
     }
     return rows;
-  }, [analyses, tau, rules.r1.reviewFloor]);
+  }, [analyses, tau, rules.r1.reviewFloor, windowEnd]);
 
   const severityByWeek = useMemo(() => {
     const weeks = [0, 1, 2, 3].map((w) => ({
       label: w === 0 ? "This week" : `${w} wk ago`,
       ...Object.fromEntries(SEVERITIES.map((s) => [s, 0])),
     })) as ({ label: string } & Record<(typeof SEVERITIES)[number], number>)[];
-    const last = analyses.length ? Date.parse(analyses[0].createdAt) : 0;
     for (const a of analyses) {
-      const w = Math.floor((last - Date.parse(a.createdAt)) / (7 * DAY));
+      const w = Math.floor((windowEnd - Date.parse(a.createdAt)) / (7 * DAY));
       if (w >= 0 && w < 4) weeks[w][a.severity]++;
     }
     return weeks.reverse();
-  }, [analyses]);
+  }, [analyses, windowEnd]);
 
   const histogram = useMemo(() => {
     const bins = Array.from({ length: 15 }, (_, i) => {
@@ -88,7 +95,7 @@ export function AnalyticsClient() {
       <StaggerItem className="lg:col-span-2">
         <ChartCard
           title="Detections over time"
-          description={`Pothole boxes per day over 30 days. Counted means confidence ≥ ${tau.toFixed(2)} (rule R1).`}
+          description={`Pothole boxes per day, 30 days to ${formatDate(new Date(windowEnd).toISOString())}. Counted means confidence ≥ ${tau.toFixed(2)} (rule R1).`}
           badge={<DemoBadge />}
           legend={
             <>
@@ -102,7 +109,9 @@ export function AnalyticsClient() {
             <BarChart data={daily} margin={{ top: 8, right: 8, bottom: 0, left: -16 }}>
               <CartesianGrid {...gridProps} />
               <XAxis dataKey="label" interval="preserveStartEnd" minTickGap={24} {...axisProps} />
-              <YAxis allowDecimals={false} {...axisProps} />
+              <YAxis allowDecimals={false} {...axisProps}>
+                <Label value="Boxes" angle={-90} position="insideLeft" offset={20} {...axisLabelProps} />
+              </YAxis>
               <Tooltip {...tooltipProps} />
               <Bar dataKey="counted" name="Counted" stackId="a" fill="var(--chart-1)" stroke="var(--surface)" strokeWidth={1} />
               <Bar dataKey="review" name="Needs review" stackId="a" fill="var(--chart-2)" stroke="var(--surface)" strokeWidth={1} radius={[4, 4, 0, 0]} />
@@ -114,7 +123,7 @@ export function AnalyticsClient() {
       <StaggerItem>
         <ChartCard
           title="Severity breakdown"
-          description="Analyses per week, stacked by severity."
+          description={`Analyses per week, stacked by severity. Weeks end on ${formatDate(new Date(windowEnd).toISOString())}.`}
           legend={SEVERITIES.map((s) => (
             <LegendSwatch key={s} color={SEVERITY_META[s].cssVar} label={SEVERITY_META[s].label} />
           ))}
@@ -129,7 +138,9 @@ export function AnalyticsClient() {
             <BarChart data={severityByWeek} margin={{ top: 8, right: 8, bottom: 0, left: -16 }}>
               <CartesianGrid {...gridProps} />
               <XAxis dataKey="label" {...axisProps} />
-              <YAxis allowDecimals={false} {...axisProps} />
+              <YAxis allowDecimals={false} {...axisProps}>
+                <Label value="Photos" angle={-90} position="insideLeft" offset={20} {...axisLabelProps} />
+              </YAxis>
               <Tooltip {...tooltipProps} />
               {SEVERITIES.map((s, i) => (
                 <Bar
@@ -161,10 +172,14 @@ export function AnalyticsClient() {
           table={<DataTable head={["From", "Boxes"]} rows={histogram.map((b) => [b.label, b.count])} />}
         >
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={histogram} margin={{ top: 8, right: 8, bottom: 0, left: -16 }} barCategoryGap={2}>
+            <BarChart data={histogram} margin={{ top: 8, right: 8, bottom: 14, left: -16 }} barCategoryGap={2}>
               <CartesianGrid {...gridProps} />
-              <XAxis dataKey="label" interval={2} {...axisProps} />
-              <YAxis allowDecimals={false} {...axisProps} />
+              <XAxis dataKey="label" interval={2} {...axisProps}>
+                <Label value="Model confidence" position="insideBottom" offset={-10} {...axisLabelProps} />
+              </XAxis>
+              <YAxis allowDecimals={false} {...axisProps}>
+                <Label value="Boxes" angle={-90} position="insideLeft" offset={20} {...axisLabelProps} />
+              </YAxis>
               <Tooltip {...tooltipProps} labelFormatter={(l) => `Confidence ${l}–${(Number(l) + 0.05).toFixed(2)}`} />
               <ReferenceLine x={histogram.find((b) => b.lo >= tau - 1e-9)?.label} stroke="var(--fg)" strokeDasharray="4 3" />
               <Bar dataKey="count" name="Boxes" radius={[4, 4, 0, 0]}>

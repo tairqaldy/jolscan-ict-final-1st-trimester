@@ -4,3 +4,6 @@ uvicorn[standard]
 python-multipart
 ultralytics==8.4.208
 pillow
+numpy
+# Restroom endpoints (CLIP). Same version as ml/restroom/requirements.txt.
+open_clip_torch==4.2.1

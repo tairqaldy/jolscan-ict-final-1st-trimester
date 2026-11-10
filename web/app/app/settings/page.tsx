@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "Settings" };
 export default function SettingsPage() {
   return (
     <div className="grid gap-8">
-      <PageHeader eyebrow="Settings" title="Settings" description="Saved in this browser only." />
+      <PageHeader eyebrow="Settings · both modules" title="Settings" description="Saved in this browser only. One provider and one set of privacy options for both modules." />
       <SettingsClient />
     </div>
   );

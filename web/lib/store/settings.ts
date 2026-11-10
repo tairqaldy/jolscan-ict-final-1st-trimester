@@ -1,8 +1,10 @@
 import { normaliseRules, DEFAULT_RULES, type RulesConfig } from "@/lib/rules/config";
 import { PROVIDERS, type Provider } from "@/lib/types";
+import { storageKey } from "@/lib/brand";
+import { normaliseSignage, DEFAULT_SIGNAGE, type SignageConfig } from "@/lib/signage/config";
 import { createLocalStore } from "./local-store";
 
-/** Settings page state, remembered in this browser only. */
+/** Settings page state, remembered in this browser only. One provider setting drives both modules. */
 export type Settings = {
   provider: Provider;
   /** Never send photos to the cloud provider; keep thumbnails in this browser only. */
@@ -19,7 +21,7 @@ export const DEFAULT_SETTINGS: Settings = {
   language: "en",
 };
 
-export const settingsStore = createLocalStore<Settings>("jolscan:settings", DEFAULT_SETTINGS, (raw) => {
+export const settingsStore = createLocalStore<Settings>(storageKey("settings"), DEFAULT_SETTINGS, (raw) => {
   const r = (raw ?? {}) as Partial<Settings>;
   return {
     provider: PROVIDERS.includes(r.provider as Provider) ? (r.provider as Provider) : DEFAULT_SETTINGS.provider,
@@ -30,4 +32,7 @@ export const settingsStore = createLocalStore<Settings>("jolscan:settings", DEFA
 });
 
 /** Rules page state. Sent with every analysis so the server scores with it. */
-export const rulesStore = createLocalStore<RulesConfig>("jolscan:rules", DEFAULT_RULES, normaliseRules);
+export const rulesStore = createLocalStore<RulesConfig>(storageKey("rules"), DEFAULT_RULES, normaliseRules);
+
+/** Restroom Rules page state (S1, S3 thresholds). Sent with every compare so the server judges with it. */
+export const signageRulesStore = createLocalStore<SignageConfig>(storageKey("signage-rules"), DEFAULT_SIGNAGE, normaliseSignage);

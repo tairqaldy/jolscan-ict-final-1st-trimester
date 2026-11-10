@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { DashboardClient } from "@/components/app/dashboard-client";
+import { PlatformOverviewClient } from "@/components/app/platform-overview-client";
 
-export const metadata: Metadata = { title: "Dashboard" };
+export const metadata: Metadata = { title: "Home" };
 
-export default function DashboardPage() {
-  return <DashboardClient />;
+export default function PlatformHomePage() {
+  return <PlatformOverviewClient />;
 }

@@ -1,0 +1,166 @@
+{
+  "run": "R0",
+  "smoke": false,
+  "isReal": true,
+  "changed": "baseline: zero-shot CLIP ViT-B/16, second most similar gallery image (IOAI baseline)",
+  "model": "clip-vitb16-zs",
+  "params": {
+    "arch": "ViT-B-16",
+    "mode": "zeroshot",
+    "matching": "second_best"
+  },
+  "metrics": {
+    "val_match_top1": 0.8,
+    "test_match_top1": 0.7667,
+    "gender_acc_cv": 0.7744,
+    "latency_ms": 55.1,
+    "val_match_by_strategy": {
+      "second_best": 0.8,
+      "two_step": 1.0,
+      "two_step_no_reuse": 1.0,
+      "gender_filter_probe": 0.3,
+      "gender_filter_zeroshot": 0.6
+    },
+    "test_match_by_strategy": {
+      "second_best": 0.7667,
+      "two_step": 0.8667,
+      "two_step_no_reuse": 0.8667,
+      "gender_filter_probe": 0.4667,
+      "gender_filter_zeroshot": 0.4667
+    },
+    "val_correct": "8/10",
+    "test_correct": "23/30"
+  },
+  "gender": {
+    "zero_shot_prompts": {
+      "accuracy": 0.7713,
+      "precision_female": 0.8248,
+      "recall_female": 0.689,
+      "f1_macro": 0.7698,
+      "confusion_matrix_rows_true_male_female": [
+        [
+          140,
+          24
+        ],
+        [
+          51,
+          113
+        ]
+      ]
+    },
+    "prompts": {
+      "male": [
+        "a restroom sign for men",
+        "a men's toilet icon",
+        "a pictogram of a man on a restroom door",
+        "a male restroom symbol",
+        "a gents bathroom sign"
+      ],
+      "female": [
+        "a restroom sign for women",
+        "a women's toilet icon",
+        "a pictogram of a woman on a restroom door",
+        "a female restroom symbol",
+        "a ladies bathroom sign"
+      ]
+    },
+    "probe_lr": {
+      "accuracy": 0.7744,
+      "precision_female": 0.7744,
+      "recall_female": 0.7744,
+      "f1_macro": 0.7744,
+      "confusion_matrix_rows_true_male_female": [
+        [
+          127,
+          37
+        ],
+        [
+          37,
+          127
+        ]
+      ],
+      "fold_accuracy": [
+        0.8382,
+        0.7059,
+        0.75,
+        0.7812,
+        0.7969
+      ],
+      "fold_accuracy_std": 0.0445
+    }
+  },
+  "predictions": {
+    "val": [
+      2,
+      18,
+      10,
+      19,
+      3,
+      5,
+      19,
+      11,
+      13,
+      20
+    ],
+    "test": [
+      37,
+      13,
+      45,
+      17,
+      35,
+      49,
+      14,
+      59,
+      39,
+      19,
+      18,
+      21,
+      44,
+      44,
+      22,
+      19,
+      57,
+      35,
+      26,
+      46,
+      5,
+      12,
+      16,
+      4,
+      54,
+      31,
+      20,
+      29,
+      15,
+      1
+    ]
+  },
+  "training": null,
+  "checkpoints": null,
+  "dataset": "IOAI 2025 Restroom Icon Matching (CC-BY-4.0): 82 training restrooms, val 10/20, test 30/60",
+  "versions": {
+    "python": "3.12.16",
+    "torch": "2.15.0",
+    "open_clip": "4.2.1",
+    "sklearn": "1.9.1",
+    "numpy": "2.5.4"
+  },
+  "device": "Apple M5 CPU",
+  "seconds": 140.3,
+  "timestamp": "2026-11-10T07:56:15+00:00",
+  "latency": {
+    "protocol": "median of 60 single images after 5 warm-up, preprocessing + image encoder, runs timed round-robin in one session",
+    "p10_ms": 51.2,
+    "p90_ms": 67.2,
+    "measured_together": [
+      "R0",
+      "R1",
+      "R2",
+      "R3",
+      "R6"
+    ],
+    "load_average_1min": 6.8,
+    "device": "Apple M5 CPU",
+    "timestamp": "2026-11-10T08:19:50+00:00"
+  }
+}

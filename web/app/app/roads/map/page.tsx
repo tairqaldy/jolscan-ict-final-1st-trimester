@@ -9,7 +9,7 @@ export default function MapPage() {
   return (
     <div className="grid gap-8">
       <PageHeader
-        eyebrow="Map"
+        eyebrow="Roads · Map"
         title="Where the potholes are"
         description={
           <span className="inline-flex flex-wrap items-center gap-2">

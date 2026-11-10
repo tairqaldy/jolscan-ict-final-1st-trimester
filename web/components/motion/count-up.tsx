@@ -1,12 +1,13 @@
 "use client";
 
-import { animate, useInView, useReducedMotion } from "motion/react";
+import { animate, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Number that counts up from 0 when it scrolls into view.
- * Screen readers get the final value immediately (aria-label); with reduced
- * motion the final value is shown straight away.
+ * A number that is always rendered at its real value (server render, first
+ * paint, screenshots, no JS). When the value changes later in the browser,
+ * for example when this browser's own analyses are merged in, it counts from
+ * the old value to the new one. Respects prefers-reduced-motion.
  */
 export function CountUp({
   value,
@@ -19,25 +20,22 @@ export function CountUp({
   suffix?: string;
   className?: string;
 }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true });
   const reduce = useReducedMotion();
-  const [shown, setShown] = useState(0);
+  const [shown, setShown] = useState(value);
+  const from = useRef(value);
 
   useEffect(() => {
-    if (!inView || reduce) return;
-    const controls = animate(0, value, {
-      duration: 1.1,
-      ease: [0.2, 0, 0, 1],
-      onUpdate: setShown,
-    });
+    const start = from.current;
+    from.current = value;
+    if (start === value || reduce) return;
+    const controls = animate(start, value, { duration: 0.8, ease: [0.2, 0, 0, 1], onUpdate: setShown });
     return () => controls.stop();
-  }, [inView, reduce, value]);
+  }, [value, reduce]);
 
-  const display = reduce ? value : shown;
-  const text = `${display.toFixed(decimals)}${suffix}`;
+  // With reduced motion the real value is shown directly, no count.
+  const text = `${(reduce ? value : shown).toFixed(decimals)}${suffix}`;
   return (
-    <span ref={ref} className={className} aria-label={`${value.toFixed(decimals)}${suffix}`}>
+    <span className={className} aria-label={`${value.toFixed(decimals)}${suffix}`}>
       <span aria-hidden className="tabular">
         {text}
       </span>

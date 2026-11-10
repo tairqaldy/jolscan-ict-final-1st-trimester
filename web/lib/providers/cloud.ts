@@ -8,7 +8,7 @@ import { ProviderError, type ModelProvider } from "./types";
  * (Gradio/FastAPI on Hugging Face Spaces, or Roboflow's hosted API).
  * ROBOFLOW_API_KEY, if set, is added as `api_key` on the server only.
  */
-function target() {
+export function cloudTarget() {
   if (!env.cloudModelApiUrl) {
     throw new ProviderError(
       "not_configured",
@@ -27,10 +27,10 @@ function target() {
 
 export const cloudProvider: ModelProvider = {
   id: "cloud",
-  predict: async (input) => httpPredict(target(), input),
+  predict: async (input) => httpPredict(cloudTarget(), input),
   health: async () => {
     try {
-      return await httpHealth(target());
+      return await httpHealth(cloudTarget());
     } catch (err) {
       const e = err as ProviderError;
       return { ok: false, provider: "cloud", status: e.code, latencyMs: 0, message: `${e.message} ${e.hint ?? ""}`.trim() };

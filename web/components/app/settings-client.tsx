@@ -12,8 +12,10 @@ import { Select } from "@/components/ui/select";
 import { SliderField } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/cn";
+import { BRAND } from "@/lib/brand";
 import { historyStore, useAnalyses } from "@/lib/store/history";
-import { rulesStore, settingsStore } from "@/lib/store/settings";
+import { restroomHistoryStore, useRestroomChecks } from "@/lib/store/restroom-history";
+import { rulesStore, settingsStore, signageRulesStore } from "@/lib/store/settings";
 import { themeStore, type ThemePreference } from "@/lib/store/theme";
 import { PROVIDERS, type Provider } from "@/lib/types";
 import type { HealthResult } from "@/lib/providers/types";
@@ -27,6 +29,8 @@ export function SettingsClient() {
   const theme = themeStore.useStore();
   const history = historyStore.useStore();
   const analyses = useAnalyses();
+  const signChecks = useRestroomChecks();
+  const restroomHistory = restroomHistoryStore.useStore();
   const [checks, setChecks] = useState<Record<Provider, Check>>({
     mock: { state: "idle" },
     local: { state: "idle" },
@@ -43,27 +47,40 @@ export function SettingsClient() {
     } catch {
       setChecks((c) => ({
         ...c,
-        [p]: { state: "done", result: { ok: false, provider: p, status: "network", latencyMs: 0, message: "Could not reach the JolScan server." } },
+        [p]: { state: "done", result: { ok: false, provider: p, status: "network", latencyMs: 0, message: "Could not reach the app server." } },
       }));
     }
   };
 
   const exportJson = () => {
     const blob = new Blob(
-      [JSON.stringify({ exportedFrom: "JolScan prototype", note: "Items with source 'demo' are invented demo data.", analyses }, null, 2)],
+      [
+        JSON.stringify(
+          {
+            exportedFrom: `${BRAND.name} prototype`,
+            note: "Items with source 'demo' are invented demo data.",
+            roads: { analyses },
+            restrooms: { checks: signChecks },
+          },
+          null,
+          2,
+        ),
+      ],
       { type: "application/json" },
     );
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "jolscan-analyses.json";
+    a.download = `${BRAND.storagePrefix}-export.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
 
   const resetAll = () => {
     historyStore.reset();
+    restroomHistoryStore.reset();
     rulesStore.reset();
+    signageRulesStore.reset();
     settingsStore.reset();
     setResetDone(true);
   };
@@ -74,7 +91,7 @@ export function SettingsClient() {
         <CardHeader>
           <div>
             <CardTitle>Model provider</CardTitle>
-            <CardDescription>Where photos are sent for detection. The rules are applied the same way for all three.</CardDescription>
+            <CardDescription>Where images are sent, for both modules. The rules are applied the same way whichever provider answers.</CardDescription>
           </div>
         </CardHeader>
         <CardBody>
@@ -139,7 +156,7 @@ export function SettingsClient() {
       <Card>
         <CardHeader>
           <div>
-            <CardTitle>Detection</CardTitle>
+            <CardTitle>Roads: detection threshold</CardTitle>
             <CardDescription>Same value as rule R1 on the Rules page.</CardDescription>
           </div>
         </CardHeader>
@@ -163,7 +180,7 @@ export function SettingsClient() {
         <CardHeader>
           <div>
             <CardTitle>Privacy</CardTitle>
-            <CardDescription>Road photos can show people, number plates and where they were taken.</CardDescription>
+            <CardDescription>Road photos can show people, number plates and where they were taken. Restroom images must show signs only, never people.</CardDescription>
           </div>
         </CardHeader>
         <CardBody className="grid gap-5">
@@ -217,14 +234,15 @@ export function SettingsClient() {
           <div>
             <CardTitle>Data</CardTitle>
             <CardDescription>
-              {history.length} {history.length === 1 ? "analysis" : "analyses"} made in this browser, plus the demo set.
+              {history.length} road {history.length === 1 ? "analysis" : "analyses"} and {restroomHistory.length} sign{" "}
+              {restroomHistory.length === 1 ? "check" : "checks"} made in this browser, plus the demo sets.
             </CardDescription>
           </div>
         </CardHeader>
         <CardBody className="grid gap-4">
           <div className="flex flex-wrap gap-2">
             <Button variant="secondary" onClick={exportJson}>
-              <Download aria-hidden /> Export analyses as JSON
+              <Download aria-hidden /> Export everything as JSON
             </Button>
             <Dialog>
               <DialogTrigger asChild>
@@ -234,7 +252,7 @@ export function SettingsClient() {
               </DialogTrigger>
               <DialogContent
                 title="Reset demo data?"
-                description="This clears analyses made in this browser, your rule changes and your settings. The seeded demo set stays. Theme is kept."
+                description="This clears road analyses and sign checks made in this browser, your rule changes in both modules and your settings. The seeded demo sets stay. Theme is kept."
               >
                 <div className="flex justify-end gap-2">
                   <DialogClose asChild>
@@ -251,7 +269,7 @@ export function SettingsClient() {
           </div>
           {resetDone && (
             <Callout tone="success" title="Reset done">
-              Local history, rules and settings are back to their defaults.
+              Local history, rules and settings of both modules are back to their defaults.
             </Callout>
           )}
           <p className="text-xs text-muted">

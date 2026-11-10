@@ -134,7 +134,7 @@ export function AnalyzeClient() {
     } catch {
       setStatus({
         state: "error",
-        error: { code: "network", message: "Could not reach the JolScan server.", hint: "Check that the app is still running." },
+        error: { code: "network", message: "Could not reach the app server.", hint: "Check that the app is still running." },
       });
     }
   };
@@ -154,7 +154,7 @@ export function AnalyzeClient() {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="text-sm text-muted" aria-live="polite">
             Analysis saved to this browser.{" "}
-            <Link href={`/app/reports/${status.analysis.id}`} className="font-medium text-accent-ink underline underline-offset-2">
+            <Link href={`/app/roads/reports/${status.analysis.id}`} className="font-medium text-accent-ink underline underline-offset-2">
               Open as report
             </Link>
           </p>
@@ -354,7 +354,7 @@ export function AnalyzeClient() {
           </Callout>
         )}
 
-        <ButtonLink href="/app/rules" variant="ghost" className="justify-start">
+        <ButtonLink href="/app/roads/rules" variant="ghost" className="justify-start">
           How is the priority calculated? <ArrowRight aria-hidden />
         </ButtonLink>
       </div>

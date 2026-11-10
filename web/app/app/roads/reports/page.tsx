@@ -11,8 +11,8 @@ export default function ReportsPage() {
   return (
     <div className="grid gap-8">
       <PageHeader
-        eyebrow="Reports"
-        title="All analyses"
+        eyebrow="Roads · Reports"
+        title="All road analyses"
         description={
           <span className="inline-flex flex-wrap items-center gap-2">
             Filter by severity, provider, date and review status. <DemoBadge />

@@ -8,8 +8,8 @@ export default function RulesPage() {
   return (
     <div className="grid gap-8">
       <PageHeader
-        eyebrow="Rules"
-        title="Rules you can read"
+        eyebrow="Roads · Rules"
+        title="Repair rules you can read"
         description="The model only finds potholes. These six rules decide how urgent a road segment is. Thresholds are team-defined starting values, not an official standard."
       />
       <RulesClient />

@@ -10,7 +10,7 @@ import { ProviderError, type HealthResult, type PredictInput } from "./types";
  * contract in ARCHITECTURE.md: GET /health, POST /predict (multipart file + conf).
  */
 
-type HttpTarget = {
+export type HttpTarget = {
   provider: Provider;
   baseUrl: string;
   /** Extra query params, e.g. a Roboflow api_key. Added on the server only. */
@@ -21,31 +21,41 @@ type HttpTarget = {
 
 const PHOTO_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
-/** The bytes to send: the upload, or a bundled sample read from public/. */
-async function resolveImage(input: PredictInput) {
-  if (input.image) return input.image;
-  if (!input.sample) throw new ProviderError("unsupported_input", "No image to send.", 400);
-  const ext = path.extname(input.sample.file).toLowerCase();
+/**
+ * Read a bundled file from public/ (e.g. "/samples/s01.jpg") for sending to a
+ * real model. SVG drawings are refused with a 422: a real model cannot read
+ * them. On Vercel the files are bundled with the route through
+ * `outputFileTracingIncludes` in next.config.ts; nothing is ever written.
+ */
+export async function readPublicImage(file: string, title: string) {
+  const ext = path.extname(file).toLowerCase();
   const type = ext === ".png" ? "image/png" : ext === ".webp" ? "image/webp" : ext === ".svg" ? "image/svg+xml" : "image/jpeg";
   if (!PHOTO_TYPES.includes(type)) {
     throw new ProviderError(
       "unsupported_input",
-      `Sample "${input.sample.title}" is an SVG drawing, which a real model cannot read.`,
+      `Sample "${title}" is an SVG drawing, which a real model cannot read.`,
       422,
-      "Upload a real JPEG, PNG or WebP photo, or switch the provider to mock. Real sample photos can be added in public/samples/samples.json.",
+      "Upload a real JPEG, PNG or WebP image, or switch the provider to mock. Real sample images can be added in the samples.json manifest.",
     );
   }
-  const bytes = await readFile(path.join(process.cwd(), "public", input.sample.file));
-  return { bytes: new Uint8Array(bytes), type, name: path.basename(input.sample.file) };
+  const bytes = await readFile(path.join(process.cwd(), "public", file));
+  return { bytes: new Uint8Array(bytes), type, name: path.basename(file) };
 }
 
-function url(target: HttpTarget, route: string) {
+/** The bytes to send: the upload, or a bundled sample read from public/. */
+async function resolveImage(input: PredictInput) {
+  if (input.image) return input.image;
+  if (!input.sample) throw new ProviderError("unsupported_input", "No image to send.", 400);
+  return readPublicImage(input.sample.file, input.sample.title);
+}
+
+export function url(target: HttpTarget, route: string) {
   const u = new URL(target.baseUrl + route);
   for (const [k, v] of Object.entries(target.query ?? {})) u.searchParams.set(k, v);
   return u;
 }
 
-function networkError(err: unknown, target: HttpTarget, timeoutMs: number): ProviderError {
+export function networkError(err: unknown, target: HttpTarget, timeoutMs: number): ProviderError {
   const name = (err as { name?: string })?.name;
   if (name === "TimeoutError" || name === "AbortError") {
     return new ProviderError(

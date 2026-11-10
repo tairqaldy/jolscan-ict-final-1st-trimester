@@ -1,22 +1,26 @@
 # Architecture
 
-JolScan takes a road photo, finds potholes with an object-detection model, and turns the detections into a repair priority using rules the team defines. "Jol" (жол) is Kazakh for road.
+Qarau (қарау, "to inspect") checks public infrastructure from photos. Each module pairs a vision model with rules the team defines:
+
+- **Roads:** an object-detection model finds potholes in a road photo, and the rules turn the detections into a repair priority.
+- **Restrooms:** CLIP predicts the gender shown on restroom door signs and how alike two signs are, and the rules say whether the signage is clear (section 2b).
 
 This file is the contract between the three code areas. If you change a type here, tell the other lanes.
 
 ## 1. System at a glance
 
 ```
-Browser (Next.js UI: landing, dashboard, analyze, reports, analytics, map, rules, settings)
-   │  POST /api/analyze  (multipart: file, provider)
+Browser (Next.js UI: landing, platform overview, per-module pages, analytics, model, settings)
+   │  POST /api/analyze  (roads: file, provider)      POST /api/restroom  (compare | match, provider)
    ▼
-Next.js route handler  ── applies the rules engine (web/lib/rules) ──► Analysis JSON
-   │  picks one provider (set in Settings):
-   ├── mock   : canned detections for the bundled sample photos (works offline, the demo default)
-   ├── local  : FastAPI on http://localhost:8000/predict  running our trained YOLO weights on the laptop
+Next.js route handlers ── apply the rules (web/lib/rules, web/lib/signage) ──► Analysis JSON
+   │  pick one provider (set in Settings):
+   ├── mock   : canned results for the bundled samples (works offline, the demo default)
+   ├── local  : FastAPI on http://localhost:8000  (/predict, /restroom/compare, /restroom/match) on the laptop
    └── cloud  : the same FastAPI service on a Hugging Face Docker Space, same weights
 
-ml/  (Colab + Ultralytics + MLflow)  ──► jolscan-e8.pt  ──► api/ (FastAPI, and a Gradio demo)
+ml/            (Colab + Ultralytics + MLflow) ──► jolscan-e8.pt ──┐
+ml/restroom/   (CLIP, laptop CPU or Colab)    ──► restroom model ─┴──► api/ (FastAPI, and a Gradio demo)
 ```
 
 Provider default, the same everywhere: the demo default is `mock` (works offline). With the model service running, the app uses `local`. `cloud` is opt-in. Local and cloud serve the same weights file, the one in the results table. The model that Roboflow trained on 3 November is not used.
@@ -25,9 +29,9 @@ Three folders, three lanes, one JSON contract:
 
 | Folder | What lives there | Owner lane |
 |---|---|---|
-| `web/` | Next.js app: every page, the design system, mock data, the rules engine, the provider switch | Design/Frontend |
-| `api/` | FastAPI `/predict` service, Gradio demo app, Dockerfile | Serving |
-| `ml/`  | Training script, experiment configs, MLflow logging, results tables and plots | Model |
+| `web/` | Next.js app: every page, the design system, mock data, both rule engines, the provider switch | Design/Frontend |
+| `api/` | FastAPI service for both modules, Gradio demo app, Dockerfile | Serving |
+| `ml/`  | Pothole training and export scripts; `ml/restroom/` for the restroom runs; results tables and plots | Models |
 | `data/` | Only a README and small sample photos. Datasets are never committed | Data |
 | `docs/` | Plan, tasks, this file, course grounding, presentation | Everyone |
 
@@ -102,6 +106,80 @@ type ExperimentsFile = {
 Two thresholds, not to be confused: the model service's `conf` (default 0.25) is how low it reports boxes. The rules' counting threshold τ (default 0.40) is a rules setting in the web app.
 
 The model service returns detections only. Rules are applied in one place, `web/lib/rules`, so mock, local and cloud results are scored identically. The rules themselves are specified in [RULES.md](RULES.md).
+
+## 2b. Restroom signs module
+
+The second module works on restroom door signs (icons only; the photos contain no people). Data and task come from the IOAI 2025 "Restroom Icon Matching" task (CC-BY-4.0). The model is CLIP: one image encoder turns every sign into an embedding, and two things are computed from embeddings:
+
+- **Gender prediction**: male or female, from a classifier on the embedding (zero-shot text prompts as the baseline, a scikit-learn logistic-regression probe or a fine-tuned head as the improvement).
+- **Similarity**: cosine similarity of two embeddings, scaled to 0..1 as `(cos + 1) / 2`, the same scaling as the IOAI baseline. High similarity means "same design set".
+
+```ts
+type Gender = "male" | "female";
+type SignPrediction = { gender: Gender; confidence: number };   // confidence of the predicted class, 0..1
+
+type CompareResult = {             // two signs, e.g. the two doors of one restroom
+  provider: "mock" | "local" | "cloud";
+  model: string;                   // e.g. "clip-vitb32-ft6"
+  latencyMs: number;
+  a: SignPrediction;
+  b: SignPrediction;
+  similarity: number;              // 0..1
+};
+
+type MatchResult = {               // one query sign against a gallery of signs
+  provider: "mock" | "local" | "cloud";
+  model: string;
+  latencyMs: number;
+  query: SignPrediction;
+  candidates: Array<{ id: string; similarity: number; prediction: SignPrediction }>;  // sorted, most similar first
+  bestMatchId: string | null;      // most similar candidate of the opposite gender
+};
+```
+
+Model service endpoints, next to `/predict`:
+
+```
+POST /restroom/compare  multipart: a=<image>, b=<image>                      → 200 CompareResult
+POST /restroom/match    multipart: query=<image>, gallery=<image> (repeated)  → 200 MatchResult (candidate ids are "0", "1", … in upload order)
+```
+
+Same validation as `/predict`: JPEG, PNG or WebP, 10 MB per file, at most 60 gallery files.
+
+The web app applies the signage rules (RULES.md, part 2) to a `CompareResult` and returns:
+
+```ts
+type SignageVerdict = "clear" | "review" | "confusing";
+type SignageAnalysis = CompareResult & {
+  id: string;
+  createdAt: string;
+  verdict: SignageVerdict;
+  ruleHits: Array<{ ruleId: string; title: string; detail: string; passed: boolean }>;
+  recommendedAction: string;
+};
+```
+
+Results file for the restroom experiment, written by `ml/restroom/export_results.py` and read by the model page (`web/data/restroom-experiments.json`):
+
+```ts
+type RestroomExperimentsFile = {
+  isMock: boolean;                 // true while any number in it is a placeholder
+  champion: string | null;         // run id chosen on validation, e.g. "R4"
+  reference: { ioaiBaseline: 0.77; ioaiBest: 0.90; note: string };  // published by the IOAI committee, test set (Leaderboard B). Not our runs
+  runs: Array<{
+    run: string;                   // "R0" .. "R8"
+    changed: string;               // what this run changed against the baseline
+    isReal: boolean;               // false for placeholder rows
+    matchTop1Val: number | null;   // share of the 10 validation queries matched correctly
+    matchTop1Test: number | null;  // share of the 30 test queries matched correctly
+    genderAccCv: number | null;    // gender accuracy, 5-fold cross-validation on the training set, grouped by restroom
+    latencyMs: number | null;      // per image, batch size 1
+    device: string | null;         // e.g. "Apple M3 CPU", "Colab T4"
+  }>;
+};
+```
+
+Web route: `POST /api/restroom` with `mode=compare` (fields `a`, `b` or `sampleA`, `sampleB`) or `mode=match` (field `query` or `sampleQuery`; the gallery is the bundled sample set), plus `provider`.
 
 ## 3. Decisions and why
 

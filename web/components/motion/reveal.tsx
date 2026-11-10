@@ -1,60 +1,37 @@
-"use client";
-
-import { motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
-import { duration, ease, stagger as staggerStep } from "@/lib/motion";
+import { cn } from "@/lib/cn";
 
 /**
  * Staggered entry: wrap a section in <Stagger>, its children in <StaggerItem>.
- * With prefers-reduced-motion the content simply appears.
+ *
+ * CSS only (globals.css: .stagger). Items start from visible content (slightly
+ * faded and lower) and settle, so the first paint, screenshots, slow devices
+ * and pages without JS never show an empty section. The delay steps come from
+ * :nth-child, so items need no index. Off under prefers-reduced-motion.
+ * Server components: no client JS.
  */
 export function Stagger({
   children,
   className,
-  as = "div",
-  inView = false,
+  as: Comp = "div",
 }: {
   children: ReactNode;
   className?: string;
   as?: "div" | "section" | "ul" | "ol";
-  /** Animate when scrolled into view instead of on mount. */
+  /** Kept for API compatibility; entry is CSS-driven and plays on first paint. */
   inView?: boolean;
 }) {
-  const reduce = useReducedMotion();
-  const Comp = motion[as];
-  const variants = { hidden: {}, show: { transition: { staggerChildren: reduce ? 0 : staggerStep } } };
-  return (
-    <Comp
-      className={className}
-      variants={variants}
-      initial="hidden"
-      {...(inView ? { whileInView: "show", viewport: { once: true, margin: "0px 0px -10% 0px" } } : { animate: "show" })}
-    >
-      {children}
-    </Comp>
-  );
+  return <Comp className={cn("stagger", className)}>{children}</Comp>;
 }
 
 export function StaggerItem({
   children,
   className,
-  as = "div",
+  as: Comp = "div",
 }: {
   children: ReactNode;
   className?: string;
   as?: "div" | "li" | "section" | "article";
 }) {
-  const reduce = useReducedMotion();
-  const Comp = motion[as];
-  return (
-    <Comp
-      className={className}
-      variants={{
-        hidden: reduce ? { opacity: 1 } : { opacity: 0, y: 14 },
-        show: { opacity: 1, y: 0, transition: { duration: duration.slow, ease: ease.emphasized } },
-      }}
-    >
-      {children}
-    </Comp>
-  );
+  return <Comp className={className}>{children}</Comp>;
 }

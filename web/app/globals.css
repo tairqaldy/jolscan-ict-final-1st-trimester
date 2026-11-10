@@ -103,6 +103,45 @@
   color: var(--accent-ink) !important;
 }
 
+/*
+ * Entry motion, CSS only. Content is on screen from the first paint, with or
+ * without JS: staggered items start slightly faded and lower, then settle.
+ * Page fades run only on client-side navigation (see page-transition.tsx).
+ * `backwards` fill leaves no transform behind once an animation ends.
+ */
+@keyframes rise {
+  from {
+    opacity: 0.4;
+    transform: translateY(10px);
+  }
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes page-in-lift {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+.stagger > * {
+  animation: rise var(--duration-slow) var(--ease-emphasized, cubic-bezier(0.3, 0, 0, 1)) backwards;
+}
+.stagger > :nth-child(2) { animation-delay: 60ms; }
+.stagger > :nth-child(3) { animation-delay: 120ms; }
+.stagger > :nth-child(4) { animation-delay: 180ms; }
+.stagger > :nth-child(5) { animation-delay: 240ms; }
+.stagger > :nth-child(6) { animation-delay: 300ms; }
+.stagger > :nth-child(n + 7) { animation-delay: 360ms; }
+.page-enter {
+  animation: page-in var(--duration-base) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1)) backwards;
+}
+.page-enter--lift {
+  animation-name: page-in-lift;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -111,6 +150,10 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  .stagger > *,
+  .page-enter {
+    animation: none !important;
   }
 }
 

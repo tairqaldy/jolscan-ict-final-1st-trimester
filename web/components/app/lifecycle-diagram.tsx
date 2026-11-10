@@ -1,8 +1,8 @@
 import { Activity, ArrowRight, Database, FlaskConical, Rocket, Undo2 } from "lucide-react";
 
 const STEPS = [
-  { icon: Database, title: "Collect and validate data", where: "data/ · Roboflow dataset version" },
-  { icon: FlaskConical, title: "Train and evaluate", where: "ml/ · Colab, Ultralytics, MLflow" },
+  { icon: Database, title: "Collect and validate data", where: "data/ · pothole dataset version, IOAI restroom set" },
+  { icon: FlaskConical, title: "Train and evaluate", where: "ml/ · Colab, Ultralytics YOLO, CLIP, MLflow" },
   { icon: Rocket, title: "Deploy", where: "api/ · FastAPI, Docker, HF Spaces" },
   { icon: Activity, title: "Monitor", where: "web/ · analytics page" },
 ];
@@ -40,7 +40,10 @@ export function LifecycleDiagram() {
         <Undo2 className="size-4.5 shrink-0 text-accent-ink" aria-hidden />
         <p>
           <span className="font-semibold">Back to data:</span>{" "}
-          <span className="text-muted">low-confidence photos from the review queue are labelled and added to the next dataset version.</span>
+          <span className="text-muted">
+            low-confidence road photos and confusing sign pairs from the review queues are labelled and added to the next dataset
+            version.
+          </span>
         </p>
       </div>
     </div>

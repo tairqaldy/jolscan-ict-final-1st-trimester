@@ -21,6 +21,19 @@ Checked on 10 November 2026.
 - Coverage: 101 regions. Largest are United States 3,854, United Kingdom 3,482, Australia 3,377, Japan 3,235, Canada 3,167. No rows are tagged Kazakhstan.
 - How we use it: not for training, because model-generated labels without boxes are not ground truth for a detector. It is useful as (1) realistic latitude and longitude data for the map and analytics pages, with attribution, and (2) a pool of unseen street-level photos to show qualitative results from our model.
 
+## Chosen: restroom sign matching (second module, added 10 November)
+
+### IOAI 2025 "Restroom Icon Matching"
+
+- Source: https://github.com/IOAI-official/IOAI-2025/tree/main/Individual-Contest/Restroom. Suggested by Nazar.
+- Licence: CC-BY-4.0 (repository licence). Attribution: "IOAI 2025 Individual Contest, Restroom Icon Matching".
+- Training set: 82 restrooms, each with four PNG images: cropped and original icon, male and female. The same number means the same restroom.
+- Validation set: 10 cropped queries, 20 original icons in the gallery. Test set: 30 queries, 60 gallery icons. Answers for both are in `Solution/Scoring/answer_a.npy` and `answer_b.npy`, with the scoring script `metrics.py`.
+- Task: for each query, find the original icon of the opposite gender from the same restroom. Score: correct matches / queries.
+- Published reference points (test set, Leaderboard B): baseline 0.77 (zero-shot CLIP ViT-B/16), best 0.90.
+- Content: door and wall sign icons. No people appear in the images. Many come from stock photos and some carry stock-site watermarks.
+- Why this works as a second module: labels, splits and scoring are ready and public, it is a clean classification-plus-similarity problem that fits CLO 5, and zero-shot runs need no GPU. It was first parked because a fixed olympiad task "does not lead to a product". The signage rules (RULES.md part 2) give it a product use: checking whether a building's restroom signs are clear.
+
 ## Considered and parked
 
 ### PIO: broiler chicken detection ("the birds idea")
@@ -28,8 +41,3 @@ Checked on 10 November 2026.
 - Boniche et al., "PIO, A Large-Scale Dataset for Broiler Chicken Detection under Real Poultry Farming Conditions", Scientific Data, DOI 10.1038/s41597-026-07114-5.
 - 1,487 manually annotated images with 327,289 chicken instances from commercial and prototype poultry houses. The authors benchmarked three YOLOv10 variants.
 - Parked because counting dense, overlapping birds is a harder task, and the pothole model was already training. The same pipeline (YOLO, rules, dashboard) would apply, so it is a possible second module after the defense.
-
-### IOAI 2025 "Restroom" task
-
-- https://github.com/IOAI-official/IOAI-2025/blob/main/Individual-Contest/Restroom/Restroom.ipynb
-- Suggested by Nazar as a ready-made task with metrics. Parked because an olympiad task has a fixed scoring setup and does not lead to a product interface.

@@ -1,0 +1,82 @@
+{
+  "_comment": "Schema: RestroomExperimentsFile in docs/ARCHITECTURE.md section 2b. Written by ml/restroom/export_results.py from ml/results/restroom/runs/*.json. Rows with isReal false are placeholders with null metrics ('not run yet'). `reference` holds the numbers published by the IOAI committee on their test set (Leaderboard B); they are not our runs.",
+  "isMock": true,
+  "champion": "R3",
+  "reference": {
+    "ioaiBaseline": 0.77,
+    "ioaiBest": 0.9,
+    "note": "Published by the IOAI 2025 committee for the Restroom Icon Matching task, top-1 matching accuracy on their test set (Leaderboard B). Not our runs."
+  },
+  "runs": [
+    {
+      "run": "R0",
+      "changed": "baseline: zero-shot CLIP ViT-B/16, second most similar gallery image (IOAI baseline)",
+      "isReal": true,
+      "matchTop1Val": 0.8,
+      "matchTop1Test": 0.7667,
+      "genderAccCv": 0.7744,
+      "latencyMs": 55.1,
+      "device": "Apple M5 CPU"
+    },
+    {
+      "run": "R1",
+      "changed": "backbone: ViT-B/32 instead of ViT-B/16, still zero-shot",
+      "isReal": true,
+      "matchTop1Val": 0.8,
+      "matchTop1Test": 0.7667,
+      "genderAccCv": 0.7409,
+      "latencyMs": 25.7,
+      "device": "Apple M5 CPU"
+    },
+    {
+      "run": "R2",
+      "changed": "fine-tune last 1 block of ViT-B/32, two models, two-step matching (IOAI reference recipe)",
+      "isReal": true,
+      "matchTop1Val": 1.0,
+      "matchTop1Test": 0.8667,
+      "genderAccCv": 0.6799,
+      "latencyMs": 25.8,
+      "device": "Apple M5 CPU"
+    },
+    {
+      "run": "R3",
+      "changed": "as R2, last 3 blocks fine-tuned",
+      "isReal": true,
+      "matchTop1Val": 1.0,
+      "matchTop1Test": 0.9,
+      "genderAccCv": 0.753,
+      "latencyMs": 26.9,
+      "device": "Apple M5 CPU"
+    },
+    {
+      "run": "R4",
+      "changed": "ViT-B/32, fine-tune the last 6 transformer blocks (IOAI reference recipe)",
+      "isReal": false,
+      "matchTop1Val": null,
+      "matchTop1Test": null,
+      "genderAccCv": null,
+      "latencyMs": null,
+      "device": null
+    },
+    {
+      "run": "R5",
+      "changed": "R4 plus augmentation (flip, crop, colour jitter)",
+      "isReal": false,
+      "matchTop1Val": null,
+      "matchTop1Test": null,
+      "genderAccCv": null,
+      "latencyMs": null,
+      "device": null
+    },
+    {
+      "run": "R6",
+      "changed": "gender probe: logistic regression on frozen ViT-B/32 embeddings; match = most similar candidate of the opposite predicted gender (the API's rule)",
+      "isReal": true,
+      "matchTop1Val": 0.5,
+      "matchTop1Test": 0.3,
+      "genderAccCv": 0.7409,
+      "latencyMs": 26.3,
+      "device": "Apple M5 CPU"
+    }
+  ]
+}

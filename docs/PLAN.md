@@ -1,9 +1,16 @@
-# JolScan: project plan
+# Qarau: project plan
 
 ICT1103 Assignment #2, group machine-learning project. Computer Vision track.
 Team: Tair, Dameli, Nazar, Alizhan, Amina, Roma. Defense: Thursday 12 November 2026 (slot to be booked, task X-3).
 
-**One sentence:** JolScan finds potholes in road photos with a fine-tuned YOLO detector and turns the detections into a repair priority using rules the team defines, shown in a web app with a dashboard.
+**One sentence:** Qarau (қарау, "to inspect") checks public infrastructure from photos with computer vision and turns what the model sees into a decision using rules the team defines, shown in one web app with two modules:
+
+1. **Roads:** a fine-tuned YOLO detector finds potholes, and the rules turn them into a repair priority. Experiment: [ML-EXPERIMENT.md](ML-EXPERIMENT.md).
+2. **Restrooms:** CLIP predicts the gender on restroom door signs and finds matching pairs (the IOAI 2025 "Restroom" task), and the rules say whether the signage is clear. Experiment: [ML-EXPERIMENT-RESTROOM.md](ML-EXPERIMENT-RESTROOM.md).
+
+The name is a working name, set in one place (`web/lib/brand.ts`).
+
+**If time runs short, the restroom module is the safer one:** its data, labels and scoring script are ready, and the zero-shot runs need no GPU. The pothole module depends on the dataset licence check and Colab training finishing on time.
 
 ## 1. What is graded
 
@@ -11,9 +18,9 @@ From the assignment sheet and the syllabus (sources in [COURSE-GROUNDING.md](COU
 
 | Requirement | Source | How we meet it | Where |
 |---|---|---|---|
-| Research-driven project in Computer Vision | A2 p1 | Pothole detection | whole repo |
-| Option A: open-source dataset, modify the model, compare | A2 p1 | Controlled runs against a fixed baseline, one change each, with a selection rule fixed in advance | [ML-EXPERIMENT.md](ML-EXPERIMENT.md) |
-| Classification and clustering applied correctly, with a justified quality metric (CLO 5) | Syl p.3 | Detection framed as per-box classification, mAP50 as the primary metric with the reason written down, k-means on box sizes for the rule thresholds | ML-EXPERIMENT.md, task D-11 |
+| Research-driven project in Computer Vision | A2 p1 | Pothole detection and restroom sign matching | whole repo |
+| Option A: open-source dataset, modify the model, compare | A2 p1 | Both modules: controlled runs against a fixed baseline, one change each, chosen on validation. The restroom runs change the number of trained transformer layers, the assignment's own example | [ML-EXPERIMENT.md](ML-EXPERIMENT.md), [ML-EXPERIMENT-RESTROOM.md](ML-EXPERIMENT-RESTROOM.md) |
+| Classification and clustering applied correctly, with a justified quality metric (CLO 5) | Syl p.3 | Restroom gender classification with scikit-learn logistic regression and grouped cross-validation. Detection framed as per-box classification with mAP50. k-means on pothole box sizes for the rule thresholds | both experiment files, task D-11 |
 | Working prototype, complete documentation, quality of defense (CLO 6) | Syl p.3 | Web app, API, this `docs/` folder, rehearsed talk | `web/`, `api/`, `docs/` |
 | Evaluate generative AI tools, their limits and risks, with a verification procedure (CLO 7) | Syl p.3 | A written audit of two vision-language models on the same photos and prompt, scored against labels, plus the AI usage log with how each output was checked | task R-6, [AI-USAGE-LOG.md](AI-USAGE-LOG.md) |
 | Prompt log is mandatory at AI level 3 | Syl p.9 | AI-USAGE-LOG.md with the saved transcripts of every member | AI-USAGE-LOG.md, task X-13 |
@@ -32,12 +39,13 @@ From the assignment sheet and the syllabus (sources in [COURSE-GROUNDING.md](COU
 
 1. Dataset documented and split without duplicate leakage: source, licence, size, duplicate groups, split (D-1, D-2, D-4, D-3).
 2. Runs E0–E5, E7 and the final E8 trained, each with a committed result file, and a results table on the test split (M-0 to M-13, M-19).
-3. Clustering of box sizes for the rule thresholds (D-11).
-4. A model service that returns real detections for an uploaded photo: FastAPI `/predict` and the Gradio app (S-1, S-2, S-4, S-5), installed on the presenting laptop (S-14).
-5. Web app working end to end on demo data, and on the real model for the analyze flow (W-6, W-20, W-21).
-6. The audit of two generative models (R-6).
-7. Deck, 8-minute script, demo video, and every member able to explain their part (R lane, study cards).
-8. Prompt logs and contribution log filled in by everyone (X-13, X-7), and the LMS question settled (X-11).
+3. Restroom runs R0, R1 and R6 (no GPU needed) and at least one fine-tuning run, with result files and the table on the model page (C-1 to C-6).
+4. Clustering of box sizes for the rule thresholds (D-11).
+5. A model service that returns real results for an uploaded image in both modules: `/predict`, `/restroom/compare`, `/restroom/match`, and the Gradio app (S-1, S-2, S-4, S-5, C-8), installed on the presenting laptop (S-14).
+6. Web app working end to end on demo data, and on the real models for both analyze flows (W-6, W-23, W-20, W-21).
+7. The audit of two generative models (R-6).
+8. Deck, 8-minute script, demo video, and every member able to explain their part (R lane, study cards).
+9. Prompt logs and contribution log filled in by everyone (X-13, X-7), and the LMS question settled (X-11).
 
 **Should have**
 
@@ -59,15 +67,16 @@ From the assignment sheet and the syllabus (sources in [COURSE-GROUNDING.md](COU
 
 ## 3. Lanes and owners
 
-Proposed from what each person asked for in the group chat. Tair confirms or swaps at kickoff. Each lane has one owner who answers the individual question for it.
+Proposed from what each person asked for in the group chat: Nazar suggested the IOAI restroom task and wants to work with model layers, Amina found the pothole dataset, Alizhan asked for optimisation and UX, Roma for design. Tair confirms or swaps at kickoff. Each lane has one owner who answers the individual question for it.
 
 | Lane | Owner | Supports | Owns | Defense topic to master |
 |---|---|---|---|---|
 | W: web app and UX | Tair | Dameli | `web/` structure, flows, integration, deployment | Architecture, client–server, HCI decisions |
 | G: design system and visuals | Dameli | Tair | Tokens, landing, dashboard visuals, motion, charts | Nielsen heuristics, WCAG, chart choices |
-| M: model | Nazar | Amina | `ml/`, all training runs, results table | YOLO, transfer learning, experiment design, metrics |
-| D: data and rules | Amina | Roma | Dataset card, split, leakage check, rules calibration, sample photos | Data quality, split, leakage, privacy rule, rules engine |
-| S: serving and performance | Alizhan | Tair | `api/`, Gradio, Docker, latency, cloud deployment | REST, FastAPI, deployment patterns, MLOps loop, local vs cloud |
+| C: restroom model | Nazar | Tair | `ml/restroom/`, runs R0–R6, restroom results table, signage rule thresholds | CLIP, ViT, zero-shot against fine-tuning, the number of trained layers, matching accuracy, grouped cross-validation |
+| M: pothole model | Amina | Alizhan (Colab runs) | `ml/train.py`, runs E0–E8, pothole results table | YOLO, transfer learning, experiment design, mAP and recall |
+| D: pothole data and rules | Amina | Roma | Dataset card, split, leakage check, k-means, pothole rules calibration, sample photos | Data quality, split, leakage, privacy rule, rules engine |
+| S: serving and performance | Alizhan | Tair | `api/` for both modules, Gradio, Docker, latency, cloud deployment | REST, FastAPI, deployment patterns, MLOps loop, local vs cloud |
 | R: research, deck, video, QA | Roma | everyone | Slides, script, demo video, test pass, AI evaluation | Generative-AI limits (CLO 7), limitations, ethics |
 | X: coordination | Tair | — | Repo, slot booking, logs, checkpoints | — |
 
@@ -89,7 +98,8 @@ Proposed from what each person asked for in the group chat. Tair confirms or swa
 
 | Risk | Likelihood | What we do |
 |---|---|---|
-| E0 is not finished on Tuesday night (the training script has never been run, the dataset may need regrouping) | High | This is the critical path. Smoke run before anything else. Nazar and Amina work on nothing else until E0 is committed |
+| E0 is not finished on Tuesday night (the training script has never been run, the dataset may need regrouping) | High | This is the critical path. Smoke run before anything else. Amina and Alizhan work on nothing else until E0 is committed. If it slips, the restroom module carries the results slide |
+| Two modules dilute an 8-minute talk | Medium | One demo flow per module, one results slide each. The restroom module goes second and shorter |
 | Tair is the single point of failure: web lead, coordinator, Roboflow owner | High | Web polish is P1. Amina gets Roboflow access today. Dameli owns visuals. Alizhan owns integration with the API |
 | Free Colab GPU runs out mid-experiment | High | Spread runs over three Colab accounts and Kaggle notebooks, same commit, zip and seed. Commit the run file and save `best.pt` to Drive after every run |
 | YOLO26 weights or config fail in Colab | Medium | Switch all runs to YOLO11 n/s and say so. The comparison stays internally consistent |
@@ -103,6 +113,7 @@ Proposed from what each person asked for in the group chat. Tair confirms or swa
 ## 6. Definition of done for the defense
 
 - `ml/results/experiments.csv` has at least E0–E5 and E8 with test metrics, and the same table is in the deck and on the model page.
+- `ml/results/restroom/experiments.csv` has R0, R1, R6 and at least one fine-tuning run, and the same table is on the model page.
 - `docs/research/vlm-evaluation.md` exists with the protocol and the table.
 - On the presenting laptop: start the API, open the web app, upload a photo that is not in the training set, see boxes, severity and rule hits in under 10 seconds.
 - The same flow works with Wi-Fi off using the mock provider.
@@ -116,4 +127,5 @@ Proposed from what each person asked for in the group chat. Tair confirms or swa
    Also: does Assignment #2 need an LMS upload? The syllabus and the assignment sheet disagree.
 3. Who presents which slide? A proposal is in PRESENTATION.md.
 4. Roma's GitHub username, to add to the repo.
-5. Product name: JolScan is a working name. Changing it later means a search and replace.
+5. Product name: Qarau is a working name, set in `web/lib/brand.ts`.
+6. Lanes changed with the second module: Nazar moves to the restroom model, Amina takes the pothole model with Alizhan running Colab jobs. Confirm at kickoff.

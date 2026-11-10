@@ -29,7 +29,7 @@ Written the way Lab 3 asks: user, task, measurable criterion.
 
 ## Heuristics to apply (Lec3-HCI)
 
-| Heuristic | Where it shows in JolScan |
+| Heuristic | Where it shows in Qarau |
 |---|---|
 | Visibility of system status | Upload progress, provider badge in the shell, health check in Settings |
 | Match with the real world | Severity words a dispatcher uses, target times in hours and days, not scores alone |

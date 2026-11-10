@@ -1,0 +1,9 @@
+# Restroom-sign experiment. Versions are the ones the local runs used (Python 3.12, 10 Nov 2026).
+# In Colab, keep Colab's own CUDA build of torch and torchvision (see README.md), install the rest.
+torch==2.15.0
+torchvision==0.29.2
+open_clip_torch==4.2.1
+scikit-learn==1.9.1
+numpy==2.5.4
+pillow==13.0.0
+tqdm==4.70.1

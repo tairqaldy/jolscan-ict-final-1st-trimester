@@ -1,10 +1,19 @@
-# JolScan
+# Qarau
 
-Pothole detection with a repair priority. Upload a road photo, a fine-tuned YOLO detector finds the potholes, and a set of readable rules turns the detections into a severity and a target repair time.
+Computer vision inspection of public infrastructure from photos, with rules you can read. Qarau (қарау) is Kazakh for "to inspect".
 
-Group project for ICT1103 (Information and Communication Technologies) at QAIRU, Assignment #2, Computer Vision track. "Jol" (жол) is Kazakh for road.
+Two modules, one app:
 
-**Status, 10 November 2026:** plan, architecture and course grounding are written. The web prototype runs on demo data. The model experiment, the model service and the real results are not done yet. See [docs/TASKS.md](docs/TASKS.md).
+| Module | Model | What the rules decide |
+|---|---|---|
+| **Roads: potholes** | Fine-tuned YOLO detector finds potholes in a road photo | Repair priority and target repair time |
+| **Restrooms: door signs** | CLIP predicts the gender on each sign and how alike two signs are (IOAI 2025 "Restroom" task) | Whether the signage is clear, needs review, or is confusing |
+
+Group project for ICT1103 (Information and Communication Technologies) at QAIRU, Assignment #2, Computer Vision track.
+
+**Live demo (demo data):** link added after the first Vercel deploy.
+
+**Status, 10 November 2026:** plan, architecture and course grounding are written. The web prototype runs both modules on demo data. Model training and the real results are in progress; see [docs/TASKS.md](docs/TASKS.md).
 
 ## Start here
 
@@ -16,9 +25,10 @@ Group project for ICT1103 (Information and Communication Technologies) at QAIRU,
 |---|---|
 | [docs/PLAN.md](docs/PLAN.md) | Scope, lanes, timeline, risks, definition of done |
 | [docs/TASKS.md](docs/TASKS.md) | Every task, with owner and done-check |
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | How the parts connect, the JSON contract, why each choice was made |
-| [docs/ML-EXPERIMENT.md](docs/ML-EXPERIMENT.md) | The experiment: dataset, runs, metrics |
-| [docs/RULES.md](docs/RULES.md) | How detections become a priority |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | How the parts connect, the JSON contracts, why each choice was made |
+| [docs/ML-EXPERIMENT.md](docs/ML-EXPERIMENT.md) | Pothole experiment: dataset, runs, metrics |
+| [docs/ML-EXPERIMENT-RESTROOM.md](docs/ML-EXPERIMENT-RESTROOM.md) | Restroom experiment: IOAI data, runs, metrics |
+| [docs/RULES.md](docs/RULES.md) | How model output becomes a decision, for both modules |
 | [docs/DESIGN-BRIEF.md](docs/DESIGN-BRIEF.md) | Pages, usability requirements, design checks |
 | [docs/PRESENTATION.md](docs/PRESENTATION.md) | Slides, demo script, study cards |
 | [docs/COURSE-GROUNDING.md](docs/COURSE-GROUNDING.md) | Which lecture backs which decision |
@@ -41,7 +51,7 @@ Open http://localhost:3000. It works without any model: the default provider is 
 
 ## Run the model service
 
-Needs Python 3.11 and a weights file. See [api/README.md](api/README.md).
+Needs Python 3.11 or newer. See [api/README.md](api/README.md).
 
 ```bash
 cd api && pip install -r requirements-dev.txt && uvicorn main:app --port 8000
@@ -51,16 +61,18 @@ Then choose the `local` provider in the web app's Settings.
 
 ## Train
 
-See [ml/README.md](ml/README.md). Training runs in Google Colab.
+- Potholes: [ml/README.md](ml/README.md), in Google Colab.
+- Restrooms: [ml/restroom/README.md](ml/restroom/README.md). The zero-shot runs work on a laptop CPU; fine-tuning needs a GPU.
 
 ## Layout
 
 ```
-web/    Next.js app: landing, dashboard, analyze, rules, analytics, design system
-api/    FastAPI /predict service and the Gradio demo
-ml/     training script, experiment runs, results
-data/   dataset card and notes (no datasets in git)
-docs/   plan, tasks, architecture, course grounding, presentation
+web/           Next.js app: landing, both modules, analytics, model page, design system
+api/           FastAPI service for both modules, and the Gradio demo
+ml/            pothole training and export scripts, results
+ml/restroom/   restroom data download, runs, export
+data/          dataset cards and notes (no datasets in git)
+docs/          plan, tasks, architecture, course grounding, presentation
 ```
 
 ## Team
@@ -69,13 +81,18 @@ docs/   plan, tasks, architecture, course grounding, presentation
 |---|---|---|
 | Tair | Web app, UX, coordination | @tairqaldy |
 | Dameli | Design system and visuals | @dameo111 |
-| Nazar | Model and experiments | @Akanov-Kanta |
-| Amina | Data and rules | @omodotori |
+| Nazar | Restroom model | @Akanov-Kanta |
+| Amina | Pothole data, model and rules | @omodotori |
 | Alizhan | Serving and performance | @byahsaa |
 | Roma | Research, deck, video, QA | to be added |
+
+## Data credits
+
+- Restroom signs: IOAI 2025 Individual Contest, "Restroom Icon Matching", https://github.com/IOAI-official/IOAI-2025, CC-BY-4.0.
+- Potholes: dataset card in [data/README.md](data/README.md) (licence check in progress, task D-1).
 
 ## Rules for this repository
 
 - No datasets, no model weights, no API keys in git.
-- No photos with faces or licence plates anywhere in the repo or in cloud services (syllabus data-security rule).
-- Numbers on slides come from `ml/results/experiments.csv`, never from demo data.
+- No photos with faces or licence plates anywhere in the repo or in cloud services (syllabus data-security rule). Never photograph inside a restroom.
+- Numbers on slides come from `ml/results/experiments.csv` and `ml/results/restroom/experiments.csv`, never from demo data.

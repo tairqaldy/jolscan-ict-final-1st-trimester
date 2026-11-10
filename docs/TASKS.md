@@ -12,7 +12,9 @@ Everything else can slip. This chain cannot:
 
 Roboflow access (X-12) → dataset card (D-1) → quality look (D-2) → duplicate groups (D-4) → frozen version zip in Drive (D-3) → smoke run (M-1) → **E0 by Tuesday 23:00** (M-3) → E1–E5 and E7 in parallel (M-4..M-10) → E8 (M-11) → results export and plots (M-12, M-13) → real numbers in the deck by Wednesday 16:00.
 
-If E0 is not finished on Tuesday night, there is no honest results table on Thursday.
+If E0 is not finished on Tuesday night, there is no honest pothole results table on Thursday.
+
+The restroom module has its own, shorter chain and needs no GPU for its first runs: data download (C-1) → zero-shot runs R0, R1, R6 on a laptop (C-2) → export to the web app (C-5) → fine-tuning runs in Colab (C-3, C-4) → final export.
 
 ## If we fall behind, cut in this order
 
@@ -22,7 +24,9 @@ If E0 is not finished on Tuesday night, there is no honest results table on Thur
 4. Error analysis down to three images (M-14). Rules calibration (D-6): state the thresholds as uncalibrated.
 5. E7, only if the run fails twice.
 
-Never cut: E0–E5 with their result files, the selection rule (M-0), the operating-point metrics (M-19), the two-model AI audit (R-6), duplicate grouping (D-4), the clustering task (D-11), the study cards, the LMS check (X-11), the prompt logs (X-13), the demo video.
+Restroom module, cut in this order: R5 augmentation (C-4), then R2/R3 (keep R4, the reference recipe), then the Gradio restroom tab.
+
+Never cut: E0–E5 with their result files, restroom R0, R1, R6 and one fine-tuning run, the selection rule (M-0), the operating-point metrics (M-19), the two-model AI audit (R-6), duplicate grouping (D-4), the clustering task (D-11), the study cards, the LMS check (X-11), the prompt logs (X-13), the demo video.
 
 ## X: coordination (Tair)
 
@@ -40,7 +44,8 @@ Never cut: E0–E5 with their result files, the selection rule (M-0), the operat
 | [ ] | X-8 | P0 | Run checkpoints C1, C2, C3 in the chat: each lane posts done, blocked, next | — | Three checkpoint messages | 3×10 m |
 | [ ] | X-14 | P1 | Check that `web/data/experiments.json` (web side) and `ml/export_results.py` (model side) use the same field names. The schema is in ARCHITECTURE.md section 2 | W-1 | Model page renders a file made by the export script | 15 m |
 | [ ] | X-9 | P1 | Tag `defense` on `main` at code freeze | all | Tag pushed | 5 m |
-| [ ] | X-10 | P1 | Confirm the name JolScan or pick another, then freeze it | — | Decision in the chat | 10 m |
+| [ ] | X-10 | P1 | Confirm the name Qarau or pick another (one constant in `web/lib/brand.ts`), then freeze it | — | Decision in the chat | 10 m |
+| [ ] | X-15 | P0 | Confirm the new lanes at kickoff: Nazar on the restroom model, Amina on the pothole model with Alizhan's Colab help | — | Lanes confirmed in the chat | 10 m |
 
 ## D: data and rules (Amina, with Roma)
 
@@ -60,7 +65,7 @@ Never cut: E0–E5 with their result files, the selection rule (M-0), the operat
 | [ ] | D-9 | P2 | External test set: 30–50 Astana pothole photos, screened per D-12 before any upload, annotated as a separate project | D-12 | Dataset version shared with the model lane | 3 h |
 | [ ] | D-10 | P2 | Real coordinates for the map: sample 200 rows from the EDK CSV with attribution | W-1 | Map shows them, attribution on the About page | 45 m |
 
-## M: model (Nazar, with Amina and Alizhan lending Colab accounts)
+## M: pothole model (Amina, with Alizhan running Colab jobs)
 
 | Done | ID | P | Task | Needs | Done when | Est |
 |---|---|---|---|---|---|---|
@@ -84,6 +89,23 @@ Never cut: E0–E5 with their result files, the selection rule (M-0), the operat
 | [ ] | M-9 | P2 | Run E6 resolution 960 | M-3 | Same as other runs | 80 m |
 | [ ] | M-16 | P2 | Repeat E0 and E8 with seeds 0 and 1, report mean and spread | M-11 | Table in ML-EXPERIMENT.md | 2.5 h |
 | [ ] | M-17 | P2 | Evaluate the final model on the external test set | D-9, M-11 | Separate table | 30 m |
+
+## C: restroom model (Nazar, with Tair)
+
+Experiment design: [ML-EXPERIMENT-RESTROOM.md](ML-EXPERIMENT-RESTROOM.md). Code: `ml/restroom/`.
+
+| Done | ID | P | Task | Needs | Done when | Est |
+|---|---|---|---|---|---|---|
+| [x] | C-1 | P0 | Download the IOAI Restroom data with `ml/restroom/get_data.py` and check the counts (82×4 train, 10/20 validation, 30/60 test, answers) | — | Script prints the expected counts | 15 m |
+| [x] | C-2 | P0 | Run R0, R1 and R6 on a laptop CPU. Check that R0 lands near the IOAI baseline of 0.77 on test; if not, find out why before trusting other runs | C-1 | Three run files in `ml/results/restroom/runs/` | 1 h |
+| [ ] | C-3 | P0 | R2 and R3 already ran on a laptop CPU. In Colab with a GPU: run R4 (fine-tune the last 6 blocks, the IOAI reference recipe) | C-2 | Run files committed, weights in Drive | 2 h |
+| [ ] | C-4 | P1 | Run R5 (R4 plus augmentation) | C-3 | Run file committed | 45 m |
+| [ ] | C-5 | P0 | Run `ml/restroom/export_results.py` after each batch of runs and commit `web/data/restroom-experiments.json` | C-2 | Model page shows the real rows without a demo badge | 15 m |
+| [ ] | C-6 | P0 | Plots for the deck: matching accuracy per run with the IOAI 0.77 and 0.90 lines, gender accuracy for prompts against the logistic-regression probe, three failure cases (query, wrong match, right match) | C-5 | PNG files in `ml/results/restroom/` | 45 m |
+| [ ] | C-7 | P0 | Check the signage thresholds and redesign S2 as a comparison between the two signs (see ML-EXPERIMENT-RESTROOM.md, "Known problem"): plot gender confidence and pair similarity on the validation set, see where S1 0.80 and S3 0.75 fall, adjust RULES.md part 2 and `web/lib/signage` if needed | C-2 | Thresholds cite the plot | 45 m |
+| [ ] | C-8 | P0 | With Alizhan: run the API's `/restroom/compare` and `/restroom/match` locally on the chosen model, connect the web app's local provider | C-3, S-1 | Compare and Match in the web app show real predictions | 45 m |
+| [ ] | C-9 | P0 | Study card: what CLIP and a ViT are, zero-shot against fine-tuning, why training more layers can overfit on 82 restrooms, top-1 accuracy, grouped cross-validation and why it prevents leakage | — | Passed three practice questions | 45 m |
+| [ ] | C-10 | P2 | Add a restroom tab to the Gradio demo | C-3, S-5 | Tab works locally | 30 m |
 
 ## S: serving and performance (Alizhan, with Tair)
 
@@ -117,6 +139,8 @@ The scaffold already gives working pages on demo data. P0 here means "works at t
 | [ ] | W-20 | P0 | Offline check: Wi-Fi off, mock provider, whole demo path | W-6 | Works on the presenting laptop | 15 m |
 | [ ] | W-21 | P0 | Remove every placeholder: team roles, dataset card, results, copy | M-12, D-1 | Search for "placeholder", "lorem", "TODO" finds nothing in `web/` | 30 m |
 | [ ] | W-22 | P0 | Study card (Tair): architecture diagram from memory, why three providers, why rules sit after the model, how the team divided the work | — | Passed three practice questions | 30 m |
+| [x] | W-23 | P0 | Second module in the web app: restroom compare, match, rules, overview; platform overview; landing and copy rewritten for two modules | — | Build and tests pass, both modules work on demo data | see commit |
+| [ ] | W-24 | P0 | Deploy to Vercel from GitHub (root directory `web`), mock provider by default, link in README | W-23 | Public URL opens both modules | 20 m |
 | [ ] | W-3 | P1 | Collect design references, write the direction in DESIGN-BRIEF.md | — | Brief section filled in | 1 h |
 | [ ] | W-4 | P1 | Apply the references to tokens: colours, type, radii, shadows, motion | W-3 | `/design` page reflects the new look in both themes | 1.5 h |
 | [ ] | W-5 | P1 | Landing page polish: hero with animated detection demo, how it works, features, results teaser, team | W-4 | Passes the page checklist in DESIGN-BRIEF.md | 3 h |

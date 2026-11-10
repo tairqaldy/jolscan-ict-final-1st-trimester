@@ -29,12 +29,12 @@ export function AnalysesTable({ analyses, caption }: { analyses: AnalysisWithSou
           <TR
             key={a.id}
             className="cursor-pointer hover:bg-surface-2"
-            onClick={() => router.push(`/app/reports/${a.id}`)}
+            onClick={() => router.push(`/app/roads/reports/${a.id}`)}
           >
             <TD className="tabular whitespace-nowrap text-muted">{formatDateTime(a.createdAt)}</TD>
             <TD className="min-w-44">
               <Link
-                href={`/app/reports/${a.id}`}
+                href={`/app/roads/reports/${a.id}`}
                 className="font-medium hover:underline"
                 onClick={(e) => e.stopPropagation()}
               >

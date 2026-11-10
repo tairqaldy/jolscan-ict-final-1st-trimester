@@ -1,12 +1,24 @@
 "use client";
 
 import * as RadixSlider from "@radix-ui/react-slider";
-import { useId } from "react";
+import { useId, useState } from "react";
 import { cn } from "@/lib/cn";
 
+/** Always "0.4", never "0,4": numbers in inputs are formatted the same in every browser locale. */
+function formatNumber(v: number, step: number) {
+  const decimals = Math.min(4, (String(step).split(".")[1] ?? "").length);
+  return Number(v.toFixed(decimals)).toString();
+}
+
 /**
- * Slider with a label and a number input beside it, so values can be typed
+ * Slider with a label and a number field beside it, so values can be typed
  * exactly (keyboard users and precise thresholds).
+ *
+ * The field is a text input with inputMode="decimal", not type="number":
+ * a number input shows the browser locale's decimal comma (ru, kk), so the
+ * same threshold read "0,4" here and "0.4" everywhere else. This field always
+ * shows a dot, accepts a dot or a comma when typing, and steps with the
+ * arrow keys like a number input.
  */
 export function SliderField({
   label,
@@ -17,7 +29,7 @@ export function SliderField({
   step,
   unit,
   disabled,
-  format = (v) => String(v),
+  format,
   className,
 }: {
   label: string;
@@ -33,6 +45,15 @@ export function SliderField({
 }) {
   const id = useId();
   const clamp = (v: number) => Math.min(max, Math.max(min, v));
+  const shown = formatNumber(value, step);
+  // While the user types, keep their text; otherwise show the value.
+  const [draft, setDraft] = useState<string | null>(null);
+
+  const parse = (text: string) => {
+    const v = Number(text.trim().replace(",", "."));
+    return text.trim() !== "" && Number.isFinite(v) ? v : null;
+  };
+
   return (
     <div className={cn("grid gap-2", disabled && "opacity-60", className)}>
       <div className="flex items-center justify-between gap-3">
@@ -42,20 +63,41 @@ export function SliderField({
         <div className="flex items-center gap-1.5">
           <input
             id={`${id}-n`}
-            type="number"
+            type="text"
             inputMode="decimal"
-            value={value}
-            min={min}
-            max={max}
-            step={step}
+            lang="en"
+            autoComplete="off"
+            spellCheck={false}
+            value={draft ?? shown}
             disabled={disabled}
+            aria-describedby={`${id}-range`}
             onChange={(e) => {
-              const v = e.target.valueAsNumber;
-              if (Number.isFinite(v)) onChange(clamp(v));
+              setDraft(e.target.value);
+              // Apply as soon as the typed value is valid; out-of-range text waits for blur.
+              const v = parse(e.target.value);
+              if (v !== null && v >= min && v <= max) onChange(v);
+            }}
+            onBlur={(e) => {
+              const v = parse(e.target.value);
+              if (v !== null) onChange(clamp(v));
+              setDraft(null);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+                e.preventDefault();
+                setDraft(null);
+                const dir = e.key === "ArrowUp" ? 1 : -1;
+                onChange(clamp(Number((value + dir * step).toFixed(6))));
+              } else if (e.key === "Enter") {
+                setDraft(null);
+              }
             }}
             className="tabular h-8 w-20 rounded-sm border border-border-strong bg-surface px-2 text-right font-mono text-sm"
           />
           {unit && <span className="text-sm text-muted">{unit}</span>}
+          <span id={`${id}-range`} className="sr-only">
+            from {formatNumber(min, step)} to {formatNumber(max, step)}
+          </span>
         </div>
       </div>
       <RadixSlider.Root
@@ -64,7 +106,10 @@ export function SliderField({
         max={max}
         step={step}
         disabled={disabled}
-        onValueChange={([v]) => onChange(v)}
+        onValueChange={([v]) => {
+          setDraft(null);
+          onChange(v);
+        }}
         className="relative flex h-5 touch-none items-center select-none"
       >
         <RadixSlider.Track className="relative h-1.5 grow overflow-hidden rounded-full bg-surface-3">
@@ -72,7 +117,7 @@ export function SliderField({
         </RadixSlider.Track>
         <RadixSlider.Thumb
           aria-label={label}
-          aria-valuetext={format(value)}
+          aria-valuetext={format ? format(value) : shown}
           className="block size-4.5 rounded-full border-2 border-accent bg-surface shadow-sm"
         />
       </RadixSlider.Root>

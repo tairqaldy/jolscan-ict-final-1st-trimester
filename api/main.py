@@ -1,7 +1,10 @@
-"""JolScan model service: POST a photo, get pothole detections.
+"""Qarau model service: POST a road photo for pothole detections; restroom-sign endpoints in restroom.py.
 
-Starter code: checked against the FastAPI and Ultralytics documentation, but not yet run (task S-1).
-The request and response shapes are fixed by docs/ARCHITECTURE.md section 2.
+The request and response shapes are fixed by docs/ARCHITECTURE.md sections 2 and 2b.
+Both models are loaded on the first request that needs them, so the service starts even when
+the YOLO weights file is missing (then /predict answers 503 and /restroom/* still works).
+The /predict path was checked against the FastAPI and Ultralytics documentation but has not yet
+been run with real weights (task S-1). The restroom endpoints were run on 10 November 2026.
 
 Run:
     uvicorn main:app --port 8000
@@ -9,32 +12,64 @@ Run:
 
 from __future__ import annotations
 
-import io
+import logging
 import os
+import threading
 import time
 import uuid
 from pathlib import Path
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.concurrency import run_in_threadpool
-from PIL import Image, ImageOps, UnidentifiedImageError
-from ultralytics import YOLO
+
+import restroom
+from imaging import read_image
 
 WEIGHTS = os.getenv("MODEL_WEIGHTS", "weights/jolscan-e8.pt")
 MODEL_NAME = os.getenv("MODEL_NAME", Path(WEIGHTS).stem)
 PROVIDER = os.getenv("PROVIDER_NAME", "local")  # set to "cloud" on the hosted copy
 # Set ANY_CLASS=1 only to try the service with stock COCO weights before the team has its own.
 ANY_CLASS = os.getenv("ANY_CLASS") == "1"
-MAX_BYTES = 10 * 1024 * 1024
-ALLOWED_FORMATS = {"JPEG", "PNG", "WEBP"}
 
-app = FastAPI(title="JolScan model service")
-model = YOLO(WEIGHTS)
+log = logging.getLogger("qarau")
+app = FastAPI(title="Qarau model service")
+app.include_router(restroom.router)
+
+_yolo = None
+_yolo_lock = threading.Lock()
+
+
+def get_yolo():
+    """Load the YOLO weights once, on the first /predict. HTTP 503 if they cannot be loaded."""
+    global _yolo
+    if _yolo is None:
+        with _yolo_lock:
+            if _yolo is None:
+                try:
+                    from ultralytics import YOLO
+
+                    # A bare stock name such as "yolo26n.pt" is downloaded by Ultralytics itself.
+                    _yolo = YOLO(WEIGHTS)
+                except Exception as exc:  # missing file, missing package, corrupt weights
+                    log.exception("Pothole model failed to load")
+                    raise HTTPException(
+                        status_code=503,
+                        detail=f"The pothole model could not be loaded from {WEIGHTS}: {exc}. Set MODEL_WEIGHTS.",
+                    ) from None
+    return _yolo
 
 
 @app.get("/health")
 def health() -> dict:
-    return {"status": "ok", "model": MODEL_NAME, "device": str(model.device)}
+    return {
+        "status": "ok",
+        "model": MODEL_NAME,
+        "device": str(_yolo.device) if _yolo is not None else "not loaded",
+        "models": {
+            "pothole": {"loaded": _yolo is not None, "weights": WEIGHTS, "weightsFileFound": Path(WEIGHTS).exists()},
+            "restroom": restroom.status(),
+        },
+    }
 
 
 @app.post("/predict")
@@ -42,19 +77,8 @@ async def predict(file: UploadFile = File(...), conf: float = Form(0.25)) -> dic
     if not 0.0 < conf < 1.0:
         raise HTTPException(status_code=400, detail="conf must be between 0 and 1.")
 
-    data = await file.read()
-    if len(data) > MAX_BYTES:
-        raise HTTPException(status_code=400, detail="The image is larger than 10 MB.")
-
-    # The file type is checked from the bytes, not from the header the client sent.
-    try:
-        opened = Image.open(io.BytesIO(data))
-        if opened.format not in ALLOWED_FORMATS:
-            raise HTTPException(status_code=400, detail="Upload a JPEG, PNG or WebP image.")
-        # Phone photos store rotation in EXIF. Apply it so width, height and boxes match what the user sees.
-        image = ImageOps.exif_transpose(opened).convert("RGB")
-    except (UnidentifiedImageError, OSError):
-        raise HTTPException(status_code=400, detail="The file is not a readable image.") from None
+    image = await read_image(file)
+    model = await run_in_threadpool(get_yolo)
 
     start = time.perf_counter()
     # Inference is blocking, so it runs in a worker thread and /health stays responsive.

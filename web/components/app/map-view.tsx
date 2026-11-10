@@ -46,7 +46,7 @@ export default function MapView({ analyses }: { analyses: AnalysisWithSource[] }
                   <SeverityBadge severity={a.severity} /> score {formatScore(a.score)}
                 </span>
                 <span className="text-xs text-muted">{formatDateTime(a.createdAt)}</span>
-                <Link href={`/app/reports/${a.id}`} className="font-medium text-accent-ink underline underline-offset-2">
+                <Link href={`/app/roads/reports/${a.id}`} className="font-medium text-accent-ink underline underline-offset-2">
                   Open report
                 </Link>
               </div>

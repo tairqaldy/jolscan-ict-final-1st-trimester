@@ -10,7 +10,7 @@ export default function AnalyzePage() {
   return (
     <div className="grid gap-8">
       <PageHeader
-        eyebrow="Analyze"
+        eyebrow="Roads · Analyze"
         title="Analyze a road photo"
         description="Upload a photo or pick a sample. The model finds potholes, then the rules turn them into a repair priority."
       />

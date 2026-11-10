@@ -3,8 +3,9 @@ import { ThemeToggle } from "@/components/app/theme-toggle";
 import { ButtonLink } from "@/components/ui/button";
 
 const LINKS = [
+  { href: "/#modules", label: "Modules" },
   { href: "/#how", label: "How it works" },
-  { href: "/#features", label: "Features" },
+  { href: "/#rules", label: "Rules" },
   { href: "/#results", label: "Results" },
   { href: "/#team", label: "Team" },
   { href: "/about", label: "About" },

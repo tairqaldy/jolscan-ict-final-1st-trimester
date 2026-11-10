@@ -23,7 +23,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tooltip } from "@/components/ui/tooltip";
 import { getSample } from "@/lib/mock/samples";
 import { deriveDetections } from "@/lib/rules";
-import { SEVERITIES } from "@/lib/types";
+import { SEVERITIES, VERDICTS } from "@/lib/types";
+import { GenderTag, ThresholdBar, VerdictBadge } from "@/components/restrooms/signage-bits";
+import { VerdictBars } from "@/components/restrooms/verdict-bars";
 
 /** Token groups shown as swatches. Names match app/tokens.css. */
 const COLOR_GROUPS: { title: string; tokens: string[] }[] = [
@@ -33,6 +35,8 @@ const COLOR_GROUPS: { title: string; tokens: string[] }[] = [
   { title: "Severity (solid)", tokens: SEVERITIES.map((s) => `sev-${s}`) },
   { title: "Severity (ink on soft)", tokens: SEVERITIES.map((s) => `sev-${s}-ink`) },
   { title: "Charts and boxes", tokens: ["chart-1", "chart-2", "chart-3", "chart-4", "box", "box-review"] },
+  { title: "Restrooms: verdicts (solid)", tokens: ["verdict-clear", "verdict-review", "verdict-confusing"] },
+  { title: "Restrooms: predicted gender", tokens: ["gender-male", "gender-male-soft", "gender-female", "gender-female-soft"] },
 ];
 
 const TYPE_SCALE = [
@@ -41,11 +45,11 @@ const TYPE_SCALE = [
   { cls: "text-3xl font-display font-bold", label: "3xl display", sample: "Severity distribution" },
   { cls: "text-2xl font-display font-semibold", label: "2xl display", sample: "Rule hits" },
   { cls: "text-xl font-semibold", label: "xl body", sample: "Recommended action" },
-  { cls: "text-lg", label: "lg body", sample: "JolScan finds potholes in a road photo." },
+  { cls: "text-lg", label: "lg body", sample: "Qarau inspects public infrastructure from a photo." },
   { cls: "text-base", label: "base body", sample: "Detections below the threshold go to the review queue." },
   { cls: "text-sm text-muted", label: "sm muted", sample: "Model time per photo on the laptop CPU." },
   { cls: "text-xs text-subtle", label: "xs subtle", sample: "Placeholder numbers until training finishes." },
-  { cls: "font-mono text-sm", label: "mono", sample: "score = 15 · jolscan-e8 · 41 ms" },
+  { cls: "font-mono text-sm", label: "mono", sample: "score = 15 · clip-vitb32-ft6 · 41 ms" },
 ];
 
 const sample = getSample("s01")!;
@@ -150,6 +154,22 @@ export function ThemedShowcase() {
           </span>
         </div>
         <SeverityBars counts={SEVERITIES.map((s, i) => ({ severity: s, count: [6, 9, 12, 7, 4][i] }))} />
+      </section>
+
+      <section className="grid gap-4">
+        <h3 className="text-xl font-bold">Restroom verdicts and genders</h3>
+        <div className="flex flex-wrap gap-2">
+          {VERDICTS.map((v) => (
+            <VerdictBadge key={v} verdict={v} />
+          ))}
+          <VerdictBadge verdict="confusing" size="lg" />
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <GenderTag gender="male" confidence={0.97} />
+          <GenderTag gender="female" confidence={0.62} />
+        </div>
+        <ThresholdBar value={0.62} threshold={0.8} label="Confidence" valueText="62%" thresholdLabel="S1 80%" tone="female" />
+        <VerdictBars verdicts={["clear", "clear", "clear", "review", "review", "confusing"]} />
       </section>
 
       <section className="grid gap-4">

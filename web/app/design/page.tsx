@@ -17,7 +17,7 @@ export default function DesignPage() {
       <SiteHeader />
       <main id="main" className="container-page pt-12">
         <p className="text-xs font-semibold tracking-[0.18em] text-accent-ink uppercase">Design system</p>
-        <h1 className="mt-2 text-4xl font-bold sm:text-5xl">Asphalt and road markings</h1>
+        <h1 className="mt-2 text-4xl font-bold sm:text-5xl">Asphalt, markings and signs</h1>
         <p className="mt-3 max-w-2xl text-lg text-muted">
           Placeholder direction until the lead designer&apos;s references arrive. To re-skin the app, edit{" "}
           <code className="font-mono text-base">app/tokens.css</code> (and the fonts in{" "}

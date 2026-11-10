@@ -26,10 +26,17 @@ venv/
 # ML artefacts: these go to the shared Drive, never to git
 *.pt
 *.onnx
-runs/
+# Ultralytics' output folder at the repository root. Not ml/results/**/runs/, whose per-run
+# JSON files are the committed results.
+/runs/
+api/runs/
 mlruns/
 mlflow.db
 api/weights/
 datasets/
 data/raw/
 data/**/*.zip
+
+# Restroom module: embedding cache and fine-tuned checkpoints stay local (data/raw/ is above)
+data/cache/
+ml/results/restroom/weights/

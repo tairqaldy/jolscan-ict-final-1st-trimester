@@ -17,7 +17,7 @@ import { DetectionOverlay } from "./detection-overlay";
 import { PROVIDER_META } from "./provider-badge";
 
 /**
- * Full result view, shared by /app/analyze and /app/reports/[id]:
+ * Full result view, shared by /app/roads/analyze and /app/roads/reports/[id]:
  * photo + boxes, priority, rule hits, detections table, raw JSON.
  * Hovering a box highlights its row and vice versa.
  */
@@ -92,7 +92,7 @@ export function AnalysisView({ analysis, title }: { analysis: StoredAnalysis; ti
             {analysis.needsReview && (
               <Callout tone="warning" title="Needs a human look">
                 Some detections are below the confidence threshold. They are not counted, but a person should check the
-                photo. It is in the review queue on the dashboard.
+                photo. It is in the review queue on the Roads overview.
               </Callout>
             )}
             {rulesChanged && (

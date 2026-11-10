@@ -1,0 +1,57 @@
+{
+  "_comment": "Restroom sign manifest. PLACEHOLDER VALUES: the twelve icons are original SVG drawings made for this project (scripts/draw-restroom-samples.mjs), and every number under `mock` and `similarity` is invented so Compare and Match give stable, sensible demo results. They are what the mock provider returns, not model outputs. To use real IOAI images: put them in this folder, point `file` at them, and paste the real model outputs (gender, confidence) into `mock` and the real pair similarities into `similarity.pairs`. IOAI 2025 data is CC-BY-4.0: keep the attribution in web/README.md and on the About page.",
+  "model": "mock-clip-fixtures",
+  "mockLatencyMs": 46,
+  "similarity": {
+    "_comment": "Mock similarity, the same 0..1 scale as the model ((cos + 1) / 2). Two signs of one set get sameSet[set]. Two signs of different sets get crossSet['a|b'] (set ids in alphabetical order) or defaultCross, plus a fixed jitter of at most ±jitter derived from the two sample ids, so values look less uniform but never change. `pairs` overrides everything for a specific pair ('idA|idB', alphabetical).",
+    "sameSet": { "classic": 0.88, "rounded": 0.91, "line": 0.86, "geometric": 0.89, "faint": 0.81, "twins": 0.9 },
+    "crossSet": {
+      "classic|faint": 0.68,
+      "classic|geometric": 0.6,
+      "classic|line": 0.58,
+      "classic|rounded": 0.7,
+      "classic|twins": 0.66,
+      "faint|geometric": 0.57,
+      "faint|line": 0.55,
+      "faint|rounded": 0.62,
+      "faint|twins": 0.64,
+      "geometric|line": 0.62,
+      "geometric|rounded": 0.56,
+      "geometric|twins": 0.54,
+      "line|rounded": 0.6,
+      "line|twins": 0.52,
+      "rounded|twins": 0.69
+    },
+    "defaultCross": 0.55,
+    "jitter": 0.03,
+    "pairs": {}
+  },
+  "sets": [
+    { "id": "classic", "title": "Classic pictogram", "note": "Dark figures on a light plate, the most common design." },
+    { "id": "rounded", "title": "Rounded", "note": "Soft, rounded figures on a dark green plate." },
+    { "id": "line", "title": "Line art", "note": "Outlines only, thin strokes on white." },
+    { "id": "geometric", "title": "Minimal geometric", "note": "A circle over a square or a triangle." },
+    { "id": "faint", "title": "Faint female sign", "note": "Tricky: the female sign differs from the male one only by a slight flare at the hips." },
+    { "id": "twins", "title": "Both in trousers", "note": "Tricky: both figures wear trousers; the female one only has a ponytail, so both read as male." }
+  ],
+  "samples": [
+    { "id": "classic-m", "file": "/samples/restrooms/classic-m.svg", "set": "classic", "title": "Classic, men", "trueGender": "male", "mock": { "gender": "male", "confidence": 0.97 } },
+    { "id": "classic-f", "file": "/samples/restrooms/classic-f.svg", "set": "classic", "title": "Classic, women", "trueGender": "female", "mock": { "gender": "female", "confidence": 0.94 } },
+    { "id": "rounded-m", "file": "/samples/restrooms/rounded-m.svg", "set": "rounded", "title": "Rounded, men", "trueGender": "male", "mock": { "gender": "male", "confidence": 0.95 } },
+    { "id": "rounded-f", "file": "/samples/restrooms/rounded-f.svg", "set": "rounded", "title": "Rounded, women", "trueGender": "female", "mock": { "gender": "female", "confidence": 0.92 } },
+    { "id": "line-m", "file": "/samples/restrooms/line-m.svg", "set": "line", "title": "Line art, men", "trueGender": "male", "mock": { "gender": "male", "confidence": 0.91 } },
+    { "id": "line-f", "file": "/samples/restrooms/line-f.svg", "set": "line", "title": "Line art, women", "trueGender": "female", "mock": { "gender": "female", "confidence": 0.87 } },
+    { "id": "geometric-m", "file": "/samples/restrooms/geometric-m.svg", "set": "geometric", "title": "Geometric, men", "trueGender": "male", "mock": { "gender": "male", "confidence": 0.89 } },
+    { "id": "geometric-f", "file": "/samples/restrooms/geometric-f.svg", "set": "geometric", "title": "Geometric, women", "trueGender": "female", "mock": { "gender": "female", "confidence": 0.84 } },
+    { "id": "faint-m", "file": "/samples/restrooms/faint-m.svg", "set": "faint", "title": "Faint set, men", "trueGender": "male", "mock": { "gender": "male", "confidence": 0.97 } },
+    { "id": "faint-f", "file": "/samples/restrooms/faint-f.svg", "set": "faint", "title": "Faint set, women", "trueGender": "female", "mock": { "gender": "female", "confidence": 0.62 } },
+    { "id": "twins-m", "file": "/samples/restrooms/twins-m.svg", "set": "twins", "title": "Trousers set, men", "trueGender": "male", "mock": { "gender": "male", "confidence": 0.71 } },
+    { "id": "twins-f", "file": "/samples/restrooms/twins-f.svg", "set": "twins", "title": "Trousers set, women", "trueGender": "female", "mock": { "gender": "male", "confidence": 0.66 } }
+  ],
+  "presets": [
+    { "id": "matching", "title": "Matching pair", "a": "classic-m", "b": "classic-f", "note": "Two doors from one classic set. RULES.md worked example A." },
+    { "id": "faint", "title": "Faint female sign", "a": "faint-m", "b": "faint-f", "note": "The female sign is hard to read. RULES.md worked example B." },
+    { "id": "mismatched", "title": "Signs from two sets", "a": "classic-m", "b": "line-f", "note": "One door kept an old sign, the other got a new one." },
+    { "id": "same", "title": "Both signs look male", "a": "twins-m", "b": "twins-f", "note": "Both figures wear trousers. RULES.md worked example C." }
+  ]
+}

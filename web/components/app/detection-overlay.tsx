@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
 import { cn } from "@/lib/cn";
 import { duration, ease } from "@/lib/motion";
+import { useHydrated } from "@/lib/store/local-store";
 import type { DerivedDetection } from "@/lib/rules";
 import type { Detection } from "@/lib/types";
 
@@ -36,7 +37,7 @@ export function DetectionOverlay({
   derived?: DerivedDetection[];
   activeId?: string | null;
   onActiveChange?: (id: string | null) => void;
-  /** Animate boxes drawing in. */
+  /** Animate boxes drawing in (only when mounted after hydration). */
   drawIn?: boolean;
   /** Change to replay the draw-in animation. */
   replayKey?: string | number;
@@ -44,12 +45,15 @@ export function DetectionOverlay({
   className?: string;
 }) {
   const reduce = useReducedMotion();
+  // Server-rendered boxes are drawn at once (visible without JS); only overlays
+  // mounted later in the browser, or replayed, animate in.
+  const hydrated = useHydrated();
   const [failed, setFailed] = useState(false);
   const W = imageWidth || 1280;
   const H = imageHeight || 720;
   const stroke = Math.max(2, W / 320);
   const font = Math.max(12, W / 50);
-  const animate = drawIn && !reduce;
+  const animate = drawIn && !reduce && hydrated;
 
   return (
     <figure

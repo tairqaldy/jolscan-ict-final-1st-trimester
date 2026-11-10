@@ -3,17 +3,26 @@ import { SiteFooter } from "@/components/landing/site-footer";
 import { SiteHeader } from "@/components/landing/site-header";
 import { TeamGrid } from "@/components/landing/team-grid";
 import { Callout } from "@/components/ui/callout";
+import { BRAND, MODULES } from "@/lib/brand";
+import { DATA_CREDITS } from "@/lib/credits";
 import { EXPERIMENTS } from "@/lib/mock/experiments";
 import { COURSE } from "@/lib/team";
 
 export const metadata: Metadata = { title: "About" };
 
-/** Copied from docs/RULES.md "Known limits". Keep the two in sync. */
-const KNOWN_LIMITS = [
-  "Box area in the image is not physical size. A pothole far from the camera looks small. Fixing this needs camera calibration or a depth estimate.",
-  "inLane assumes a forward-facing, roughly level photo.",
+/** Copied from docs/RULES.md, "Known limits" of Part 1 and Part 2. Keep them in sync. */
+const ROAD_LIMITS = [
+  "Box area in the image is not physical size. A pothole far from the camera looks small, and a close-up fills the frame. Fixing this needs camera calibration or a depth estimate.",
+  "R3 is meaningful only for forward-facing, roughly level photos such as dashcam frames. In a handheld close-up almost every box counts as in lane.",
   "The rules never see road markings, so a pothole on the shoulder of a narrow road can be scored as in lane.",
   "Thresholds were set by the team on a small validation set.",
+];
+
+const SIGN_LIMITS = [
+  "The model judges a cropped icon. It never sees the door, the text under the icon, the colour coding or the location.",
+  "“Recognisable to the model” is a stand-in for “recognisable to a person”. The thresholds were not tested with people.",
+  "The training set is 82 restrooms, mostly from stock photos. Unusual or culture-specific icons may be misread.",
+  "Accessible and all-gender restrooms are outside the IOAI data, so the model has no class for them.",
 ];
 
 function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
@@ -35,36 +44,66 @@ export default function AboutPage() {
         <p className="text-xs font-semibold tracking-[0.18em] text-accent-ink uppercase">
           {COURSE.code} · {COURSE.school}
         </p>
-        <h1 className="mt-2 text-4xl font-bold sm:text-5xl">About JolScan</h1>
+        <h1 className="mt-2 text-4xl font-bold sm:text-5xl">About {BRAND.name}</h1>
         <p className="mt-4 text-lg text-muted">
-          A course prototype that turns a road photo into a repair priority. It is a study project, not a city service, and
-          the numbers marked “Demo data” are placeholders.
+          {BRAND.tagline} The name, {BRAND.nativeName}, is {BRAND.meaning}. It is a study
+          project, not a city or campus service, and the numbers marked “Demo data” are placeholders.
         </p>
 
         <div className="mt-10 grid gap-10">
           <Section id="method" title="Method">
+            <h3 className="text-lg font-semibold text-fg">
+              {MODULES.roads.name}: {MODULES.roads.task.toLowerCase()}
+            </h3>
             <p>
               <strong>Detection.</strong> A one-stage object detector (Ultralytics YOLO, small variant) fine-tuned from
-              COCO-pretrained weights on a public pothole dataset. Detection, not classification, because the rules need
-              to know where each pothole is and how large it looks.
+              COCO-pretrained weights on a public pothole dataset. Detection, not classification, because the rules need to
+              know where each pothole is and how large it looks.
             </p>
             <p>
-              <strong>Experiments.</strong> One change per run against a fixed baseline, same split and seed, tracked in
-              MLflow. We compare precision, recall, mAP50, mAP50-95, latency and model size.
+              <strong>Prioritisation.</strong> Six deterministic rules applied after the model (R1–R6: confidence, size, lane,
+              cluster, road class, school zone) give a score, a severity and a target time. Every result lists the rules that
+              fired and the points each added.
+            </p>
+            <h3 className="mt-2 text-lg font-semibold text-fg">
+              {MODULES.restrooms.name}: {MODULES.restrooms.task.toLowerCase()}
+            </h3>
+            <p>
+              <strong>Embeddings.</strong> CLIP’s image encoder, a Vision Transformer, turns every door sign into an embedding.
+              From it we predict the sign’s gender (zero-shot text prompts, or a logistic-regression probe or fine-tuned head)
+              and the similarity of two signs (cosine similarity scaled to 0..1).
             </p>
             <p>
-              <strong>Prioritisation.</strong> Deterministic rules applied after the model (R1–R6: confidence, size, lane,
-              cluster, road class, school zone). Every result lists the rules that fired, so the decision can be explained.
+              <strong>Matching.</strong> For one query sign, the partner is the most similar gallery sign of the opposite
+              gender: the IOAI 2025 “Restroom Icon Matching” task, scored as top-1 accuracy.
             </p>
             <p>
-              <strong>Serving.</strong> A FastAPI <code className="font-mono text-sm">/predict</code> service runs locally or
-              in the cloud; this web app calls it through one route and scores every result the same way.
+              <strong>Verdict.</strong> Three rules (S1 each sign recognisable, S2 the signs differ, S3 the signs belong to one
+              set) give clear, review or confusing, with a recommended action.
+            </p>
+            <h3 className="mt-2 text-lg font-semibold text-fg">Both modules</h3>
+            <p>
+              <strong>Experiments.</strong> One change per run against a fixed baseline, same split and seed, chosen on
+              validation, tracked in MLflow (assignment Option A).
+            </p>
+            <p>
+              <strong>Serving.</strong> One FastAPI service answers <code className="font-mono text-sm">/predict</code>,{" "}
+              <code className="font-mono text-sm">/restroom/compare</code> and <code className="font-mono text-sm">/restroom/match</code>,
+              locally or in the cloud. This web app calls it through its own routes and applies the rules the same way for
+              every provider.
             </p>
           </Section>
 
           <Section id="limits" title="Known limits">
+            <h3 className="text-lg font-semibold text-fg">{MODULES.roads.name}</h3>
             <ul className="grid list-disc gap-2 pl-5">
-              {KNOWN_LIMITS.map((l) => (
+              {ROAD_LIMITS.map((l) => (
+                <li key={l}>{l}</li>
+              ))}
+            </ul>
+            <h3 className="mt-2 text-lg font-semibold text-fg">{MODULES.restrooms.name}</h3>
+            <ul className="grid list-disc gap-2 pl-5">
+              {SIGN_LIMITS.map((l) => (
                 <li key={l}>{l}</li>
               ))}
             </ul>
@@ -72,31 +111,59 @@ export default function AboutPage() {
 
           <Section id="privacy" title="Privacy and ethics">
             <ul className="grid list-disc gap-2 pl-5">
-              <li>Road photos can contain faces, number plates and location data. The local provider keeps photos on the device.</li>
-              <li>The app can strip EXIF metadata (including GPS) in the browser before upload, and can block the cloud provider.</li>
+              <li>
+                <strong>Restroom images contain no people</strong>: the IOAI data are icons on doors and walls. Never upload a
+                photo taken inside a restroom, or any photo with a person in it.
+              </li>
+              <li>
+                <strong>Road photos can show faces, number plates and location data.</strong> The local provider keeps photos on
+                the device; the cloud provider is opt-in and can be blocked in Settings.
+              </li>
+              <li>The app strips EXIF metadata (including GPS) in the browser before upload.</li>
               <li>There are no accounts and no server database: history lives in the browser and can be cleared in Settings.</li>
-              <li>Low-confidence detections are flagged for a person to review, never silently dropped.</li>
-              <li>The priority is decision support for a maintenance team, not an automatic decision. The rule thresholds are team assumptions, not an official standard.</li>
+              <li>Low-confidence results go to a review queue for a person, never silently dropped.</li>
+              <li>
+                Both outputs are decision support for a maintenance or facilities team, not automatic decisions. The rule
+                thresholds are team assumptions, not an official standard or a building code.
+              </li>
               <li>API keys are read on the server only and never committed to git.</li>
             </ul>
           </Section>
 
-          <Section id="dataset" title="Dataset and licences">
+          <Section id="dataset" title="Data and licences">
             <Callout tone="warning" title="To be completed before the defense">
-              Dataset name, version, source link and licence are placeholders until the Data lane confirms them.
+              The pothole dataset name, version, source link and licence are placeholders until the Data lane confirms them.
             </Callout>
-            <dl className="grid gap-2 text-sm sm:grid-cols-[8rem_1fr]">
-              <dt>Dataset</dt>
-              <dd className="text-fg">{EXPERIMENTS.dataset.name}</dd>
-              <dt>Source</dt>
-              <dd className="text-fg">{EXPERIMENTS.dataset.source}</dd>
-              <dt>Licence</dt>
-              <dd className="text-fg">{EXPERIMENTS.dataset.licence}</dd>
+            <dl className="grid gap-2 text-sm sm:grid-cols-[9rem_1fr]">
+              <dt>Pothole dataset</dt>
+              <dd className="text-fg">
+                {EXPERIMENTS.dataset.name}. {EXPERIMENTS.dataset.licence}.
+              </dd>
+              <dt>Restroom task</dt>
+              <dd className="text-fg">
+                {DATA_CREDITS.restroom.name}, by the IOAI 2025 committee, licensed {DATA_CREDITS.restroom.licence}:{" "}
+                <a href={DATA_CREDITS.restroom.url} className="break-all text-accent-ink underline underline-offset-2">
+                  {DATA_CREDITS.restroom.url}
+                </a>
+                . The reference scores (baseline 0.77, best 0.90) are theirs, not ours.
+              </dd>
               <dt>Sample images</dt>
-              <dd className="text-fg">Original SVG illustrations drawn for this project (no third-party photos).</dd>
+              <dd className="text-fg">
+                Road scenes and restroom icons in this app are original SVG drawings made for this project (no third-party
+                images).
+              </dd>
               <dt>Map</dt>
-              <dd className="text-fg">© OpenStreetMap contributors (ODbL).</dd>
+              <dd className="text-fg">
+                {DATA_CREDITS.map.name} ({DATA_CREDITS.map.licence}).
+              </dd>
             </dl>
+          </Section>
+
+          <Section id="ai-use" title="Use of AI tools">
+            <Callout title="Statement to be completed by the team">
+              The course requires a declaration of AI use: tool and version, purpose, key prompts, what was produced or changed,
+              and how it was verified. The full prompt log is kept in the repository and summarised here before submission.
+            </Callout>
           </Section>
 
           <Section id="team" title="Team">

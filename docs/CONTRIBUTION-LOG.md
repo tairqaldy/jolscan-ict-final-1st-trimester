@@ -8,8 +8,8 @@ Fill in your own row as you go. Be specific: task IDs from [TASKS.md](TASKS.md),
 |---|---|---|---|
 | Tair | Web app, UX, coordination | | |
 | Dameli | Design system and visuals | | |
-| Nazar | Model and experiments | | |
-| Amina | Data and rules | | |
+| Nazar | Restroom model | | |
+| Amina | Pothole data, model and rules | | |
 | Alizhan | Serving and performance | | |
 | Roma | Research, deck, video, QA | | |
 
@@ -19,3 +19,4 @@ Fill in your own row as you go. Be specific: task IDs from [TASKS.md](TASKS.md),
 |---|---|---|
 | 3–4 Nov | Shortlisted two ideas: pothole detection and bird counting | group chat |
 | 10 Nov | Pothole detection chosen as the working direction (to confirm at kickoff) | |
+| 10 Nov | Second module added: restroom sign matching on the IOAI 2025 data. Product renamed to Qarau. Nazar proposed to lead the restroom model, Amina the pothole model (to confirm at kickoff) | Tair |

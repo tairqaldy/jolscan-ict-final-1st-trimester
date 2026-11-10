@@ -17,8 +17,8 @@ export function ReportDetailClient({ id }: { id: string }) {
   const analysis = analyses.find((a) => a.id === id);
 
   const back = (
-    <ButtonLink href="/app/reports" variant="ghost" size="sm" className="-ml-3 w-fit">
-      <ArrowLeft aria-hidden /> All reports
+    <ButtonLink href="/app/roads/reports" variant="ghost" size="sm" className="-ml-3 w-fit">
+      <ArrowLeft aria-hidden /> All road reports
     </ButtonLink>
   );
 

@@ -1,5 +1,6 @@
 /*
- * JolScan design tokens. THE ONE FILE TO EDIT TO RE-SKIN THE APP.
+ * Design tokens. THE ONE FILE TO EDIT TO RE-SKIN THE APP. (Brand name and
+ * module names live in lib/brand.ts.)
  *
  * Direction (placeholder until the lead's references arrive): asphalt and
  * road markings. Graphite/stone surfaces, one road-sign amber accent, and a
@@ -11,7 +12,7 @@
  * Themes: light values on :root / [data-theme="light"], dark values on
  * [data-theme="dark"]. A tiny script in app/layout.tsx sets data-theme on
  * <html> before paint (system preference by default, user choice remembered
- * in localStorage "jolscan:theme"). Nesting data-theme on any element
+ * in localStorage "<storagePrefix>:theme", see lib/brand.ts). Nesting data-theme on any element
  * re-themes that subtree (used by /design to show both themes side by side).
  */
 
@@ -69,6 +70,30 @@
   --sev-critical: #93202a;
   --sev-critical-ink: #8e1b14;
   --sev-critical-soft: #f9dedb;
+
+  /* Restroom module: signage verdicts. By default they reuse the severity scale
+     (clear = clear, review = medium, confusing = critical); override here to give
+     the module its own colours. Always shown with an icon and a word. */
+  --verdict-clear: var(--sev-clear);
+  --verdict-clear-ink: var(--sev-clear-ink);
+  --verdict-clear-soft: var(--sev-clear-soft);
+  --verdict-review: var(--sev-medium);
+  --verdict-review-ink: var(--sev-medium-ink);
+  --verdict-review-soft: var(--sev-medium-soft);
+  --verdict-confusing: var(--sev-critical);
+  --verdict-confusing-ink: var(--sev-critical-ink);
+  --verdict-confusing-soft: var(--sev-critical-soft);
+
+  /* Restroom module: predicted gender of a sign. Two neutral hues that stay
+     distinct for colour-blind readers (teal and indigo differ in hue and
+     lightness), deliberately not the pink/blue stereotype. Never used alone:
+     always paired with the Mars/Venus icon and the word. */
+  --gender-male: #0f766e;
+  --gender-male-ink: #0b5a54;
+  --gender-male-soft: #dcefec;
+  --gender-female: #5b4bb0;
+  --gender-female-ink: #45378f;
+  --gender-female-soft: #e7e3f6;
 
   /* Charts: series that are not severity (providers, runs) */
   --chart-1: #3d4f63;
@@ -134,6 +159,23 @@
   --sev-critical-ink: #ff9a93;
   --sev-critical-soft: #3d1515;
 
+  --verdict-clear: var(--sev-clear);
+  --verdict-clear-ink: var(--sev-clear-ink);
+  --verdict-clear-soft: var(--sev-clear-soft);
+  --verdict-review: var(--sev-medium);
+  --verdict-review-ink: var(--sev-medium-ink);
+  --verdict-review-soft: var(--sev-medium-soft);
+  --verdict-confusing: var(--sev-critical);
+  --verdict-confusing-ink: var(--sev-critical-ink);
+  --verdict-confusing-soft: var(--sev-critical-soft);
+
+  --gender-male: #3fb8a9;
+  --gender-male-ink: #8fdcd2;
+  --gender-male-soft: #12302d;
+  --gender-female: #9d8ff0;
+  --gender-female-ink: #c7befa;
+  --gender-female-soft: #241f3d;
+
   --chart-1: #9fb3c8;
   --chart-2: #ffb81c;
   --chart-3: #8fbf96;
@@ -190,6 +232,22 @@
   --color-sev-critical: var(--sev-critical);
   --color-sev-critical-ink: var(--sev-critical-ink);
   --color-sev-critical-soft: var(--sev-critical-soft);
+
+  --color-verdict-clear: var(--verdict-clear);
+  --color-verdict-clear-ink: var(--verdict-clear-ink);
+  --color-verdict-clear-soft: var(--verdict-clear-soft);
+  --color-verdict-review: var(--verdict-review);
+  --color-verdict-review-ink: var(--verdict-review-ink);
+  --color-verdict-review-soft: var(--verdict-review-soft);
+  --color-verdict-confusing: var(--verdict-confusing);
+  --color-verdict-confusing-ink: var(--verdict-confusing-ink);
+  --color-verdict-confusing-soft: var(--verdict-confusing-soft);
+  --color-gender-male: var(--gender-male);
+  --color-gender-male-ink: var(--gender-male-ink);
+  --color-gender-male-soft: var(--gender-male-soft);
+  --color-gender-female: var(--gender-female);
+  --color-gender-female-ink: var(--gender-female-ink);
+  --color-gender-female-soft: var(--gender-female-soft);
 
   --color-box: var(--box);
   --color-box-active: var(--box-active);
