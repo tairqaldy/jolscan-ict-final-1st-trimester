@@ -189,7 +189,7 @@ The scaffold already gives working pages on demo data. P0 here means "works at t
 | [ ] | R-10 | P0 | Run Rehearsal 1 and 2 with a timer, note what to cut | R-4 | Talk fits 7.5–8.5 minutes | 2×30 m |
 | [ ] | R-9 | P0 | Demo video, 60–90 seconds: landing, upload, result, rules, dashboard, model page | Feature freeze | MP4 in Drive and on the presenting laptop | 1.5 h |
 | [ ] | R-13 | P0 | Study card: what a VLM is, why it miscounts, how the audit was run and verified, limitations of our approach | R-6 | Passed three practice questions | 45 m |
-| [ ] | R-7 | P1 | QA pass on the app after checkpoint C2 with the checklist in DESIGN-BRIEF.md. File issues on GitHub | W-6 | Issues filed and triaged | 1 h |
+| [ ] | R-7 | P1 | QA pass on the app after checkpoint C2 with the checklist in DESIGN-BRIEF.md. File issues on GitHub. **Claimed: Roma, 10 Nov 2026 20:20 Astana, branch feature/ui-refactoring.** | W-6 | Issues filed and triaged | 1 h |
 | [ ] | R-8 | P1 | Second QA pass after feature freeze | Feature freeze | No P0 issues open | 45 m |
 | [ ] | R-11 | P1 | Limitations and ethics slide, from RULES.md, ML-EXPERIMENT.md and D-7 | D-7 | Slide done | 30 m |
 | [ ] | R-12 | P1 | Proofread all docs and site copy | Feature freeze | No typos found in a full read | 45 m |
