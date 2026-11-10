@@ -81,7 +81,7 @@ The archive check covered 665 JPG images, 665 XML files, and 1,740 objects.
 - None of the checked optional fields (`folder`, `path`, `source/database`) were missing.
 - One structural issue was found: object 3 in `img-415.xml` has a zero-width box (`xmin=273`, `xmax=273`, `ymin=164`, `ymax=165`). This is the same issue noted in the D-2 automated archive check, not a second defect.
 
-No missing-value imputation is needed. Bounding-box coordinates must not be filled with averages. Manually inspect and correct this object, or exclude its invalid annotation. Non-empty metadata does not establish provenance; `Unknown` is not verified source information.
+No missing-value imputation is needed. Bounding-box coordinates must not be filled with averages. At the time of this original-archive check, manual inspection and correction or exclusion of the invalid annotation were recommended; the subsequent correction in a separate archive is documented below. Non-empty metadata does not establish provenance; `Unknown` is not verified source information.
 
 This structural check does not validate visual annotation quality. It also does not establish provenance, licensing, or privacy compliance.
 
@@ -96,7 +96,29 @@ The exported corrected archive was reopened, and its total object count was veri
 | Original `Archive.zip` | 665 | 665 | 1,740 |
 | Corrected `potholes_corrected_v1.zip` | 665 | 665 | 1,739 |
 
-This correction addresses only the identified zero-width annotation in the separate corrected archive. It does not make the dataset fully cleaned or training-ready. Licensing and provenance questions and ambiguous visual annotations remain unresolved. YOLO conversion and the final 70/15/15 split have not been performed.
+This correction addresses only the identified zero-width annotation in the separate corrected archive. It does not make the dataset fully cleaned or training-ready. Licensing and provenance questions and ambiguous visual annotations remain unresolved. At the time of this correction, YOLO conversion and the final 70/15/15 split had not been performed; their subsequent preparation is documented below.
+
+## YOLO dataset preparation (task D-3, in progress)
+
+**Version:** `potholes_yolo_v1.zip`, prepared in Colab from `potholes_corrected_v1.zip`. This is a Colab export, not the Roboflow version in the original plan. The ZIP is not stored in this repository.
+
+**Archive provided:** `potholes_yolo_v1.zip` was supplied as a chat attachment and inspected. **Drive folder:** [Shared project folder](https://drive.google.com/drive/folders/1IKaEi1NAAteP2zYYGZZDZRHt1wrC16GS?usp=sharing). This is a folder link; it does not by itself verify that `potholes_yolo_v1.zip` is present in the folder.
+
+The export contains 665 images and 1,739 pothole annotations, converted from Pascal VOC-style XML to YOLO detection TXT. XML bounds were converted directly without a +/-1 shift; box centers use `(min + max) / 2`, sizes use `max - min`, and values are normalized by image dimensions. It has one class: `0 = pothole`. The split was created by sorting image paths and applying `random.Random(42).shuffle`:
+
+| Split | Images | Objects |
+|---|---:|---:|
+| Train | 465 | 1,198 |
+| Val | 100 | 305 |
+| Test | 100 | 236 |
+
+Every image was assigned exactly once, with no path overlap between splits. JPG files were copied unchanged; no resizing or augmentation was applied. EXIF inspection found no images with EXIF and no orientation values other than 1, so no orientation transform was needed.
+
+ZIP integrity and exported YOLO values were checked. Six exported images (two per split) were visually checked; no obvious conversion-related box displacement was observed. This does not establish that all original annotations are correct.
+
+The archive contains `images/{train,val,test}/`, `labels/{train,val,test}/`, `data.yaml`, `split_manifest.json`, and `README.txt`. Copies of the actual exported `data.yaml` and `split_manifest.json` are in `data/exports/potholes_yolo_v1/`; the ZIP is not committed.
+
+All model experiments must use this same frozen split. This export has not been privacy-screened as a public sample set. Provenance, usage rights, privacy screening, and ambiguous annotation concerns remain unresolved. This preparation does not complete D-1 or D-12. D-3 remains in progress pending confirmation that the ZIP is in the linked Drive folder and Tair's explicit acceptance of the Colab export in place of the planned Roboflow version.
 
 ## Screening checklist (task D-12)
 
