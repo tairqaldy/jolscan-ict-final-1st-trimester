@@ -22,6 +22,16 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Alizhan (S-16, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Add API tests to GitHub Actions and verify that an intentionally failing test causes a red check.
+- **Key prompts:** "тогда начни выполнять таски, которые можно сделать сейчас" and "мне нужно, чтобы ты выполнил таски, потому что ишшьюс будет ревьюить Таир". The full transcript is not exported here.
+- **What it produced:** Python CI steps and S-16 task and worklog updates.
+- **Verification:** GitHub Actions run 42901513219 showed 30 passing tests and one intentional failure, and the temporary test was removed. The normal run's result is available in the PR checks. Alizhan has not personally reviewed this draft.
+- **Limits:** Only lightweight fake-model tests run; this does not validate actual YOLO or CLIP inference.
+
+
 ### 10 November 2026, Alizhan (S-1, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.
