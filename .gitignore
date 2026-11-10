@@ -40,3 +40,4 @@ data/**/*.zip
 # Restroom module: embedding cache and fine-tuned checkpoints stay local (data/raw/ is above)
 data/cache/
 ml/results/restroom/weights/
+ml/results/restroom/layers-smoke/
