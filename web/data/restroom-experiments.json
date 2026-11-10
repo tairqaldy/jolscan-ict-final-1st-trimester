@@ -1,6 +1,6 @@
 {
   "_comment": "Schema: RestroomExperimentsFile in docs/ARCHITECTURE.md section 2b. Written by ml/restroom/export_results.py from ml/results/restroom/runs/*.json. Rows with isReal false are placeholders with null metrics ('not run yet'). `reference` holds the numbers published by the IOAI committee on their test set (Leaderboard B); they are not our runs.",
-  "isMock": true,
+  "isMock": false,
   "champion": "R3",
   "reference": {
     "ioaiBaseline": 0.77,
@@ -50,23 +50,13 @@
     },
     {
       "run": "R4",
-      "changed": "ViT-B/32, fine-tune the last 6 transformer blocks (IOAI reference recipe)",
-      "isReal": false,
-      "matchTop1Val": null,
-      "matchTop1Test": null,
-      "genderAccCv": null,
-      "latencyMs": null,
-      "device": null
-    },
-    {
-      "run": "R5",
-      "changed": "R4 plus augmentation (flip, crop, colour jitter)",
-      "isReal": false,
-      "matchTop1Val": null,
-      "matchTop1Test": null,
-      "genderAccCv": null,
-      "latencyMs": null,
-      "device": null
+      "changed": "as R2, last 6 blocks fine-tuned (the reference solution's setting)",
+      "isReal": true,
+      "matchTop1Val": 1.0,
+      "matchTop1Test": 1.0,
+      "genderAccCv": 0.6433,
+      "latencyMs": 24.7,
+      "device": "Apple M4 CPU"
     },
     {
       "run": "R6",

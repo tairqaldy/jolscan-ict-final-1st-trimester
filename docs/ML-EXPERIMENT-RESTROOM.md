@@ -51,7 +51,7 @@ We declare **Option A** for this module too: open-source dataset, modify the mod
 | R5 | R4 plus augmentation (flip, crop, colour jitter) | Does augmentation help with so little data? | Lec8 p38 |
 | R6 | Gender: zero-shot prompts against a logistic-regression probe | Is a trained classifier on embeddings better than prompts? | Labs 4 and 6 (scikit-learn) |
 
-R0, R1 and R6 need no training. R2 and R3 also ran on a laptop CPU in under 8 minutes each. R4 and R5 take longer and go to Colab.
+R0, R1 and R6 need no training. R2 and R3 also ran on a laptop CPU in under 8 minutes each, and R4 in 15 minutes. R5 was cut (task C-4): the layer experiment below answers the number-of-layers question with far more evaluation data than one augmentation run could.
 
 ## Results (10 November 2026, Apple M5 CPU)
 
@@ -63,11 +63,13 @@ Real runs from `ml/results/restroom/runs/`. Matching accuracy on validation (10 
 | R1 | Zero-shot ViT-B/32 | 0.80 | 0.767 (23/30) | 0.741 | 26 ms |
 | R2 | Fine-tune the last 1 block, two-step matching | 1.00 | 0.867 (26/30) | 0.680 | 26 ms |
 | R3 | Fine-tune the last 3 blocks, two-step matching | 1.00 | **0.900 (27/30)** | 0.753 | 27 ms |
-| R4 | Fine-tune the last 6 blocks | not run yet (Colab) | | | |
-| R5 | R4 plus augmentation | not run yet (Colab) | | | |
+| R4 | Fine-tune the last 6 blocks, two-step matching | 1.00 | 1.000 (30/30) | 0.643 | 25 ms (M4) |
+| R5 | R4 plus augmentation | cut (C-4) | | | |
 | R6 | Gender probe, gender-filter matching | 0.50 | 0.300 (9/30) | 0.741 | 26 ms |
 
 IOAI reference on the same test set: baseline 0.77, best 0.90.
+
+R4 ran later, on Nazar's laptop (Apple M4 CPU); its latency is not directly comparable with the other rows. The champion by the fixed rule stays **R3**: R2, R3 and R4 tie on validation at 1.00, and R3 has the highest gender accuracy. R4's 30/30 on test does not change the choice, because the rule never looks at test. As in the layer experiment, training more blocks helps matching and costs gender accuracy (R2 0.680, R3 0.753, R4 0.643).
 
 What the numbers say:
 

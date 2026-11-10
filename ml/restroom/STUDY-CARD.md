@@ -16,7 +16,7 @@ Our reproduction, run R0 (zero-shot CLIP ViT-B/16), scored **0.767 on test (23 o
 
 ## 3. What changed between R2, R3 and R4, and what does training more layers risk on 82 restrooms?
 
-R2, R3 and R4 fine-tune the last 1, 3 and 6 transformer blocks of ViT-B/32 with the IOAI reference recipe; everything else stays the same. On test: R2 0.867 (26/30), R3 0.900 (27/30), R4 R4_TEST.
+R2, R3 and R4 fine-tune the last 1, 3 and 6 transformer blocks of ViT-B/32 with the IOAI reference recipe; everything else stays the same. On test: R2 0.867 (26/30), R3 0.900 (27/30), R4 1.000 (30/30). All three get 10/10 on validation, so the fixed selection rule picks R3 on the gender tie-break (0.753 against 0.680 and 0.643); test is never used to choose.
 
 Thirty test queries cannot separate these runs well, so the main experiment (C-12) trained the last N blocks for N = 0 to 12 and measured on held-out restrooms with 5-fold cross-validation and 3 seeds:
 
@@ -34,7 +34,7 @@ Grouped 5-fold cross-validation (scikit-learn `GroupKFold` with the restroom as 
 
 ## 5. With 10 validation queries, how sure are you that one run beats another?
 
-Not sure at all. One validation query is worth 0.1. R1 to R4 all score 10/10 or 8/10, and a 10/10 result still has a 95% confidence interval from about 0.69 to 1.0. The 30 test queries are better but still coarse: one query is 0.033, so R2 against R3 is a difference of one query.
+Not sure at all. One validation query is worth 0.1. R0 and R1 score 8/10 and R2 to R4 all score 10/10, and a 10/10 result still has a 95% confidence interval from about 0.69 to 1.0. The 30 test queries are better but still coarse: one query is 0.033, so R2 against R3 is a difference of one query, and even R4's 30/30 has an interval from about 0.88 to 1.0.
 
 That is why the layer experiment measures on all 164 training originals with cross-validation: one original is worth 0.006, and the 95% interval is about ±0.036. Even then, only two differences are clearly real: any training against none (0.780 to 0.917 or more), and 4 blocks against 12 (0.965 against 0.910). The settings from 2 to 8 blocks are a plateau within noise.
 
