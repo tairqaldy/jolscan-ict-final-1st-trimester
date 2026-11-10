@@ -112,3 +112,12 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** Marked D-3 `IN PROGRESS` for Amina in `docs/TASKS.md` and updated Amina's contribution entry. No dataset conversion or split was performed.
 - **How I verified it, and who verified it:** Confirmed the D-3 task was unclaimed, checked that its completion box remains unchecked and existing requirements are preserved, and ran `git diff --check`.
 - **What I rejected or corrected:** Confirmed D-4 is included in `origin/main`; did not copy D-4 changes, merge any pull request, or start dataset preparation.
+
+### 10 November 2026, Amina (D-3 preparation report)
+
+- **Tool and version:** Copilot SDK in VS Code; the version was not exposed in this session.
+- **Purpose:** Document Amina's supplied Colab preparation results for the YOLO dataset version.
+- **Key prompt(s), with a link to the transcript:** "Document the D-3 dataset preparation in the repository." The request included the procedure, counts, checks, and limitations. No transcript link is available.
+- **What it produced or changed:** Added the D-3 preparation report and copied the actual `data.yaml` and `split_manifest.json` from the supplied ZIP into `data/exports/potholes_yolo_v1/`. Updated the D-3 task and Amina's contribution entry.
+- **How I verified it, and who verified it:** The tool checked ZIP integrity, image/label counts and pairing, label class/coordinate format, split counts, object totals, and consistency with the manifest. Amina supplied the EXIF and six-image visual-check results; the tool did not perform those checks.
+- **What I rejected or corrected:** Recorded that this was a Colab export rather than Roboflow. Did not invent a Drive link, claim upload or Tair's acceptance, mark D-3 complete, or claim privacy screening, rights clearance, or fully correct annotations. The archive and images were not added to the repository.
