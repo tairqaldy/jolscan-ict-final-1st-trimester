@@ -49,3 +49,20 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced:** the restroom module design (docs/ML-EXPERIMENT-RESTROOM.md, RULES.md part 2, ARCHITECTURE.md section 2b), the reworked web app, `ml/restroom/`, the restroom endpoints in `api/`, and updates to the plan, tasks, presentation and course grounding.
 - **How it was verified:** the IOAI task, data layout, scoring rule, licence and published baseline (0.77) were read from the IOAI repository itself before anything was designed. The web app was checked with lint, type check, unit tests and a production build. Real numbers for the zero-shot restroom runs, if present in `ml/results/restroom/runs/`, were computed on Tair's laptop from the IOAI data with the IOAI answers.
 - **What was corrected:** the request was understood at first as "classify restroom photos as male or female". The IOAI task is matching door-sign icons of the opposite gender from the same restroom, and its images contain no people. The module was designed around the real task, with gender prediction as one part of it.
+
+### 10 November 2026 (evening), Nazar (draft written by the tool, Nazar to confirm and edit)
+
+- **Tool and version:** Claude Code desktop app, Claude Sonnet 5.5 at the start of the session and Claude Opus 5.5 for the rest. (Nazar: check the model names in the app.)
+- **Purpose:** take over the restroom lane: plan the experiment around the number of trained layers, build a stronger matching pipeline, run the layer experiment on a Kaggle GPU, and write up the results.
+- **Key prompts (Nazar's words, translated from Russian where needed; transcript to be exported to `docs/ai-logs/nazar/`):** "We will work on the restroom side only from now on… The main criterion for us would be to show how changing the layers in the model would change how good it performs." Later: "You don't have to use CLIP, any solution is accepted. What do you think is the best?" Also: "There is a guy who solved this problem for a 100 accuracy, you can look up his solution too."
+- **What it produced:** `ml/restroom/classic.py`, `pipeline.py`, `layers.py`, `layer_probe.py`, `layers_report.py`, `kaggle_run_layers.py`. The results in `ml/results/restroom/` (`pipeline.json`, `layers/`, `layers.csv`, `layer_probe.json`, `figs/`). The new sections of ML-EXPERIMENT-RESTROOM.md and ml/restroom/README.md, tasks C-11 to C-13, and the restroom ownership lines in CONTRIBUTING.md.
+- **How it was verified:**
+  - Every number was computed by the scripts from the IOAI data and the IOAI answer files, with the IOAI scoring rule (correct matches / queries).
+  - The SIFT step was checked on all 164 training crops, where the right original is known from the labels. Its failures were inspected image by image: they are stretched crops (fixed with an affine fit) and two mislabelled restrooms.
+  - The global assignment was checked against greedy matching on a synthetic case.
+  - The layer experiment was smoke-tested on the laptop before the Kaggle run. All 42 Kaggle result files were checked for 50 epochs, 5 folds, 164 held-out originals and the GPU name.
+  - Choices were made on training episodes, cross-validation and validation, never on test.
+- **What was rejected or corrected:**
+  - Counting SIFT inliers alone was dropped: it was only 0.74 on the training crops, because stock watermarks match across restrooms. The pixel check replaced it.
+  - The first layer-experiment metric (full pipeline on held-out restrooms) was 1.000 for every setting, so it could not compare settings. The harder "partner among all 164 originals" metric replaced it as the main one.
+  - The tool did not store or use a token pasted in the chat. Nazar saved the Kaggle token on the laptop directly, through a hidden prompt. Remove that token from the transcript before committing it.

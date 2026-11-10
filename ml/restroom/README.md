@@ -55,6 +55,25 @@ The web page reads these numbers from `web/data/restroom-experiments.json`; the 
 
 Fixed before the runs: the champion is the run with the highest validation matching accuracy; a tie goes to the higher gender accuracy, then to the earlier, simpler run. Test numbers are never used to choose. The test answers are read once per run, after the run is fixed, and stored with it. `export_results.py` applies the rule.
 
+## Pipeline, layer experiment, layer probe (10 November, evening)
+
+These three come after the R runs and are described, with all results, in [docs/ML-EXPERIMENT-RESTROOM.md](../../docs/ML-EXPERIMENT-RESTROOM.md).
+
+```bash
+python ml/restroom/pipeline.py        # about 30 s on CPU: SIFT + colour + CLIP, every approach -> ml/results/restroom/pipeline.json
+python ml/restroom/layer_probe.py     # about 1 min on CPU: what each frozen block/stage knows -> layer_probe.json, figs/layer_probe.png
+python ml/restroom/layers.py --backbone clip --n 1 --smoke    # 2 epochs, 2 folds, to check the script
+python ml/restroom/layers_report.py   # layers/*.json -> layers.csv and figs/*.png
+```
+
+The full layer experiment (`layers.py`, CLIP N = 0–12 and ResNet50 N = 0–5, 3 seeds, 5 folds) ran on a Kaggle Tesla T4 in about 1.5 hours. On a laptop CPU, one seed of the CLIP sweep takes about 80 minutes. To run it on Kaggle:
+
+1. Upload `ml/restroom/` and `data/raw/ioai-restroom/training_set/` as a private Kaggle dataset, keeping that folder layout.
+2. Push `kaggle_run_layers.py` as a script kernel with GPU and internet on and the dataset attached.
+3. Download `layers/*.json` with `kaggle kernels output` into `ml/results/restroom/layers/`.
+
+Only the training set leaves the laptop.
+
 ## Run locally (CPU)
 
 From the repository root, with Python 3.12:
@@ -118,6 +137,12 @@ If MLflow is installed (it is in `ml/requirements.txt`), every run is also logge
 - `run.py`: one experiment per call, writes `ml/results/restroom/runs/<run>.json`.
 - `export_results.py`: run files to `ml/results/restroom/experiments.csv` and `web/data/restroom-experiments.json`, keeps placeholder rows for runs not done yet, picks the champion.
 - `requirements.txt`: pinned versions used for the runs above.
+- `classic.py`: SIFT with the RANSAC affine fit and pixel check (step 1), HSV colour histograms (step 2). No learning.
+- `pipeline.py`: the two-step pipeline with greedy or global assignment, every approach scored on training episodes, validation and test.
+- `layers.py`: the layer experiment, fine-tuning the last N CLIP blocks or ResNet50 stages, with grouped 5-fold cross-validation.
+- `layer_probe.py`: frozen features after every block or stage, no training.
+- `layers_report.py`: the table and slide figures from the layer experiment and the pipeline.
+- `kaggle_run_layers.py`: the Kaggle GPU runner for `layers.py`.
 
 ## Attribution
 
