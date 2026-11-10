@@ -35,5 +35,26 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Syntax check of the starter scripts
-        run: python -m py_compile ml/train.py ml/export_results.py api/main.py api/gradio_app.py
+      - name: Syntax check of every Python file in ml/ and api/
+        run: python -m compileall -q ml api
+
+  # Team rule (CONTRIBUTING.md): rebase on the latest main before merging, so nobody's work is
+  # overwritten. GitHub Free cannot block a merge on a private repo, so this check makes the PR
+  # red instead, and the rule is: never merge a red PR.
+  up-to-date:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - name: Branch contains the latest main
+        run: |
+          git fetch --quiet origin "${{ github.event.pull_request.base.ref }}"
+          if git merge-base --is-ancestor FETCH_HEAD HEAD; then
+            echo "Up to date with ${{ github.event.pull_request.base.ref }}."
+          else
+            echo "::error::This branch is behind ${{ github.event.pull_request.base.ref }}. Rebase it: git fetch origin && git rebase origin/${{ github.event.pull_request.base.ref }} && git push --force-with-lease"
+            exit 1
+          fi

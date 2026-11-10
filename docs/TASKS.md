@@ -2,6 +2,8 @@
 
 Every task has an ID, an owner lane, what it needs first, and a check that shows it is done. Tick the box in a commit when you finish. Owners are proposals until kickoff. Time estimates are rough.
 
+**Before you start a task, claim it** with a separate commit to `main` that adds `**Claimed: <name>, <date and time>, branch <branch>.**` to the task, and rebase on the latest `main` before you merge. The full workflow is in [CONTRIBUTING.md](../CONTRIBUTING.md).
+
 Priority: **P0** the defense fails without it, **P1** expected, **P2** stretch.
 
 Checkpoints are C1 (Tue 18:00), C2 (Tue 23:00), C3 (Wed 12:00) and feature freeze (Wed 16:00). See [PLAN.md](PLAN.md).
