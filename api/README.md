@@ -38,6 +38,38 @@ curl -F "file=@photo.jpg" -F "conf=0.25" http://localhost:8000/predict
 
 Then pick the `local` provider in the web app's Settings.
 
+### Windows (PowerShell)
+
+From the repository root, create an isolated environment. Activation is optional; using the
+environment's Python directly also works when PowerShell blocks activation scripts:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r api/requirements-dev.txt
+cd api
+$env:ANY_CLASS = "1"
+$env:MODEL_WEIGHTS = "yolo26n.pt"
+..\.venv\Scripts\python.exe -m uvicorn main:app --host 127.0.0.1 --port 8000
+```
+
+In a second PowerShell window, from the repository root:
+
+```powershell
+.\.venv\Scripts\python.exe api/smoke.py
+.\.venv\Scripts\python.exe -m pytest api/ -q
+```
+
+`smoke.py` checks `/health`, sends a generated 320×240 PNG through `/predict`, checks the
+response contract, and confirms that YOLO is loaded afterwards. The first prediction downloads
+the stock weights and can take longer. A blank image normally produces no detections: this is
+a serving check, not an accuracy evaluation. The offline unit tests also exercise non-empty
+boxes, class filtering, invalid uploads and missing weights.
+
+Stock COCO weights do **not** detect potholes. `ANY_CLASS=1` is only for this serving check;
+the contract still labels these boxes as `pothole`. Before using team weights, stop the service,
+set `MODEL_WEIGHTS` to their file, remove `ANY_CLASS` (`Remove-Item Env:ANY_CLASS` in PowerShell),
+and restart. Do not present stock-model detections as project results.
+
 ## Restroom endpoints
 
 Code in `restroom.py`, shared upload checks in `imaging.py`. The model is OpenAI CLIP through `open_clip_torch` (ViT-B/32 by default, about 600 MB, downloaded on first use into the Hugging Face cache). The first restroom request takes a few seconds longer while it loads.
