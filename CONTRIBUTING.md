@@ -44,11 +44,14 @@ Branch names: `web/...`, `design/...`, `model/...`, `data/...`, `api/...`, `docs
 | Folder | Owner |
 |---|---|
 | `web/` | Tair, Dameli |
-| `ml/` | Nazar |
-| `data/`, `docs/RULES.md` | Amina |
+| Restroom module: `ml/restroom/`, `ml/results/restroom/`, `docs/ML-EXPERIMENT-RESTROOM.md`, `docs/RULES.md` part 2, the C lane in `docs/TASKS.md` | Nazar |
+| Pothole model: `ml/train.py`, `ml/export_results.py`, `ml/results/` (except `restroom/`) | Amina (lane M in `docs/PLAN.md`) |
+| `data/`, `docs/RULES.md` part 1 | Amina |
 | `api/` | Alizhan |
 | `docs/PRESENTATION.md`, `docs/research/` | Roma |
 | everything else in `docs/` | Tair |
+
+The restroom module is Nazar's lane. If you, or an AI agent working for you, need a change in one of its files, ask Nazar first instead of editing it.
 
 ## Rules
 
