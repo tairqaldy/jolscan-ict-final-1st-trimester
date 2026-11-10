@@ -20,7 +20,8 @@ const ROAD_LIMITS = [
 
 const SIGN_LIMITS = [
   "The model judges a cropped icon. It never sees the door, the text under the icon, the colour coding or the location.",
-  "“Recognisable to the model” is a stand-in for “recognisable to a person”. The thresholds were not tested with people.",
+  "“Distinguishable to the model” is a stand-in for “distinguishable to a person”. The thresholds were chosen on the IOAI training restrooms, not tested with people.",
+  "Per-sign gender is right only about 75% of the time, so the rules compare the two doors with each other (right 90% of the time on the IOAI training restrooms) instead of judging each sign alone.",
   "The training set is 82 restrooms, mostly from stock photos. Unusual or culture-specific icons may be misread.",
   "Accessible and all-gender restrooms are outside the IOAI data, so the model has no class for them.",
 ];
@@ -78,8 +79,9 @@ export default function AboutPage() {
               gender: the IOAI 2025 “Restroom Icon Matching” task, scored as top-1 accuracy.
             </p>
             <p>
-              <strong>Verdict.</strong> Three rules (S1 each sign recognisable, S2 the signs differ, S3 the signs belong to one
-              set) give clear, review or confusing, with a recommended action.
+              <strong>Verdict.</strong> The two doors are compared with each other: the sign with the higher P(male) is read as
+              the men&apos;s room. Three rules (S1 which door is which is clear, S2 the doors can be told apart at all, S3 the signs
+              belong to one set) give clear, review or confusing, with a recommended action. The thresholds come from the IOAI training restrooms.
             </p>
             <h3 className="mt-2 text-lg font-semibold text-fg">Both modules</h3>
             <p>

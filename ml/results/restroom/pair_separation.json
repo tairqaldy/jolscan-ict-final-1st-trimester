@@ -1,0 +1,426 @@
+{
+  "model": "ViT-B-32 (OpenAI CLIP, zero-shot weights)",
+  "data": "IOAI 2025 Restroom training set, 82 restrooms",
+  "zero_shot": {
+    "orig": {
+      "kind": "orig",
+      "restrooms": 82,
+      "same_gender_pairs": 6642,
+      "old_rules": {
+        "S2_pass_rate_on_real_pairs": 0.6098,
+        "both_signs_correct": 0.5732,
+        "S1_share_of_signs_at_or_above_0.80": 0.3232
+      },
+      "pairwise": {
+        "accuracy_men_door_has_higher_p_male": 0.9024,
+        "real_pair_margin": {
+          "p10": 0.0429,
+          "p25": 0.0988,
+          "median": 0.3669,
+          "p75": 0.5658,
+          "p90": 0.7537
+        },
+        "same_gender_pair_margin": {
+          "p10": 0.032,
+          "p25": 0.0818,
+          "median": 0.1814,
+          "p75": 0.3319,
+          "p90": 0.4852
+        },
+        "sweep": [
+          {
+            "margin": 0.05,
+            "real_pairs_pass": 0.8537,
+            "pairwise_accuracy_when_passed": 0.9286,
+            "same_gender_pairs_flagged": 0.1561
+          },
+          {
+            "margin": 0.1,
+            "real_pairs_pass": 0.7317,
+            "pairwise_accuracy_when_passed": 0.95,
+            "same_gender_pairs_flagged": 0.2969
+          },
+          {
+            "margin": 0.15,
+            "real_pairs_pass": 0.6463,
+            "pairwise_accuracy_when_passed": 0.9811,
+            "same_gender_pairs_flagged": 0.4283
+          },
+          {
+            "margin": 0.2,
+            "real_pairs_pass": 0.622,
+            "pairwise_accuracy_when_passed": 1.0,
+            "same_gender_pairs_flagged": 0.5397
+          },
+          {
+            "margin": 0.25,
+            "real_pairs_pass": 0.5976,
+            "pairwise_accuracy_when_passed": 1.0,
+            "same_gender_pairs_flagged": 0.6325
+          },
+          {
+            "margin": 0.3,
+            "real_pairs_pass": 0.5732,
+            "pairwise_accuracy_when_passed": 1.0,
+            "same_gender_pairs_flagged": 0.7066
+          },
+          {
+            "margin": 0.4,
+            "real_pairs_pass": 0.4512,
+            "pairwise_accuracy_when_passed": 1.0,
+            "same_gender_pairs_flagged": 0.826
+          },
+          {
+            "margin": 0.5,
+            "real_pairs_pass": 0.3415,
+            "pairwise_accuracy_when_passed": 1.0,
+            "same_gender_pairs_flagged": 0.9127
+          }
+        ]
+      }
+    },
+    "crop": {
+      "kind": "crop",
+      "restrooms": 82,
+      "same_gender_pairs": 6642,
+      "old_rules": {
+        "S2_pass_rate_on_real_pairs": 0.5366,
+        "both_signs_correct": 0.5122,
+        "S1_share_of_signs_at_or_above_0.80": 0.2683
+      },
+      "pairwise": {
+        "accuracy_men_door_has_higher_p_male": 0.8293,
+        "real_pair_margin": {
+          "p10": 0.0298,
+          "p25": 0.0617,
+          "median": 0.2412,
+          "p75": 0.508,
+          "p90": 0.7011
+        },
+        "same_gender_pair_margin": {
+          "p10": 0.0322,
+          "p25": 0.0884,
+          "median": 0.1886,
+          "p75": 0.3327,
+          "p90": 0.4817
+        },
+        "sweep": [
+          {
+            "margin": 0.05,
+            "real_pairs_pass": 0.7805,
+            "pairwise_accuracy_when_passed": 0.9062,
+            "same_gender_pairs_flagged": 0.1451
+          },
+          {
+            "margin": 0.1,
+            "real_pairs_pass": 0.622,
+            "pairwise_accuracy_when_passed": 0.9608,
+            "same_gender_pairs_flagged": 0.2829
+          },
+          {
+            "margin": 0.15,
+            "real_pairs_pass": 0.561,
+            "pairwise_accuracy_when_passed": 0.9783,
+            "same_gender_pairs_flagged": 0.407
+          },
+          {
+            "margin": 0.2,
+            "real_pairs_pass": 0.5366,
+            "pairwise_accuracy_when_passed": 0.9773,
+            "same_gender_pairs_flagged": 0.5269
+          },
+          {
+            "margin": 0.25,
+            "real_pairs_pass": 0.5,
+            "pairwise_accuracy_when_passed": 0.9756,
+            "same_gender_pairs_flagged": 0.6226
+          },
+          {
+            "margin": 0.3,
+            "real_pairs_pass": 0.439,
+            "pairwise_accuracy_when_passed": 1.0,
+            "same_gender_pairs_flagged": 0.7034
+          },
+          {
+            "margin": 0.4,
+            "real_pairs_pass": 0.3537,
+            "pairwise_accuracy_when_passed": 1.0,
+            "same_gender_pairs_flagged": 0.8293
+          },
+          {
+            "margin": 0.5,
+            "real_pairs_pass": 0.2683,
+            "pairwise_accuracy_when_passed": 1.0,
+            "same_gender_pairs_flagged": 0.9149
+          }
+        ]
+      }
+    }
+  },
+  "probe_out_of_fold": {
+    "orig": {
+      "kind": "orig",
+      "restrooms": 82,
+      "same_gender_pairs": 6642,
+      "old_rules": {
+        "S2_pass_rate_on_real_pairs": 0.561,
+        "both_signs_correct": 0.5244,
+        "S1_share_of_signs_at_or_above_0.80": 0.8598
+      },
+      "pairwise": {
+        "accuracy_men_door_has_higher_p_male": 0.8537,
+        "real_pair_margin": {
+          "p10": 0.0064,
+          "p25": 0.1537,
+          "median": 0.7239,
+          "p75": 0.9483,
+          "p90": 0.9926
+        },
+        "same_gender_pair_margin": {
+          "p10": 0.0014,
+          "p25": 0.0161,
+          "median": 0.167,
+          "p75": 0.7702,
+          "p90": 0.965
+        },
+        "sweep": [
+          {
+            "margin": 0.05,
+            "real_pairs_pass": 0.8415,
+            "pairwise_accuracy_when_passed": 0.913,
+            "same_gender_pairs_flagged": 0.368
+          },
+          {
+            "margin": 0.1,
+            "real_pairs_pass": 0.7805,
+            "pairwise_accuracy_when_passed": 0.9219,
+            "same_gender_pairs_flagged": 0.4326
+          },
+          {
+            "margin": 0.15,
+            "real_pairs_pass": 0.7561,
+            "pairwise_accuracy_when_passed": 0.9355,
+            "same_gender_pairs_flagged": 0.4783
+          },
+          {
+            "margin": 0.2,
+            "real_pairs_pass": 0.7073,
+            "pairwise_accuracy_when_passed": 0.931,
+            "same_gender_pairs_flagged": 0.5288
+          },
+          {
+            "margin": 0.25,
+            "real_pairs_pass": 0.6707,
+            "pairwise_accuracy_when_passed": 0.9273,
+            "same_gender_pairs_flagged": 0.5628
+          },
+          {
+            "margin": 0.3,
+            "real_pairs_pass": 0.622,
+            "pairwise_accuracy_when_passed": 0.9412,
+            "same_gender_pairs_flagged": 0.5947
+          },
+          {
+            "margin": 0.4,
+            "real_pairs_pass": 0.5854,
+            "pairwise_accuracy_when_passed": 0.9375,
+            "same_gender_pairs_flagged": 0.621
+          },
+          {
+            "margin": 0.5,
+            "real_pairs_pass": 0.561,
+            "pairwise_accuracy_when_passed": 0.9348,
+            "same_gender_pairs_flagged": 0.6302
+          }
+        ]
+      }
+    },
+    "crop": {
+      "kind": "crop",
+      "restrooms": 82,
+      "same_gender_pairs": 6642,
+      "old_rules": {
+        "S2_pass_rate_on_real_pairs": 0.5488,
+        "both_signs_correct": 0.5122,
+        "S1_share_of_signs_at_or_above_0.80": 0.7988
+      },
+      "pairwise": {
+        "accuracy_men_door_has_higher_p_male": 0.8537,
+        "real_pair_margin": {
+          "p10": 0.0035,
+          "p25": 0.1282,
+          "median": 0.5083,
+          "p75": 0.9605,
+          "p90": 0.9964
+        },
+        "same_gender_pair_margin": {
+          "p10": 0.0019,
+          "p25": 0.0201,
+          "median": 0.238,
+          "p75": 0.7349,
+          "p90": 0.9618
+        },
+        "sweep": [
+          {
+            "margin": 0.05,
+            "real_pairs_pass": 0.8415,
+            "pairwise_accuracy_when_passed": 0.8986,
+            "same_gender_pairs_flagged": 0.3332
+          },
+          {
+            "margin": 0.1,
+            "real_pairs_pass": 0.7927,
+            "pairwise_accuracy_when_passed": 0.8923,
+            "same_gender_pairs_flagged": 0.3662
+          },
+          {
+            "margin": 0.15,
+            "real_pairs_pass": 0.7317,
+            "pairwise_accuracy_when_passed": 0.9,
+            "same_gender_pairs_flagged": 0.4074
+          },
+          {
+            "margin": 0.2,
+            "real_pairs_pass": 0.7317,
+            "pairwise_accuracy_when_passed": 0.9,
+            "same_gender_pairs_flagged": 0.4663
+          },
+          {
+            "margin": 0.25,
+            "real_pairs_pass": 0.6829,
+            "pairwise_accuracy_when_passed": 0.9107,
+            "same_gender_pairs_flagged": 0.5164
+          },
+          {
+            "margin": 0.3,
+            "real_pairs_pass": 0.622,
+            "pairwise_accuracy_when_passed": 0.902,
+            "same_gender_pairs_flagged": 0.5363
+          },
+          {
+            "margin": 0.4,
+            "real_pairs_pass": 0.561,
+            "pairwise_accuracy_when_passed": 0.913,
+            "same_gender_pairs_flagged": 0.586
+          },
+          {
+            "margin": 0.5,
+            "real_pairs_pass": 0.5,
+            "pairwise_accuracy_when_passed": 0.9512,
+            "same_gender_pairs_flagged": 0.6355
+          }
+        ]
+      }
+    }
+  },
+  "similarity_S3": {
+    "orig": {
+      "kind": "orig",
+      "same_set": {
+        "p10": 0.8981,
+        "p25": 0.9227,
+        "median": 0.9424,
+        "p75": 0.9646,
+        "p90": 0.9728
+      },
+      "different_sets": {
+        "p10": 0.7878,
+        "p25": 0.8111,
+        "median": 0.8358,
+        "p75": 0.8598,
+        "p90": 0.8828
+      },
+      "sweep": [
+        {
+          "threshold": 0.75,
+          "same_set_pass": 1.0,
+          "different_sets_flagged": 0.0087
+        },
+        {
+          "threshold": 0.8,
+          "same_set_pass": 1.0,
+          "different_sets_flagged": 0.1697
+        },
+        {
+          "threshold": 0.82,
+          "same_set_pass": 1.0,
+          "different_sets_flagged": 0.3263
+        },
+        {
+          "threshold": 0.84,
+          "same_set_pass": 1.0,
+          "different_sets_flagged": 0.5489
+        },
+        {
+          "threshold": 0.86,
+          "same_set_pass": 0.9878,
+          "different_sets_flagged": 0.7513
+        },
+        {
+          "threshold": 0.88,
+          "same_set_pass": 0.9512,
+          "different_sets_flagged": 0.8872
+        },
+        {
+          "threshold": 0.9,
+          "same_set_pass": 0.8902,
+          "different_sets_flagged": 0.9557
+        }
+      ]
+    },
+    "crop": {
+      "kind": "crop",
+      "same_set": {
+        "p10": 0.9053,
+        "p25": 0.9217,
+        "median": 0.9436,
+        "p75": 0.9613,
+        "p90": 0.9747
+      },
+      "different_sets": {
+        "p10": 0.8002,
+        "p25": 0.8224,
+        "median": 0.8486,
+        "p75": 0.8721,
+        "p90": 0.8927
+      },
+      "sweep": [
+        {
+          "threshold": 0.75,
+          "same_set_pass": 1.0,
+          "different_sets_flagged": 0.0029
+        },
+        {
+          "threshold": 0.8,
+          "same_set_pass": 1.0,
+          "different_sets_flagged": 0.0995
+        },
+        {
+          "threshold": 0.82,
+          "same_set_pass": 1.0,
+          "different_sets_flagged": 0.2308
+        },
+        {
+          "threshold": 0.84,
+          "same_set_pass": 1.0,
+          "different_sets_flagged": 0.4088
+        },
+        {
+          "threshold": 0.86,
+          "same_set_pass": 1.0,
+          "different_sets_flagged": 0.6274
+        },
+        {
+          "threshold": 0.88,
+          "same_set_pass": 0.9756,
+          "different_sets_flagged": 0.8154
+        },
+        {
+          "threshold": 0.9,
+          "same_set_pass": 0.9024,
+          "different_sets_flagged": 0.9313
+        }
+      ]
+    }
+  }
+}

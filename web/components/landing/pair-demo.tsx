@@ -6,7 +6,7 @@ import { GenderTag, SignImage, VerdictBadge } from "@/components/restrooms/signa
 import { cn } from "@/lib/cn";
 import { duration, ease } from "@/lib/motion";
 import { RESTROOM_PRESETS, getRestroomSample, mockSimilarity } from "@/lib/mock/restroom-samples";
-import { DEFAULT_SIGNAGE, evaluateSignage } from "@/lib/signage";
+import { DEFAULT_SIGNAGE, doorGender, evaluateSignage } from "@/lib/signage";
 import { useHydrated } from "@/lib/store/local-store";
 
 const EXAMPLES = RESTROOM_PRESETS.map((p) => {
@@ -52,7 +52,10 @@ export function PairDemo() {
               <div key={k} className="grid content-start gap-2">
                 <SignImage src={s.file} alt={`Door ${k.toUpperCase()}: ${s.title}`} className="bg-surface" />
                 <motion.div {...step(0.35 + i * 0.15)}>
-                  <GenderTag gender={s.mock.gender} confidence={s.mock.confidence} />
+                  <span className="inline-flex flex-wrap items-center gap-1.5 text-xs text-muted">
+                    <GenderTag gender={doorGender(ex.result.doors, k)} />
+                    <span className="tabular font-mono">P(male) {(k === "a" ? ex.result.doors.pMaleA : ex.result.doors.pMaleB).toFixed(2)}</span>
+                  </span>
                 </motion.div>
               </div>
             );

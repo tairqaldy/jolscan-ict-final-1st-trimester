@@ -168,7 +168,7 @@ export function ThemedShowcase() {
           <GenderTag gender="male" confidence={0.97} />
           <GenderTag gender="female" confidence={0.62} />
         </div>
-        <ThresholdBar value={0.62} threshold={0.8} label="Confidence" valueText="62%" thresholdLabel="S1 80%" tone="female" />
+        <ThresholdBar value={0.15} threshold={0.2} label="Gap in P(male) between the doors" valueText="0.15" thresholdLabel="S1 0.20" />
         <VerdictBars verdicts={["clear", "clear", "clear", "review", "review", "confusing"]} />
       </section>
 

@@ -156,6 +156,7 @@ type SignageAnalysis = CompareResult & {
   verdict: SignageVerdict;
   ruleHits: Array<{ ruleId: string; title: string; detail: string; passed: boolean }>;
   recommendedAction: string;
+  doors?: { mens: "a" | "b"; pMaleA: number; pMaleB: number; margin: number };  // pairwise reading, RULES.md part 2
 };
 ```
 

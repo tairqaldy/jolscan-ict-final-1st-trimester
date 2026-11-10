@@ -78,9 +78,9 @@ What the numbers say:
 
 ## How it feeds the app
 
-The signage rules (RULES.md, part 2) use the gender confidence and the similarity. Their thresholds (S1 0.80, S3 0.75) are checked against the distribution of these values on the validation set in task C-7.
+The signage rules (RULES.md, part 2) use the gender confidence and the similarity. Their thresholds were chosen from the distribution of these values on the training restrooms in task C-7.
 
-**Known problem for C-7:** with per-sign gender right only about 75% of the time, S1 (confidence ≥ 0.80) and S2 (the two predicted genders differ) will fail on many real, correct pairs; in one live test both signs of a real restroom were read as male. A better S2 compares the two signs with each other instead of classifying each one alone: the sign with the higher "male" score is taken as male, and the rule fails only when the two scores are too close to tell apart. Decide this in C-7 before the real model is connected to the demo.
+**Resolved in C-7 (10 November):** per-sign gender is right only about 75% of the time, so the first signage rules (each sign ≥ 0.80 confident; the two predicted genders differ) failed on most real pairs. The rules now compare the two doors with each other, which reads 90% of real training restrooms the right way round, and the thresholds (gap 0.20 and 0.05, similarity 0.88) come from the training restrooms. Details and the measurements are in RULES.md part 2 and `ml/restroom/pair_separation.py`. Only training data was used; validation and test were not touched.
 
 ## Limits to state
 

@@ -46,27 +46,44 @@ export function RestroomRulesClient() {
 
         <RuleCard id="S1" passed={current.ruleHits[0].passed}>
           <SliderField
-            label="Minimum confidence, both signs"
-            value={rules.s1.minConfidence}
-            min={0.5}
-            max={0.99}
+            label="Minimum gap in P(male) between the doors"
+            value={rules.s1.minMargin}
+            min={0.05}
+            max={0.6}
             step={0.01}
-            format={(v) => `${Math.round(v * 100)}%`}
-            onChange={(v) => signageRulesStore.set((r) => ({ ...r, s1: { minConfidence: v } }))}
+            format={(v) => v.toFixed(2)}
+            onChange={(v) => signageRulesStore.set((r) => ({ ...r, s1: { minMargin: v }, s2: { minMargin: Math.min(r.s2.minMargin, v) } }))}
           />
+          <p className="text-xs text-subtle">
+            Default 0.20: on the 82 IOAI training restrooms, every pair at or above this gap was read the right way round (62% of pairs).
+          </p>
         </RuleCard>
         <RuleCard id="S2" passed={current.ruleHits[1].passed}>
-          <p className="text-sm text-muted">Fixed. Fails only when both predicted genders are the same.</p>
+          <SliderField
+            label="Gap below which the doors cannot be told apart"
+            value={rules.s2.minMargin}
+            min={0}
+            max={rules.s1.minMargin}
+            step={0.01}
+            format={(v) => v.toFixed(2)}
+            onChange={(v) => signageRulesStore.set((r) => ({ ...r, s2: { minMargin: Math.min(v, r.s1.minMargin) } }))}
+          />
+          <p className="text-xs text-subtle">
+            Default 0.05: below it, the model&apos;s reading of which door is which is close to a coin toss. Never higher than S1.
+          </p>
         </RuleCard>
         <RuleCard id="S3" passed={current.ruleHits[2].passed}>
           <SliderField
             label="Minimum similarity"
             value={rules.s3.minSimilarity}
-            min={0.3}
+            min={0.7}
             max={0.99}
             step={0.01}
             onChange={(v) => signageRulesStore.set((r) => ({ ...r, s3: { minSimilarity: v } }))}
           />
+          <p className="text-xs text-subtle">
+            Default 0.88: 95% of the two doors of one IOAI restroom are at or above it, and 89% of signs from two different restrooms are below it.
+          </p>
         </RuleCard>
 
         <Card>

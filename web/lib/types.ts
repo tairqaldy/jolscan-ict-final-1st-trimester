@@ -73,12 +73,17 @@ export type MatchResult = {
 export type SignageVerdict = "clear" | "review" | "confusing";
 export type SignageRuleHit = { ruleId: string; title: string; detail: string; passed: boolean };
 
+/** Pairwise reading of the two signs (RULES.md part 2): the sign with the higher P(male) is the men's door. */
+export type SignageDoors = { mens: "a" | "b"; pMaleA: number; pMaleB: number; margin: number };
+
 export type SignageAnalysis = CompareResult & {
   id: string;
   createdAt: string;
   verdict: SignageVerdict;
   ruleHits: SignageRuleHit[];
   recommendedAction: string;
+  /** Optional so checks saved before the pairwise rules still load; recompute with assignDoors(a, b). */
+  doors?: SignageDoors;
 };
 
 export const GENDERS: Gender[] = ["male", "female"];

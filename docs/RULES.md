@@ -73,41 +73,58 @@ The cap on small detections exists because the detector's false alarms (shadows,
 
 # Part 2: Restroom signage
 
-The model answers two questions about a pair of door signs: which gender each sign shows, and how alike the two designs are. The rules turn that into a verdict a facility manager can act on: is it obvious to a visitor which door is which?
+The model answers two questions about a pair of door signs: how "male" each sign looks, and how alike the two designs are. The rules turn that into a verdict a facility manager can act on: is it obvious to a visitor which door is which?
 
-Thresholds are team-defined starting values, to be checked on the IOAI validation set (task C-7). They are assumptions, not a building-code requirement.
+## Why the doors are compared with each other
+
+The first version of these rules judged each sign on its own (S1: each sign at least 80% confident; S2: the two predicted genders differ). Measured on the 82 IOAI training restrooms with the model the app serves (zero-shot CLIP ViT-B/32, door photos), that failed badly:
+
+| On real, correctly signed restrooms | Each sign judged alone | Doors compared with each other |
+|---|---|---|
+| Both doors read the right way round | 57% | **90%** |
+| Old S2 "genders differ" passes | 61%, so 39% falsely "confusing" | not needed |
+| Old S1 "each sign ≥ 80% confident" passes | 32% of signs, so nearly every pair "review" | not needed |
+
+So the rules now compare the two signs. Script and full numbers: `ml/restroom/pair_separation.py`, `ml/results/restroom/pair_separation.json`.
 
 ## Inputs
 
-From the model, for signs `a` and `b`: predicted gender, confidence of that prediction, and the similarity of the two designs (0..1).
+From the model, for signs `a` and `b`: predicted gender and its confidence, and the similarity of the two designs (0..1). From these:
+
+- `P(male)` of a sign = its confidence if predicted male, `1 − confidence` if predicted female.
+- The sign with the higher `P(male)` is read as the men's door, the other as the women's door.
+- `gap` = the difference between the two `P(male)` values, 0..1.
 
 ## Rules
 
-| ID | Rule | Default | Fails when |
-|---|---|---|---|
-| S1 | Each sign is recognisable | confidence ≥ 0.80 for both signs | Either sign is below 0.80: the model, and likely a visitor, cannot tell its gender at a glance |
-| S2 | The two signs differ | predicted genders differ | Both signs are read as the same gender |
-| S3 | The signs belong to one set | similarity ≥ 0.75 | The two designs look unrelated, so visitors may not read them as a pair |
+| ID | Rule | Default | Fails when | Evidence (82 IOAI training restrooms) |
+|---|---|---|---|---|
+| S1 | Which door is which is clear | gap ≥ 0.20 | The reading is too close to trust without a person checking | 62% of real pairs pass, and every one of them is read the right way round |
+| S2 | The two doors can be told apart | gap ≥ 0.05 | The two signs look almost the same to the model | Below 0.05 the reading is close to a coin toss; 15% of real pairs fall there |
+| S3 | The signs belong to one set | similarity ≥ 0.88 | The two designs look unrelated, so visitors may not read them as a pair | 95% of same-restroom pairs pass; 89% of pairs from two different restrooms fail. The first default, 0.75, flagged only 1% of them |
+
+S2 is never stricter than S1.
 
 ## Verdict
 
 | Verdict | When | Recommended action |
 |---|---|---|
 | clear | S1, S2 and S3 pass | No action |
-| review | S2 passes, and S1 or S3 fails | Check the sign design on site. Consider replacing the weaker sign so the pair matches |
+| review | S2 passes, and S1 or S3 fails | Check the signs on site. Make the difference between the doors clearer, or replace the sign that does not match the set |
 | confusing | S2 fails | Replace the signage. Visitors are likely to enter the wrong room |
 
 ## Worked examples
 
-**A.** Male sign 0.97, female sign 0.94, similarity 0.88: all rules pass, verdict `clear`.
+**A.** Door A male 0.97, door B female 0.94, similarity 0.94. P(male) 0.97 and 0.06, gap 0.91: door A is the men's room. All rules pass, verdict `clear`.
 
-**B.** Male sign 0.97, female sign 0.62, similarity 0.81: S1 fails for sign b, verdict `review`.
+**B.** Door A male 0.62, door B male 0.52, similarity 0.93. On its own door B even reads slightly male, but compared with door A it is the women's room: P(male) 0.62 against 0.52. The gap of 0.10 passes S2 and fails S1, verdict `review`.
 
-**C.** Both signs read as male (0.71 and 0.66), similarity 0.90: S2 fails, verdict `confusing`.
+**C.** Door A male 0.71, door B male 0.69, similarity 0.95. Gap 0.02, below 0.05: S2 fails, verdict `confusing`.
 
 ## Known limits
 
 - The model judges a cropped icon. It never sees the door, the text under the icon, the colour coding or the location.
-- "Recognisable to the model" is a stand-in for "recognisable to a person". The thresholds were not tested with people.
+- "Distinguishable to the model" is a stand-in for "distinguishable to a person". The thresholds were chosen on the IOAI training restrooms, not tested with people.
+- S2 is a weak detector of truly confusing pairs: two male signs from different restrooms fall below a gap of 0.05 only 16% of the time, because their styles differ. The IOAI data has no restrooms with genuinely confusing signs to test this properly.
 - The training set is 82 restrooms, mostly from stock photos. Unusual or culture-specific icons may be misread.
 - Accessible and all-gender restrooms are outside the IOAI data, so the model has no class for them.

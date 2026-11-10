@@ -6,6 +6,7 @@ import { DemoBadge } from "@/components/app/demo-badge";
 import { axisLabelProps, axisProps, ChartCard, DataTable, gridProps, LegendSwatch, tooltipProps } from "@/components/charts/chart-kit";
 import { RestroomRunsChart } from "@/components/charts/restroom-runs";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
+import { assignDoors } from "@/lib/signage";
 import { VERDICT_META } from "@/lib/signage-ui";
 import { useRestroomChecks } from "@/lib/store/restroom-history";
 import { signageRulesStore } from "@/lib/store/settings";
@@ -25,11 +26,11 @@ function bins(values: number[], from: number, to: number, step: number) {
   return out;
 }
 
-/** Restroom (signage) charts: verdicts, similarity distribution, gender confidence. */
+/** Restroom (signage) charts: verdicts, similarity distribution, gap in P(male) between the doors. */
 export function RestroomAnalytics() {
   const checks = useRestroomChecks();
   const rules = signageRulesStore.useStore();
-  const t1 = rules.s1.minConfidence;
+  const t1 = rules.s1.minMargin;
   const t3 = rules.s3.minSimilarity;
 
   const verdicts = useMemo(
@@ -38,9 +39,9 @@ export function RestroomAnalytics() {
   );
   const clearPct = checks.length ? Math.round((verdicts[0].count / checks.length) * 100) : 0;
   const similarity = useMemo(() => bins(checks.map((c) => c.similarity), 0.3, 1.0, 0.05), [checks]);
-  const confidence = useMemo(() => bins(checks.flatMap((c) => [c.a.confidence, c.b.confidence]), 0.5, 1.0, 0.05), [checks]);
+  const confidence = useMemo(() => bins(checks.map((c) => assignDoors(c.a, c.b).margin), 0, 1.0, 0.05), [checks]);
   const belowS3 = checks.filter((c) => c.similarity < t3).length;
-  const belowS1 = checks.flatMap((c) => [c.a.confidence, c.b.confidence]).filter((v) => v < t1).length;
+  const belowS1 = checks.filter((c) => assignDoors(c.a, c.b).margin < t1).length;
   const lineAt = (b: { lo: number; label: string }[], t: number) => b.find((x) => x.lo >= t - 1e-9)?.label;
 
   return (
@@ -48,7 +49,7 @@ export function RestroomAnalytics() {
       <StaggerItem>
         <ChartCard
           title={`${clearPct}% of checked sign pairs are clear`}
-          description="Pairs per signage verdict, from zero. Clear: all rules pass. Review: S1 or S3 failed. Confusing: both signs read as one gender."
+          description="Pairs per signage verdict, from zero. Clear: all rules pass. Review: S1 or S3 failed. Confusing: the two doors look almost the same to the model."
           badge={<DemoBadge module="restrooms" />}
           legend={VERDICTS.map((v) => (
             <LegendSwatch key={v} color={VERDICT_META[v].cssVar} label={VERDICT_META[v].label} />
@@ -111,29 +112,29 @@ export function RestroomAnalytics() {
 
       <StaggerItem>
         <ChartCard
-          title={`${belowS1} signs were read with less than ${Math.round(t1 * 100)}% confidence`}
-          description={`Confidence of the predicted gender, every sign of every pair. The dashed line is rule S1 (${t1.toFixed(2)}); signs to its left fail it. A binary prediction is never below 0.50.`}
+          title={`${belowS1} of ${checks.length} pairs had a gap below ${t1.toFixed(2)} between the doors`}
+          description={`Gap in P(male) between the two doors of each pair, from zero. The dashed line is rule S1 (${t1.toFixed(2)}); pairs to its left need a person to check which door is which.`}
           badge={<DemoBadge module="restrooms" />}
           legend={
             <>
-              <LegendSwatch color="var(--chart-1)" label={`≥ ${t1.toFixed(2)} recognisable`} />
+              <LegendSwatch color="var(--chart-1)" label={`≥ ${t1.toFixed(2)} clear which door is which`} />
               <LegendSwatch color="var(--chart-2)" label="below S1" />
             </>
           }
-          table={<DataTable head={["From", "Signs"]} rows={confidence.map((b) => [b.label, b.count])} />}
+          table={<DataTable head={["Gap from", "Pairs"]} rows={confidence.map((b) => [b.label, b.count])} />}
         >
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={confidence} margin={{ top: 8, right: 8, bottom: 14, left: -16 }} barCategoryGap={2}>
               <CartesianGrid {...gridProps} />
               <XAxis dataKey="label" {...axisProps}>
-                <Label value="Gender confidence" position="insideBottom" offset={-10} {...axisLabelProps} />
+                <Label value="Gap in P(male) between the doors" position="insideBottom" offset={-10} {...axisLabelProps} />
               </XAxis>
               <YAxis allowDecimals={false} {...axisProps}>
-                <Label value="Signs" angle={-90} position="insideLeft" offset={20} {...axisLabelProps} />
+                <Label value="Pairs" angle={-90} position="insideLeft" offset={20} {...axisLabelProps} />
               </YAxis>
-              <Tooltip {...tooltipProps} labelFormatter={(l) => `Confidence ${l}–${(Number(l) + 0.05).toFixed(2)}`} />
+              <Tooltip {...tooltipProps} labelFormatter={(l) => `Gap ${l}–${(Number(l) + 0.05).toFixed(2)}`} />
               <ReferenceLine x={lineAt(confidence, t1)} stroke="var(--fg)" strokeDasharray="4 3" />
-              <Bar dataKey="count" name="Signs" radius={[4, 4, 0, 0]}>
+              <Bar dataKey="count" name="Pairs" radius={[4, 4, 0, 0]}>
                 {confidence.map((b) => (
                   <Cell key={b.label} fill={b.lo + 1e-9 >= t1 ? "var(--chart-1)" : "var(--chart-2)"} />
                 ))}

@@ -11,10 +11,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/cn";
 import { formatDateTime } from "@/lib/format";
 import { getRestroomSample } from "@/lib/mock/restroom-samples";
-import { rejudge } from "@/lib/signage";
+import { assignDoors, doorGender, rejudge } from "@/lib/signage";
 import { VERDICT_CLASSES, VERDICT_META } from "@/lib/signage-ui";
 import { signageRulesStore } from "@/lib/store/settings";
-import type { SignInputInfo, SignPrediction, StoredSignageCheck } from "@/lib/types";
+import type { Gender, SignInputInfo, StoredSignageCheck } from "@/lib/types";
 import { GenderTag, SignImage, ThresholdBar, VerdictBadge } from "./signage-bits";
 
 export function signTitle(info: SignInputInfo, fallback: string): string {
@@ -30,8 +30,10 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
   const rules = signageRulesStore.useStore();
   const current = useMemo(() => rejudge(check, rules), [check, rules]);
   const rulesChanged = current.verdict !== check.verdict;
-  const t1 = rules.s1.minConfidence;
+  const t1 = rules.s1.minMargin;
+  const t2 = rules.s2.minMargin;
   const t3 = rules.s3.minSimilarity;
+  const doors = assignDoors(check.a, check.b);
   const meta = VERDICT_META[check.verdict];
 
   const raw = useMemo(() => {
@@ -50,8 +52,24 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
         <Card>
           <CardBody className="grid gap-6">
             <div className="grid grid-cols-2 gap-4 sm:gap-6">
-              <SignColumn door="Door A" info={check.inputs.a} prediction={check.a} threshold={t1} />
-              <SignColumn door="Door B" info={check.inputs.b} prediction={check.b} threshold={t1} />
+              <SignColumn door="Door A" info={check.inputs.a} pMale={doors.pMaleA} reads={doorGender(doors, "a")} />
+              <SignColumn door="Door B" info={check.inputs.b} pMale={doors.pMaleB} reads={doorGender(doors, "b")} />
+            </div>
+            <div className="grid gap-2 border-t border-border pt-5">
+              <p className="inline-flex items-center gap-2 font-display text-lg font-semibold">
+                <ArrowLeftRight className="size-4.5 text-muted" aria-hidden /> How clearly do the two doors differ?
+              </p>
+              <ThresholdBar
+                value={doors.margin}
+                threshold={t1}
+                label="Gap in P(male) between the doors (0 the same, 1 opposite)"
+                valueText={doors.margin.toFixed(2)}
+                thresholdLabel={`the S1 threshold ${t1.toFixed(2)}. Below ${t2.toFixed(2)} (S2) the doors cannot be told apart`}
+              />
+              <p className="text-xs text-subtle">
+                The doors are compared with each other: the sign with the higher P(male) is read as the men&apos;s room. On the IOAI
+                training restrooms this pairwise reading is right 90% of the time; classifying each sign on its own gets both right only 57%.
+              </p>
             </div>
             <div className="grid gap-2 border-t border-border pt-5">
               <p className="inline-flex items-center gap-2 font-display text-lg font-semibold">
@@ -156,7 +174,7 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
   );
 }
 
-function SignColumn({ door, info, prediction, threshold }: { door: string; info: SignInputInfo; prediction: SignPrediction; threshold: number }) {
+function SignColumn({ door, info, pMale, reads }: { door: string; info: SignInputInfo; pMale: number; reads: Gender }) {
   const title = signTitle(info, door);
   return (
     <div className="grid content-start gap-3">
@@ -165,17 +183,17 @@ function SignColumn({ door, info, prediction, threshold }: { door: string; info:
       <p className="truncate text-sm font-medium" title={title}>
         {title}
       </p>
-      <div>
-        <span className="sr-only">Predicted gender: </span>
-        <GenderTag gender={prediction.gender} />
+      <div className="flex flex-wrap items-center gap-1.5 text-xs text-muted">
+        Reads as <GenderTag gender={reads} />
+        <span className="sr-only">room, compared with the other door</span>
       </div>
       <ThresholdBar
-        value={prediction.confidence}
-        threshold={threshold}
-        label="Confidence"
-        valueText={`${Math.round(prediction.confidence * 100)}%`}
-        thresholdLabel={`S1 ${Math.round(threshold * 100)}%`}
-        tone={prediction.gender}
+        value={pMale}
+        threshold={0.5}
+        label="P(male), this sign alone"
+        valueText={pMale.toFixed(2)}
+        thresholdLabel="0.50, where a sign judged alone would flip"
+        tone={reads}
       />
     </div>
   );
