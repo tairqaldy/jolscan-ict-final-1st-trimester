@@ -144,3 +144,17 @@ python gradio_app.py
 - No endpoint implementation fix was needed for this smoke check. The changes add verification
   and Windows instructions. Team weights, real-road accuracy, web integration, Gradio and Docker
   remain separate tasks; S-1 does not establish that they work.
+
+
+### S-4 integration check, 11 November 2026 (in progress)
+
+- With the local Next.js app and FastAPI running, Settings reported the Local provider connected.
+- An EXIF-stripped test-split road photo (`img-7.jpg`, not committed) was uploaded through
+  `/app/roads/analyze`. The Next.js route and real FastAPI `/predict` both returned HTTP 200;
+  stock `yolo26n` reported zero detections. This checks transport only, not pothole detection.
+- A deliberately synthetic response with one normalized box was then served locally: the
+  app drew one box, listed one detection, and showed R1/R2 rule hits. The result was labeled
+  `S4-FIXTURE`; it is not a prediction. With FastAPI stopped the page showed the readable
+  `unreachable` error and retry option.
+- **Outstanding:** run with the team-trained E0 weights, check real boxes and model name on
+  a screened test image, and complete the S-2 comparison before marking S-4 done.
