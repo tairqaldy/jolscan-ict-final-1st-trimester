@@ -1,0 +1,133 @@
+{
+  "backbone": "resnet",
+  "model": "ResNet50 (torchvision IMAGENET1K_V2)",
+  "depth": 5,
+  "unit": "stages",
+  "n_trained": 0,
+  "trainable_params": 0,
+  "seed": 42,
+  "metrics": {
+    "pair_top1_heldout": 0.939,
+    "pair_mrr_heldout": 0.9549,
+    "pair_top1_heldout_vs_all164": 0.878,
+    "pair_mrr_heldout_vs_all164": 0.9064,
+    "pair_top1_train": 0.8857,
+    "pipeline_top1_heldout_emb": 0.9537,
+    "pipeline_top1_heldout_emb_hist": 0.9537,
+    "gender_acc_heldout": 0.6159,
+    "n_heldout_originals": 164
+  },
+  "folds": [
+    {
+      "fold": 0,
+      "heldout_restrooms": 17,
+      "pair_top1_heldout": 0.9412,
+      "pair_top1_heldout_vs_all164": 0.9118,
+      "pair_top1_train": 0.8769,
+      "gender_acc_heldout": 0.6029,
+      "pipeline_top1_heldout": 1.0,
+      "train_seconds": 0.0,
+      "best_loss": null
+    },
+    {
+      "fold": 1,
+      "heldout_restrooms": 17,
+      "pair_top1_heldout": 0.9118,
+      "pair_top1_heldout_vs_all164": 0.8235,
+      "pair_top1_train": 0.8923,
+      "gender_acc_heldout": 0.6912,
+      "pipeline_top1_heldout": 1.0,
+      "train_seconds": 0.0,
+      "best_loss": null
+    },
+    {
+      "fold": 2,
+      "heldout_restrooms": 16,
+      "pair_top1_heldout": 0.875,
+      "pair_top1_heldout_vs_all164": 0.8438,
+      "pair_top1_train": 0.9015,
+      "gender_acc_heldout": 0.7188,
+      "pipeline_top1_heldout": 0.8562,
+      "train_seconds": 0.0,
+      "best_loss": null
+    },
+    {
+      "fold": 3,
+      "heldout_restrooms": 16,
+      "pair_top1_heldout": 0.9688,
+      "pair_top1_heldout_vs_all164": 0.875,
+      "pair_top1_train": 0.8864,
+      "gender_acc_heldout": 0.5781,
+      "pipeline_top1_heldout": 0.9125,
+      "train_seconds": 0.0,
+      "best_loss": null
+    },
+    {
+      "fold": 4,
+      "heldout_restrooms": 16,
+      "pair_top1_heldout": 1.0,
+      "pair_top1_heldout_vs_all164": 0.9375,
+      "pair_top1_train": 0.8712,
+      "gender_acc_heldout": 0.4844,
+      "pipeline_top1_heldout": 1.0,
+      "train_seconds": 0.0,
+      "best_loss": null
+    }
+  ],
+  "training": [
+    {
+      "best_loss": null,
+      "seconds": 0.0,
+      "losses": []
+    },
+    {
+      "best_loss": null,
+      "seconds": 0.0,
+      "losses": []
+    },
+    {
+      "best_loss": null,
+      "seconds": 0.0,
+      "losses": []
+    },
+    {
+      "best_loss": null,
+      "seconds": 0.0,
+      "losses": []
+    },
+    {
+      "best_loss": null,
+      "seconds": 0.0,
+      "losses": []
+    }
+  ],
+  "config": {
+    "epochs": 50,
+    "batch_size": 32,
+    "lr": 0.0001,
+    "weight_decay": 1e-05,
+    "betas": [
+      0.5,
+      0.999
+    ],
+    "eta_min": 1e-06,
+    "temperature": 0.07,
+    "folds": 5,
+    "grouped_by": "restroom",
+    "episodes_per_fold": 20,
+    "hist_weight": 0.3,
+    "checkpoint": "lowest training loss",
+    "batchnorm": "eval mode (frozen statistics)"
+  },
+  "versions": {
+    "python": "3.13.16",
+    "torch": "2.11.0+cu130",
+    "open_clip": "4.2.1",
+    "sklearn": "1.6.1",
+    "numpy": "2.1.3"
+  },
+  "device": "Tesla T4",
+  "seconds": 21.1,
+  "timestamp": "2026-11-10T13:13:38+00:00",
+  "smoke": false
+}

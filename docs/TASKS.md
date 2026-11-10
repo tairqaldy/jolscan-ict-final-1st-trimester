@@ -94,7 +94,7 @@ Never cut: E0–E5 with their result files, restroom R0, R1, R6 and one fine-tun
 
 ## C: restroom model (Nazar)
 
-Experiment design: [ML-EXPERIMENT-RESTROOM.md](ML-EXPERIMENT-RESTROOM.md). Code: `ml/restroom/`. This lane and its files are Nazar's: ask him before editing them.
+Experiment design: [ML-EXPERIMENT-RESTROOM.md](ML-EXPERIMENT-RESTROOM.md). Code: `ml/restroom/`. This lane and its files are Nazar's: ask Nazar before editing them.
 
 | Done | ID | P | Task | Needs | Done when | Est |
 |---|---|---|---|---|---|---|
@@ -103,11 +103,14 @@ Experiment design: [ML-EXPERIMENT-RESTROOM.md](ML-EXPERIMENT-RESTROOM.md). Code:
 | [ ] | C-3 | P0 | R2 and R3 already ran on a laptop CPU. In Colab with a GPU: run R4 (fine-tune the last 6 blocks, the IOAI reference recipe) | C-2 | Run files committed, weights in Drive | 2 h |
 | [ ] | C-4 | P1 | Run R5 (R4 plus augmentation) | C-3 | Run file committed | 45 m |
 | [ ] | C-5 | P0 | Run `ml/restroom/export_results.py` after each batch of runs and commit `web/data/restroom-experiments.json` | C-2 | Model page shows the real rows without a demo badge | 15 m |
-| [ ] | C-6 | P0 | Plots for the deck: matching accuracy per run with the IOAI 0.77 and 0.90 lines, gender accuracy for prompts against the logistic-regression probe, three failure cases (query, wrong match, right match) | C-5 | PNG files in `ml/results/restroom/` | 45 m |
+| [ ] | C-6 | P0 | Plots for the deck: matching accuracy per run with the IOAI 0.77 and 0.90 lines, gender accuracy for prompts against the logistic-regression probe, three failure cases (query, wrong match, right match). Partly done: approach ladder, layer curves and layer probe are in `ml/results/restroom/figs/`; failure cases still to do | C-5 | PNG files in `ml/results/restroom/` | 45 m |
 | [x] | C-7 | P0 | Check the signage thresholds and redesign S2 as a comparison between the two signs (see ML-EXPERIMENT-RESTROOM.md, "Known problem"): plot gender confidence and pair similarity on the validation set, see where S1 0.80 and S3 0.75 fall, adjust RULES.md part 2 and `web/lib/signage` if needed | C-2 | Thresholds cite the plot | 45 m |
 | [ ] | C-8 | P0 | With Alizhan: run the API's `/restroom/compare` and `/restroom/match` locally on the chosen model, connect the web app's local provider | C-3, S-1 | Compare and Match in the web app show real predictions | 45 m |
 | [ ] | C-9 | P0 | Study card: what CLIP and a ViT are, zero-shot against fine-tuning, why training more layers can overfit on 82 restrooms, top-1 accuracy, grouped cross-validation and why it prevents leakage | — | Passed three practice questions | 45 m |
 | [ ] | C-10 | P2 | Add a restroom tab to the Gradio demo | C-3, S-5 | Tab works locally | 30 m |
+| [x] | C-11 | P0 | Two-step pipeline without training: SIFT with a pixel check, colour histograms, global assignment (`pipeline.py`) | C-1 | `pipeline.json` committed: 30/30 test, 10/10 validation | done |
+| [x] | C-12 | P0 | Layer experiment: fine-tune the last N CLIP blocks (0–12) and ResNet50 stages (0–5), grouped 5-fold CV, 3 seeds, on Kaggle (`layers.py`). Replaces C-3/C-4's single R4 run as the "number of layers" comparison | C-11 | 42 run files and `layers.csv` committed, figures in `ml/results/restroom/figs/` | done |
+| [x] | C-13 | P1 | Per-layer probe of frozen CLIP and ResNet50 features (`layer_probe.py`) | C-1 | `layer_probe.json` and figure committed | done |
 
 ## S: serving and performance (Alizhan, with Tair)
 
