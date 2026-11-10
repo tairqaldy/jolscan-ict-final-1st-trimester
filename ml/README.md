@@ -10,7 +10,7 @@ The scripts were checked against the Ultralytics and MLflow documentation but ha
 2. Clone the repository and install the pinned versions:
 
    ```bash
-   git clone https://github.com/tairqaldy/jolscan-ict-final-1st-trimester.git jolscan && cd jolscan && pip install -q -r ml/requirements.txt
+   git clone https://github.com/tairqaldy/qarau-ict-final-1st-trimester.git jolscan && cd jolscan && pip install -q -r ml/requirements.txt
    ```
 
 3. Get the dataset: download the exported version zip from the shared Drive folder and unzip it. Nobody needs the Roboflow API key.

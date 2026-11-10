@@ -78,7 +78,7 @@ python ml/restroom/export_results.py
 2. Clone and install. Keep Colab's own CUDA build of torch and torchvision:
 
    ```bash
-   git clone https://github.com/tairqaldy/jolscan-ict-final-1st-trimester.git jolscan && cd jolscan && pip install -q open_clip_torch==4.2.1 scikit-learn==1.9.1
+   git clone https://github.com/tairqaldy/qarau-ict-final-1st-trimester.git jolscan && cd jolscan && pip install -q open_clip_torch==4.2.1 scikit-learn==1.9.1
    ```
 
 3. Data, then the runs (a few minutes each on a T4):

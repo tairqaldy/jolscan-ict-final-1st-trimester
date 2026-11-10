@@ -27,7 +27,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PEOPLE = json.loads((ROOT / "scripts" / "people.json").read_text())
-REPO = "tairqaldy/jolscan-ict-final-1st-trimester"
+REPO = "tairqaldy/qarau-ict-final-1st-trimester"
 
 
 def who(name: str, email: str, login: str | None = None) -> str | None:

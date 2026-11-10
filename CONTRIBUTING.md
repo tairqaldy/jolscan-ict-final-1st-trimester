@@ -8,7 +8,7 @@ Six people, two days. The goal is to never block each other and never break `mai
 2. Clone:
 
    ```bash
-   git clone https://github.com/tairqaldy/jolscan-ict-final-1st-trimester.git jolscan
+   git clone https://github.com/tairqaldy/qarau-ict-final-1st-trimester.git jolscan
    ```
 
 3. Find your lane in [docs/TASKS.md](docs/TASKS.md).
