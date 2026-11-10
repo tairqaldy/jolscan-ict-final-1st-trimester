@@ -90,9 +90,9 @@ Never cut: E0–E5 with their result files, restroom R0, R1, R6 and one fine-tun
 | [ ] | M-16 | P2 | Repeat E0 and E8 with seeds 0 and 1, report mean and spread | M-11 | Table in ML-EXPERIMENT.md | 2.5 h |
 | [ ] | M-17 | P2 | Evaluate the final model on the external test set | D-9, M-11 | Separate table | 30 m |
 
-## C: restroom model (Nazar, with Tair)
+## C: restroom model (Nazar)
 
-Experiment design: [ML-EXPERIMENT-RESTROOM.md](ML-EXPERIMENT-RESTROOM.md). Code: `ml/restroom/`.
+Experiment design: [ML-EXPERIMENT-RESTROOM.md](ML-EXPERIMENT-RESTROOM.md). Code: `ml/restroom/`. This lane and its files are Nazar's: ask him before editing them.
 
 | Done | ID | P | Task | Needs | Done when | Est |
 |---|---|---|---|---|---|---|

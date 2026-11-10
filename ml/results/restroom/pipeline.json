@@ -1,0 +1,664 @@
+{
+  "experiment": "two-step matching pipeline: classical CV (SIFT, colour histograms) and zero-shot CLIP ViT-B/32",
+  "protocol": {
+    "train_episodes": "200 episodes of 30 training restrooms, random query gender, gallery = their 60 originals",
+    "selection": "highest mean train-episode top-1, then validation top-1, then the simpler row; test read once",
+    "histogram_weight_scan": "step 2 = w * z(histogram) + (1 - w) * z(CLIP), w chosen on 100 train episodes"
+  },
+  "step1_full_train": {
+    "sift_inliers": 0.9329,
+    "sift_ncc": 0.9756,
+    "clip": 0.7744,
+    "hist": 0.8171
+  },
+  "histogram_weight_scan": {
+    "0.0": 0.9393,
+    "0.1": 0.9553,
+    "0.2": 0.9593,
+    "0.3": 0.9603,
+    "0.4": 0.9533,
+    "0.5": 0.9533,
+    "0.6": 0.9507,
+    "0.7": 0.9487,
+    "0.8": 0.9473,
+    "0.9": 0.929,
+    "1.0": 0.8983
+  },
+  "histogram_weight": 0.3,
+  "approaches": {
+    "ioai_baseline_clip": "IOAI baseline: second most similar original, CLIP ViT-B/32 zero-shot",
+    "singapore_hist_top2_sift": "colour histogram picks the restroom (top 2), SIFT rejects the own original",
+    "clip_clip_greedy": "two-step, CLIP for both steps, greedy (IOAI reference matching, zero-shot)",
+    "siftinl_clip_greedy": "step 1 SIFT inlier count, step 2 CLIP, greedy",
+    "sift_clip_greedy": "step 1 SIFT + pixel check, step 2 CLIP, greedy",
+    "sift_hist_greedy": "step 1 SIFT + pixel check, step 2 colour histogram, greedy",
+    "sift_combo_greedy": "step 1 SIFT + pixel check, step 2 30% histogram + CLIP, greedy",
+    "sift_clip_hungarian": "step 1 SIFT + pixel check, step 2 CLIP, global assignment",
+    "sift_hist_hungarian": "step 1 SIFT + pixel check, step 2 colour histogram, global assignment",
+    "sift_combo_hungarian": "step 1 SIFT + pixel check, step 2 30% histogram + CLIP, global assignment"
+  },
+  "train_episodes": {
+    "ioai_baseline_clip": {
+      "top1": {
+        "mean": 0.5737,
+        "std": 0.0858
+      },
+      "step1": null,
+      "step2_oracle": null
+    },
+    "singapore_hist_top2_sift": {
+      "top1": {
+        "mean": 0.735,
+        "std": 0.0677
+      },
+      "step1": null,
+      "step2_oracle": null
+    },
+    "clip_clip_greedy": {
+      "top1": {
+        "mean": 0.6407,
+        "std": 0.0891
+      },
+      "step1": {
+        "mean": 0.7933,
+        "std": 0.067
+      },
+      "step2_oracle": {
+        "mean": 0.8372,
+        "std": 0.0711
+      }
+    },
+    "siftinl_clip_greedy": {
+      "top1": {
+        "mean": 0.7755,
+        "std": 0.0823
+      },
+      "step1": {
+        "mean": 0.9468,
+        "std": 0.0365
+      },
+      "step2_oracle": {
+        "mean": 0.8372,
+        "std": 0.0711
+      }
+    },
+    "sift_clip_greedy": {
+      "top1": {
+        "mean": 0.8082,
+        "std": 0.0738
+      },
+      "step1": {
+        "mean": 0.9752,
+        "std": 0.0236
+      },
+      "step2_oracle": {
+        "mean": 0.8372,
+        "std": 0.0711
+      }
+    },
+    "sift_hist_greedy": {
+      "top1": {
+        "mean": 0.7793,
+        "std": 0.0784
+      },
+      "step1": {
+        "mean": 0.9752,
+        "std": 0.0236
+      },
+      "step2_oracle": {
+        "mean": 0.7955,
+        "std": 0.0777
+      }
+    },
+    "sift_combo_greedy": {
+      "top1": {
+        "mean": 0.917,
+        "std": 0.0511
+      },
+      "step1": {
+        "mean": 0.9752,
+        "std": 0.0236
+      },
+      "step2_oracle": {
+        "mean": 0.9457,
+        "std": 0.0439
+      }
+    },
+    "sift_clip_hungarian": {
+      "top1": {
+        "mean": 0.9388,
+        "std": 0.0611
+      },
+      "step1": {
+        "mean": 0.9745,
+        "std": 0.0245
+      },
+      "step2_oracle": {
+        "mean": 0.9795,
+        "std": 0.0346
+      }
+    },
+    "sift_hist_hungarian": {
+      "top1": {
+        "mean": 0.9002,
+        "std": 0.0694
+      },
+      "step1": {
+        "mean": 0.9745,
+        "std": 0.0245
+      },
+      "step2_oracle": {
+        "mean": 0.94,
+        "std": 0.0591
+      }
+    },
+    "sift_combo_hungarian": {
+      "top1": {
+        "mean": 0.9597,
+        "std": 0.0408
+      },
+      "step1": {
+        "mean": 0.9745,
+        "std": 0.0245
+      },
+      "step2_oracle": {
+        "mean": 0.9933,
+        "std": 0.02
+      }
+    }
+  },
+  "val": {
+    "ioai_baseline_clip": 0.8,
+    "singapore_hist_top2_sift": 1.0,
+    "clip_clip_greedy": 1.0,
+    "siftinl_clip_greedy": 1.0,
+    "sift_clip_greedy": 1.0,
+    "sift_hist_greedy": 0.9,
+    "sift_combo_greedy": 1.0,
+    "sift_clip_hungarian": 1.0,
+    "sift_hist_hungarian": 1.0,
+    "sift_combo_hungarian": 1.0
+  },
+  "test": {
+    "ioai_baseline_clip": 0.7667,
+    "singapore_hist_top2_sift": 0.8333,
+    "clip_clip_greedy": 0.8667,
+    "siftinl_clip_greedy": 1.0,
+    "sift_clip_greedy": 1.0,
+    "sift_hist_greedy": 0.8333,
+    "sift_combo_greedy": 1.0,
+    "sift_clip_hungarian": 1.0,
+    "sift_hist_hungarian": 1.0,
+    "sift_combo_hungarian": 1.0
+  },
+  "champion": "sift_combo_hungarian",
+  "predictions": {
+    "val": {
+      "ioai_baseline_clip": [
+        2,
+        10,
+        6,
+        19,
+        3,
+        5,
+        15,
+        11,
+        13,
+        20
+      ],
+      "singapore_hist_top2_sift": [
+        2,
+        18,
+        14,
+        19,
+        3,
+        5,
+        15,
+        11,
+        13,
+        20
+      ],
+      "clip_clip_greedy": [
+        2,
+        18,
+        14,
+        19,
+        3,
+        5,
+        15,
+        11,
+        13,
+        20
+      ],
+      "siftinl_clip_greedy": [
+        2,
+        18,
+        14,
+        19,
+        3,
+        5,
+        15,
+        11,
+        13,
+        20
+      ],
+      "sift_clip_greedy": [
+        2,
+        18,
+        14,
+        19,
+        3,
+        5,
+        15,
+        11,
+        13,
+        20
+      ],
+      "sift_hist_greedy": [
+        2,
+        18,
+        14,
+        12,
+        3,
+        5,
+        15,
+        11,
+        13,
+        20
+      ],
+      "sift_combo_greedy": [
+        2,
+        18,
+        14,
+        19,
+        3,
+        5,
+        15,
+        11,
+        13,
+        20
+      ],
+      "sift_clip_hungarian": [
+        2,
+        18,
+        14,
+        19,
+        3,
+        5,
+        15,
+        11,
+        13,
+        20
+      ],
+      "sift_hist_hungarian": [
+        2,
+        18,
+        14,
+        19,
+        3,
+        5,
+        15,
+        11,
+        13,
+        20
+      ],
+      "sift_combo_hungarian": [
+        2,
+        18,
+        14,
+        19,
+        3,
+        5,
+        15,
+        11,
+        13,
+        20
+      ]
+    },
+    "test": {
+      "ioai_baseline_clip": [
+        37,
+        13,
+        45,
+        17,
+        58,
+        49,
+        14,
+        59,
+        39,
+        29,
+        18,
+        21,
+        44,
+        51,
+        22,
+        19,
+        57,
+        35,
+        31,
+        52,
+        50,
+        12,
+        22,
+        43,
+        54,
+        31,
+        20,
+        29,
+        15,
+        44
+      ],
+      "singapore_hist_top2_sift": [
+        37,
+        13,
+        45,
+        17,
+        58,
+        49,
+        14,
+        59,
+        39,
+        7,
+        18,
+        21,
+        44,
+        7,
+        22,
+        16,
+        57,
+        35,
+        55,
+        46,
+        50,
+        12,
+        16,
+        9,
+        54,
+        31,
+        57,
+        29,
+        15,
+        5
+      ],
+      "clip_clip_greedy": [
+        37,
+        13,
+        45,
+        17,
+        58,
+        49,
+        14,
+        59,
+        39,
+        7,
+        18,
+        21,
+        44,
+        25,
+        22,
+        19,
+        57,
+        35,
+        4,
+        46,
+        50,
+        12,
+        51,
+        9,
+        54,
+        31,
+        20,
+        29,
+        15,
+        38
+      ],
+      "siftinl_clip_greedy": [
+        37,
+        13,
+        45,
+        17,
+        58,
+        49,
+        14,
+        59,
+        39,
+        7,
+        18,
+        21,
+        44,
+        10,
+        22,
+        19,
+        57,
+        35,
+        27,
+        46,
+        50,
+        12,
+        16,
+        9,
+        54,
+        31,
+        20,
+        29,
+        15,
+        28
+      ],
+      "sift_clip_greedy": [
+        37,
+        13,
+        45,
+        17,
+        58,
+        49,
+        14,
+        59,
+        39,
+        7,
+        18,
+        21,
+        44,
+        10,
+        22,
+        19,
+        57,
+        35,
+        27,
+        46,
+        50,
+        12,
+        16,
+        9,
+        54,
+        31,
+        20,
+        29,
+        15,
+        28
+      ],
+      "sift_hist_greedy": [
+        37,
+        13,
+        45,
+        17,
+        58,
+        49,
+        14,
+        59,
+        39,
+        7,
+        18,
+        21,
+        44,
+        27,
+        22,
+        16,
+        57,
+        35,
+        55,
+        46,
+        50,
+        12,
+        56,
+        9,
+        54,
+        31,
+        20,
+        29,
+        15,
+        2
+      ],
+      "sift_combo_greedy": [
+        37,
+        13,
+        45,
+        17,
+        58,
+        49,
+        14,
+        59,
+        39,
+        7,
+        18,
+        21,
+        44,
+        10,
+        22,
+        19,
+        57,
+        35,
+        27,
+        46,
+        50,
+        12,
+        16,
+        9,
+        54,
+        31,
+        20,
+        29,
+        15,
+        28
+      ],
+      "sift_clip_hungarian": [
+        37,
+        13,
+        45,
+        17,
+        58,
+        49,
+        14,
+        59,
+        39,
+        7,
+        18,
+        21,
+        44,
+        10,
+        22,
+        19,
+        57,
+        35,
+        27,
+        46,
+        50,
+        12,
+        16,
+        9,
+        54,
+        31,
+        20,
+        29,
+        15,
+        28
+      ],
+      "sift_hist_hungarian": [
+        37,
+        13,
+        45,
+        17,
+        58,
+        49,
+        14,
+        59,
+        39,
+        7,
+        18,
+        21,
+        44,
+        10,
+        22,
+        19,
+        57,
+        35,
+        27,
+        46,
+        50,
+        12,
+        16,
+        9,
+        54,
+        31,
+        20,
+        29,
+        15,
+        28
+      ],
+      "sift_combo_hungarian": [
+        37,
+        13,
+        45,
+        17,
+        58,
+        49,
+        14,
+        59,
+        39,
+        7,
+        18,
+        21,
+        44,
+        10,
+        22,
+        19,
+        57,
+        35,
+        27,
+        46,
+        50,
+        12,
+        16,
+        9,
+        54,
+        31,
+        20,
+        29,
+        15,
+        28
+      ]
+    }
+  },
+  "params": {
+    "sift_nfeatures": 1500,
+    "ratio": 0.75,
+    "ransac_px": 5.0,
+    "long_side": 512,
+    "hist_bins_hsv": [
+      16,
+      8,
+      8
+    ],
+    "clip": "ViT-B-32 openai"
+  },
+  "versions": {
+    "python": "3.12.15",
+    "torch": "2.15.0",
+    "open_clip": "4.2.1",
+    "sklearn": "1.9.1",
+    "numpy": "2.5.4",
+    "opencv": "5.0.0"
+  },
+  "device": "Apple M4 CPU",
+  "seconds": 30.9,
+  "timestamp": "2026-11-10T11:50:12+00:00"
+}

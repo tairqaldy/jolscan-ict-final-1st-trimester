@@ -73,6 +73,8 @@ The cap on small detections exists because the detector's false alarms (shadows,
 
 # Part 2: Restroom signage
 
+> **Owner: Nazar (lane C).** Part 1 is Amina's. Ask Nazar before changing part 2.
+
 The model answers two questions about a pair of door signs: how "male" each sign looks, and how alike the two designs are. The rules turn that into a verdict a facility manager can act on: is it obvious to a visitor which door is which?
 
 ## Why the doors are compared with each other

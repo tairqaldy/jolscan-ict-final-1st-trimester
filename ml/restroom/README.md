@@ -1,5 +1,7 @@
 # ml/restroom/
 
+> **Owner: Nazar (lane C).** Other lanes, and AI agents working for them: ask Nazar instead of editing files here.
+
 The second module: restroom door signs. Data and task come from the IOAI 2025 Individual Contest task "Restroom Icon Matching" (CC-BY-4.0, attribution below). The served endpoints are described in [docs/ARCHITECTURE.md](../../docs/ARCHITECTURE.md), section 2b, and in [api/README.md](../../api/README.md).
 
 ## The task

@@ -1,5 +1,7 @@
 # ML experiment 2: restroom sign matching
 
+> **Owner: Nazar (lane C).** This file, `ml/restroom/`, `ml/results/restroom/` and RULES.md part 2 belong to the restroom lane. Other lanes, and AI agents working for them: ask Nazar instead of editing.
+
 The second module of Qarau. The pothole experiment is in [ML-EXPERIMENT.md](ML-EXPERIMENT.md). Code and run instructions are in `ml/restroom/README.md`.
 
 ## Task and data
