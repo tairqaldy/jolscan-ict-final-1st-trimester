@@ -41,3 +41,5 @@ data/**/*.zip
 data/cache/
 ml/results/restroom/weights/
 ml/results/restroom/layers-smoke/
+ml/results/restroom/layers-smoke.csv
+ml/results/restroom/figs/smoke/
