@@ -32,6 +32,12 @@ CLO 5 speaks of classification and clustering and asks for a justified quality m
 - Differences below 0.02 on the test split are not claimed as real.
 - The test split is not used for any choice. `ml/export_results.py` applies this rule from validation numbers only.
 
+### Smoke-test boundary
+
+The M-1 one-epoch smoke run is a pipeline check, not a reportable experiment. It trains on `train` and checks metrics on `val` only. Its temporary dataset YAML omits `test`, so neither training nor evaluation can read test images. The smoke JSON contains validation metrics only; it must not contain a placeholder or copied `test_map50`.
+
+Issue #50 currently asks for 12 smoke metrics including test metrics and `test_map50` in MLflow. That acceptance criterion conflicts with this protocol: test is held for the final evaluation, not an early one-epoch check. D-20 also verified that the 100-image D-2 visual-review sample is identical to the test split. Until the issue criterion is aligned with this rule, M-1 remains incomplete even if the validation-only smoke run succeeds.
+
 ## Runs
 
 Fixed for every run unless the row says otherwise: `epochs=40`, `imgsz=640`, `batch=16`, `seed=42`, `optimizer=SGD`, `lr0=0.01`, default Ultralytics augmentation, COCO-pretrained weights, `ultralytics==8.4.208`.
@@ -64,7 +70,7 @@ Spread the runs over several accounts (Nazar, Amina, Alizhan on Colab, and Kaggl
 
 ## What to report
 
-For each run, on the **test** split, read once at the end (Sup p10, Lec8 p42):
+For each full experiment run, on the **test** split, read once at the end (Sup p10, Lec8 p42). The M-1 smoke check is excluded; see [Smoke-test boundary](#smoke-test-boundary).
 
 - mAP50 (primary), mAP50-95, precision and recall. Protocol: Ultralytics validation, IoU 0.5 for mAP50. Summary precision and recall are taken at the confidence that maximises F1.
 - Precision and recall at confidence 0.40, the app's operating point, with the true-positive, false-positive and false-negative counts for the final model (task M-19).
@@ -74,7 +80,7 @@ For each run, on the **test** split, read once at the end (Sup p10, Lec8 p42):
 
 ## Tracking
 
-Every run is an MLflow run (Lec9 p34–36, Lab 8): parameters, metrics, plots and weights as artifacts, the dataset version as a tag. Ultralytics has a built-in MLflow callback and `ml/train.py` adds the test metrics.
+Every run is an MLflow run (Lec9 p34–36, Lab 8): parameters, metrics, plots and weights as artifacts, the dataset version as a tag. Ultralytics has a built-in MLflow callback. Full runs include test metrics; an M-1 smoke run logs validation metrics only.
 
 MLflow 3 stores tracking data in a local SQLite file, which cannot be merged across Colab accounts. So `ml/train.py` also writes `ml/results/runs/<run>.json`, and that committed file is the source of truth. `ml/export_results.py` builds `ml/results/experiments.csv` and `web/data/experiments.json` (with `"isMock": false`) from those files. The model page and the slides show that table and nothing else.
 

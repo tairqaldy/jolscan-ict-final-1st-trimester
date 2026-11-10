@@ -22,6 +22,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Amina (M-1, in progress)
+
+- **Tool and version:** Copilot SDK in VS Code; the version was not exposed in this session.
+- **Purpose:** Prepare the M-1 trainer and a reproducible Colab one-epoch smoke workflow.
+- **Key prompt(s), with a link to the transcript:** "Work on M-1 (#50): make train.py run end to end with a one-epoch smoke test" and "Назначила #50 на omodotori, перепроверь и продолжай M-1 по правилам проекта." A later clarification chose `validation_only` when asked how to resolve the test-split conflict. No transcript link is available.
+- **What it produced or changed:** Updated `ml/train.py`, added isolated tests and `ml/colab_runner.ipynb`, and documented the validation-only policy and its conflict with issue #50.
+- **How I verified it, and who verified it:** Three `python -m unittest ml.test_train` tests passed; `python -m compileall -q ml api` passed; notebook JSON and code cells were validated locally with no outputs. No Colab smoke run was performed; Amina must run it and review the actual evidence.
+- **What I rejected or corrected:** Did not evaluate test in smoke, add a fabricated `test_map50`, run full E0, claim a successful training run, or commit a dataset archive or weights. The issue's current 12-metric acceptance check remains unresolved.
+
 ### 10 November 2026, Alizhan (S-1, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.
