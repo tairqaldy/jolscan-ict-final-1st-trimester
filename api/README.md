@@ -4,11 +4,11 @@ The model service. It turns a road photo into pothole detections, and restroom d
 
 Both models are loaded on the first request that needs them, not at start-up. The service starts even without the YOLO weights file: `/predict` then answers 503 with a message, and the restroom endpoints still work. `/health` shows which models are loaded.
 
-The code was checked against the FastAPI, Ultralytics and Gradio documentation but has not been run yet (tasks S-1, S-5, S-8). Whoever runs it first fixes what breaks and commits the fix.
+The FastAPI service was run with real stock YOLO weights on Windows for S-1; see the verification record below. Gradio and Docker still need their own runtime checks (S-5, S-8).
 
 ## Run locally
 
-Use Python 3.11 in a virtual environment. The install is large because it includes PyTorch.
+Use Python 3.11 or newer in a virtual environment (S-1 was verified with Python 3.12.10). The install is large because it includes PyTorch.
 
 ```bash
 cd api && python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements-dev.txt
@@ -127,3 +127,20 @@ python gradio_app.py
 - Weights are never committed. `api/weights/` is in `.gitignore`.
 - Stop the server with Ctrl+C when you are done. It holds a few hundred MB of memory, about 1 GB once CLIP is loaded.
 - If port 8000 is taken, pass another `--port` and set `MODEL_API_URL` in `web/.env.local` to match.
+
+
+### S-1 verification, 10 November 2026
+
+- Windows, Python 3.12.10, Ultralytics 8.4.208, PyTorch 2.15.0, CPU.
+- Installed `requirements-dev.txt` in an isolated `.venv`.
+- Started Uvicorn on `127.0.0.1:8000` with `ANY_CLASS=1 MODEL_WEIGHTS=yolo26n.pt`.
+- `GET /health`: HTTP 200 before inference, model not loaded.
+- `POST /predict`: HTTP 200 using `smoke.py`'s generated 320x240 PNG, model `yolo26n`,
+  provider `local`, empty detection list as expected for the blank image, `latencyMs: 9850`.
+  This was a cold first inference, not the controlled S-15 latency benchmark.
+- `GET /health` afterwards: HTTP 200, pothole model loaded on CPU; restroom model remains lazy.
+- `python -m pytest api/ -vv`: **30 passed** (14 road tests added here).
+- `python -m compileall -q ml api`: passed.
+- No endpoint implementation fix was needed for this smoke check. The changes add verification
+  and Windows instructions. Team weights, real-road accuracy, web integration, Gradio and Docker
+  remain separate tasks; S-1 does not establish that they work.

@@ -28,7 +28,7 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **Purpose:** verify the local road API with stock YOLO weights and make the check repeatable on Windows.
 - **Key prompt:** "короче, я Алижан ты можешь уже начать выполнять мои таски?" See the [task-specific prompt excerpt and work log](ai-logs/alizhan/2026-11-10-s1.md); it is not a full exported transcript.
 - **What it produced:** `api/test_predict.py`, `api/smoke.py`, PowerShell instructions in `api/README.md`.
-- **Verification:** Python syntax compilation passes. Runtime verification is in progress and will be recorded before S-1 is marked complete. Alizhan has not yet personally reviewed the results.
+- **Verification:** Python syntax compilation and all 30 API tests passed. A real HTTP smoke check returned 200 for health and prediction with Ultralytics 8.4.208 / yolo26n on Windows, Python 3.12.10, CPU. Results are in api/README.md. Alizhan has not yet personally reviewed the results.
 - **Limits:** stock COCO weights and a generated blank image verify serving, not pothole accuracy. No model training results or personal photographs are used.
 
 ### 10 November 2026, Tair (draft written by the tool, Tair to confirm and edit)
