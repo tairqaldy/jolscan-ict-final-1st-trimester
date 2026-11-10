@@ -255,7 +255,7 @@ The scaffold already gives working pages on demo data. P0 here means "works at t
 
 | Done | ID | P | Task | Needs | Done when | Est |
 |---|---|---|---|---|---|---|
-| [ ] | [G-1](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/118) | P0 | Read DESIGN-BRIEF.md, run the app, look at `/design` | W-1 | Can run `pnpm dev` | 30 m |
+| [ ] | [G-1](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/118) | P0 | Read DESIGN-BRIEF.md, run the app, look at `/design` **Claimed: Dameli, 10 November 2026 21:55 Almaty, branch `design/g1-setup`.** | W-1 | Can run `pnpm dev` | 30 m |
 | [ ] | [G-12](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/119) | P0 | Study card: Nielsen heuristics with one example each from our app, WCAG contrast, Fitts and Hick, why each chart type was chosen | — | Passed three practice questions | 45 m |
 | [ ] | [G-2](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/120) | P1 | Moodboard with Tair: 5–8 references for landing and dashboard | — | Links in DESIGN-BRIEF.md | 1 h |
 | [ ] | [G-3](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/121) | P1 | Colour tokens for light and dark, including the five severity colours, checked for contrast and for colour-blind safety | G-2 | Contrast values listed in DESIGN-BRIEF.md | 1 h |
