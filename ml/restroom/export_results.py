@@ -11,6 +11,7 @@ Usage, from the repository root:
 
 Only rows of runs that were actually run are replaced. Runs without a result file stay as
 placeholder rows (isReal false, null metrics), and isMock stays true while any placeholder is left.
+Runs listed in CUT were dropped from the plan and get no row at all.
 
 Selection rule (fixed before the runs): the champion is the real run with the highest validation
 matching accuracy; a tie goes to the higher gender accuracy (grouped 5-fold CV on the training
@@ -42,6 +43,9 @@ COMMENT = ("Schema: RestroomExperimentsFile in docs/ARCHITECTURE.md section 2b. 
            "placeholders with null metrics ('not run yet'). `reference` holds the numbers published by the IOAI "
            "committee on their test set (Leaderboard B); they are not our runs.")
 ROW_KEYS = ("run", "changed", "isReal", "matchTop1Val", "matchTop1Test", "genderAccCv", "latencyMs", "device")
+# Runs dropped from the plan, with the reason (docs/TASKS.md). They get no row, real or placeholder.
+CUT = {"R5": "cut (task C-4): first in the restroom cut order; the layer experiment (C-12) answers the "
+              "number-of-layers question instead"}
 
 
 def placeholder(run: str, changed: str) -> dict:
@@ -92,10 +96,12 @@ def main() -> None:
     # Keep the existing file's row order and placeholder rows; replace only rows that were run.
     for old in existing.get("runs", []):
         run = old["run"]
-        rows.append(real[run] if run in real else {k: old.get(k) for k in ROW_KEYS} | {"isReal": False})
         seen.add(run)
+        if run in CUT:
+            continue
+        rows.append(real[run] if run in real else {k: old.get(k) for k in ROW_KEYS} | {"isReal": False})
     for run in sorted(set(RUNS) | set(real), key=run_number):
-        if run not in seen:
+        if run not in seen and run not in CUT:
             rows.append(real.get(run) or placeholder(run, RUNS[run]["changed"]))
     # A placeholder row must never carry numbers.
     for r in rows:

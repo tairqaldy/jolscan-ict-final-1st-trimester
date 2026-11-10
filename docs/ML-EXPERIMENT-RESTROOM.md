@@ -159,8 +159,11 @@ Features read out after every block or stage on the 82 training restrooms: CLIP'
 - `layers_gender.png`: gender accuracy against trained blocks or stages.
 - `layers_params.png`: the same accuracy against the share of parameters trained, CLIP and ResNet50 together.
 - `layer_probe.png`: what each frozen layer knows.
+- `failures.png`: three test queries the IOAI zero-shot baseline gets wrong (query, its own original, the baseline's pick, the correct partner). The baseline fails on 7 of 30; the final pipeline gets all 30 right. The cases are the first failures by query number; query 14 is skipped because its sign has offensive words on it. All 7 are in `ml/results/restroom/failures.json`.
 
-They are drawn by `python ml/restroom/layers_report.py` and `python ml/restroom/layer_probe.py`.
+They are drawn by `python ml/restroom/layers_report.py`, `python ml/restroom/layer_probe.py` and `python ml/restroom/failures.py`.
+
+Study card for the defense: [ml/restroom/STUDY-CARD.md](../ml/restroom/STUDY-CARD.md).
 
 ## Evaluation rules
 
