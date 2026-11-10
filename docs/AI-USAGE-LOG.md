@@ -22,6 +22,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Alizhan (S-10, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Measure and improve web performance and accessibility.
+- **Key prompt:** "начни это все выполнять" (following a discussion of S-10 and other optimization tasks). This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** Reduced preloaded font subsets and fixed the accessible representation of animated numbers.
+- **How it was verified:** Lighthouse on the local production build before and after, lint, typecheck, 63 Vitest tests, and production build. Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** Did not claim that a single Lighthouse run proves a speed improvement; S-10 remains in progress until a third improvement is investigated.
+
 ### 10 November 2026, Alizhan (S-1, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.

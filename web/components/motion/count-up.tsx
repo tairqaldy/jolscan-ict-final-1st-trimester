@@ -35,7 +35,8 @@ export function CountUp({
   // With reduced motion the real value is shown directly, no count.
   const text = `${(reduce ? value : shown).toFixed(decimals)}${suffix}`;
   return (
-    <span className={className} aria-label={`${value.toFixed(decimals)}${suffix}`}>
+    <span className={className}>
+      <span className="sr-only">{`${value.toFixed(decimals)}${suffix}`}</span>
       <span aria-hidden className="tabular">
         {text}
       </span>
