@@ -389,7 +389,8 @@ export default function ModelPage() {
                 <dt className="text-muted">Sample icons in this app</dt>
                 <dd className="text-muted">
                   Twelve original drawings made for the demo, and twelve real signs from the IOAI validation set.{" "}
-                  {DATA_CREDITS.restroomSamples.changes}.
+                  {DATA_CREDITS.restroomSamples.changes}.{" "}
+                  The IOAI pairs page shows all IOAI validation and test images, resized, with our pipeline&apos;s results on them.
                 </dd>
               </dl>
             </CardBody>

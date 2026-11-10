@@ -1,0 +1,1267 @@
+{
+ "_comment": "Written by ml/restroom/export_pairs.py from the IOAI data with the code of pipeline.py; equal to the predictions stored in ml/results/restroom/pipeline.json. Gallery numbers are 1-based file numbers. Images under /samples/restrooms/ioai/<split>/ as q<n>.webp and g<n>.webp.",
+ "method": "sift_combo_hungarian",
+ "histogramWeight": 0.3,
+ "imageBase": "/samples/restrooms/ioai",
+ "credit": "Images: IOAI 2025 Individual Contest, “Restroom Icon Matching”, by the IOAI 2025 committee, CC-BY-4.0 (https://github.com/IOAI-official/IOAI-2025/tree/main/Individual-Contest/Restroom). Resized, otherwise unchanged.",
+ "splits": {
+  "val": {
+   "label": "Validation",
+   "queries": 10,
+   "gallery": 20,
+   "pipelineCorrect": 10,
+   "baselineCorrect": 8,
+   "rows": [
+    {
+     "n": 1,
+     "own": 17,
+     "pair": 2,
+     "answer": 2,
+     "baseline": 2,
+     "ncc": 0.992,
+     "inliers": 14,
+     "candidates": [
+      {
+       "g": 2,
+       "score": 1.77
+      },
+      {
+       "g": 18,
+       "score": 0.41
+      },
+      {
+       "g": 12,
+       "score": 0.4
+      },
+      {
+       "g": 10,
+       "score": 0.33
+      },
+      {
+       "g": 20,
+       "score": -0.08
+      }
+     ]
+    },
+    {
+     "n": 2,
+     "own": 12,
+     "pair": 18,
+     "answer": 18,
+     "baseline": 10,
+     "ncc": 0.997,
+     "inliers": 17,
+     "candidates": [
+      {
+       "g": 18,
+       "score": 2.41
+      },
+      {
+       "g": 10,
+       "score": 0.67
+      },
+      {
+       "g": 1,
+       "score": 0.54
+      },
+      {
+       "g": 17,
+       "score": 0.4
+      },
+      {
+       "g": 11,
+       "score": 0.34
+      }
+     ]
+    },
+    {
+     "n": 3,
+     "own": 7,
+     "pair": 14,
+     "answer": 14,
+     "baseline": 6,
+     "ncc": 0.996,
+     "inliers": 50,
+     "candidates": [
+      {
+       "g": 14,
+       "score": 1.63
+      },
+      {
+       "g": 9,
+       "score": 1.12
+      },
+      {
+       "g": 15,
+       "score": 0.92
+      },
+      {
+       "g": 19,
+       "score": 0.77
+      },
+      {
+       "g": 16,
+       "score": 0.55
+      }
+     ]
+    },
+    {
+     "n": 4,
+     "own": 16,
+     "pair": 19,
+     "answer": 19,
+     "baseline": 19,
+     "ncc": 0.976,
+     "inliers": 25,
+     "candidates": [
+      {
+       "g": 19,
+       "score": 1.46
+      },
+      {
+       "g": 14,
+       "score": 1.16
+      },
+      {
+       "g": 15,
+       "score": 0.94
+      },
+      {
+       "g": 9,
+       "score": 0.63
+      },
+      {
+       "g": 7,
+       "score": 0.55
+      }
+     ]
+    },
+    {
+     "n": 5,
+     "own": 4,
+     "pair": 3,
+     "answer": 3,
+     "baseline": 3,
+     "ncc": 0.998,
+     "inliers": 550,
+     "candidates": [
+      {
+       "g": 3,
+       "score": 0.67
+      },
+      {
+       "g": 18,
+       "score": -0.55
+      },
+      {
+       "g": 1,
+       "score": -0.66
+      },
+      {
+       "g": 11,
+       "score": -0.67
+      },
+      {
+       "g": 2,
+       "score": -0.68
+      }
+     ]
+    },
+    {
+     "n": 6,
+     "own": 1,
+     "pair": 5,
+     "answer": 5,
+     "baseline": 5,
+     "ncc": 1.0,
+     "inliers": 334,
+     "candidates": [
+      {
+       "g": 5,
+       "score": 1.87
+      },
+      {
+       "g": 11,
+       "score": 0.63
+      },
+      {
+       "g": 18,
+       "score": 0.57
+      },
+      {
+       "g": 12,
+       "score": 0.54
+      },
+      {
+       "g": 10,
+       "score": 0.14
+      }
+     ]
+    },
+    {
+     "n": 7,
+     "own": 9,
+     "pair": 15,
+     "answer": 15,
+     "baseline": 15,
+     "ncc": 0.993,
+     "inliers": 25,
+     "candidates": [
+      {
+       "g": 15,
+       "score": 1.61
+      },
+      {
+       "g": 7,
+       "score": 1.12
+      },
+      {
+       "g": 19,
+       "score": 1.1
+      },
+      {
+       "g": 14,
+       "score": 1.09
+      },
+      {
+       "g": 16,
+       "score": 0.63
+      }
+     ]
+    },
+    {
+     "n": 8,
+     "own": 8,
+     "pair": 11,
+     "answer": 11,
+     "baseline": 11,
+     "ncc": 0.999,
+     "inliers": 404,
+     "candidates": [
+      {
+       "g": 11,
+       "score": 0.88
+      },
+      {
+       "g": 13,
+       "score": 0.08
+      },
+      {
+       "g": 6,
+       "score": 0.02
+      },
+      {
+       "g": 1,
+       "score": -0.08
+      },
+      {
+       "g": 20,
+       "score": -0.24
+      }
+     ]
+    },
+    {
+     "n": 9,
+     "own": 6,
+     "pair": 13,
+     "answer": 13,
+     "baseline": 13,
+     "ncc": 0.989,
+     "inliers": 86,
+     "candidates": [
+      {
+       "g": 13,
+       "score": 1.78
+      },
+      {
+       "g": 7,
+       "score": 0.25
+      },
+      {
+       "g": 11,
+       "score": 0.16
+      },
+      {
+       "g": 12,
+       "score": 0.12
+      },
+      {
+       "g": 14,
+       "score": 0.07
+      }
+     ]
+    },
+    {
+     "n": 10,
+     "own": 10,
+     "pair": 20,
+     "answer": 20,
+     "baseline": 20,
+     "ncc": 0.998,
+     "inliers": 30,
+     "candidates": [
+      {
+       "g": 20,
+       "score": 1.65
+      },
+      {
+       "g": 18,
+       "score": 0.86
+      },
+      {
+       "g": 12,
+       "score": 0.67
+      },
+      {
+       "g": 17,
+       "score": 0.33
+      },
+      {
+       "g": 7,
+       "score": 0.16
+      }
+     ]
+    }
+   ]
+  },
+  "test": {
+   "label": "Test",
+   "queries": 30,
+   "gallery": 60,
+   "pipelineCorrect": 30,
+   "baselineCorrect": 23,
+   "rows": [
+    {
+     "n": 1,
+     "own": 1,
+     "pair": 37,
+     "answer": 37,
+     "baseline": 37,
+     "ncc": 1.0,
+     "inliers": 32,
+     "candidates": [
+      {
+       "g": 37,
+       "score": 2.87
+      },
+      {
+       "g": 22,
+       "score": 0.9
+      },
+      {
+       "g": 30,
+       "score": 0.7
+      },
+      {
+       "g": 51,
+       "score": 0.69
+      },
+      {
+       "g": 58,
+       "score": 0.66
+      }
+     ]
+    },
+    {
+     "n": 2,
+     "own": 53,
+     "pair": 13,
+     "answer": 13,
+     "baseline": 13,
+     "ncc": 0.999,
+     "inliers": 157,
+     "candidates": [
+      {
+       "g": 13,
+       "score": 2.98
+      },
+      {
+       "g": 16,
+       "score": 1.17
+      },
+      {
+       "g": 42,
+       "score": 1.15
+      },
+      {
+       "g": 54,
+       "score": 1.04
+      },
+      {
+       "g": 5,
+       "score": 0.99
+      }
+     ]
+    },
+    {
+     "n": 3,
+     "own": 55,
+     "pair": 45,
+     "answer": 45,
+     "baseline": 45,
+     "ncc": 1.0,
+     "inliers": 498,
+     "candidates": [
+      {
+       "g": 45,
+       "score": 2.36
+      },
+      {
+       "g": 25,
+       "score": 1.29
+      },
+      {
+       "g": 44,
+       "score": 1.0
+      },
+      {
+       "g": 29,
+       "score": 0.56
+      },
+      {
+       "g": 26,
+       "score": 0.53
+      }
+     ]
+    },
+    {
+     "n": 4,
+     "own": 52,
+     "pair": 17,
+     "answer": 17,
+     "baseline": 17,
+     "ncc": 0.984,
+     "inliers": 43,
+     "candidates": [
+      {
+       "g": 17,
+       "score": 3.54
+      },
+      {
+       "g": 9,
+       "score": 1.63
+      },
+      {
+       "g": 6,
+       "score": 1.32
+      },
+      {
+       "g": 46,
+       "score": 1.15
+      },
+      {
+       "g": 43,
+       "score": 1.05
+      }
+     ]
+    },
+    {
+     "n": 5,
+     "own": 51,
+     "pair": 58,
+     "answer": 58,
+     "baseline": 58,
+     "ncc": 1.0,
+     "inliers": 23,
+     "candidates": [
+      {
+       "g": 58,
+       "score": 3.02
+      },
+      {
+       "g": 56,
+       "score": 1.54
+      },
+      {
+       "g": 38,
+       "score": 1.46
+      },
+      {
+       "g": 14,
+       "score": 1.42
+      },
+      {
+       "g": 35,
+       "score": 1.35
+      }
+     ]
+    },
+    {
+     "n": 6,
+     "own": 11,
+     "pair": 49,
+     "answer": 49,
+     "baseline": 49,
+     "ncc": 0.984,
+     "inliers": 53,
+     "candidates": [
+      {
+       "g": 49,
+       "score": 2.59
+      },
+      {
+       "g": 26,
+       "score": 0.74
+      },
+      {
+       "g": 38,
+       "score": 0.6
+      },
+      {
+       "g": 39,
+       "score": 0.52
+      },
+      {
+       "g": 35,
+       "score": 0.5
+      }
+     ]
+    },
+    {
+     "n": 7,
+     "own": 30,
+     "pair": 14,
+     "answer": 14,
+     "baseline": 14,
+     "ncc": 1.0,
+     "inliers": 121,
+     "candidates": [
+      {
+       "g": 14,
+       "score": 2.59
+      },
+      {
+       "g": 22,
+       "score": 1.15
+      },
+      {
+       "g": 37,
+       "score": 1.01
+      },
+      {
+       "g": 41,
+       "score": 0.96
+      },
+      {
+       "g": 19,
+       "score": 0.91
+      }
+     ]
+    },
+    {
+     "n": 8,
+     "own": 4,
+     "pair": 59,
+     "answer": 59,
+     "baseline": 59,
+     "ncc": 0.989,
+     "inliers": 37,
+     "candidates": [
+      {
+       "g": 59,
+       "score": 3.4
+      },
+      {
+       "g": 39,
+       "score": 2.06
+      },
+      {
+       "g": 34,
+       "score": 1.76
+      },
+      {
+       "g": 9,
+       "score": 1.08
+      },
+      {
+       "g": 25,
+       "score": 1.03
+      }
+     ]
+    },
+    {
+     "n": 9,
+     "own": 34,
+     "pair": 39,
+     "answer": 39,
+     "baseline": 39,
+     "ncc": 0.98,
+     "inliers": 160,
+     "candidates": [
+      {
+       "g": 39,
+       "score": 3.37
+      },
+      {
+       "g": 59,
+       "score": 1.81
+      },
+      {
+       "g": 4,
+       "score": 1.76
+      },
+      {
+       "g": 44,
+       "score": 0.85
+      },
+      {
+       "g": 17,
+       "score": 0.7
+      }
+     ]
+    },
+    {
+     "n": 10,
+     "own": 2,
+     "pair": 7,
+     "answer": 7,
+     "baseline": 29,
+     "ncc": 0.997,
+     "inliers": 71,
+     "candidates": [
+      {
+       "g": 7,
+       "score": 2.48
+      },
+      {
+       "g": 26,
+       "score": 1.02
+      },
+      {
+       "g": 29,
+       "score": 0.8
+      },
+      {
+       "g": 28,
+       "score": 0.68
+      },
+      {
+       "g": 38,
+       "score": 0.66
+      }
+     ]
+    },
+    {
+     "n": 11,
+     "own": 33,
+     "pair": 18,
+     "answer": 18,
+     "baseline": 18,
+     "ncc": 0.999,
+     "inliers": 153,
+     "candidates": [
+      {
+       "g": 18,
+       "score": 2.65
+      },
+      {
+       "g": 19,
+       "score": 0.78
+      },
+      {
+       "g": 56,
+       "score": 0.68
+      },
+      {
+       "g": 38,
+       "score": 0.64
+      },
+      {
+       "g": 42,
+       "score": 0.56
+      }
+     ]
+    },
+    {
+     "n": 12,
+     "own": 60,
+     "pair": 21,
+     "answer": 21,
+     "baseline": 21,
+     "ncc": 1.0,
+     "inliers": 150,
+     "candidates": [
+      {
+       "g": 21,
+       "score": 3.69
+      },
+      {
+       "g": 51,
+       "score": 1.05
+      },
+      {
+       "g": 58,
+       "score": 0.83
+      },
+      {
+       "g": 13,
+       "score": 0.69
+      },
+      {
+       "g": 41,
+       "score": 0.62
+      }
+     ]
+    },
+    {
+     "n": 13,
+     "own": 25,
+     "pair": 44,
+     "answer": 44,
+     "baseline": 44,
+     "ncc": 0.999,
+     "inliers": 291,
+     "candidates": [
+      {
+       "g": 44,
+       "score": 2.5
+      },
+      {
+       "g": 55,
+       "score": 1.29
+      },
+      {
+       "g": 4,
+       "score": 1.03
+      },
+      {
+       "g": 29,
+       "score": 0.98
+      },
+      {
+       "g": 38,
+       "score": 0.95
+      }
+     ]
+    },
+    {
+     "n": 14,
+     "own": 47,
+     "pair": 10,
+     "answer": 10,
+     "baseline": 51,
+     "ncc": 0.999,
+     "inliers": 24,
+     "candidates": [
+      {
+       "g": 10,
+       "score": 1.34
+      },
+      {
+       "g": 32,
+       "score": 0.89
+      },
+      {
+       "g": 27,
+       "score": 0.86
+      },
+      {
+       "g": 24,
+       "score": 0.83
+      },
+      {
+       "g": 15,
+       "score": 0.44
+      }
+     ]
+    },
+    {
+     "n": 15,
+     "own": 41,
+     "pair": 22,
+     "answer": 22,
+     "baseline": 22,
+     "ncc": 1.0,
+     "inliers": 162,
+     "candidates": [
+      {
+       "g": 22,
+       "score": 3.44
+      },
+      {
+       "g": 51,
+       "score": 1.12
+      },
+      {
+       "g": 38,
+       "score": 1.0
+      },
+      {
+       "g": 35,
+       "score": 0.99
+      },
+      {
+       "g": 30,
+       "score": 0.96
+      }
+     ]
+    },
+    {
+     "n": 16,
+     "own": 56,
+     "pair": 19,
+     "answer": 19,
+     "baseline": 19,
+     "ncc": 1.0,
+     "inliers": 105,
+     "candidates": [
+      {
+       "g": 19,
+       "score": 2.61
+      },
+      {
+       "g": 51,
+       "score": 1.54
+      },
+      {
+       "g": 58,
+       "score": 1.33
+      },
+      {
+       "g": 16,
+       "score": 1.25
+      },
+      {
+       "g": 42,
+       "score": 1.17
+      }
+     ]
+    },
+    {
+     "n": 17,
+     "own": 40,
+     "pair": 57,
+     "answer": 57,
+     "baseline": 57,
+     "ncc": 0.999,
+     "inliers": 662,
+     "candidates": [
+      {
+       "g": 57,
+       "score": 1.28
+      },
+      {
+       "g": 15,
+       "score": 0.3
+      },
+      {
+       "g": 27,
+       "score": 0.02
+      },
+      {
+       "g": 24,
+       "score": -0.05
+      },
+      {
+       "g": 25,
+       "score": -0.06
+      }
+     ]
+    },
+    {
+     "n": 18,
+     "own": 38,
+     "pair": 35,
+     "answer": 35,
+     "baseline": 35,
+     "ncc": 0.996,
+     "inliers": 56,
+     "candidates": [
+      {
+       "g": 35,
+       "score": 3.72
+      },
+      {
+       "g": 51,
+       "score": 1.46
+      },
+      {
+       "g": 22,
+       "score": 1.41
+      },
+      {
+       "g": 58,
+       "score": 1.35
+      },
+      {
+       "g": 56,
+       "score": 1.14
+      }
+     ]
+    },
+    {
+     "n": 19,
+     "own": 32,
+     "pair": 27,
+     "answer": 27,
+     "baseline": 31,
+     "ncc": 0.998,
+     "inliers": 120,
+     "candidates": [
+      {
+       "g": 27,
+       "score": 2.4
+      },
+      {
+       "g": 24,
+       "score": 0.93
+      },
+      {
+       "g": 47,
+       "score": 0.89
+      },
+      {
+       "g": 15,
+       "score": 0.65
+      },
+      {
+       "g": 26,
+       "score": 0.58
+      }
+     ]
+    },
+    {
+     "n": 20,
+     "own": 6,
+     "pair": 46,
+     "answer": 46,
+     "baseline": 52,
+     "ncc": 0.985,
+     "inliers": 76,
+     "candidates": [
+      {
+       "g": 46,
+       "score": 2.54
+      },
+      {
+       "g": 52,
+       "score": 1.32
+      },
+      {
+       "g": 17,
+       "score": 1.12
+      },
+      {
+       "g": 9,
+       "score": 1.0
+      },
+      {
+       "g": 15,
+       "score": 0.96
+      }
+     ]
+    },
+    {
+     "n": 21,
+     "own": 23,
+     "pair": 50,
+     "answer": 50,
+     "baseline": 50,
+     "ncc": 0.998,
+     "inliers": 181,
+     "candidates": [
+      {
+       "g": 50,
+       "score": 2.81
+      },
+      {
+       "g": 5,
+       "score": 0.04
+      },
+      {
+       "g": 56,
+       "score": -0.01
+      },
+      {
+       "g": 19,
+       "score": -0.02
+      },
+      {
+       "g": 11,
+       "score": -0.13
+      }
+     ]
+    },
+    {
+     "n": 22,
+     "own": 48,
+     "pair": 12,
+     "answer": 12,
+     "baseline": 12,
+     "ncc": 0.999,
+     "inliers": 496,
+     "candidates": [
+      {
+       "g": 12,
+       "score": 1.69
+      },
+      {
+       "g": 50,
+       "score": -0.43
+      },
+      {
+       "g": 23,
+       "score": -0.45
+      },
+      {
+       "g": 57,
+       "score": -0.48
+      },
+      {
+       "g": 55,
+       "score": -0.48
+      }
+     ]
+    },
+    {
+     "n": 23,
+     "own": 42,
+     "pair": 16,
+     "answer": 16,
+     "baseline": 22,
+     "ncc": 0.954,
+     "inliers": 32,
+     "candidates": [
+      {
+       "g": 16,
+       "score": 3.04
+      },
+      {
+       "g": 5,
+       "score": 1.28
+      },
+      {
+       "g": 56,
+       "score": 1.17
+      },
+      {
+       "g": 14,
+       "score": 1.17
+      },
+      {
+       "g": 53,
+       "score": 1.15
+      }
+     ]
+    },
+    {
+     "n": 24,
+     "own": 43,
+     "pair": 9,
+     "answer": 9,
+     "baseline": 43,
+     "ncc": 0.999,
+     "inliers": 31,
+     "candidates": [
+      {
+       "g": 9,
+       "score": 2.89
+      },
+      {
+       "g": 59,
+       "score": 1.19
+      },
+      {
+       "g": 17,
+       "score": 1.08
+      },
+      {
+       "g": 52,
+       "score": 1.05
+      },
+      {
+       "g": 46,
+       "score": 1.01
+      }
+     ]
+    },
+    {
+     "n": 25,
+     "own": 5,
+     "pair": 54,
+     "answer": 54,
+     "baseline": 54,
+     "ncc": 1.0,
+     "inliers": 597,
+     "candidates": [
+      {
+       "g": 54,
+       "score": 3.56
+      },
+      {
+       "g": 42,
+       "score": 1.28
+      },
+      {
+       "g": 16,
+       "score": 1.27
+      },
+      {
+       "g": 53,
+       "score": 0.99
+      },
+      {
+       "g": 9,
+       "score": 0.91
+      }
+     ]
+    },
+    {
+     "n": 26,
+     "own": 36,
+     "pair": 31,
+     "answer": 31,
+     "baseline": 31,
+     "ncc": 0.998,
+     "inliers": 68,
+     "candidates": [
+      {
+       "g": 31,
+       "score": 3.3
+      },
+      {
+       "g": 59,
+       "score": 0.82
+      },
+      {
+       "g": 4,
+       "score": 0.65
+      },
+      {
+       "g": 54,
+       "score": 0.57
+      },
+      {
+       "g": 9,
+       "score": 0.54
+      }
+     ]
+    },
+    {
+     "n": 27,
+     "own": 3,
+     "pair": 20,
+     "answer": 20,
+     "baseline": 20,
+     "ncc": 1.0,
+     "inliers": 578,
+     "candidates": [
+      {
+       "g": 20,
+       "score": 0.93
+      },
+      {
+       "g": 12,
+       "score": -0.5
+      },
+      {
+       "g": 50,
+       "score": -0.51
+      },
+      {
+       "g": 19,
+       "score": -0.6
+      },
+      {
+       "g": 15,
+       "score": -0.67
+      }
+     ]
+    },
+    {
+     "n": 28,
+     "own": 8,
+     "pair": 29,
+     "answer": 29,
+     "baseline": 29,
+     "ncc": 0.993,
+     "inliers": 133,
+     "candidates": [
+      {
+       "g": 29,
+       "score": 3.2
+      },
+      {
+       "g": 38,
+       "score": 0.79
+      },
+      {
+       "g": 44,
+       "score": 0.77
+      },
+      {
+       "g": 22,
+       "score": 0.73
+      },
+      {
+       "g": 35,
+       "score": 0.73
+      }
+     ]
+    },
+    {
+     "n": 29,
+     "own": 24,
+     "pair": 15,
+     "answer": 15,
+     "baseline": 15,
+     "ncc": 1.0,
+     "inliers": 69,
+     "candidates": [
+      {
+       "g": 15,
+       "score": 2.47
+      },
+      {
+       "g": 32,
+       "score": 0.93
+      },
+      {
+       "g": 27,
+       "score": 0.85
+      },
+      {
+       "g": 17,
+       "score": 0.84
+      },
+      {
+       "g": 9,
+       "score": 0.83
+      }
+     ]
+    },
+    {
+     "n": 30,
+     "own": 26,
+     "pair": 28,
+     "answer": 28,
+     "baseline": 44,
+     "ncc": 0.953,
+     "inliers": 13,
+     "candidates": [
+      {
+       "g": 28,
+       "score": 1.78
+      },
+      {
+       "g": 7,
+       "score": 1.03
+      },
+      {
+       "g": 2,
+       "score": 1.02
+      },
+      {
+       "g": 38,
+       "score": 0.99
+      },
+      {
+       "g": 29,
+       "score": 0.89
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

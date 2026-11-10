@@ -15,6 +15,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 00:15 · IOAI pairs page on the website
+- **Status:** done locally (lint, type check, tests and a production build pass); not merged.
+- **What I did:** Added the page `/app/restrooms/ioai` to the web app: pick a sign from the IOAI validation or test set and see the crop's original, the pair our pipeline found, the IOAI answer, what zero-shot CLIP alone picks, and the step-2 ranking. `ml/restroom/export_pairs.py` stores the pipeline's answers and resized images for it.
+- **Result:** the page shows 10/10 on validation and 30/30 on test, the same answers as `pipeline.json`; a web test checks the counts, numbers and image files.
+- **Decisions and why:** stored results instead of a live call, because the site runs on Vercel with no Python; the page says so. The live version is `demo.py` on a laptop.
+- **What I learned / can explain at the defense:** the same two steps as the demo, now on the public site.
+- **AI use:** Claude Code (Claude Opus 5.5); entry in `docs/AI-USAGE-LOG.md`.
+- **Open questions / next:** Tair reviews the page (web/ is his lane).
+
 ### 2026-11-10 23:30 · C-10 (#20) · Local pair-finder demo on the IOAI data
 - **Status:** done (local only, not in the web app).
 - **What I did:** Added `ml/restroom/demo.py`, a Gradio page: pick a query crop from the IOAI validation or test set and the final pipeline finds its pair live, showing each step, the IOAI answer and what zero-shot CLIP alone picks.
