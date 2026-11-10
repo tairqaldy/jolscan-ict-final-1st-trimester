@@ -9,7 +9,7 @@ Fill in your own row as you go. Be specific: task IDs from [TASKS.md](TASKS.md),
 | Tair | Web app, UX, coordination | | |
 | Dameli | Design system and visuals | | |
 | Nazar | Restroom model | | |
-| Amina | Pothole data, model and rules | | |
+| Amina | Pothole data, model and rules | D-2: visually reviewed 100 image/annotation pairs and documented observations and follow-up recommendations in [`data/README.md`](../data/README.md#visual-review-10-november-2026) | Explain the seeded sample, annotation-versus-image observations, and why flagged examples require follow-up rather than being counted as confirmed errors |
 | Alizhan | Serving and performance | | |
 | Roma | Research, deck, video, QA | | |
 

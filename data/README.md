@@ -22,7 +22,38 @@ No datasets are stored in git. This folder holds the dataset card and notes. The
 
 ## Quality notes (task D-2)
 
-What 100 random images looked like: label quality, image sources, lighting, close-ups or dashcam frames, and whether file names show baked-in augmented copies (`<stem>_jpg.rf.<hash>.jpg`).
+### Visual review (10 November 2026)
+
+**Dataset:** Annotated Potholes Image Dataset, by Atikur Rahman Chitholian. [Kaggle source](https://www.kaggle.com/datasets/chitholian/annotated-potholes-dataset).
+
+The archive contains 665 JPG images, 665 XML annotation files, and 1,740 annotated objects in one class, `pothole`. Annotations use Pascal VOC-style XML, not YOLO format. `splits.json` lists 532 training and 133 test images; this is the source split, not our final project split.
+
+**Method:** JPG paths with matching XML files were sorted, then 100 pairs were selected with `random.Random(42).sample(pairs, 100)`. The images were visually inspected in Google Colab with their XML annotation boxes overlaid. The displayed boxes came from the annotations, not model predictions.
+
+**Observations from the visual sample:**
+
+- The supplied observations do not characterize the overall framing (close-ups versus dashcam views), so no conclusion is recorded here.
+- Possible missing annotations or ambiguous object boundaries: `img-201.jpg`, `img-18.jpg`, `img-489.jpg`, `img-91.jpg`, `img-642.jpg`, `img-345.jpg`, `img-525.jpg`.
+- Small annotated objects that need closer inspection: `img-9.jpg`, `img-121.jpg`, `img-126.jpg`, `img-30.jpg`, `img-313.jpg`, `img-654.jpg`, `img-412.jpg`, `img-184.jpg`.
+- Ambiguous separation of objects with overlapping boxes: `img-616.jpg`, `img-448.jpg`. Overlap alone does not establish an annotation error.
+- Unusual examples needing agreement on class scope: `img-304.jpg` (exposed brickwork inside damaged road areas), `img-643.jpg` (large road collapse with barriers), and `img-163.jpg` (loss of the upper pavement layer). The team needs to agree which damage types count as potholes.
+- Shadows obscure boundaries in `img-213.jpg` and `img-25.jpg`. Water obscures boundaries in `img-352.jpg`, `img-412.jpg`, `img-409.jpg`, and `img-448.jpg`.
+- Stock-photo watermarks appear in `img-565.jpg` (picture-alliance/ZB), `img-409.jpg`, and `img-448.jpg` (Alamy). Verify provenance and rights before publication; a dataset-level licence alone does not establish rights to every included photograph.
+- People are visible in `img-193.jpg`, and vehicle licence plates are visible in `img-448.jpg`. Review and redact as needed before external use, following the privacy requirements below.
+
+These are observed examples, not error counts. Categories may overlap, and ambiguous cases have not been adjudicated.
+
+**Separate automated archive check:** Every JPG has a corresponding XML file. One zero-width box was found in `img-415.xml`: `xmin=273`, `xmax=273`, `ymin=164`, `ymax=165`. This is a technical annotation issue. `img-415.jpg` was not in the visual sample and is not included in the visual observations above.
+
+**Filenames:** Reviewed names use `img-<number>` without a `.rf.` suffix. This does not establish that the dataset has no baked-in augmentation or duplicates. D-4 duplicate detection has not been performed.
+
+**Recommended follow-up:**
+
+- Agree on a consistent definition of a separate pothole and recheck ambiguous annotations at original resolution.
+- Fix or exclude the degenerate box before training.
+- Verify provenance and rights for watermarked photographs.
+- Perform D-4 duplicate grouping before creating a new split.
+- Treat YOLO conversion and the final 70/15/15 split as subsequent tasks; neither is completed by this review.
 
 ## Duplicate groups and leakage (task D-4, done before the split)
 
