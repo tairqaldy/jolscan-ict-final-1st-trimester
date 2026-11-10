@@ -103,3 +103,12 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** Added the decision note to `data/README.md`.
 - **How I verified it, and who verified it:** Checked the documentation diff and ran `git diff --check`.
 - **What I rejected or corrected:** Did not change the existing warnings, verify licensing or provenance, or close D-1.
+
+### 10 November 2026, Amina (D-3 claim)
+
+- **Tool and version:** Copilot SDK in VS Code; the version was not exposed in this session.
+- **Purpose:** Record Amina's claim of D-3 after creating a fresh branch from updated `main`.
+- **Key prompt(s), with a link to the transcript:** "Prepare a fresh Git branch for D-3 dataset preparation." The request included branch, task-status, and validation instructions. No transcript link is available.
+- **What it produced or changed:** Marked D-3 `IN PROGRESS` for Amina in `docs/TASKS.md` and updated Amina's contribution entry. No dataset conversion or split was performed.
+- **How I verified it, and who verified it:** Confirmed the D-3 task was unclaimed, checked that its completion box remains unchecked and existing requirements are preserved, and ran `git diff --check`.
+- **What I rejected or corrected:** Confirmed D-4 is included in `origin/main`; did not copy D-4 changes, merge any pull request, or start dataset preparation.
