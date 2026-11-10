@@ -1,0 +1,73 @@
+{
+  "baseline": "ioai_baseline_clip",
+  "pipeline": "sift_combo_hungarian",
+  "split": "test",
+  "baseline_correct": "23/30",
+  "pipeline_correct": "30/30",
+  "shown": [
+    10,
+    19,
+    20
+  ],
+  "not_shown": {
+    "14": "the sign has offensive words on it, not suitable for the slides"
+  },
+  "failures": [
+    {
+      "query": 10,
+      "own_original": 2,
+      "baseline_pick": 29,
+      "answer": 7,
+      "pipeline_pick": 7,
+      "baseline_picked_own_original": false
+    },
+    {
+      "query": 14,
+      "own_original": 47,
+      "baseline_pick": 51,
+      "answer": 10,
+      "pipeline_pick": 10,
+      "baseline_picked_own_original": false
+    },
+    {
+      "query": 19,
+      "own_original": 32,
+      "baseline_pick": 31,
+      "answer": 27,
+      "pipeline_pick": 27,
+      "baseline_picked_own_original": false
+    },
+    {
+      "query": 20,
+      "own_original": 6,
+      "baseline_pick": 52,
+      "answer": 46,
+      "pipeline_pick": 46,
+      "baseline_picked_own_original": false
+    },
+    {
+      "query": 23,
+      "own_original": 42,
+      "baseline_pick": 22,
+      "answer": 16,
+      "pipeline_pick": 16,
+      "baseline_picked_own_original": false
+    },
+    {
+      "query": 24,
+      "own_original": 43,
+      "baseline_pick": 43,
+      "answer": 9,
+      "pipeline_pick": 9,
+      "baseline_picked_own_original": true
+    },
+    {
+      "query": 30,
+      "own_original": 26,
+      "baseline_pick": 44,
+      "answer": 28,
+      "pipeline_pick": 28,
+      "baseline_picked_own_original": false
+    }
+  ]
+}
