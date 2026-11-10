@@ -41,6 +41,7 @@ Apple M5 CPU, 10 November 2026. Matching: correct / queries. Gender: grouped 5-f
 | R4 fine-tune 6 blocks | 1.00 (10) | **1.000 (30)** | 0.643 | 15.3 min (Apple M4 CPU) |
 | R5 R4 + augmentation | cut (task C-4) | | | |
 | R6 gender probe, gender-filter matching | 0.50 (5) | 0.300 (9) | 0.741 | 0.2 min |
+| R7 two-step pipeline, no training (`pipeline.py`) | 1.00 (10) | **1.000 (30)** | none (no gender model) | 0.5 min (Apple M4 CPU) |
 
 - **R0 reproduces the IOAI baseline**: 23 of 30 test queries, 0.767, against the published 0.77.
 - **Champion by the selection rule: R3.** R2, R3 and R4 tie on validation (10/10), and R3 has the highest gender accuracy. Its test score, read once, is 0.90, equal to the IOAI committee's best published score. With 30 test queries, one query is 0.033, so R2 and R3 differ by one query.
@@ -139,9 +140,10 @@ If MLflow is installed (it is in `ml/requirements.txt`), every run is also logge
 - `get_data.py`: downloads the IOAI Restroom folder (only that folder, file by file through the GitHub API) and verifies it.
 - `common.py`: data loading, CLIP embeddings with a cache, the three matching strategies, the IOAI score, gender classifiers, fine-tuning.
 - `run.py`: one experiment per call, writes `ml/results/restroom/runs/<run>.json`.
-- `export_results.py`: run files to `ml/results/restroom/experiments.csv` and `web/data/restroom-experiments.json`, keeps placeholder rows for runs not done yet, picks the champion.
+- `export_results.py`: run files to `ml/results/restroom/experiments.csv` and `web/data/restroom-experiments.json`, keeps placeholder rows for runs not done yet, picks the champion. Also adds row R7 and the `pipeline` block from `pipeline.json`, the `layers` table from `layers.csv`, and `served` (null until the API runs the pipeline).
 - `requirements.txt`: pinned versions used for the runs above.
 - `classic.py`: SIFT with the RANSAC affine fit and pixel check (step 1), HSV colour histograms (step 2). No learning.
+- `pair_separation.py`: how well the doors of one restroom separate by gender, alone and compared with each other (the measurements behind RULES.md part 2, task C-7).
 - `pipeline.py`: the two-step pipeline with greedy or global assignment, every approach scored on training episodes, validation and test.
 - `layers.py`: the layer experiment, fine-tuning the last N CLIP blocks or ResNet50 stages, with grouped 5-fold cross-validation.
 - `layer_probe.py`: frozen features after every block or stage, no training.
