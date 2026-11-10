@@ -1,0 +1,363 @@
+"use client";
+
+import { ArrowRight, ImageUp, LoaderCircle, RotateCcw, ScanSearch } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useRef, useState, type DragEvent } from "react";
+import { Button, ButtonLink } from "@/components/ui/button";
+import { Callout } from "@/components/ui/callout";
+import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { EmptyState } from "@/components/ui/empty-state";
+import { Select } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { cn } from "@/lib/cn";
+import { makeThumbnail, readImageSize, reencodeWithoutMetadata } from "@/lib/image";
+import { SAMPLES, getSample, type Sample } from "@/lib/mock/samples";
+import { addToHistory } from "@/lib/store/history";
+import { rulesStore, settingsStore } from "@/lib/store/settings";
+import { ROAD_CLASSES, type RoadClass, type StoredAnalysis } from "@/lib/types";
+import { ACCEPTED_IMAGE_TYPES, validateImageFile, type ApiError } from "@/lib/upload";
+import { AnalysisView } from "./analysis-view";
+import { PROVIDER_META } from "./provider-badge";
+
+type Source =
+  | { kind: "sample"; sample: Sample }
+  | { kind: "file"; file: File; previewUrl: string; width: number; height: number };
+
+type Status =
+  | { state: "idle" }
+  | { state: "loading" }
+  | { state: "error"; error: ApiError["error"] }
+  | { state: "done"; analysis: StoredAnalysis };
+
+export function AnalyzeClient() {
+  const params = useSearchParams();
+  const settings = settingsStore.useStore();
+  const reduce = useReducedMotion();
+  const initialSample = getSample(params.get("sample"));
+  const [source, setSource] = useState<Source | null>(initialSample ? { kind: "sample", sample: initialSample } : null);
+  const [roadClass, setRoadClass] = useState<RoadClass | "unknown">(initialSample?.meta.roadClass ?? "unknown");
+  const [schoolZone, setSchoolZone] = useState(initialSample?.meta.schoolZone ?? false);
+  const [status, setStatus] = useState<Status>({ state: "idle" });
+  const [fileError, setFileError] = useState<string | null>(null);
+  const [dragging, setDragging] = useState(false);
+  const resultRef = useRef<HTMLDivElement>(null);
+
+  // Free the preview URL when the source changes.
+  const previewUrl = source?.kind === "file" ? source.previewUrl : null;
+  useEffect(() => () => {
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+  }, [previewUrl]);
+
+  const pickSample = (sample: Sample) => {
+    setSource({ kind: "sample", sample });
+    setRoadClass(sample.meta.roadClass);
+    setSchoolZone(sample.meta.schoolZone);
+    setStatus({ state: "idle" });
+    setFileError(null);
+  };
+
+  const pickFile = async (file: File | undefined) => {
+    if (!file) return;
+    const problem = validateImageFile(file);
+    if (problem) {
+      setFileError(problem);
+      return;
+    }
+    const url = URL.createObjectURL(file);
+    try {
+      const { width, height } = await readImageSize(url);
+      setSource({ kind: "file", file, previewUrl: url, width, height });
+      setRoadClass("unknown");
+      setSchoolZone(false);
+      setStatus({ state: "idle" });
+      setFileError(null);
+    } catch {
+      URL.revokeObjectURL(url);
+      setFileError("This file could not be opened as an image.");
+    }
+  };
+
+  const onDrop = (e: DragEvent) => {
+    e.preventDefault();
+    setDragging(false);
+    void pickFile(e.dataTransfer.files?.[0]);
+  };
+
+  const analyze = async (provider = settings.provider) => {
+    if (!source) return;
+    if (provider === "cloud" && settings.keepPhotosLocal) {
+      setStatus({
+        state: "error",
+        error: {
+          code: "privacy",
+          message: "Cloud is blocked because “Keep photos on this device only” is on.",
+          hint: "Use the mock or local provider, or turn the option off in Settings.",
+        },
+      });
+      return;
+    }
+    setStatus({ state: "loading" });
+    const form = new FormData();
+    form.set("provider", provider);
+    form.set("rules", JSON.stringify(rulesStore.get()));
+    if (roadClass !== "unknown") form.set("roadClass", roadClass);
+    form.set("schoolZone", String(schoolZone));
+
+    let thumbnail: string | undefined;
+    if (source.kind === "sample") {
+      form.set("sampleId", source.sample.id);
+    } else {
+      const file = settings.stripGps ? await reencodeWithoutMetadata(source.file) : source.file;
+      form.set("file", file, file.name);
+      form.set("imageWidth", String(source.width));
+      form.set("imageHeight", String(source.height));
+      thumbnail = await makeThumbnail(source.file);
+    }
+
+    try {
+      const res = await fetch("/api/analyze", { method: "POST", body: form });
+      const body = await res.json().catch(() => null);
+      if (!res.ok || !body || body.error) {
+        setStatus({
+          state: "error",
+          error: body?.error ?? { code: `http_${res.status}`, message: `The server answered with HTTP ${res.status}.` },
+        });
+        return;
+      }
+      const analysis = body as StoredAnalysis;
+      if (thumbnail) analysis.photo.imageUrl = thumbnail;
+      addToHistory(analysis);
+      setStatus({ state: "done", analysis });
+      requestAnimationFrame(() => resultRef.current?.focus());
+    } catch {
+      setStatus({
+        state: "error",
+        error: { code: "network", message: "Could not reach the JolScan server.", hint: "Check that the app is still running." },
+      });
+    }
+  };
+
+  const reset = () => {
+    setSource(null);
+    setStatus({ state: "idle" });
+    setFileError(null);
+  };
+
+  const previewImage = source?.kind === "sample" ? source.sample.file : source?.previewUrl;
+  const providerMeta = PROVIDER_META[settings.provider];
+
+  if (status.state === "done") {
+    return (
+      <div ref={resultRef} tabIndex={-1} className="grid gap-5 outline-none">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="text-sm text-muted" aria-live="polite">
+            Analysis saved to this browser.{" "}
+            <Link href={`/app/reports/${status.analysis.id}`} className="font-medium text-accent-ink underline underline-offset-2">
+              Open as report
+            </Link>
+          </p>
+          <Button variant="secondary" onClick={reset}>
+            <RotateCcw aria-hidden /> Analyze another photo
+          </Button>
+        </div>
+        <AnalysisView
+          analysis={status.analysis}
+          title={source?.kind === "sample" ? source.sample.title : source?.file.name}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
+      {/* Left: photo */}
+      <div className="grid content-start gap-4">
+        {previewImage ? (
+          <figure
+            className="relative overflow-hidden rounded-lg border border-border bg-surface-3"
+            style={{
+              aspectRatio:
+                source?.kind === "file" ? `${source.width} / ${source.height}` : `${source?.sample.imageWidth} / ${source?.sample.imageHeight}`,
+            }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={previewImage} alt="Selected road photo" className="absolute inset-0 size-full object-cover" />
+            <AnimatePresence>
+              {status.state === "loading" && (
+                <motion.div
+                  className="absolute inset-0 bg-inverse/25"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  {!reduce && (
+                    <motion.div
+                      className="absolute inset-x-0 h-1 bg-accent shadow-lg"
+                      initial={{ top: "0%" }}
+                      animate={{ top: ["0%", "100%", "0%"] }}
+                      transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </figure>
+        ) : (
+          <EmptyState icon={ImageUp} title="No photo selected">
+            Drop a road photo below or pick one of the sample photos. Results appear here.
+          </EmptyState>
+        )}
+
+        <label
+          onDragOver={(e) => {
+            e.preventDefault();
+            setDragging(true);
+          }}
+          onDragLeave={() => setDragging(false)}
+          onDrop={onDrop}
+          className={cn(
+            "flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed px-6 py-8 text-center transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-focus",
+            dragging ? "border-accent bg-accent-soft" : "border-border-strong bg-surface hover:bg-surface-2",
+          )}
+        >
+          <ImageUp className="size-6 text-muted" aria-hidden />
+          <span className="font-medium">Drop a photo here, or click to choose</span>
+          <span className="text-sm text-muted">JPEG, PNG or WebP, up to 10 MB</span>
+          <input
+            type="file"
+            accept={ACCEPTED_IMAGE_TYPES.join(",")}
+            className="sr-only"
+            onChange={(e) => {
+              void pickFile(e.target.files?.[0]);
+              e.target.value = "";
+            }}
+          />
+        </label>
+        {fileError && (
+          <Callout tone="danger" title="That file cannot be used">
+            {fileError}
+          </Callout>
+        )}
+
+        <fieldset>
+          <legend className="mb-2 text-sm font-medium">Or use a sample photo</legend>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {SAMPLES.map((s) => {
+              const selected = source?.kind === "sample" && source.sample.id === s.id;
+              return (
+                <button
+                  key={s.id}
+                  type="button"
+                  aria-pressed={selected}
+                  onClick={() => pickSample(s)}
+                  className={cn(
+                    "group overflow-hidden rounded-md border-2 bg-surface text-left transition-colors",
+                    selected ? "border-accent" : "border-border hover:border-border-strong",
+                  )}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={s.file} alt="" className="aspect-video w-full object-cover" loading="lazy" />
+                  <span className="block px-2 py-1.5 text-xs leading-snug font-medium">{s.title}</span>
+                </button>
+              );
+            })}
+          </div>
+          <p className="mt-2 text-xs text-muted">Samples are drawings, not real photos. Their boxes are fixed in samples.json.</p>
+        </fieldset>
+      </div>
+
+      {/* Right: metadata and run */}
+      <div className="grid content-start gap-4">
+        <Card>
+          <CardHeader>
+            <div>
+              <CardTitle>Photo details</CardTitle>
+              <CardDescription>Optional. The rules use them to weigh risk.</CardDescription>
+            </div>
+          </CardHeader>
+          <CardBody className="grid gap-5">
+            <Select
+              label="Road class"
+              value={roadClass}
+              onValueChange={(v) => setRoadClass(v as RoadClass | "unknown")}
+              options={[
+                { value: "unknown", label: "Not set (scored as residential)" },
+                ...ROAD_CLASSES.map((r) => ({ value: r, label: r[0].toUpperCase() + r.slice(1) })),
+              ]}
+            />
+            <Switch
+              label="School zone"
+              description="Adds the R6 bonus after the road-class multiplier."
+              checked={schoolZone}
+              onCheckedChange={setSchoolZone}
+            />
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardBody className="grid gap-4">
+            <div className="flex items-start gap-3 text-sm">
+              <providerMeta.icon className="mt-0.5 size-4 shrink-0 text-muted" aria-hidden />
+              <p>
+                <span className="font-medium">{providerMeta.label} provider.</span>{" "}
+                <span className="text-muted">{providerMeta.description}</span>{" "}
+                <Link href="/app/settings" className="text-accent-ink underline underline-offset-2">
+                  Change
+                </Link>
+              </p>
+            </div>
+            <Button size="lg" disabled={!source || status.state === "loading"} onClick={() => void analyze()}>
+              {status.state === "loading" ? (
+                <>
+                  <LoaderCircle className="animate-spin" aria-hidden /> Analysing…
+                </>
+              ) : (
+                <>
+                  <ScanSearch aria-hidden /> Analyze photo
+                </>
+              )}
+            </Button>
+            <p className="sr-only" aria-live="polite">
+              {status.state === "loading" ? `Running the ${providerMeta.label} model` : ""}
+            </p>
+            {!source && <p className="text-center text-xs text-muted">Choose a photo first.</p>}
+          </CardBody>
+        </Card>
+
+        {status.state === "error" && (
+          <Callout
+            tone="danger"
+            title={status.error.message}
+            action={
+              <>
+                <Button size="sm" variant="secondary" onClick={() => void analyze()}>
+                  <RotateCcw aria-hidden /> Try again
+                </Button>
+                {settings.provider !== "mock" && (
+                  <Button
+                    size="sm"
+                    onClick={() => {
+                      settingsStore.set((s) => ({ ...s, provider: "mock" }));
+                      void analyze("mock");
+                    }}
+                  >
+                    Use the mock provider <ArrowRight aria-hidden />
+                  </Button>
+                )}
+              </>
+            }
+          >
+            {status.error.hint && <p>{status.error.hint}</p>}
+            <p className="mt-1 font-mono text-xs">code: {status.error.code}</p>
+          </Callout>
+        )}
+
+        <ButtonLink href="/app/rules" variant="ghost" className="justify-start">
+          How is the priority calculated? <ArrowRight aria-hidden />
+        </ButtonLink>
+      </div>
+    </div>
+  );
+}

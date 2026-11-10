@@ -1,0 +1,92 @@
+{
+  "_comment": "Sample photo manifest. The six images are original SVG drawings, not real photos, and the detections are hand-placed to match the drawn potholes (they are what the mock provider returns). To use a real photo: drop the file in public/samples/, point `file` at it, set imageWidth/imageHeight, and replace `detections` with boxes from the real model (normalised 0..1, x/y = top-left). Locations are invented points around Astana.",
+  "samples": [
+    {
+      "id": "s01",
+      "file": "/samples/s01-highway-cluster.svg",
+      "title": "Highway, three potholes",
+      "description": "One large and one medium pothole in the driving lane, one small on the shoulder. This is the RULES.md worked example A (score 15).",
+      "imageWidth": 1280,
+      "imageHeight": 720,
+      "meta": { "roadClass": "highway", "schoolZone": false },
+      "location": { "lat": 51.1452, "lng": 71.5161, "label": "Ring road, east section" },
+      "mockLatencyMs": 41,
+      "detections": [
+        { "id": "s01-d1", "label": "pothole", "confidence": 0.91, "box": { "x": 0.4, "y": 0.66, "w": 0.22, "h": 0.16 } },
+        { "id": "s01-d2", "label": "pothole", "confidence": 0.84, "box": { "x": 0.56, "y": 0.52, "w": 0.12, "h": 0.08 } },
+        { "id": "s01-d3", "label": "pothole", "confidence": 0.67, "box": { "x": 0.82, "y": 0.55, "w": 0.06, "h": 0.05 } }
+      ]
+    },
+    {
+      "id": "s02",
+      "file": "/samples/s02-residential-single.svg",
+      "title": "Residential street, one small pothole",
+      "description": "A single small pothole in the lane on a quiet street.",
+      "imageWidth": 1280,
+      "imageHeight": 720,
+      "meta": { "roadClass": "residential", "schoolZone": false },
+      "location": { "lat": 51.1612, "lng": 71.4103, "label": "Syganak St" },
+      "mockLatencyMs": 37,
+      "detections": [
+        { "id": "s02-d1", "label": "pothole", "confidence": 0.78, "box": { "x": 0.47, "y": 0.7, "w": 0.06, "h": 0.06 } }
+      ]
+    },
+    {
+      "id": "s03",
+      "file": "/samples/s03-arterial-medium.svg",
+      "title": "Arterial road, medium pothole in lane",
+      "description": "One medium pothole in the driving path of a busy arterial road.",
+      "imageWidth": 1280,
+      "imageHeight": 720,
+      "meta": { "roadClass": "arterial", "schoolZone": false },
+      "location": { "lat": 51.1284, "lng": 71.4302, "label": "Turan Ave" },
+      "mockLatencyMs": 44,
+      "detections": [
+        { "id": "s03-d1", "label": "pothole", "confidence": 0.88, "box": { "x": 0.36, "y": 0.62, "w": 0.14, "h": 0.1 } }
+      ]
+    },
+    {
+      "id": "s04",
+      "file": "/samples/s04-school-zone.svg",
+      "title": "School zone, two potholes",
+      "description": "A medium pothole in lane and a small one near the kerb, next to a school.",
+      "imageWidth": 1280,
+      "imageHeight": 720,
+      "meta": { "roadClass": "residential", "schoolZone": true },
+      "location": { "lat": 51.1789, "lng": 71.4467, "label": "Bogenbay Batyr Ave, school No. 12" },
+      "mockLatencyMs": 39,
+      "detections": [
+        { "id": "s04-d1", "label": "pothole", "confidence": 0.82, "box": { "x": 0.44, "y": 0.74, "w": 0.16, "h": 0.09 } },
+        { "id": "s04-d2", "label": "pothole", "confidence": 0.61, "box": { "x": 0.14, "y": 0.6, "w": 0.07, "h": 0.05 } }
+      ]
+    },
+    {
+      "id": "s05",
+      "file": "/samples/s05-faint-review.svg",
+      "title": "Faint damage, needs review",
+      "description": "Two faint patches the model is unsure about, plus one clear small pothole off lane.",
+      "imageWidth": 1280,
+      "imageHeight": 720,
+      "meta": { "roadClass": "arterial", "schoolZone": false },
+      "location": { "lat": 51.1531, "lng": 71.4719, "label": "Respublika Ave" },
+      "mockLatencyMs": 43,
+      "detections": [
+        { "id": "s05-d1", "label": "pothole", "confidence": 0.31, "box": { "x": 0.52, "y": 0.58, "w": 0.05, "h": 0.04 } },
+        { "id": "s05-d2", "label": "pothole", "confidence": 0.36, "box": { "x": 0.3, "y": 0.8, "w": 0.08, "h": 0.05 } },
+        { "id": "s05-d3", "label": "pothole", "confidence": 0.55, "box": { "x": 0.78, "y": 0.62, "w": 0.05, "h": 0.04 } }
+      ]
+    },
+    {
+      "id": "s06",
+      "file": "/samples/s06-clear-road.svg",
+      "title": "Clear road",
+      "description": "Freshly resurfaced asphalt with no potholes.",
+      "imageWidth": 1280,
+      "imageHeight": 720,
+      "meta": { "roadClass": "residential", "schoolZone": false },
+      "location": { "lat": 51.1927, "lng": 71.4021, "label": "Kenesary St" },
+      "mockLatencyMs": 35,
+      "detections": []
+    }
+  ]
+}

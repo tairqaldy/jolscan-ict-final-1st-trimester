@@ -1,0 +1,271 @@
+/*
+ * JolScan design tokens. THE ONE FILE TO EDIT TO RE-SKIN THE APP.
+ *
+ * Direction (placeholder until the lead's references arrive): asphalt and
+ * road markings. Graphite/stone surfaces, one road-sign amber accent, and a
+ * five-step severity scale. Components never use hex values; they use the
+ * Tailwind utilities generated from the @theme block below (bg-surface,
+ * text-muted, border-border, bg-sev-high, rounded-lg, shadow-md, ease-standard,
+ * font-display ...) or var(--token) directly.
+ *
+ * Themes: light values on :root / [data-theme="light"], dark values on
+ * [data-theme="dark"]. A tiny script in app/layout.tsx sets data-theme on
+ * <html> before paint (system preference by default, user choice remembered
+ * in localStorage "jolscan:theme"). Nesting data-theme on any element
+ * re-themes that subtree (used by /design to show both themes side by side).
+ */
+
+/* ---------------------------------------------------------------------------
+ * 1. Raw values per theme
+ * ------------------------------------------------------------------------- */
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* Surfaces: warm stone, like dry concrete kerbs */
+  --bg: #f3f2ee;
+  --surface: #ffffff;
+  --surface-2: #ebe9e3;
+  --surface-3: #dfdcd4;
+  --inverse: #1c1d1f;
+  --inverse-fg: #f3f2ee;
+
+  /* Lines */
+  --border: #dad7cf;
+  --border-strong: #b3afa4;
+
+  /* Text (contrast on --bg: fg 15:1, muted 7.2:1, subtle 4.8:1) */
+  --fg: #1b1c1e;
+  --muted: #4f5156;
+  --subtle: #66686d;
+
+  /* Accent: road-sign amber. Use as a fill with --accent-fg text, or --accent-ink for text on light surfaces. */
+  --accent: #f2a900;
+  --accent-hover: #e09c00;
+  --accent-fg: #1b1c1e;
+  --accent-ink: #855700;
+  --accent-soft: #fbefd0;
+
+  --focus: #1d5fd1;
+  --danger: #b3261e;
+  --danger-soft: #f9dedb;
+  --success: #2e7d4f;
+
+  /* Severity scale: solid = marks, bars, map markers; ink = text; soft = badge fill.
+     Ordinal: medium -> high -> critical also step down in lightness so they separate
+     for colour-blind readers. Always shown with an icon + label as well. */
+  --sev-clear: #2e8b57;
+  --sev-clear-ink: #1d6440;
+  --sev-clear-soft: #e1f1e7;
+  --sev-low: #3e7cb1;
+  --sev-low-ink: #1f5582;
+  --sev-low-soft: #e2ecf6;
+  --sev-medium: #c99a16;
+  --sev-medium-ink: #7a4f0e;
+  --sev-medium-soft: #f7ebd6;
+  --sev-high: #d9601a;
+  --sev-high-ink: #9a3412;
+  --sev-high-soft: #fbe5da;
+  --sev-critical: #93202a;
+  --sev-critical-ink: #8e1b14;
+  --sev-critical-soft: #f9dedb;
+
+  /* Charts: series that are not severity (providers, runs) */
+  --chart-1: #3d4f63;
+  --chart-2: #f2a900;
+  --chart-3: #6b8f71;
+  --chart-4: #9a6b9a;
+  --chart-grid: #e1ded7;
+
+  /* Detection overlay on photos (same in both themes: it sits on the photo) */
+  --box: #f2a900;
+  --box-active: #ffffff;
+  --box-review: #9ec1ff;
+  --box-ink: #141414;
+  --box-halo: rgb(0 0 0 / 0.45);
+  --box-fill-active: rgb(255 255 255 / 0.14);
+
+  --shadow-color: 30 20 10;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Surfaces: wet asphalt at night */
+  --bg: #121314;
+  --surface: #1a1b1d;
+  --surface-2: #232427;
+  --surface-3: #2d2f33;
+  --inverse: #ecebe7;
+  --inverse-fg: #121314;
+
+  --border: #2f3135;
+  --border-strong: #4a4d53;
+
+  /* Text (contrast on --bg: fg 15:1, muted 8:1, subtle 5.5:1) */
+  --fg: #ecebe7;
+  --muted: #b1b2ae;
+  --subtle: #8f908c;
+
+  --accent: #ffb81c;
+  --accent-hover: #ffc547;
+  --accent-fg: #121314;
+  --accent-ink: #ffc547;
+  --accent-soft: #33280f;
+
+  --focus: #7fb0ff;
+  --danger: #f05d55;
+  --danger-soft: #3d1515;
+  --success: #4cc38a;
+
+  --sev-clear: #3fb27f;
+  --sev-clear-ink: #86dfb3;
+  --sev-clear-soft: #15301f;
+  --sev-low: #5d9de0;
+  --sev-low-ink: #a8cdf1;
+  --sev-low-soft: #152638;
+  --sev-medium: #e8c547;
+  --sev-medium-ink: #f2c77d;
+  --sev-medium-soft: #33260f;
+  --sev-high: #f0843c;
+  --sev-high-ink: #f8ab8a;
+  --sev-high-soft: #3a1d12;
+  --sev-critical: #e8455a;
+  --sev-critical-ink: #ff9a93;
+  --sev-critical-soft: #3d1515;
+
+  --chart-1: #9fb3c8;
+  --chart-2: #ffb81c;
+  --chart-3: #8fbf96;
+  --chart-4: #c79ac7;
+  --chart-grid: #2a2c30;
+
+  --shadow-color: 0 0 0;
+}
+
+/* ---------------------------------------------------------------------------
+ * 2. Theme-independent tokens + mapping to Tailwind utilities
+ *    `inline` makes utilities reference the variables, so nested
+ *    data-theme blocks re-theme correctly.
+ * ------------------------------------------------------------------------- */
+@theme inline {
+  /* Remove Tailwind's default palette so only tokens can be used. */
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-inverse: var(--inverse);
+  --color-inverse-fg: var(--inverse-fg);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-focus: var(--focus);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-success: var(--success);
+
+  --color-sev-clear: var(--sev-clear);
+  --color-sev-clear-ink: var(--sev-clear-ink);
+  --color-sev-clear-soft: var(--sev-clear-soft);
+  --color-sev-low: var(--sev-low);
+  --color-sev-low-ink: var(--sev-low-ink);
+  --color-sev-low-soft: var(--sev-low-soft);
+  --color-sev-medium: var(--sev-medium);
+  --color-sev-medium-ink: var(--sev-medium-ink);
+  --color-sev-medium-soft: var(--sev-medium-soft);
+  --color-sev-high: var(--sev-high);
+  --color-sev-high-ink: var(--sev-high-ink);
+  --color-sev-high-soft: var(--sev-high-soft);
+  --color-sev-critical: var(--sev-critical);
+  --color-sev-critical-ink: var(--sev-critical-ink);
+  --color-sev-critical-soft: var(--sev-critical-soft);
+
+  --color-box: var(--box);
+  --color-box-active: var(--box-active);
+  --color-box-review: var(--box-review);
+
+  /* Type. Families come from next/font in app/layout.tsx. */
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-heading), var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-code), ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* Type scale (rem / line-height). Display sizes are condensed caps-friendly. */
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.35rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.6rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.7rem;
+  --text-xl: 1.375rem;
+  --text-xl--line-height: 1.8rem;
+  --text-2xl: 1.75rem;
+  --text-2xl--line-height: 2.1rem;
+  --text-3xl: 2.25rem;
+  --text-3xl--line-height: 2.5rem;
+  --text-4xl: 3rem;
+  --text-4xl--line-height: 3.1rem;
+  --text-5xl: 4rem;
+  --text-5xl--line-height: 4rem;
+
+  /* Spacing: Tailwind multiplies this base (p-4 = 1rem). */
+  --spacing: 0.25rem;
+
+  /* Radii: road signs have gently rounded corners */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* Shadows: low, warm, never glowing */
+  --shadow-xs: 0 1px 0 rgb(var(--shadow-color) / 0.06);
+  --shadow-sm: 0 1px 2px rgb(var(--shadow-color) / 0.08), 0 1px 1px rgb(var(--shadow-color) / 0.04);
+  --shadow-md: 0 4px 12px -2px rgb(var(--shadow-color) / 0.12), 0 2px 4px rgb(var(--shadow-color) / 0.06);
+  --shadow-lg: 0 16px 40px -8px rgb(var(--shadow-color) / 0.22), 0 4px 10px rgb(var(--shadow-color) / 0.08);
+
+  /* Motion (mirrored in lib/motion.ts for JS animations; keep in sync) */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.3, 0, 0, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --default-transition-duration: 160ms;
+  --default-transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}
+
+:root {
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 420ms;
+  --duration-draw: 700ms;
+
+  /* Layout */
+  --sidebar-width: 15.5rem;
+  --content-max: 76rem;
+  --gutter: 1rem;
+  --section-gap: 6rem;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --gutter: 1.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  :root {
+    --gutter: 2.5rem;
+    --section-gap: 8rem;
+  }
+}

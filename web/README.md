@@ -1,0 +1,120 @@
+# JolScan web
+
+Next.js prototype for JolScan: road photo in, repair priority out. It runs fully on mock data until the
+real model service (`api/`) is connected. The contract it implements is in
+[`docs/ARCHITECTURE.md`](../docs/ARCHITECTURE.md), the scoring rules in [`docs/RULES.md`](../docs/RULES.md).
+
+## Run it
+
+Needs Node 22 and pnpm.
+
+```bash
+pnpm install
+pnpm dev                  # http://localhost:3000 (check the port is free first)
+```
+
+Other commands:
+
+| Command | What it does |
+|---|---|
+| `pnpm build` then `pnpm start` | Production build and server |
+| `pnpm lint` | ESLint |
+| `pnpm typecheck` | `tsc --noEmit` |
+| `pnpm test` | Rules engine unit tests (`vitest run`, includes the RULES.md worked example) |
+| `pnpm draw-samples` | Redraws the six SVG sample scenes from `public/samples/samples.json` |
+
+## Where things live
+
+```
+app/
+  tokens.css            design tokens: colours, type scale, radii, shadows, spacing, motion (THE re-skin file)
+  globals.css           base styles, imports Tailwind and tokens.css
+  layout.tsx            fonts (next/font) + theme bootstrap script
+  page.tsx              landing          about/  design/ (living design-system page)
+  app/                  the app: dashboard, analyze, reports, reports/[id], analytics, map, rules, model, settings
+  api/analyze/route.ts  POST: file or sampleId + provider -> scored Analysis
+  api/health/route.ts   GET ?provider=: calls the provider's /health on the server
+components/
+  ui/                   hand-written primitives (button, card, badge, switch, slider, tabs, select, dialog, tooltip, table ...)
+  app/                  app-level pieces (shell, analysis view, detection overlay, page clients)
+  charts/               Recharts wrappers (all colours are CSS variables)
+  motion/               stagger/reveal, count-up, page transition (all respect prefers-reduced-motion)
+lib/
+  types.ts              contract types (Detection, InferenceResult, Analysis, RuleHit)
+  rules/                rules engine (pure, unit tested) + default config
+  providers/            mock | local | cloud behind one interface (server only)
+  mock/                 seeded demo analyses, sample manifest access, experiments access
+  store/                localStorage stores: settings, rules, history, theme
+data/experiments.json   experiment results (placeholder until MLflow results are pasted in)
+public/samples/         six SVG sample scenes + samples.json manifest
+```
+
+## Re-skinning (for the lead designer)
+
+Everything visual comes from `app/tokens.css`:
+
+- Light values sit on `:root, [data-theme="light"]`, dark values on `[data-theme="dark"]`.
+- The `@theme inline` block maps them to Tailwind utilities (`bg-surface`, `text-muted`, `bg-sev-high`,
+  `rounded-lg`, `shadow-md`, `font-display` ...). Tailwind's default colour palette is switched off, so
+  components cannot use anything that is not a token.
+- Fonts are set in `app/layout.tsx` (Barlow, Barlow Condensed, JetBrains Mono); keep the variable names.
+- JS animation timings mirror the CSS motion tokens in `lib/motion.ts`.
+- Check the result on `/design`, which shows every token and primitive in both themes side by side.
+
+Theme: follows the system by default; the toggle cycles system / light / dark and is remembered in
+localStorage (`jolscan:theme`).
+
+## Switching the model provider
+
+The provider is chosen per browser in **Settings** (mock / local / cloud). "Check connection" calls
+`/api/health?provider=...`, which calls the provider's own `GET /health` on the server.
+
+1. Copy `.env.example` to `.env.local` (never commit `.env.local`).
+2. Local: start the FastAPI service from `api/` (default `MODEL_API_URL=http://localhost:8000`).
+3. Cloud: set `CLOUD_MODEL_API_URL` (and `ROBOFLOW_API_KEY` only for Roboflow's hosted API), restart.
+
+Both local and cloud POST `multipart/form-data` (`file`, `conf`) to `<url>/predict` and expect an
+`InferenceResult`. A Roboflow-style response is also accepted and converted (`lib/providers/http.ts`).
+URLs and keys are read only on the server (`lib/providers/env.ts` imports `server-only`).
+
+If the local service is down, `/api/analyze` returns `503 { error: { code: "unreachable", message, hint } }`
+and the Analyze page offers a one-click switch to mock. The SVG sample drawings cannot be sent to a real
+model (the route answers `422 unsupported_input`); upload a real photo instead.
+
+To add a provider: implement `ModelProvider` (`lib/providers/types.ts`), register it in
+`lib/providers/index.ts`, extend `Provider` in `lib/types.ts`.
+
+## Adding or replacing a sample photo
+
+1. Put the image in `public/samples/` (JPEG/PNG/WebP for real photos).
+2. Edit `public/samples/samples.json`: `file`, `imageWidth`, `imageHeight`, `meta` (road class, school
+   zone), `location`, and `detections` (normalised 0..1 boxes, `x`/`y` = top-left). For a real photo,
+   paste the boxes the real model returns so the mock provider matches it.
+3. Nothing else changes. Only the SVG drawings are generated by `pnpm draw-samples`; do not run it for
+   real photos (it only writes the `.svg` files listed in the manifest).
+
+## Pasting in real experiment results
+
+`data/experiments.json` holds placeholder numbers. Replace `runs` with one object per MLflow run
+(`id, name, changed, precision, recall, map50, map5095, latencyMs, sizeMB`), set `champion` and
+`championModelName`, fill the `dataset` block, and set `"isMock": false`. That single flag removes every
+"Demo data" badge.
+
+The seeded demo analyses (`lib/mock/analyses.ts`, 40 items over the 30 days before a fixed anchor date)
+are invented too. They are deterministic (seeded PRNG, no `Math.random`/`Date.now` at render), so server
+and client render the same. Analyses made in the browser are stored in localStorage and merged with them.
+
+## Rules
+
+The engine is `lib/rules/engine.ts` (pure functions), defaults in `lib/rules/config.ts`, tests in
+`lib/rules/engine.test.ts`. The Rules page edits a copy saved in localStorage and sends it with every
+analysis, so the server scores with the same values. Rule-hit points always add up to the score.
+If you change a default, change `docs/RULES.md` too.
+
+## Known rough edges
+
+- `/api/analyze` returns the contract `Analysis` plus an extra `photo` block (road class, school zone,
+  sample id, image URL) so results can be re-scored and re-displayed.
+- Reports made in a browser only exist in that browser (no database by design).
+- On `/design`, dialogs and tooltips open in a portal and follow the page theme, not the panel's.
+- RU/KZ languages are listed as "coming soon"; only English is wired.

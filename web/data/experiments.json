@@ -1,0 +1,29 @@
+{
+  "_comment": "PLACEHOLDER VALUES. Every number in this file is invented so the UI can be built before training finishes. Replace `runs` with the real MLflow results (one object per run) and set isMock to false. While isMock is true the app shows a 'Demo data' badge everywhere these numbers appear.",
+  "isMock": true,
+  "updatedAt": "2026-11-10",
+  "protocol": "Same train/val split and seed for every run. One change per run against the baseline (assignment Option A). Latency is model time per image on the laptop CPU at the run's image size.",
+  "championRule": "Highest mAP50-95 among runs with CPU latency at or under 60 ms.",
+  "latencyBudgetMs": 60,
+  "champion": "e7",
+  "championModelName": "yolo26n-e7",
+  "runs": [
+    { "id": "e0", "name": "baseline", "changed": "yolo26n, 640 px, 50 epochs, COCO-pretrained, default augmentation", "precision": 0.71, "recall": 0.62, "map50": 0.66, "map5095": 0.36, "latencyMs": 38, "sizeMB": 5.4 },
+    { "id": "e1", "name": "imgsz-800", "changed": "Image size 640 → 800 px", "precision": 0.73, "recall": 0.66, "map50": 0.69, "map5095": 0.38, "latencyMs": 56, "sizeMB": 5.4 },
+    { "id": "e2", "name": "no-mosaic", "changed": "Mosaic augmentation off", "precision": 0.69, "recall": 0.58, "map50": 0.62, "map5095": 0.33, "latencyMs": 38, "sizeMB": 5.4 },
+    { "id": "e3", "name": "yolo26s", "changed": "Model size n → s", "precision": 0.76, "recall": 0.68, "map50": 0.72, "map5095": 0.41, "latencyMs": 92, "sizeMB": 19.2 },
+    { "id": "e4", "name": "epochs-100", "changed": "Epochs 50 → 100", "precision": 0.74, "recall": 0.66, "map50": 0.7, "map5095": 0.39, "latencyMs": 38, "sizeMB": 5.4 },
+    { "id": "e5", "name": "freeze-10", "changed": "Freeze the first 10 backbone layers", "precision": 0.68, "recall": 0.57, "map50": 0.61, "map5095": 0.32, "latencyMs": 37, "sizeMB": 5.4 },
+    { "id": "e6", "name": "lr-0.005", "changed": "Initial learning rate 0.01 → 0.005", "precision": 0.72, "recall": 0.63, "map50": 0.67, "map5095": 0.37, "latencyMs": 38, "sizeMB": 5.4 },
+    { "id": "e7", "name": "aug-colour-flip", "changed": "Stronger colour jitter (HSV) and vertical flips", "precision": 0.75, "recall": 0.67, "map50": 0.71, "map5095": 0.4, "latencyMs": 38, "sizeMB": 5.4 }
+  ],
+  "dataset": {
+    "name": "Pothole detection dataset (name and version to be filled in)",
+    "source": "Roboflow Universe export (link to be added)",
+    "licence": "To be confirmed from the dataset page before the defense",
+    "classes": ["pothole"],
+    "images": { "train": null, "val": null, "test": null },
+    "split": "70 / 20 / 10 (planned)",
+    "notes": "Counts stay empty until the Data lane exports the final version. Never commit the dataset itself, only data/README."
+  }
+}

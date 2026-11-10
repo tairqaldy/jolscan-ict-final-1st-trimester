@@ -1,0 +1,127 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+/* Base styles. Everything visual comes from tokens.css. */
+
+@layer base {
+  html {
+    background: var(--bg);
+    color: var(--fg);
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-fg);
+  }
+
+  /* One visible focus style for everything keyboard-focusable. */
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+    border-radius: var(--radius-xs);
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  /*
+   * A grid without explicit columns gets one shrinkable column. Without this a
+   * wide table inside a scroll wrapper would stretch the page on phones.
+   * (Base layer, so any grid-cols-* utility still wins.)
+   */
+  :where(.grid) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Numbers line up in tables and KPI tiles. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@utility container-page {
+  width: 100%;
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Road-marking stripe used as a quiet brand device (dashed centre line). */
+@utility lane-stripe {
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--accent) 0 28px,
+    transparent 28px 44px
+  );
+  height: 4px;
+}
+
+/* Leaflet: keep popups and controls on theme. */
+.leaflet-container {
+  font-family: var(--font-sans);
+  background: var(--surface-2);
+}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--surface);
+  color: var(--fg);
+  box-shadow: var(--shadow-md);
+}
+.leaflet-container a.leaflet-popup-close-button {
+  color: var(--muted);
+}
+.leaflet-control-attribution {
+  background: color-mix(in srgb, var(--surface) 85%, transparent) !important;
+  color: var(--muted) !important;
+}
+.leaflet-control-attribution a {
+  color: var(--accent-ink) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Map markers: Leaflet draws SVG paths; colour them from severity tokens. */
+.sev-marker {
+  stroke: var(--surface);
+  stroke-width: 2;
+  fill-opacity: 0.92;
+}
+.sev-marker--clear { fill: var(--sev-clear); }
+.sev-marker--low { fill: var(--sev-low); }
+.sev-marker--medium { fill: var(--sev-medium); }
+.sev-marker--high { fill: var(--sev-high); }
+.sev-marker--critical { fill: var(--sev-critical); }
