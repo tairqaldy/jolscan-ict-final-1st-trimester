@@ -140,7 +140,7 @@ The scaffold already gives working pages on demo data. P0 here means "works at t
 | [ ] | W-21 | P0 | Remove every placeholder: team roles, dataset card, results, copy | M-12, D-1 | Search for "placeholder", "lorem", "TODO" finds nothing in `web/` | 30 m |
 | [ ] | W-22 | P0 | Study card (Tair): architecture diagram from memory, why three providers, why rules sit after the model, how the team divided the work | — | Passed three practice questions | 30 m |
 | [x] | W-23 | P0 | Second module in the web app: restroom compare, match, rules, overview; platform overview; landing and copy rewritten for two modules | — | Build and tests pass, both modules work on demo data | see commit |
-| [ ] | W-24 | P0 | Deploy to Vercel from GitHub (root directory `web`), mock provider by default, link in README | W-23 | Public URL opens both modules | 20 m |
+| [x] | W-24 | P0 | Deploy to Vercel from GitHub (root directory `web`), mock provider by default, link in README | W-23 | Public URL opens both modules | 20 m |
 | [ ] | W-3 | P1 | Collect design references, write the direction in DESIGN-BRIEF.md | — | Brief section filled in | 1 h |
 | [ ] | W-4 | P1 | Apply the references to tokens: colours, type, radii, shadows, motion | W-3 | `/design` page reflects the new look in both themes | 1.5 h |
 | [ ] | W-5 | P1 | Landing page polish: hero with animated detection demo, how it works, features, results teaser, team | W-4 | Passes the page checklist in DESIGN-BRIEF.md | 3 h |

@@ -11,7 +11,7 @@ Two modules, one app:
 
 Group project for ICT1103 (Information and Communication Technologies) at QAIRU, Assignment #2, Computer Vision track.
 
-**Live demo (demo data):** link added after the first Vercel deploy.
+**Live demo (demo data):** https://qarau.vercel.app. Deployed from `main` on every push (Vercel, root directory `web`).
 
 **Status, 10 November 2026:** plan, architecture and course grounding are written. The web prototype runs both modules on demo data. Model training and the real results are in progress; see [docs/TASKS.md](docs/TASKS.md).
 
