@@ -50,7 +50,7 @@ These are observed examples, not error counts. Categories may overlap, and ambig
 **Recommended follow-up:**
 
 - Agree on a consistent definition of a separate pothole and recheck ambiguous annotations at original resolution.
-- Fix or exclude the degenerate box before training.
+- The zero-width annotation in the original archive has been removed in the separate corrected archive described below; the original archive remains unchanged.
 - Verify provenance and rights for watermarked photographs.
 - Use the D-4 duplicate-check results below when preparing a new split.
 - Treat YOLO conversion and the final 70/15/15 split as subsequent tasks; neither is completed by this review.
@@ -67,7 +67,7 @@ All 665 images were read successfully; there were no read errors.
 
 No duplicates were detected by these methods. No images were removed or modified; all 665 remain. This does not guarantee that the dataset is duplicate-free: cropped or substantially transformed copies may evade detection. The check does not resolve annotation, licensing, or privacy issues.
 
-### XML completeness and validity check
+### XML completeness and validity check (original archive)
 
 The archive check covered 665 JPG images, 665 XML files, and 1,740 objects.
 
@@ -82,6 +82,19 @@ The archive check covered 665 JPG images, 665 XML files, and 1,740 objects.
 No missing-value imputation is needed. Bounding-box coordinates must not be filled with averages. Manually inspect and correct this object, or exclude its invalid annotation. Non-empty metadata does not establish provenance; `Unknown` is not verified source information.
 
 This structural check does not validate visual annotation quality. It also does not establish provenance, licensing, or privacy compliance.
+
+### Annotation correction
+
+A separate archive, `potholes_corrected_v1.zip`, was created in Colab; the original `Archive.zip` was preserved unchanged. In the corrected archive, only object 3 was removed from `annotated-images/img-415.xml`. Its box had zero width (`xmin=273`, `xmax=273`, `ymin=164`, `ymax=165`). Visual inspection did not clearly establish a separate pothole at that location, so no replacement box was added. The image and its other two annotations were retained.
+
+The exported corrected archive was reopened, and its total object count was verified.
+
+| Version | Images | XML files | Annotations |
+|---|---:|---:|---:|
+| Original `Archive.zip` | 665 | 665 | 1,740 |
+| Corrected `potholes_corrected_v1.zip` | 665 | 665 | 1,739 |
+
+This correction addresses only the identified zero-width annotation in the separate corrected archive. It does not make the dataset fully cleaned or training-ready. Licensing and provenance questions and ambiguous visual annotations remain unresolved. YOLO conversion and the final 70/15/15 split have not been performed.
 
 ## Screening checklist (task D-12)
 
