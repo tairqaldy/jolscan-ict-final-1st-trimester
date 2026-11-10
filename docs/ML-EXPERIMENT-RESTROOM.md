@@ -163,7 +163,11 @@ Features read out after every block or stage on the 82 training restrooms: CLIP'
 - `layer_probe.png`: what each frozen layer knows.
 - `failures.png`: three test queries the IOAI zero-shot baseline gets wrong (query, its own original, the baseline's pick, the correct partner). The baseline fails on 7 of 30; the final pipeline gets all 30 right. The cases are the first failures by query number; query 14 is skipped because its sign has offensive words on it. All 7 are in `ml/results/restroom/failures.json`.
 
-They are drawn by `python ml/restroom/layers_report.py`, `python ml/restroom/layer_probe.py` and `python ml/restroom/failures.py`.
+- `runs_matching.png`: validation and test matching accuracy for every R run and the two-step pipeline, with IOAI's published 0.77 and 0.90 as dashed reference lines (their numbers, not our runs).
+- `gender_heads.png`: gender accuracy, grouped 5-fold CV: zero-shot prompts against logistic regression, a linear SVM and 5 nearest neighbours on frozen embeddings.
+- `failures_r3.png`: R3's test misses (queries 25 and 30 shown; query 14 left off for the same reason as above).
+
+They are drawn by `python ml/restroom/layers_report.py`, `python ml/restroom/layer_probe.py`, `python ml/restroom/failures.py` and `python ml/restroom/plots.py`.
 
 Study card for the defense: [ml/restroom/STUDY-CARD.md](../ml/restroom/STUDY-CARD.md).
 

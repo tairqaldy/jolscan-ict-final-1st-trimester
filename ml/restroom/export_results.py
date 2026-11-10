@@ -44,7 +44,7 @@ COMMENT = ("Schema: RestroomExperimentsFile in docs/ARCHITECTURE.md section 2b. 
            "committee on their test set (Leaderboard B); they are not our runs.")
 ROW_KEYS = ("run", "changed", "isReal", "matchTop1Val", "matchTop1Test", "genderAccCv", "latencyMs", "device")
 # Runs dropped from the plan, with the reason (docs/TASKS.md). They get no row, real or placeholder.
-CUT = {"R5": "cut (task C-4): first in the restroom cut order; the layer experiment (C-12) answers the "
+CUT = {"R5": "cut (task C-4): first in the restroom cut order; the layer sweep (C-11) answers the "
               "number-of-layers question instead"}
 
 

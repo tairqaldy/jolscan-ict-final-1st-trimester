@@ -66,6 +66,7 @@ python ml/restroom/layer_probe.py     # about 1 min on CPU: what each frozen blo
 python ml/restroom/layers.py --backbone clip --n 1 --smoke    # 2 epochs, 2 folds, to check the script
 python ml/restroom/layers_report.py   # layers/*.json -> layers.csv and figs/*.png
 python ml/restroom/failures.py        # about 20 s: test queries the zero-shot baseline gets wrong -> failures.json, figs/failures.png
+python ml/restroom/plots.py           # a few seconds: figs/runs_matching.png, gender_heads.png, failures_r3.png
 ```
 
 The full layer experiment (`layers.py`, CLIP N = 0–12 and ResNet50 N = 0–5, 3 seeds, 5 folds) ran on a Kaggle Tesla T4 in about 1.5 hours. On a laptop CPU, one seed of the CLIP sweep takes about 80 minutes. To run it on Kaggle:
@@ -147,6 +148,7 @@ If MLflow is installed (it is in `ml/requirements.txt`), every run is also logge
 - `layers_report.py`: the table and slide figures from the layer experiment and the pipeline.
 - `kaggle_run_layers.py`: the Kaggle GPU runner for `layers.py`.
 - `failures.py`: the failure-case figure for the slides, from the stored test predictions.
+- `plots.py`: the R-run slide figures: matching per run against IOAI's numbers, gender heads, R3's misses.
 - `STUDY-CARD.md`: Nazar's answers for the defense questions on this lane.
 
 ## Attribution

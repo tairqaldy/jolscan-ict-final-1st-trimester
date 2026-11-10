@@ -10,3 +10,5 @@ tqdm==4.70.1
 # classical pipeline (pipeline.py, classic.py): SIFT, colour histograms, global assignment
 opencv-python-headless==5.0.0.93
 scipy==1.18.1
+# figures (plots.py, failures.py, layers_report.py, layer_probe.py)
+matplotlib==3.11.2
