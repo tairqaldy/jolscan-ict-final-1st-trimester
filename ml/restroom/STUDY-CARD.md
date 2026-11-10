@@ -1,6 +1,6 @@
 # Study card: restroom model (Nazar)
 
-Short spoken answers for the defense (task C-9). Questions 1–5 are the ones in [docs/PRESENTATION.md](../../docs/PRESENTATION.md#study-cards); 6–10 are the questions the instructor is likely to add about our own method. Every number comes from a file in `ml/results/restroom/`. Practise saying each answer in under 40 seconds, without notes.
+Short spoken answers for the defense (task C-9, issue #19). Questions 1–5 are the ones in [docs/PRESENTATION.md](../../docs/PRESENTATION.md#study-cards); 6–11 are the questions the instructor is likely to add about our own method, including the two the issue adds (6, the pipeline, and 11, the signage rules). When quoting 30/30, say that it is 30 queries and that one query is 0.033. Every number comes from a file in `ml/results/restroom/`. Practise saying each answer in under 40 seconds, without notes.
 
 ## 1. What are CLIP and a Vision Transformer?
 
@@ -18,7 +18,7 @@ Our reproduction, run R0 (zero-shot CLIP ViT-B/16), scored **0.767 on test (23 o
 
 R2, R3 and R4 fine-tune the last 1, 3 and 6 transformer blocks of ViT-B/32 with the IOAI reference recipe; everything else stays the same. On test: R2 0.867 (26/30), R3 0.900 (27/30), R4 1.000 (30/30). All three get 10/10 on validation, so the fixed selection rule picks R3 on the gender tie-break (0.753 against 0.680 and 0.643); test is never used to choose.
 
-Thirty test queries cannot separate these runs well, so the main experiment (C-12) trained the last N blocks for N = 0 to 12 and measured on held-out restrooms with 5-fold cross-validation and 3 seeds:
+Thirty test queries cannot separate these runs well, so the main experiment (the layer sweep, C-11) trained the last N blocks for N = 0 to 12 and measured on held-out restrooms with 5-fold cross-validation and 3 seeds:
 
 | Blocks trained | 0 | 1 | 2 | 4 | 6 | 12 |
 |---|---|---|---|---|---|---|
@@ -63,6 +63,12 @@ We took the frozen CLIP features after every block, without any training, and me
 
 Without training, ResNet50 starts higher (0.878 against 0.780), but after fine-tuning it stops at 0.913 (2 of 5 stages trained), while CLIP reaches 0.965. A plausible reason: CLIP learned from images with text, so its features already describe style and meaning, and a few blocks are enough to adapt them. ResNet50 learned ImageNet object classes, which say little about the style of a sign.
 
-## The failure cases (slide figure)
+## 11. Why do the signage rules compare the two doors instead of judging each sign alone?
+
+Because one sign alone is often ambiguous: an abstract pair of legs or a top hat reads as "male" only next to its partner. On the 82 real training restrooms, all correctly signed, judging each sign alone read both doors the right way round in only 57% of restrooms, and the old "genders differ" rule wrongly called 39% of them confusing. Comparing the two doors (the one with the higher probability of "male" is the men's door) gets 90% right. That is why RULES.md part 2 compares the pair (`ml/results/restroom/pair_separation.json`).
+
+## The failure cases (slide figures)
+
+[`figs/failures_r3.png`](../results/restroom/figs/failures_r3.png): R3 misses 3 of 30 test queries (14, 25 and 30); query 14 is left off the figure because its sign has offensive words on it.
 
 [`figs/failures.png`](../results/restroom/figs/failures.png): the zero-shot baseline fails on 7 of 30 test queries ([`failures.json`](../results/restroom/failures.json)). In 6 of them it picks a sign from another restroom; in the other one it picks the crop's own original. CLIP compares what the images show in general, so a sign of a similar kind from another restroom can score higher than the real partner. Our pipeline first finds the crop's own original with SIFT, then the partner that shares its colours and style, and gets all 30 right. Query 14 is left off the slide because its sign has offensive words on it.
