@@ -787,3 +787,5 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What I rejected or corrected:**
   - The Mock result badge was suggested as a marker; it stays unmarked so nothing covers it.
   - The first outlines on the sign bars cut through the threshold lines under them and were enlarged; the dot in the eyebrow got a thin space after it.
+
+- **Pair-finder demo (Nazar's prompt: "why don't you use our IOAI dataset, I want to pick a photo from the dataset and have it find the pair"):** the tool wrote `ml/restroom/demo.py`, a local Gradio page that runs the pipeline live on the IOAI validation and test sets. Verified: its answers equal the stored `pipeline.json` predictions on both sets, and it was clicked through in a browser.

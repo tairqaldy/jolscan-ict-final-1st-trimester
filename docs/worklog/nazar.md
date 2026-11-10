@@ -15,6 +15,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-10 23:30 · C-10 (#20) · Local pair-finder demo on the IOAI data
+- **Status:** done (local only, not in the web app).
+- **What I did:** Added `ml/restroom/demo.py`, a Gradio page: pick a query crop from the IOAI validation or test set and the final pipeline finds its pair live, showing each step, the IOAI answer and what zero-shot CLIP alone picks.
+- **Result:** the demo reproduces the stored pipeline answers (10/10 validation, 30/30 test; the CLIP baseline 8/10 and 23/30).
+- **Decisions and why:** a standalone page in my own folder instead of a tab in `api/gradio_app.py` or changes to the web app, which are other lanes' files; real IOAI signs in the web app stay C-13.
+- **What I learned / can explain at the defense:** how step 1 (exact copy detection with SIFT and a pixel check) and step 2 (style similarity) split the task, on any query the examiner picks.
+- **AI use:** Claude Code (Claude Opus 5.5) wrote the page; entry in `docs/AI-USAGE-LOG.md`.
+- **Open questions / next:** show it at the defense next to the web app if there is time.
+
 ### 2026-11-10 23:00 · C-12 (#37) · Pipeline and layer results in the export
 - **Status:** in progress: the export and docs are done; the page side is W-25 (Tair) and `served` waits for C-8.
 - **What I did:** Added row R7 (the two-step pipeline), a `pipeline` block with every approach and a `layers` table to `web/data/restroom-experiments.json`, documented both selection rules, and the new fields in ARCHITECTURE.md 2b.

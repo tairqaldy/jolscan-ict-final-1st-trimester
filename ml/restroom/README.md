@@ -70,6 +70,8 @@ python ml/restroom/failures.py        # about 20 s: test queries the zero-shot b
 python ml/restroom/plots.py           # a few seconds: figs/runs_matching.png, gender_heads.png, failures_r3.png
 ```
 
+**Try it yourself:** `python ml/restroom/demo.py`, then open http://127.0.0.1:7861. Pick the validation or test set, click any query crop from the IOAI data, and the final two-step pipeline finds its pair live: the crop's original (step 1), the pair (step 2), the IOAI answer, what zero-shot CLIP alone picks, and the step-2 ranking. It needs `gradio` (in `requirements.txt`) and about 20 s to score both sets at start-up.
+
 The full layer experiment (`layers.py`, CLIP N = 0–12 and ResNet50 N = 0–5, 3 seeds, 5 folds) ran on a Kaggle Tesla T4 in about 1.5 hours. On a laptop CPU, one seed of the CLIP sweep takes about 80 minutes. To run it on Kaggle:
 
 1. Upload `ml/restroom/` and `data/raw/ioai-restroom/training_set/` as a private Kaggle dataset, keeping that folder layout.
@@ -151,6 +153,7 @@ If MLflow is installed (it is in `ml/requirements.txt`), every run is also logge
 - `kaggle_run_layers.py`: the Kaggle GPU runner for `layers.py`.
 - `failures.py`: the failure-case figure for the slides, from the stored test predictions.
 - `plots.py`: the R-run slide figures: matching per run against IOAI's numbers, gender heads, R3's misses.
+- `demo.py`: a local Gradio page: pick a sign from the IOAI validation or test set and watch the pipeline find its pair.
 - `STUDY-CARD.md`: Nazar's answers for the defense questions on this lane.
 
 ## Attribution
