@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir torch==2.15.0 torchvision==0.29.2 --index-url htt
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY main.py restroom.py imaging.py ./
+COPY main.py restroom.py imaging.py schemas.py ./
 
 # The CLIP weights for the restroom endpoints are fetched at build time, so the first restroom
 # request does not wait for a 600 MB download. The model itself is still loaded on first use.

@@ -1,0 +1,507 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Qarau model service",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/restroom/compare": {
+      "post": {
+        "tags": [
+          "restroom"
+        ],
+        "summary": "Compare",
+        "operationId": "compare_restroom_compare_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_compare_restroom_compare_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompareResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/restroom/match": {
+      "post": {
+        "tags": [
+          "restroom"
+        ],
+        "summary": "Match",
+        "operationId": "match_restroom_match_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_match_restroom_match_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Health Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/predict": {
+      "post": {
+        "summary": "Predict",
+        "operationId": "predict_predict_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_predict_predict_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InferenceResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Body_compare_restroom_compare_post": {
+        "properties": {
+          "a": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "A"
+          },
+          "b": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "B"
+          }
+        },
+        "type": "object",
+        "required": [
+          "a",
+          "b"
+        ],
+        "title": "Body_compare_restroom_compare_post"
+      },
+      "Body_match_restroom_match_post": {
+        "properties": {
+          "query": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "Query"
+          },
+          "gallery": {
+            "items": {
+              "type": "string",
+              "contentMediaType": "application/octet-stream"
+            },
+            "type": "array",
+            "title": "Gallery"
+          }
+        },
+        "type": "object",
+        "required": [
+          "query",
+          "gallery"
+        ],
+        "title": "Body_match_restroom_match_post"
+      },
+      "Body_predict_predict_post": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File"
+          },
+          "conf": {
+            "type": "number",
+            "title": "Conf",
+            "default": 0.25
+          }
+        },
+        "type": "object",
+        "required": [
+          "file"
+        ],
+        "title": "Body_predict_predict_post"
+      },
+      "Box": {
+        "properties": {
+          "x": {
+            "type": "number",
+            "title": "X"
+          },
+          "y": {
+            "type": "number",
+            "title": "Y"
+          },
+          "w": {
+            "type": "number",
+            "title": "W"
+          },
+          "h": {
+            "type": "number",
+            "title": "H"
+          }
+        },
+        "type": "object",
+        "required": [
+          "x",
+          "y",
+          "w",
+          "h"
+        ],
+        "title": "Box"
+      },
+      "CompareResult": {
+        "properties": {
+          "provider": {
+            "type": "string",
+            "enum": [
+              "mock",
+              "local",
+              "cloud"
+            ],
+            "title": "Provider"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "latencyMs": {
+            "type": "integer",
+            "title": "Latencyms"
+          },
+          "a": {
+            "$ref": "#/components/schemas/SignPrediction"
+          },
+          "b": {
+            "$ref": "#/components/schemas/SignPrediction"
+          },
+          "similarity": {
+            "type": "number",
+            "title": "Similarity"
+          }
+        },
+        "type": "object",
+        "required": [
+          "provider",
+          "model",
+          "latencyMs",
+          "a",
+          "b",
+          "similarity"
+        ],
+        "title": "CompareResult"
+      },
+      "Detection": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "label": {
+            "type": "string",
+            "const": "pothole",
+            "title": "Label"
+          },
+          "confidence": {
+            "type": "number",
+            "title": "Confidence"
+          },
+          "box": {
+            "$ref": "#/components/schemas/Box"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "confidence",
+          "box"
+        ],
+        "title": "Detection"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "InferenceResult": {
+        "properties": {
+          "provider": {
+            "type": "string",
+            "enum": [
+              "mock",
+              "local",
+              "cloud"
+            ],
+            "title": "Provider"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "imageWidth": {
+            "type": "integer",
+            "title": "Imagewidth"
+          },
+          "imageHeight": {
+            "type": "integer",
+            "title": "Imageheight"
+          },
+          "latencyMs": {
+            "type": "integer",
+            "title": "Latencyms"
+          },
+          "detections": {
+            "items": {
+              "$ref": "#/components/schemas/Detection"
+            },
+            "type": "array",
+            "title": "Detections"
+          }
+        },
+        "type": "object",
+        "required": [
+          "provider",
+          "model",
+          "imageWidth",
+          "imageHeight",
+          "latencyMs",
+          "detections"
+        ],
+        "title": "InferenceResult"
+      },
+      "MatchCandidate": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "similarity": {
+            "type": "number",
+            "title": "Similarity"
+          },
+          "prediction": {
+            "$ref": "#/components/schemas/SignPrediction"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "similarity",
+          "prediction"
+        ],
+        "title": "MatchCandidate"
+      },
+      "MatchResult": {
+        "properties": {
+          "provider": {
+            "type": "string",
+            "enum": [
+              "mock",
+              "local",
+              "cloud"
+            ],
+            "title": "Provider"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "latencyMs": {
+            "type": "integer",
+            "title": "Latencyms"
+          },
+          "query": {
+            "$ref": "#/components/schemas/SignPrediction"
+          },
+          "candidates": {
+            "items": {
+              "$ref": "#/components/schemas/MatchCandidate"
+            },
+            "type": "array",
+            "title": "Candidates"
+          },
+          "bestMatchId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bestmatchid"
+          }
+        },
+        "type": "object",
+        "required": [
+          "provider",
+          "model",
+          "latencyMs",
+          "query",
+          "candidates",
+          "bestMatchId"
+        ],
+        "title": "MatchResult"
+      },
+      "SignPrediction": {
+        "properties": {
+          "gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ],
+            "title": "Gender"
+          },
+          "confidence": {
+            "type": "number",
+            "title": "Confidence"
+          }
+        },
+        "type": "object",
+        "required": [
+          "gender",
+          "confidence"
+        ],
+        "title": "SignPrediction"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

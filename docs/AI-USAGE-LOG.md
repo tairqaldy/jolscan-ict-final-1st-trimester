@@ -22,6 +22,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Alizhan (S-29, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Declare and publish the API's response contracts.
+- **Key prompt:** "выполняй issues, можешь сам выбрать, что подходит именно под мою задачу". This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** Pydantic response schemas, route declarations, Docker copy instruction, OpenAPI snapshot and tests.
+- **How it was verified:** 32 API tests, compileall and a local server check of `/docs` and `/openapi.json`; models were mocked, and Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** Left the evolving `/health` response untyped and kept the issue open for Tair's review.
+
 ### 10 November 2026, Alizhan (S-1, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.
