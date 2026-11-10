@@ -2,7 +2,7 @@
 
 Every task has an ID, an owner lane, what it needs first, and a check that shows it is done. Tick the box in a commit when you finish. Owners are proposals until kickoff. Time estimates are rough.
 
-**Every task has its own GitHub issue** with exact steps, a done-check and what to say at the defense: click the task id. Nobody is pre-assigned. To take a task, assign yourself to its issue, then claim it here. [Free tasks](https://github.com/tairqaldy/jolscan-ict-final-1st-trimester/issues?q=is%3Aopen+label%3Atask+no%3Aassignee) · [by checkpoint](https://github.com/tairqaldy/jolscan-ict-final-1st-trimester/milestones)
+**Tasks labelled `bare-minimum`** ([list](https://github.com/tairqaldy/jolscan-ict-final-1st-trimester/issues?q=is%3Aopen+label%3Abare-minimum)) are what the defense cannot do without; everything else is `optional`. **Every task has its own GitHub issue** with exact steps, a done-check and what to say at the defense: click the task id. Nobody is pre-assigned. To take a task, assign yourself to its issue, then claim it here. [Free tasks](https://github.com/tairqaldy/jolscan-ict-final-1st-trimester/issues?q=is%3Aopen+label%3Atask+no%3Aassignee) · [by checkpoint](https://github.com/tairqaldy/jolscan-ict-final-1st-trimester/milestones)
 
 **Before you start a task, claim it** with a separate commit to `main` that adds `**Claimed: <name>, <date and time>, branch <branch>.**` to the task, and rebase on the latest `main` before you merge. The full workflow is in [CONTRIBUTING.md](../CONTRIBUTING.md).
 
