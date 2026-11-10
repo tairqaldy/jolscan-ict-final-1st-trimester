@@ -94,3 +94,12 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** Documented the original and corrected archive counts, the single removed object, and the remaining limitations in `data/README.md`; updated Amina's contribution entry.
 - **How I verified it, and who verified it:** Checked the documentation diff and ran `git diff --check`. Amina reports reopening the corrected archive and verifying the total object count; the tool did not inspect either archive.
 - **What I rejected or corrected:** Preserved the original archive's historical check results and stated that it remains unchanged. Did not claim a download link, repository copy, full cleanup, verified licensing/provenance, or training readiness. No archive or dataset files were added or modified by the tool.
+
+### 10 November 2026, team documentation update (requester identity not specified)
+
+- **Tool and version:** Copilot SDK in VS Code; the version was not exposed in this session.
+- **Purpose:** Record the team's decision to proceed with the dataset while preserving the unresolved provenance and usage-rights warning for watermarked images.
+- **Key prompt(s), with a link to the transcript:** "Add a short note to data/README.md" with the supplied team decision and instructions not to treat rights as verified or close D-1. No transcript link is available.
+- **What it produced or changed:** Added the decision note to `data/README.md`.
+- **How I verified it, and who verified it:** Checked the documentation diff and ran `git diff --check`.
+- **What I rejected or corrected:** Did not change the existing warnings, verify licensing or provenance, or close D-1.

@@ -41,6 +41,8 @@ The archive contains 665 JPG images, 665 XML annotation files, and 1,740 annotat
 - Stock-photo watermarks appear in `img-565.jpg` (picture-alliance/ZB), `img-409.jpg`, and `img-448.jpg` (Alamy). Verify provenance and rights before publication; a dataset-level licence alone does not establish rights to every included photograph.
 - People are visible in `img-193.jpg`, and vehicle licence plates are visible in `img-448.jpg`. Review and redact as needed before external use, following the privacy requirements below.
 
+**Team decision, 10 November 2026:** Tair confirmed proceeding with the current dataset despite the unresolved provenance and usage rights of watermarked images. This decision does not verify those rights. The provenance warning remains open.
+
 These are observed examples, not error counts. Categories may overlap, and ambiguous cases have not been adjudicated.
 
 **Separate automated archive check:** Every JPG has a corresponding XML file. One zero-width box was found in `img-415.xml`: `xmin=273`, `xmax=273`, `ymin=164`, `ymax=165`. This is a technical annotation issue. `img-415.jpg` was not in the visual sample and is not included in the visual observations above.
