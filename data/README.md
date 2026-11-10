@@ -67,6 +67,22 @@ All 665 images were read successfully; there were no read errors.
 
 No duplicates were detected by these methods. No images were removed or modified; all 665 remain. This does not guarantee that the dataset is duplicate-free: cropped or substantially transformed copies may evade detection. The check does not resolve annotation, licensing, or privacy issues.
 
+### XML completeness and validity check
+
+The archive check covered 665 JPG images, 665 XML files, and 1,740 objects.
+
+- No JPG/XML pairs were missing.
+- No class names, bounding-box coordinates, filenames, or image dimensions (`width`, `height`, `depth`) were missing or placeholders.
+- Every XML file contained at least one object.
+- No filename or image-dimension mismatches were found.
+- No coordinates were non-finite or outside the image bounds.
+- None of the checked optional fields (`folder`, `path`, `source/database`) were missing.
+- One structural issue was found: object 3 in `img-415.xml` has a zero-width box (`xmin=273`, `xmax=273`, `ymin=164`, `ymax=165`). This is the same issue noted in the D-2 automated archive check, not a second defect.
+
+No missing-value imputation is needed. Bounding-box coordinates must not be filled with averages. Manually inspect and correct this object, or exclude its invalid annotation. Non-empty metadata does not establish provenance; `Unknown` is not verified source information.
+
+This structural check does not validate visual annotation quality. It also does not establish provenance, licensing, or privacy compliance.
+
 ## Screening checklist (task D-12)
 
 Every image that leaves the team is checked for faces and licence plates and has its EXIF removed.
