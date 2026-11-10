@@ -7,3 +7,6 @@ scikit-learn==1.9.1
 numpy==2.5.4
 pillow==13.0.0
 tqdm==4.70.1
+# classical pipeline (pipeline.py, classic.py): SIFT, colour histograms, global assignment
+opencv-python-headless==5.0.0.93
+scipy==1.18.1
