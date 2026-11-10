@@ -71,7 +71,7 @@ docs/   plan, tasks, architecture, course grounding, presentation
 | Dameli | Design system and visuals | @dameo111 |
 | Nazar | Model and experiments | @Akanov-Kanta |
 | Amina | Data and rules | @omodotori |
-| Alizhan | Serving and performance | to be added (the username `Byashaa` does not exist on GitHub) |
+| Alizhan | Serving and performance | @byahsaa |
 | Roma | Research, deck, video, QA | to be added |
 
 ## Rules for this repository
