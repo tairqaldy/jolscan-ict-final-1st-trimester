@@ -36,7 +36,9 @@ CLO 5 speaks of classification and clustering and asks for a justified quality m
 
 The M-1 one-epoch smoke run is a pipeline check, not a reportable experiment. It trains on `train` and checks metrics on `val` only. Its temporary dataset YAML omits `test`, so neither training nor evaluation can read test images. The smoke JSON contains validation metrics only; it must not contain a placeholder or copied `test_map50`.
 
-Issue #50 currently asks for 12 smoke metrics including test metrics and `test_map50` in MLflow. That acceptance criterion conflicts with this protocol: test is held for the final evaluation, not an early one-epoch check. D-20 also verified that the 100-image D-2 visual-review sample is identical to the test split. Until the issue criterion is aligned with this rule, M-1 remains incomplete even if the validation-only smoke run succeeds.
+The validation-only smoke run completed for one epoch on a Tesla T4 using trainer commit `3004fdfe8f59e7a261743ec01c390e40d811d791`; the reported MLflow `E0-smoke` run ID is `de59363e3bcd42389b608c2321690ca6` (FINISHED). The actual result JSON and training CSV are in `ml/results/runs/`. The JSON's post-training validation metrics are a separate evaluation from the epoch metrics in the CSV; they are both preserved as generated and should not be expected to match.
+
+Issue #50 currently asks for 12 smoke metrics including test metrics and `test_map50` in MLflow. That acceptance criterion conflicts with this protocol: test is held for the final evaluation, not an early one-epoch check. D-20 also verified that the 100-image D-2 visual-review sample is identical to the test split. Although the validation-only smoke execution succeeded, M-1 remains incomplete until the issue criterion is aligned. The full E0 baseline has not been run.
 
 ## Runs
 

@@ -10,9 +10,11 @@ Open [colab_runner.ipynb](colab_runner.ipynb) in Colab and run its cells from to
 python ml/train.py --run E0 --data /content/data/data.yaml --dataset-version potholes_yolo_v1 --smoke
 ```
 
-The smoke path trains for one epoch using train and validation only. It creates a temporary data YAML without a `test` entry, evaluates only validation, and writes six validation metrics. It also saves the actual training curve as `ml/results/runs/E0-smoke-results.csv` and records the code commit in `E0-smoke.json`.
+The validation-only smoke run completed on a Tesla T4 for one epoch using trainer commit `3004fdfe8f59e7a261743ec01c390e40d811d791`. The supplied run was reported as MLflow `E0-smoke`, ID `de59363e3bcd42389b608c2321690ca6`, status `FINISHED`. Its actual files are [E0-smoke.json](results/runs/E0-smoke.json) and [E0-smoke-results.csv](results/runs/E0-smoke-results.csv).
 
-**M-1 is still in progress:** no Colab smoke run has been executed or verified yet, and no smoke result files are present. The current #50 issue acceptance criteria require 12 metrics including `test_map50`; that conflicts with the validation-only smoke policy and the test protocol in `docs/ML-EXPERIMENT.md`. Do not add a fabricated test metric or mark M-1 complete. The team must align the issue criteria before completion.
+The CSV records the training epoch and the validation pass performed during training. The JSON's `metrics` are from a separate post-training validation pass (including the app's confidence-0.40 operating point); these values are not expected to match the CSV's training-loop metrics.
+
+**M-1 is still in progress:** the validation-only smoke execution succeeded, but issue #50 still requires 12 metrics including `test_map50`, conflicting with the chosen test-split policy in `docs/ML-EXPERIMENT.md`. Do not add a fabricated test metric or mark the full E0 baseline complete. The team must align the issue criteria before M-1 can be completed.
 
 The notebook downloads a ZIP containing only the actual JSON and CSV for collection. Review those files before committing them. Never commit the dataset ZIP, model weights, tokens, or temporary Colab files.
 
