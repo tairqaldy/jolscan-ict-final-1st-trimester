@@ -5,15 +5,15 @@
       "id": "s01",
       "file": "/samples/s01-highway-cluster.svg",
       "title": "Highway, three potholes",
-      "description": "One large and one medium pothole in the driving lane, one small on the shoulder. This is the RULES.md worked example A (score 15).",
+      "description": "One large and one medium pothole in the driving lane, one small on the shoulder. This illustrates the RULES.md worked example A (score 15).",
       "imageWidth": 1280,
       "imageHeight": 720,
       "meta": { "roadClass": "highway", "schoolZone": false },
       "location": { "lat": 51.1452, "lng": 71.5161, "label": "Ring road, east section" },
       "mockLatencyMs": 41,
       "detections": [
-        { "id": "s01-d1", "label": "pothole", "confidence": 0.91, "box": { "x": 0.4, "y": 0.66, "w": 0.22, "h": 0.16 } },
-        { "id": "s01-d2", "label": "pothole", "confidence": 0.84, "box": { "x": 0.56, "y": 0.52, "w": 0.12, "h": 0.08 } },
+        { "id": "s01-d1", "label": "pothole", "confidence": 0.91, "box": { "x": 0.35, "y": 0.615, "w": 0.32, "h": 0.25 } },
+        { "id": "s01-d2", "label": "pothole", "confidence": 0.84, "box": { "x": 0.52, "y": 0.51, "w": 0.2, "h": 0.1 } },
         { "id": "s01-d3", "label": "pothole", "confidence": 0.67, "box": { "x": 0.82, "y": 0.55, "w": 0.06, "h": 0.05 } }
       ]
     },
