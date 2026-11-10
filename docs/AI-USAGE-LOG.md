@@ -22,6 +22,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 10 November 2026, Alizhan (S-1, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** verify the local road API with stock YOLO weights and make the check repeatable on Windows.
+- **Key prompt:** "короче, я Алижан ты можешь уже начать выполнять мои таски?" See the [task-specific prompt excerpt and work log](ai-logs/alizhan/2026-11-10-s1.md); it is not a full exported transcript.
+- **What it produced:** `api/test_predict.py`, `api/smoke.py`, PowerShell instructions in `api/README.md`.
+- **Verification:** Python syntax compilation and all 30 API tests passed. A real HTTP smoke check returned 200 for health and prediction with Ultralytics 8.4.208 / yolo26n on Windows, Python 3.12.10, CPU. Results are in api/README.md. Alizhan has not yet personally reviewed the results.
+- **Limits:** stock COCO weights and a generated blank image verify serving, not pothole accuracy. No model training results or personal photographs are used.
+
 ### 10 November 2026, Tair (draft written by the tool, Tair to confirm and edit)
 
 - **Tool and version:** Claude Code desktop app. Lead model Claude Fable 5.2. Sub-agents on Claude Opus 5.5. (Tair: copy the exact model names from the app.)
