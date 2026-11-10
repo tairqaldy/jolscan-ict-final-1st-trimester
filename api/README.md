@@ -70,6 +70,24 @@ the contract still labels these boxes as `pothole`. Before using team weights, s
 set `MODEL_WEIGHTS` to their file, remove `ANY_CLASS` (`Remove-Item Env:ANY_CLASS` in PowerShell),
 and restart. Do not present stock-model detections as project results.
 
+## Model readiness and optional warm-up (S-20)
+
+- `GET /health` is a fast liveness check. `status: ok` means the process answers;
+  `ready` is true only if both model backends are already loaded. It does not load models.
+- `GET /ready` attempts to load both backends in worker threads and returns 200 only when
+  both load, or 503 with a per-model failure detail. The first request can download weights
+  and take a long time; offline use requires cached weights. Loading checks initialization,
+  not the accuracy of predictions or a complete end-to-end inference check.
+- Set `WARMUP=1` before starting Uvicorn to load both models and run a blank-image prediction
+  for each at startup. A warm-up failure is logged and does not stop the service. Check the
+  logs and `/ready`, then run an actual demo image before presenting. Defaults stay lazy.
+
+```powershell
+$env:WARMUP = "1"
+..\.venv\Scripts\python.exe -m uvicorn main:app --host 127.0.0.1 --port 8000
+# In a second terminal: Invoke-RestMethod http://127.0.0.1:8000/ready
+```
+
 ## Restroom endpoints
 
 Code in `restroom.py`, shared upload checks in `imaging.py`. The model is OpenAI CLIP through `open_clip_torch` (ViT-B/32 by default, about 600 MB, downloaded on first use into the Hugging Face cache). The first restroom request takes a few seconds longer while it loads.

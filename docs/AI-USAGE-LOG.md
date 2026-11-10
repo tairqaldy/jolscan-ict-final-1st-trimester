@@ -22,6 +22,16 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Alizhan (S-20, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Implement service liveness, model readiness and optional startup warm-up.
+- **Key prompt:** "мне нужно, чтобы ты выполнил таски, потому что ишшьюс будет ревьюить Таир". Full transcript is not exported here.
+- **What it produced:** API readiness and warm-up code, fake-model tests, README and task/worklog updates.
+- **Verification:** 36 API tests passed with fake backends in an isolated lightweight environment. Compile check passed. Alizhan has not yet personally reviewed this draft.
+- **Limits:** No team weights were available; model initialization with real weights and end-to-end inference remain to be checked on the presentation laptop.
+
+
 ### 10 November 2026, Alizhan (S-1, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.
