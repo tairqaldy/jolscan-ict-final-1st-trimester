@@ -69,6 +69,18 @@ Each person prepares short spoken answers for their lane. The course digest for 
 4. Which MLOps level are you at, and what would the next level need?
 5. What would you monitor after deployment?
 
+**Alizhan — short practice answers (S-13, draft for personal review)**
+
+1. **Upload to result.** The browser sends the road image to the Next.js `/api/analyze` route. That server forwards the image and confidence to FastAPI `/predict`. YOLO returns normalized bounding boxes; the web server applies the rules and sends the analysis back for display. For Compare, `/api/restroom` forwards two signs to `/restroom/compare` and the web app applies the signage rules. The two-step Match pipeline is separate work (C-8), not assumed to be serving yet.
+2. **HTTP and errors.** REST-style services use HTTP methods and status codes to operate on resources; responses here use JSON. FastAPI returns 200 for success, 400 for bad image bytes or confidence, 422 for missing required fields, and 503 if weights cannot load. The Next.js proxy can translate a service failure or malformed response into 502, or report an unreachable service as 503. HTTP 200 from `/health` means the process answers, not that trained weights work.
+3. **FastAPI, Gradio, Streamlit.** FastAPI is our programmatic HTTP API, validating requests and returning JSON. Gradio makes a simple interactive model demo; Streamlit is suited to interactive data applications and dashboards. The Gradio demo still needs verification with the team's weights.
+4. **Batch, online, edge.** Batch processes a stored group of inputs later; online serving answers individual requests as they arrive; edge runs inference on or close to the device. Our laptop-local setup is an edge-style deployment; an actual hosted service would be online serving.
+5. **Local versus cloud.** Local keeps inference on the laptop and can work without a network once software and weights are cached; it is limited by the laptop. Cloud can provide more compute but needs a network and sends photos off device, so privacy and latency matter. The app defaults to mock; local or configured cloud must be selected. Never describe mock or COCO detections as trained pothole results.
+6. **MLOps and maturity.** Gather and validate data, train and evaluate, select and deploy a model, monitor it, and use feedback to improve the next iteration. Our training and deployment are mostly manual, so call it Level 0; an automated validated training pipeline would be a step toward Level 1. CI checks alone do not automate training.
+7. **Monitor and Docker.** Monitor request errors, latency, input/data drift and confidence distributions; measure detection quality when reliable labels arrive. A Docker image packages the service and dependencies for consistent deployment; the weights may be supplied separately and secrets belong in environment variables, not the image or repository.
+
+**Practice:** answer three random questions aloud without notes for a teammate, then explain the actual `/predict` code and errors. Mark S-13 complete only after that practice. Course page references in `COURSE-GROUNDING.md` come from AI-made digests and must be checked against the original PDFs (R-14).
+
 **Tair (web and architecture)**
 1. Draw the architecture. Why are the rules applied in the web server and not in the model service? Why one platform with two modules instead of two apps?
 2. Why build a custom web app when the course teaches Streamlit and Gradio?

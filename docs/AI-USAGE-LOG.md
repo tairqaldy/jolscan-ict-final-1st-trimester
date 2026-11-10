@@ -22,6 +22,16 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Alizhan (S-13, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Draft a serving and deployment study card for oral practice.
+- **Key prompt:** "давай, продолжай работу" after recommending S-13 and S-3. Full transcript is not exported here.
+- **What it produced:** Seven draft practice answers in `docs/PRESENTATION.md` and a worklog entry.
+- **Verification:** Compared the answers to repository API routes, task instructions and architecture documentation; lecture references have not been checked against the original PDFs and Alizhan has not yet practiced or personally reviewed the answers.
+- **Limits:** S-13 stays open until the teammate practice and code explanation are complete.
+
+
 ### 10 November 2026, Alizhan (S-1, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.
