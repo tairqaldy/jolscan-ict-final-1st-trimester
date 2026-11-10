@@ -50,6 +50,7 @@ We declare **Option A** for this module too: open-source dataset, modify the mod
 | R4 | Fine-tune the last 6 blocks (the IOAI reference recipe) | Where does more training start to overfit? | Sup p24 |
 | R5 | R4 plus augmentation (flip, crop, colour jitter) | Does augmentation help with so little data? | Lec8 p38 |
 | R6 | Gender: zero-shot prompts against a logistic-regression probe | Is a trained classifier on embeddings better than prompts? | Labs 4 and 6 (scikit-learn) |
+| R7 | The two-step pipeline, no training (`pipeline.py`, below) | Does classical computer vision beat fine-tuning on this task? | Sup p10 (chosen on training and validation, test read once) |
 
 R0, R1 and R6 need no training. R2 and R3 also ran on a laptop CPU in under 8 minutes each, and R4 in 15 minutes. R5 was cut (task C-4): the layer experiment below answers the number-of-layers question with far more evaluation data than one augmentation run could.
 
@@ -66,6 +67,7 @@ Real runs from `ml/results/restroom/runs/`. Matching accuracy on validation (10 
 | R4 | Fine-tune the last 6 blocks, two-step matching | 1.00 | 1.000 (30/30) | 0.643 | 25 ms (M4) |
 | R5 | R4 plus augmentation | cut (C-4) | | | |
 | R6 | Gender probe, gender-filter matching | 0.50 | 0.300 (9/30) | 0.741 | 26 ms |
+| R7 | Two-step pipeline: SIFT + pixel check, then colour + CLIP, global assignment | 1.00 | **1.000 (30/30)** | none (no gender model) | not measured |
 
 IOAI reference on the same test set: baseline 0.77, best 0.90.
 
@@ -177,7 +179,16 @@ Study card for the defense: [ml/restroom/STUDY-CARD.md](../ml/restroom/STUDY-CAR
 - Runs are chosen on validation matching accuracy, with gender accuracy as the tie-break. Test is read once.
 - With only 10 validation queries, one query is worth 0.10. Differences smaller than that on validation are noise, so treat close runs as tied.
 
+### Two choices, two rules (task C-12)
+
+- **The fine-tuning runs (R0–R6) keep their rule.** The champion is the run with the highest validation accuracy, then the highest gender accuracy: **R3**. That rule was fixed before the runs and is not changed because of any test number.
+- **The matching method is chosen separately: the two-step pipeline, row R7.** It was chosen on 200 training episodes of 30 restrooms (0.960 ± 0.041 with the global assignment; 0.917 ± 0.051 for the greedy variant that scores one query at a time) and then on validation (10/10, tied with R2–R4). Its test score, 30/30, was read once, after the choice. Under the run rule R7 cannot be champion: it has no gender model, so its gender accuracy is empty, and the tie-break goes to R3. Giving it a gender number from another model would mix two models in one row.
+- **What the app serves today is neither.** `/restroom/match` in the API ranks the gallery by zero-shot CLIP ViT-B/32 similarity and takes the most similar sign of the opposite predicted gender (0.47 on test, `gender_filter_zeroshot` in R1). So the export writes `served: null` with a note. It becomes `"R7"` in the pull request that makes the API run the pipeline (task C-8).
+- 30/30 is strong but small: one test query is 0.033, and the 95% interval for 30/30 runs from about 0.88 to 1.0.
+
 ## How it feeds the app
+
+`ml/restroom/export_results.py` writes `web/data/restroom-experiments.json` for the model page: the run rows R0–R4, R6 and R7 (R5 cut), the champion by the run rule (R3), `served` (null for now, see above), a `pipeline` block with every approach from `pipeline.py` (validation, test, training-episode mean and spread), and a `layers` table with one row per backbone and number of trained blocks or stages from `layers.csv`. The table shows the rows today; the pipeline card and the layer table on the page are task W-25 (Tair).
 
 The signage rules (RULES.md, part 2) use the gender confidence and the similarity. Their thresholds were chosen from the distribution of these values on the training restrooms in task C-7.
 

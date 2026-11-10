@@ -15,6 +15,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-10 23:00 · C-12 (#37) · Pipeline and layer results in the export
+- **Status:** in progress: the export and docs are done; the page side is W-25 (Tair) and `served` waits for C-8.
+- **What I did:** Added row R7 (the two-step pipeline), a `pipeline` block with every approach and a `layers` table to `web/data/restroom-experiments.json`, documented both selection rules, and the new fields in ARCHITECTURE.md 2b.
+- **Result:** R7 shows 1.0 on validation and test in the model page table; the champion stays R3 under the run rule. `served` is null with a note.
+- **Decisions and why:** `served` is not "R7", because the API's Match does not run the pipeline yet; writing "R7" would describe the app wrongly. R7 has no gender accuracy, because it has no gender model; borrowing one from another run would mix two models.
+- **What I learned / can explain at the defense:** The run table answers how many layers to train; the pipeline is a separate choice, made on training episodes and validation before the test score was read.
+- **AI use:** Claude Code (Claude Opus 5.5); entry in `docs/AI-USAGE-LOG.md`.
+- **Open questions / next:** Tair: pipeline card and layer table (W-25), and R7's empty gender and latency cells read "not run yet" where "not applicable" is meant. C-8: make the API run the pipeline, then set `served` to "R7".
+
 ### 2026-11-10 22:30 · C-3 (#14), C-5 (#16), C-6 (#17), C-9 (#19), C-11 (#36) · Restroom bare-minimum tasks
 - **Status:** C-3, C-5, C-6 and C-11 done; C-4 and C-10 cut; C-9 in progress (card written, practice not done); C-12 part done; C-8 and C-13 blocked on S-1 (#21).
 - **What I did:** Ran R4 on my laptop CPU, exported every run to the web app's model page with R5 cut, drew the slide figures the C-6 issue asks for, and wrote the study card. Earlier the same day: the two-step pipeline and the layer sweep on a Kaggle GPU.

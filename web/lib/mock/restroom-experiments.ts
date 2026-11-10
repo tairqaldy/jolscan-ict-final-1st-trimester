@@ -1,10 +1,12 @@
 /**
  * Restroom experiment results (data/restroom-experiments.json), schema
- * RestroomExperimentsFile in ARCHITECTURE.md 2b. The shipped file is a
- * placeholder: isMock true, rows R0–R6 with isReal false and null metrics.
- * ml/restroom/export_results.py overwrites it; rows with isReal true then show
- * without a "Demo data" badge. The loader tolerates missing fields so a
- * half-written export never breaks the page.
+ * RestroomExperimentsFile in ARCHITECTURE.md 2b. ml/restroom/export_results.py
+ * writes it: real rows R0–R4, R6 and R7 (the two-step pipeline; R5 was cut),
+ * isMock false, champion R3 by the run rule. It also writes `served`,
+ * `servedNote`, `pipeline` and `layers`, which this loader does not read yet
+ * (task W-25). Rows with isReal false would show with a "Placeholder" badge.
+ * The loader tolerates missing fields so a half-written export never breaks
+ * the page.
  */
 import raw from "@/data/restroom-experiments.json";
 
