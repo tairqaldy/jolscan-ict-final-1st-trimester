@@ -12,3 +12,4 @@ Write one when you pick a dataset, a model, a metric or a threshold, change a co
 | [0004](0004-claim-rebase-self-merge.md) | Team workflow: claim, rebase before merging, merge yourself | 2026-11-10 | Tair |
 | [0005](0005-vercel-deploys-from-tair-account.md) | Production deploys are created from Tair's Vercel account (replaced by 0006) | 2026-11-10 | Tair |
 | [0006](0006-public-repository.md) | The repository is public | 2026-11-10 | Tair and the team |
+| [0008](0008-api-python-312.md) | Propose Python 3.12 for the API environment | 2026-11-11 | Proposed by Alizhan; Tair and Nazar review pending |
