@@ -60,7 +60,7 @@ export function TokenReference() {
       <section aria-labelledby="t-type" className="grid gap-4">
         <h2 id="t-type" className="text-2xl font-bold">Type scale</h2>
         <p className="text-sm text-muted">
-          Display: Barlow Condensed (headings). Body: Barlow, a typeface drawn after highway signage. Mono: JetBrains Mono.
+          Display and body: Overpass, drawn after highway-sign lettering, with Cyrillic and Kazakh letters. Mono: JetBrains Mono for figures and technical details.
         </p>
         <ul className="grid gap-3">
           {TYPE_SCALE.map((t) => (

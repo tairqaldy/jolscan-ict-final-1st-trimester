@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 48" role="img" aria-label="Qarau">
+  <!-- Mark plus name for slides (G-10). The name is the BRAND.name constant in web/lib/brand.ts; redraw if it changes. -->
+  <g transform="translate(4 4) scale(1.25)"><rect x="1" y="1" width="30" height="30" rx="7" fill="#f2a900"/><path d="M8 13.5V8h5.5M18.5 8H24v5.5M24 18.5V24h-5.5M13.5 24H8v-5.5" fill="none" stroke="#1b1c1e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="16" cy="16.5" rx="3.6" ry="2.4" fill="#1b1c1e"/></g>
+  <text x="56" y="34.5" font-family="Overpass, 'Helvetica Neue', Arial, sans-serif" font-size="30" font-weight="700" letter-spacing="-0.3" fill="#1b1c1e">Qarau</text>
+</svg>

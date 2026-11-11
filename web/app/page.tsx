@@ -104,24 +104,25 @@ export default function LandingPage() {
   return (
     <>
       <SiteHeader />
-      <main id="main">
+      <main id="main" className="landing-page">
         {/* Hero */}
-        <section className="container-page pt-12 pb-14 lg:pt-20 lg:pb-20">
-          <Stagger className="grid max-w-4xl gap-6">
+        <section className="landing-hero container-page public-container py-12 lg:py-14">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-12">
+          <Stagger className="grid content-start gap-6">
             <StaggerItem>
-              <p className="text-xs font-semibold tracking-[0.18em] text-accent-ink uppercase">
+              <p className="flex items-center gap-3 text-xs font-semibold tracking-[0.18em] text-accent-ink uppercase">
+                <span className="h-px w-8 bg-accent" aria-hidden />
                 {BRAND.name} ({BRAND.nativeName}) · {BRAND.meaning}
               </p>
             </StaggerItem>
             <StaggerItem>
-              <h1 className="text-4xl leading-[1.02] font-bold sm:text-5xl lg:text-[4.5rem]">
-                Inspect roads and buildings from a photo.
+              <h1 className="max-w-3xl text-4xl leading-[1.04] font-bold sm:text-5xl lg:text-[3.75rem]">
+                Inspect roads and signs <span className="text-muted">with clarity.</span>
               </h1>
             </StaggerItem>
             <StaggerItem>
-              <p className="max-w-2xl text-lg text-muted">
-                {BRAND.name} runs a computer vision model on a photo, then applies rules anyone can read to decide what needs
-                fixing and how soon. Two modules today: potholes on roads, and confusing restroom door signs.
+              <p className="max-w-xl text-lg text-muted">
+                Inspect road damage and compare door signs with computer vision. Qarau shows the evidence behind each result.
               </p>
             </StaggerItem>
             <StaggerItem className="flex flex-wrap gap-3">
@@ -138,62 +139,79 @@ export default function LandingPage() {
               </p>
             </StaggerItem>
           </Stagger>
+          <aside aria-label="Example road inspection" className="inspection-preview w-full overflow-hidden rounded-xl border border-border bg-surface shadow-sm lg:max-w-[36rem] lg:justify-self-end">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-5 py-4 sm:px-6">
+              <div>
+                <p className="font-mono text-xs text-muted">INSPECTION 01 / ROADS</p>
+                <p className="mt-1 text-sm font-medium">From detection to priority</p>
+              </div>
+              <DemoBadge show label="Sample result" />
+            </div>
+            <div className="grid gap-4 p-5 sm:p-6">
+              <HeroDemo />
+              <div className="border-t border-border pt-4 text-sm">
+                <p className="font-medium">Why this priority?</p>
+                <p className="mt-1 text-muted">{roadHit.title}: {roadHit.detail} (+{roadHit.points} points).</p>
+              </div>
+              <Link href="/app/roads/analyze?sample=s01" className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-accent-ink underline underline-offset-4">
+                Try this sample <ArrowRight className="size-4" aria-hidden />
+              </Link>
+            </div>
+          </aside>
+          </div>
         </section>
 
-        <div className="lane-stripe" aria-hidden />
-
-        {/* Problem */}
-        <section id="problem" className="container-page scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="problem-h">
-          <SectionTitle id="problem-h" eyebrow="The problem" title="Most inspection is still done by eye" />
-          <Stagger className="mt-8 grid gap-4 md:grid-cols-2">
-            <StaggerItem as="article" className="rounded-lg border border-border bg-surface p-6">
-              <h3 className="text-xl font-bold">Potholes are found late</h3>
-              <p className="mt-2 text-muted">
-                Most are reported by drivers after they damage a car. An inspector cannot drive every street every week, and a
-                list of complaints does not say which hole to fix first.
-              </p>
-            </StaggerItem>
-            <StaggerItem as="article" className="rounded-lg border border-border bg-surface p-6">
-              <h3 className="text-xl font-bold">Door signs confuse visitors</h3>
-              <p className="mt-2 text-muted">
-                Signs are installed once and rarely checked. When the two doors of a restroom carry signs from different sets, or
-                two signs that look alike, people hesitate or walk into the wrong room. Nobody audits signage across a campus.
-              </p>
-            </StaggerItem>
-          </Stagger>
-          <p className="mt-6 max-w-3xl text-lg">
-            Both are the same job: look at a photo, find the problem, decide what to do. {BRAND.name} makes that job faster and
-            more consistent, and shows how every decision was made.
-          </p>
-        </section>
+        <div className="landing-road" aria-hidden="true">
+          <div className="landing-road__markings" />
+          <div className="landing-road__car">
+            <svg viewBox="0 0 112 48" focusable="false">
+              <path d="M8 30c1-10 6-15 17-16C31 4 39 2 54 2c16 0 25 5 31 14 14 1 21 7 22 17v5H7v-5Z" fill="var(--danger)" />
+              <path d="M34 15c4-7 9-9 19-9v11H30Zm23-9c10 0 16 3 21 11H57Z" fill="var(--surface)" />
+              <path d="M8 34h99" stroke="var(--border-strong)" strokeWidth="4" strokeLinecap="round" />
+              <circle cx="29" cy="36" r="10" fill="var(--inverse)" />
+              <circle cx="85" cy="36" r="10" fill="var(--inverse)" />
+              <circle cx="29" cy="36" r="4" fill="var(--surface-3)" />
+              <circle cx="85" cy="36" r="4" fill="var(--surface-3)" />
+              <circle cx="98" cy="26" r="3" fill="var(--accent)" />
+            </svg>
+          </div>
+        </div>
 
         {/* Modules */}
-        <section id="modules" className="container-page scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="modules-h">
-          <SectionTitle id="modules-h" eyebrow="The platform" title="One platform, two modules" />
+        <section id="modules" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="modules-h">
+          <SectionTitle id="modules-h" eyebrow="The tools" title="One approach, two inspection tasks" />
+          <p className="mt-3 max-w-2xl text-muted">Choose a task to see how an image becomes an explainable result.</p>
           <div className="mt-8 grid gap-6 lg:grid-cols-2">
             <ModuleCard
               id="roads"
-              demo={<HeroDemo />}
+              demo={<p className="rounded-md bg-surface-2 p-4 font-mono text-sm text-muted">Photo → detections → repair priority</p>}
               text="A YOLO object detector draws a box around each pothole. Six rules weigh size, lane position, clusters, road class and school zones into a repair priority with a target time."
               output="Severity, score and target time"
               cta={{ href: ROAD_SAMPLE_HREF, label: "Analyze a road photo", icon: ScanSearch }}
             />
             <ModuleCard
               id="restrooms"
-              demo={<PairDemo />}
+              demo={<p className="rounded-md bg-surface-2 p-4 font-mono text-sm text-muted">Photos → comparison → signage verdict</p>}
               text="A CLIP image encoder reads each door sign: which gender it shows, and how alike two designs are. Three rules turn a pair into clear, review or confusing."
               output="Verdict and recommended action"
               cta={{
                 href: `/app/restrooms/compare?a=${RESTROOM_PRESETS[0].a}&b=${RESTROOM_PRESETS[0].b}`,
-                label: "Compare two signs",
+                label: "Try a sign sample",
                 icon: GitCompareArrows,
               }}
             />
           </div>
+          <details className="mt-6 rounded-xl border border-border bg-surface">
+            <summary className="cursor-pointer px-5 py-4 font-medium sm:px-6">Preview a sign comparison</summary>
+            <div className="grid gap-3 border-t border-border p-5 sm:p-6">
+              <div><DemoBadge show label="Sample result" /></div>
+              <PairDemo />
+            </div>
+          </details>
         </section>
 
         {/* How it works */}
-        <section id="how" className="container-page scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="how-h">
+        <section id="how" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="how-h">
           <SectionTitle id="how-h" eyebrow="How it works" title="Photo, model, rules, action" />
           <Stagger as="ol" className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {STEPS.map((s, i) => {
@@ -215,11 +233,10 @@ export default function LandingPage() {
         </section>
 
         {/* Rules you can read */}
-        <section id="rules" className="container-page scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="rules-h">
+        <section id="rules" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="rules-h">
           <SectionTitle id="rules-h" eyebrow="Explainable by design" title="Rules you can read" />
           <p className="mt-3 max-w-3xl text-muted">
-            The model only reports what it sees. The decision comes from rules the team wrote down, and every result lists which
-            rules fired. Two real rule hits, computed by the same code the app runs:
+            The model produces predictions; the team’s rules turn those predictions into an outcome. These examples use mock predictions and show rule hits computed by the app:
           </p>
           <div className="mt-8 grid gap-4 lg:grid-cols-2">
             <RuleHitCard
@@ -253,30 +270,8 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Local or cloud, privacy */}
-        <section id="privacy" className="container-page scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="privacy-h">
-          <SectionTitle id="privacy-h" eyebrow="Deployment" title="Local or cloud, private by default" />
-          <div className="mt-8 grid gap-4 lg:grid-cols-3">
-            <Feature icon={Laptop} title="Local">
-              Both trained models run in a FastAPI service on the laptop. Images never leave the device.
-            </Feature>
-            <Feature icon={Cloud} title="Cloud, opt-in">
-              The same service on a hosted endpoint, for more capacity. Chosen in Settings; a privacy switch blocks it.
-            </Feature>
-            <Feature icon={ServerCog} title="Mock">
-              Canned results for the bundled samples keep the demo working offline. Every number it shows is marked as demo data.
-            </Feature>
-          </div>
-          <ul className="mt-6 grid gap-3 text-sm text-muted sm:grid-cols-2">
-            <PrivacyPoint icon={ShieldCheck}>GPS and camera metadata are stripped in the browser before an upload is sent.</PrivacyPoint>
-            <PrivacyPoint icon={Lock}>No accounts and no server database: history stays in this browser and can be cleared.</PrivacyPoint>
-            <PrivacyPoint icon={Camera}>Road photos can show faces and plates, so the cloud model is off until you choose it.</PrivacyPoint>
-            <PrivacyPoint icon={Cpu}>Restroom images are door-sign icons only. Never upload a photo taken inside a restroom.</PrivacyPoint>
-          </ul>
-        </section>
-
         {/* Results teaser */}
-        <section id="results" className="container-page scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="results-h">
+        <section id="results" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="results-h">
           <SectionTitle id="results-h" eyebrow="Results" title="What the models score" />
           <p className="mt-3 max-w-3xl text-muted">
             Both modules follow the same protocol: one change per run against a fixed baseline, chosen on validation, test read
@@ -315,9 +310,43 @@ export default function LandingPage() {
           </p>
         </section>
 
+        {/* Local or cloud, privacy */}
+        <section id="privacy" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="privacy-h">
+          <SectionTitle id="privacy-h" eyebrow="Deployment" title="Local or cloud, private by default" />
+          <div className="mt-8 grid gap-4 lg:grid-cols-3">
+            <Feature icon={Laptop} title="Local">
+              Both trained models run in a FastAPI service on the laptop. Images never leave the device.
+            </Feature>
+            <Feature icon={Cloud} title="Cloud, opt-in">
+              The same service on a hosted endpoint, for more capacity. Chosen in Settings; a privacy switch blocks it.
+            </Feature>
+            <Feature icon={ServerCog} title="Mock">
+              Canned results for the bundled samples keep the demo working offline. Every number it shows is marked as demo data.
+            </Feature>
+          </div>
+          <ul className="mt-6 grid gap-3 text-sm text-muted sm:grid-cols-2">
+            <PrivacyPoint icon={ShieldCheck}>GPS and camera metadata are stripped in the browser before an upload is sent.</PrivacyPoint>
+            <PrivacyPoint icon={Lock}>No accounts and no server database: history stays in this browser and can be cleared.</PrivacyPoint>
+            <PrivacyPoint icon={Camera}>Road photos can show faces and plates, so the cloud model is off until you choose it.</PrivacyPoint>
+            <PrivacyPoint icon={Cpu}>Restroom images are door-sign icons only. Never upload a photo taken inside a restroom.</PrivacyPoint>
+          </ul>
+        </section>
+
+        {/* Team */}
+        <section id="team" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="team-h">
+          <SectionTitle id="team-h" eyebrow="Team" title="Six students, one platform" />
+          <p className="mt-3 text-muted">
+            {COURSE.code} group project at {COURSE.school}. Each lane has one owner.
+          </p>
+          <div className="mt-8">
+            <TeamGrid />
+          </div>
+        </section>
         {/* Course */}
-        <section id="course" className="container-page scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="course-h">
-          <SectionTitle id="course-h" eyebrow={`Built on ${COURSE.code}`} title="What the course taught, applied" />
+        <section id="course" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="course-h">
+          <details>
+            <summary className="cursor-pointer text-sm font-semibold text-accent-ink">Explore the course foundations</summary>
+            <div className="mt-6"><SectionTitle id="course-h" eyebrow={`Built on ${COURSE.code}`} title="What the course taught, applied" /></div>
           <Stagger className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {COURSE_TOPICS.map((t) => (
               <StaggerItem as="article" key={t.title} className="rounded-lg border border-border bg-surface p-6">
@@ -328,18 +357,9 @@ export default function LandingPage() {
               </StaggerItem>
             ))}
           </Stagger>
+          </details>
         </section>
 
-        {/* Team */}
-        <section id="team" className="container-page scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="team-h">
-          <SectionTitle id="team-h" eyebrow="Team" title="Six students, one platform" />
-          <p className="mt-3 text-muted">
-            {COURSE.code} group project at {COURSE.school}. Each lane has one owner.
-          </p>
-          <div className="mt-8">
-            <TeamGrid />
-          </div>
-        </section>
       </main>
       <SiteFooter />
     </>
@@ -373,7 +393,7 @@ function ModuleCard({
   const m = MODULES[id];
   const Icon = MODULE_ICONS[id];
   return (
-    <article className="grid content-start gap-5 rounded-xl border border-border bg-surface p-5 sm:p-6" aria-labelledby={`card-${id}`}>
+    <article className="flex h-full flex-col gap-5 rounded-xl border border-border bg-surface p-5 sm:p-6" aria-labelledby={`card-${id}`}>
       <div className="flex items-start gap-3">
         <span className="grid size-10 shrink-0 place-items-center rounded-md bg-inverse text-inverse-fg">
           <Icon className="size-5" aria-hidden />
@@ -387,7 +407,7 @@ function ModuleCard({
       </div>
       {demo}
       <p className="text-muted">{text}</p>
-      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
+      <div className="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
         <p className="text-sm">
           <span className="text-muted">Output:</span> <span className="font-medium">{output}</span>
         </p>
