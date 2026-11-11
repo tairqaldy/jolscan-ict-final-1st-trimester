@@ -100,10 +100,10 @@ function NotRun({ text = "not run yet" }: { text?: string }) {
   return <span className="text-xs whitespace-nowrap text-subtle italic">{text}</span>;
 }
 
-/** A score with two decimals, or a dash when the results file has no number for it. */
-function Score({ value }: { value: number | null }) {
+/** A score with two decimals (three for the validation numbers the rule compares), or a dash when the results file has no number for it. */
+function Score({ value, digits = 2 }: { value: number | null; digits?: number }) {
   if (value === null) return <NotRun text="—" />;
-  return <>{value.toFixed(2)}</>;
+  return <>{value.toFixed(digits)}</>;
 }
 
 /** Shows a text and turns the first web address in it into a link (the dataset source). */
@@ -165,6 +165,7 @@ export default function ModelPage() {
                   <TH>Run</TH>
                   <TH>What changed</TH>
                   <TH className="text-right">Val mAP50</TH>
+                  <TH className="text-right">Val recall at 0.40</TH>
                   <TH className="text-right">mAP50</TH>
                   <TH className="text-right">mAP50-95</TH>
                   <TH className="text-right">Precision</TH>
@@ -197,7 +198,10 @@ export default function ModelPage() {
                       </TD>
                       <TD className="min-w-56 text-muted">{r.changed}</TD>
                       <TD className="tabular text-right font-mono">
-                        <Score value={r.valMap50} />
+                        <Score value={r.valMap50} digits={3} />
+                      </TD>
+                      <TD className="tabular text-right font-mono">
+                        <Score value={r.valRecallAtRulesConf} digits={3} />
                       </TD>
                       <TD className="tabular text-right font-mono whitespace-nowrap">
                         <Score value={r.map50} />
@@ -226,8 +230,9 @@ export default function ModelPage() {
               </tbody>
             </Table>
             <p className="px-5 pt-3 pb-2 text-sm text-muted">
-              <span className="font-medium text-fg">Champion rule:</span> {EXPERIMENTS.championRule} Val mAP50 is the
-              validation number the rule uses; every other score is on the test split, read once. Small numbers next to the test mAP50
+              <span className="font-medium text-fg">Champion rule:</span> {EXPERIMENTS.championRule} Val mAP50 and val recall at 0.40
+              are the validation numbers the rule uses, shown with three decimals so the 0.01 tie band is visible; every other score is on
+              the test split, read once. Small numbers next to the test mAP50
               are the change against the baseline {BASELINE.id}; differences below 0.02 on test are not claimed as real.
             </p>
           </CardBody>

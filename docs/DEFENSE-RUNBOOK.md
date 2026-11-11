@@ -51,7 +51,7 @@ If port 3000 is taken, pick another one with `WEB_PORT=3100`.
 Then in the browser:
 
 1. Open `http://localhost:3000/app/settings`.
-2. Choose **Local** and press **Check connection**. On 11 Nov it said "Connected · jolscan-e0 on cpu (7 ms)".
+2. Choose **Local** and press **Check connection**. On 11 Nov with the champion it said "Connected · jolscan-e1 on cpu (9 ms)".
 3. Open the tabs in order: deck, `/`, `/app/roads/analyze`, `/app/restrooms/compare`, `/app`, `/app/model`, the GitHub repository.
 
 ## Measured on 11 November 2026 (Tair's MacBook, Apple M5)
@@ -62,6 +62,9 @@ Then in the browser:
 - `scripts/demo-local.sh` itself, run on 11 Nov with the production build: health printed, model warmed, `next start` ready in 68 ms; a real photo through the web app then took 21 ms model time.
 - Test photo `img-300.jpg`: 4 potholes found (4 labelled), severity Critical, score 17.
 - The champion E1 (YOLO26s, 20 MB, about four times the weights of the nano runs), measured through the API on CPU on 11 Nov: first photo 973 ms model time while the model loads, then 51–71 ms per photo (`api/README.md`, S-2). Still well under a second, so the demo does not change.
+
+- Cold start with E1 (11 Nov, 16:45, Wi-Fi on, production build already made): `scripts/demo-local.sh` printed `/health`, warmed the model and had `next start` ready **4 s** after launch. The first real photo through the web app then took 88 ms model time (4 boxes, Critical 17).
+- If `api/.venv` does not exist, point the script at any Python 3.12 environment that has `api/requirements.txt` installed: `PYTHON=/path/to/venv/bin/python scripts/demo-local.sh`.
 
 Measure the cold start again with Wi-Fi off in Rehearsal 2 and write it here.
 
