@@ -22,6 +22,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Alizhan (S-30, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Make concurrent access to the shared API model backends predictable.
+- **Key prompt:** "начни это все выполнять" following recommended optimization tasks. Full transcript is not exported here.
+- **What it produced:** Separate YOLO/CLIP inference locks, concurrent API tests, and documentation.
+- **Verification:** 32 API tests passed with fake backends; six concurrent requests per backend were serialized, with `/health` responding during blocked road inference. Python compilation passed. Alizhan has not personally reviewed this entry.
+- **Limits:** Locks are per process and can reduce same-model throughput; this does not measure performance or model accuracy. S-20 and C-8 are separate changes requiring integration review.
+
 ### 11 November 2026, Alizhan (S-20, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6 family.
