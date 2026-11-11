@@ -14,7 +14,7 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 ### 2026-11-11 17:17 · G-29 (#173), G-24 (#168) · Provenance badges and the icon audit
 - **Status:** done
-- **What I did:** Made one badge set for where a result comes from: "Demo data", "Mock result" and "Model result: <name>". Every road, compare and match result now shows exactly one of them. Then I audited the icons on the result cards and wrote the icon map into the design brief.
+- **What I did:** Made one badge set for where a result comes from: "Demo data", "Mock result" and "Model result:" followed by the model name. Every road, compare and match result now shows exactly one of them. Then I audited the icons on the result cards and wrote the icon map into the design brief.
 - **Result:** `web/components/app/demo-badge.tsx` (`ProvenanceBadge`, `ResultProvenanceBadge`; `DemoBadge` stays as a thin wrapper), the rule `resultProvenance` in `web/lib/mock/seeded.ts`, tests in `web/lib/demo-badges.test.ts`, the new icons in `analysis-view.tsx` and `compare-result.tsx`, and DESIGN-BRIEF.md "Provenance badges and icons (G-29, G-24)".
 - **Decisions and why:**
   - Amber means "not made by our model": filled for invented demo data, outlined for the mock provider. Slate (`--chart-1`, already the measured-data colour of the charts) means our model made it. No new token, so nothing clashes with the review colour work in G-47.
