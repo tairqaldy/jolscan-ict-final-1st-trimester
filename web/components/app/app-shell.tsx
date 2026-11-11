@@ -84,7 +84,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <DemoBadge show label="Includes demo data" />
           </div>
           <div className="flex items-center justify-between">
-            <Link href="/about" className="inline-flex items-center gap-1.5 text-xs text-muted hover:text-fg">
+            <Link href="/about" className="link-underline inline-flex items-center gap-1.5 text-xs text-muted hover:text-fg">
               <Info className="size-3.5" aria-hidden /> About · {COURSE.code}
             </Link>
             <ThemeToggle />
