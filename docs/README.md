@@ -32,6 +32,7 @@ Every document has an owner who keeps it true, and a moment when it gets updated
 | [worklog/](worklog/README.md) | Each person's running record | everyone | after each task |
 | [decisions/](decisions/README.md) | Why each important choice was made | whoever made it | when you choose |
 | [research/](research/) | Course digests, datasets considered, audits | Roma | new research |
+| [research/glossary.md](research/glossary.md) | Course glossary and 38-term defense vocabulary guide | Roma | checking terms or preparing defense answers |
 | [../data/README.md](../data/README.md) | Dataset cards, quality checks, privacy screening | Amina, Nazar | data changes |
 | [../CONTRIBUTING.md](../CONTRIBUTING.md) | How we work: claim, rebase, merge | Tair | the workflow changes |
 

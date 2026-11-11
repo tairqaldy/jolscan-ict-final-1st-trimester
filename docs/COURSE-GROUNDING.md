@@ -6,7 +6,7 @@ The two full course digests (modules 1–5: syllabus, ML introduction, architect
 
 The digests were produced by an AI model reading the lecture files. Before you quote a page number on a slide, open the lecture and check it.
 
-Reference style: `Lec8 p38` is page 38 of the Lecture 8 deck. `Syl` is the syllabus, `A2` the assignment sheet, `Sup` the supervised-learning deck.
+Reference style: `Lec8 p38` is page 38 of the Lecture 8 deck. `Syl` is the syllabus, `A2` the assignment sheet, `Sup` the supervised-learning deck. See the unified [Course Glossary](research/glossary.md) (`docs/research/glossary.md`) for 38 standardized course terms and the defense "Do Not Say" guidelines.
 
 ## What the syllabus says about this project
 

@@ -10,6 +10,15 @@
 
 ## Entries
 
+### 2026-11-12 01:05 · R-38 (#247) · Write the course glossary the team must use correctly
+- **Status:** done
+- **What I did:** Wrote `docs/research/glossary.md` covering 38 foundational terms across 5 course categories: computer vision & detection (Lec8), machine learning evaluation & metrics (Sup), clustering (Unsup), architecture & MLOps (Lec2, Lec5, Lec9), and HCI/ethics (Lec3, Lec4, Syl). Added a defense "Do Not Say" table and mapped cross-lane terminology standards to prevent oral grading penalties. Linked the file from `docs/README.md` and `docs/COURSE-GROUNDING.md`.
+- **Result:** Complete 38-term glossary in [`docs/research/glossary.md`](../research/glossary.md) with exact course slides cited and project definitions. Unblocks task R-39.
+- **Decisions and why:** Organized into structured thematic domains with an explicit defense penalty warning section (e.g. why saying "detector accuracy" or "AI decides" costs marks under CLO 5/6).
+- **What I learned / can explain at the defense:** The precise mathematical and architectural distinctions between mAP50 vs accuracy, ViT vs CNN inductive biases, zero-shot CLIP vs generative VLMs, and grouped vs random cross-validation.
+- **AI use:** Assistant used to help cross-reference lecture page numbers and format markdown tables.
+- **Open questions / next:** Share glossary with team members for oral rehearsal drills (R-39).
+
 ### 2026-11-12 00:44 · R-13 (#92) · Prepare Roma's study card on AI evaluation and limits
 - **Status:** done
 - **What I did:** Completed all eight study card questions in `docs/PRESENTATION.md` with concise, three-sentence answers. Grounded every answer in our concrete R-6 audit results (`docs/research/vlm-evaluation.md`), citing specific image failures (A17 robot figure, A11/A12 chopstick geometry), Gemini metadata leakage (`A07.png`), VLM architecture components (encoder, connector, language model per Lec8 p57), and syllabus privacy constraints (Syllabus p.9).
