@@ -12,6 +12,18 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 20:32 · G-73 (#432) · Motion spec from the reference site
+- **Status:** done.
+- **What I did:**
+  - Opened the Refero board I picked and the dope.security site it comes from with Playwright at 1440 × 900: read every computed `transition` and `animation`, the `@keyframes` and `prefers-reduced-motion` rules, sampled hover, mouse down and Tab focus over one second, and watched inline style changes while opening the menu and scrolling.
+  - Read WCAG 2.3.3, MDN on `prefers-reduced-motion`, the Material 3 motion tokens, Apple HIG Motion, the Vercel Web Interface Guidelines and two NN/g articles.
+  - Wrote `docs/design/motion.md`: 25 interactions with timings and a keep, adapt or skip verdict, eight rules with sources, a map to our components and issues, and our tokens against the measurements.
+- **Result:** UI feedback on the reference is 100 to 200 ms and decelerates at the end, which our `--duration-fast`, `--duration-ui`, `--duration-base` and `--ease-standard` already cover. There is no token between 200 and 420 ms. Four places break our own rules: `.stagger` ends at 660 to 780 ms, the distribution bars at 630 ms plus 60 ms per bar, the detection boxes draw for 700 ms (the brief says 300), and the header links animate padding with a bare 320 ms.
+- **Decisions and why:** skipped everything on the reference that runs on its own (typed text, rotating words, floating logos, pulses), because it delays reading and has no reduced-motion rule there. Kept the stricter "nothing moves" under Reduce motion although WCAG would allow fades, because `globals.css` already does it. Added two rules the swarm notes lacked: leaving is faster than entering, and nobody waits for an animation.
+- **What I learned / can explain at the defense:** how to measure a site's motion from computed styles, why `transition: all` and animating padding or `top` are avoided, what WCAG 2.3.3 counts as motion, and why our standard easing is the Material 3 standard curve.
+- **AI use:** Claude Code ran the Playwright scripts, read the sources and drafted the document; I checked the numbers against the raw output (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** G-6, G-9, G-74 and G-75 apply the map; the four rule breaks above are listed for them, not changed here. The DESIGN-BRIEF Motion table (boxes 300 ms) needs one line updated by whoever owns it.
+
 ### 2026-11-11 19:24 · G-49 (#283), G-23 (#167), G-62 (#296) · Three radii, one eyebrow label, one card inset
 - **Status:** done
 - **What I did:**
