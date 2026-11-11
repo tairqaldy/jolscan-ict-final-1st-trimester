@@ -60,7 +60,11 @@ type InferenceResult = {
 Model service (`api/`), the same for local and cloud:
 
 ```
-GET  /health   → { "status": "ok", "model": "jolscan-e8", "device": "cpu" }
+GET  /health   → { "status": "ok", "ready": <bool, both models already loaded>, "model": "jolscan-e8", "device": "cpu", "models": {...} }
+               (liveness only: never loads a model)
+GET  /ready    → 200 { "ready": true, "models": { "pothole": { "ready": true }, "restroom": { "ready": true } } }
+               → 503 { "ready": false, "models": { "<name>": { "ready": false, "detail": "..." }, ... } }
+               (loads both models; first call can be slow. Set WARMUP=1 to load them at start-up)
 POST /predict  multipart/form-data: file=<jpeg|png|webp>, conf=<float, optional, default 0.25>
                → 200 InferenceResult
                → 400 { "detail": "..." } for a non-image or a file over 10 MB

@@ -185,7 +185,7 @@ Experiment design: [ML-EXPERIMENT-RESTROOM.md](ML-EXPERIMENT-RESTROOM.md). Code:
 | [ ] | [S-11](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/34) | P2 | Export the final model to ONNX and compare CPU latency | M-11 | Row in the latency table | 45 m |
 | [ ] | [S-12](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/35) | P2 | Log each `/predict` call (time, latency, count, mean confidence) to a CSV, as a real feed for the analytics page | S-1 | CSV grows on each call | 45 m |
 | [x] | [S-16](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/39) | P1 | Run the API tests in CI. Owner: Alizhan **Done: Alizhan, 11 November 2026 ([PR #351](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/pull/351)).** | S-1 | The `python` check log shows `pytest api/` with all tests passing. | 30 m |
-| [ ] | [S-20](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/214) | P1 | Add a readiness check and an optional warm-up to the API. Owner: Alizhan **Claimed: Alizhan, 11 November 2026 02:07 UTC+05:00, branch api/s20-readiness.** | S-1 | `GET /ready` returns 503 naming the missing pothole weights, and 200 when both models load. | 50 m |
+| [x] | [S-20](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/214) | P1 | Add a readiness check and an optional warm-up to the API. Owner: Alizhan **Done: Alizhan, 11 November 2026 ([PR #352](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/pull/352)).** | S-1 | `GET /ready` returns 503 naming the missing pothole weights, and 200 when both models load. | 50 m |
 | [ ] | [S-21](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/215) | P1 | Fingerprint the served weights and show them in /health. Owner: Alizhan | S-2, M-2 | `ml/results/weights_manifest.json` lists every trained run's weights file with SHA-256 and size. | 40 m |
 | [ ] | [S-22](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/216) | P1 | Check incoming photos for drift with a KS test on image statistics. Owner: Alizhan | — | `ml/results/drift_train_vs_test.json` and `ml/results/drift_train_vs_dark_synthetic.json` exist, the second clearly labelled synthetic in its name and content. | 1 h |
 | [ ] | [S-23](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/217) | P1 | Pin the API's Python packages and record one Python version. Owner: Alizhan **Claimed: Alizhan, 11 November 2026 02:23 UTC+05:00, branch api/s23-pins.** | S-1 | Every line of `api/requirements.txt` and `api/requirements-dev.txt` is pinned with `==` or is a `-r` include. | 35 m |
@@ -395,7 +395,7 @@ The scaffold already gives working pages on demo data. P0 here means "works at t
 ## Defense-day checklist (everyone)
 
 - [ ] Presenting laptop charged, charger packed, notifications off, display mirroring tested.
-- [ ] API started and `/health` green before the talk begins.
+- [ ] API started, `/ready` returns 200, and a real demo image has been checked before the talk begins.
 - [ ] Browser tabs open in order: deck, landing, analyze, dashboard, model page, MLflow UI, GitHub repo.
 - [ ] Demo photo ready on the desktop, one that is not in the training set.
 - [ ] Wi-Fi off test done once that morning.
