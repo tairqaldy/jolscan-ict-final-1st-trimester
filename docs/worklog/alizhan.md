@@ -13,13 +13,13 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
 ### 2026-11-11 · R-21 (#230) · Architecture slide practice
-- **Status:** in progress; three recorded attempts are within the duration target, but spoken content and handover still need checking.
+- **Status:** done; three recorded attempts are within the duration target and Alizhan confirmed the required handover.
 - **What I did:** Checked slide 4 and its speaker notes in the current PowerPoint against the deck source, API routes and the restroom latency CSV; prepared `docs/R21-ALIZHAN-PRACTICE.md`.
 - **Result:** Slide 4 contains the diagram, provider labels, handover and source notes. Its 25.7 ms is the served R1 CLIP measurement, not the original issue's R3 figure or a road-model latency.
 - **Decisions and why:** Preserved the current team slide and documented the model/latency distinction. Alizhan supplied three recordings; their file durations are 40.98, 35.93 and 35.93 seconds. Audio content was not independently checked.
 - **What I learned / can explain at the defense:** Trace the image through browser, Next.js, provider, FastAPI, returned JSON and web rules.
 - **AI use:** Codex desktop, GPT-6; personal review pending.
-- **Open questions / next:** Verify the recordings' spoken content and final handover; recheck deployment before the talk.
+- **Open questions / next:** Recheck deployment before the talk; the recording content was not independently transcribed.
 
 ### 2026-11-11 · S-28 (#222) · Validation-only promotion gate
 - **Status:** implemented; Amina's review pending.

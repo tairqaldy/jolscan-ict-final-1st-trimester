@@ -6,7 +6,7 @@ The slide and its speaker notes are already in `docs/deck/qarau-defense-deck.ppt
 
 > This is the path of one photo. The browser sends it to our Next.js server, which uses the provider chosen in Settings: mock for offline demo data, local for the model on this laptop, or cloud. Local calls our FastAPI service, where YOLO finds potholes and CLIP reads restroom signs. The detections come back, and the rules run in the web server, so every provider is scored by the same rules. Cloud is opt-in, because road photos can show faces and plates. Amina will show what the roads model learned from.
 
-The deck estimates 42 seconds at 130 words per minute. The three supplied audio files are within the 35–45 second target. File durations include any silence; the recordings' spoken content and handover have not been independently checked in this session. Do not tick R-21 until that check is complete.
+The deck estimates 42 seconds at 130 words per minute. The three supplied audio files are within the 35–45 second target. File durations include any silence. Alizhan confirmed that each attempt ended with the required handover; the audio content was not independently transcribed in this session.
 
 | Reading | Actual time | Notes |
 | --- | --- | --- |
