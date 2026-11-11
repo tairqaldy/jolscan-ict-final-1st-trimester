@@ -216,6 +216,12 @@
 .leaflet-control-attribution a {
   color: var(--accent-ink) !important;
 }
+/* G-27: dark map in the dark theme. Only the tile pane is filtered, so the
+   severity markers (overlay pane), popups and the attribution keep their
+   token colours. OpenStreetMap tiles stay the source: no new host, no key. */
+[data-theme="dark"] .leaflet-tile-pane {
+  filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.9);
+}
 
 /*
  * Entry motion, CSS only. Content is on screen from the first paint, with or
@@ -290,6 +296,9 @@
 .sev-marker--medium { fill: var(--sev-medium); }
 .sev-marker--high { fill: var(--sev-high); }
 .sev-marker--critical { fill: var(--sev-critical); }
+/* G-27: on the darkened tiles a light ring separates overlapping markers and
+   keeps medium (yellow) apart from the orange main roads. */
+[data-theme="dark"] .sev-marker { stroke: var(--fg); }
 
 /* G-45: chart ticks, labels and tooltips use tabular figures, so values line up.
    Set here, not in the chart components, so it covers every Recharts chart. */
