@@ -60,7 +60,11 @@ type InferenceResult = {
 Model service (`api/`), the same for local and cloud:
 
 ```
-GET  /health   → { "status": "ok", "model": "jolscan-e8", "device": "cpu" }
+GET  /health   → { "status": "ok", "ready": <bool, both models already loaded>, "model": "jolscan-e8", "device": "cpu", "models": {...} }
+               (liveness only: never loads a model)
+GET  /ready    → 200 { "ready": true, "models": { "pothole": { "ready": true }, "restroom": { "ready": true } } }
+               → 503 { "ready": false, "models": { "<name>": { "ready": false, "detail": "..." }, ... } }
+               (loads both models; first call can be slow. Set WARMUP=1 to load them at start-up)
 POST /predict  multipart/form-data: file=<jpeg|png|webp>, conf=<float, optional, default 0.25>
                → 200 InferenceResult
                → 400 { "detail": "..." } for a non-image or a file over 10 MB
@@ -89,7 +93,16 @@ Results file, written by `ml/export_results.py` and read by the model page (`web
 ```ts
 type ExperimentsFile = {
   isMock: boolean;                  // true only for the placeholder file shipped with the scaffold
+  updatedAt: string;                // date of the export, YYYY-MM-DD
+  protocol: string;                 // what every run keeps fixed
+  championRule: string;             // the selection rule in words (docs/ML-EXPERIMENT.md)
   champion: string;                 // run id chosen by the selection rule, e.g. "E8"
+  championModelName: string;        // what the API reports for the served weights, e.g. "jolscan-e8"
+  dataset: {                        // from the dataset card (data/README.md, D-1) and the split manifest
+    name: string; source: string; licence: string; classes: string[];
+    images: { train: number; val: number; test: number };
+    split: string; notes: string;
+  };
   runs: Array<{
     run: string;                    // "E0" .. "E8"
     changed: string;                // what this run changed against the baseline
@@ -99,6 +112,7 @@ type ExperimentsFile = {
     sizeMb: number;
     valMap50: number; valRecallAtRulesConf: number;                        // used only to pick the champion
     datasetVersion: string;
+    device: string | null;          // hardware the run trained on, from the run file
   }>;
 };
 ```
