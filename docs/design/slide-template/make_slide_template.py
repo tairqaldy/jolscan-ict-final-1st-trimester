@@ -196,6 +196,32 @@ def notes(slide, words):
     slide.notes_slide.notes_text_frame.text = words
 
 
+# Screenshot frame (G-56, docs/design/screenshots.md): a 1440 x 900 CSS px shot, radius --radius-lg,
+# a 1 px --border line and --shadow-md, all scaled from CSS px to the frame's width on the slide.
+SHOT_W_PX, SHOT_H_PX, SHOT_RADIUS_PX, SHOT_MARGIN_PX = 1440, 900, 10, 24
+
+
+def screenshot_frame(slide, left, top, width):
+    """Draw the G-56 frame and return (shape, height). Height follows the 16:10 viewport."""
+    height = int(width * SHOT_H_PX / SHOT_W_PX)
+    px = width / SHOT_W_PX  # EMU per CSS px at this size
+    s = rect(slide, left, top, width, height, fill="surface", line="border", line_w=max(0.75, Emu(int(px)).pt),
+             shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=SHOT_RADIUS_PX * px / min(width, height))
+    # --shadow-md, first layer: 0 4px 12px at 12% of rgb(30 20 10). PowerPoint has no spread, so the -2px is dropped.
+    effects = s._element.spPr.find(qn("a:effectLst"))
+    shadow = etree.SubElement(effects, qn("a:outerShdw"), blurRad=str(int(12 * px)), dist=str(int(4 * px)),
+                              dir="5400000", algn="t", rotWithShape="0")
+    colour = etree.SubElement(shadow, qn("a:srgbClr"), val="1E140A")
+    etree.SubElement(colour, qn("a:alpha"), val="12000")
+    return s, height
+
+
+def framed_file_box(left, top, width):
+    """Where the framed PNG (raw shot plus a 24 px shadow margin per side) goes so its shot meets the frame."""
+    margin = int(width * SHOT_MARGIN_PX / SHOT_W_PX)
+    return left - margin, top - margin, width + 2 * margin
+
+
 def build() -> Presentation:
     prs = Presentation()
     prs.slide_width, prs.slide_height = W, H
@@ -241,9 +267,7 @@ def build() -> Presentation:
           ("Keep everything else for the speaker notes.", {"space_before": 10, "color": "muted"})],
          size=20, line=1.2)
     frame_l, frame_t, frame_w = Inches(5.5), Inches(2.05), Inches(7.13)
-    frame_h = int(frame_w * 10 / 16)
-    rect(s, frame_l, frame_t, frame_w, frame_h, fill="surface", line="border", line_w=1.0,
-         shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.03)
+    _, frame_h = screenshot_frame(s, frame_l, frame_t, frame_w)
     text(s, frame_l, frame_t, frame_w, frame_h,
          [("Screenshot", {"bold": True, "color": "muted"}),
           ("16:10 · light theme · the same frame on every slide (G-56)", {"size": 13, "color": "subtle", "font": MONO, "space_before": 6})],
@@ -252,9 +276,41 @@ def build() -> Presentation:
     text(s, MARGIN, Inches(5.95), Inches(4.3), Inches(0.6),
          "Put the “Demo data” label on any screen that shows demo or mock data.", size=12, color="subtle")
     footer(s)
-    notes(s, "One point plus one screenshot. Crop screenshots with one frame (G-56). Keep the Demo data label on demo or mock screens; delete it on screens with real results.")
+    fl, ft, fw = framed_file_box(frame_l, frame_t, frame_w)
+    notes(s, "One point plus one screenshot. Crop screenshots with one frame (G-56). Keep the Demo data label on demo or mock screens; delete it on screens with real results. "
+             f"Framed file (framed/NN-name-light.png): width {Emu(fw).inches:.2f} in, top-left at {Emu(fl).inches:.2f} in, {Emu(ft).inches:.2f} in.")
 
-    # 5 · One point plus one chart
+    # 5 · Large screenshot (G-56): the demo backup and annotated results
+    s = prs.slides.add_slide(blank)
+    set_bg(s, "bg")
+    eyebrow(s, "Section · speaker name")
+    title(s, "Name what the screen shows in one sentence", size=32)
+    frame_l, frame_t, frame_w = MARGIN, Inches(1.75), Inches(8.0)
+    _, frame_h = screenshot_frame(s, frame_l, frame_t, frame_w)
+    text(s, frame_l, frame_t, frame_w, frame_h,
+         [("Framed screenshot", {"bold": True, "color": "muted"}),
+          ("1440 × 900 at 2x · radius, border and shadow from the tokens", {"size": 13, "color": "subtle", "font": MONO, "space_before": 6}),
+          ("docs/design/screenshots.md", {"size": 13, "color": "subtle", "font": MONO, "space_before": 4})],
+         size=18, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+    rl = frame_l + frame_w + Inches(0.45)
+    rw = W - MARGIN - rl
+    text(s, rl, frame_t, rw, Inches(3.2),
+         [("What to look at, in one or two short lines.", {}),
+          ("Keep the app's own Demo or Mock badge inside the frame; add the slide label only if the crop cuts it off.",
+           {"space_before": 10, "color": "muted", "size": 14})],
+         size=18, line=1.2)
+    text(s, rl, frame_t + frame_h - Inches(0.6), rw, Inches(0.6),
+         [("/app/roads/analyze", {}), ("light · Mock provider", {"space_before": 2})],
+         size=11, color="subtle", font=MONO)
+    footer(s)
+    fl, ft, fw = framed_file_box(frame_l, frame_t, frame_w)
+    notes(s, "Large screenshot (G-56). Use it for the demo backup on slide 3 and for annotated results. "
+             f"Place framed/NN-name-light.png from the screenshot folder at width {Emu(fw).inches:.2f} in, top-left at "
+             f"{Emu(fl).inches:.2f} in, {Emu(ft).inches:.2f} in; the transparent margin holds the shadow, so the shot itself "
+             "lands on this frame. Then delete the placeholder frame. Replace the route and theme line with the shot's own. "
+             "Frame values: radius --radius-lg (10 px at 1440 px), 1 px --border, --shadow-md; see docs/design/screenshots.md.")
+
+    # 6 · One point plus one chart
     s = prs.slides.add_slide(blank)
     set_bg(s, "bg")
     eyebrow(s, "Section · speaker name")
@@ -287,7 +343,7 @@ def build() -> Presentation:
     footer(s)
     notes(s, "One point plus one chart, drawn with the app's chart colours. Replace the placeholder bars with the real figure from ml/plots.py (G-52) or the analytics page; numbers only from the results CSV files.")
 
-    # 6 · Table
+    # 7 · Table
     s = prs.slides.add_slide(blank)
     set_bg(s, "bg")
     eyebrow(s, "Section · speaker name")
@@ -329,7 +385,7 @@ def build() -> Presentation:
     footer(s)
     notes(s, "Table layout. Number columns use JetBrains Mono and are right-aligned so the digits line up. Fill the dashes from the results CSV; never type numbers by hand.")
 
-    # 7 · Two-column comparison
+    # 8 · Two-column comparison
     s = prs.slides.add_slide(blank)
     set_bg(s, "bg")
     eyebrow(s, "Section · speaker name")
@@ -358,7 +414,7 @@ def build() -> Presentation:
     footer(s)
     notes(s, "Comparison layout. The chosen option gets the amber outline and the amber chip; say why in one sentence.")
 
-    # 8 · Closing with links
+    # 9 · Closing with links
     s = prs.slides.add_slide(blank)
     set_bg(s, "bg")
     eyebrow(s, "Questions")
