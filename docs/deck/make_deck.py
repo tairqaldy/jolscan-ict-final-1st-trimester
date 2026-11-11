@@ -58,6 +58,7 @@ ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "docs/deck/qarau-defense-deck.pptx"
 SLIDES_MD = ROOT / "docs/deck/SLIDES.md"
 SOURCES_MD = ROOT / "docs/research/deck-sources.md"
+SOURCES_REL = "docs/research/deck-sources.md"
 WPM = 130  # speaking rate used for every time estimate (docs/PRESENTATION.md, R-20 step 3)
 
 # Type scale (template G-10: body 18, tables 16; deck-critique.md: nothing the room needs below 14)
@@ -539,29 +540,44 @@ def slide_problem(prs) -> SlideDoc:
     s = new_slide(prs)
     words_title = "Today, roads and door signs are checked by eye"
     header(s, "The problem", words_title)
-    R.gap("one sourced statistic on road damage, with unit, year, country and source", "R-2, #84, Roma",
-          "No sentence: say no number; the slide works without it.")
-    cw, ch, top = Inches(5.8), Inches(2.5), Inches(2.0)
+    # R-2: one regional figure, read from the quote kept in deck-sources.md (gov.kz, West Kazakhstan Region roads
+    # department, checked against the page on 11 Nov 2026). Local roads only; never combine it with the 98% for
+    # roads of republican significance on the same page.
+    share = grab(r"жергілікті маңызы бар автожолдардың үлесі\s*[–-]\s*(\d+)%\s*құрады", SOURCES_REL).group(1)
+    local_share = R(f"{share}%", SOURCES_REL, "Slide 2 quote: share of local roads in normative condition, "
+                    "West Kazakhstan Region, 1 Jan 2026", share)
+    cw, ch, top = Inches(5.8), Inches(3.2), Inches(1.9)
     cards = [("Roads", "Inspection is done by eye, so potholes are found late."),
              ("Restrooms", "We found no place where confusing door signs are reported.")]
     for i, (module, line1) in enumerate(cards):
         x = MARGIN + i * (cw + Inches(0.3))
         card(s, x, top, cw, ch)
         T.text(s, x + Inches(0.35), top + Inches(0.3), cw - Inches(0.7), Inches(0.5), module, size=26, bold=True)
-        T.text(s, x + Inches(0.35), top + Inches(1.0), cw - Inches(0.7), Inches(1.3), line1, size=22, color="muted", line=1.15)
+        T.text(s, x + Inches(0.35), top + Inches(0.95), cw - Inches(0.7), Inches(0.9), line1, size=22, color="muted", line=1.15)
+    stat = f"{local_share} of local roads in normative condition"
+    where = "West Kazakhstan Region, 1 January 2026"
+    source = "Source: regional roads department, gov.kz, March 2026"
+    rich(s, MARGIN + Inches(0.35), top + Inches(1.8), cw - Inches(0.7), Inches(1.2),
+         [[(local_share, {"bold": True, "size": 24, "color": "accent_ink"}), (stat[len(local_share):], {"size": 18})],
+          {"runs": [(where, {"size": 16, "color": "muted"})], "space_before": 4},
+          [(source, {"size": 14, "color": "muted"})]], line=1.1)
     bottom = "Qarau: a photo goes in, a model finds what matters, and rules a person can read decide what happens next."
-    T.text(s, MARGIN, Inches(5.0), CONTENT_W, Inches(1.0), bottom, size=22, line=1.15)
+    T.text(s, MARGIN, Inches(5.3), CONTENT_W, Inches(1.0), bottom, size=22, line=1.15)
     numbered_footer(s, "02")
     script = ("Today, roads and public buildings are inspected by eye, so potholes are found late. "
-              "Confusing restroom signs are worse off: we found no place where they are reported at all. "
-              "We wanted one tool for both. A photo goes in, a model finds what matters, and rules that a person can "
-              "read decide what happens next. Tair will show it live.")
+              f"In West Kazakhstan Region, {share} percent of local roads were in normative condition at the start of 2026. "
+              "For restroom signs we found no figure, and no place to report them. "
+              "A photo goes in, a model finds what matters, and readable rules decide what happens next. "
+              "Tair will show it live.")
     return SlideDoc("2", "Problem", "Roma", "0:35", words_title,
-                    [f"{m}: {l}" for m, l in cards] + [bottom],
+                    [f"{m}: {l}" for m, l in cards] + [f"{stat} ({where})", source, bottom],
                     "Two cards, no image", script,
-                    cues="When R-2 lands: one more line in the Roads card with the number, its unit, year and country, "
-                         "a small source line under it, and one sentence in the script. Its quote, publisher, year, URL "
-                         "and access date go to docs/research/deck-sources.md, section 'Slide 2'.")
+                    cues=f"The {share}% is one region's figure for local roads (West Kazakhstan Region roads department, "
+                         "gov.kz, as of 1 January 2026); say it that way. It is not national, not a pothole count and "
+                         "not a crash estimate, and the page does not give its method. The same page gives 98% for roads "
+                         "of republican significance: do not combine the two. Quote, URL and access date: "
+                         "docs/research/deck-sources.md, 'Slide 2'.",
+                    extra_sources=[f"{SOURCES_REL} (Slide 2 quote, from gov.kz/org/bko-kolik/press/article/details/2284)"])
 
 
 # 3 · Live demo ------------------------------------------------------------------------------
