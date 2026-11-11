@@ -931,3 +931,18 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - `p-5` on phones for every card (the count winner) was dropped: it would clip KPI numbers at 375 px.
   - `p-4 sm:p-5` on `Card` was dropped: without class merging, `sm:p-5` would override `CardBody className="px-0"` on desktop and break the edge-to-edge tables.
   - A 2.5 % pixel change on `/app/analytics` at 1440 px after G-62 was checked: card and chart widths are identical with and without the change (measured), only the chart's tick placement differed.
+
+### 11 November 2026, Dameli (G-73 motion spec)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment, and web search and fetch for the sources.
+- **Purpose:** measure the micro-interactions of the reference site, read the motion guidance, and write `docs/design/motion.md`.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-73 among them). Transcript kept locally.
+- **What it produced or changed:** `docs/design/motion.md` (catalogue, rules, map, durations, sources), the G-73 line in `docs/TASKS.md`, my worklog entry.
+- **How I verified it, and who verified it:**
+  - Every duration and easing in the catalogue comes from the probe output (computed styles or style mutations), not from memory; rows read only from a class are marked "class".
+  - Each Qarau file path in the map was checked to exist on `main`; the four rule breaks were read in the code (`globals.css`, `distribution-bars.tsx`, `detection-overlay.tsx`).
+  - Quotes kept to one short phrase per source; the M3 site does not render without JavaScript, so its values come from Google's token files, and the document says so.
+- **What I rejected or corrected:**
+  - The first scroll probe sampled the same sticky headings at every step and showed nothing; replaced it with a MutationObserver on inline styles.
+  - Two Vercel quotes in one rule (one source, one quote); the second became a summary.
+  - "Text types in for about 2 s": I only watched 2 s, so it now says "at least".
