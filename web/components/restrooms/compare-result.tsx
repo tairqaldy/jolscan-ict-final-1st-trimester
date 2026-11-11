@@ -93,7 +93,7 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
         <Card className={cn("border-t-4", VERDICT_CLASSES[check.verdict].border)}>
           <CardBody className="grid content-start gap-5">
             <div>
-              <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">Signage verdict</p>
+              <p className="eyebrow text-muted">Signage verdict</p>
               <div className="mt-2">
                 <VerdictBadge verdict={check.verdict} size="lg" />
               </div>
@@ -188,7 +188,7 @@ function SignColumn({ door, info, pMale, reads }: { door: string; info: SignInpu
   const title = signTitle(info, door);
   return (
     <div className="grid content-start gap-3 lg:gap-2">
-      <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">{door}</p>
+      <p className="eyebrow text-muted">{door}</p>
       {/* lg: the sign is 20% of the window height wide (144 px at 720 px high, 180 px at 900),
           never wider than its column. Its height follows from the 5:6 shape. */}
       <SignImage src={info.imageUrl} alt={`${door}: ${title}`} className="lg:mx-auto lg:w-[20vh] lg:max-w-full" />
