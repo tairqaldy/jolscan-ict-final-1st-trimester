@@ -4,23 +4,23 @@ import { ArrowRight, ImageUp, LoaderCircle, RotateCcw, ScanSearch } from "lucide
 import { AnimatePresence, motion, useReducedMotionConfig } from "motion/react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState, type DragEvent } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { Callout } from "@/components/ui/callout";
 import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dropzone } from "@/components/ui/dropzone";
 import { EmptyRoad } from "@/components/illustrations";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Select } from "@/components/ui/select";
 import { SelectableTile } from "@/components/ui/selectable-tile";
 import { Switch } from "@/components/ui/switch";
-import { cn } from "@/lib/cn";
 import { makeThumbnail, readImageSize, reencodeWithoutMetadata } from "@/lib/image";
 import { SAMPLES, getSample, type Sample } from "@/lib/mock/samples";
 import { timing } from "@/lib/motion";
 import { addToHistory } from "@/lib/store/history";
 import { rulesStore, settingsStore } from "@/lib/store/settings";
 import { ROAD_CLASSES, type RoadClass, type StoredAnalysis } from "@/lib/types";
-import { ACCEPTED_IMAGE_TYPES, validateImageFile, type ApiError } from "@/lib/upload";
+import type { ApiError } from "@/lib/upload";
 import { AnalysisView } from "./analysis-view";
 import { PROVIDER_META } from "./provider-badge";
 
@@ -44,7 +44,6 @@ export function AnalyzeClient() {
   const [schoolZone, setSchoolZone] = useState(initialSample?.meta.schoolZone ?? false);
   const [status, setStatus] = useState<Status>({ state: "idle" });
   const [fileError, setFileError] = useState<string | null>(null);
-  const [dragging, setDragging] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
 
   // Free the preview URL when the source changes.
@@ -61,13 +60,8 @@ export function AnalyzeClient() {
     setFileError(null);
   };
 
-  const pickFile = async (file: File | undefined) => {
-    if (!file) return;
-    const problem = validateImageFile(file);
-    if (problem) {
-      setFileError(problem);
-      return;
-    }
+  // The Dropzone has already checked type and size with validateImageFile.
+  const pickFile = async (file: File) => {
     const url = URL.createObjectURL(file);
     try {
       const { width, height } = await readImageSize(url);
@@ -80,12 +74,6 @@ export function AnalyzeClient() {
       URL.revokeObjectURL(url);
       setFileError("This file could not be opened as an image.");
     }
-  };
-
-  const onDrop = (e: DragEvent) => {
-    e.preventDefault();
-    setDragging(false);
-    void pickFile(e.dataTransfer.files?.[0]);
   };
 
   const analyze = async (provider = settings.provider) => {
@@ -219,31 +207,12 @@ export function AnalyzeClient() {
           </EmptyState>
         )}
 
-        <label
-          onDragOver={(e) => {
-            e.preventDefault();
-            setDragging(true);
-          }}
-          onDragLeave={() => setDragging(false)}
-          onDrop={onDrop}
-          className={cn(
-            "flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed px-6 py-8 text-center transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-focus",
-            dragging ? "border-accent bg-accent-soft" : "border-border-strong bg-surface hover:bg-surface-2",
-          )}
-        >
-          <ImageUp className="size-6 text-muted" aria-hidden />
-          <span className="font-medium">Drop a photo here, or click to choose</span>
-          <span className="text-sm text-muted">JPEG, PNG or WebP, up to 10 MB</span>
-          <input
-            type="file"
-            accept={ACCEPTED_IMAGE_TYPES.join(",")}
-            className="sr-only"
-            onChange={(e) => {
-              void pickFile(e.target.files?.[0]);
-              e.target.value = "";
-            }}
-          />
-        </label>
+        <Dropzone
+          title="Drop a photo here, or click to choose"
+          onFile={pickFile}
+          onReject={setFileError}
+          invalid={fileError !== null}
+        />
         {fileError && (
           <Callout tone="danger" title="That file cannot be used">
             {fileError}
