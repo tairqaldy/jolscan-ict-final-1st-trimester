@@ -88,6 +88,48 @@ Each person prepares short spoken answers for their lane. The course digest for 
 4. Where would the data live in a real deployment?
 5. How did the team divide the work?
 
+**Tair — short practice answers (W-22, draft for personal practice)**
+
+Architecture to draw in under a minute (docs/ARCHITECTURE.md section 1):
+
+```
+Browser (Next.js pages; history in localStorage)
+   │  upload photo or sign pair
+   ▼
+Next.js route handlers on the server: /api/analyze, /api/restroom, /api/health
+   │  chooses the provider from Settings
+   ├─ mock  : canned results inside the web server (default, works offline, used on Vercel)
+   ├─ local : FastAPI on localhost:8000 (/predict = YOLO E0, /restroom/* = CLIP), photos stay on the laptop
+   └─ cloud : the same API hosted (CLOUD_MODEL_API_URL), opt-in because photos leave the device
+   ▼
+Rules in the web server: web/lib/rules (roads, R1–R6) and web/lib/signage (restrooms, S1–S3)
+   ▼
+JSON result back to the page: boxes or genders, score or verdict, which rules fired
+```
+
+1. **Why are the rules in the web server, not in the model service?** The model service only returns detections (boxes, confidences) or sign predictions. The rules run in one place, so mock, local and cloud results are scored the same way. A person can read and change the rules on the Rules page without retraining or redeploying the model, and they are covered by unit tests (`web/lib/rules/engine.test.ts`).
+2. **Why one platform with two modules?** One shell, one provider switch, one settings page, one model page and one analytics page serve both modules (`MODULES` in `web/lib/brand.ts`). Each module has its own flow, rules and history. The cost is a fuller talk, so each module gets one demo and one results slide.
+3. **Why three providers?**
+   - Mock works offline and is what the deployed site uses, because Vercel cannot reach a model on a laptop.
+   - Local runs our real model and keeps photos on the device; it is what the demo uses.
+   - Cloud is opt-in, because photos leave the device.
+
+   The trade-off is reliability against privacy against scale.
+4. **Why a custom web app when the course teaches Streamlit and Gradio?** We also have the course's format, a Gradio app in `api/gradio_app.py` (S-5). The custom app adds what a prototype for a city operator needs: an editable rules page, history and reports, two modules in one place, honest demo labels and accessibility work.
+5. **What happens when the model service is down?**
+   - The health check waits 3 s and an analysis 20 s (`web/lib/providers/env.ts`).
+   - Errors come back as clean JSON: `503 unreachable` when the service is not running, `504 timeout` when it is too slow, `422 unsupported_input` when a drawn sample is sent to a real model.
+   - The page explains the error and offers one click to switch to Mock.
+   - In the demo, the fallback order is in `docs/DEFENSE-RUNBOOK.md`.
+6. **Where would the data live in a real deployment?** Photos in object storage; analyses, rule versions and review decisions in SQL tables with keys (docs/ARCHITECTURE.md section 4). Today history lives in each browser's localStorage by design: no accounts, no database in the prototype.
+7. **How did the team divide the work?**
+   - One lane and one owner each (PLAN.md section 3).
+   - Every task is a GitHub issue with steps and a done-check. People claim it with a commit, work on a branch, and merge their own PR only when CI is green (CONTRIBUTING.md).
+   - Evidence: git history, the closed issues, the worklogs in `docs/worklog/` and `docs/CONTRIBUTION-LOG.md`.
+   - I also trained the pothole runs on one laptop GPU, so all runs are comparable.
+
+**Practice:** draw the diagram from memory, then have a teammate pick three questions; answer each in under 40 seconds without notes. Before you quote a lecture page aloud, open the lecture PDF: the course digests were made by an AI model and are unchecked (`docs/COURSE-GROUNDING.md`).
+
 **Dameli (design)**
 1. Name three of Nielsen's heuristics and show where the app follows each.
 2. How did you check contrast and accessibility?
