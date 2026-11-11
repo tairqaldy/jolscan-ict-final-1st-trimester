@@ -12,6 +12,23 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 19:24 · G-49 (#283), G-23 (#167), G-62 (#296) · Three radii, one eyebrow label, one card inset
+- **Status:** done
+- **What I did:**
+  - G-49: cut the radius tokens in `web/app/tokens.css` from five plus `full` to three plus `full`: `--radius-sm` 4 px, `--radius-md` 6 px, `--radius-lg` 10 px. The nine `rounded-xs` uses (swatches, distribution bars, row thumbnails, the severity dot) became `rounded-sm`, the seven `rounded-xl` uses (landing cards, hero preview, team cards, `/design` theme panels, the bottom sheet) became `rounded-lg`, and the focus ring moved from `--radius-xs` to `--radius-sm`. `/design` shows sm, md, lg and full.
+  - G-23: one `@utility eyebrow` in `web/app/globals.css` (12 px, weight 600, uppercase, `--tracking-eyebrow` 0.14em) replaces the 15 hand-written labels with `tracking-[…]` and 5 with `tracking-wide` (colour group titles on `/design`, four labels on `/design/lab`); the colour class stays on each label. Added the eyebrow to the type scale on `/design`.
+  - G-62: one card inset token, `--card-pad` (16 px below 640 px, 20 px from 640 px), used by `Card`, the KPI tile and every ad-hoc card (landing, demos, overview links, glossary, lifecycle, Settings tiles, Match details, `/design` theme panels).
+  - Wrote the three radii and where each is used, the eyebrow, and the spacing rhythm with a before/after table in `docs/DESIGN-BRIEF.md`.
+- **Result:** the R9 grep prints 3; `grep -rn "tracking-\[" web/components web/app` finds nothing. Playwright on my dev server: computed eyebrow is 12 px / 16 px / 600 / 1.68 px on `/` and `/design`; KPI tiles are 16 px at 375 and 20 px at 1440. Screenshots of `/`, `/app/roads/analyze?sample=s01`, `/app/restrooms`, `/app/analytics` and `/design` at 1440 and 375 px, light and dark, before and after each task: after G-23 the app pages were pixel-identical (only the four 0.18em headers moved). The 320 px scroll check printed `false` on all five routes after each task. Lint, typecheck, 223 tests (after rebasing on `main`) and `pnpm build` pass.
+- **Decisions and why:**
+  - Radii 4 / 6 / 10 instead of the issue's variants (4 / 8 or 2 / 6): it keeps the order small part, control, container, and 89 of 105 `rounded-*` classes kept their value. Did not reset Tailwind's `--radius-*`, so a `rounded-xl` from a parallel branch still renders round; the brief says not to use it.
+  - Eyebrow at 0.14em, the value 11 of 15 labels already had. The utility has no colour, so `text-accent-ink` and `text-muted` never fight it in the cascade.
+  - Card inset 20 px from 640 px up (every `Card` and KPI tile already had it). On phones 16 px, not the `Card` count winner 20 px: at 375 px the three-across overview tiles would clip "40" (needs 59 px, 56 px left). A token, not `p-4 sm:p-5`, because `cn()` does not merge classes and `sm:p-5` would beat `CardBody className="px-0"` on desktop.
+  - Removed `className="p-3 sm:p-4"` from the six overview KPI tiles: it never applied (the tile's own padding came later in the CSS), so they render as before.
+- **What I learned / can explain at the defense:** fewer radii and one inset make components read as one system (aesthetic and minimalist design, Lec3-HCI p.21). A type scale only works if every page uses it; the hand-written letter spacing was counted and removed. With class joining instead of class merging, a responsive override can silently win, so the card inset is a CSS variable.
+- **AI use:** Claude Code made the class and token changes, wrote the Playwright checks and drafted the brief sections (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** optional issue steps not done: references in Drive and `docs/design/references/`, variants on `/design/lab` (the lab merged during this work; I moved its column to `rounded-lg` and `--card-pad`, and `web/app/design/lab/lab.css` still has two unused rules for `.rounded-xs` and `.rounded-xl` that its owner can drop). KPI numbers still clip at 320 px on the overview and "63 ms" on `/app/roads` at 320 and 375 px (both before this change); needs a smaller KPI number size on phones, with Tair.
+
 ### 2026-11-11 19:23 · G-28 (#172), G-47 (#281), G-48 (#282) · Dashed review boxes and tags that do not cover each other
 - **Status:** done. Follow-up to the three merged tasks; the issues and TASKS.md rows stay as they are.
 - **What I did:**

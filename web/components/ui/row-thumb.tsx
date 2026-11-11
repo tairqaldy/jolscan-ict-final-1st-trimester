@@ -29,7 +29,7 @@ export function RowThumb({
   className?: string;
 }) {
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
-  const box = cn("h-9 shrink-0 rounded-xs bg-surface-2", ratio === "photo" ? "w-16" : "w-7.5", className);
+  const box = cn("h-9 shrink-0 rounded-sm bg-surface-2", ratio === "photo" ? "w-16" : "w-7.5", className);
 
   if (!src || failedSrc === src) {
     return (
