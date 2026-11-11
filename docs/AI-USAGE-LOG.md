@@ -741,14 +741,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **Purpose:** add a high-contrast theme with every text token at 7:1 or more, and measure it.
 - **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков". Transcript kept locally.
 - **What it produced or changed:**
-  - The `[data-theme="contrast"]` block in `web/app/tokens.css`; `"contrast"` in the theme store, the inline script, Settings, the header toggle and `/design`.
+  - The `[data-theme="contrast"]` block in `web/app/tokens.css`; `"contrast"` in the theme store, the inline script, Settings, the header toggle and `/design`; `flex-wrap` on the segmented control.
   - A 3 px focus ring in this theme (`globals.css`); the light values for printing (`print.css`).
   - `web/scripts/check-contrast.mjs`, `web/lib/contrast-theme.test.ts`, two cases in `theme-script.test.ts`, the new theme in `check-palette.mjs`; the section "High-contrast theme (G-31)" in DESIGN-BRIEF.md.
 - **How I verified it, and who verified it:**
   - `node web/scripts/check-contrast.mjs`: 0 values below target; lowest text 7.13:1, lowest mark 3.29:1. `check-palette.mjs`: no pair in the new theme below ΔE 10.
-  - lint, typecheck and all 186 tests pass.
+  - lint, typecheck and all 190 tests pass after merging `main`.
   - Playwright on port 3111: choosing High contrast in Settings and reloading keeps `data-theme="contrast"`; screenshots of seven routes; print emulation gives the light values; the focus ring is 3 px.
 - **What I rejected or corrected:**
   - A first medium and high severity pair was only ΔE 6.4 apart for deuteranopia; medium got lighter and high darker (17.4 now).
   - An amber accent with black text, as in light, cannot be 3:1 on white and 7:1 under black text at once, so the accent became dark amber with white text.
   - A batch value change in the shell first hit the light and dark blocks too; it was reverted from git before any commit, and the values were set inside the contrast block only.
+  - At 375 px the fourth theme option pushed the Settings page 14 px wider than the screen; the segmented control now wraps.
