@@ -1,0 +1,187 @@
+{
+  "check": "signage rules S1-S3 on the 10 validation restrooms, thresholds unchanged",
+  "model": "zero-shot CLIP ViT-B/32 with the API's prompts",
+  "thresholds": {
+    "S1_gap": 0.2,
+    "S2_gap": 0.05,
+    "S3_similarity": 0.88
+  },
+  "labels": "ml/results/restroom/val_gallery_labels.csv",
+  "validation": {
+    "both_doors_right_way_round": {
+      "k": 9,
+      "n": 10,
+      "rate": 0.9,
+      "ci95": [
+        0.555,
+        0.9975
+      ]
+    },
+    "S1_pass_real_pairs": {
+      "k": 7,
+      "n": 10,
+      "rate": 0.7,
+      "ci95": [
+        0.3475,
+        0.9333
+      ]
+    },
+    "S1_pass_and_right_way_round": {
+      "k": 7,
+      "n": 7,
+      "rate": 1.0,
+      "ci95": [
+        0.5904,
+        1.0
+      ]
+    },
+    "S2_pass_real_pairs": {
+      "k": 9,
+      "n": 10,
+      "rate": 0.9,
+      "ci95": [
+        0.555,
+        0.9975
+      ]
+    },
+    "S3_pass_real_pairs": {
+      "k": 9,
+      "n": 10,
+      "rate": 0.9,
+      "ci95": [
+        0.555,
+        0.9975
+      ]
+    },
+    "S2_flags_same_gender_pairs": {
+      "k": 18,
+      "n": 90,
+      "rate": 0.2,
+      "ci95": [
+        0.1231,
+        0.2975
+      ]
+    },
+    "S3_flags_same_gender_pairs": {
+      "k": 79,
+      "n": 90,
+      "rate": 0.8778,
+      "ci95": [
+        0.7918,
+        0.9374
+      ]
+    }
+  },
+  "training": {
+    "both_doors_right_way_round": 0.9024,
+    "S1_pass_real_pairs": 0.622,
+    "S1_pass_and_right_way_round": 1.0,
+    "S2_pass_real_pairs": 0.8537,
+    "S3_pass_real_pairs": 0.9512,
+    "S2_flags_same_gender_pairs": 0.1561,
+    "S3_flags_same_gender_pairs": null,
+    "S3_flags_different_restroom_pairs": 0.8872
+  },
+  "pairs": [
+    {
+      "pair_id": 6,
+      "mens_door": "5.png",
+      "womens_door": "1.png",
+      "p_male_mens": 0.8423,
+      "p_male_womens": 0.6714,
+      "gap": 0.1708,
+      "right_way_round": true,
+      "similarity": 0.9471
+    },
+    {
+      "pair_id": 1,
+      "mens_door": "17.png",
+      "womens_door": "2.png",
+      "p_male_mens": 0.8398,
+      "p_male_womens": 0.1516,
+      "gap": 0.6882,
+      "right_way_round": true,
+      "similarity": 0.9143
+    },
+    {
+      "pair_id": 5,
+      "mens_door": "4.png",
+      "womens_door": "3.png",
+      "p_male_mens": 0.9773,
+      "p_male_womens": 0.1146,
+      "gap": 0.8627,
+      "right_way_round": true,
+      "similarity": 0.8577
+    },
+    {
+      "pair_id": 9,
+      "mens_door": "6.png",
+      "womens_door": "13.png",
+      "p_male_mens": 0.7188,
+      "p_male_womens": 0.6906,
+      "gap": 0.0282,
+      "right_way_round": true,
+      "similarity": 0.9595
+    },
+    {
+      "pair_id": 3,
+      "mens_door": "7.png",
+      "womens_door": "14.png",
+      "p_male_mens": 0.5846,
+      "p_male_womens": 0.2848,
+      "gap": 0.2998,
+      "right_way_round": true,
+      "similarity": 0.9504
+    },
+    {
+      "pair_id": 8,
+      "mens_door": "11.png",
+      "womens_door": "8.png",
+      "p_male_mens": 0.7502,
+      "p_male_womens": 0.0542,
+      "gap": 0.696,
+      "right_way_round": true,
+      "similarity": 0.8915
+    },
+    {
+      "pair_id": 7,
+      "mens_door": "9.png",
+      "womens_door": "15.png",
+      "p_male_mens": 0.7403,
+      "p_male_womens": 0.0949,
+      "gap": 0.6454,
+      "right_way_round": true,
+      "similarity": 0.9579
+    },
+    {
+      "pair_id": 10,
+      "mens_door": "10.png",
+      "womens_door": "20.png",
+      "p_male_mens": 0.588,
+      "p_male_womens": 0.1945,
+      "gap": 0.3935,
+      "right_way_round": true,
+      "similarity": 0.9365
+    },
+    {
+      "pair_id": 2,
+      "mens_door": "12.png",
+      "womens_door": "18.png",
+      "p_male_mens": 0.7765,
+      "p_male_womens": 0.8876,
+      "gap": 0.1111,
+      "right_way_round": false,
+      "similarity": 0.986
+    },
+    {
+      "pair_id": 4,
+      "mens_door": "19.png",
+      "womens_door": "16.png",
+      "p_male_mens": 0.8226,
+      "p_male_womens": 0.0807,
+      "gap": 0.7419,
+      "right_way_round": true,
+      "similarity": 0.9595
+    }
+  ]
+}

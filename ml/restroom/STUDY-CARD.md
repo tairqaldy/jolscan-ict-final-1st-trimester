@@ -69,7 +69,7 @@ Without training, ResNet50 starts higher (0.878 against 0.780), but after fine-t
 
 ## 11. Why do the signage rules compare the two doors instead of judging each sign alone?
 
-Because one sign alone is often ambiguous: an abstract pair of legs or a top hat reads as "male" only next to its partner. On the 82 real training restrooms, all correctly signed, judging each sign alone read both doors the right way round in only 57% of restrooms, and the old "genders differ" rule wrongly called 39% of them confusing. Comparing the two doors (the one with the higher probability of "male" is the men's door) gets 90% right. That is why RULES.md part 2 compares the pair (`ml/results/restroom/pair_separation.json`).
+Because one sign alone is often ambiguous: an abstract pair of legs or a top hat reads as "male" only next to its partner. On the 82 real training restrooms, all correctly signed, judging each sign alone read both doors the right way round in only 57% of restrooms, and the old "genders differ" rule wrongly called 39% of them confusing. Comparing the two doors (the one with the higher probability of "male" is the men's door) gets 90% right. That is why RULES.md part 2 compares the pair (`ml/results/restroom/pair_separation.json`). On the 10 validation restrooms, which the thresholds never saw, it reads 9 of 10 the right way round (`signage_val.json`), the same range as on training.
 
 ## The failure cases (slide figures)
 

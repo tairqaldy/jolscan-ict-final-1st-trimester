@@ -122,6 +122,22 @@ S2 is never stricter than S1.
 
 The trade-off behind each default is drawn in [`figs/signage_thresholds.png`](../ml/results/restroom/figs/signage_thresholds.png) (`python ml/restroom/signage_plots.py`, task C-27). S1 = 0.20 is the smallest margin at which every passing training pair is read the right way round. That is an in-sample choice, made on the same 82 restrooms it is measured on, which is why task C-26 checks the rules on the 10 validation restrooms.
 
+### Out-of-sample check (task C-26)
+
+The thresholds were chosen on the 82 training restrooms. On the 10 validation restrooms they never saw (genders labelled by eye in `ml/results/restroom/val_gallery_labels.csv`, pairs from the IOAI answer file; zero-shot CLIP ViT-B/32 as served; `python ml/restroom/signage_val.py` → `ml/results/restroom/signage_val.json`):
+
+| | Training (82 restrooms) | Validation (10 restrooms, exact 95 % interval) |
+|---|---|---|
+| Both doors read the right way round | 0.90 | 9/10 = 0.90 (0.56–1.00) |
+| S1 passes (gap ≥ 0.20) | 0.62 | 7/10 = 0.70 (0.35–0.93) |
+| Of those, read the right way round | 1.00 | 7/7 = 1.00 (0.59–1.00) |
+| S2 passes (gap ≥ 0.05) | 0.85 | 9/10 = 0.90 (0.56–1.00) |
+| S3 passes (similarity ≥ 0.88) | 0.95 | 9/10 = 0.90 (0.56–1.00) |
+| S2 flags same-gender pairs of two restrooms | 0.16 | 18/90 = 0.20 (0.12–0.30) |
+| S3 flags same-gender pairs of two restrooms | 0.89 (all different-restroom pairs) | 79/90 = 0.88 (0.79–0.94) |
+
+Validation agrees with training on every rule: 9 of 10 restrooms read the right way round, and the 7 that pass S1 are all read correctly. Ten restrooms give wide intervals, so this shows the training numbers are in the right range, not that they are exact. The thresholds are unchanged; nothing was tuned on these 10 restrooms.
+
 ## Verdict
 
 | Verdict | When | Recommended action |
