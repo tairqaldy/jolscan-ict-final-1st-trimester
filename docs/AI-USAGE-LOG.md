@@ -322,6 +322,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How I verified it, and who verified it:** `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` in `web/`; the new test was run once against the old reports page and failed, as it should. The dataset facts were copied from the D-1 card in `data/README.md` and the split manifest, not typed from memory. Tair still has to look at the pages in the browser after the merge.
 - **What I rejected or corrected:** did not delete any demo label to make the grep clean; did not write a team AI statement that members have not confirmed (W-14); did not touch the design tokens or the design page text (G-3, Dameli).
 
+### 11 November 2026, Tair (honest labels on invented demo rows)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** stop invented sample rows from looking like real model runs now that the roads results are real.
+- **Key prompt(s), with a link to the transcript:** "grill yourself and improve". Transcript kept locally.
+- **What it produced or changed:** `web/lib/mock/seeded.ts`, its test, and the provider and model cells in the two tables and two detail views.
+- **How I verified it, and who verified it:** lint, typecheck and 92 unit tests pass; on a local dev server the dashboard shows "Local" for a real analysis and "Demo" for seeded rows.
+- **What I rejected or corrected:** did not change the seeded data's provider, because the analytics page compares providers under its own demo badge.
+
 ### 11 November 2026, Tair (M-13 deck plots)
 
 - **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.

@@ -12,6 +12,16 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 11 November 2026 · follow-up to W-28 (#132) · Invented rows no longer claim a provider or model
+
+- **Status:** done
+- **What I did:** seeded demo records (ids `demo-…`) now show "Demo" in the provider column of the analyses and sign-check tables, and "Invented demo record" with model "none" on their detail pages.
+- **Result:** after E0 made the roads results real, a sample row like "9 Nov, Bogenbay Batyr Ave, Critical, Local" read as a real model run; it now reads "Demo", while my real test analysis still reads "Local".
+- **Decisions and why:** label by id (`lib/mock/seeded.ts`) instead of changing the seeded data, so the analytics charts keep their provider split under the page's "Includes demo data" badge.
+- **What I learned / can explain:** why a page-level badge is not enough once real and invented rows sit in one table.
+- **AI use:** Claude Code made the change and found the problem while checking the dashboard in a browser (docs/AI-USAGE-LOG.md).
+- **Open questions:** none.
+
 ### 11 November 2026 · D-14 (#70) · Rebuild potholes_yolo_v1 from the Kaggle source
 
 - **Status:** done
