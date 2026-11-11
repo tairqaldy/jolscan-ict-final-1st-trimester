@@ -42,13 +42,13 @@ The tagline promises it: "Computer vision inspection of public infrastructure fr
 
 ## Voice
 
-Three words, and what they mean in practice:
+Three words, and what they mean in practice. The Do and Don't columns quote the app; the Don't strings were found in the G-76 copy pass (`docs/design/copy-review.md`).
 
-| Word | In practice |
-|---|---|
-| **Plain** | Short sentences in the words a dispatcher or a facilities manager uses: priority, target time, review, verdict, sign. No idioms, so the text translates (Russian and Kazakh later, W-58) |
-| **Exact** | Numbers with their unit and their threshold: "24 h", "41 ms", "at or above 0.40", "The limit is 10 MB." |
-| **Honest** | Say what is demo, what is a drawing, what failed, and what to do next |
+| Word | In practice | Do | Don't |
+|---|---|---|---|
+| **Plain** | Short sentences in the words a dispatcher or a facilities manager uses: priority, target time, review, verdict, sign. No idioms, so the text translates (Russian and Kazakh later, W-58). A heading names what the section or page holds | "Repair rules you can read" (`/app/roads/rules`) | "with clarity", "an explainable result", "One approach, two inspection tasks": words and slogan pairs that would fit any product |
+| **Exact** | Numbers with their unit and their threshold: "24 h", "41 ms", "at or above 0.40", "The limit is 10 MB." Name the thing the model really finds | "Critical segments", "repair within 24 h" (`/app/roads`) | "road damage" for a model that finds only potholes |
+| **Honest** | Say what is demo, what is a drawing, what failed, and what to do next. Claim a gain only with the measurement behind it | "Samples are drawings, not real photos." (`/app/roads/analyze`) | "makes that job faster and more consistent" with no timing behind "faster" (landing, The problem) |
 
 ### Do: real strings that follow the voice
 
