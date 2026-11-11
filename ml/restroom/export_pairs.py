@@ -1,4 +1,4 @@
-"""Export the pipeline's answers on the IOAI validation and test sets for the web app's "IOAI pairs" page.
+"""Export the pipeline's answers on the IOAI validation, test and training sets for the web app's "IOAI pairs" page.
 
 For every query crop it stores what the final pipeline (`sift_combo_hungarian` in pipeline.py) did:
 the crop's original (step 1), the pair it found (step 2), the IOAI answer, the zero-shot CLIP
@@ -36,12 +36,20 @@ URL = "/samples/restrooms/ioai"
 LONG_SIDE = 320
 TOP_K = 5
 CHAMPION = "sift_combo_hungarian"
-SPLITS = {"val": "Validation", "test": "Test"}
+SPLITS = {"val": "Validation", "test": "Test", "train": "Training"}
 # Gallery images not shown on the public page, with the reason. They stay in every metric (the counts
 # below are over all queries); a query whose own original, pair, answer or baseline pick is hidden is not
 # shown, and hidden images are left out of the other queries' rankings. Their files are not written.
-HIDDEN = {"test": {10: "offensive wording on the sign", 47: "offensive wording on the sign"}}
-HIDDEN_NOTE = "1 restroom with offensive wording is not shown; it is still in every metric."
+HIDDEN = {
+    "test": {10: "offensive wording on the sign", 47: "offensive wording on the sign"},
+    # training restroom 18: photographs of real people with their faces; restroom 59: nude figures
+    "train": {18: "photo of a real person with a face", 100: "photo of a real person with a face",
+              59: "nude figure", 141: "nude figure"},
+}
+HIDDEN_NOTE = {
+    "test": "1 restroom with offensive wording is not shown; it is still in every metric.",
+    "train": "2 restrooms are not shown (photos of real people with faces, and nude figures); they are still in every metric.",
+}
 CREDIT = ("Images: IOAI 2025 Individual Contest, “Restroom Icon Matching”, by the IOAI 2025 committee, "
           "CC-BY-4.0 (https://github.com/IOAI-official/IOAI-2025/tree/main/Individual-Contest/Restroom). "
           "Resized, otherwise unchanged.")
@@ -56,15 +64,40 @@ def save_small(src: Path, dst: Path) -> None:
 
 
 def export_split(split: str, clip, w_hist: float, stored: list[int]) -> dict:
+    """Validation or test: the champion with its global assignment, equal to pipeline.json."""
     query, gallery = C.load_split(split)
     s = P.compute_scores(query, gallery, clip)
     own, pair = P.run_approach(s, "sift_ncc", w_hist, hungarian=True)
-    base = P.ioai_baseline(s)
-    step2 = P.step2_score(s, w_hist)
     answer = C.load_answers(split) - 1
     if not np.array_equal(pair, np.array(stored) - 1):
         raise SystemExit(f"{split}: the recomputed pipeline differs from pipeline.json; re-run pipeline.py first")
+    return write_split(split, query, gallery, s, own, pair, answer, w_hist, labels=None,
+                       method="global assignment over the whole set (the 30/30 method)")
 
+
+def export_train(clip, w_hist: float) -> dict:
+    """Training: 164 crops against all 164 originals, one query at a time (no assignment across queries).
+
+    The global assignment cannot run here: each restroom gives two queries (a male and a female crop), so
+    every original is some query's own original and no partner would be left. The per-query variant is the
+    one the API serves. These restrooms were used to choose the step-2 weight, so the score is optimistic."""
+    train = C.load_train()
+    crops = [t for t in train if t.kind == "crop"]
+    origs = [t for t in train if t.kind == "orig"]
+    pool = P.train_pool(clip)
+    s = pool.scores
+    own = P.STEP1["sift_ncc"](s).argmax(1)
+    step2 = P.step2_score(s, w_hist)
+    pair = np.array([next(int(g) for g in np.argsort(-step2[o]) if g != o) for o in own])
+    answer = np.array([pool.orig_index[(c.restroom, 1 - c.gender)] for c in crops])
+    labels = [f"restroom {t.restroom}, {'male' if t.gender == 0 else 'female'}" for t in origs]
+    return write_split("train", [c.path for c in crops], [t.path for t in origs], s, own, pair, answer, w_hist,
+                       labels=labels, method="one query at a time, as the API answers (training restrooms: optimistic)")
+
+
+def write_split(split, query, gallery, s, own, pair, answer, w_hist, labels, method) -> dict:
+    base = P.ioai_baseline(s)
+    step2 = P.step2_score(s, w_hist)
     hidden = HIDDEN.get(split, {})
     hidden_queries = [i + 1 for i in range(len(query))
                       if {int(own[i]) + 1, int(pair[i]) + 1, int(answer[i]) + 1, int(base[i]) + 1} & set(hidden)]
@@ -94,10 +127,11 @@ def export_split(split: str, clip, w_hist: float, stored: list[int]) -> dict:
             "candidates": [{"g": k + 1, "score": round(float(step2[o, k]), 2)} for k in order],
         })
     return {
-        "label": SPLITS[split], "queries": len(query), "gallery": len(gallery),
+        "label": SPLITS[split], "queries": len(query), "gallery": len(gallery), "method": method,
+        "galleryLabels": labels,
         "pipelineCorrect": int((pair == answer).sum()), "baselineCorrect": int((base == answer).sum()),
         "hiddenGallery": sorted(hidden), "hiddenQueries": hidden_queries,
-        "hiddenNote": HIDDEN_NOTE if hidden else None,
+        "hiddenNote": HIDDEN_NOTE.get(split) if hidden else None,
         "rows": rows,
     }
 
@@ -114,7 +148,8 @@ def main() -> None:
         "histogramWeight": w_hist,
         "imageBase": URL,
         "credit": CREDIT,
-        "splits": {sp: export_split(sp, clip, w_hist, stored["predictions"][sp][CHAMPION]) for sp in SPLITS},
+        "splits": {**{sp: export_split(sp, clip, w_hist, stored["predictions"][sp][CHAMPION]) for sp in ("val", "test")},
+                   "train": export_train(clip, w_hist)},
     }
     JSON_OUT.parent.mkdir(parents=True, exist_ok=True)
     JSON_OUT.write_text(json.dumps(out, indent=1, ensure_ascii=False) + "\n")
