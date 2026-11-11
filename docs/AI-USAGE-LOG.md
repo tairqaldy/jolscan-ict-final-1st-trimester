@@ -31,7 +31,14 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How verified:** Read current issue and CONTRIBUTING.md after successful fetch/ff-only pull. Checked all 665 manifest entries: train/val/test 465/100/100, zero empty photos; R1 gender row sums 164/164. Repository result/hygiene checks and five existing checker tests passed; git diff --check passed.
 - **What rejected or corrected:** Distinguished presence answers from localized detections and undefined background counting; no invented negative examples, course-page verification, teammate rehearsal, training or attribution of Tair's results to Amina. E1 preparation remains on its existing separate branch.
 
+### 11 November 2026, Alizhan (S-26, AI-assisted; personal review pending)
 
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Prepare a reproducible inventory of experiment numbers and their source fields.
+- **Key prompt:** "начни выполнять таски, которые не связаны с дизайном и которые ты можешь выполнить сейчас". This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** Standard-library inventory generator, generated page, CI check, synthetic tests and documentation.
+- **How it was verified:** Tests exercise actual source reading, missing and corrupt data, mock placeholders and the no-write mode; the command was run against the current results. Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** Kept unavailable results explicitly missing and did not claim the inventory by itself verifies every number in the final deck.
 
 ### 11 November 2026, Alizhan (R-21, AI-assisted; personal review pending)
 
