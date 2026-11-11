@@ -156,7 +156,9 @@ If MLflow is installed (it is in `ml/requirements.txt`), every run is also logge
 - `failures.py`: the failure-case figure for the slides, from the stored test predictions.
 - `plots.py`: the R-run slide figures: matching per run against IOAI's numbers, gender heads, R3's misses.
 - `demo.py`: a local Gradio page: pick a sign from the IOAI validation or test set and watch the pipeline find its pair.
-- `export_pairs.py`: the pipeline's answers on validation and test, with resized IOAI images, for the web app's IOAI pairs page (`web/data/restroom-ioai-pairs.json`, `web/public/samples/restrooms/ioai/`). It stops if its answers differ from `pipeline.json`.
+- `export_match.py`: for every catalogue sign, its Match gallery (true partner plus up to 58 signs of its set) and the pick of each model (R1, R6, R4, colour, R7), for the Match page's model comparison and the mock provider (`web/data/restroom-ioai-match.json`, `restroom-ioai-galleries.json`).
+- `export_catalogue.py`: every IOAI sign the pages may show (238) as pickable samples for Compare and Match, with real zero-shot CLIP gender, confidence and int8 embeddings for the mock provider (`web/data/restroom-ioai-catalogue.json`, `restroom-ioai-embeddings.json`). Validation and test genders come from the hand labels in `ml/results/restroom/{val,test}_gallery_labels.csv`.
+- `export_pairs.py`: the pipeline's answers on validation and test (global assignment) and on the training set (one query at a time), with resized IOAI images, for the web app's IOAI pairs page (`web/data/restroom-ioai-pairs.json`, `web/public/samples/restrooms/ioai/`). It stops if its answers differ from `pipeline.json`.
 - `STUDY-CARD.md`: Nazar's answers for the defense questions on this lane.
 - `MODEL_CARD.md`: the model card of the served restroom service: components, data, results with sources, limits.
 

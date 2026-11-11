@@ -12,6 +12,7 @@ import { Field } from "@/components/ui/input";
 import { SelectableTile } from "@/components/ui/selectable-tile";
 import { Skeleton } from "@/components/ui/skeleton";
 import { RESTROOM_PRESETS, getRestroomSample } from "@/lib/mock/restroom-samples";
+import { VERDICT_META } from "@/lib/signage-ui";
 import { addRestroomCheck } from "@/lib/store/restroom-history";
 import { settingsStore, signageRulesStore } from "@/lib/store/settings";
 import type { Provider, StoredSignageCheck } from "@/lib/types";
@@ -172,7 +173,7 @@ export function CompareClient() {
                 {status.state === "loading"
                   ? "Comparing the two signs"
                   : status.state === "done"
-                    ? `Verdict: ${status.check.verdict}. Saved to this browser.`
+                    ? `Verdict: ${VERDICT_META[status.check.verdict].label}. Saved to this browser.`
                     : ""}
               </p>
               {(!a || !b) && <p className="text-center text-xs text-muted">Choose two signs first.</p>}

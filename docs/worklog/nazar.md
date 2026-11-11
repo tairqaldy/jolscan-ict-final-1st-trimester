@@ -15,6 +15,24 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 21:00 · Restroom verdict and layer models · Pair or not a pair; per-layer models on Match
+- **Status:** done locally on branch `restroom/ioai-train-set`, not pushed.
+- **What I did:** The signage verdict is now only `pair` or `not_pair`: a pair when the two signs are one design set (S3, similarity ≥ 0.88) and the doors read as different genders (S2, gap ≥ 0.05). Rule S1 and the verdicts clear / review / confusing, and the recommended action, are gone; a one-line reason replaces the action. Trained CLIP with its last 1, 2, 4, 6, 8 and 12 blocks fine-tuned (`ml/restroom/train_layer_models.py`) and added their picks to Match next to the other models, with the signs where they disagree. The Restroom overview has the layer chart from the C-11 sweep.
+- **Result:** On whole signs with a gallery from one IOAI set, every fine-tuned model finds almost every partner (validation 1.00, test 0.98 to 1.00; zero-shot 0.95 and 0.97). The layer count shows in the harder crop setting (0.78 with 0 blocks, 0.97 with 4, 0.91 with 12) and in gender accuracy (0.74 down to 0.60).
+- **Decisions and why:** The app answers the IOAI question, is this a pair, so only the two rules that decide it are left. Old checks saved in a browser are judged again on load. The layer models were trained on every training restroom, so the page says that their training-sign picks are memorised.
+- **What I learned / can explain at the defense:** Why all models look right on Match (whole signs in a small gallery are easy) and where the number of layers matters (crops against all 164 originals, and gender).
+- **AI use:** Claude Code (Claude Opus 5.5); entry in `docs/AI-USAGE-LOG.md`.
+- **Open questions / next:** tell the team that `SignageAnalysis` changed (`verdict` values and `reason` instead of `recommendedAction`, ARCHITECTURE.md).
+
+### 2026-11-11 19:30 · Restroom follow-ups · IOAI training set, every IOAI sign as a sample, Match comparison
+- **Status:** done, in the PR from `restroom/ioai-train-set`.
+- **What I did:** The IOAI pairs page shows the training set too (164 crops, one query at a time, 147/164). Compare and Match can pick any of the 238 IOAI signs (validation, test, training) with real zero-shot CLIP outputs (`export_catalogue.py`). Match gives each IOAI sign a gallery from its own set with its true partner (`export_match.py`), shows the best pair on the right, and compares what each of our models picks.
+- **Result:** The "best" sign on Match was wrong before because the gallery did not contain the true partner; with per-sign galleries the served pipeline finds it. Training restroom 30 (the deer) stays wrong for R7 and zero-shot CLIP; only the fine-tuned models, which trained on it, find it.
+- **Decisions and why:** Restrooms 18 (photos of people with faces) and 59 (nude figures) are hidden, as the repository rules require. Validation and test genders were labelled by eye; four test signs are marked unsure.
+- **What I learned / can explain at the defense:** Why a gallery without the true partner makes any model look wrong, and why a model's score on the restrooms it trained on is not evidence.
+- **AI use:** Claude Code (Claude Opus 5.5); entries in `docs/AI-USAGE-LOG.md`.
+- **Open questions / next:** none.
+
 ### 2026-11-11 · C-27 (#208), C-26 (#207), C-25 (#206), C-28 (#209), C-24 (#205) · Signage checks and error analysis
 - **Status:** done locally, not merged.
 - **What I did:** signage threshold curves; the signage rules on the 10 validation restrooms; the hardest training restrooms; sign-style clusters; step 1 under rotated, blurred, darker and smaller crops.

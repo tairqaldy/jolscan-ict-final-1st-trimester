@@ -4,8 +4,8 @@ Next.js prototype for Qarau (working name; Kazakh қарау, "to inspect"): com
 infrastructure from photos, with rules you can read. Two modules:
 
 - **Roads, pothole detection.** A YOLO detector finds potholes; six rules turn the boxes into a repair priority.
-- **Restrooms, sign matching.** A CLIP image encoder reads restroom door signs (gender and similarity); three rules
-  turn a pair of signs into clear, review or confusing. Based on the IOAI 2025 "Restroom Icon Matching" task.
+- **Restrooms, sign matching.** A CLIP image encoder reads restroom door signs (gender and similarity); two rules
+  decide whether two signs are a pair or not a pair. Based on the IOAI 2025 "Restroom Icon Matching" task.
 
 It runs fully on mock data until the real model service (`api/`) is connected. The contract it implements is in
 [`docs/ARCHITECTURE.md`](../docs/ARCHITECTURE.md) (section 2 roads, 2b restrooms), the rules in

@@ -1,0 +1,3356 @@
+{
+ "_comment": "Written by ml/restroom/export_catalogue.py. Every IOAI original the public pages may show, as pickable samples. `mock` is the real zero-shot CLIP ViT-B/32 output with the API's prompts. Validation and test genders were labelled by eye (genderUnsure marks four test signs).",
+ "credit": "Images: IOAI 2025 Individual Contest, “Restroom Icon Matching”, by the IOAI 2025 committee, CC-BY-4.0 (https://github.com/IOAI-official/IOAI-2025/tree/main/Individual-Contest/Restroom). Resized, otherwise unchanged.",
+ "model": "clip-vitb32-zs",
+ "groups": [
+  {
+   "id": "val",
+   "label": "IOAI validation",
+   "count": 20
+  },
+  {
+   "id": "test",
+   "label": "IOAI test",
+   "count": 58
+  },
+  {
+   "id": "train",
+   "label": "IOAI training",
+   "count": 160
+  }
+ ],
+ "samples": [
+  {
+   "id": "ioai-val-g1",
+   "group": "val",
+   "file": "/samples/restrooms/ioai/val/g1.webp",
+   "set": "ioai-val-p6",
+   "title": "IOAI validation, pair 6: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6714
+   }
+  },
+  {
+   "id": "ioai-val-g2",
+   "group": "val",
+   "file": "/samples/restrooms/ioai/val/g2.webp",
+   "set": "ioai-val-p1",
+   "title": "IOAI validation, pair 1: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.8484
+   }
+  },
+  {
+   "id": "ioai-val-g3",
+   "group": "val",
+   "file": "/samples/restrooms/ioai/val/g3.webp",
+   "set": "ioai-val-p5",
+   "title": "IOAI validation, pair 5: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.8854
+   }
+  },
+  {
+   "id": "ioai-val-g4",
+   "group": "val",
+   "file": "/samples/restrooms/ioai/val/g4.webp",
+   "set": "ioai-val-p5",
+   "title": "IOAI validation, pair 5: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.9773
+   }
+  },
+  {
+   "id": "ioai-val-g5",
+   "group": "val",
+   "file": "/samples/restrooms/ioai/val/g5.webp",
+   "set": "ioai-val-p6",
+   "title": "IOAI validation, pair 6: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.8423
+   }
+  },
+  {
+   "id": "ioai-val-g6",
+   "group": "val",
+   "file": "/samples/restrooms/ioai/val/g6.webp",
+   "set": "ioai-val-p9",
+   "title": "IOAI validation, pair 9: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.7188
+   }
+  },
+  {
+   "id": "ioai-val-g7",
+   "group": "val",
+   "file": "/samples/restrooms/ioai/val/g7.webp",
+   "set": "ioai-val-p3",
+   "title": "IOAI validation, pair 3: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5846
+   }
+  },
+  {
+   "id": "ioai-val-g8",
+   "group": "val",
+   "file": "/samples/restrooms/ioai/val/g8.webp",
+   "set": "ioai-val-p8",
+   "title": "IOAI validation, pair 8: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.9458
+   }
+  },
+  {
+   "id": "ioai-val-g9",
+   "group": "val",
+   "file": "/samples/restrooms/ioai/val/g9.webp",
+   "set": "ioai-val-p7",
+   "title": "IOAI validation, pair 7: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.7403
+   }
+  },
+  {
+   "id": "ioai-val-g10",
+   "group": "val",
+   "file": "/samples/restrooms/ioai/val/g10.webp",
+   "set": "ioai-val-p10",
+   "title": "IOAI validation, pair 10: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.588
+   }
+  },
+  {
+   "id": "ioai-val-g11",
+   "group": "val",
+   "file": "/samples/restrooms/ioai/val/g11.webp",
+   "set": "ioai-val-p8",
+   "title": "IOAI validation, pair 8: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.7502
+   }
+  },
+  {
+   "id": "ioai-val-g12",
+   "group": "val",
+   "file": "/samples/restrooms/ioai/val/g12.webp",
+   "set": "ioai-val-p2",
+   "title": "IOAI validation, pair 2: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.7765
+   }
+  },
+  {
+   "id": "ioai-val-g13",
+   "group": "val",
+   "file": "/samples/restrooms/ioai/val/g13.webp",
+   "set": "ioai-val-p9",
+   "title": "IOAI validation, pair 9: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6732
+   }
+  },
+  {
+   "id": "ioai-val-g14",
+   "group": "val",
+   "file": "/samples/restrooms/ioai/val/g14.webp",
+   "set": "ioai-val-p3",
+   "title": "IOAI validation, pair 3: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.7152
+   }
+  },
+  {
+   "id": "ioai-val-g15",
+   "group": "val",
+   "file": "/samples/restrooms/ioai/val/g15.webp",
+   "set": "ioai-val-p7",
+   "title": "IOAI validation, pair 7: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.9051
+   }
+  },
+  {
+   "id": "ioai-val-g16",
+   "group": "val",
+   "file": "/samples/restrooms/ioai/val/g16.webp",
+   "set": "ioai-val-p4",
+   "title": "IOAI validation, pair 4: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.9193
+   }
+  },
+  {
+   "id": "ioai-val-g17",
+   "group": "val",
+   "file": "/samples/restrooms/ioai/val/g17.webp",
+   "set": "ioai-val-p1",
+   "title": "IOAI validation, pair 1: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.8398
+   }
+  },
+  {
+   "id": "ioai-val-g18",
+   "group": "val",
+   "file": "/samples/restrooms/ioai/val/g18.webp",
+   "set": "ioai-val-p2",
+   "title": "IOAI validation, pair 2: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.8876
+   }
+  },
+  {
+   "id": "ioai-val-g19",
+   "group": "val",
+   "file": "/samples/restrooms/ioai/val/g19.webp",
+   "set": "ioai-val-p4",
+   "title": "IOAI validation, pair 4: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.8226
+   }
+  },
+  {
+   "id": "ioai-val-g20",
+   "group": "val",
+   "file": "/samples/restrooms/ioai/val/g20.webp",
+   "set": "ioai-val-p10",
+   "title": "IOAI validation, pair 10: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.8055
+   }
+  },
+  {
+   "id": "ioai-test-g1",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g1.webp",
+   "set": "ioai-test-p1",
+   "title": "IOAI test, pair 1: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5905
+   }
+  },
+  {
+   "id": "ioai-test-g2",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g2.webp",
+   "set": "ioai-test-p10",
+   "title": "IOAI test, pair 10: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.803
+   }
+  },
+  {
+   "id": "ioai-test-g3",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g3.webp",
+   "set": "ioai-test-p27",
+   "title": "IOAI test, pair 27: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.8474
+   }
+  },
+  {
+   "id": "ioai-test-g4",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g4.webp",
+   "set": "ioai-test-p8",
+   "title": "IOAI test, pair 8: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6037
+   }
+  },
+  {
+   "id": "ioai-test-g5",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g5.webp",
+   "set": "ioai-test-p25",
+   "title": "IOAI test, pair 25: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6671
+   }
+  },
+  {
+   "id": "ioai-test-g6",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g6.webp",
+   "set": "ioai-test-p20",
+   "title": "IOAI test, pair 20: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.9684
+   }
+  },
+  {
+   "id": "ioai-test-g7",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g7.webp",
+   "set": "ioai-test-p10",
+   "title": "IOAI test, pair 10: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.9263
+   }
+  },
+  {
+   "id": "ioai-test-g8",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g8.webp",
+   "set": "ioai-test-p28",
+   "title": "IOAI test, pair 28: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.9211
+   }
+  },
+  {
+   "id": "ioai-test-g9",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g9.webp",
+   "set": "ioai-test-p24",
+   "title": "IOAI test, pair 24: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.612
+   }
+  },
+  {
+   "id": "ioai-test-g11",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g11.webp",
+   "set": "ioai-test-p6",
+   "title": "IOAI test, pair 6: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6635
+   }
+  },
+  {
+   "id": "ioai-test-g12",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g12.webp",
+   "set": "ioai-test-p22",
+   "title": "IOAI test, pair 22: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.7938
+   }
+  },
+  {
+   "id": "ioai-test-g13",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g13.webp",
+   "set": "ioai-test-p2",
+   "title": "IOAI test, pair 2: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6709
+   }
+  },
+  {
+   "id": "ioai-test-g14",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g14.webp",
+   "set": "ioai-test-p7",
+   "title": "IOAI test, pair 7: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.8592
+   }
+  },
+  {
+   "id": "ioai-test-g15",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g15.webp",
+   "set": "ioai-test-p29",
+   "title": "IOAI test, pair 29: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.875
+   }
+  },
+  {
+   "id": "ioai-test-g16",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g16.webp",
+   "set": "ioai-test-p23",
+   "title": "IOAI test, pair 23: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.8773
+   }
+  },
+  {
+   "id": "ioai-test-g17",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g17.webp",
+   "set": "ioai-test-p4",
+   "title": "IOAI test, pair 4: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5185
+   }
+  },
+  {
+   "id": "ioai-test-g18",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g18.webp",
+   "set": "ioai-test-p11",
+   "title": "IOAI test, pair 11: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.5976
+   }
+  },
+  {
+   "id": "ioai-test-g19",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g19.webp",
+   "set": "ioai-test-p16",
+   "title": "IOAI test, pair 16: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.9189
+   }
+  },
+  {
+   "id": "ioai-test-g20",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g20.webp",
+   "set": "ioai-test-p27",
+   "title": "IOAI test, pair 27: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.9102
+   }
+  },
+  {
+   "id": "ioai-test-g21",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g21.webp",
+   "set": "ioai-test-p12",
+   "title": "IOAI test, pair 12: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.7042
+   }
+  },
+  {
+   "id": "ioai-test-g22",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g22.webp",
+   "set": "ioai-test-p15",
+   "title": "IOAI test, pair 15: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.5969
+   }
+  },
+  {
+   "id": "ioai-test-g23",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g23.webp",
+   "set": "ioai-test-p21",
+   "title": "IOAI test, pair 21: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.9667
+   }
+  },
+  {
+   "id": "ioai-test-g24",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g24.webp",
+   "set": "ioai-test-p29",
+   "title": "IOAI test, pair 29: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.972
+   }
+  },
+  {
+   "id": "ioai-test-g25",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g25.webp",
+   "set": "ioai-test-p13",
+   "title": "IOAI test, pair 13: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.6529
+   }
+  },
+  {
+   "id": "ioai-test-g26",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g26.webp",
+   "set": "ioai-test-p30",
+   "title": "IOAI test, pair 30: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5581
+   }
+  },
+  {
+   "id": "ioai-test-g27",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g27.webp",
+   "set": "ioai-test-p19",
+   "title": "IOAI test, pair 19: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.9271
+   }
+  },
+  {
+   "id": "ioai-test-g28",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g28.webp",
+   "set": "ioai-test-p30",
+   "title": "IOAI test, pair 30: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.5154
+   }
+  },
+  {
+   "id": "ioai-test-g29",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g29.webp",
+   "set": "ioai-test-p28",
+   "title": "IOAI test, pair 28: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.8814
+   }
+  },
+  {
+   "id": "ioai-test-g30",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g30.webp",
+   "set": "ioai-test-p7",
+   "title": "IOAI test, pair 7: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.8843
+   }
+  },
+  {
+   "id": "ioai-test-g31",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g31.webp",
+   "set": "ioai-test-p26",
+   "title": "IOAI test, pair 26: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.847
+   }
+  },
+  {
+   "id": "ioai-test-g32",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g32.webp",
+   "set": "ioai-test-p19",
+   "title": "IOAI test, pair 19: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.8699
+   }
+  },
+  {
+   "id": "ioai-test-g33",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g33.webp",
+   "set": "ioai-test-p11",
+   "title": "IOAI test, pair 11: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.7406
+   }
+  },
+  {
+   "id": "ioai-test-g34",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g34.webp",
+   "set": "ioai-test-p9",
+   "title": "IOAI test, pair 9: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.9017
+   }
+  },
+  {
+   "id": "ioai-test-g35",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g35.webp",
+   "set": "ioai-test-p18",
+   "title": "IOAI test, pair 18: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5193
+   }
+  },
+  {
+   "id": "ioai-test-g36",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g36.webp",
+   "set": "ioai-test-p26",
+   "title": "IOAI test, pair 26: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.962
+   }
+  },
+  {
+   "id": "ioai-test-g37",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g37.webp",
+   "set": "ioai-test-p1",
+   "title": "IOAI test, pair 1: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.5327
+   }
+  },
+  {
+   "id": "ioai-test-g38",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g38.webp",
+   "set": "ioai-test-p18",
+   "title": "IOAI test, pair 18: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5301
+   }
+  },
+  {
+   "id": "ioai-test-g39",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g39.webp",
+   "set": "ioai-test-p9",
+   "title": "IOAI test, pair 9: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5377
+   }
+  },
+  {
+   "id": "ioai-test-g40",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g40.webp",
+   "set": "ioai-test-p17",
+   "title": "IOAI test, pair 17: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.8234
+   }
+  },
+  {
+   "id": "ioai-test-g41",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g41.webp",
+   "set": "ioai-test-p15",
+   "title": "IOAI test, pair 15: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.5208
+   }
+  },
+  {
+   "id": "ioai-test-g42",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g42.webp",
+   "set": "ioai-test-p23",
+   "title": "IOAI test, pair 23: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.8322
+   }
+  },
+  {
+   "id": "ioai-test-g43",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g43.webp",
+   "set": "ioai-test-p24",
+   "title": "IOAI test, pair 24: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.7681
+   }
+  },
+  {
+   "id": "ioai-test-g44",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g44.webp",
+   "set": "ioai-test-p13",
+   "title": "IOAI test, pair 13: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.5121
+   }
+  },
+  {
+   "id": "ioai-test-g45",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g45.webp",
+   "set": "ioai-test-p3",
+   "title": "IOAI test, pair 3: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": true,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5808
+   }
+  },
+  {
+   "id": "ioai-test-g46",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g46.webp",
+   "set": "ioai-test-p20",
+   "title": "IOAI test, pair 20: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5248
+   }
+  },
+  {
+   "id": "ioai-test-g48",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g48.webp",
+   "set": "ioai-test-p22",
+   "title": "IOAI test, pair 22: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.9007
+   }
+  },
+  {
+   "id": "ioai-test-g49",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g49.webp",
+   "set": "ioai-test-p6",
+   "title": "IOAI test, pair 6: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6127
+   }
+  },
+  {
+   "id": "ioai-test-g50",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g50.webp",
+   "set": "ioai-test-p21",
+   "title": "IOAI test, pair 21: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.804
+   }
+  },
+  {
+   "id": "ioai-test-g51",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g51.webp",
+   "set": "ioai-test-p5",
+   "title": "IOAI test, pair 5: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": true,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6665
+   }
+  },
+  {
+   "id": "ioai-test-g52",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g52.webp",
+   "set": "ioai-test-p4",
+   "title": "IOAI test, pair 4: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.8826
+   }
+  },
+  {
+   "id": "ioai-test-g53",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g53.webp",
+   "set": "ioai-test-p2",
+   "title": "IOAI test, pair 2: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.7707
+   }
+  },
+  {
+   "id": "ioai-test-g54",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g54.webp",
+   "set": "ioai-test-p25",
+   "title": "IOAI test, pair 25: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.9356
+   }
+  },
+  {
+   "id": "ioai-test-g55",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g55.webp",
+   "set": "ioai-test-p3",
+   "title": "IOAI test, pair 3: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": true,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6471
+   }
+  },
+  {
+   "id": "ioai-test-g56",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g56.webp",
+   "set": "ioai-test-p16",
+   "title": "IOAI test, pair 16: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.6282
+   }
+  },
+  {
+   "id": "ioai-test-g57",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g57.webp",
+   "set": "ioai-test-p17",
+   "title": "IOAI test, pair 17: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.9361
+   }
+  },
+  {
+   "id": "ioai-test-g58",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g58.webp",
+   "set": "ioai-test-p5",
+   "title": "IOAI test, pair 5: men",
+   "trueGender": "male",
+   "genderByEye": true,
+   "genderUnsure": true,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6028
+   }
+  },
+  {
+   "id": "ioai-test-g59",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g59.webp",
+   "set": "ioai-test-p8",
+   "title": "IOAI test, pair 8: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.6366
+   }
+  },
+  {
+   "id": "ioai-test-g60",
+   "group": "test",
+   "file": "/samples/restrooms/ioai/test/g60.webp",
+   "set": "ioai-test-p12",
+   "title": "IOAI test, pair 12: women",
+   "trueGender": "female",
+   "genderByEye": true,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6496
+   }
+  },
+  {
+   "id": "ioai-train-g1",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g1.webp",
+   "set": "ioai-train-r1",
+   "title": "IOAI training, restroom 1: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.7722
+   }
+  },
+  {
+   "id": "ioai-train-g2",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g2.webp",
+   "set": "ioai-train-r2",
+   "title": "IOAI training, restroom 2: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5165
+   }
+  },
+  {
+   "id": "ioai-train-g3",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g3.webp",
+   "set": "ioai-train-r3",
+   "title": "IOAI training, restroom 3: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5212
+   }
+  },
+  {
+   "id": "ioai-train-g4",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g4.webp",
+   "set": "ioai-train-r4",
+   "title": "IOAI training, restroom 4: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.5352
+   }
+  },
+  {
+   "id": "ioai-train-g5",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g5.webp",
+   "set": "ioai-train-r5",
+   "title": "IOAI training, restroom 5: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.5706
+   }
+  },
+  {
+   "id": "ioai-train-g6",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g6.webp",
+   "set": "ioai-train-r6",
+   "title": "IOAI training, restroom 6: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.7997
+   }
+  },
+  {
+   "id": "ioai-train-g7",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g7.webp",
+   "set": "ioai-train-r7",
+   "title": "IOAI training, restroom 7: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5298
+   }
+  },
+  {
+   "id": "ioai-train-g8",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g8.webp",
+   "set": "ioai-train-r8",
+   "title": "IOAI training, restroom 8: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.503
+   }
+  },
+  {
+   "id": "ioai-train-g9",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g9.webp",
+   "set": "ioai-train-r9",
+   "title": "IOAI training, restroom 9: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6465
+   }
+  },
+  {
+   "id": "ioai-train-g10",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g10.webp",
+   "set": "ioai-train-r10",
+   "title": "IOAI training, restroom 10: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.7198
+   }
+  },
+  {
+   "id": "ioai-train-g11",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g11.webp",
+   "set": "ioai-train-r11",
+   "title": "IOAI training, restroom 11: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.558
+   }
+  },
+  {
+   "id": "ioai-train-g12",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g12.webp",
+   "set": "ioai-train-r12",
+   "title": "IOAI training, restroom 12: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6461
+   }
+  },
+  {
+   "id": "ioai-train-g13",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g13.webp",
+   "set": "ioai-train-r13",
+   "title": "IOAI training, restroom 13: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.9727
+   }
+  },
+  {
+   "id": "ioai-train-g14",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g14.webp",
+   "set": "ioai-train-r14",
+   "title": "IOAI training, restroom 14: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.6026
+   }
+  },
+  {
+   "id": "ioai-train-g15",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g15.webp",
+   "set": "ioai-train-r15",
+   "title": "IOAI training, restroom 15: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.768
+   }
+  },
+  {
+   "id": "ioai-train-g16",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g16.webp",
+   "set": "ioai-train-r16",
+   "title": "IOAI training, restroom 16: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.513
+   }
+  },
+  {
+   "id": "ioai-train-g17",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g17.webp",
+   "set": "ioai-train-r17",
+   "title": "IOAI training, restroom 17: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6913
+   }
+  },
+  {
+   "id": "ioai-train-g19",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g19.webp",
+   "set": "ioai-train-r19",
+   "title": "IOAI training, restroom 19: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.7976
+   }
+  },
+  {
+   "id": "ioai-train-g20",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g20.webp",
+   "set": "ioai-train-r20",
+   "title": "IOAI training, restroom 20: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.7732
+   }
+  },
+  {
+   "id": "ioai-train-g21",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g21.webp",
+   "set": "ioai-train-r21",
+   "title": "IOAI training, restroom 21: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.8932
+   }
+  },
+  {
+   "id": "ioai-train-g22",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g22.webp",
+   "set": "ioai-train-r22",
+   "title": "IOAI training, restroom 22: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.9588
+   }
+  },
+  {
+   "id": "ioai-train-g23",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g23.webp",
+   "set": "ioai-train-r23",
+   "title": "IOAI training, restroom 23: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6892
+   }
+  },
+  {
+   "id": "ioai-train-g24",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g24.webp",
+   "set": "ioai-train-r24",
+   "title": "IOAI training, restroom 24: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.8351
+   }
+  },
+  {
+   "id": "ioai-train-g25",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g25.webp",
+   "set": "ioai-train-r25",
+   "title": "IOAI training, restroom 25: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6472
+   }
+  },
+  {
+   "id": "ioai-train-g26",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g26.webp",
+   "set": "ioai-train-r26",
+   "title": "IOAI training, restroom 26: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.7013
+   }
+  },
+  {
+   "id": "ioai-train-g27",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g27.webp",
+   "set": "ioai-train-r27",
+   "title": "IOAI training, restroom 27: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.5016
+   }
+  },
+  {
+   "id": "ioai-train-g28",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g28.webp",
+   "set": "ioai-train-r28",
+   "title": "IOAI training, restroom 28: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.8573
+   }
+  },
+  {
+   "id": "ioai-train-g29",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g29.webp",
+   "set": "ioai-train-r29",
+   "title": "IOAI training, restroom 29: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.7088
+   }
+  },
+  {
+   "id": "ioai-train-g30",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g30.webp",
+   "set": "ioai-train-r30",
+   "title": "IOAI training, restroom 30: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5445
+   }
+  },
+  {
+   "id": "ioai-train-g31",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g31.webp",
+   "set": "ioai-train-r31",
+   "title": "IOAI training, restroom 31: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6293
+   }
+  },
+  {
+   "id": "ioai-train-g32",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g32.webp",
+   "set": "ioai-train-r32",
+   "title": "IOAI training, restroom 32: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.8658
+   }
+  },
+  {
+   "id": "ioai-train-g33",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g33.webp",
+   "set": "ioai-train-r33",
+   "title": "IOAI training, restroom 33: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.792
+   }
+  },
+  {
+   "id": "ioai-train-g34",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g34.webp",
+   "set": "ioai-train-r34",
+   "title": "IOAI training, restroom 34: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.9326
+   }
+  },
+  {
+   "id": "ioai-train-g35",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g35.webp",
+   "set": "ioai-train-r35",
+   "title": "IOAI training, restroom 35: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.7054
+   }
+  },
+  {
+   "id": "ioai-train-g36",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g36.webp",
+   "set": "ioai-train-r36",
+   "title": "IOAI training, restroom 36: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.9392
+   }
+  },
+  {
+   "id": "ioai-train-g37",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g37.webp",
+   "set": "ioai-train-r37",
+   "title": "IOAI training, restroom 37: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.7045
+   }
+  },
+  {
+   "id": "ioai-train-g38",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g38.webp",
+   "set": "ioai-train-r38",
+   "title": "IOAI training, restroom 38: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6339
+   }
+  },
+  {
+   "id": "ioai-train-g39",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g39.webp",
+   "set": "ioai-train-r39",
+   "title": "IOAI training, restroom 39: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.5002
+   }
+  },
+  {
+   "id": "ioai-train-g40",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g40.webp",
+   "set": "ioai-train-r40",
+   "title": "IOAI training, restroom 40: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.8705
+   }
+  },
+  {
+   "id": "ioai-train-g41",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g41.webp",
+   "set": "ioai-train-r41",
+   "title": "IOAI training, restroom 41: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.766
+   }
+  },
+  {
+   "id": "ioai-train-g42",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g42.webp",
+   "set": "ioai-train-r42",
+   "title": "IOAI training, restroom 42: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6328
+   }
+  },
+  {
+   "id": "ioai-train-g43",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g43.webp",
+   "set": "ioai-train-r43",
+   "title": "IOAI training, restroom 43: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.8891
+   }
+  },
+  {
+   "id": "ioai-train-g44",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g44.webp",
+   "set": "ioai-train-r44",
+   "title": "IOAI training, restroom 44: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.5567
+   }
+  },
+  {
+   "id": "ioai-train-g45",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g45.webp",
+   "set": "ioai-train-r45",
+   "title": "IOAI training, restroom 45: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5919
+   }
+  },
+  {
+   "id": "ioai-train-g46",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g46.webp",
+   "set": "ioai-train-r46",
+   "title": "IOAI training, restroom 46: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5797
+   }
+  },
+  {
+   "id": "ioai-train-g47",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g47.webp",
+   "set": "ioai-train-r47",
+   "title": "IOAI training, restroom 47: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.7495
+   }
+  },
+  {
+   "id": "ioai-train-g48",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g48.webp",
+   "set": "ioai-train-r48",
+   "title": "IOAI training, restroom 48: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.9099
+   }
+  },
+  {
+   "id": "ioai-train-g49",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g49.webp",
+   "set": "ioai-train-r49",
+   "title": "IOAI training, restroom 49: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.8403
+   }
+  },
+  {
+   "id": "ioai-train-g50",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g50.webp",
+   "set": "ioai-train-r50",
+   "title": "IOAI training, restroom 50: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5498
+   }
+  },
+  {
+   "id": "ioai-train-g51",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g51.webp",
+   "set": "ioai-train-r51",
+   "title": "IOAI training, restroom 51: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.9335
+   }
+  },
+  {
+   "id": "ioai-train-g52",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g52.webp",
+   "set": "ioai-train-r52",
+   "title": "IOAI training, restroom 52: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.7788
+   }
+  },
+  {
+   "id": "ioai-train-g53",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g53.webp",
+   "set": "ioai-train-r53",
+   "title": "IOAI training, restroom 53: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.8906
+   }
+  },
+  {
+   "id": "ioai-train-g54",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g54.webp",
+   "set": "ioai-train-r54",
+   "title": "IOAI training, restroom 54: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.8943
+   }
+  },
+  {
+   "id": "ioai-train-g55",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g55.webp",
+   "set": "ioai-train-r55",
+   "title": "IOAI training, restroom 55: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.5434
+   }
+  },
+  {
+   "id": "ioai-train-g56",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g56.webp",
+   "set": "ioai-train-r56",
+   "title": "IOAI training, restroom 56: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5983
+   }
+  },
+  {
+   "id": "ioai-train-g57",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g57.webp",
+   "set": "ioai-train-r57",
+   "title": "IOAI training, restroom 57: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6624
+   }
+  },
+  {
+   "id": "ioai-train-g58",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g58.webp",
+   "set": "ioai-train-r58",
+   "title": "IOAI training, restroom 58: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5715
+   }
+  },
+  {
+   "id": "ioai-train-g60",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g60.webp",
+   "set": "ioai-train-r60",
+   "title": "IOAI training, restroom 60: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6292
+   }
+  },
+  {
+   "id": "ioai-train-g61",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g61.webp",
+   "set": "ioai-train-r61",
+   "title": "IOAI training, restroom 61: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.53
+   }
+  },
+  {
+   "id": "ioai-train-g62",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g62.webp",
+   "set": "ioai-train-r62",
+   "title": "IOAI training, restroom 62: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.7215
+   }
+  },
+  {
+   "id": "ioai-train-g63",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g63.webp",
+   "set": "ioai-train-r63",
+   "title": "IOAI training, restroom 63: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.8108
+   }
+  },
+  {
+   "id": "ioai-train-g64",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g64.webp",
+   "set": "ioai-train-r64",
+   "title": "IOAI training, restroom 64: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6445
+   }
+  },
+  {
+   "id": "ioai-train-g65",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g65.webp",
+   "set": "ioai-train-r65",
+   "title": "IOAI training, restroom 65: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.7328
+   }
+  },
+  {
+   "id": "ioai-train-g66",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g66.webp",
+   "set": "ioai-train-r66",
+   "title": "IOAI training, restroom 66: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6331
+   }
+  },
+  {
+   "id": "ioai-train-g67",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g67.webp",
+   "set": "ioai-train-r67",
+   "title": "IOAI training, restroom 67: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6362
+   }
+  },
+  {
+   "id": "ioai-train-g68",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g68.webp",
+   "set": "ioai-train-r68",
+   "title": "IOAI training, restroom 68: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6222
+   }
+  },
+  {
+   "id": "ioai-train-g69",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g69.webp",
+   "set": "ioai-train-r69",
+   "title": "IOAI training, restroom 69: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.8229
+   }
+  },
+  {
+   "id": "ioai-train-g70",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g70.webp",
+   "set": "ioai-train-r70",
+   "title": "IOAI training, restroom 70: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6789
+   }
+  },
+  {
+   "id": "ioai-train-g71",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g71.webp",
+   "set": "ioai-train-r71",
+   "title": "IOAI training, restroom 71: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.7512
+   }
+  },
+  {
+   "id": "ioai-train-g72",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g72.webp",
+   "set": "ioai-train-r72",
+   "title": "IOAI training, restroom 72: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.7832
+   }
+  },
+  {
+   "id": "ioai-train-g73",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g73.webp",
+   "set": "ioai-train-r73",
+   "title": "IOAI training, restroom 73: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.8344
+   }
+  },
+  {
+   "id": "ioai-train-g74",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g74.webp",
+   "set": "ioai-train-r74",
+   "title": "IOAI training, restroom 74: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6284
+   }
+  },
+  {
+   "id": "ioai-train-g75",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g75.webp",
+   "set": "ioai-train-r75",
+   "title": "IOAI training, restroom 75: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.7402
+   }
+  },
+  {
+   "id": "ioai-train-g76",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g76.webp",
+   "set": "ioai-train-r76",
+   "title": "IOAI training, restroom 76: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.7357
+   }
+  },
+  {
+   "id": "ioai-train-g77",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g77.webp",
+   "set": "ioai-train-r77",
+   "title": "IOAI training, restroom 77: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.8251
+   }
+  },
+  {
+   "id": "ioai-train-g78",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g78.webp",
+   "set": "ioai-train-r78",
+   "title": "IOAI training, restroom 78: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.8111
+   }
+  },
+  {
+   "id": "ioai-train-g79",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g79.webp",
+   "set": "ioai-train-r79",
+   "title": "IOAI training, restroom 79: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.8357
+   }
+  },
+  {
+   "id": "ioai-train-g80",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g80.webp",
+   "set": "ioai-train-r80",
+   "title": "IOAI training, restroom 80: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6923
+   }
+  },
+  {
+   "id": "ioai-train-g81",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g81.webp",
+   "set": "ioai-train-r81",
+   "title": "IOAI training, restroom 81: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6627
+   }
+  },
+  {
+   "id": "ioai-train-g82",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g82.webp",
+   "set": "ioai-train-r82",
+   "title": "IOAI training, restroom 82: men",
+   "trueGender": "male",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.9665
+   }
+  },
+  {
+   "id": "ioai-train-g83",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g83.webp",
+   "set": "ioai-train-r1",
+   "title": "IOAI training, restroom 1: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.982
+   }
+  },
+  {
+   "id": "ioai-train-g84",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g84.webp",
+   "set": "ioai-train-r2",
+   "title": "IOAI training, restroom 2: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.602
+   }
+  },
+  {
+   "id": "ioai-train-g85",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g85.webp",
+   "set": "ioai-train-r3",
+   "title": "IOAI training, restroom 3: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.9499
+   }
+  },
+  {
+   "id": "ioai-train-g86",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g86.webp",
+   "set": "ioai-train-r4",
+   "title": "IOAI training, restroom 4: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6233
+   }
+  },
+  {
+   "id": "ioai-train-g87",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g87.webp",
+   "set": "ioai-train-r5",
+   "title": "IOAI training, restroom 5: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.6251
+   }
+  },
+  {
+   "id": "ioai-train-g88",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g88.webp",
+   "set": "ioai-train-r6",
+   "title": "IOAI training, restroom 6: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6817
+   }
+  },
+  {
+   "id": "ioai-train-g89",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g89.webp",
+   "set": "ioai-train-r7",
+   "title": "IOAI training, restroom 7: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.9519
+   }
+  },
+  {
+   "id": "ioai-train-g90",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g90.webp",
+   "set": "ioai-train-r8",
+   "title": "IOAI training, restroom 8: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.7727
+   }
+  },
+  {
+   "id": "ioai-train-g91",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g91.webp",
+   "set": "ioai-train-r9",
+   "title": "IOAI training, restroom 9: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.9204
+   }
+  },
+  {
+   "id": "ioai-train-g92",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g92.webp",
+   "set": "ioai-train-r10",
+   "title": "IOAI training, restroom 10: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.6241
+   }
+  },
+  {
+   "id": "ioai-train-g93",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g93.webp",
+   "set": "ioai-train-r11",
+   "title": "IOAI training, restroom 11: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.878
+   }
+  },
+  {
+   "id": "ioai-train-g94",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g94.webp",
+   "set": "ioai-train-r12",
+   "title": "IOAI training, restroom 12: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5942
+   }
+  },
+  {
+   "id": "ioai-train-g95",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g95.webp",
+   "set": "ioai-train-r13",
+   "title": "IOAI training, restroom 13: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.8879
+   }
+  },
+  {
+   "id": "ioai-train-g96",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g96.webp",
+   "set": "ioai-train-r14",
+   "title": "IOAI training, restroom 14: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.6408
+   }
+  },
+  {
+   "id": "ioai-train-g97",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g97.webp",
+   "set": "ioai-train-r15",
+   "title": "IOAI training, restroom 15: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.7838
+   }
+  },
+  {
+   "id": "ioai-train-g98",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g98.webp",
+   "set": "ioai-train-r16",
+   "title": "IOAI training, restroom 16: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.8732
+   }
+  },
+  {
+   "id": "ioai-train-g99",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g99.webp",
+   "set": "ioai-train-r17",
+   "title": "IOAI training, restroom 17: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.7518
+   }
+  },
+  {
+   "id": "ioai-train-g101",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g101.webp",
+   "set": "ioai-train-r19",
+   "title": "IOAI training, restroom 19: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.8295
+   }
+  },
+  {
+   "id": "ioai-train-g102",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g102.webp",
+   "set": "ioai-train-r20",
+   "title": "IOAI training, restroom 20: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5044
+   }
+  },
+  {
+   "id": "ioai-train-g103",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g103.webp",
+   "set": "ioai-train-r21",
+   "title": "IOAI training, restroom 21: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.7873
+   }
+  },
+  {
+   "id": "ioai-train-g104",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g104.webp",
+   "set": "ioai-train-r22",
+   "title": "IOAI training, restroom 22: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.9303
+   }
+  },
+  {
+   "id": "ioai-train-g105",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g105.webp",
+   "set": "ioai-train-r23",
+   "title": "IOAI training, restroom 23: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6092
+   }
+  },
+  {
+   "id": "ioai-train-g106",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g106.webp",
+   "set": "ioai-train-r24",
+   "title": "IOAI training, restroom 24: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.8267
+   }
+  },
+  {
+   "id": "ioai-train-g107",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g107.webp",
+   "set": "ioai-train-r25",
+   "title": "IOAI training, restroom 25: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6037
+   }
+  },
+  {
+   "id": "ioai-train-g108",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g108.webp",
+   "set": "ioai-train-r26",
+   "title": "IOAI training, restroom 26: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.7203
+   }
+  },
+  {
+   "id": "ioai-train-g109",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g109.webp",
+   "set": "ioai-train-r27",
+   "title": "IOAI training, restroom 27: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.8971
+   }
+  },
+  {
+   "id": "ioai-train-g110",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g110.webp",
+   "set": "ioai-train-r28",
+   "title": "IOAI training, restroom 28: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.5055
+   }
+  },
+  {
+   "id": "ioai-train-g111",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g111.webp",
+   "set": "ioai-train-r29",
+   "title": "IOAI training, restroom 29: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.7343
+   }
+  },
+  {
+   "id": "ioai-train-g112",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g112.webp",
+   "set": "ioai-train-r30",
+   "title": "IOAI training, restroom 30: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.9745
+   }
+  },
+  {
+   "id": "ioai-train-g113",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g113.webp",
+   "set": "ioai-train-r31",
+   "title": "IOAI training, restroom 31: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.9295
+   }
+  },
+  {
+   "id": "ioai-train-g114",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g114.webp",
+   "set": "ioai-train-r32",
+   "title": "IOAI training, restroom 32: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.7668
+   }
+  },
+  {
+   "id": "ioai-train-g115",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g115.webp",
+   "set": "ioai-train-r33",
+   "title": "IOAI training, restroom 33: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.8858
+   }
+  },
+  {
+   "id": "ioai-train-g116",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g116.webp",
+   "set": "ioai-train-r34",
+   "title": "IOAI training, restroom 34: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.9245
+   }
+  },
+  {
+   "id": "ioai-train-g117",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g117.webp",
+   "set": "ioai-train-r35",
+   "title": "IOAI training, restroom 35: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.8178
+   }
+  },
+  {
+   "id": "ioai-train-g118",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g118.webp",
+   "set": "ioai-train-r36",
+   "title": "IOAI training, restroom 36: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.8104
+   }
+  },
+  {
+   "id": "ioai-train-g119",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g119.webp",
+   "set": "ioai-train-r37",
+   "title": "IOAI training, restroom 37: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.9203
+   }
+  },
+  {
+   "id": "ioai-train-g120",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g120.webp",
+   "set": "ioai-train-r38",
+   "title": "IOAI training, restroom 38: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6105
+   }
+  },
+  {
+   "id": "ioai-train-g121",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g121.webp",
+   "set": "ioai-train-r39",
+   "title": "IOAI training, restroom 39: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5025
+   }
+  },
+  {
+   "id": "ioai-train-g122",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g122.webp",
+   "set": "ioai-train-r40",
+   "title": "IOAI training, restroom 40: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.5828
+   }
+  },
+  {
+   "id": "ioai-train-g123",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g123.webp",
+   "set": "ioai-train-r41",
+   "title": "IOAI training, restroom 41: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.7913
+   }
+  },
+  {
+   "id": "ioai-train-g124",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g124.webp",
+   "set": "ioai-train-r42",
+   "title": "IOAI training, restroom 42: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.6809
+   }
+  },
+  {
+   "id": "ioai-train-g125",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g125.webp",
+   "set": "ioai-train-r43",
+   "title": "IOAI training, restroom 43: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.6764
+   }
+  },
+  {
+   "id": "ioai-train-g126",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g126.webp",
+   "set": "ioai-train-r44",
+   "title": "IOAI training, restroom 44: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.9129
+   }
+  },
+  {
+   "id": "ioai-train-g127",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g127.webp",
+   "set": "ioai-train-r45",
+   "title": "IOAI training, restroom 45: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5439
+   }
+  },
+  {
+   "id": "ioai-train-g128",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g128.webp",
+   "set": "ioai-train-r46",
+   "title": "IOAI training, restroom 46: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6547
+   }
+  },
+  {
+   "id": "ioai-train-g129",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g129.webp",
+   "set": "ioai-train-r47",
+   "title": "IOAI training, restroom 47: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6158
+   }
+  },
+  {
+   "id": "ioai-train-g130",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g130.webp",
+   "set": "ioai-train-r48",
+   "title": "IOAI training, restroom 48: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.5833
+   }
+  },
+  {
+   "id": "ioai-train-g131",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g131.webp",
+   "set": "ioai-train-r49",
+   "title": "IOAI training, restroom 49: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.9529
+   }
+  },
+  {
+   "id": "ioai-train-g132",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g132.webp",
+   "set": "ioai-train-r50",
+   "title": "IOAI training, restroom 50: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5788
+   }
+  },
+  {
+   "id": "ioai-train-g133",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g133.webp",
+   "set": "ioai-train-r51",
+   "title": "IOAI training, restroom 51: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.889
+   }
+  },
+  {
+   "id": "ioai-train-g134",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g134.webp",
+   "set": "ioai-train-r52",
+   "title": "IOAI training, restroom 52: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.7871
+   }
+  },
+  {
+   "id": "ioai-train-g135",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g135.webp",
+   "set": "ioai-train-r53",
+   "title": "IOAI training, restroom 53: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.7774
+   }
+  },
+  {
+   "id": "ioai-train-g136",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g136.webp",
+   "set": "ioai-train-r54",
+   "title": "IOAI training, restroom 54: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.8282
+   }
+  },
+  {
+   "id": "ioai-train-g137",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g137.webp",
+   "set": "ioai-train-r55",
+   "title": "IOAI training, restroom 55: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.5747
+   }
+  },
+  {
+   "id": "ioai-train-g138",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g138.webp",
+   "set": "ioai-train-r56",
+   "title": "IOAI training, restroom 56: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6356
+   }
+  },
+  {
+   "id": "ioai-train-g139",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g139.webp",
+   "set": "ioai-train-r57",
+   "title": "IOAI training, restroom 57: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.6476
+   }
+  },
+  {
+   "id": "ioai-train-g140",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g140.webp",
+   "set": "ioai-train-r58",
+   "title": "IOAI training, restroom 58: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6827
+   }
+  },
+  {
+   "id": "ioai-train-g142",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g142.webp",
+   "set": "ioai-train-r60",
+   "title": "IOAI training, restroom 60: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5864
+   }
+  },
+  {
+   "id": "ioai-train-g143",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g143.webp",
+   "set": "ioai-train-r61",
+   "title": "IOAI training, restroom 61: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5277
+   }
+  },
+  {
+   "id": "ioai-train-g144",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g144.webp",
+   "set": "ioai-train-r62",
+   "title": "IOAI training, restroom 62: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5691
+   }
+  },
+  {
+   "id": "ioai-train-g145",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g145.webp",
+   "set": "ioai-train-r63",
+   "title": "IOAI training, restroom 63: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.8823
+   }
+  },
+  {
+   "id": "ioai-train-g146",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g146.webp",
+   "set": "ioai-train-r64",
+   "title": "IOAI training, restroom 64: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.56
+   }
+  },
+  {
+   "id": "ioai-train-g147",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g147.webp",
+   "set": "ioai-train-r65",
+   "title": "IOAI training, restroom 65: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6324
+   }
+  },
+  {
+   "id": "ioai-train-g148",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g148.webp",
+   "set": "ioai-train-r66",
+   "title": "IOAI training, restroom 66: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6081
+   }
+  },
+  {
+   "id": "ioai-train-g149",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g149.webp",
+   "set": "ioai-train-r67",
+   "title": "IOAI training, restroom 67: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.76
+   }
+  },
+  {
+   "id": "ioai-train-g150",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g150.webp",
+   "set": "ioai-train-r68",
+   "title": "IOAI training, restroom 68: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.7396
+   }
+  },
+  {
+   "id": "ioai-train-g151",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g151.webp",
+   "set": "ioai-train-r69",
+   "title": "IOAI training, restroom 69: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.5482
+   }
+  },
+  {
+   "id": "ioai-train-g152",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g152.webp",
+   "set": "ioai-train-r70",
+   "title": "IOAI training, restroom 70: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.8898
+   }
+  },
+  {
+   "id": "ioai-train-g153",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g153.webp",
+   "set": "ioai-train-r71",
+   "title": "IOAI training, restroom 71: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.9375
+   }
+  },
+  {
+   "id": "ioai-train-g154",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g154.webp",
+   "set": "ioai-train-r72",
+   "title": "IOAI training, restroom 72: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5751
+   }
+  },
+  {
+   "id": "ioai-train-g155",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g155.webp",
+   "set": "ioai-train-r73",
+   "title": "IOAI training, restroom 73: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.9601
+   }
+  },
+  {
+   "id": "ioai-train-g156",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g156.webp",
+   "set": "ioai-train-r74",
+   "title": "IOAI training, restroom 74: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5296
+   }
+  },
+  {
+   "id": "ioai-train-g157",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g157.webp",
+   "set": "ioai-train-r75",
+   "title": "IOAI training, restroom 75: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.5298
+   }
+  },
+  {
+   "id": "ioai-train-g158",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g158.webp",
+   "set": "ioai-train-r76",
+   "title": "IOAI training, restroom 76: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6922
+   }
+  },
+  {
+   "id": "ioai-train-g159",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g159.webp",
+   "set": "ioai-train-r77",
+   "title": "IOAI training, restroom 77: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.8437
+   }
+  },
+  {
+   "id": "ioai-train-g160",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g160.webp",
+   "set": "ioai-train-r78",
+   "title": "IOAI training, restroom 78: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.7514
+   }
+  },
+  {
+   "id": "ioai-train-g161",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g161.webp",
+   "set": "ioai-train-r79",
+   "title": "IOAI training, restroom 79: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.9208
+   }
+  },
+  {
+   "id": "ioai-train-g162",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g162.webp",
+   "set": "ioai-train-r80",
+   "title": "IOAI training, restroom 80: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "male",
+    "confidence": 0.6118
+   }
+  },
+  {
+   "id": "ioai-train-g163",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g163.webp",
+   "set": "ioai-train-r81",
+   "title": "IOAI training, restroom 81: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.818
+   }
+  },
+  {
+   "id": "ioai-train-g164",
+   "group": "train",
+   "file": "/samples/restrooms/ioai/train/g164.webp",
+   "set": "ioai-train-r82",
+   "title": "IOAI training, restroom 82: women",
+   "trueGender": "female",
+   "genderByEye": false,
+   "genderUnsure": false,
+   "mock": {
+    "gender": "female",
+    "confidence": 0.9667
+   }
+  }
+ ]
+}

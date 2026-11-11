@@ -41,6 +41,8 @@ function Tile({ src, alt, title, detail }: { src: string; alt: string; title: st
 
 function Result({ split, row }: { split: IoaiSplitId; row: IoaiRow }) {
   const w = IOAI_PAIRS.histogramWeight;
+  const labels = IOAI_PAIRS.splits[split].galleryLabels;
+  const name = (g: number) => (labels ? `${g} (${labels[g - 1]})` : `${g}`);
   const right = row.pair === row.answer;
   const baseRight = row.baseline === row.answer;
   const topTaken = row.candidates[0]?.g !== row.pair;
@@ -59,20 +61,20 @@ function Result({ split, row }: { split: IoaiSplitId; row: IoaiRow }) {
             <Tile
               src={ioaiGalleryUrl(split, row.own)}
               alt={`Gallery ${row.own}, the original the crop was cut from`}
-              title={`1. Original: ${row.own}`}
+              title={`1. Original: ${name(row.own)}`}
               detail={`pixel match ${row.ncc.toFixed(2)}, ${row.inliers} SIFT points`}
             />
             <Tile
               src={ioaiGalleryUrl(split, row.pair)}
               alt={`Gallery ${row.pair}, the pair the pipeline found`}
-              title={`2. Pair found: ${row.pair}`}
+              title={`2. Pair found: ${name(row.pair)}`}
               detail={<Verdict ok={right} />}
             />
-            <Tile src={ioaiGalleryUrl(split, row.answer)} alt={`Gallery ${row.answer}, the IOAI answer`} title={`IOAI answer: ${row.answer}`} />
+            <Tile src={ioaiGalleryUrl(split, row.answer)} alt={`Gallery ${row.answer}, the IOAI answer`} title={`IOAI answer: ${name(row.answer)}`} />
             <Tile
               src={ioaiGalleryUrl(split, row.baseline)}
               alt={`Gallery ${row.baseline}, the zero-shot CLIP baseline's pick`}
-              title={`CLIP only: ${row.baseline}`}
+              title={`CLIP only: ${name(row.baseline)}`}
               detail={<Verdict ok={baseRight} />}
             />
           </div>
@@ -101,7 +103,7 @@ function Result({ split, row }: { split: IoaiSplitId; row: IoaiRow }) {
                 <Tile
                   src={ioaiGalleryUrl(split, c.g)}
                   alt={`Candidate ${i + 1}, gallery ${c.g}`}
-                  title={`#${i + 1}: gallery ${c.g}`}
+                  title={`#${i + 1}: gallery ${name(c.g)}`}
                   detail={
                     <span className="inline-flex flex-wrap items-center gap-1.5">
                       <span className="tabular font-mono">{c.score.toFixed(2)}</span>
@@ -157,6 +159,7 @@ export function IoaiPairsClient() {
                 {s.pipelineCorrect}/{s.queries}
               </span>{" "}
               right; zero-shot CLIP alone gets {s.baselineCorrect}/{s.queries}.
+              <span className="block">Method on this set: {s.method}.</span>
               {s.hiddenNote && <span className="block">{s.hiddenNote}</span>}
             </p>
           </div>
@@ -185,7 +188,8 @@ export function IoaiPairsClient() {
       <Result split={split} row={row} />
 
       <Callout title="Real pipeline results, computed offline">
-        These are real results of our pipeline (<code>ml/restroom/pipeline.py</code>, method <code>{IOAI_PAIRS.method}</code>),
+        These are real results of our pipeline (<code>ml/restroom/pipeline.py</code>: <code>{IOAI_PAIRS.method}</code> on
+        validation and test, one query at a time on the training set),
         computed on the IOAI data and stored with this page, because the site has no Python server. To run it live, start{" "}
         <code>python ml/restroom/demo.py</code> on a laptop. {IOAI_PAIRS.credit}
       </Callout>

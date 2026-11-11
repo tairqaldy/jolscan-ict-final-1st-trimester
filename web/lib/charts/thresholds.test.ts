@@ -14,12 +14,12 @@ describe("thresholdText", () => {
   });
 
   it("marks a value that differs from the default", () => {
-    const changed = DEFAULT_SIGNAGE.s1.minMargin + 0.1;
-    expect(thresholdText("S1", changed, DEFAULT_SIGNAGE.s1.minMargin)).toBe(`S1 ${changed.toFixed(2)} (your setting)`);
+    const changed = DEFAULT_SIGNAGE.s2.minMargin + 0.1;
+    expect(thresholdText("S2", changed, DEFAULT_SIGNAGE.s2.minMargin)).toBe(`S2 ${changed.toFixed(2)} (your setting)`);
   });
 
   it("ignores floating-point noise from the sliders", () => {
-    expect(thresholdText("S1", 0.1 + 0.2, 0.3)).toBe("S1 0.30");
+    expect(thresholdText("S2", 0.1 + 0.2, 0.3)).toBe("S2 0.30");
   });
 });
 

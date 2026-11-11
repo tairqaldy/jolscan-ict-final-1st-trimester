@@ -79,8 +79,8 @@ export default function AboutPage() {
             </p>
             <p>
               <strong>Verdict.</strong> The two doors are compared with each other: the sign with the higher P(male) is read as
-              the men&apos;s room. Three rules (S1 which door is which is clear, S2 the doors can be told apart at all, S3 the signs
-              belong to one set) give clear, review or confusing, with a recommended action. The thresholds come from the IOAI training restrooms.
+              the men&apos;s room. Two rules decide the verdict: S2, the doors read as different genders, and S3, the signs
+              belong to one set. Both pass: a pair; either fails: not a pair. The thresholds come from the IOAI training restrooms.
             </p>
             <h3 className="mt-2 text-lg font-semibold text-fg">Both modules</h3>
             <p>

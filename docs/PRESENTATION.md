@@ -32,7 +32,7 @@ Backup slides after the closing: architecture diagram in detail, full metrics ta
 1. Landing page, one sentence, open the Roads module.
 2. Drop the prepared road photo. While it loads, say which model is running and where (local).
 3. Result: point at the boxes, the severity badge, and read one rule hit aloud. (40 s so far)
-4. Switch to Restrooms, Compare: pick a mismatched pair. Point at the two genders, the similarity, and the verdict "review" or "confusing" with the rule that failed. (70 s)
+4. Switch to Restrooms, Compare: pick a mismatched pair. Point at the two genders, the similarity, and the verdict "Not a pair" with the rule that failed. (70 s)
 5. Platform overview, ten seconds. Say aloud: "these tiles and charts run on demo data. The two analyses you just saw and the model page are real."
 6. Model page: both experiment tables, "we come back to these".
 
@@ -144,7 +144,7 @@ Next.js route handlers on the server: /api/analyze, /api/restroom, /api/health
    ├─ local : FastAPI on localhost:8000 (/predict = YOLO, the champion E1; /restroom/* = CLIP), photos stay on the laptop
    └─ cloud : the same API hosted (CLOUD_MODEL_API_URL), opt-in because photos leave the device
    ▼
-Rules in the web server: web/lib/rules (roads, R1–R6) and web/lib/signage (restrooms, S1–S3)
+Rules in the web server: web/lib/rules (roads, R1–R6) and web/lib/signage (restrooms, S2–S3; S1 retired on 11 Nov)
    ▼
 JSON result back to the page: boxes or genders, score or verdict, which rules fired
 ```
@@ -198,10 +198,10 @@ Every example below was checked in the running app on 11 November, and every lec
    - The confidence histogram shows the shape of a distribution (DMViz p28).
    - All bars start at zero, because a cut axis exaggerates differences (DMViz p31, VizICT p17).
    - Severity colours appear only where they mean severity; other series use `--chart-1` and `--chart-2`. Each chart on that page has a legend with words, because colour alone fails colour-blind readers (VizICT p11).
-   - Every rule threshold is a labelled line on the chart, for example "R1 0.40" and "R1 floor 0.25" on the confidence histogram, and S1 and S2 on the gap chart. The line reads the same value as the rules engine, so it moves when I change a rule. Open: `/app/analytics`, then `/app/restrooms/rules`.
+   - Every rule threshold is a labelled line on the chart, for example "R1 0.40" and "R1 floor 0.25" on the confidence histogram, and S2 on the gap chart. The line reads the same value as the rules engine, so it moves when I change a rule. Open: `/app/analytics`, then `/app/restrooms/rules`.
 4. **Showing uncertainty.**
    - **Roads:** a box under the confidence threshold is drawn dashed with "review" in its tag; counted boxes are solid. The photo is flagged "needs review", counted in the "To review" tile on Home, and Reports can filter to review only.
-   - **Restrooms:** the verdict is **Review** when the model can tell the doors apart but is not sure which is which (gap under 0.20, rule S1). A person then checks on site.
+   - **Restrooms:** the verdict is only **Pair** or **Not a pair**, so the uncertainty is in the numbers next to it: the gap between the doors against S2 (0.05) and the similarity against S3 (0.88), each with its threshold drawn on the bar. A pair just over a line is visibly close.
 5. **First test with real users.** I would give a real road dispatcher the deployed site and measure whether they reach a result in two screens and three clicks, which is our U1. I would also check that "Critical, repair within 24 h" matches how they talk about work. That is *match between system and the real world* (HCI p15). I would measure what they do rather than ask what they like.
 6. **Likely follow-up: Fitts and Hick.**
    - *Fitts's law* (HCI p34): the time to hit a target grows with distance and shrinks with size. **Analyze photo** is 48 px tall and spans its panel, right under the photo details.

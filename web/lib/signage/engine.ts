@@ -9,16 +9,14 @@
  *
  *   margin = |P(male) of sign a - P(male) of sign b|
  *
- *   S1 which door is which is clear     margin     >= 0.20
- *   S2 the doors can be told apart       margin     >= 0.05
- *   S3 the signs belong to one set       similarity >= 0.88
+ *   S2 the doors read as different genders   margin     >= 0.05
+ *   S3 the signs belong to one set            similarity >= 0.88
  *
- *   clear      S1, S2 and S3 pass
- *   review     S2 passes, and S1 or S3 fails
- *   confusing  S2 fails (whatever S1 and S3 say)
+ *   pair      S2 and S3 pass
+ *   not_pair  S2 or S3 fails
  */
 import type { CompareResult, Gender, SignPrediction, SignageDoors, SignageRuleHit, SignageVerdict } from "@/lib/types";
-import { DEFAULT_SIGNAGE, SIGNAGE_RULE_TITLES, VERDICT_ACTIONS, type SignageConfig } from "./config";
+import { DEFAULT_SIGNAGE, SIGNAGE_RULE_TITLES, verdictReason, type SignageConfig } from "./config";
 
 /** Which sign the rules read as the men's door, both P(male) values and their gap. */
 export type DoorAssignment = SignageDoors;
@@ -26,7 +24,7 @@ export type DoorAssignment = SignageDoors;
 export type SignageResult = {
   verdict: SignageVerdict;
   ruleHits: SignageRuleHit[];
-  recommendedAction: string;
+  reason: string;
   doors: DoorAssignment;
 };
 
@@ -64,7 +62,6 @@ export function evaluateSignage(
 ): SignageResult {
   const { a, b, similarity } = compare;
   const doors = assignDoors(a, b);
-  const t1 = config.s1.minMargin;
   const t2 = config.s2.minMargin;
   const t3 = config.s3.minSimilarity;
   const m = doors.margin;
@@ -72,31 +69,24 @@ export function evaluateSignage(
   const womens = doors.mens === "a" ? "door B" : "door A";
   const pText = `P(male) ${doors.pMaleA.toFixed(2)} for door A, ${doors.pMaleB.toFixed(2)} for door B`;
 
-  // S1: the pairwise reading is confident.
-  const s1Passed = m >= t1;
-  const s1Detail = s1Passed
-    ? `${mens} reads as the men's room and ${womens} as the women's room. ${pText}: a gap of ${formatAgainst(m, t1)}, at or above ${t1.toFixed(2)}`
-    : `${mens} reads slightly more as the men's room, but the gap is only ${formatAgainst(m, t1)}, below ${t1.toFixed(2)} (${pText}). A person should check which door is which`;
-
-  // S2: the doors can be told apart at all.
+  // S2: the two doors read as different genders (compared with each other).
   const s2Passed = m >= t2;
   const s2Detail = s2Passed
-    ? `The two signs differ enough to tell apart: gap ${formatAgainst(m, t2)}, at or above ${t2.toFixed(2)}`
-    : `The two signs look almost the same to the model: gap ${formatAgainst(m, t2)}, below ${t2.toFixed(2)}. Visitors may not be able to tell which door is which`;
+    ? `${mens} reads as the men's room and ${womens} as the women's room. ${pText}: a gap of ${formatAgainst(m, t2)}, at or above ${t2.toFixed(2)}`
+    : `Both signs read as the same gender to the model. ${pText}: a gap of only ${formatAgainst(m, t2)}, below ${t2.toFixed(2)}`;
 
   // S3: one design set.
   const s3Passed = similarity >= t3;
   const simText = formatAgainst(similarity, t3);
   const s3Detail = s3Passed
     ? `Similarity ${simText}, at or above ${t3.toFixed(2)}: the two designs look like one set`
-    : `Similarity ${simText}, below ${t3.toFixed(2)}: the designs look unrelated, so visitors may not read them as a pair`;
+    : `Similarity ${simText}, below ${t3.toFixed(2)}: the designs look like two different sets`;
 
   const ruleHits: SignageRuleHit[] = [
-    { ruleId: "S1", title: SIGNAGE_RULE_TITLES.S1, detail: s1Detail, passed: s1Passed },
     { ruleId: "S2", title: SIGNAGE_RULE_TITLES.S2, detail: s2Detail, passed: s2Passed },
     { ruleId: "S3", title: SIGNAGE_RULE_TITLES.S3, detail: s3Detail, passed: s3Passed },
   ];
 
-  const verdict: SignageVerdict = !s2Passed ? "confusing" : s1Passed && s3Passed ? "clear" : "review";
-  return { verdict, ruleHits, recommendedAction: VERDICT_ACTIONS[verdict], doors };
+  const verdict: SignageVerdict = s2Passed && s3Passed ? "pair" : "not_pair";
+  return { verdict, ruleHits, reason: verdictReason(s2Passed, s3Passed), doors };
 }

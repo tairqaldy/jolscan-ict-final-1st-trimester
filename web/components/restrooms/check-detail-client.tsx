@@ -66,7 +66,7 @@ export function CheckDetailClient({ id }: { id: string }) {
           result: h.passed ? "Passed" : "Failed",
         }))}
         empty="No rule results stored for this check."
-        note="Clear when all three pass. Review when S2 passes but S1 or S3 fails. Confusing when S2 fails, whatever the others say."
+        note="Pair when both rules pass. Not a pair when either fails."
       />
       <PrintFooter
         demoNote={

@@ -84,7 +84,7 @@ const COLOR_GROUPS: { title: string; tokens: string[]; use: string; never: strin
   {
     title: "Restrooms: verdicts (solid)",
     tokens: ["verdict-clear", "verdict-review", "verdict-confusing"],
-    use: "the restroom verdict (clear, review, confusing) in badges and bars, with its icon and word. By default they reuse sev-clear, sev-medium and sev-critical.",
+    use: "the restroom verdict (pair: verdict-clear, not a pair: verdict-confusing) in badges and bars, with its icon and word. verdict-review is no longer used. By default they reuse sev-clear, sev-medium and sev-critical.",
     never: "for road severity (use sev-*), or without the verdict word.",
   },
   {
@@ -280,14 +280,14 @@ export function ThemedShowcase() {
           {VERDICTS.map((v) => (
             <VerdictBadge key={v} verdict={v} />
           ))}
-          <VerdictBadge verdict="confusing" size="lg" />
+          <VerdictBadge verdict="not_pair" size="lg" />
         </div>
         <div className="flex flex-wrap gap-2">
           <GenderTag gender="male" confidence={0.97} />
           <GenderTag gender="female" confidence={0.62} />
         </div>
-        <ThresholdBar value={0.15} threshold={0.2} label="Gap in P(male) between the doors" valueText="0.15" thresholdLabel="S1 0.20" />
-        <VerdictBars verdicts={["clear", "clear", "clear", "review", "review", "confusing"]} />
+        <ThresholdBar value={0.03} threshold={0.05} label="Gap in P(male) between the doors" valueText="0.03" thresholdLabel="S2 0.05" />
+        <VerdictBars verdicts={["pair", "pair", "pair", "pair", "not_pair", "not_pair"]} />
       </section>
 
       <section className="grid gap-4">
