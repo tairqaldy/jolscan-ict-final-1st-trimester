@@ -23,6 +23,6 @@ ENV HF_HOME=/app/hf-cache
 RUN python -c "import open_clip; open_clip.create_model_and_transforms('ViT-B-32', pretrained='openai', force_quick_gelu=True)"
 COPY weights/ weights/
 
-ENV MODEL_WEIGHTS=weights/jolscan-e8.pt
+ENV MODEL_WEIGHTS=weights/jolscan-e1.pt
 EXPOSE 8000
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
