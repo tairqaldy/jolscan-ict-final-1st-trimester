@@ -12,6 +12,23 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 21:10 · G-73 (#432), G-74 (#433), G-75 (#434), G-9 (#126) · Motion grill: fixes and two review rounds
+- **Status:** done (follow-up; the four tasks were already closed, no TASKS.md change)
+- **What I did:**
+  - Fixed the six known gaps from `docs/design/motion.md`: `.stagger` ends at 600 ms (step `--stagger-step` 45 ms, capped at the 5th item); distribution bars 420 ms each, last one done by 600 ms (`staggerDelay()` in `lib/motion.ts`); detection boxes draw in 300 ms (`--duration-draw`, was 700 ms) and the last tag is in by 600 ms, as `DESIGN-BRIEF.md` says; the header links keep their pill, but it is now a `::before` that scales at token timings, so the neighbours no longer move; the eyebrow in `PageHeader` gives the Overpass middle dot its own box.
+  - The mobile bottom bar on `/app/roads`: the active logic is right (Roads Overview sits under More in `nav.ts`), so I wrote it up for Tair instead of changing the navigation.
+  - Round 1 (Playwright, 10 pages, 1440 and 375 px, light, dark, high contrast, Reduce motion off and on): fixed `transition: all` on two landing cards, the stale motion line on `/design`, the 2.4 s landing car (now parked by 540 ms), the Compare result jumping down at 375 px (CLS 0.034 to 0) and the Analyze scan line animating `top`.
+  - Round 2: the same matrix again on the fixed branch, plus the reveal end time on Analyze and Compare.
+- **Result:** round 2 (120 page loads): no animation over 600 ms except loops while waiting (spinners, skeletons, scan line); the staged result ends 350 to 389 ms (Analyze) and 208 to 241 ms (Compare) after it appears; CLS 0 everywhere except 0.0002 on Settings with Reduce motion on (the saved switch value appears after hydration); no console errors; no focus without a ring outside the Next.js dev overlay; the G-65 check prints `false` on all 18 routes at 320 px; the Demo and Mock badges are there at both widths. Lint, typecheck, all tests (267 after the last rebase) and `pnpm build` pass.
+- **Decisions and why:**
+  - One cap for every stagger (`reveal.budget`, 600 ms) instead of shorter steps per component, so a longer list can never run over.
+  - Changed the `--duration-draw` token rather than adding a new one: the brief already said 300 ms, and the landing similarity bar is fine at 300 ms too.
+  - No overshoot on the header pill: there is no overshoot token, and hover should stay small (rule 3).
+  - Kept the teammate's hover lift on the team cards and only named its properties; it is listed as a known gap.
+- **What I learned / can explain at the defense:** a font can draw a character with no advance width (Overpass `·`), so spacing bugs are not always CSS; and animating `top` counts as a layout shift on every frame, while `transform` does not.
+- **AI use:** Claude Code wrote the code, the Playwright probe and the first draft of these notes; I chose what to fix and what to leave to the owners.
+- **Open questions / next:** the known gaps table in `docs/design/motion.md` (bottom bar for Tair, `·` outside headings, team card lift, `/design` loading specimens, `/settings` 404).
+
 ### 2026-11-11 20:33 · G-75 (#434) · Staged result reveal and save confirmation
 - **Status:** done
 - **What I did:**
