@@ -20,6 +20,7 @@ import { DemoBadge } from "@/components/app/demo-badge";
 import { MODULE_ICONS } from "@/components/app/nav";
 import { HeroDemo } from "@/components/landing/hero-demo";
 import { PairDemo } from "@/components/landing/pair-demo";
+import { RuleHitCard } from "@/components/landing/rule-hit-card";
 import { SiteFooter } from "@/components/landing/site-footer";
 import { SiteHeader } from "@/components/landing/site-header";
 import { TeamGrid } from "@/components/landing/team-grid";
@@ -30,6 +31,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { BRAND, MODULES, type ModuleId } from "@/lib/brand";
 import { COURSE } from "@/lib/team";
 import { formatSla } from "@/lib/format";
+import { roadHitMarks, signHitMarks } from "@/lib/landing-rule-hits";
 import { BASELINE, CHAMPION, EXPERIMENTS, IS_DEMO_DATA } from "@/lib/mock/experiments";
 import { RESTROOM_CHAMPION, RESTROOM_EXPERIMENTS, RESTROOM_IS_DEMO } from "@/lib/mock/restroom-experiments";
 import { RESTROOM_PRESETS, getRestroomSample, mockSimilarity } from "@/lib/mock/restroom-samples";
@@ -51,7 +53,8 @@ const roadHit = roadResult.ruleHits.find((h) => h.ruleId === "R3")!;
 const faint = RESTROOM_PRESETS.find((p) => p.id === "faint")!;
 const faintA = getRestroomSample(faint.a)!;
 const faintB = getRestroomSample(faint.b)!;
-const signResult = evaluateSignage({ a: faintA.mock, b: faintB.mock, similarity: mockSimilarity(faintA.id, faintB.id) });
+const faintSimilarity = mockSimilarity(faintA.id, faintB.id);
+const signResult = evaluateSignage({ a: faintA.mock, b: faintB.mock, similarity: faintSimilarity });
 const signHit = signResult.ruleHits.find((h) => !h.passed)!;
 
 const STEPS = [
@@ -270,6 +273,7 @@ export default function LandingPage() {
               ruleId={roadHit.ruleId}
               title={roadHit.title}
               detail={roadHit.detail}
+              marks={roadHitMarks(roadHit)}
               effect={`+${roadHit.points} points`}
               outcome={
                 <>
@@ -284,6 +288,7 @@ export default function LandingPage() {
               ruleId={signHit.ruleId}
               title={signHit.title}
               detail={signHit.detail}
+              marks={signHitMarks(signHit, signResult.doors, faintSimilarity)}
               effect="Failed"
               outcome={
                 <>
@@ -440,45 +445,6 @@ function ModuleCard({
           <cta.icon aria-hidden /> {cta.label}
         </ButtonLink>
       </div>
-    </article>
-  );
-}
-
-function RuleHitCard({
-  module,
-  context,
-  ruleId,
-  title,
-  detail,
-  effect,
-  outcome,
-  href,
-}: {
-  module: ModuleId;
-  context: string;
-  ruleId: string;
-  title: string;
-  detail: string;
-  effect: string;
-  outcome: ReactNode;
-  href: string;
-}) {
-  return (
-    <article className="grid content-start gap-4 rounded-lg border border-border bg-surface p-6">
-      <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">
-        {MODULES[module].name} · {context}
-      </p>
-      <div className="rounded-md bg-inverse p-4 font-mono text-sm leading-relaxed text-inverse-fg">
-        <p>
-          <span className="opacity-70">{ruleId}</span> {title}
-        </p>
-        <p className="mt-1 opacity-85">{detail}</p>
-        <p className="mt-2 font-semibold">→ {effect}</p>
-      </div>
-      <p className="flex flex-wrap items-center gap-2 text-sm">{outcome}</p>
-      <Link href={href} className="text-sm font-medium text-accent-ink underline underline-offset-2">
-        Change the thresholds and watch the result move
-      </Link>
     </article>
   );
 }
