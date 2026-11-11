@@ -497,6 +497,8 @@ html[data-motion="reduce"] .how-steps > li::before {
   position: absolute;
   top: 0;
   left: 0;
+  /* Above the active link's background (the links are position: relative). */
+  z-index: 1;
   width: 0.25rem;
   border-radius: var(--radius-full);
   background: var(--accent);
