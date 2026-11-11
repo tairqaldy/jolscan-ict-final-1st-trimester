@@ -2,7 +2,7 @@
 
 import { ImageOff } from "lucide-react";
 import { motion, useReducedMotionConfig } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 import { duration, ease } from "@/lib/motion";
 import { useHydrated } from "@/lib/store/local-store";
@@ -87,6 +87,8 @@ export function DetectionOverlay({
   className?: string;
 }) {
   const reduce = useReducedMotionConfig();
+  // Prefix for the mask ids of the dashed boxes; useId may contain characters that url(#…) dislikes.
+  const maskPrefix = `overlay${useId().replace(/[^\w-]/g, "")}`;
   // Server-rendered boxes are drawn at once (visible without JS); only overlays
   // mounted later in the browser, or replayed, animate in.
   const hydrated = useHydrated();
@@ -156,6 +158,11 @@ export function DetectionOverlay({
           const tagH = font * 1.5;
           const { x: tagX, y: tagY } = placeTag({ x, y, h }, { w: tagW, h: tagH }, { w: W, h: H });
           const delay = animate ? 0.25 + i * 0.18 : 0;
+          const fill = active ? "var(--box-fill-active)" : "transparent";
+          const strokeWidth = active ? stroke * 1.6 : stroke;
+          const dash = review || ignored ? `${stroke * 4} ${stroke * 2.5}` : undefined;
+          const draw = { duration: duration.draw, delay, ease: ease.emphasized };
+          const maskId = `${maskPrefix}-draw-${i}`;
           return (
             <g
               key={d.id}
@@ -165,20 +172,56 @@ export function DetectionOverlay({
             >
               {/* Dark under-stroke keeps boxes visible on light and dark photos. */}
               <rect x={x} y={y} width={w} height={h} fill="none" stroke="var(--box-halo)" strokeWidth={stroke * HALO_SCALE} rx={stroke} />
-              <motion.rect
-                x={x}
-                y={y}
-                width={w}
-                height={h}
-                rx={stroke}
-                fill={active ? "var(--box-fill-active)" : "transparent"}
-                stroke={colour}
-                strokeWidth={active ? stroke * 1.6 : stroke}
-                strokeDasharray={review || ignored ? `${stroke * 4} ${stroke * 2.5}` : undefined}
-                initial={animate ? { pathLength: 0, opacity: 0 } : false}
-                animate={{ pathLength: 1, opacity: 1 }}
-                transition={{ duration: duration.draw, delay, ease: ease.emphasized }}
-              />
+              {dash ? (
+                <>
+                  {/* Review and ignored boxes are dashed. motion's pathLength writes its own
+                      stroke-dasharray (one solid dash), so the box is a plain dashed rect and the
+                      draw-in runs on a mask that uncovers it along its outline. With reduced
+                      motion the mask is full from the start. */}
+                  <mask id={maskId} maskUnits="userSpaceOnUse" x={0} y={0} width={W} height={H}>
+                    <motion.rect
+                      x={x}
+                      y={y}
+                      width={w}
+                      height={h}
+                      rx={stroke}
+                      fill="none"
+                      stroke="white"
+                      strokeWidth={stroke * 2}
+                      initial={animate ? { pathLength: 0, opacity: 0 } : false}
+                      animate={{ pathLength: 1, opacity: 1 }}
+                      transition={draw}
+                    />
+                  </mask>
+                  <rect x={x} y={y} width={w} height={h} rx={stroke} fill={fill} />
+                  <rect
+                    x={x}
+                    y={y}
+                    width={w}
+                    height={h}
+                    rx={stroke}
+                    fill="none"
+                    stroke={colour}
+                    strokeWidth={strokeWidth}
+                    strokeDasharray={dash}
+                    mask={`url(#${maskId})`}
+                  />
+                </>
+              ) : (
+                <motion.rect
+                  x={x}
+                  y={y}
+                  width={w}
+                  height={h}
+                  rx={stroke}
+                  fill={fill}
+                  stroke={colour}
+                  strokeWidth={strokeWidth}
+                  initial={animate ? { pathLength: 0, opacity: 0 } : false}
+                  animate={{ pathLength: 1, opacity: 1 }}
+                  transition={draw}
+                />
+              )}
               <motion.g
                 initial={animate ? { opacity: 0 } : false}
                 animate={{ opacity: 1 }}
