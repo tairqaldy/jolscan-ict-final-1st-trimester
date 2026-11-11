@@ -27,7 +27,7 @@ Total about 8:10. If Rehearsal 1 runs long, merge slides 10 and 11. If the potho
 
 ## Backup slides index (Task R-26)
 
-Backup slides after the closing are numbered B1–B11. Each slide has at most five lines, a visible slide number for rapid navigation ("Backup B6, please"), and an explicit `Sources:` line naming primary evidence files.
+Backup slides after the closing are numbered B1–B11. Each slide has at most five lines, a visible slide number for rapid navigation ("Backup B6, please"), and an explicit `Sources:` line naming primary evidence files. B1–B5 are in the deck (`docs/deck/SLIDES.md`, written by `docs/deck/make_deck.py`). B6–B11 are notes in this file until they are added to `make_deck.py`; `SLIDES.md` is regenerated on every build, so they cannot be typed into it.
 
 | # | Backup Slide Title | Speaker | Primary Trigger Question | Evidence Files |
 |---|---|---|---|---|
@@ -36,11 +36,11 @@ Backup slides after the closing are numbered B1–B11. Each slide has at most fi
 | **B3** | Training curves (box, cls, dfl loss) | Amina | "Show training convergence and overfitting" | `ml/results/runs/`, `ml/README.md` |
 | **B4** | Rules, size bands & worked calculation | Amina | "Explain R1–R6 rules and small-detection cap" | `docs/RULES.md`, `ml/results/pothole_area_clusters.json` |
 | **B5** | Restroom approaches & final pipeline | Nazar | "How does the two-step matching pipeline work?" | `ml/results/restroom/pipeline.json`, `docs/ML-EXPERIMENT-RESTROOM.md` |
-| **B6** | **CLO 5: Methods & quality metrics** | Amina / Nazar | "How do your methods satisfy CLO 5 criteria?" | Syllabus p.3, `docs/ML-EXPERIMENT.md`, `ml/results/restroom/runs/R1.json` |
-| **B7** | **CLO 6: Working prototype & verification** | Tair / Alizhan / Roma | "Prove the prototype works and tests pass" | Syllabus p.3, `api/main.py`, `.github/workflows/ci.yml`, `docs/QA-SCRIPTS.md` |
+| **B6** | **CLO 5: Methods & quality metrics** | Amina / Nazar | "How do your methods satisfy CLO 5 criteria?" | Syllabus p.2, `docs/ML-EXPERIMENT.md`, `ml/results/restroom/runs/R1.json` |
+| **B7** | **CLO 6: Working prototype & verification** | Tair / Alizhan / Roma | "Prove the prototype works and tests pass" | Syllabus p.2, `api/main.py`, `.github/workflows/ci.yml`, `docs/QA-SCRIPTS.md` |
 | **B8** | **CLO 7: Generative AI evaluation & error log** | Roma | "What did AI get wrong and how did you verify it?" | Syllabus p.3, `docs/research/vlm-evaluation.md`, `docs/AI-USAGE-LOG.md` |
 | **B9** | System architecture & API contracts | Alizhan / Tair | "Show component connections and JSON shapes" | `docs/ARCHITECTURE.md`, `api/schemas.py` |
-| **B10** | Error analysis & failure distributions | Amina / Nazar | "Where do models fail on real road/sign data?" | `data/README.md`, `data/exports/potholes_yolo_v1/condition_tags.csv` |
+| **B10** | Errors on the test split | Amina / Nazar | "Where do models fail on real road/sign data?" | `ml/results/operating_point.json`, `data/README.md` |
 | **B11** | Target database schema (Target, not built) | Tair | "Where is persistent inspection data stored?" | `docs/PLAN.md` section 2, `docs/ARCHITECTURE.md` section 4 |
 
 ---
@@ -103,14 +103,14 @@ Working snapshot copied from `docs/deck/SLIDES.md` at commit `1c28a49`. The fina
 
 > We used Claude Code, Codex and Copilot to write and review code, draft documents and check text against our results. Every use is logged with its prompt and check: 112 entries, and every number here is traced to a committed file. We also audited Gemini and Claude on 20 IOAI signs: each named the gender correctly on 17. Our CLIP gets 0.756 on all 328 training signs; 20 signs are too few to rank them. Next, the limits.
 
-**AI errors and verification (R-41, CLO 7):** Eight verified failure cases (from training path crashes and false-alarm scoring to Gemini metadata leakage) are documented in [`docs/AI-USAGE-LOG.md`](AI-USAGE-LOG.md); every critical claim is checked by empirical measurement, primary sources, or code review (Lec7 p64, p70).
+**AI errors and verification (R-41, CLO 7):** six cases where an AI tool was wrong, each with the check that caught it (a primary source, a measurement or a second reviewer), are in [`docs/AI-USAGE-LOG.md`](AI-USAGE-LOG.md), section 'What the AI tools got wrong'. The lesson is Lec7 p64 ("Verify important claims") and p70 ("Choose evidence over fluency").
 
 ### 11. Limitations and next steps
 **Speaker and budget:** Roma · **budget** 0:25 · **script** 50 words, about 0:23
 
 > Three limits. Box area is not physical size: a far pothole looks small. The restroom data has 82 training restrooms and two classes, so accessible and all-gender signs are missing. And none of our road photos are from Kazakhstan. Next: screened local photos, and accessible and all-gender signs. Tair closes.
 
-**Privacy & legal grounding (R-45, CLO 7):** Local model execution by default and browser EXIF stripping ensure road uploads with potential pedestrian faces or license plates do not leave the machine to external AI APIs, complying with Kazakhstan Law No. 94-V and Syllabus p.9 (note: face blurring is an unbuilt future milestone). Complete 5-row classification policy in [`docs/research/privacy-and-law.md`](research/privacy-and-law.md).
+**Privacy and law (R-45, CLO 7):** road photos never go to an external AI service (Syl p.9). The app's default provider is the mock; real analysis runs on our API on the presenting laptop, and the browser re-encodes uploads, which drops EXIF and GPS (on by default, a Settings switch). Face and plate blurring is not built. Personal data falls under Law No. 94-V; the five-row policy is in [`docs/research/privacy-and-law.md`](research/privacy-and-law.md).
 
 ### 12. Closing
 **Speaker and budget:** Tair · **budget** 0:10 · **script** 21 words, about 0:10
@@ -350,112 +350,113 @@ At most three sentences each, as R-13 asks. The audit report (R-6, `docs/researc
 
 ## Backup slide details (Task R-26)
 
+Checked against the result files on 12 November 2026 (Tair). B1–B5 match the generated deck; B6–B11 are notes only.
+
 ### Backup B1 · Full pothole metrics table
 **Speaker:** Amina · **budget** on request
-**Title:** All 9 pothole runs: complete validation and test metrics
+**Title:** All 9 pothole runs: validation and test metrics
 **On the slide:**
-- All 9 runs: E0 baseline, E1 model width, E2 random weights, E3 frozen backbone, E4 AdamW, E5 augmentations off, E6 960px, E7 P2 head, E8 champion combination.
-- Metrics reported: test mAP50, test mAP50-95, precision and recall at τ = 0.40, model size (MB).
-- Selection rule: highest validation mAP50, breaking ties by validation recall at τ = 0.40.
-- Result: E8 is identical to E0 because no single intervention beat baseline mAP50 on validation.
-**Sources:** `ml/results/experiments.csv` (all rows) · `docs/ML-EXPERIMENT.md` ('What to report' and 'Selection rule')
+- All 9 runs: E0 baseline, E1 model width (small), E2 random weights, E3 frozen backbone, E4 AdamW, E5 augmentations off, E6 960 px, E7 P2 head, E8 combination.
+- Columns: validation mAP50 and recall at 0.40; test mAP50, mAP50-95, precision and recall at 0.40; model size (MB).
+- Selection rule: highest validation mAP50; runs within 0.01 of the best count as tied, and the tie goes to the higher validation recall at 0.40.
+- Result: E0, E1, E4, E6 and E8 tie; E1 has the highest validation recall (0.738), so the app serves E1. E8 uses the E0 settings because no single change beat E0 by more than 0.01.
+**Sources:** `ml/results/experiments.csv` (all rows) · `docs/ML-EXPERIMENT.md` ('Selection rule')
 
 ### Backup B2 · Operating point
 **Speaker:** Amina · **budget** on request
-**Title:** Pothole detector performance at the operating threshold (τ = 0.40)
+**Title:** E1 at the app's threshold (0.40), on the test split
 **On the slide:**
-- Confusion counts on 100 test photos (236 potholes): TP = 176, FP = 30, FN = 60.
-- Summary metrics: Precision = 0.854, Recall = 0.746, F1 = 0.796 at IoU = 0.50.
-- Right panel shows Ultralytics precision-recall curve on test split (mAP50 = 0.816).
-- Operating rationale: τ = 0.40 balances hazard identification against municipal dispatch false-alarm costs.
-**Sources:** `ml/results/operating_point.json` (tp, fp, fn, precision, recall, f1) · `docs/ML-EXPERIMENT.md` ('Operating point') · `ml/results/experiments.csv`
+- 100 test photos, 236 potholes: found 176, false alarms 30, missed 60.
+- Precision 0.854, recall 0.746, F1 0.796 (IoU 0.5, each labelled box matched once).
+- Right: Ultralytics' precision-recall curve for E1 on test; its legend rounds mAP50 to 0.816 (experiments.csv: 0.8155).
+- 0.40 is the threshold the app counts at. A missed pothole costs more than a false alarm, so recall breaks ties.
+**Sources:** `ml/results/operating_point.json` (tp, fp, fn, precision, recall, f1) · `docs/ML-EXPERIMENT.md` ('Operating point', 'Selection rule') · `ml/results/experiments.csv`
 
 ### Backup B3 · Training loss curves
 **Speaker:** Amina · **budget** on request
-**Title:** Training dynamics: training vs validation box loss across runs
+**Title:** Training against validation box loss
 **On the slide:**
-- E0 vs E2 vs E5 box loss progression over 50 epochs.
-- E2 (random initialization) starts with elevated loss and converges slower, proving transfer learning value.
-- E5 (no augmentations) exhibits flat validation loss while training loss collapses, illustrating overfitting.
-- Early stopping and checkpointing: best weights selected by validation loss before divergence.
-**Sources:** `ml/results/runs/` (E0, E2, E5 results.csv) · `ml/README.md` ('Deck plots')
+- E0, E2 and E5 over their 40 epochs.
+- E2 trains from random weights, so its loss starts high (train 3.70, validation 3.81 in epoch 1).
+- E5 (augmentations off): training loss falls from 1.66 to 0.29, validation loss never improves on epoch 1 (1.38, ends at 1.52). That is overfitting.
+**Sources:** `ml/results/runs/E0-results.csv`, `E2-results.csv`, `E5-results.csv` (`train/box_loss`, `val/box_loss`)
 
 ### Backup B4 · Rules, size bands and worked example
 **Speaker:** Amina · **budget** on request
-**Title:** Pothole severity scoring: K-means size bands and deterministic rules
+**Title:** Pothole severity: k-means size bands and fixed rules
 **On the slide:**
-- K-means (k=3) on 1,198 training boxes: small < 1.15%, medium 1.15%–7.27%, large ≥ 7.27% of image area.
-- Worked example: 1 large in-lane (4×1.5=6), 1 medium in-lane (2×1.5=3), 1 small off-lane (min(1,2)=1).
-- Subtotal: 6 + 3 + 1 = 10 points. No cluster bonus (< 3 medium/large boxes).
-- Highway road class multiplier (×1.5) yields final score 15 → Critical severity (SLA: repair within 24 h).
-**Sources:** `ml/results/pothole_area_clusters.json` · `docs/RULES.md` (Part 1, Worked Example A) · `web/lib/rules/config.ts`
+- k-means (k = 3) on 1,198 training boxes: small below 1.15 %, medium 1.15–7.27 %, large from 7.27 % of image area.
+- Worked example: 1 large in the lane (4 × 1.5 = 6), 1 medium in the lane (2 × 1.5 = 3), 1 small off the lane (min(1, 2) = 1).
+- Subtotal 6 + 3 + 1 = 10. No cluster bonus (needs 3 medium or large boxes).
+- Highway × 1.5 → 15 → critical: repair within 24 h.
+**Sources:** `ml/results/pothole_area_clusters.json` · `docs/RULES.md` (part 1, worked example A) · `web/lib/rules/config.ts`
 
 ### Backup B5 · Restroom approaches and final pipeline
 **Speaker:** Nazar · **budget** on request
-**Title:** Restroom sign matching: from zero-shot baseline to two-stage pipeline
+**Title:** Restrooms: from the IOAI baseline to the two-step pipeline
 **On the slide:**
-- Baseline: zero-shot CLIP ViT-B/32 achieves 0.767 matching accuracy on test.
-- Final pipeline: Step 1 SIFT + pixel difference check; Step 2: 0.3 × color histogram + 0.7 × CLIP cosine similarity.
-- Optimization: Hungarian global assignment matches all queries simultaneously, reaching 30/30 (1.000) on test.
-- Validation assurance: pipeline chosen on 200 training episodes (0.960 ± 0.041); test split evaluated only once.
-**Sources:** `ml/results/restroom/pipeline.json` · `docs/ML-EXPERIMENT-RESTROOM.md` ('The final pipeline') · `api/restroom_pipeline.py`
+- Baseline (R0, the IOAI one): zero-shot CLIP ViT-B/16, 23 of 30 test queries (0.767).
+- Step 1: SIFT and a pixel check find the crop's original. Step 2: 0.3 × colour histogram + 0.7 × CLIP (z-scored) finds its partner. One global assignment (Hungarian) for all queries.
+- Chosen on 200 training episodes (0.960 ± 0.041), then validation; the test split was read once: 30/30.
+**Sources:** `ml/results/restroom/pipeline.json` · `ml/results/restroom/experiments.csv` (R0, R7) · `docs/ML-EXPERIMENT-RESTROOM.md` ('The final pipeline') · `api/restroom_pipeline.py`
 
-### Backup B6 · CLO 5: Machine learning methods & quality metrics
+### Backup B6 · CLO 5: Machine learning methods and quality metrics
 **Speaker:** Amina / Nazar · **budget** on request
-**Title:** CLO 5: "Classification and clustering applied correctly, with a justified quality metric" (Syl p.3)
+**Title:** CLO 5: classification and clustering on a prepared dataset, assessed on "the correctness of the method chosen and the justification of the quality metric" (Syl p.2)
 **On the slide:**
-- Potholes: detection framed as per-box classification; mAP50 primary metric, recall at τ = 0.40 tie-breaker (`docs/ML-EXPERIMENT.md`).
-- Restrooms matching: top-1 retrieval accuracy on IOAI benchmark (`docs/ML-EXPERIMENT-RESTROOM.md`).
-- Restrooms gender: logistic regression probe with 5-fold cross-validation grouped by restroom ID (`ml/results/restroom/runs/R1.json`).
-- Clustering: K-means (k=3) on log-transformed box areas yields empirical size thresholds 1.15% and 7.27% (`docs/RULES.md`, D-11).
-**Sources:** `docs/ML-EXPERIMENT.md` ('How this fits CLO 5') · `docs/ML-EXPERIMENT-RESTROOM.md` · `ml/results/restroom/runs/R1.json` · `docs/RULES.md` (D-11) · `ml/results/pothole_area_clusters.json` · Syllabus p.3 (CLO 5)
+- Potholes: a YOLO detector; mAP50 on validation picks the model, recall at 0.40 breaks ties (a miss costs more than a false alarm).
+- Restroom matching: top-1 accuracy on the IOAI queries (the contest's own metric).
+- Restroom gender: the app serves zero-shot CLIP prompts, 0.756 on all 328 training signs; a logistic probe gets 0.741 in 5-fold cross-validation grouped by restroom.
+- Clustering: k-means (k = 3) on log box area gives the size bands 1.15 % and 7.27 %.
+**Sources:** `docs/ML-EXPERIMENT.md` ('Selection rule') · `docs/ML-EXPERIMENT-RESTROOM.md` · `ml/results/restroom/runs/R1.json` (`zero_shot_prompts.accuracy`, `probe_lr.accuracy`) · `ml/restroom/common.py` (GroupKFold) · `ml/results/pothole_area_clusters.json` · Syllabus p.2 (CLO 5)
 
-### Backup B7 · CLO 6: Working prototype, documentation & verification
+### Backup B7 · CLO 6: Working prototype, documentation and verification
 **Speaker:** Tair / Alizhan / Roma · **budget** on request
-**Title:** CLO 6: "Working prototype, complete documentation, quality of defense" (Syl p.3)
+**Title:** CLO 6: a working prototype, documented and defended, assessed on "the working state of the prototype, completeness of documentation and quality of the defence" (Syl p.2)
 **On the slide:**
-- Working prototype: Next.js frontend with local FastAPI model service serving YOLO (`jolscan-e1.pt`) and CLIP ViT-B/32 (`api/main.py`, `web/`).
-- Documentation: exhaustive document map and 38-term cross-lane defense glossary (`docs/README.md`, `docs/research/glossary.md`).
-- Quality gates: GitHub Actions CI with 3 parallel workflows (`web`, `python`, `up-to-date`) running 30+ Vitest tests (`.github/workflows/ci.yml`).
-- Verification: 14 manual QA test scripts, 18 defense answers, and rehearsed incident recovery runbooks (`docs/QA-SCRIPTS.md`, `docs/DEFENSE-QA.md`).
-**Sources:** `docs/README.md` · `api/main.py` · `.github/workflows/ci.yml` · `docs/QA-SCRIPTS.md` (TS-01 through TS-14) · `docs/DEFENSE-QA.md` · `docs/DEFENSE-RUNBOOK.md` · Syllabus p.3 (CLO 6)
+- Prototype: Next.js web app and a FastAPI model service with YOLO (`jolscan-e1.pt`) and CLIP ViT-B/32.
+- Documentation: the document map and a 38-term glossary (`docs/README.md`, `docs/research/glossary.md`).
+- Checks: one CI workflow with three jobs (`web`: lint, types, Vitest, build; `python`: result checks and API tests; `up-to-date`).
+- Verification: 14 manual test scripts (TS-01 to TS-14), 18 prepared answers (Q1 to Q18) and a defense runbook.
+**Sources:** `docs/README.md` · `api/main.py` · `.github/workflows/ci.yml` · `docs/QA-SCRIPTS.md` · `docs/DEFENSE-QA.md` · `docs/DEFENSE-RUNBOOK.md` · Syllabus p.2 (CLO 6)
 
-### Backup B8 · CLO 7: Generative AI evaluation & error registry
+### Backup B8 · CLO 7: Evaluating generative AI tools
 **Speaker:** Roma · **budget** on request
-**Title:** CLO 7: "Evaluate generative AI tools, their limits and risks, with a verification procedure" (Syl p.3)
+**Title:** CLO 7: "identifying their limitations, errors, and ethical and legal risks", assessed on "the rigour of the verification procedure and the strength of the conclusion" (Syl p.3)
 **On the slide:**
-- Empirical VLM audit: comparative benchmark of Gemini Auto vs Claude 3.5 Sonnet across 20 IOAI signs; both 85.0% (`docs/research/vlm-evaluation.md`).
-- Verified error registry: 8 real-world AI failure cases documented with exact files, commits, and detection checks (`docs/AI-USAGE-LOG.md`).
-- Course principle: strict protocol requiring empirical measurement and primary source checks before adoption (Lec7 p64, p70).
-- Privacy compliance: absolute restriction barring submission of biometric faces and license plates to external cloud AI (`data/README.md`, D-12).
-**Sources:** `docs/research/vlm-evaluation.md` · `docs/AI-USAGE-LOG.md` · `data/README.md` (D-12) · `docs/PRESENTATION.md` Slide 10 · Syllabus p.3 (CLO 7), p.9 (AI level 3)
+- Audit: Gemini and Claude (free web chats) each named the gender of 17 of 20 IOAI signs; 20 signs are too few to rank them.
+- Six cases where an AI tool was wrong, each with the check that caught it (`docs/AI-USAGE-LOG.md`).
+- Rule we follow: verify important claims, choose evidence over fluency (Lec7 p64, p70).
+- Privacy: no personal or biometric data to external AI services (Syl p.9); the audit used only IOAI icons.
+**Sources:** `docs/research/vlm-evaluation.md` · `docs/AI-USAGE-LOG.md` ('What the AI tools got wrong') · `docs/research/privacy-and-law.md` · Syllabus p.3 (CLO 7), p.9
 
-### Backup B9 · System architecture & API contracts
+### Backup B9 · System architecture and API contracts
 **Speaker:** Alizhan / Tair · **budget** on request
-**Title:** Architecture: dual-model pipeline, three providers, and OpenAPI contracts
+**Title:** Architecture: two models, three providers, one JSON contract
 **On the slide:**
-- Three runtime providers: `mock` (offline canned demo default), `local` (FastAPI localhost:8000), `cloud` (Hugging Face Space).
-- Contract schemas: `InferenceResult`, `CompareResult`, `MatchResult` shared between FastAPI and Next.js (`api/schemas.py`).
-- Threaded model execution: inference isolated in background worker threadpool to keep `/health` liveness responsive under load.
-- Failover safety: graceful degradation with immediate user warning and one-click fallback to mock provider (`docs/QA-SCRIPTS.md`, TS-11).
-**Sources:** `docs/ARCHITECTURE.md` (section 1 system diagram, section 2 JSON contracts) · `api/schemas.py` · `api/main.py` · `docs/QA-SCRIPTS.md` (TS-01, TS-11)
+- Providers: `mock` (canned results, the default), `local` (FastAPI on the laptop, port 8000), `cloud` (opt-in: a hosted model service at `CLOUD_MODEL_API_URL`, our API on a Hugging Face Space or Roboflow's hosted API).
+- Contracts: `InferenceResult`, `CompareResult`, `MatchResult` (`api/schemas.py`), mirrored in the web app's types.
+- Model calls run in a thread pool (`run_in_threadpool`), so `/health` still answers during a prediction.
+- If the API cannot be reached, the app says so and how to fix it, or to switch to the mock provider in Settings (TS-11).
+**Sources:** `docs/ARCHITECTURE.md` (sections 1, 2) · `api/schemas.py` · `api/main.py` · `web/lib/providers/` · `docs/QA-SCRIPTS.md` (TS-11)
 
-### Backup B10 · Error analysis & failure distributions
+### Backup B10 · Errors on the test split
 **Speaker:** Amina / Nazar · **budget** on request
-**Title:** Failure modes: where YOLO and CLIP fail on real road and signage data
+**Title:** Where the models are wrong, and what we have not measured
 **On the slide:**
-- Pothole false alarms: primarily small shadow patches, wet road reflections, and manhole covers; mitigated by small-box score cap.
-- Pothole misses: distant low-resolution road defects and camera blur; recall drops on overexposed or rain-soaked surfaces.
-- Signage failures: abstract symbolic representations (e.g. A17 robot figure) and unconventional artistic silhouettes.
-- Blinding check: test split evaluated strictly after hyperparameter freeze, preserving honest empirical error rates.
-**Sources:** `data/README.md` (D-2 visual review notes) · `data/exports/potholes_yolo_v1/condition_tags.csv` · `docs/research/vlm-evaluation.md` · `ml/results/operating_point.json`
+- Potholes at 0.40: 30 false alarms and 60 missed potholes out of 236 (per photo in `operating_point.json`).
+- We have not sorted these errors by cause. `docs/RULES.md` assumes false alarms are mostly small (shadows, patches, manhole covers), which is why small boxes are capped; that is an assumption, not a measurement.
+- Labels: the D-2 review found shadows or water blurring box boundaries in some photos (`img-213`, `img-25`; `img-352`, `img-412`, `img-409`, `img-448`).
+- Restrooms: 30/30 on test leaves no test error to show; in the R-6 audit both VLMs got A17, a blocky robot figure, wrong.
+**Visual:** none committed yet.
+**Sources:** `ml/results/operating_point.json` · `docs/RULES.md` (small-detection cap) · `data/README.md` (D-2 review) · `docs/research/vlm-evaluation.md`
 
-### Backup B11 · Target database schema (target architecture, not built)
+### Backup B11 · Data model (target, not built)
 **Speaker:** Tair · **budget** on request
-**Title:** Data persistence schema: target municipal deployment architecture (not built)
+**Title:** Where data lives today, and the database we did not build
 **On the slide:**
-- Academic scope: in accordance with `docs/PLAN.md` section 2, persistent database backend was scoped as target, not built.
-- Current persistence: browser local storage for client session history, local CSV audit logs for FastAPI inference calls.
-- Target schema: relational entities for `inspections`, `detections`, `road_segments`, `repair_tickets`, and `audit_events`.
-- Dispatch integration: foreign key relationships connecting model confidence scores to municipal work-order SLA timers.
-**Sources:** `docs/PLAN.md` (section 2, out-of-scope boundaries) · `docs/ARCHITECTURE.md` (section 4, target schema) · `api/main.py` (_log_prediction)
+- Not built: a real database is out of scope (PLAN.md section 2).
+- Today: reports and checks stay in the browser's localStorage. The API appends one CSV line per prediction (time, latency, number of boxes, mean confidence, model, provider) only when `PREDICT_LOG_PATH` is set, and never stores the image.
+- Target schema (ARCHITECTURE.md section 4): `photos`, `analyses`, `detections`, `rules`, `rule_hits`. Each analysis keeps provider, model, latency, severity and score.
+- `rule_hits` stores the points each rule gave, so a score can be explained later.
+**Sources:** `docs/PLAN.md` (section 2, out of scope) · `docs/ARCHITECTURE.md` (section 4) · `api/main.py` (`_log_prediction`)

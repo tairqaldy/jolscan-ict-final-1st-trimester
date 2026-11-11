@@ -41,7 +41,7 @@ Every photo in the 100-image test split contains at least one pothole, so a triv
 *Confirmed by: Amina (data and rules)*
 
 ### Q10. Exactly what code and documentation did AI tools write, and what did team members write?
-All AI tool interactions are recorded with dates, prompts, and verified error cases in [`docs/AI-USAGE-LOG.md`](AI-USAGE-LOG.md) as required by syllabus AI level 3. AI assistants generated scaffold boilerplate, documentation outlines, and unit test skeletons, but all model weights, evaluation metrics, and architectural decisions were executed and verified by team members. Furthermore, six documented instances of AI hallucinations were identified and manually corrected during development ([`docs/AI-USAGE-LOG.md`](AI-USAGE-LOG.md)).
+Every AI use is logged with the tool, the prompt, what it produced and how it was checked in [`docs/AI-USAGE-LOG.md`](AI-USAGE-LOG.md), as AI level 3 requires (Syl p.9). We used Claude Code, Codex, Copilot and Antigravity to write and review code, draft documents and check text against our results. The team chose the dataset, ran the training, picked the model by the selection rule and checked every number on the slides against a committed file. The log's section 'What the AI tools got wrong' lists six cases and the check that caught each.
 *Confirmed by: Roma (research) & Tair (coordination)*
 
 ### Q11. Why did you use K-means clustering on box area to define pothole size bands instead of standard civil engineering measurements?
