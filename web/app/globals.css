@@ -484,3 +484,49 @@ html[data-motion="reduce"] .how-steps > li::before {
     transition: none;
   }
 }
+
+/*
+ * G-74: the app rail's active bar and the Roads / Restrooms thumb move to the
+ * new item instead of jumping (components/app/app-shell.tsx). Transform only,
+ * --duration-base with --ease-emphasized (lib/motion.ts). The transition is
+ * switched on by data-nav-ready on .app-frame one frame after the shell has
+ * mounted, so nothing moves on page load. Reduced motion (OS setting or the
+ * G-64 switch): no transition, the bar and the thumb sit on the new item at once.
+ */
+.rail-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0.25rem;
+  border-radius: var(--radius-full);
+  background: var(--accent);
+  pointer-events: none;
+}
+.rail-indicator[data-hidden] {
+  opacity: 0;
+}
+/* The per-link bar is the no-JS fallback; hidden once the moving bar is placed. */
+[data-rail-indicator] .rail-static-bar {
+  visibility: hidden;
+}
+.module-thumb {
+  position: absolute;
+  pointer-events: none;
+  transform: translateX(calc(var(--module-index, 0) * (100% + var(--module-gap, 0px))));
+}
+.app-frame[data-nav-ready] .rail-indicator,
+.app-frame[data-nav-ready] .module-thumb {
+  transition:
+    transform var(--duration-base) var(--ease-emphasized),
+    opacity var(--duration-fast) var(--ease-standard);
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-frame[data-nav-ready] .rail-indicator,
+  .app-frame[data-nav-ready] .module-thumb {
+    transition: none;
+  }
+}
+html[data-motion="reduce"] .app-frame[data-nav-ready] .rail-indicator,
+html[data-motion="reduce"] .app-frame[data-nav-ready] .module-thumb {
+  transition: none;
+}
