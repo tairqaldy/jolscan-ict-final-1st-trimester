@@ -12,6 +12,22 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 19:18 · G-60 (#294) · One landing effect kept: the step line on How it works
+- **Status:** done
+- **What I did:**
+  - Tried three effects on the How it works steps on a temporary route, next to A (no effect): B the Magic UI Animated Beam, C a CSS-only step line, D the React Bits Spotlight Card. B and D were rewritten by hand with our tokens, not copied.
+  - Screenshots of all four at 1440 and 375 px in light and dark, plus frame strips of C while scrolling and of B while it draws (`docs/design/landing-effect-g60/`).
+  - Kept C: a 2 px accent line on top of each step that fills in step order as the list scrolls in (`web/app/globals.css`, class `how-steps` on the list in `web/app/page.tsx`). Deleted the temporary route.
+  - Wrote `docs/design/borrowed.md` (licence, dependencies and result per variant) and a test that the line stops under both reduced-motion paths and never loops.
+- **Result:** on `/` the line runs on a `view()` scroll timeline; at 1440 px the four steps fill one after another and are full when the list top reaches about half the screen. With the OS setting or the Settings switch "Reduce motion" every line has `animation-name: none` and is simply drawn. Layout shift while scrolling through the section: 0 in all cases. Copy, the Demo badge and the two demo players with their Pause buttons are unchanged. `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` (194 tests) and `pnpm build` pass.
+- **Decisions and why:**
+  - C over B: at 375 px the beam runs down through the step text, it needs client JS to measure the path, and the original loops forever with no reduced-motion check.
+  - C over D: the spotlight follows the pointer only, so phones see nothing, and it explains nothing.
+  - Tied to scrolling, not a timed play: it never runs on its own and never loops (ANTI-SLOP.md R7), and it needs no JavaScript.
+- **What I learned / can explain at the defense:** one effect was kept because it explains the pipeline: photo, model, rules, action fill in that order. An effect has to earn its place; the other two were decoration or hurt reading on a phone.
+- **AI use:** Claude Code reviewed the stopped session's work, took the screenshots with Playwright and made the commits (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** not done from the issue: the five references in Drive and `docs/design/references/design-motion.md`, and a Lighthouse run (Lighthouse is not installed; the change adds no JavaScript and no layout shift). Firefox has no scroll timelines yet, so there the line is drawn without motion.
+
 ### 2026-11-11 18:26 · G-44 (#278), G-65 (#330) · One type scale, and every page reflows at 320 px
 - **Status:** done
 - **What I did:**
