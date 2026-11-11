@@ -12,8 +12,8 @@ import { BlankSigns } from "@/components/illustrations";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/cn";
-import { RESTROOM_SAMPLES, getRestroomSample, truePartner } from "@/lib/mock/restroom-samples";
-import { oppositeGender } from "@/lib/signage";
+import { IOAI_GALLERY_MAX, IOAI_MATCH_ACCURACY, IOAI_MATCH_METHODS, SERVED_METHOD, ioaiPicks } from "@/lib/mock/restroom-ioai-match";
+import { RESTROOM_IOAI_CATALOGUE, RESTROOM_IOAI_GROUPS, RESTROOM_SAMPLES, getRestroomSample, truePartner } from "@/lib/mock/restroom-samples";
 import { settingsStore, signageRulesStore } from "@/lib/store/settings";
 import type { Provider, WebMatchResult } from "@/lib/types";
 import type { ApiError } from "@/lib/upload";
@@ -70,8 +70,10 @@ export function MatchClient() {
             <div>
               <CardTitle>Query sign</CardTitle>
               <CardDescription>
-                One door sign. The gallery is the {RESTROOM_SAMPLES.length} bundled samples, minus this one. Local and Cloud rank
-                only the {REAL_SAMPLE_COUNT} real signs: a real model cannot read the drawings.
+                One door sign. For a bundled sample the gallery is the {RESTROOM_SAMPLES.length} bundled samples, minus this
+                one; Local and Cloud rank only the {REAL_SAMPLE_COUNT} real signs, because a real model cannot read the
+                drawings. For an IOAI sign the gallery is up to {IOAI_GALLERY_MAX} signs from its IOAI set, its true partner
+                included.
               </CardDescription>
             </div>
           </CardHeader>
@@ -108,6 +110,33 @@ export function MatchClient() {
           </CardBody>
         </Card>
 
+        <BestPairPanel status={status} />
+      </div>
+
+      {status.state === "done" && ioaiPicks(status.querySampleId) && <ModelComparison querySampleId={status.querySampleId!} />}
+
+      <section aria-labelledby="ranked-h" className="grid gap-4">
+        <h2 id="ranked-h" className="text-2xl font-bold">
+          Ranked gallery
+        </h2>
+        <div ref={resultRef} tabIndex={-1} className="outline-none">
+          {status.state === "done" ? (
+            <MatchResultView result={status.result} querySampleId={status.querySampleId} s3={rules.s3.minSimilarity} />
+          ) : status.state === "loading" ? (
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6" aria-hidden>
+              {Array.from({ length: 6 }, (_, i) => (
+                <Skeleton key={i} className="h-56" />
+              ))}
+            </div>
+          ) : (
+            <EmptyState icon={Search} illustration={<BlankSigns />} title="Nothing ranked yet">
+              Choose a query sign and press Find the counterpart. Every gallery sign appears here, most similar first, with
+              the best match highlighted.
+            </EmptyState>
+          )}
+        </div>
+      </section>
+
         <Callout title="This is the IOAI 2025 task">
           <p>
             “Restroom Icon Matching” from the International Olympiad in AI: given one sign, find the sign of the{" "}
@@ -124,106 +153,34 @@ export function MatchClient() {
             the sample set, two signs of one design set score high and signs from different sets score lower.
           </p>
         </Callout>
-      </div>
-
-      <section aria-labelledby="ranked-h" className="grid gap-4">
-        <h2 id="ranked-h" className="text-2xl font-bold">
-          Ranked gallery
-        </h2>
-        <div ref={resultRef} tabIndex={-1} className="outline-none">
-          {status.state === "done" ? (
-            <MatchResultView result={status.result} queryUrl={status.queryUrl} querySampleId={status.querySampleId} s3={rules.s3.minSimilarity} />
-          ) : status.state === "loading" ? (
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6" aria-hidden>
-              {Array.from({ length: 6 }, (_, i) => (
-                <Skeleton key={i} className="h-56" />
-              ))}
-            </div>
-          ) : (
-            <EmptyState icon={Search} illustration={<BlankSigns />} title="Nothing ranked yet">
-              Choose a query sign and press Find the counterpart. Every gallery sign appears here, most similar first, with
-              the best match highlighted.
-            </EmptyState>
-          )}
-        </div>
-      </section>
     </div>
   );
 }
 
 function MatchResultView({
   result,
-  queryUrl,
   querySampleId,
   s3,
 }: {
   result: WebMatchResult;
-  queryUrl?: string;
   querySampleId?: string;
   s3: number;
 }) {
   const querySample = getRestroomSample(querySampleId);
   const partner = querySample ? truePartner(querySample) : undefined;
-  const best = result.candidates.find((c) => c.id === result.bestMatchId);
-  const bestSample = getRestroomSample(best?.id);
-  const correct = partner && best ? partner.id === best.id : null;
-  const want = oppositeGender(result.query.gender);
+  const genderRule = usesGenderRule(result, querySampleId);
   const raw = useMemo(() => JSON.stringify(result, null, 2), [result]);
 
   return (
     <div className="grid gap-6">
       <ResultProvenanceBadge result={result} className="justify-self-start" />
-      <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-        <Card>
-          <CardBody className="flex gap-4">
-            <SignImage src={queryUrl} alt={querySample?.title ?? "Query sign"} className="w-28 shrink-0" />
-            <div className="grid content-start gap-2">
-              <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">Query</p>
-              <p className="font-medium">{querySample?.title ?? result.queryInput.fileName ?? "Uploaded sign"}</p>
-              <p className="text-sm text-muted">
-                Read as <GenderTag gender={result.query.gender} confidence={result.query.confidence} />
-                {result.provider === "mock"
-                  ? `, so the answer must be ${want}.`
-                  : ". The two-step pipeline picks the answer by design and colour, not by this gender."}
-              </p>
-            </div>
-          </CardBody>
-        </Card>
-        <Card className="border-2 border-accent">
-          <CardBody className="flex gap-4">
-            <SignImage src={bestSample?.file} alt={bestSample?.title ?? "Best match"} className="w-28 shrink-0" />
-            <div className="grid content-start gap-2">
-              <p className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-[0.14em] text-accent-ink uppercase">
-                <Trophy className="size-3.5" aria-hidden /> Best match
-              </p>
-              {best && bestSample ? (
-                <>
-                  <p className="font-medium">{bestSample.title}</p>
-                  <p className="tabular text-sm text-muted">
-                    Similarity <span className="font-mono font-semibold text-fg">{best.similarity.toFixed(2)}</span>, rank{" "}
-                    {result.candidates.indexOf(best) + 1} of {result.candidates.length}
-                  </p>
-                  {correct !== null && (
-                    <p className={cn("inline-flex items-center gap-1.5 text-sm font-medium", correct ? "text-verdict-clear-ink" : "text-verdict-confusing-ink")}>
-                      {correct ? <CircleCheck className="size-4" aria-hidden /> : <CircleX className="size-4" aria-hidden />}
-                      {correct ? "Correct: the other door of the same set" : `Wrong: the true partner is “${partner!.title}”`}
-                    </p>
-                  )}
-                </>
-              ) : (
-                <p className="text-sm text-muted">No gallery sign was read as {want}, so there is no answer.</p>
-              )}
-            </div>
-          </CardBody>
-        </Card>
-      </div>
 
       <ol className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6" aria-label="Gallery, most similar first">
         {result.candidates.map((c, i) => {
           const s = getRestroomSample(c.id);
           const isBest = c.id === result.bestMatchId;
           // Only the mock rule filters by predicted gender; the model service's pipeline does not.
-          const skipped = result.provider === "mock" && c.prediction.gender === result.query.gender;
+          const skipped = genderRule && c.prediction.gender === result.query.gender;
           return (
             <li
               key={c.id}
@@ -273,5 +230,145 @@ function MatchResultView({
         </pre>
       </details>
     </div>
+  );
+}
+
+/** The mock rule filters by predicted gender; the model service, and the mock for IOAI signs, use the pipeline. */
+function usesGenderRule(result: WebMatchResult, querySampleId?: string) {
+  return result.provider === "mock" && !ioaiPicks(querySampleId);
+}
+
+/** Right column: the best pair the model found, side by side, or what will appear there. */
+function BestPairPanel({ status }: { status: Status }) {
+  if (status.state === "loading") return <Skeleton className="min-h-80" />;
+  if (status.state !== "done") {
+    return (
+      <Card className="grid">
+        <CardBody className="grid place-items-center gap-3 text-center">
+          <Trophy className="size-8 text-subtle" aria-hidden />
+          <p className="text-lg font-semibold">The best pair appears here</p>
+          <p className="max-w-sm text-sm text-muted">
+            Choose a query sign and press Find the counterpart: the query and the door the model picks as its other half are
+            shown side by side, with the similarity and whether it is the true partner.
+          </p>
+        </CardBody>
+      </Card>
+    );
+  }
+  const { result, queryUrl, querySampleId } = status;
+  const querySample = getRestroomSample(querySampleId);
+  const partner = querySample ? truePartner(querySample) : undefined;
+  const best = result.candidates.find((c) => c.id === result.bestMatchId);
+  const bestSample = getRestroomSample(best?.id);
+  const correct = partner && best ? partner.id === best.id : null;
+  const genderRule = usesGenderRule(result, querySampleId);
+  return (
+    <Card className="border-2 border-accent">
+      <CardHeader>
+        <div>
+          <CardTitle className="inline-flex items-center gap-2">
+            <Trophy className="size-5 text-accent-ink" aria-hidden /> Best pair
+          </CardTitle>
+          <CardDescription>
+            {genderRule
+              ? "Mock rule: the most similar sign whose predicted gender is opposite to the query's."
+              : "Two-step pipeline: the most similar sign by colour and CLIP; predicted genders are not used."}
+          </CardDescription>
+        </div>
+      </CardHeader>
+      <CardBody className="grid gap-4">
+        <div className="grid grid-cols-2 gap-4">
+          <figure className="grid content-start gap-2">
+            <SignImage src={queryUrl} alt={querySample?.title ?? "Query sign"} />
+            <figcaption className="grid gap-1 text-sm">
+              <span className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">Query</span>
+              <span className="font-medium">{querySample?.title ?? result.queryInput.fileName ?? "Uploaded sign"}</span>
+              <GenderTag gender={result.query.gender} confidence={result.query.confidence} className="w-fit" />
+            </figcaption>
+          </figure>
+          <figure className="grid content-start gap-2">
+            <SignImage src={bestSample?.file} alt={bestSample?.title ?? "Best match"} className={cn(best && "border-accent")} />
+            <figcaption className="grid gap-1 text-sm">
+              <span className="text-xs font-semibold tracking-[0.14em] text-accent-ink uppercase">Its other door</span>
+              {best && bestSample ? (
+                <>
+                  <span className="font-medium">{bestSample.title}</span>
+                  <GenderTag gender={best.prediction.gender} confidence={best.prediction.confidence} className="w-fit" />
+                </>
+              ) : (
+                <span className="text-muted">No answer: no gallery sign qualified.</span>
+              )}
+            </figcaption>
+          </figure>
+        </div>
+        {best && (
+          <p className="tabular text-sm text-muted">
+            Similarity <span className="font-mono font-semibold text-fg">{best.similarity.toFixed(2)}</span>, rank{" "}
+            {result.candidates.indexOf(best) + 1} of {result.candidates.length} by similarity · {result.model}
+          </p>
+        )}
+        {correct !== null && (
+          <p className={cn("inline-flex items-center gap-1.5 text-sm font-medium", correct ? "text-verdict-clear-ink" : "text-verdict-confusing-ink")}>
+            {correct ? <CircleCheck className="size-4" aria-hidden /> : <CircleX className="size-4" aria-hidden />}
+            {correct ? "Correct: the other door of the same restroom" : `Wrong: the true partner is “${partner!.title}”`}
+          </p>
+        )}
+      </CardBody>
+    </Card>
+  );
+}
+
+/** For an IOAI sign: the sign each of our models picks from the same gallery, precomputed offline. */
+function ModelComparison({ querySampleId }: { querySampleId: string }) {
+  const picks = ioaiPicks(querySampleId)!;
+  const query = getRestroomSample(querySampleId);
+  const partner = query ? truePartner(query) : undefined;
+  const group = RESTROOM_IOAI_CATALOGUE.find((s) => s.id === querySampleId)?.group ?? "val";
+  const groupLabel = RESTROOM_IOAI_GROUPS.find((g) => g.id === group)?.label ?? group;
+  return (
+    <section aria-labelledby="models-h" className="grid gap-4">
+      <div>
+        <h2 id="models-h" className="text-2xl font-bold">
+          What each of our models picks
+        </h2>
+        <p className="mt-1 max-w-3xl text-sm text-muted">
+          The same query and the same gallery (its true partner and up to {IOAI_GALLERY_MAX - 1} other signs of the {groupLabel}{" "}
+          set), answered by each model we built or trained. Real outputs computed offline by{" "}
+          <code>ml/restroom/export_match.py</code>. The share is how often the model finds the true partner over every sign
+          of this set.
+        </p>
+      </div>
+      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+        {IOAI_MATCH_METHODS.map((m) => {
+          const pick = getRestroomSample(picks[m.id]);
+          const right = pick && partner ? pick.id === partner.id : false;
+          const acc = IOAI_MATCH_ACCURACY[m.id]?.[group];
+          const served = m.id === SERVED_METHOD;
+          return (
+            <li key={m.id} className={cn("grid content-start gap-2 rounded-lg border bg-surface p-3", served ? "border-2 border-accent" : "border-border")}>
+              <div className="flex flex-wrap items-center gap-1.5">
+                <span className="font-mono text-sm font-semibold">{m.id}</span>
+                {served && <Badge tone="accent">served</Badge>}
+                {m.trained && <Badge tone="outline">trained by us</Badge>}
+              </div>
+              <p className="text-sm font-medium leading-snug">{m.label}</p>
+              <SignImage src={pick?.file} alt={pick?.title ?? "No pick"} />
+              <p className="text-xs text-muted">{pick ? pick.title : "No answer"}</p>
+              <p className={cn("inline-flex items-center gap-1 text-sm font-medium", right ? "text-verdict-clear-ink" : "text-verdict-confusing-ink")}>
+                {right ? <CircleCheck className="size-4" aria-hidden /> : <CircleX className="size-4" aria-hidden />}
+                {right ? "true partner" : "wrong"}
+              </p>
+              {acc !== undefined && (
+                <p className="tabular text-xs text-muted">
+                  {Math.round(acc * 100)}% right on this set
+                  {m.trained && group === "train" ? " (trained on these restrooms: memorised)" : ""}
+                </p>
+              )}
+              <p className="text-xs text-subtle">{m.detail}</p>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
   );
 }

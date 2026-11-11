@@ -291,6 +291,18 @@ Study card for the defense: [ml/restroom/STUDY-CARD.md](../ml/restroom/STUDY-CAR
 ## How it feeds the app
 
 **Live demo on the IOAI data:** `python ml/restroom/demo.py` opens a local Gradio page where you pick a query crop from the validation or test set and the pipeline finds its pair step by step. It runs the same code as `pipeline.py` and reproduces its stored answers (10/10 validation, 30/30 test). On the website, the **IOAI pairs** page (`/app/restrooms/ioai`) shows the same step-by-step result for every validation and test query, from answers stored by `ml/restroom/export_pairs.py` with the IOAI images (CC-BY-4.0, resized). One test restroom (gallery 10 and 47, query 14) is not shown, because its signs carry offensive words; it is still counted in every metric (`HIDDEN` in `export_pairs.py`). The page also has the **training set**: all 164 crops against all 164 originals, one query at a time (the global assignment cannot run there, because each restroom gives two queries), 147/164 right against 80/164 for zero-shot CLIP; optimistic, because the step-2 weight was chosen on these restrooms. Two training restrooms are not shown: 18 (photos of real people with their faces) and 59 (nude figures). On **Compare and Match**, "Choose a sample" now also lists these 238 IOAI signs (`ml/restroom/export_catalogue.py`); with the mock provider their gender, confidence and similarity are real zero-shot CLIP outputs computed on the original images. The test genders were labelled by eye (`test_gallery_labels.csv`; four signs marked unsure, which does not change any pair).
+**Match on any IOAI sign (`ml/restroom/export_match.py`).** For each catalogue sign as a whole-sign query, a gallery from its own IOAI set (its true partner plus up to 58 others, seeded; at most 59, the API's limit) and the pick of each model. Share of queries whose pick is the true partner:
+
+| Model | Validation (20) | Test (58) | Training (160) |
+|---|---|---|---|
+| R1 zero-shot CLIP, most similar | 0.95 | 0.97 | 0.85 |
+| R6 gender filter (the API before C-8) | 0.70 | 0.60 | 0.54 |
+| R4 fine-tuned CLIP, last 6 blocks (trained on the training restrooms: memorised there) | 1.00 | 1.00 | 1.00 |
+| Colour histogram only | 0.90 | 0.95 | 0.82 |
+| R7 two-step pipeline (served) | 1.00 | 1.00 | 0.93 |
+
+The Match page shows these picks side by side for the chosen sign, and the mock provider answers IOAI signs with R7's pick. On whole signs R4 is perfect on validation and test as well; it was trained on exactly this task (one door against the other), while the pipeline is built for the IOAI crop task. Worth a follow-up: serve R4 for whole-sign queries.
+
 
 `ml/restroom/export_results.py` writes `web/data/restroom-experiments.json` for the model page: the run rows R0–R4, R6 and R7 (R5 cut), the champion by the run rule (R3), `served` (null for now, see above), a `pipeline` block with every approach from `pipeline.py` (validation, test, training-episode mean and spread), and a `layers` table with one row per backbone and number of trained blocks or stages from `layers.csv`. The table shows the rows today; the pipeline card and the layer table on the page are task W-25 (Tair).
 

@@ -6,6 +6,7 @@ import {
   mockSimilarity,
 } from "@/lib/mock/restroom-samples";
 import { ioaiSimilarity } from "@/lib/mock/restroom-ioai-embeddings";
+import { SERVED_METHOD, ioaiPicks } from "@/lib/mock/restroom-ioai-match";
 import { pickBestMatch, sortCandidates } from "@/lib/signage/match";
 import type { CompareResult, MatchResult, SignPrediction } from "@/lib/types";
 import type { RestroomProvider, SignInput } from "./restroom-types";
@@ -34,6 +35,11 @@ function similarityOf(a: SignInput, b: SignInput): number {
   return inventSimilarity(upload, sampleId);
 }
 
+function servedPick(query: SignInput, gallery: { id: string }[]): string | null {
+  const pick = ioaiPicks(query.sample?.id)?.[SERVED_METHOD];
+  return pick && gallery.some((s) => s.id === pick) ? pick : null;
+}
+
 export const restroomMockProvider: RestroomProvider = {
   id: "mock",
   async compare({ a, b }): Promise<CompareResult> {
@@ -59,7 +65,9 @@ export const restroomMockProvider: RestroomProvider = {
       latencyMs: RESTROOM_MOCK_LATENCY_MS * (gallery.length + 1),
       query: q,
       candidates,
-      bestMatchId: pickBestMatch(q.gender, candidates),
+      // IOAI catalogue signs: the served pipeline's real pick, computed offline on this very gallery.
+      // Everything else keeps the mock rule (most similar of the opposite predicted gender).
+      bestMatchId: servedPick(query, gallery) ?? pickBestMatch(q.gender, candidates),
     };
   },
 };

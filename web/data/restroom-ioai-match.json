@@ -1,0 +1,1732 @@
+{
+ "_comment": "Written by ml/restroom/export_match.py. For every IOAI catalogue sign as a whole-sign Match query: the sign each model picks from the sign's gallery (its true partner plus up to 58 signs of its IOAI set). accuracy: share of queries per set whose pick is the true partner.",
+ "galleryMax": 59,
+ "histogramWeight": 0.3,
+ "methods": [
+  {
+   "id": "R1",
+   "label": "Zero-shot CLIP",
+   "trained": false,
+   "detail": "CLIP ViT-B/32 as released: the most similar sign"
+  },
+  {
+   "id": "R6",
+   "label": "Gender filter (old API rule)",
+   "trained": false,
+   "detail": "the most similar sign whose predicted gender is opposite to the query's"
+  },
+  {
+   "id": "R4",
+   "label": "Fine-tuned CLIP (our R4)",
+   "trained": true,
+   "detail": "CLIP with its last 6 transformer blocks trained on the 82 training restrooms: the most similar sign"
+  },
+  {
+   "id": "HC",
+   "label": "Colour only",
+   "trained": false,
+   "detail": "the sign with the most similar colours (HSV histogram)"
+  },
+  {
+   "id": "R7",
+   "label": "Two-step pipeline (served)",
+   "trained": false,
+   "detail": "0.3 colour + 0.7 CLIP, z-scored, as /restroom/match does since C-8"
+  }
+ ],
+ "accuracy": {
+  "R1": {
+   "val": 0.95,
+   "test": 0.9655,
+   "train": 0.85
+  },
+  "R6": {
+   "val": 0.7,
+   "test": 0.6034,
+   "train": 0.5375
+  },
+  "R4": {
+   "val": 1.0,
+   "test": 1.0,
+   "train": 1.0
+  },
+  "HC": {
+   "val": 0.9,
+   "test": 0.9483,
+   "train": 0.8187
+  },
+  "R7": {
+   "val": 1.0,
+   "test": 1.0,
+   "train": 0.9313
+  }
+ },
+ "picks": {
+  "ioai-val-g1": {
+   "R1": "ioai-val-g5",
+   "R6": "ioai-val-g14",
+   "R4": "ioai-val-g5",
+   "HC": "ioai-val-g5",
+   "R7": "ioai-val-g5"
+  },
+  "ioai-val-g2": {
+   "R1": "ioai-val-g17",
+   "R6": "ioai-val-g17",
+   "R4": "ioai-val-g17",
+   "HC": "ioai-val-g17",
+   "R7": "ioai-val-g17"
+  },
+  "ioai-val-g3": {
+   "R1": "ioai-val-g4",
+   "R6": "ioai-val-g4",
+   "R4": "ioai-val-g4",
+   "HC": "ioai-val-g4",
+   "R7": "ioai-val-g4"
+  },
+  "ioai-val-g4": {
+   "R1": "ioai-val-g3",
+   "R6": "ioai-val-g3",
+   "R4": "ioai-val-g3",
+   "HC": "ioai-val-g3",
+   "R7": "ioai-val-g3"
+  },
+  "ioai-val-g5": {
+   "R1": "ioai-val-g1",
+   "R6": "ioai-val-g14",
+   "R4": "ioai-val-g1",
+   "HC": "ioai-val-g1",
+   "R7": "ioai-val-g1"
+  },
+  "ioai-val-g6": {
+   "R1": "ioai-val-g13",
+   "R6": "ioai-val-g14",
+   "R4": "ioai-val-g13",
+   "HC": "ioai-val-g13",
+   "R7": "ioai-val-g13"
+  },
+  "ioai-val-g7": {
+   "R1": "ioai-val-g14",
+   "R6": "ioai-val-g14",
+   "R4": "ioai-val-g14",
+   "HC": "ioai-val-g14",
+   "R7": "ioai-val-g14"
+  },
+  "ioai-val-g8": {
+   "R1": "ioai-val-g11",
+   "R6": "ioai-val-g11",
+   "R4": "ioai-val-g11",
+   "HC": "ioai-val-g11",
+   "R7": "ioai-val-g11"
+  },
+  "ioai-val-g9": {
+   "R1": "ioai-val-g15",
+   "R6": "ioai-val-g15",
+   "R4": "ioai-val-g15",
+   "HC": "ioai-val-g15",
+   "R7": "ioai-val-g15"
+  },
+  "ioai-val-g10": {
+   "R1": "ioai-val-g20",
+   "R6": "ioai-val-g20",
+   "R4": "ioai-val-g20",
+   "HC": "ioai-val-g20",
+   "R7": "ioai-val-g20"
+  },
+  "ioai-val-g11": {
+   "R1": "ioai-val-g1",
+   "R6": "ioai-val-g8",
+   "R4": "ioai-val-g8",
+   "HC": "ioai-val-g8",
+   "R7": "ioai-val-g8"
+  },
+  "ioai-val-g12": {
+   "R1": "ioai-val-g18",
+   "R6": "ioai-val-g20",
+   "R4": "ioai-val-g18",
+   "HC": "ioai-val-g18",
+   "R7": "ioai-val-g18"
+  },
+  "ioai-val-g13": {
+   "R1": "ioai-val-g6",
+   "R6": "ioai-val-g8",
+   "R4": "ioai-val-g6",
+   "HC": "ioai-val-g6",
+   "R7": "ioai-val-g6"
+  },
+  "ioai-val-g14": {
+   "R1": "ioai-val-g7",
+   "R6": "ioai-val-g7",
+   "R4": "ioai-val-g7",
+   "HC": "ioai-val-g7",
+   "R7": "ioai-val-g7"
+  },
+  "ioai-val-g15": {
+   "R1": "ioai-val-g9",
+   "R6": "ioai-val-g9",
+   "R4": "ioai-val-g9",
+   "HC": "ioai-val-g9",
+   "R7": "ioai-val-g9"
+  },
+  "ioai-val-g16": {
+   "R1": "ioai-val-g19",
+   "R6": "ioai-val-g19",
+   "R4": "ioai-val-g19",
+   "HC": "ioai-val-g12",
+   "R7": "ioai-val-g19"
+  },
+  "ioai-val-g17": {
+   "R1": "ioai-val-g2",
+   "R6": "ioai-val-g2",
+   "R4": "ioai-val-g2",
+   "HC": "ioai-val-g2",
+   "R7": "ioai-val-g2"
+  },
+  "ioai-val-g18": {
+   "R1": "ioai-val-g12",
+   "R6": "ioai-val-g20",
+   "R4": "ioai-val-g12",
+   "HC": "ioai-val-g12",
+   "R7": "ioai-val-g12"
+  },
+  "ioai-val-g19": {
+   "R1": "ioai-val-g16",
+   "R6": "ioai-val-g16",
+   "R4": "ioai-val-g16",
+   "HC": "ioai-val-g14",
+   "R7": "ioai-val-g16"
+  },
+  "ioai-val-g20": {
+   "R1": "ioai-val-g10",
+   "R6": "ioai-val-g10",
+   "R4": "ioai-val-g10",
+   "HC": "ioai-val-g10",
+   "R7": "ioai-val-g10"
+  },
+  "ioai-test-g1": {
+   "R1": "ioai-test-g37",
+   "R6": "ioai-test-g37",
+   "R4": "ioai-test-g37",
+   "HC": "ioai-test-g37",
+   "R7": "ioai-test-g37"
+  },
+  "ioai-test-g2": {
+   "R1": "ioai-test-g7",
+   "R6": "ioai-test-g38",
+   "R4": "ioai-test-g7",
+   "HC": "ioai-test-g7",
+   "R7": "ioai-test-g7"
+  },
+  "ioai-test-g3": {
+   "R1": "ioai-test-g20",
+   "R6": "ioai-test-g20",
+   "R4": "ioai-test-g20",
+   "HC": "ioai-test-g57",
+   "R7": "ioai-test-g20"
+  },
+  "ioai-test-g4": {
+   "R1": "ioai-test-g59",
+   "R6": "ioai-test-g59",
+   "R4": "ioai-test-g59",
+   "HC": "ioai-test-g59",
+   "R7": "ioai-test-g59"
+  },
+  "ioai-test-g5": {
+   "R1": "ioai-test-g54",
+   "R6": "ioai-test-g54",
+   "R4": "ioai-test-g54",
+   "HC": "ioai-test-g54",
+   "R7": "ioai-test-g54"
+  },
+  "ioai-test-g6": {
+   "R1": "ioai-test-g46",
+   "R6": "ioai-test-g46",
+   "R4": "ioai-test-g46",
+   "HC": "ioai-test-g46",
+   "R7": "ioai-test-g46"
+  },
+  "ioai-test-g7": {
+   "R1": "ioai-test-g2",
+   "R6": "ioai-test-g26",
+   "R4": "ioai-test-g2",
+   "HC": "ioai-test-g2",
+   "R7": "ioai-test-g2"
+  },
+  "ioai-test-g8": {
+   "R1": "ioai-test-g29",
+   "R6": "ioai-test-g29",
+   "R4": "ioai-test-g29",
+   "HC": "ioai-test-g29",
+   "R7": "ioai-test-g29"
+  },
+  "ioai-test-g9": {
+   "R1": "ioai-test-g17",
+   "R6": "ioai-test-g52",
+   "R4": "ioai-test-g43",
+   "HC": "ioai-test-g43",
+   "R7": "ioai-test-g43"
+  },
+  "ioai-test-g11": {
+   "R1": "ioai-test-g49",
+   "R6": "ioai-test-g59",
+   "R4": "ioai-test-g49",
+   "HC": "ioai-test-g49",
+   "R7": "ioai-test-g49"
+  },
+  "ioai-test-g12": {
+   "R1": "ioai-test-g48",
+   "R6": "ioai-test-g48",
+   "R4": "ioai-test-g48",
+   "HC": "ioai-test-g48",
+   "R7": "ioai-test-g48"
+  },
+  "ioai-test-g13": {
+   "R1": "ioai-test-g53",
+   "R6": "ioai-test-g53",
+   "R4": "ioai-test-g53",
+   "HC": "ioai-test-g53",
+   "R7": "ioai-test-g53"
+  },
+  "ioai-test-g14": {
+   "R1": "ioai-test-g30",
+   "R6": "ioai-test-g30",
+   "R4": "ioai-test-g30",
+   "HC": "ioai-test-g30",
+   "R7": "ioai-test-g30"
+  },
+  "ioai-test-g15": {
+   "R1": "ioai-test-g24",
+   "R6": "ioai-test-g24",
+   "R4": "ioai-test-g24",
+   "HC": "ioai-test-g24",
+   "R7": "ioai-test-g24"
+  },
+  "ioai-test-g16": {
+   "R1": "ioai-test-g42",
+   "R6": "ioai-test-g42",
+   "R4": "ioai-test-g42",
+   "HC": "ioai-test-g42",
+   "R7": "ioai-test-g42"
+  },
+  "ioai-test-g17": {
+   "R1": "ioai-test-g52",
+   "R6": "ioai-test-g52",
+   "R4": "ioai-test-g52",
+   "HC": "ioai-test-g52",
+   "R7": "ioai-test-g52"
+  },
+  "ioai-test-g18": {
+   "R1": "ioai-test-g33",
+   "R6": "ioai-test-g38",
+   "R4": "ioai-test-g33",
+   "HC": "ioai-test-g33",
+   "R7": "ioai-test-g33"
+  },
+  "ioai-test-g19": {
+   "R1": "ioai-test-g56",
+   "R6": "ioai-test-g51",
+   "R4": "ioai-test-g56",
+   "HC": "ioai-test-g56",
+   "R7": "ioai-test-g56"
+  },
+  "ioai-test-g20": {
+   "R1": "ioai-test-g3",
+   "R6": "ioai-test-g3",
+   "R4": "ioai-test-g3",
+   "HC": "ioai-test-g3",
+   "R7": "ioai-test-g3"
+  },
+  "ioai-test-g21": {
+   "R1": "ioai-test-g60",
+   "R6": "ioai-test-g41",
+   "R4": "ioai-test-g60",
+   "HC": "ioai-test-g60",
+   "R7": "ioai-test-g60"
+  },
+  "ioai-test-g22": {
+   "R1": "ioai-test-g41",
+   "R6": "ioai-test-g38",
+   "R4": "ioai-test-g41",
+   "HC": "ioai-test-g41",
+   "R7": "ioai-test-g41"
+  },
+  "ioai-test-g23": {
+   "R1": "ioai-test-g50",
+   "R6": "ioai-test-g50",
+   "R4": "ioai-test-g50",
+   "HC": "ioai-test-g50",
+   "R7": "ioai-test-g50"
+  },
+  "ioai-test-g24": {
+   "R1": "ioai-test-g15",
+   "R6": "ioai-test-g15",
+   "R4": "ioai-test-g15",
+   "HC": "ioai-test-g15",
+   "R7": "ioai-test-g15"
+  },
+  "ioai-test-g25": {
+   "R1": "ioai-test-g44",
+   "R6": "ioai-test-g4",
+   "R4": "ioai-test-g44",
+   "HC": "ioai-test-g44",
+   "R7": "ioai-test-g44"
+  },
+  "ioai-test-g26": {
+   "R1": "ioai-test-g28",
+   "R6": "ioai-test-g28",
+   "R4": "ioai-test-g28",
+   "HC": "ioai-test-g7",
+   "R7": "ioai-test-g28"
+  },
+  "ioai-test-g27": {
+   "R1": "ioai-test-g32",
+   "R6": "ioai-test-g32",
+   "R4": "ioai-test-g32",
+   "HC": "ioai-test-g32",
+   "R7": "ioai-test-g32"
+  },
+  "ioai-test-g28": {
+   "R1": "ioai-test-g26",
+   "R6": "ioai-test-g26",
+   "R4": "ioai-test-g26",
+   "HC": "ioai-test-g26",
+   "R7": "ioai-test-g26"
+  },
+  "ioai-test-g29": {
+   "R1": "ioai-test-g8",
+   "R6": "ioai-test-g8",
+   "R4": "ioai-test-g8",
+   "HC": "ioai-test-g8",
+   "R7": "ioai-test-g8"
+  },
+  "ioai-test-g30": {
+   "R1": "ioai-test-g14",
+   "R6": "ioai-test-g14",
+   "R4": "ioai-test-g14",
+   "HC": "ioai-test-g14",
+   "R7": "ioai-test-g14"
+  },
+  "ioai-test-g31": {
+   "R1": "ioai-test-g36",
+   "R6": "ioai-test-g4",
+   "R4": "ioai-test-g36",
+   "HC": "ioai-test-g36",
+   "R7": "ioai-test-g36"
+  },
+  "ioai-test-g32": {
+   "R1": "ioai-test-g27",
+   "R6": "ioai-test-g27",
+   "R4": "ioai-test-g27",
+   "HC": "ioai-test-g27",
+   "R7": "ioai-test-g27"
+  },
+  "ioai-test-g33": {
+   "R1": "ioai-test-g18",
+   "R6": "ioai-test-g38",
+   "R4": "ioai-test-g18",
+   "HC": "ioai-test-g18",
+   "R7": "ioai-test-g18"
+  },
+  "ioai-test-g34": {
+   "R1": "ioai-test-g39",
+   "R6": "ioai-test-g39",
+   "R4": "ioai-test-g39",
+   "HC": "ioai-test-g39",
+   "R7": "ioai-test-g39"
+  },
+  "ioai-test-g35": {
+   "R1": "ioai-test-g38",
+   "R6": "ioai-test-g22",
+   "R4": "ioai-test-g38",
+   "HC": "ioai-test-g38",
+   "R7": "ioai-test-g38"
+  },
+  "ioai-test-g36": {
+   "R1": "ioai-test-g31",
+   "R6": "ioai-test-g9",
+   "R4": "ioai-test-g31",
+   "HC": "ioai-test-g31",
+   "R7": "ioai-test-g31"
+  },
+  "ioai-test-g37": {
+   "R1": "ioai-test-g1",
+   "R6": "ioai-test-g1",
+   "R4": "ioai-test-g1",
+   "HC": "ioai-test-g1",
+   "R7": "ioai-test-g1"
+  },
+  "ioai-test-g38": {
+   "R1": "ioai-test-g35",
+   "R6": "ioai-test-g22",
+   "R4": "ioai-test-g35",
+   "HC": "ioai-test-g35",
+   "R7": "ioai-test-g35"
+  },
+  "ioai-test-g39": {
+   "R1": "ioai-test-g34",
+   "R6": "ioai-test-g34",
+   "R4": "ioai-test-g34",
+   "HC": "ioai-test-g34",
+   "R7": "ioai-test-g34"
+  },
+  "ioai-test-g40": {
+   "R1": "ioai-test-g57",
+   "R6": "ioai-test-g57",
+   "R4": "ioai-test-g57",
+   "HC": "ioai-test-g57",
+   "R7": "ioai-test-g57"
+  },
+  "ioai-test-g41": {
+   "R1": "ioai-test-g22",
+   "R6": "ioai-test-g35",
+   "R4": "ioai-test-g22",
+   "HC": "ioai-test-g22",
+   "R7": "ioai-test-g22"
+  },
+  "ioai-test-g42": {
+   "R1": "ioai-test-g16",
+   "R6": "ioai-test-g16",
+   "R4": "ioai-test-g16",
+   "HC": "ioai-test-g16",
+   "R7": "ioai-test-g16"
+  },
+  "ioai-test-g43": {
+   "R1": "ioai-test-g9",
+   "R6": "ioai-test-g9",
+   "R4": "ioai-test-g9",
+   "HC": "ioai-test-g9",
+   "R7": "ioai-test-g9"
+  },
+  "ioai-test-g44": {
+   "R1": "ioai-test-g25",
+   "R6": "ioai-test-g4",
+   "R4": "ioai-test-g25",
+   "HC": "ioai-test-g25",
+   "R7": "ioai-test-g25"
+  },
+  "ioai-test-g45": {
+   "R1": "ioai-test-g55",
+   "R6": "ioai-test-g25",
+   "R4": "ioai-test-g55",
+   "HC": "ioai-test-g55",
+   "R7": "ioai-test-g55"
+  },
+  "ioai-test-g46": {
+   "R1": "ioai-test-g17",
+   "R6": "ioai-test-g6",
+   "R4": "ioai-test-g6",
+   "HC": "ioai-test-g6",
+   "R7": "ioai-test-g6"
+  },
+  "ioai-test-g48": {
+   "R1": "ioai-test-g12",
+   "R6": "ioai-test-g12",
+   "R4": "ioai-test-g12",
+   "HC": "ioai-test-g12",
+   "R7": "ioai-test-g12"
+  },
+  "ioai-test-g49": {
+   "R1": "ioai-test-g11",
+   "R6": "ioai-test-g59",
+   "R4": "ioai-test-g11",
+   "HC": "ioai-test-g11",
+   "R7": "ioai-test-g11"
+  },
+  "ioai-test-g50": {
+   "R1": "ioai-test-g23",
+   "R6": "ioai-test-g23",
+   "R4": "ioai-test-g23",
+   "HC": "ioai-test-g23",
+   "R7": "ioai-test-g23"
+  },
+  "ioai-test-g51": {
+   "R1": "ioai-test-g58",
+   "R6": "ioai-test-g56",
+   "R4": "ioai-test-g58",
+   "HC": "ioai-test-g58",
+   "R7": "ioai-test-g58"
+  },
+  "ioai-test-g52": {
+   "R1": "ioai-test-g17",
+   "R6": "ioai-test-g17",
+   "R4": "ioai-test-g17",
+   "HC": "ioai-test-g17",
+   "R7": "ioai-test-g17"
+  },
+  "ioai-test-g53": {
+   "R1": "ioai-test-g13",
+   "R6": "ioai-test-g13",
+   "R4": "ioai-test-g13",
+   "HC": "ioai-test-g13",
+   "R7": "ioai-test-g13"
+  },
+  "ioai-test-g54": {
+   "R1": "ioai-test-g5",
+   "R6": "ioai-test-g5",
+   "R4": "ioai-test-g5",
+   "HC": "ioai-test-g5",
+   "R7": "ioai-test-g5"
+  },
+  "ioai-test-g55": {
+   "R1": "ioai-test-g45",
+   "R6": "ioai-test-g25",
+   "R4": "ioai-test-g45",
+   "HC": "ioai-test-g45",
+   "R7": "ioai-test-g45"
+  },
+  "ioai-test-g56": {
+   "R1": "ioai-test-g19",
+   "R6": "ioai-test-g51",
+   "R4": "ioai-test-g19",
+   "HC": "ioai-test-g16",
+   "R7": "ioai-test-g19"
+  },
+  "ioai-test-g57": {
+   "R1": "ioai-test-g40",
+   "R6": "ioai-test-g40",
+   "R4": "ioai-test-g40",
+   "HC": "ioai-test-g40",
+   "R7": "ioai-test-g40"
+  },
+  "ioai-test-g58": {
+   "R1": "ioai-test-g51",
+   "R6": "ioai-test-g56",
+   "R4": "ioai-test-g51",
+   "HC": "ioai-test-g51",
+   "R7": "ioai-test-g51"
+  },
+  "ioai-test-g59": {
+   "R1": "ioai-test-g4",
+   "R6": "ioai-test-g4",
+   "R4": "ioai-test-g4",
+   "HC": "ioai-test-g4",
+   "R7": "ioai-test-g4"
+  },
+  "ioai-test-g60": {
+   "R1": "ioai-test-g21",
+   "R6": "ioai-test-g41",
+   "R4": "ioai-test-g21",
+   "HC": "ioai-test-g21",
+   "R7": "ioai-test-g21"
+  },
+  "ioai-train-g1": {
+   "R1": "ioai-train-g14",
+   "R6": "ioai-train-g14",
+   "R4": "ioai-train-g83",
+   "HC": "ioai-train-g112",
+   "R7": "ioai-train-g7"
+  },
+  "ioai-train-g2": {
+   "R1": "ioai-train-g84",
+   "R6": "ioai-train-g84",
+   "R4": "ioai-train-g84",
+   "HC": "ioai-train-g84",
+   "R7": "ioai-train-g84"
+  },
+  "ioai-train-g3": {
+   "R1": "ioai-train-g85",
+   "R6": "ioai-train-g85",
+   "R4": "ioai-train-g85",
+   "HC": "ioai-train-g85",
+   "R7": "ioai-train-g85"
+  },
+  "ioai-train-g4": {
+   "R1": "ioai-train-g86",
+   "R6": "ioai-train-g86",
+   "R4": "ioai-train-g86",
+   "HC": "ioai-train-g86",
+   "R7": "ioai-train-g86"
+  },
+  "ioai-train-g5": {
+   "R1": "ioai-train-g87",
+   "R6": "ioai-train-g88",
+   "R4": "ioai-train-g87",
+   "HC": "ioai-train-g87",
+   "R7": "ioai-train-g87"
+  },
+  "ioai-train-g6": {
+   "R1": "ioai-train-g88",
+   "R6": "ioai-train-g89",
+   "R4": "ioai-train-g88",
+   "HC": "ioai-train-g88",
+   "R7": "ioai-train-g88"
+  },
+  "ioai-train-g7": {
+   "R1": "ioai-train-g87",
+   "R6": "ioai-train-g87",
+   "R4": "ioai-train-g89",
+   "HC": "ioai-train-g54",
+   "R7": "ioai-train-g1"
+  },
+  "ioai-train-g8": {
+   "R1": "ioai-train-g90",
+   "R6": "ioai-train-g90",
+   "R4": "ioai-train-g90",
+   "HC": "ioai-train-g90",
+   "R7": "ioai-train-g90"
+  },
+  "ioai-train-g9": {
+   "R1": "ioai-train-g91",
+   "R6": "ioai-train-g91",
+   "R4": "ioai-train-g91",
+   "HC": "ioai-train-g91",
+   "R7": "ioai-train-g91"
+  },
+  "ioai-train-g10": {
+   "R1": "ioai-train-g92",
+   "R6": "ioai-train-g92",
+   "R4": "ioai-train-g92",
+   "HC": "ioai-train-g92",
+   "R7": "ioai-train-g92"
+  },
+  "ioai-train-g11": {
+   "R1": "ioai-train-g93",
+   "R6": "ioai-train-g93",
+   "R4": "ioai-train-g93",
+   "HC": "ioai-train-g93",
+   "R7": "ioai-train-g93"
+  },
+  "ioai-train-g12": {
+   "R1": "ioai-train-g94",
+   "R6": "ioai-train-g55",
+   "R4": "ioai-train-g94",
+   "HC": "ioai-train-g60",
+   "R7": "ioai-train-g94"
+  },
+  "ioai-train-g13": {
+   "R1": "ioai-train-g95",
+   "R6": "ioai-train-g95",
+   "R4": "ioai-train-g95",
+   "HC": "ioai-train-g95",
+   "R7": "ioai-train-g95"
+  },
+  "ioai-train-g14": {
+   "R1": "ioai-train-g96",
+   "R6": "ioai-train-g21",
+   "R4": "ioai-train-g96",
+   "HC": "ioai-train-g96",
+   "R7": "ioai-train-g96"
+  },
+  "ioai-train-g15": {
+   "R1": "ioai-train-g97",
+   "R6": "ioai-train-g97",
+   "R4": "ioai-train-g97",
+   "HC": "ioai-train-g84",
+   "R7": "ioai-train-g2"
+  },
+  "ioai-train-g16": {
+   "R1": "ioai-train-g98",
+   "R6": "ioai-train-g98",
+   "R4": "ioai-train-g98",
+   "HC": "ioai-train-g98",
+   "R7": "ioai-train-g98"
+  },
+  "ioai-train-g17": {
+   "R1": "ioai-train-g99",
+   "R6": "ioai-train-g99",
+   "R4": "ioai-train-g99",
+   "HC": "ioai-train-g99",
+   "R7": "ioai-train-g99"
+  },
+  "ioai-train-g19": {
+   "R1": "ioai-train-g101",
+   "R6": "ioai-train-g101",
+   "R4": "ioai-train-g101",
+   "HC": "ioai-train-g54",
+   "R7": "ioai-train-g101"
+  },
+  "ioai-train-g20": {
+   "R1": "ioai-train-g102",
+   "R6": "ioai-train-g125",
+   "R4": "ioai-train-g102",
+   "HC": "ioai-train-g102",
+   "R7": "ioai-train-g102"
+  },
+  "ioai-train-g21": {
+   "R1": "ioai-train-g103",
+   "R6": "ioai-train-g103",
+   "R4": "ioai-train-g103",
+   "HC": "ioai-train-g103",
+   "R7": "ioai-train-g103"
+  },
+  "ioai-train-g22": {
+   "R1": "ioai-train-g104",
+   "R6": "ioai-train-g104",
+   "R4": "ioai-train-g104",
+   "HC": "ioai-train-g104",
+   "R7": "ioai-train-g104"
+  },
+  "ioai-train-g23": {
+   "R1": "ioai-train-g105",
+   "R6": "ioai-train-g55",
+   "R4": "ioai-train-g105",
+   "HC": "ioai-train-g105",
+   "R7": "ioai-train-g105"
+  },
+  "ioai-train-g24": {
+   "R1": "ioai-train-g106",
+   "R6": "ioai-train-g5",
+   "R4": "ioai-train-g106",
+   "HC": "ioai-train-g106",
+   "R7": "ioai-train-g106"
+  },
+  "ioai-train-g25": {
+   "R1": "ioai-train-g107",
+   "R6": "ioai-train-g14",
+   "R4": "ioai-train-g107",
+   "HC": "ioai-train-g107",
+   "R7": "ioai-train-g107"
+  },
+  "ioai-train-g26": {
+   "R1": "ioai-train-g7",
+   "R6": "ioai-train-g108",
+   "R4": "ioai-train-g108",
+   "HC": "ioai-train-g108",
+   "R7": "ioai-train-g108"
+  },
+  "ioai-train-g27": {
+   "R1": "ioai-train-g87",
+   "R6": "ioai-train-g88",
+   "R4": "ioai-train-g109",
+   "HC": "ioai-train-g109",
+   "R7": "ioai-train-g109"
+  },
+  "ioai-train-g28": {
+   "R1": "ioai-train-g110",
+   "R6": "ioai-train-g110",
+   "R4": "ioai-train-g110",
+   "HC": "ioai-train-g8",
+   "R7": "ioai-train-g110"
+  },
+  "ioai-train-g29": {
+   "R1": "ioai-train-g137",
+   "R6": "ioai-train-g137",
+   "R4": "ioai-train-g111",
+   "HC": "ioai-train-g111",
+   "R7": "ioai-train-g111"
+  },
+  "ioai-train-g30": {
+   "R1": "ioai-train-g1",
+   "R6": "ioai-train-g87",
+   "R4": "ioai-train-g112",
+   "HC": "ioai-train-g53",
+   "R7": "ioai-train-g1"
+  },
+  "ioai-train-g31": {
+   "R1": "ioai-train-g113",
+   "R6": "ioai-train-g113",
+   "R4": "ioai-train-g113",
+   "HC": "ioai-train-g113",
+   "R7": "ioai-train-g113"
+  },
+  "ioai-train-g32": {
+   "R1": "ioai-train-g114",
+   "R6": "ioai-train-g27",
+   "R4": "ioai-train-g114",
+   "HC": "ioai-train-g114",
+   "R7": "ioai-train-g114"
+  },
+  "ioai-train-g33": {
+   "R1": "ioai-train-g115",
+   "R6": "ioai-train-g115",
+   "R4": "ioai-train-g115",
+   "HC": "ioai-train-g115",
+   "R7": "ioai-train-g115"
+  },
+  "ioai-train-g34": {
+   "R1": "ioai-train-g116",
+   "R6": "ioai-train-g116",
+   "R4": "ioai-train-g116",
+   "HC": "ioai-train-g116",
+   "R7": "ioai-train-g116"
+  },
+  "ioai-train-g35": {
+   "R1": "ioai-train-g1",
+   "R6": "ioai-train-g117",
+   "R4": "ioai-train-g117",
+   "HC": "ioai-train-g135",
+   "R7": "ioai-train-g117"
+  },
+  "ioai-train-g36": {
+   "R1": "ioai-train-g118",
+   "R6": "ioai-train-g118",
+   "R4": "ioai-train-g118",
+   "HC": "ioai-train-g118",
+   "R7": "ioai-train-g118"
+  },
+  "ioai-train-g37": {
+   "R1": "ioai-train-g119",
+   "R6": "ioai-train-g119",
+   "R4": "ioai-train-g119",
+   "HC": "ioai-train-g119",
+   "R7": "ioai-train-g119"
+  },
+  "ioai-train-g38": {
+   "R1": "ioai-train-g120",
+   "R6": "ioai-train-g122",
+   "R4": "ioai-train-g120",
+   "HC": "ioai-train-g120",
+   "R7": "ioai-train-g120"
+  },
+  "ioai-train-g39": {
+   "R1": "ioai-train-g121",
+   "R6": "ioai-train-g121",
+   "R4": "ioai-train-g121",
+   "HC": "ioai-train-g121",
+   "R7": "ioai-train-g121"
+  },
+  "ioai-train-g40": {
+   "R1": "ioai-train-g122",
+   "R6": "ioai-train-g122",
+   "R4": "ioai-train-g122",
+   "HC": "ioai-train-g122",
+   "R7": "ioai-train-g122"
+  },
+  "ioai-train-g41": {
+   "R1": "ioai-train-g123",
+   "R6": "ioai-train-g123",
+   "R4": "ioai-train-g123",
+   "HC": "ioai-train-g123",
+   "R7": "ioai-train-g123"
+  },
+  "ioai-train-g42": {
+   "R1": "ioai-train-g124",
+   "R6": "ioai-train-g124",
+   "R4": "ioai-train-g124",
+   "HC": "ioai-train-g124",
+   "R7": "ioai-train-g124"
+  },
+  "ioai-train-g43": {
+   "R1": "ioai-train-g41",
+   "R6": "ioai-train-g125",
+   "R4": "ioai-train-g125",
+   "HC": "ioai-train-g125",
+   "R7": "ioai-train-g125"
+  },
+  "ioai-train-g44": {
+   "R1": "ioai-train-g126",
+   "R6": "ioai-train-g7",
+   "R4": "ioai-train-g126",
+   "HC": "ioai-train-g112",
+   "R7": "ioai-train-g126"
+  },
+  "ioai-train-g45": {
+   "R1": "ioai-train-g127",
+   "R6": "ioai-train-g39",
+   "R4": "ioai-train-g127",
+   "HC": "ioai-train-g127",
+   "R7": "ioai-train-g127"
+  },
+  "ioai-train-g46": {
+   "R1": "ioai-train-g128",
+   "R6": "ioai-train-g122",
+   "R4": "ioai-train-g128",
+   "HC": "ioai-train-g128",
+   "R7": "ioai-train-g128"
+  },
+  "ioai-train-g47": {
+   "R1": "ioai-train-g129",
+   "R6": "ioai-train-g55",
+   "R4": "ioai-train-g129",
+   "HC": "ioai-train-g129",
+   "R7": "ioai-train-g129"
+  },
+  "ioai-train-g48": {
+   "R1": "ioai-train-g130",
+   "R6": "ioai-train-g130",
+   "R4": "ioai-train-g130",
+   "HC": "ioai-train-g130",
+   "R7": "ioai-train-g130"
+  },
+  "ioai-train-g49": {
+   "R1": "ioai-train-g131",
+   "R6": "ioai-train-g131",
+   "R4": "ioai-train-g131",
+   "HC": "ioai-train-g131",
+   "R7": "ioai-train-g131"
+  },
+  "ioai-train-g50": {
+   "R1": "ioai-train-g132",
+   "R6": "ioai-train-g5",
+   "R4": "ioai-train-g132",
+   "HC": "ioai-train-g132",
+   "R7": "ioai-train-g132"
+  },
+  "ioai-train-g51": {
+   "R1": "ioai-train-g133",
+   "R6": "ioai-train-g133",
+   "R4": "ioai-train-g133",
+   "HC": "ioai-train-g124",
+   "R7": "ioai-train-g133"
+  },
+  "ioai-train-g52": {
+   "R1": "ioai-train-g134",
+   "R6": "ioai-train-g134",
+   "R4": "ioai-train-g134",
+   "HC": "ioai-train-g134",
+   "R7": "ioai-train-g134"
+  },
+  "ioai-train-g53": {
+   "R1": "ioai-train-g135",
+   "R6": "ioai-train-g135",
+   "R4": "ioai-train-g135",
+   "HC": "ioai-train-g135",
+   "R7": "ioai-train-g135"
+  },
+  "ioai-train-g54": {
+   "R1": "ioai-train-g136",
+   "R6": "ioai-train-g97",
+   "R4": "ioai-train-g136",
+   "HC": "ioai-train-g136",
+   "R7": "ioai-train-g136"
+  },
+  "ioai-train-g55": {
+   "R1": "ioai-train-g137",
+   "R6": "ioai-train-g138",
+   "R4": "ioai-train-g137",
+   "HC": "ioai-train-g137",
+   "R7": "ioai-train-g137"
+  },
+  "ioai-train-g56": {
+   "R1": "ioai-train-g138",
+   "R6": "ioai-train-g137",
+   "R4": "ioai-train-g138",
+   "HC": "ioai-train-g138",
+   "R7": "ioai-train-g138"
+  },
+  "ioai-train-g57": {
+   "R1": "ioai-train-g139",
+   "R6": "ioai-train-g139",
+   "R4": "ioai-train-g139",
+   "HC": "ioai-train-g139",
+   "R7": "ioai-train-g139"
+  },
+  "ioai-train-g58": {
+   "R1": "ioai-train-g140",
+   "R6": "ioai-train-g111",
+   "R4": "ioai-train-g140",
+   "HC": "ioai-train-g140",
+   "R7": "ioai-train-g140"
+  },
+  "ioai-train-g60": {
+   "R1": "ioai-train-g142",
+   "R6": "ioai-train-g99",
+   "R4": "ioai-train-g142",
+   "HC": "ioai-train-g142",
+   "R7": "ioai-train-g142"
+  },
+  "ioai-train-g61": {
+   "R1": "ioai-train-g143",
+   "R6": "ioai-train-g143",
+   "R4": "ioai-train-g143",
+   "HC": "ioai-train-g78",
+   "R7": "ioai-train-g143"
+  },
+  "ioai-train-g62": {
+   "R1": "ioai-train-g144",
+   "R6": "ioai-train-g98",
+   "R4": "ioai-train-g144",
+   "HC": "ioai-train-g144",
+   "R7": "ioai-train-g144"
+  },
+  "ioai-train-g63": {
+   "R1": "ioai-train-g145",
+   "R6": "ioai-train-g145",
+   "R4": "ioai-train-g145",
+   "HC": "ioai-train-g145",
+   "R7": "ioai-train-g145"
+  },
+  "ioai-train-g64": {
+   "R1": "ioai-train-g146",
+   "R6": "ioai-train-g111",
+   "R4": "ioai-train-g146",
+   "HC": "ioai-train-g146",
+   "R7": "ioai-train-g146"
+  },
+  "ioai-train-g65": {
+   "R1": "ioai-train-g147",
+   "R6": "ioai-train-g145",
+   "R4": "ioai-train-g147",
+   "HC": "ioai-train-g75",
+   "R7": "ioai-train-g147"
+  },
+  "ioai-train-g66": {
+   "R1": "ioai-train-g148",
+   "R6": "ioai-train-g163",
+   "R4": "ioai-train-g148",
+   "HC": "ioai-train-g148",
+   "R7": "ioai-train-g148"
+  },
+  "ioai-train-g67": {
+   "R1": "ioai-train-g149",
+   "R6": "ioai-train-g149",
+   "R4": "ioai-train-g149",
+   "HC": "ioai-train-g149",
+   "R7": "ioai-train-g149"
+  },
+  "ioai-train-g68": {
+   "R1": "ioai-train-g150",
+   "R6": "ioai-train-g55",
+   "R4": "ioai-train-g150",
+   "HC": "ioai-train-g150",
+   "R7": "ioai-train-g150"
+  },
+  "ioai-train-g69": {
+   "R1": "ioai-train-g151",
+   "R6": "ioai-train-g151",
+   "R4": "ioai-train-g151",
+   "HC": "ioai-train-g151",
+   "R7": "ioai-train-g151"
+  },
+  "ioai-train-g70": {
+   "R1": "ioai-train-g152",
+   "R6": "ioai-train-g152",
+   "R4": "ioai-train-g152",
+   "HC": "ioai-train-g152",
+   "R7": "ioai-train-g152"
+  },
+  "ioai-train-g71": {
+   "R1": "ioai-train-g153",
+   "R6": "ioai-train-g153",
+   "R4": "ioai-train-g153",
+   "HC": "ioai-train-g153",
+   "R7": "ioai-train-g153"
+  },
+  "ioai-train-g72": {
+   "R1": "ioai-train-g154",
+   "R6": "ioai-train-g151",
+   "R4": "ioai-train-g154",
+   "HC": "ioai-train-g105",
+   "R7": "ioai-train-g154"
+  },
+  "ioai-train-g73": {
+   "R1": "ioai-train-g155",
+   "R6": "ioai-train-g155",
+   "R4": "ioai-train-g155",
+   "HC": "ioai-train-g155",
+   "R7": "ioai-train-g155"
+  },
+  "ioai-train-g74": {
+   "R1": "ioai-train-g156",
+   "R6": "ioai-train-g5",
+   "R4": "ioai-train-g156",
+   "HC": "ioai-train-g156",
+   "R7": "ioai-train-g156"
+  },
+  "ioai-train-g75": {
+   "R1": "ioai-train-g69",
+   "R6": "ioai-train-g110",
+   "R4": "ioai-train-g157",
+   "HC": "ioai-train-g157",
+   "R7": "ioai-train-g157"
+  },
+  "ioai-train-g76": {
+   "R1": "ioai-train-g68",
+   "R6": "ioai-train-g55",
+   "R4": "ioai-train-g158",
+   "HC": "ioai-train-g113",
+   "R7": "ioai-train-g158"
+  },
+  "ioai-train-g77": {
+   "R1": "ioai-train-g159",
+   "R6": "ioai-train-g159",
+   "R4": "ioai-train-g159",
+   "HC": "ioai-train-g159",
+   "R7": "ioai-train-g159"
+  },
+  "ioai-train-g78": {
+   "R1": "ioai-train-g160",
+   "R6": "ioai-train-g160",
+   "R4": "ioai-train-g160",
+   "HC": "ioai-train-g77",
+   "R7": "ioai-train-g160"
+  },
+  "ioai-train-g79": {
+   "R1": "ioai-train-g161",
+   "R6": "ioai-train-g161",
+   "R4": "ioai-train-g161",
+   "HC": "ioai-train-g161",
+   "R7": "ioai-train-g161"
+  },
+  "ioai-train-g80": {
+   "R1": "ioai-train-g162",
+   "R6": "ioai-train-g161",
+   "R4": "ioai-train-g162",
+   "HC": "ioai-train-g162",
+   "R7": "ioai-train-g162"
+  },
+  "ioai-train-g81": {
+   "R1": "ioai-train-g163",
+   "R6": "ioai-train-g163",
+   "R4": "ioai-train-g163",
+   "HC": "ioai-train-g163",
+   "R7": "ioai-train-g163"
+  },
+  "ioai-train-g82": {
+   "R1": "ioai-train-g164",
+   "R6": "ioai-train-g164",
+   "R4": "ioai-train-g164",
+   "HC": "ioai-train-g164",
+   "R7": "ioai-train-g164"
+  },
+  "ioai-train-g83": {
+   "R1": "ioai-train-g112",
+   "R6": "ioai-train-g1",
+   "R4": "ioai-train-g1",
+   "HC": "ioai-train-g112",
+   "R7": "ioai-train-g112"
+  },
+  "ioai-train-g84": {
+   "R1": "ioai-train-g2",
+   "R6": "ioai-train-g2",
+   "R4": "ioai-train-g2",
+   "HC": "ioai-train-g2",
+   "R7": "ioai-train-g2"
+  },
+  "ioai-train-g85": {
+   "R1": "ioai-train-g119",
+   "R6": "ioai-train-g3",
+   "R4": "ioai-train-g3",
+   "HC": "ioai-train-g3",
+   "R7": "ioai-train-g3"
+  },
+  "ioai-train-g86": {
+   "R1": "ioai-train-g4",
+   "R6": "ioai-train-g4",
+   "R4": "ioai-train-g4",
+   "HC": "ioai-train-g4",
+   "R7": "ioai-train-g4"
+  },
+  "ioai-train-g87": {
+   "R1": "ioai-train-g5",
+   "R6": "ioai-train-g8",
+   "R4": "ioai-train-g5",
+   "HC": "ioai-train-g5",
+   "R7": "ioai-train-g5"
+  },
+  "ioai-train-g88": {
+   "R1": "ioai-train-g6",
+   "R6": "ioai-train-g90",
+   "R4": "ioai-train-g6",
+   "HC": "ioai-train-g6",
+   "R7": "ioai-train-g6"
+  },
+  "ioai-train-g89": {
+   "R1": "ioai-train-g90",
+   "R6": "ioai-train-g8",
+   "R4": "ioai-train-g7",
+   "HC": "ioai-train-g87",
+   "R7": "ioai-train-g90"
+  },
+  "ioai-train-g90": {
+   "R1": "ioai-train-g8",
+   "R6": "ioai-train-g8",
+   "R4": "ioai-train-g8",
+   "HC": "ioai-train-g8",
+   "R7": "ioai-train-g8"
+  },
+  "ioai-train-g91": {
+   "R1": "ioai-train-g9",
+   "R6": "ioai-train-g9",
+   "R4": "ioai-train-g9",
+   "HC": "ioai-train-g9",
+   "R7": "ioai-train-g9"
+  },
+  "ioai-train-g92": {
+   "R1": "ioai-train-g10",
+   "R6": "ioai-train-g10",
+   "R4": "ioai-train-g10",
+   "HC": "ioai-train-g10",
+   "R7": "ioai-train-g10"
+  },
+  "ioai-train-g93": {
+   "R1": "ioai-train-g11",
+   "R6": "ioai-train-g11",
+   "R4": "ioai-train-g11",
+   "HC": "ioai-train-g62",
+   "R7": "ioai-train-g11"
+  },
+  "ioai-train-g94": {
+   "R1": "ioai-train-g12",
+   "R6": "ioai-train-g55",
+   "R4": "ioai-train-g12",
+   "HC": "ioai-train-g145",
+   "R7": "ioai-train-g12"
+  },
+  "ioai-train-g95": {
+   "R1": "ioai-train-g13",
+   "R6": "ioai-train-g13",
+   "R4": "ioai-train-g13",
+   "HC": "ioai-train-g13",
+   "R7": "ioai-train-g13"
+  },
+  "ioai-train-g96": {
+   "R1": "ioai-train-g14",
+   "R6": "ioai-train-g88",
+   "R4": "ioai-train-g14",
+   "HC": "ioai-train-g14",
+   "R7": "ioai-train-g14"
+  },
+  "ioai-train-g97": {
+   "R1": "ioai-train-g15",
+   "R6": "ioai-train-g15",
+   "R4": "ioai-train-g15",
+   "HC": "ioai-train-g25",
+   "R7": "ioai-train-g25"
+  },
+  "ioai-train-g98": {
+   "R1": "ioai-train-g16",
+   "R6": "ioai-train-g16",
+   "R4": "ioai-train-g16",
+   "HC": "ioai-train-g16",
+   "R7": "ioai-train-g16"
+  },
+  "ioai-train-g99": {
+   "R1": "ioai-train-g17",
+   "R6": "ioai-train-g17",
+   "R4": "ioai-train-g17",
+   "HC": "ioai-train-g17",
+   "R7": "ioai-train-g17"
+  },
+  "ioai-train-g101": {
+   "R1": "ioai-train-g19",
+   "R6": "ioai-train-g19",
+   "R4": "ioai-train-g19",
+   "HC": "ioai-train-g117",
+   "R7": "ioai-train-g19"
+  },
+  "ioai-train-g102": {
+   "R1": "ioai-train-g20",
+   "R6": "ioai-train-g123",
+   "R4": "ioai-train-g20",
+   "HC": "ioai-train-g20",
+   "R7": "ioai-train-g20"
+  },
+  "ioai-train-g103": {
+   "R1": "ioai-train-g99",
+   "R6": "ioai-train-g21",
+   "R4": "ioai-train-g21",
+   "HC": "ioai-train-g21",
+   "R7": "ioai-train-g21"
+  },
+  "ioai-train-g104": {
+   "R1": "ioai-train-g22",
+   "R6": "ioai-train-g22",
+   "R4": "ioai-train-g22",
+   "HC": "ioai-train-g22",
+   "R7": "ioai-train-g22"
+  },
+  "ioai-train-g105": {
+   "R1": "ioai-train-g23",
+   "R6": "ioai-train-g87",
+   "R4": "ioai-train-g23",
+   "HC": "ioai-train-g23",
+   "R7": "ioai-train-g23"
+  },
+  "ioai-train-g106": {
+   "R1": "ioai-train-g24",
+   "R6": "ioai-train-g39",
+   "R4": "ioai-train-g24",
+   "HC": "ioai-train-g24",
+   "R7": "ioai-train-g24"
+  },
+  "ioai-train-g107": {
+   "R1": "ioai-train-g25",
+   "R6": "ioai-train-g98",
+   "R4": "ioai-train-g25",
+   "HC": "ioai-train-g25",
+   "R7": "ioai-train-g25"
+  },
+  "ioai-train-g108": {
+   "R1": "ioai-train-g99",
+   "R6": "ioai-train-g1",
+   "R4": "ioai-train-g26",
+   "HC": "ioai-train-g26",
+   "R7": "ioai-train-g99"
+  },
+  "ioai-train-g109": {
+   "R1": "ioai-train-g27",
+   "R6": "ioai-train-g88",
+   "R4": "ioai-train-g27",
+   "HC": "ioai-train-g27",
+   "R7": "ioai-train-g27"
+  },
+  "ioai-train-g110": {
+   "R1": "ioai-train-g28",
+   "R6": "ioai-train-g28",
+   "R4": "ioai-train-g28",
+   "HC": "ioai-train-g6",
+   "R7": "ioai-train-g28"
+  },
+  "ioai-train-g111": {
+   "R1": "ioai-train-g140",
+   "R6": "ioai-train-g140",
+   "R4": "ioai-train-g29",
+   "HC": "ioai-train-g29",
+   "R7": "ioai-train-g29"
+  },
+  "ioai-train-g112": {
+   "R1": "ioai-train-g83",
+   "R6": "ioai-train-g49",
+   "R4": "ioai-train-g30",
+   "HC": "ioai-train-g101",
+   "R7": "ioai-train-g83"
+  },
+  "ioai-train-g113": {
+   "R1": "ioai-train-g31",
+   "R6": "ioai-train-g31",
+   "R4": "ioai-train-g31",
+   "HC": "ioai-train-g31",
+   "R7": "ioai-train-g31"
+  },
+  "ioai-train-g114": {
+   "R1": "ioai-train-g32",
+   "R6": "ioai-train-g99",
+   "R4": "ioai-train-g32",
+   "HC": "ioai-train-g32",
+   "R7": "ioai-train-g32"
+  },
+  "ioai-train-g115": {
+   "R1": "ioai-train-g33",
+   "R6": "ioai-train-g33",
+   "R4": "ioai-train-g33",
+   "HC": "ioai-train-g33",
+   "R7": "ioai-train-g33"
+  },
+  "ioai-train-g116": {
+   "R1": "ioai-train-g98",
+   "R6": "ioai-train-g34",
+   "R4": "ioai-train-g34",
+   "HC": "ioai-train-g34",
+   "R7": "ioai-train-g34"
+  },
+  "ioai-train-g117": {
+   "R1": "ioai-train-g35",
+   "R6": "ioai-train-g35",
+   "R4": "ioai-train-g35",
+   "HC": "ioai-train-g19",
+   "R7": "ioai-train-g19"
+  },
+  "ioai-train-g118": {
+   "R1": "ioai-train-g36",
+   "R6": "ioai-train-g36",
+   "R4": "ioai-train-g36",
+   "HC": "ioai-train-g36",
+   "R7": "ioai-train-g36"
+  },
+  "ioai-train-g119": {
+   "R1": "ioai-train-g37",
+   "R6": "ioai-train-g37",
+   "R4": "ioai-train-g37",
+   "HC": "ioai-train-g37",
+   "R7": "ioai-train-g37"
+  },
+  "ioai-train-g120": {
+   "R1": "ioai-train-g38",
+   "R6": "ioai-train-g90",
+   "R4": "ioai-train-g38",
+   "HC": "ioai-train-g38",
+   "R7": "ioai-train-g38"
+  },
+  "ioai-train-g121": {
+   "R1": "ioai-train-g39",
+   "R6": "ioai-train-g39",
+   "R4": "ioai-train-g39",
+   "HC": "ioai-train-g39",
+   "R7": "ioai-train-g39"
+  },
+  "ioai-train-g122": {
+   "R1": "ioai-train-g39",
+   "R6": "ioai-train-g121",
+   "R4": "ioai-train-g40",
+   "HC": "ioai-train-g40",
+   "R7": "ioai-train-g40"
+  },
+  "ioai-train-g123": {
+   "R1": "ioai-train-g41",
+   "R6": "ioai-train-g41",
+   "R4": "ioai-train-g41",
+   "HC": "ioai-train-g41",
+   "R7": "ioai-train-g41"
+  },
+  "ioai-train-g124": {
+   "R1": "ioai-train-g42",
+   "R6": "ioai-train-g42",
+   "R4": "ioai-train-g42",
+   "HC": "ioai-train-g42",
+   "R7": "ioai-train-g42"
+  },
+  "ioai-train-g125": {
+   "R1": "ioai-train-g43",
+   "R6": "ioai-train-g43",
+   "R4": "ioai-train-g43",
+   "HC": "ioai-train-g43",
+   "R7": "ioai-train-g43"
+  },
+  "ioai-train-g126": {
+   "R1": "ioai-train-g44",
+   "R6": "ioai-train-g17",
+   "R4": "ioai-train-g44",
+   "HC": "ioai-train-g44",
+   "R7": "ioai-train-g44"
+  },
+  "ioai-train-g127": {
+   "R1": "ioai-train-g45",
+   "R6": "ioai-train-g87",
+   "R4": "ioai-train-g45",
+   "HC": "ioai-train-g45",
+   "R7": "ioai-train-g45"
+  },
+  "ioai-train-g128": {
+   "R1": "ioai-train-g46",
+   "R6": "ioai-train-g137",
+   "R4": "ioai-train-g46",
+   "HC": "ioai-train-g46",
+   "R7": "ioai-train-g46"
+  },
+  "ioai-train-g129": {
+   "R1": "ioai-train-g47",
+   "R6": "ioai-train-g39",
+   "R4": "ioai-train-g47",
+   "HC": "ioai-train-g47",
+   "R7": "ioai-train-g47"
+  },
+  "ioai-train-g130": {
+   "R1": "ioai-train-g25",
+   "R6": "ioai-train-g25",
+   "R4": "ioai-train-g48",
+   "HC": "ioai-train-g48",
+   "R7": "ioai-train-g48"
+  },
+  "ioai-train-g131": {
+   "R1": "ioai-train-g49",
+   "R6": "ioai-train-g49",
+   "R4": "ioai-train-g49",
+   "HC": "ioai-train-g49",
+   "R7": "ioai-train-g49"
+  },
+  "ioai-train-g132": {
+   "R1": "ioai-train-g50",
+   "R6": "ioai-train-g98",
+   "R4": "ioai-train-g50",
+   "HC": "ioai-train-g50",
+   "R7": "ioai-train-g50"
+  },
+  "ioai-train-g133": {
+   "R1": "ioai-train-g51",
+   "R6": "ioai-train-g51",
+   "R4": "ioai-train-g51",
+   "HC": "ioai-train-g51",
+   "R7": "ioai-train-g51"
+  },
+  "ioai-train-g134": {
+   "R1": "ioai-train-g52",
+   "R6": "ioai-train-g52",
+   "R4": "ioai-train-g52",
+   "HC": "ioai-train-g52",
+   "R7": "ioai-train-g52"
+  },
+  "ioai-train-g135": {
+   "R1": "ioai-train-g53",
+   "R6": "ioai-train-g53",
+   "R4": "ioai-train-g53",
+   "HC": "ioai-train-g53",
+   "R7": "ioai-train-g53"
+  },
+  "ioai-train-g136": {
+   "R1": "ioai-train-g54",
+   "R6": "ioai-train-g14",
+   "R4": "ioai-train-g54",
+   "HC": "ioai-train-g54",
+   "R7": "ioai-train-g54"
+  },
+  "ioai-train-g137": {
+   "R1": "ioai-train-g55",
+   "R6": "ioai-train-g138",
+   "R4": "ioai-train-g55",
+   "HC": "ioai-train-g55",
+   "R7": "ioai-train-g55"
+  },
+  "ioai-train-g138": {
+   "R1": "ioai-train-g56",
+   "R6": "ioai-train-g111",
+   "R4": "ioai-train-g56",
+   "HC": "ioai-train-g56",
+   "R7": "ioai-train-g56"
+  },
+  "ioai-train-g139": {
+   "R1": "ioai-train-g57",
+   "R6": "ioai-train-g57",
+   "R4": "ioai-train-g57",
+   "HC": "ioai-train-g57",
+   "R7": "ioai-train-g57"
+  },
+  "ioai-train-g140": {
+   "R1": "ioai-train-g58",
+   "R6": "ioai-train-g111",
+   "R4": "ioai-train-g58",
+   "HC": "ioai-train-g58",
+   "R7": "ioai-train-g58"
+  },
+  "ioai-train-g142": {
+   "R1": "ioai-train-g60",
+   "R6": "ioai-train-g92",
+   "R4": "ioai-train-g60",
+   "HC": "ioai-train-g60",
+   "R7": "ioai-train-g60"
+  },
+  "ioai-train-g143": {
+   "R1": "ioai-train-g61",
+   "R6": "ioai-train-g61",
+   "R4": "ioai-train-g61",
+   "HC": "ioai-train-g61",
+   "R7": "ioai-train-g61"
+  },
+  "ioai-train-g144": {
+   "R1": "ioai-train-g62",
+   "R6": "ioai-train-g84",
+   "R4": "ioai-train-g62",
+   "HC": "ioai-train-g62",
+   "R7": "ioai-train-g62"
+  },
+  "ioai-train-g145": {
+   "R1": "ioai-train-g63",
+   "R6": "ioai-train-g63",
+   "R4": "ioai-train-g63",
+   "HC": "ioai-train-g63",
+   "R7": "ioai-train-g63"
+  },
+  "ioai-train-g146": {
+   "R1": "ioai-train-g64",
+   "R6": "ioai-train-g151",
+   "R4": "ioai-train-g64",
+   "HC": "ioai-train-g64",
+   "R7": "ioai-train-g64"
+  },
+  "ioai-train-g147": {
+   "R1": "ioai-train-g65",
+   "R6": "ioai-train-g145",
+   "R4": "ioai-train-g65",
+   "HC": "ioai-train-g145",
+   "R7": "ioai-train-g145"
+  },
+  "ioai-train-g148": {
+   "R1": "ioai-train-g66",
+   "R6": "ioai-train-g151",
+   "R4": "ioai-train-g66",
+   "HC": "ioai-train-g66",
+   "R7": "ioai-train-g66"
+  },
+  "ioai-train-g149": {
+   "R1": "ioai-train-g67",
+   "R6": "ioai-train-g67",
+   "R4": "ioai-train-g67",
+   "HC": "ioai-train-g67",
+   "R7": "ioai-train-g67"
+  },
+  "ioai-train-g150": {
+   "R1": "ioai-train-g147",
+   "R6": "ioai-train-g159",
+   "R4": "ioai-train-g68",
+   "HC": "ioai-train-g68",
+   "R7": "ioai-train-g68"
+  },
+  "ioai-train-g151": {
+   "R1": "ioai-train-g69",
+   "R6": "ioai-train-g69",
+   "R4": "ioai-train-g69",
+   "HC": "ioai-train-g23",
+   "R7": "ioai-train-g69"
+  },
+  "ioai-train-g152": {
+   "R1": "ioai-train-g70",
+   "R6": "ioai-train-g70",
+   "R4": "ioai-train-g70",
+   "HC": "ioai-train-g70",
+   "R7": "ioai-train-g70"
+  },
+  "ioai-train-g153": {
+   "R1": "ioai-train-g71",
+   "R6": "ioai-train-g71",
+   "R4": "ioai-train-g71",
+   "HC": "ioai-train-g71",
+   "R7": "ioai-train-g71"
+  },
+  "ioai-train-g154": {
+   "R1": "ioai-train-g72",
+   "R6": "ioai-train-g155",
+   "R4": "ioai-train-g72",
+   "HC": "ioai-train-g105",
+   "R7": "ioai-train-g72"
+  },
+  "ioai-train-g155": {
+   "R1": "ioai-train-g161",
+   "R6": "ioai-train-g73",
+   "R4": "ioai-train-g73",
+   "HC": "ioai-train-g73",
+   "R7": "ioai-train-g73"
+  },
+  "ioai-train-g156": {
+   "R1": "ioai-train-g74",
+   "R6": "ioai-train-g110",
+   "R4": "ioai-train-g74",
+   "HC": "ioai-train-g74",
+   "R7": "ioai-train-g74"
+  },
+  "ioai-train-g157": {
+   "R1": "ioai-train-g75",
+   "R6": "ioai-train-g153",
+   "R4": "ioai-train-g75",
+   "HC": "ioai-train-g75",
+   "R7": "ioai-train-g75"
+  },
+  "ioai-train-g158": {
+   "R1": "ioai-train-g76",
+   "R6": "ioai-train-g39",
+   "R4": "ioai-train-g76",
+   "HC": "ioai-train-g77",
+   "R7": "ioai-train-g76"
+  },
+  "ioai-train-g159": {
+   "R1": "ioai-train-g77",
+   "R6": "ioai-train-g77",
+   "R4": "ioai-train-g77",
+   "HC": "ioai-train-g77",
+   "R7": "ioai-train-g77"
+  },
+  "ioai-train-g160": {
+   "R1": "ioai-train-g78",
+   "R6": "ioai-train-g78",
+   "R4": "ioai-train-g78",
+   "HC": "ioai-train-g45",
+   "R7": "ioai-train-g78"
+  },
+  "ioai-train-g161": {
+   "R1": "ioai-train-g79",
+   "R6": "ioai-train-g79",
+   "R4": "ioai-train-g79",
+   "HC": "ioai-train-g79",
+   "R7": "ioai-train-g79"
+  },
+  "ioai-train-g162": {
+   "R1": "ioai-train-g80",
+   "R6": "ioai-train-g145",
+   "R4": "ioai-train-g80",
+   "HC": "ioai-train-g80",
+   "R7": "ioai-train-g80"
+  },
+  "ioai-train-g163": {
+   "R1": "ioai-train-g70",
+   "R6": "ioai-train-g70",
+   "R4": "ioai-train-g81",
+   "HC": "ioai-train-g81",
+   "R7": "ioai-train-g81"
+  },
+  "ioai-train-g164": {
+   "R1": "ioai-train-g155",
+   "R6": "ioai-train-g72",
+   "R4": "ioai-train-g82",
+   "HC": "ioai-train-g82",
+   "R7": "ioai-train-g82"
+  }
+ }
+}
