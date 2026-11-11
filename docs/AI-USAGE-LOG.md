@@ -691,7 +691,7 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - `web/components/motion/motion-preference.tsx`, `motionStore`, the inline script, the Settings switch and a CSS block.
   - Two tests; the R7 line in ANTI-SLOP.md; a note in DESIGN-BRIEF.md.
 - **How I verified it, and who verified it:**
-  - lint, typecheck, all 145 tests and the build pass after the rebase on `main`.
+  - lint, typecheck, all 148 tests and the build pass after the rebase on `main`.
   - A Playwright run on port 3102 read every animation frame for 3 s on the four routes. Switch on: no element took more than one value. Baseline: chart bars took 20 values, KPI numbers 10.
   - The same run with the device setting emulated gave the same result as the switch.
   - Pause and Play worked with Enter, Space and a click.
