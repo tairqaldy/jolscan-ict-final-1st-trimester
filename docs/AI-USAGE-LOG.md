@@ -829,3 +829,19 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - Before: the Vercel deployment list showed 40 Git deployments in about 80 minutes, all from pushes (claim commits on `main` and pull-request branches), none started by hand.
   - After: the result for this branch and for the merge commit is in a comment on the pull request.
 - **What I rejected or corrected:** an Ignored Build Step that skips commits outside `web/` (every web merge and every preview would still build), and only batching claim commits (previews would still build).
+
+### 11 November 2026, Dameli (G-60 one landing effect)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) and Pillow in a throwaway environment for the screenshots.
+- **Purpose:** finish G-60 after a stopped session: review its comparison of three effects on the How it works steps, keep at most one, and redo the work as small commits.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-60 among them). Transcript kept locally.
+- **What it produced or changed:** the step-line block in `web/app/globals.css`, the class `how-steps` in `web/app/page.tsx`, the test `web/lib/how-steps-motion.test.ts`, `docs/design/borrowed.md` and the comparison screenshots in `docs/design/landing-effect-g60/`.
+- **How I verified it, and who verified it:**
+  - Screenshots of no effect, beam, step line and spotlight at 1440 and 375 px in light and dark, and frame strips of the step line while scrolling.
+  - Playwright on `/`: with no preference the four lines have `animation-name: how-step-line` on a `view()` timeline and fill in order; with the OS reduced-motion setting and with the Settings switch every line has `animation-name: none` and `transform: none`. Layout shift while scrolling through the section: 0.
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` (194 tests) and `pnpm build` pass.
+- **What I rejected or corrected:**
+  - The beam and the spotlight (reasons in `docs/design/borrowed.md`).
+  - The stopped session's single unreviewed commit was undone and redone as small commits; its temporary comparison route is not in the pull request.
+  - The first typecheck failed on route types the dev server had generated for the deleted temporary route; clearing them fixed it.
+  - No Lighthouse run: it is not installed, and adding it would be a new dependency.
