@@ -1,6 +1,6 @@
 "use client";
 
-import { Brain, Clock, MapPin, Route, School, Timer, type LucideIcon } from "lucide-react";
+import { Brain, Clock, MapPin, Route, School, Timer, UserRoundSearch, type LucideIcon } from "lucide-react";
 import { useMemo, useState, type ReactNode } from "react";
 import { Badge, ReviewBadge, SeverityBadge } from "@/components/ui/badge";
 import { Callout } from "@/components/ui/callout";
@@ -92,7 +92,7 @@ export function AnalysisView({ analysis, title }: { analysis: StoredAnalysis; ti
             </dl>
 
             {analysis.needsReview && (
-              <Callout tone="warning" title="Needs a human look">
+              <Callout tone="warning" icon={UserRoundSearch} title="Needs a human look">
                 Some detections are below the confidence threshold. They are not counted, but a person should check the
                 photo. It is in the review queue on the Roads overview.
               </Callout>
