@@ -17,7 +17,7 @@ export default function DesignPage() {
     <>
       <SiteHeader />
       <main id="main" className="container-page public-container pt-12">
-        <p className="text-xs font-semibold tracking-[0.18em] text-accent-ink uppercase">Design system</p>
+        <p className="eyebrow text-accent-ink">Design system</p>
         <h1 className="mt-2 text-4xl font-bold sm:text-5xl">Asphalt, markings and signs</h1>
         <p className="mt-3 max-w-2xl text-lg text-muted">
           Qarau&apos;s shared colours, typography and controls, shown in each theme. To refine the system, edit{" "}
