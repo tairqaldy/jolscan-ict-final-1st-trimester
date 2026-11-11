@@ -12,6 +12,21 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 17:22 · G-25 (#169), G-68 (#333) · Printable reports and photo thumbnails in table rows
+- **Status:** done
+- **What I did:**
+  - G-25: a print stylesheet and a Print button, so a road report or a sign check prints on one light A4 page. Paper gets the light tokens even from the dark theme, the app's navigation and buttons are hidden, the photo or signs sit next to the verdict card, and a print-only copy of the rule table is printed whichever tab was open. A footer line gives the page URL, the print date and the demo or mock label.
+  - G-68: one `RowThumb` component. Road rows show the photo at 64×36 before the location; sign-check rows use it for both signs at 30×36. An entry with no stored image gets a neutral box.
+- **Result:** `web/app/print.css` (imported once from `globals.css`), `web/components/app/print-bits.tsx`, `web/components/ui/row-thumb.tsx`, `web/lib/print-tokens.test.ts`; changes in `report-detail-client.tsx`, `check-detail-client.tsx`, `analyses-table.tsx`, `checks-table.tsx`. Playwright `page.pdf()`: demo-001 and demo-rc-001 print on one page from both themes, and so do all 70 demo reports and checks. Thumbnails measure 64×36 on all 41 report rows and 6 'Recent analyses' rows, a test upload shows its own photo, layout shift on `/app/roads/reports` is 0.
+- **Decisions and why:**
+  - Light paper in CSS, not in JavaScript: the print copy of the light tokens works for Ctrl+P and for `page.pdf()`, and a test fails if the copy drifts from `tokens.css`.
+  - The paper layout is scaled to 80% and puts the photo next to the verdict card; at full size the rule table fell onto a second page.
+  - The thumbnail sits inside the Location cell (variant C), so the photo and the street name read as one item and phones get no extra column. The alt text names the sample drawing or the uploaded file, not "thumbnail".
+  - I did not touch `analysis-view.tsx`, `compare-result.tsx` or `app-shell.tsx` (other open work); the print rules reach them through CSS selectors instead.
+- **What I learned / can explain at the defense:** recognition rather than recall (Lec3-HCI p.19): a row is recognised by its photo. Printing keeps the honesty label (U8): a demo or mock result says so on paper too. Browsers drop background colours in print unless `print-color-adjust: exact` is set.
+- **AI use:** Claude Code wrote the stylesheet, components and Playwright checks from the two issues (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** G-68 steps not done: the `/design` showcase entry and the A/B/C variant screenshots in Mobbin/Refero; the reference collection needs a person and the shared Drive.
+
 ### 2026-11-11 17:20 · G-7 (#125), G-71 (#336), G-51 (#285) · One chart style, labelled thresholds, columns for detections per day
 - **Status:** done
 - **What I did:**
