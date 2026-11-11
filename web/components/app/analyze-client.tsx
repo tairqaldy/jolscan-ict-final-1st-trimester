@@ -8,6 +8,7 @@ import { useEffect, useRef, useState, type DragEvent } from "react";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { Callout } from "@/components/ui/callout";
 import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { EmptyRoad } from "@/components/illustrations";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Select } from "@/components/ui/select";
 import { SelectableTile } from "@/components/ui/selectable-tile";
@@ -212,7 +213,7 @@ export function AnalyzeClient() {
             </AnimatePresence>
           </figure>
         ) : (
-          <EmptyState icon={ImageUp} title="No photo selected">
+          <EmptyState icon={ImageUp} illustration={<EmptyRoad />} title="No photo selected">
             Drop a road photo below or pick one of the sample photos. Results appear here.
           </EmptyState>
         )}
