@@ -27,6 +27,7 @@ from PIL import Image
 
 import restroom
 from imaging import read_image
+from schemas import InferenceResult
 
 WEIGHTS = os.getenv("MODEL_WEIGHTS", "weights/jolscan-e8.pt")
 MODEL_NAME = os.getenv("MODEL_NAME", Path(WEIGHTS).stem)
@@ -125,7 +126,7 @@ async def ready() -> JSONResponse:
     return JSONResponse(status_code=200 if ok else 503, content={"ready": ok, "models": models})
 
 
-@app.post("/predict")
+@app.post("/predict", response_model=InferenceResult)
 async def predict(file: UploadFile = File(...), conf: float = Form(0.25)) -> dict:
     if not 0.0 < conf < 1.0:
         raise HTTPException(status_code=400, detail="conf must be between 0 and 1.")
