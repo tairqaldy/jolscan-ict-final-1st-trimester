@@ -4,15 +4,15 @@ import { Contrast, Monitor, Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { themeStore, type ThemePreference } from "@/lib/store/theme";
 
-/** High contrast (G-31) is the last step, so one more click always leads back to System. */
-const ORDER: ThemePreference[] = ["system", "light", "dark", "contrast"];
+/** The header button keeps its three steps; High contrast (G-31) is picked in Settings, and one click from it leads back to System. */
+const ORDER: ThemePreference[] = ["system", "light", "dark"];
 const ICONS = { system: Monitor, light: Sun, dark: Moon, contrast: Contrast };
 const NAMES: Record<ThemePreference, string> = { system: "system", light: "light", dark: "dark", contrast: "high contrast" };
 
-/** One button that cycles system -> light -> dark -> high contrast. Full choice lives in Settings. */
+/** One button that cycles system -> light -> dark. Full choice, including high contrast, lives in Settings. */
 export function ThemeToggle({ className }: { className?: string }) {
   const pref = themeStore.useStore();
-  const next = ORDER[(ORDER.indexOf(pref) + 1) % ORDER.length];
+  const next: ThemePreference = pref === "contrast" ? "system" : ORDER[(ORDER.indexOf(pref) + 1) % ORDER.length];
   const Icon = ICONS[pref];
   return (
     <button
