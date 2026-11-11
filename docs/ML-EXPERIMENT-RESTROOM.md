@@ -250,6 +250,14 @@ Features read out after every block or stage on the 82 training restrooms: CLIP'
 
 **The middle of the network knows the restroom; the end of the network knows the gender.** Gender is the information that pulls same-gender signs together and the two doors apart, so CLIP's final embedding is worse at pairing than its middle blocks. That is also why fine-tuning the last blocks helps pairing and hurts gender. All numbers: `ml/results/restroom/layer_probe.json`.
 
+### Where gender fails, by style (task C-28, `ml/restroom/style_clusters.py`)
+
+K-means on the CLIP embeddings of the 164 training originals, with the rule for k fixed in advance (k = 2–8, best cosine silhouette or the smallest k within 0.01), picks **k = 2**. The silhouettes are all low (0.06–0.14), so the signs do not fall into clear style groups.
+
+- **Errors do not concentrate in a cluster.** Zero-shot gender is right on 86/113 = 0.76 (0.67–0.84) signs of cluster 0 and 40/51 = 0.78 (0.65–0.89) of cluster 1, against 0.77 overall; the intervals overlap.
+- **A lead, not a result:** on the PCA plot (`figs/style_clusters_pca.png`) the wrongly gendered signs sit mostly in the lower half of the second principal direction: 51/79 = 0.65 right there against 75/85 = 0.88 above (Fisher p = 0.0004). This split was noticed on the plot after the fact, so it needs a check on new signs before anyone builds on it.
+- Examples per cluster: `figs/style_clusters_examples.png`.
+
 ## Figures for the slides (`ml/results/restroom/figs/`)
 
 - `approaches.png`: the approach ladder, from the IOAI baseline to the final pipeline.
