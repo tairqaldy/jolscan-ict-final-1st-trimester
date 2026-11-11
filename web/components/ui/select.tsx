@@ -35,7 +35,7 @@ export function Select({
         <RadixSelect.Trigger
           aria-labelledby={id}
           className={cn(
-            "inline-flex h-10 min-w-40 items-center justify-between gap-2 rounded-md border border-border-strong bg-surface px-3 text-sm",
+            "inline-flex h-10 min-w-[min(10rem,100%)] items-center justify-between gap-2 rounded-md border border-border-strong bg-surface px-3 text-sm",
             triggerClassName,
           )}
         >

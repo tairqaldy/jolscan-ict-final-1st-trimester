@@ -245,7 +245,7 @@ export function ThemedShowcase() {
               {g.tokens.map((t) => (
                 <li key={t} className="grid gap-1">
                   <span className="h-10 rounded-sm border border-border" style={{ background: `var(--${t})` }} />
-                  <span className="truncate font-mono text-[0.68rem] text-muted">--{t}</span>
+                  <span className="truncate font-mono text-xs text-muted">--{t}</span>
                 </li>
               ))}
             </ul>

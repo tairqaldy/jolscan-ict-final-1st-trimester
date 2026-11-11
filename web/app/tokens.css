@@ -368,7 +368,10 @@
   --font-display: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-code), ui-monospace, "SFMono-Regular", Menlo, monospace;
 
-  /* Type scale (rem / line-height). Display sizes are condensed caps-friendly. */
+  /* Type scale (rem / line-height). Display sizes are condensed caps-friendly.
+     `initial` drops Tailwind's default text-6xl..9xl (6xl was 3.75rem, smaller
+     than our 5xl), so these nine steps are the whole scale. */
+  --text-*: initial;
   --text-xs: 0.75rem;
   --text-xs--line-height: 1rem;
   --text-sm: 0.875rem;

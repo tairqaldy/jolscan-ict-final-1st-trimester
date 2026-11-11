@@ -65,6 +65,19 @@
   }
 }
 
+/*
+ * G-65: below lg the app has a sticky top bar (6.5rem) and a fixed tab bar
+ * (4rem). Scroll padding keeps a keyboard-focused control clear of both, also
+ * at 200 % zoom (WCAG 2.4.11). rem, so it grows with text-only zoom too.
+ * .app-frame is the AppShell root (components/app/app-shell.tsx).
+ */
+@media (width < 64rem) {
+  html:has(.app-frame) {
+    scroll-padding-top: 7rem;
+    scroll-padding-bottom: calc(4.5rem + env(safe-area-inset-bottom));
+  }
+}
+
 @utility container-page {
   width: 100%;
   max-width: var(--content-max);

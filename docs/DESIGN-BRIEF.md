@@ -253,6 +253,7 @@ Motion explains what happened. It never blocks input, never loops without reason
 - [ ] No placeholder text, no mock number shown without the "Demo data" badge.
 - [ ] Favicon, page titles, social preview image.
 - [ ] Screenshots exported for the deck.
+- [x] 320 px reflow and 200 % zoom checked (WCAG 1.4.10, 1.4.4, 2.4.11).
 
 ## Review colour (G-47)
 

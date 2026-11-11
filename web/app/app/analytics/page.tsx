@@ -40,11 +40,11 @@ export default function AnalyticsPage() {
           {MODULES.restrooms.name}
         </a>
       </nav>
-      <section id="roads" aria-labelledby="roads-h" className="grid scroll-mt-24 gap-4">
+      <section id="roads" aria-labelledby="roads-h" className="grid scroll-mt-4 gap-4 lg:scroll-mt-24">
         <SectionHeading id="roads" text="Detections per day, severity per week, model confidence and latency per provider." />
         <RoadsAnalytics />
       </section>
-      <section id="restrooms" aria-labelledby="restrooms-h" className="grid scroll-mt-24 gap-4">
+      <section id="restrooms" aria-labelledby="restrooms-h" className="grid scroll-mt-4 gap-4 lg:scroll-mt-24">
         <SectionHeading id="restrooms" text="Verdicts, how alike compared pairs are, and how sure the model is about each sign." />
         <RestroomAnalytics />
       </section>

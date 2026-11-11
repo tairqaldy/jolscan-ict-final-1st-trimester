@@ -37,7 +37,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const moreActive = moreItems.some((i) => isActive(pathname, i));
 
   return (
-    <div className="min-h-dvh bg-bg">
+    <div className="app-frame min-h-dvh bg-bg">
       <a
         href="#main"
         className="sr-only z-50 rounded-md bg-accent px-3 py-2 text-accent-fg focus:not-sr-only focus:fixed focus:top-3 focus:left-3"

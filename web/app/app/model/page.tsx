@@ -147,7 +147,7 @@ export default function ModelPage() {
       </nav>
 
       {/* ------------------------------------------------------------ Roads */}
-      <section id="roads" aria-labelledby="roads-h" className="grid scroll-mt-24 gap-4">
+      <section id="roads" aria-labelledby="roads-h" className="grid scroll-mt-4 gap-4 lg:scroll-mt-24">
         <ModuleHeading id="roads" headingId="roads-h" text="YOLO object detector, fine-tuned from COCO-pretrained weights on a pothole dataset." />
         <Card>
           <CardHeader>
@@ -282,7 +282,7 @@ export default function ModelPage() {
       </section>
 
       {/* -------------------------------------------------------- Restrooms */}
-      <section id="restrooms" aria-labelledby="restrooms-h" className="grid scroll-mt-24 gap-4">
+      <section id="restrooms" aria-labelledby="restrooms-h" className="grid scroll-mt-4 gap-4 lg:scroll-mt-24">
         <ModuleHeading
           id="restrooms"
           headingId="restrooms-h"
@@ -399,7 +399,7 @@ export default function ModelPage() {
       </section>
 
       {/* ---------------------------------------------------------- Metrics */}
-      <section id="metrics" aria-labelledby="metrics-h" className="grid scroll-mt-24 gap-6">
+      <section id="metrics" aria-labelledby="metrics-h" className="grid scroll-mt-4 gap-6 lg:scroll-mt-24">
         <h2 id="metrics-h" className="text-2xl font-bold">
           The metrics in plain words
         </h2>
@@ -407,7 +407,7 @@ export default function ModelPage() {
         <TermGrid title={`${MODULES.restrooms.name}: matching and classification`} terms={SIGN_METRICS} />
       </section>
 
-      <section id="lifecycle" aria-labelledby="lifecycle-h" className="grid scroll-mt-24 gap-4">
+      <section id="lifecycle" aria-labelledby="lifecycle-h" className="grid scroll-mt-4 gap-4 lg:scroll-mt-24">
         <div>
           <h2 id="lifecycle-h" className="text-2xl font-bold">
             Model lifecycle

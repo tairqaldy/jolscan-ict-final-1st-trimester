@@ -130,7 +130,7 @@ export function SignSlot({
       <div className="flex flex-wrap gap-2">
         <Dialog open={pickerOpen} onOpenChange={setPickerOpen}>
           <DialogTrigger asChild>
-            <Button variant="secondary" size="sm" disabled={disabled}>
+            <Button variant="secondary" size="sm" disabled={disabled} className="h-auto! min-h-8 py-1 whitespace-normal!">
               <LayoutGrid aria-hidden /> Choose a sample
             </Button>
           </DialogTrigger>
