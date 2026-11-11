@@ -959,3 +959,10 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - The first version read a fixed list of three stylesheets; the design lab added `lab.css` the same afternoon, so it now reads every stylesheet under `app/` and `components/`.
   - A trailing `// #fff` comment was reported as a hex colour; comments after a space are now skipped.
   - Did not copy the existing motion check into `tokens.test.ts`; extended `motion.test.ts` instead.
+### 11 November 2026, Dameli (G-9 dashboard review)
+- **Tool and version:** Claude Code, Claude Opus 5.5, in the Claude desktop app.
+- **Purpose:** review the overview dashboards against Nielsen's ten heuristics and fix the layout and feedback problems in my design layer.
+- **Key prompt(s):** "мне просто нужно сейчас сделать просто максимальное колво тасков"; transcript kept locally.
+- **What it produced or changed:** `docs/design/dashboard-review.md` and its screenshots; `web/components/app/link-row.ts`; class changes in the three overview clients, `kpi.tsx`, `demo-path.tsx`, `analyses-table.tsx` and `checks-table.tsx`.
+- **How I verified it:** Playwright on a dev server: screenshots at 1440 and 375 px in both themes, element positions against the fold, computed transition values with Reduce motion on and off, and a script that measures every KPI number against its tile at 320 to 1440 px (4 overflowing pages before, 0 after). `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` pass.
+- **What I rejected or corrected:** a first try passed `shadow-none` through `className`, which did nothing because `cn()` does not merge classes; replaced by a `nested` prop. Moving the review queues was left to W-7 because the page order is Tair's.

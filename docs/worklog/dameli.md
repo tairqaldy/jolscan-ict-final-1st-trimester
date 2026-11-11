@@ -12,6 +12,21 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 20:34 · G-9 (#126) · Dashboard review against the ten heuristics
+- **Status:** done
+- **What I did:**
+  - Reviewed `/app`, `/app/roads`, `/app/restrooms` and the top of `/app/analytics` at 1440 and 375 px, light and dark, heuristic by heuristic, and wrote a decision for each in `docs/design/dashboard-review.md` (pass, fixed, suggested to an owner, or n/a), with screenshots in `docs/design/dashboard-review-g9/`.
+  - Fixed what is in my layer: one feedback class for link rows and link cards (`web/components/app/link-row.ts`: hover border and background, press one step darker, 120 ms `--duration-fast`, `ease-standard`); an arrow on the "Shared by both modules" cards; flat KPI tiles inside the Home module cards (`Kpi nested`); hotspots as a plain ranked list so they no longer look like the clickable review queue; eased table-row hover; the KPI number steps down on phones and at `lg` so it never overflows its tile.
+  - Wrote the order changes (review queue above the fold, Home demo path under the modules, restroom explainer under the KPIs) as suggestions for W-7 (#108), and the naming and nav notes for Tair, G-74 and G-76.
+- **Result:** first review-queue item on `/app/roads` is at y = 1034 (below the fold at 1440 × 900 and 1366 × 768), so W-7 still has work. KPI fit script: 4 overflowing pages before (320, 375 and 1024 px), 0 after. Reduce motion (device and Settings switch) cuts the new transitions to 0.01 ms (measured). Lint, typecheck and 223 tests pass.
+- **Decisions and why:**
+  - Section order is Tair's page structure (W-7), so I wrote it down instead of moving cards.
+  - `nested` and the KPI size as props/classes inside `Kpi`, not `className` from the page: `cn()` does not merge classes, so `shadow-none` from outside never beat `shadow-sm` (measured).
+  - KPI step at `lg` back to 36 px: the sidebar appears there and the roads row becomes four tiles, which is where "63 ms" overflowed by 16 px.
+- **What I learned / can explain at the defense:** the dashboard was reviewed heuristic by heuristic and the review changed it: a static tile must not look like a button (consistency), and the urgent item has to be visible without scrolling (aesthetic and minimalist design). Three good examples for slide 9 are at the end of the review.
+- **AI use:** Claude Code (Claude Opus 5.5) took the screenshots and measurements with Playwright, drafted the review and made the class changes; I chose which notes are mine and which go to an owner. Logged in `docs/AI-USAGE-LOG.md`.
+- **Open questions / next:** Tair (W-7): move the roads review queue into the first row, put the Home demo path under the modules, put the restroom KPIs before the explainer. G-76: the middle-dot spacing. G-74: "More" lights up on `/app/roads` at 375 px.
+
 ### 2026-11-11 20:32 · G-74 (#433) · Rail bar, module switch and link underline that move
 - **Status:** done
 - **What I did:**
