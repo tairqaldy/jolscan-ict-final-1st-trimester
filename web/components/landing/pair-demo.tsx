@@ -8,6 +8,7 @@ import { demo, duration, ease } from "@/lib/motion";
 import { RESTROOM_PRESETS, getRestroomSample, mockSimilarity } from "@/lib/mock/restroom-samples";
 import { DEFAULT_SIGNAGE, doorGender, evaluateSignage } from "@/lib/signage";
 import { useHydrated } from "@/lib/store/local-store";
+import { DemoPauseButton } from "./demo-pause-button";
 
 // The landing page keeps the four drawn example pairs; the real IOAI pairs are on the Compare page.
 const LANDING_PRESETS = ["matching", "faint", "mismatched", "same"];
@@ -22,8 +23,9 @@ const EXAMPLES = RESTROOM_PRESETS.filter((p) => LANDING_PRESETS.includes(p.id)).
 /**
  * Landing mini-demo for the restroom module: a sign pair resolves to a
  * verdict. Cycles through the four example pairs; the first one is rendered
- * complete on the server, later ones animate in. A click on an example stops
- * the cycle. No cycling under prefers-reduced-motion.
+ * complete on the server, later ones animate in. The Pause button or a click
+ * on an example stops the cycle; Play resumes it (WCAG 2.2.2). No cycling
+ * under reduced motion.
  */
 export function PairDemo() {
   const reduce = useReducedMotion();
@@ -103,6 +105,9 @@ export function PairDemo() {
             {e.preset.title}
           </button>
         ))}
+      </div>
+      <div className="demo-loop-control flex justify-end">
+        <DemoPauseButton paused={!auto} onToggle={() => setAuto((a) => !a)} name="sign demo" />
       </div>
     </div>
   );
