@@ -472,3 +472,9 @@ Three radii plus pills, all in `web/app/tokens.css`. Every `rounded-*` class and
 **Not tokens.** The `rx` values inside SVG drawings (logo, app icon, empty-state illustrations, detection boxes) are drawing geometry and scale with the drawing, so they stay in the SVG.
 
 **Do not use** Tailwind's built-in `rounded-xs`, `rounded-xl`, `rounded-2xl` or larger: Tailwind still generates them from its own defaults (2, 12, 16 px), which would bring a fourth value back. Check: `grep -rnE 'rounded-(t-|b-|l-|r-)?(xs|xl|[2-4]xl)\b' web/app web/components` finds nothing, and `grep -cE '^\s+--radius-(xs|sm|md|lg|xl):' web/app/tokens.css` prints 3.
+
+## Eyebrow label (G-23)
+
+The small uppercase label above a heading or a value ("Repair priority", "Signage verdict", section labels on the landing page) is one utility, `eyebrow`, in `web/app/globals.css`: 12 px (`--text-xs`), weight 600, uppercase, letter spacing `--tracking-eyebrow` (0.14em, in `web/app/tokens.css`). Colour stays on the element: `text-muted` in the app, `text-accent-ink` for page and section headers, `text-subtle` in the sidebar.
+
+Before, 15 labels wrote the spacing by hand: 11 with 0.14em, 4 with 0.18em (landing hero, landing section headers, `/about`, `/design`). All now use 0.14em, the common value; the four headers are about half a pixel tighter per letter, the other eleven did not change by a pixel. `/design` shows the style in the type scale. Check: `grep -rn 'tracking-\[' web/app web/components` finds nothing.
