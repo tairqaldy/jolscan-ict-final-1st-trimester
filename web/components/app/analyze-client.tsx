@@ -16,6 +16,7 @@ import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/cn";
 import { makeThumbnail, readImageSize, reencodeWithoutMetadata } from "@/lib/image";
 import { SAMPLES, getSample, type Sample } from "@/lib/mock/samples";
+import { timing } from "@/lib/motion";
 import { addToHistory } from "@/lib/store/history";
 import { rulesStore, settingsStore } from "@/lib/store/settings";
 import { ROAD_CLASSES, type RoadClass, type StoredAnalysis } from "@/lib/types";
@@ -205,7 +206,7 @@ export function AnalyzeClient() {
                       className="absolute inset-x-0 h-1 bg-accent shadow-lg"
                       initial={{ top: "0%" }}
                       animate={{ top: ["0%", "100%", "0%"] }}
-                      transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+                      transition={{ duration: timing.scanSweep, repeat: Infinity, ease: "easeInOut" }}
                     />
                   )}
                 </motion.div>
