@@ -1,3 +1,4 @@
+import { DemoBadge } from "@/components/app/demo-badge";
 import { BRAND } from "@/lib/brand";
 import { Table, TD, TH, THead, TR } from "@/components/ui/table";
 
@@ -57,7 +58,10 @@ export function TypeSpecimen() {
       </div>
 
       <div className="grid gap-1">
-        <p className="text-xs font-semibold tracking-wide text-muted uppercase">KPI</p>
+        <div className="flex flex-wrap items-center gap-2">
+          <p className="text-xs font-semibold tracking-wide text-muted uppercase">KPI</p>
+          <DemoBadge show label="Placeholder numbers" />
+        </div>
         <p className="tabular font-display text-5xl font-bold">1 234</p>
         <p className="text-sm text-muted">Photos checked</p>
       </div>
