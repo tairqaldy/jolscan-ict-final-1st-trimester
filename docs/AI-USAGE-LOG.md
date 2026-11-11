@@ -433,3 +433,24 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - The first қ sketch had a hooked tail.
   - My earlier two-button hero lost to Tair's measured W-62 path.
   - Changes outside my tasks were removed from the pull request.
+
+### 11 November 2026, Dameli (G-12 study card, G-13 slide 9)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with its built-in browser and the unslop writing skill.
+- **Purpose:** draft my practice answers and slide 9 from facts that are true in our app and in the lectures.
+- **Key prompt(s), with a link to the transcript:** "Yes, G-12 and G-13", and the two issues' steps. Transcript kept locally.
+- **What it produced or changed:**
+  - The "Dameli — short practice answers" and "Slide 9" blocks in `docs/PRESENTATION.md`.
+  - Three 570×405 screenshots for the deck, kept outside the repository.
+  - A table of verified lecture pages.
+- **How I verified it, and who verified it:**
+  - Each app example was tried in the running app: the keyboard-only Analyze run; the service-down error on Compare and the one click to Mock; the Settings connection check; element sizes at 375 px.
+  - Each code fact was read in the source (upload limits, chart types, review rules).
+  - Each lecture page was opened in the PDF; four digest references were wrong and were corrected.
+  - The contrast numbers were recomputed from `web/app/tokens.css`.
+  - I still have to answer the questions myself without notes (Rehearsal 1).
+- **What I rejected or corrected:**
+  - The issue's skeleton said "line for time", but the app has no line chart.
+  - "48 px tap targets" is not claimed as done.
+  - A first draft overstated dark-theme contrast (5.79 and above 15:1 instead of 5.36 and 14.4:1).
+  - The script was cut from 106 to 94 words to fit 35 seconds.

@@ -12,6 +12,20 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 16:10 · G-12 (#119), G-13 (#133) · Study card and slide 9
+- **Status:** in progress. The card and the slide content are written; I still have to answer without notes in Rehearsal 1 (G-12) and put slide 9 into the shared deck for Roma (G-13).
+- **What I did:** Wrote short spoken answers to my six study-card questions and the content of slide 9 (title, three screenshots with one line each, a chart line, an accessibility line, sources and a 94-word script). Every app example was tried in the running app, and every lecture page was opened in the PDF.
+- **Result:** `docs/PRESENTATION.md`, "Dameli — short practice answers" and "Slide 9, design decisions". The three screenshots (570×405 px, light theme) are in my local `qarau-deck/slide-09/` folder, ready for the deck.
+- **Decisions and why:**
+  - Three heuristics: visibility of system status, error recovery, recognition over recall. Each has a screen I can open in under 10 seconds.
+  - Q3 says honestly that the app has no line chart: daily counts are bars, because they are separate totals.
+  - The 48 px touch targets are not claimed as done, because some small controls still miss them (W-17).
+- **What I learned / can explain at the defense:**
+  - The page numbers in our course digests were partly wrong. The heuristics are on HCI p13–26, not p13–37, and the histogram is on DMViz p28, not VizBasics p4.
+  - WCAG contrast is (L1 + 0.05) / (L2 + 0.05) and must be at least 4.5:1 for text.
+- **AI use:** Claude Code checked each example in the app and each page in the lecture PDFs, drafted the answers and the script for me to rework in my own words, and ran a writing review (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** rehearse three random questions without notes; paste slide 9 into the deck with the slide template (G-10) and tell Roma.
+
 ### 2026-11-11 15:05 · G-8 (#129), G-4 (#122), G-53 (#287), G-5 (#128) · Landing, type and logo
 - **Status:** done, pending review
 - **What I did:** Rebuilt the landing hero around a live road-inspection preview, gave the public pages one edge and a shorter header with a phone menu, and made the road car drive in once instead of looping. Replaced Barlow with Overpass after comparing three fonts with Kazakh and Russian text. Compared three logo marks at 16, 32 and 128 px and turned the chosen viewfinder into the favicon, Apple icon, social image and two SVGs for the deck.
