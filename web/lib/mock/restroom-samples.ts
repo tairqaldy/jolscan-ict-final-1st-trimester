@@ -1,8 +1,9 @@
 /**
  * Typed access to the restroom sign manifest (public/samples/restrooms/samples.json)
- * and the deterministic mock similarity. PLACEHOLDER VALUES: the icons are
- * original drawings and the predictions and similarities are invented until
- * real model outputs replace them (edit the manifest only).
+ * and the deterministic mock similarity. Two kinds of signs: the SVG drawings
+ * carry PLACEHOLDER (invented) predictions and similarities; the ioai-* signs
+ * from the IOAI validation set carry real model outputs (see the manifest's
+ * _comment). Edit the manifest only.
  */
 import manifest from "@/public/samples/restrooms/samples.json";
 import type { Gender, SignPrediction } from "@/lib/types";
@@ -14,7 +15,7 @@ export type RestroomSample = {
   set: string;
   title: string;
   trueGender: Gender;
-  /** What the mock provider returns for this sign. Invented. */
+  /** What the mock provider returns for this sign. Invented for drawings, a real model output for ioai-* signs. */
   mock: SignPrediction;
 };
 

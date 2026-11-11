@@ -22,6 +22,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Tair (C-13 real IOAI sample signs)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** add twelve real door signs from the IOAI validation set to the restroom samples, with real model outputs, so Compare and Match work on the Local provider.
+- **Key prompt(s), with a link to the transcript:** "implement C-13 (issue #38)", with the issue's steps as the spec. Transcript kept locally.
+- **What it produced or changed:** `web/public/samples/restrooms/ioai-v*.webp` (resized copies of 12 validation gallery images), the new sets, samples, presets and `similarity.pairs` in `samples.json`, the Match gallery change in `web/lib/providers/restroom-http.ts` and its test, the SVG-only guard in `web/scripts/draw-samples.mjs`, the credits, and the test updates in `web/lib/signage/engine.test.ts`.
+- **How I verified it, and who verified it:** every image was opened and checked by eye (signs only, no people, true gender). The values in `samples.json` were written by a script from the saved API responses (`clip-vitb32-zs`, 66 compares, 12 matches) and checked against them again; each sign's prediction was identical in every call. Web lint, typecheck and tests, and the API tests, were run; Compare and Match were tried in the browser on Mock and Local.
+- **What I rejected or corrected:** the first mismatched example (v7 + v15) passed S3, so the preset uses the median cross pair (v7 + v20) and the pull request reports both. Signs with a drawn portrait, a poster with legs, or a gender that could not be told by eye were not used. The landing page keeps the drawn pairs.
+
 ### 11 November 2026, Amina (M-4, preparation only)
 
 - **Tool and version:** Codex, GPT-6 family.

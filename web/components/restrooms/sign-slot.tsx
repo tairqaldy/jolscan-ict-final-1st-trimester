@@ -141,7 +141,7 @@ export function SignSlot({
               <LayoutGrid aria-hidden /> Choose a sample
             </Button>
           </DialogTrigger>
-          <DialogContent title={`${label}: choose a sample sign`} description="Original drawings in six design sets." className="max-w-2xl">
+          <DialogContent title={`${label}: choose a sample sign`} description="Six sets of original drawings and six sets of real IOAI signs." className="max-w-2xl">
             <div className="max-h-[60vh] overflow-y-auto p-0.5">
               <SamplePicker
                 selectedId={value?.kind === "sample" ? value.sample.id : undefined}

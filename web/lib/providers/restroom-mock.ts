@@ -11,7 +11,8 @@ import type { RestroomProvider, SignInput } from "./restroom-types";
 
 /**
  * Mock restroom provider: works offline, no model needed.
- * - Bundled samples: predictions and similarities from samples.json (invented placeholders).
+ * - Bundled samples: predictions and similarities from samples.json (invented for the
+ *   drawings, recorded real model outputs for the IOAI signs).
  * - Uploads: invented values derived from a hash of the bytes, so the same
  *   image always gives the same answer. They are NOT model outputs.
  */

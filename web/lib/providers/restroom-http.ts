@@ -125,21 +125,22 @@ function httpRestroom(id: Provider, target: () => HttpTarget): RestroomProvider 
     },
     async match({ query, gallery }) {
       const t = target();
-      const drawn = gallery.filter((s) => s.file.toLowerCase().endsWith(".svg"));
-      if (drawn.length > 0) {
+      // A real model cannot read the SVG drawings, so only the real signs are sent as the gallery.
+      const real = gallery.filter((s) => !s.file.toLowerCase().endsWith(".svg"));
+      if (real.length === 0) {
         throw new ProviderError(
           "unsupported_input",
-          `The match gallery is the bundled sample set, and ${drawn.length} of its ${gallery.length} signs are SVG drawings, which a real model cannot read.`,
+          `All ${gallery.length} signs in the match gallery are SVG drawings, which a real model cannot read.`,
           422,
-          "Switch the provider to mock, or replace the drawings in public/samples/restrooms/samples.json with real JPEG, PNG or WebP images.",
+          "Switch the provider to mock, or add real JPEG, PNG or WebP signs to public/samples/restrooms/samples.json.",
         );
       }
       const imgQ = await imageOf(query);
-      const imgs = await Promise.all(gallery.map((s) => imageOf({ sample: s })));
+      const imgs = await Promise.all(real.map((s) => imageOf({ sample: s })));
       const form = new FormData();
       form.set("query", blob(imgQ), imgQ.name);
       for (const img of imgs) form.append("gallery", blob(img), img.name);
-      return normaliseMatch(await post(t, "/restroom/match", form), t.provider, gallery);
+      return normaliseMatch(await post(t, "/restroom/match", form), t.provider, real);
     },
   };
 }
