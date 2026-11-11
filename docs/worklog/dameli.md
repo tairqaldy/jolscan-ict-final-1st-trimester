@@ -12,6 +12,28 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 18:17 · G-61 (#295) · Three ways to show a rule hit in 'Rules you can read'
+- **Status:** done
+- **What I did:**
+  - Built three rule-hit cards on a temporary page with the same two hits: A the current dark code block, B the engine's sentence with the rule setting highlighted, C the sample (road photo with the driving lane and boxes, or the two door signs) plus the same sentence.
+  - Took Playwright screenshots of each at 1440 and 375 px, light and dark, and measured the card heights.
+  - Kept B in the landing section, deleted A, C and the temporary page.
+- **Result:**
+  - `web/components/landing/rule-hit-card.tsx` (the card), `web/lib/landing-rule-hits.ts` (finds the setting and the measured value inside the engine's sentence) with `web/lib/landing-rule-hits.test.ts`; `web/app/page.tsx` uses the card.
+  - Comparison sheets: `docs/design/rule-hit-g61/compare-{1440,375}-{light,dark}.png`.
+  - The built `/` page marks ×1.5 (R3) and 0.20 (S1) and shows the measured gap 0.10 in bold, all from `scoreDetections` and `evaluateSignage` on samples s01 and the faint pair.
+- **Decisions and why:**
+  - Picked B. Shortest: both cards take 329 px at 1440 px (A 365, C 583) and 776 px stacked at 375 px (A 861, C 1181).
+  - B reads as plain text, with mono only for numbers. The threshold you can change is the one highlighted thing, next to the measured value, so "0.10, below 0.20" reads at a glance. In A they look the same.
+  - A's code block flips to a light block in the dark theme and becomes the brightest thing in the section.
+  - C repeats the s01 photo and the R3 sentence the hero already shows. At 375 px the shoulder pothole box is about 17 px wide. The sign pair repeats "Preview a sign comparison".
+  - The sentence is the engine's own `detail`, not a new one, so the meaning cannot drift. The helper only marks tokens it formats from the same config (`formatAgainst` for the gap). A test fails if a mark is not found.
+- **What I learned / can explain at the defense:** the landing shows a real rule hit computed by the same code as Analyze and Compare, at build time, from the bundled samples; changing a default in `web/lib/rules/config.ts` or `web/lib/signage/config.ts` changes the landing sentence and its highlight.
+- **AI use:** Claude Code built the variants, the screenshots and the measurements from my task list; I made the pick from the sheets (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:**
+  - Step 2 of the issue, five Godly and Land-book references in Drive and `docs/design/references/design-landing.md`, is not done.
+  - The card label still uses `tracking-[0.14em]` (moved from page.tsx, not new), left for G-23's label style.
+
 ### 2026-11-11 17:30 · G-58 (#292) · Deck critique against the anti-slop checklist
 - **Status:** critique written; the comments still have to be resolved with Roma and Tair, so G-58 stays open.
 - **What I did:** Checked all 12 slides and 5 backups of Tair's deck draft against `docs/design/ANTI-SLOP.md`, `docs/design/chart-style.md` and the slide template: fonts, sizes, word counts and pictures per slide with python-pptx, the slide XML for gradients, effects, animations and colours, every number against the file its `Sources:` line names, and each chart's text size once it is shrunk onto the slide. I did not change the deck, `SLIDES.md` or `make_deck.py`.
