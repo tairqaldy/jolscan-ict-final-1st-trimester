@@ -12,6 +12,7 @@ import { Button, ButtonLink } from "@/components/ui/button";
 import { Callout } from "@/components/ui/callout";
 import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { DROPZONE_STATES, Dropzone } from "@/components/ui/dropzone";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Field } from "@/components/ui/input";
 import { Segmented } from "@/components/ui/segmented";
@@ -23,10 +24,11 @@ import { Switch } from "@/components/ui/switch";
 import { Table, TD, TH, THead, TR } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tooltip } from "@/components/ui/tooltip";
+import { RESTROOM_SAMPLES } from "@/lib/mock/restroom-samples";
 import { SAMPLES, getSample } from "@/lib/mock/samples";
 import { deriveDetections } from "@/lib/rules";
 import { SEVERITIES, VERDICTS } from "@/lib/types";
-import { GenderTag, ThresholdBar, VerdictBadge } from "@/components/restrooms/signage-bits";
+import { GenderTag, SignImage, ThresholdBar, VerdictBadge } from "@/components/restrooms/signage-bits";
 import { VerdictBars } from "@/components/restrooms/verdict-bars";
 
 /**
@@ -227,6 +229,7 @@ export function ThemedShowcase() {
   const [seg, setSeg] = useState<"system" | "light" | "dark">("system");
   const [select, setSelect] = useState("arterial");
   const [tile, setTile] = useState(SAMPLES[0].id);
+  const [upload, setUpload] = useState<{ ok: boolean; text: string } | null>(null);
 
   return (
     <div className="grid gap-8">
@@ -352,6 +355,44 @@ export function ThemedShowcase() {
             </SelectableTile>
           ))}
         </div>
+      </section>
+
+      <section className="grid gap-4">
+        <h3 className="text-xl font-bold">Upload drop zone</h3>
+        <p className="text-sm text-muted">
+          One Dropzone (G-50) for roads Analyze (banner, preview above it) and the restroom sign slots (tile, preview inside).
+          Click it, press Enter on the focused input, or drop a file. Type and size are checked with validateImageFile; the
+          page shows the message under the zone. The six states:
+        </p>
+        <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+          {DROPZONE_STATES.map((state) => (
+            <li key={state} className="grid content-start gap-2">
+              <span className="font-mono text-xs text-muted">{state}</span>
+              <Dropzone
+                shape="tile"
+                forceState={state}
+                title="Drop a sign image, or click to choose"
+                inputLabel={`Example drop zone, ${state} state`}
+                preview={state === "filled" ? <SignImage src={RESTROOM_SAMPLES[0].file} alt={RESTROOM_SAMPLES[0].title} /> : undefined}
+                onFile={() => {}}
+                onReject={() => {}}
+              />
+              {state === "invalid" && <p className="text-sm text-danger">Only JPEG, PNG or WebP images are accepted.</p>}
+            </li>
+          ))}
+        </ul>
+        <p className="text-sm text-muted">Banner, live: try a photo or a text file. Nothing is uploaded.</p>
+        <Dropzone
+          title="Drop a photo here, or click to choose"
+          invalid={upload?.ok === false}
+          onFile={(file) => setUpload({ ok: true, text: `Accepted: ${file.name}` })}
+          onReject={(message) => setUpload({ ok: false, text: message })}
+        />
+        {upload && (
+          <p role={upload.ok ? "status" : "alert"} className={upload.ok ? "text-sm text-muted" : "text-sm text-danger"}>
+            {upload.text}
+          </p>
+        )}
       </section>
 
       <section className="grid gap-4">

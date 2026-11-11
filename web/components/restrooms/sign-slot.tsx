@@ -1,13 +1,13 @@
 "use client";
 
-import { ImageUp, LayoutGrid, X } from "lucide-react";
-import { useState, type DragEvent } from "react";
+import { LayoutGrid, X } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dropzone } from "@/components/ui/dropzone";
 import { SelectableTile } from "@/components/ui/selectable-tile";
 import { cn } from "@/lib/cn";
 import { RESTROOM_SAMPLES, type RestroomSample } from "@/lib/mock/restroom-samples";
-import { ACCEPTED_IMAGE_TYPES, validateImageFile } from "@/lib/upload";
 import { SignImage } from "./signage-bits";
 
 export type SlotValue = { kind: "sample"; sample: RestroomSample } | { kind: "file"; file: File; previewUrl: string };
@@ -58,24 +58,12 @@ export function SignSlot({
   disabled?: boolean;
 }) {
   const [error, setError] = useState<string | null>(null);
-  const [dragging, setDragging] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
 
-  const pickFile = (file: File | undefined) => {
-    if (!file) return;
-    const problem = validateImageFile(file);
-    if (problem) {
-      setError(problem);
-      return;
-    }
+  // The Dropzone has already checked type and size with validateImageFile.
+  const pickFile = (file: File) => {
     setError(null);
     onChange({ kind: "file", file, previewUrl: URL.createObjectURL(file) });
-  };
-
-  const onDrop = (e: DragEvent) => {
-    e.preventDefault();
-    setDragging(false);
-    pickFile(e.dataTransfer.files?.[0]);
   };
 
   const src = value?.kind === "sample" ? value.sample.file : value?.previewUrl;
@@ -84,46 +72,16 @@ export function SignSlot({
   return (
     <div className="grid content-start gap-3">
       <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">{label}</p>
-      <label
-        onDragOver={(e) => {
-          e.preventDefault();
-          setDragging(true);
-        }}
-        onDragLeave={() => setDragging(false)}
-        onDrop={onDrop}
-        className={cn(
-          "relative block cursor-pointer rounded-md transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-focus",
-          dragging && "ring-2 ring-accent",
-        )}
-      >
-        {src ? (
-          <SignImage src={src} alt={`${label}: ${title}`} />
-        ) : (
-          <span
-            className={cn(
-              "grid aspect-[5/6] place-items-center rounded-md border-2 border-dashed px-3 text-center",
-              dragging ? "border-accent bg-accent-soft" : "border-border-strong bg-surface hover:bg-surface-2",
-            )}
-          >
-            <span className="grid justify-items-center gap-2">
-              <ImageUp className="size-6 text-muted" aria-hidden />
-              <span className="text-sm font-medium">Drop a sign image, or click to choose</span>
-              <span className="text-xs text-muted">JPEG, PNG or WebP, up to 10 MB</span>
-            </span>
-          </span>
-        )}
-        <input
-          type="file"
-          accept={ACCEPTED_IMAGE_TYPES.join(",")}
-          className="sr-only"
-          disabled={disabled}
-          aria-label={`${label}: upload a sign image`}
-          onChange={(e) => {
-            pickFile(e.target.files?.[0]);
-            e.target.value = "";
-          }}
-        />
-      </label>
+      <Dropzone
+        shape="tile"
+        title="Drop a sign image, or click to choose"
+        inputLabel={`${label}: upload a sign image`}
+        preview={src ? <SignImage src={src} alt={`${label}: ${title}`} /> : undefined}
+        onFile={pickFile}
+        onReject={setError}
+        invalid={error !== null}
+        disabled={disabled}
+      />
       <p className="min-h-5 truncate text-sm font-medium" title={title}>
         {title ?? <span className="text-muted">No sign chosen</span>}
       </p>
