@@ -13,3 +13,5 @@ Write one when you pick a dataset, a model, a metric or a threshold, change a co
 | [0005](0005-vercel-deploys-from-tair-account.md) | Production deploys are created from Tair's Vercel account (replaced by 0006) | 2026-11-10 | Tair |
 | [0006](0006-public-repository.md) | The repository is public | 2026-11-10 | Tair and the team |
 | [0007](0007-validation-only-m1-smoke.md) | Keep the M-1 smoke run validation-only | 2026-11-11 | Amina |
+| [0008](0008-api-python-312.md) | Propose Python 3.12 for the API environment | 2026-11-11 | Proposed by Alizhan; Tair and Nazar review pending |
+| [0009](0009-m0-e8-policy.md) | Finalize M-0 E8 settings independently of champion selection | 2026-11-11 | Amina; pre-run team confirmation |

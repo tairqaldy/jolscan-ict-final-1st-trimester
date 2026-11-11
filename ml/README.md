@@ -14,7 +14,7 @@ The validation-only smoke run completed on a Tesla T4 for one epoch using traine
 
 The CSV records the training epoch and the validation pass performed during training. The JSON's `metrics` are from a separate post-training validation pass (including the app's confidence-0.40 operating point); these values are not expected to match the CSV's training-loop metrics.
 
-**M-1 is still in progress:** the validation-only smoke execution succeeded, but issue #50 still requires 12 metrics including `test_map50`, conflicting with the chosen test-split policy in `docs/ML-EXPERIMENT.md`. Do not add a fabricated test metric or mark the full E0 baseline complete. The team must align the issue criteria before M-1 can be completed.
+**M-1 is complete:** Tair accepted the validation-only smoke criterion in [issue #50](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/50#issuecomment-6789955660), and the implementation was merged in [PR #349](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/pull/349). Do not add a fabricated test metric. The one-epoch smoke check does not complete the full E0 baseline; that is M-3.
 
 The notebook downloads a ZIP containing only the actual JSON and CSV for collection. Review those files before committing them. Never commit the dataset ZIP, model weights, tokens, or temporary Colab files.
 
@@ -48,3 +48,19 @@ This writes `ml/results/experiments.csv` (for the slides) and `web/data/experime
 - `results/runs/`: one JSON per run. Committed.
 - `results/latency.json`: batch-1 latency per run, measured in task S-15.
 - `results/`: exported table and plots for the slides.
+
+## Deck plots (task M-13)
+
+```bash
+python ml/plots.py
+```
+
+It regenerates `ml/results/fig_runs_map50_recall.png` (test mAP50 and recall at 0.40 per run, champion in the accent colour, bars from zero) and `ml/results/fig_curves.png` (train and validation box loss for E0, E2 and E5, whichever exist) from the committed CSV files only.
+
+Two figures come from Ultralytics' own evaluation of the champion on the test split, the one `train.py` already runs, so test is not read again:
+
+- `fig_champion_pr_curve.png`: the precision-recall curve (Ultralytics' `BoxPR_curve.png`).
+- `fig_champion_confusion_at_040.png`: the confusion matrix at confidence 0.40, the app's counting threshold (Ultralytics' `confusion_matrix.png` from the `conf=0.40` pass). For E0: 160 potholes found, 76 missed, 23 false alarms on 236 test boxes, which gives recall 160/236 = 0.678 and precision 160/183 = 0.874, the numbers in `E0.json`.
+
+Do not use the confusion matrix from the default pass: Ultralytics evaluates at confidence 0.001 there, so it counts thousands of low-confidence boxes as false alarms that the app never shows. After a new champion (E8), copy its two figures from the run's `runs/detect/val-*` folders of the test passes and rerun `ml/plots.py`.
+

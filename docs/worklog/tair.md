@@ -22,6 +22,25 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **AI use:** Claude Code made the change and found the problem while checking the dashboard in a browser (docs/AI-USAGE-LOG.md).
 - **Open questions:** none.
 
+### 11 November 2026 · D-14 (#70) · Rebuild potholes_yolo_v1 from the Kaggle source
+
+- **Status:** done
+- **What I did:** wrote `data/make_potholes_yolo_v1.py`, which rebuilds the frozen pothole dataset from the Kaggle download and checks it image by image against `split_manifest.json`.
+- **Result:** all 665 images and 1,739 boxes matched (SHA-256, split, object count); the seed-42 shuffle reproduces the documented split exactly.
+- **Decisions and why:** re-derive the split instead of copying it from the manifest, so the script proves the documented procedure; stop on the first difference, so a rebuilt folder is the frozen version or nothing.
+- **What I learned / can explain:** why a frozen split with a manifest and hashes makes every run comparable; how Pascal VOC corners become YOLO centre and size.
+- **AI use:** Claude Code wrote the script from the procedure in data/README.md; I ran it against the Kaggle download and checked the output counts (docs/AI-USAGE-LOG.md).
+
+### 11 November 2026 · M-13 (#62) · Deck plots for the pothole experiment
+
+- **Status:** first version (E0); final after E8
+- **What I did:** wrote `ml/plots.py` (bars and loss curves from committed CSVs) and added the champion's PR curve and confusion matrix at confidence 0.40 from Ultralytics' test evaluation.
+- **Result:** four figures in `ml/results/`. The confusion matrix at 0.40 gives 160 found, 76 missed, 23 false alarms on 236 test boxes, the same recall and precision as `E0.json`.
+- **Decisions and why:** used the confusion matrix at 0.40, not Ultralytics' default one, because the default pass uses confidence 0.001 and shows 2,374 false alarms the app never displays.
+- **What I learned / can explain:** why a detector's confusion matrix depends on the confidence threshold; how recall 0.678 and precision 0.874 follow from 160, 76 and 23.
+- **AI use:** Claude Code wrote the script and caught the misleading default matrix while checking the figures (docs/AI-USAGE-LOG.md).
+- **Open questions:** E2 and E5 curves appear when those runs exist.
+
 ### 11 November 2026 · M-3 (#52) and M-12 (#60) · Train E0 and export the first real results
 
 - **Status:** M-3 done; M-12 first export done (final export after E8)

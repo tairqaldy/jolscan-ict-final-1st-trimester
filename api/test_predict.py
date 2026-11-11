@@ -61,14 +61,18 @@ def test_stock_model_mode_keeps_other_classes(client, monkeypatch):
     assert len(response.json()["detections"]) == 2
 
 
-@pytest.mark.parametrize("content", [b"", b"not an image", b"x" * (10 * 1024 * 1024 + 1)])
-def test_invalid_upload_is_rejected_before_model_loading(client, monkeypatch, content):
+@pytest.mark.parametrize("content, expected_detail", [
+    (b"", "empty"),
+    (b"not an image", "not a readable image"),
+    (b"x" * (10 * 1024 * 1024 + 1), "10 MB"),
+])
+def test_invalid_upload_is_rejected_before_model_loading(client, monkeypatch, content, expected_detail):
     def must_not_load():
         pytest.fail("Invalid uploads must not load the model")
     monkeypatch.setattr(main, "get_yolo", must_not_load)
     response = client.post("/predict", files={"file": ("fake.png", content, "image/png")})
     assert response.status_code == 400
-    assert response.json()["detail"]
+    assert expected_detail in response.json()["detail"]
 
 
 @pytest.mark.parametrize("conf", ["0", "1", "-0.1", "1.1", "nan", "inf"])

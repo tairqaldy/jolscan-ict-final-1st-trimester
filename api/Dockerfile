@@ -1,6 +1,6 @@
 # Not yet built (task S-8). Follows the Dockerfile pattern from Lecture 9.
 # Build from the api/ folder, with the weights file present in api/weights/.
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 # OpenCV, which Ultralytics imports, needs these system libraries.
 RUN apt-get update && apt-get install -y --no-install-recommends libgl1 libglib2.0-0 && rm -rf /var/lib/apt/lists/*
@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir torch==2.15.0 torchvision==0.29.2 --index-url htt
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY main.py restroom.py imaging.py ./
+COPY main.py restroom.py imaging.py schemas.py ./
 
 # The CLIP weights for the restroom endpoints are fetched at build time, so the first restroom
 # request does not wait for a 600 MB download. The model itself is still loaded on first use.
