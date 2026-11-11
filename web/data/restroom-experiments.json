@@ -12,7 +12,7 @@
       "run": "R0",
       "changed": "baseline: zero-shot CLIP ViT-B/16, second most similar gallery image (IOAI baseline)",
       "isReal": true,
-      "matchTop1Val": 0.8,
+      "matchTop1Val": 1.5,
       "matchTop1Test": 0.7667,
       "genderAccCv": 0.7744,
       "latencyMs": 55.1,
