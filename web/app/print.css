@@ -1,0 +1,132 @@
+/*
+ * Paper (G-25). A road report or a sign check prints on one light A4 page:
+ * photo with boxes, verdict or severity, and the full rule table, without
+ * the app's navigation or buttons. Additive: imported once from globals.css,
+ * and nothing here applies on screen.
+ */
+@media print {
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+
+  /*
+   * 1. Paper is always light. The dark theme takes the light values while
+   *    printing. A copy of the first block in tokens.css: keep them the same
+   *    (lib/print-tokens.test.ts fails when they drift apart).
+   */
+  [data-theme="dark"] {
+    color-scheme: light;
+    --bg: #f3f2ee;
+    --surface: #ffffff;
+    --surface-2: #ebe9e3;
+    --surface-3: #dfdcd4;
+    --inverse: #1c1d1f;
+    --inverse-fg: #f3f2ee;
+    --border: #dad7cf;
+    --border-strong: #b3afa4;
+    --fg: #1b1c1e;
+    --muted: #4f5156;
+    --subtle: #66686d;
+    --accent: #b87f00;
+    --accent-hover: #c08a00;
+    --accent-fg: #1b1c1e;
+    --accent-ink: #855700;
+    --accent-soft: #fbefd0;
+    --focus: #1d5fd1;
+    --danger: #b3261e;
+    --danger-soft: #f9dedb;
+    --success: #2e7d4f;
+    --sev-clear: #2e8b57;
+    --sev-clear-ink: #1d6440;
+    --sev-clear-soft: #e1f1e7;
+    --sev-low: #3e7cb1;
+    --sev-low-ink: #1f5582;
+    --sev-low-soft: #e2ecf6;
+    --sev-medium: #b87f00;
+    --sev-medium-ink: #7a4f0e;
+    --sev-medium-soft: #f7ebd6;
+    --sev-high: #d9601a;
+    --sev-high-ink: #9a3412;
+    --sev-high-soft: #fbe5da;
+    --sev-critical: #93202a;
+    --sev-critical-ink: #8e1b14;
+    --sev-critical-soft: #f9dedb;
+    --verdict-clear: var(--sev-clear);
+    --verdict-clear-ink: var(--sev-clear-ink);
+    --verdict-clear-soft: var(--sev-clear-soft);
+    --verdict-review: var(--sev-medium);
+    --verdict-review-ink: var(--sev-medium-ink);
+    --verdict-review-soft: var(--sev-medium-soft);
+    --verdict-confusing: var(--sev-critical);
+    --verdict-confusing-ink: var(--sev-critical-ink);
+    --verdict-confusing-soft: var(--sev-critical-soft);
+    --gender-male: #0f766e;
+    --gender-male-ink: #0b5a54;
+    --gender-male-soft: #dcefec;
+    --gender-female: #5b4bb0;
+    --gender-female-ink: #45378f;
+    --gender-female-soft: #e7e3f6;
+    --chart-1: #3d4f63;
+    --chart-2: #b87f00;
+    --chart-3: #6b8f71;
+    --chart-4: #9a6b9a;
+    --chart-grid: #e1ded7;
+    --box: #f2a900;
+    --box-active: #ffffff;
+    --box-review: #9ec1ff;
+    --box-ink: #141414;
+    --box-halo: rgb(0 0 0 / 0.45);
+    --box-fill-active: rgb(255 255 255 / 0.14);
+    --shadow-color: 30 20 10;
+  }
+
+  /* 2. Keep fills: severity badges, verdict bars and the photo frame. */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Paper shows the end state: no entry fades or draw-ins half way through. */
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* 3. No app chrome: everything beside <main> (skip link, sidebar, top bar, bottom tabs). */
+  :has(> #main) > :not(#main) {
+    display: none !important;
+  }
+  #main,
+  #main > div {
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /*
+   * 4. The report or check page (report-detail-client.tsx, check-detail-client.tsx).
+   *    The tabs card is replaced by the print-only rule table (print-bits.tsx).
+   */
+  .print-sheet {
+    gap: 0.75rem !important;
+  }
+  .print-sheet section:has([role="tablist"]) {
+    display: none !important;
+  }
+  .print-sheet section {
+    box-shadow: none !important;
+  }
+  /* Photo or signs on the left, verdict card on the right, as on a laptop screen. */
+  .print-sheet [class*="lg:grid-cols-"] {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) !important;
+    gap: 0.75rem !important;
+  }
+  .print-sheet figure,
+  .print-sheet section,
+  .print-sheet table {
+    break-inside: avoid;
+  }
+}
