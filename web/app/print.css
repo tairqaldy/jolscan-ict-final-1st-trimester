@@ -82,7 +82,7 @@
     --box-active: #ffffff;
     --box-review: #cfa2ea;
     --box-ink: #141414;
-    --box-halo: rgb(0 0 0 / 0.45);
+    --box-halo: rgb(0 0 0 / 0.65);
     --box-fill-active: rgb(255 255 255 / 0.14);
     --shadow-color: 30 20 10;
   }

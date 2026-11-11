@@ -116,7 +116,10 @@
   --box-active: #ffffff;
   --box-review: #cfa2ea; /* light violet, the photo version of --review (G-47) */
   --box-ink: #141414;
-  --box-halo: rgb(0 0 0 / 0.45);
+  /* 0.65, not 0.45 (G-48): the amber and violet strokes keep 3:1 against
+     the halo even where a box crosses a white or yellow road marking (pure
+     white needs 0.63). See docs/DESIGN-BRIEF.md, "Box colours on real photos". */
+  --box-halo: rgb(0 0 0 / 0.65);
   --box-fill-active: rgb(255 255 255 / 0.14);
 
   --shadow-color: 30 20 10;
