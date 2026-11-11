@@ -246,3 +246,26 @@ Motion explains what happened. It never blocks input, never loops without reason
 - [ ] No placeholder text, no mock number shown without the "Demo data" badge.
 - [ ] Favicon, page titles, social preview image.
 - [ ] Screenshots exported for the deck.
+
+## Review colour (G-47)
+
+Before: blue meant three things, the focus ring (`--focus`), low severity (`--sev-low`) and the review box on photos (`--box-review` `#9ec1ff`). Now "needs review" in the Roads module has its own violet-grey: `--review` (marks), `--review-ink` (text), `--review-soft` (badge fill), in `web/app/tokens.css`, mapped to `bg-review`, `text-review-ink`, `bg-review-soft`. It is used only where review status is shown: `ReviewBadge` (eye icon and the word "review") in the reports table and the detection table, the "To review" KPI stripe on `/app`, and the dashed review box on photos. The dashed line and the word stay the main signal. Restroom verdict "review" keeps its own token (`--verdict-review`, amber); it was never blue.
+
+| Token | Light | On bg / surface | Dark | On bg / surface | Target |
+|---|---|---|---|---|---|
+| `review` | `#6b4a85` | 6.37 / 7.13 | `#9878b8` | 5.06 / 4.69 | 3:1 (UI mark) |
+| `review-ink` | `#553a6b` | 8.51 / 9.53, 7.95 on soft | `#cdb4e3` | 9.95 / 9.22, 8.14 on soft | 4.5:1 (text) |
+| `review-soft` | `#efe8f4` | fill only | `#2a2236` | fill only | none |
+| `box-review` (photo, both themes) | `#cfa2ea` | tag text `#141414` on it: 8.78 | same | same | 4.5:1 (tag text) |
+
+`node web/scripts/check-palette.mjs` has a new set `review` (focus, low severity, review). Run on 11 November 2026, on branch `design/g30-g47-states`:
+
+| Theme | Pair | Normal | Protan | Deutan | Tritan |
+|---|---|---|---|---|---|
+| Light | focus / review | 37.0 | 32.7 | 42.0 | 36.7 |
+| Light | sev-low / review | 32.4 | 16.0 | 14.5 | 42.3 |
+| Dark | focus / review | 29.6 | 20.6 | 23.0 | 44.6 |
+| Dark | sev-low / review | 29.2 | 12.3 | 15.7 | 44.6 |
+| Both | box / box-review | 108.5 | 106.5 | 104.8 | 34.2 |
+
+Review is at least ΔE 12 from focus and low severity in every simulation. The same run flags focus / low severity in the dark theme (10.9 normal; 8.4, 9.1, 8.4 simulated). **Keep:** focus is only ever a 2 px outline around the element that has keyboard focus, never a fill, a word or a status, and low severity always carries its icon and word. Changing the focus ring would touch every page, so it is not part of this task.
