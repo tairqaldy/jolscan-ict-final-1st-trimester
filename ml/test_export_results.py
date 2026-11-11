@@ -32,6 +32,22 @@ class ChampionPolicyTests(unittest.TestCase):
             self.assertEqual(output["champion"], "E0")
             self.assertEqual([row["run"] for row in output["runs"]], ["E0"])
 
+    def test_comma_in_changed_text_keeps_csv_columns(self):
+        # E8's "changed" text contains a comma; the CSV must still read back with the right columns.
+        import csv
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            baseline = json.loads(Path("ml/results/runs/E0.json").read_text())
+            (root / "E0.json").write_text(json.dumps(baseline))
+            (root / "E8.json").write_text(json.dumps({**baseline, "run": "E8", "changed": "no change qualified, E0 settings"}))
+            with patch.multiple(export, RUNS_DIR=root, CSV_OUT=root / "out.csv",
+                                JSON_OUT=root / "out.json", LATENCY_FILE=root / "absent.json"):
+                export.main()
+            rows = list(csv.DictReader((root / "out.csv").open()))
+            self.assertEqual(rows[1]["changed"], "no change qualified, E0 settings")
+            self.assertEqual(rows[1]["map50"], rows[0]["map50"])
+            self.assertEqual(rows[1]["device"], rows[0]["device"])
+
     def test_only_smoke_has_clear_error(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

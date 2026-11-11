@@ -13,6 +13,7 @@ and passed in through ml/results/latency.json: {"E0": 12.3, "E1": 18.9, ...} in 
 
 from __future__ import annotations
 
+import csv
 import json
 from datetime import date
 from pathlib import Path
@@ -86,8 +87,11 @@ def main() -> None:
 
     CSV_OUT.parent.mkdir(parents=True, exist_ok=True)
     header = list(rows[0].keys())
-    lines = [",".join(header)] + [",".join("" if row[k] is None else str(row[k]) for k in header) for row in rows]
-    CSV_OUT.write_text("\n".join(lines) + "\n")
+    # csv.writer quotes a field that contains a comma (E8's "changed" text does); a plain join would shift the columns.
+    with CSV_OUT.open("w", newline="") as f:
+        writer = csv.writer(f, lineterminator="\n")
+        writer.writerow(header)
+        writer.writerows(["" if row[k] is None else row[k] for k in header] for row in rows)
 
     JSON_OUT.parent.mkdir(parents=True, exist_ok=True)
     manifest = json.loads(MANIFEST.read_text())
