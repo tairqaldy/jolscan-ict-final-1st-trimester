@@ -116,6 +116,44 @@ The task splits into two steps, and the answer is the partner of the query's own
 
 The champion was chosen on the training episodes, then validation. The 30 test queries are easier than the training episodes, and several approaches reach 1.000 on them, so only the episodes tell those approaches apart. Test scores were printed during development, but every change was made from error analysis on the training set. Numbers: `ml/results/restroom/pipeline.json`.
 
+### Step by step (task C-23, `python ml/restroom/ablation_table.py`)
+
+What each half of the method adds, read from `pipeline.json` (no new runs). Figure: `ml/results/restroom/figs/ablation_steps.png`.
+
+**Step 1 alone**: own original found among all 164 training originals, 164 crops
+
+| Scorer | Accuracy |
+|---|---|
+| SIFT + pixel check (chosen) | 0.976 |
+| SIFT inlier count | 0.933 |
+| colour histogram | 0.817 |
+| CLIP similarity | 0.774 |
+
+**Step 2 alone**: partner found when given the true own original, 200 training episodes of 30 restrooms
+
+| Scorer | Greedy | Global assignment |
+|---|---|---|
+| 30 % histogram + CLIP (chosen) | 0.946 ± 0.044 | 0.993 ± 0.020 |
+| CLIP similarity | 0.837 ± 0.071 | 0.980 ± 0.035 |
+| colour histogram | 0.795 ± 0.078 | 0.940 ± 0.059 |
+
+**End to end**
+
+| Approach | Training episodes | Validation | Test |
+|---|---|---|---|
+| `ioai_baseline_clip`: IOAI baseline: second most similar original, CLIP ViT-B/32 zero-shot | 0.574 ± 0.086 | 0.80 | 0.767 |
+| `singapore_hist_top2_sift`: colour histogram picks the restroom (top 2), SIFT rejects the own original | 0.735 ± 0.068 | 1.00 | 0.833 |
+| `clip_clip_greedy`: two-step, CLIP for both steps, greedy (IOAI reference matching, zero-shot) | 0.641 ± 0.089 | 1.00 | 0.867 |
+| `siftinl_clip_greedy`: step 1 SIFT inlier count, step 2 CLIP, greedy | 0.775 ± 0.082 | 1.00 | 1.000 |
+| `sift_clip_greedy`: step 1 SIFT + pixel check, step 2 CLIP, greedy | 0.808 ± 0.074 | 1.00 | 1.000 |
+| `sift_hist_greedy`: step 1 SIFT + pixel check, step 2 colour histogram, greedy | 0.779 ± 0.078 | 0.90 | 0.833 |
+| `sift_combo_greedy`: step 1 SIFT + pixel check, step 2 30% histogram + CLIP, greedy | 0.917 ± 0.051 | 1.00 | 1.000 |
+| `sift_clip_hungarian`: step 1 SIFT + pixel check, step 2 CLIP, global assignment | 0.939 ± 0.061 | 1.00 | 1.000 |
+| `sift_hist_hungarian`: step 1 SIFT + pixel check, step 2 colour histogram, global assignment | 0.900 ± 0.069 | 1.00 | 1.000 |
+| `sift_combo_hungarian` **(champion)**: step 1 SIFT + pixel check, step 2 30% histogram + CLIP, global assignment | 0.960 ± 0.041 | 1.00 | 1.000 |
+
+SIFT with a pixel check is why step 1 works: CLIP alone confuses unrelated icons with similar shapes (0.774 against 0.976), and counting SIFT inliers alone is fooled by shared stock watermarks (0.933). Colour helps CLIP in step 2 because the two doors of one restroom were photographed in the same place, with the same wall and light.
+
 ### One query at a time (task C-21, `ml/restroom/pipeline_per_query.py`)
 
 The 30/30 uses a **global assignment**: every query gets a different own original and every own original a different partner. That relies on a fact of the IOAI benchmark, that the queries come from different restrooms and the gallery holds exactly their pairs, so each answer depends on the other queries. The greedy variant also uses them (it skips partners already given out). A real door sign comes alone, and the API answers one query at a time, so the truly per-query variant (step 1 argmax, step 2 argmax) was scored too:
