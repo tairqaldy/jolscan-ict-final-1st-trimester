@@ -23,11 +23,16 @@ const THIRD_PARTY = /^--(tw|radix)-/;
 /** Code that may reference tokens; tests are left out (they quote token names on purpose). */
 const code = sourceFiles(["app", "components", "lib"], /\.(tsx?|css)$/).filter((f) => !f.endsWith(".test.ts"));
 
-/** Every custom property the app defines: the stylesheets, next/font variables and inline `"--x":` style props. */
+/**
+ * Every custom property the app defines: the stylesheets, next/font variables,
+ * inline `"--x":` style props and Tailwind arbitrary properties like `[--x:0.25rem]`.
+ */
 const defined = new Set<string>();
 for (const file of STYLESHEETS) for (const block of cssBlocks(readWeb(file))) for (const name of block.decls.keys()) defined.add(name);
 for (const file of code.filter((f) => /\.tsx?$/.test(f))) {
-  for (const m of readWeb(file).matchAll(/variable:\s*"(--[\w-]+)"|["'](--[\w-]+)["']\s*:/g)) defined.add(m[1] ?? m[2]);
+  for (const m of readWeb(file).matchAll(/variable:\s*"(--[\w-]+)"|["'](--[\w-]+)["']\s*:|\[(--[\w-]+):/g)) {
+    defined.add(m[1] ?? m[2] ?? m[3]);
+  }
 }
 
 describe("theme blocks in tokens.css (G-21)", () => {
