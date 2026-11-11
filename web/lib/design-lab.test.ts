@@ -1,5 +1,5 @@
 /**
- * G-41, G-46: the design lab data. The live colours copied into
+ * G-41, G-46, G-43: the design lab data. The live colours copied into
  * lib/design-lab.ts for the contrast numbers are checked against
  * app/tokens.css, and every token a variant overrides must exist there.
  */
@@ -34,6 +34,7 @@ const live = {
   dark: declarations(tokensCss, '[data-theme="dark"] {'),
 };
 const theme = declarations(tokensCss, "@theme inline {");
+const labFonts = read("app/design/lab/fonts.ts");
 
 describe("WCAG contrast", () => {
   it("matches known ratios", () => {
@@ -85,12 +86,16 @@ describe("lab sets", () => {
     }
   });
 
-  it("only override tokens that exist", () => {
+  it("only override tokens that exist, or fonts loaded in the lab", () => {
     for (const set of LAB_SETS) {
       for (const v of set.variants) {
         for (const t of LAB_THEMES) {
-          for (const name of Object.keys(columnTokens(set, v, t))) {
-            expect(live[t].has(name) || theme.has(name), `${set.id}/${v.id} ${name}`).toBe(true);
+          for (const [name, value] of Object.entries(columnTokens(set, v, t))) {
+            const known = live[t].has(name) || theme.has(name) || name === "--font-body" || name === "--font-code";
+            expect(known, `${set.id}/${v.id} ${name}`).toBe(true);
+            for (const m of value.matchAll(/var\((--font-lab-[\w-]+)\)/g)) {
+              expect(labFonts, `${m[1]} is not loaded in app/design/lab/fonts.ts`).toContain(`"${m[1]}"`);
+            }
           }
         }
       }
@@ -121,5 +126,6 @@ describe("lab sets", () => {
   it("falls back to the first set", () => {
     expect(getLabSet(undefined).id).toBe(LAB_SETS[0].id);
     expect(getLabSet("nope").id).toBe(LAB_SETS[0].id);
+    expect(getLabSet("type").specimen).toBe("type");
   });
 });

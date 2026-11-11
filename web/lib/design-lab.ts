@@ -5,7 +5,13 @@
  * wrapper of one column, so the live tokens in app/tokens.css never change.
  * Column A sets nothing and shows the live look; every other column differs
  * from it only in its overrides. To compare something new, add a set to
- * LAB_SETS; the page needs no other change.
+ * LAB_SETS; the page needs no other change. (A font set also needs its font
+ * loaded in app/design/lab/fonts.ts, because next/font cannot load a font
+ * from a variable.)
+ *
+ * `current` holds the live value of the colours a set varies, only so the
+ * page can compute contrast for every column. lib/design-lab.test.ts checks
+ * it against app/tokens.css, so the numbers cannot drift from the real tokens.
  */
 
 export type LabTheme = "light" | "dark";
@@ -30,8 +36,8 @@ export type LabSet = {
   /** Task and issue, e.g. "G-41 (#275)". */
   task: string;
   question: string;
-  /** What each column renders: real UI components. */
-  specimen: "ui";
+  /** What each column renders: real UI components, or the type specimen. */
+  specimen: "ui" | "type";
   /** Live values of the colours this set varies, per theme (for the contrast numbers). */
   current?: Partial<Record<LabTheme, TokenMap>>;
   /** Show WCAG contrast numbers under each column. */
@@ -168,6 +174,30 @@ export const LAB_SETS: LabSet[] = [
     ],
     outcome:
       "A stays. All three pass every check below, so contrast alone does not decide it. B gains 0.08 to 0.31 on the text checks and loses the warm concrete-and-asphalt look. C has the most margin on the accent (5.93:1 as a mark in light, against 3.46:1), but its amber reads brown, close to the medium severity ink #7a4f0e, and the high-contrast theme in Settings already offers a dark amber (#7a4f00) to whoever needs it. The contrast audit (#380), the colour-blind check (#394) and the high-contrast theme (#419) were all measured on A."
+  },
+  {
+    id: "type",
+    title: "Font pairings",
+    task: "G-43 (#277)",
+    question: "Which text and mono pair renders Kazakh and Russian text best at app sizes?",
+    specimen: "type",
+    variants: [
+      { id: "a", name: "A · Overpass + JetBrains Mono", note: "The live pair. Overpass is drawn after road-sign lettering." },
+      {
+        id: "b",
+        name: "B · IBM Plex Sans + IBM Plex Mono",
+        note: "One superfamily for text and figures.",
+        tokens: { "--font-body": "var(--font-lab-plex-sans)", "--font-code": "var(--font-lab-plex-mono)" },
+      },
+      {
+        id: "c",
+        name: "C · Golos Text + JetBrains Mono",
+        note: "Golos was drawn for Cyrillic public-service interfaces.",
+        tokens: { "--font-body": "var(--font-lab-golos)" },
+      },
+    ],
+    outcome:
+      "A stays. The three text fonts render all nine Kazakh letters themselves (Chrome DevTools, rendered fonts). JetBrains Mono, the mono of A and C, draws only ө ү і and leaves ә ғ қ ң ұ һ to a system font, so Kazakh text stays out of font-mono; it is used for numbers and code. B is the only pair whose mono covers Kazakh, but it would change the type of the logo, the slides and every page the day before the defense. C sets the hero line 6% wider than A (736 against 693 px at 64 px), so long headings wrap earlier."
   },
 ];
 

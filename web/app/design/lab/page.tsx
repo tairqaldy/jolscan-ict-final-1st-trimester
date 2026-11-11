@@ -15,7 +15,9 @@ import {
   type LabTheme,
   type LabVariant,
 } from "@/lib/design-lab";
+import { LAB_FONT_VARIABLES } from "./fonts";
 import { LabSpecimen } from "./lab-specimen";
+import { TypeSpecimen } from "./type-specimen";
 import "./lab.css";
 
 export const metadata: Metadata = { title: "Design lab", robots: { index: false } };
@@ -33,7 +35,7 @@ export default async function DesignLabPage({ searchParams }: PageProps<"/design
   const set = getLabSet(typeof setParam === "string" ? setParam : undefined);
 
   return (
-    <main id="main" className="grid gap-10 px-4 py-10 sm:px-6 lg:px-10">
+    <main id="main" className={cn(LAB_FONT_VARIABLES, "grid gap-10 px-4 py-10 sm:px-6 lg:px-10")}>
       <header className="grid max-w-3xl gap-3">
         <p className="text-xs font-semibold tracking-wide text-accent-ink uppercase">
           <Link href="/design" className="underline-offset-4 hover:underline">
@@ -128,9 +130,7 @@ function LabColumn({ set, variant, theme }: { set: LabSet; variant: LabVariant; 
         )}
       </div>
 
-      <div data-lab-specimen>
-        <LabSpecimen />
-      </div>
+      <div data-lab-specimen>{set.specimen === "type" ? <TypeSpecimen /> : <LabSpecimen />}</div>
 
       {set.contrast && <ContrastTable set={set} variant={variant} theme={theme} />}
     </article>
