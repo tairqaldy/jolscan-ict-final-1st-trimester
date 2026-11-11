@@ -340,3 +340,67 @@ Still open outside the result cards, for Tair and the owners of those files:
 - The triangle is High severity and also the restroom Review verdict; the reports table marks review with CircleExclamationPoint, the Medium icon. Proposal: UserRoundSearch for review everywhere, decided together with the review colour (G-47).
 - The landing page Deployment section draws Mock as ServerCog; everywhere else Mock is Package. Proposal: Package.
 - The landing page privacy list uses Cpu for "restroom images are door-sign icons only". Proposal: DoorOpen, the restroom module icon.
+
+## High-contrast theme (G-31)
+
+A third theme for projectors and low vision. WCAG AA (4.5:1 for text) is what the light and dark themes meet; this one targets AAA: every text token at 7:1 or more (WCAG 1.4.6) and every mark at 3:1 or more (WCAG 1.4.11).
+
+- **Where:** Settings, Appearance, Theme: System, Light, Dark, **High contrast**. Stored in `localStorage` (`qarau:theme` = `"contrast"`) and set on `<html data-theme="contrast">` by the inline script in `web/lib/theme-script.ts` before first paint, like light and dark. The system setting never picks it: "System" still means light or dark.
+- **Header toggle:** one button that cycles System, Light, Dark, High contrast, then back to System. From high contrast one click always leads to System, so it is never a trap.
+- **Values:** `[data-theme="contrast"]` in `web/app/tokens.css`, built from the light theme: black text on white cards, a light grey page (`#f2f2f2`), dark grey borders (`#6e6e6e`), the amber accent darkened to `#7a4f00` so it carries white text, the same hues for severity, verdicts, gender, review and charts but darker. The block declares every token itself (a missing one would fall back to light without warning, and the nested panel on `/design` would inherit the page's aliases); `web/lib/contrast-theme.test.ts` fails if a token is missing or a ratio drops below its target.
+- **Focus:** the ring is 3 px wide in this theme (2 px elsewhere), `web/app/globals.css`.
+- **Photo boxes:** the same colours as light and dark (they sit on the photo); the halo behind them goes from 45% to 60% black.
+- **Print:** paper stays light in every theme. `web/app/print.css` gives this theme the light values while printing, as it does for dark (G-25).
+- **`/design`** shows the components in a third panel, `data-theme="contrast"`.
+
+Ratios from `node web/scripts/check-contrast.mjs` (WCAG 2.x relative luminance, sRGB), run on 11 November 2026 on branch `design/g31-high-contrast`. "soft" is the badge fill the ink sits on. Box colours are measured against black, the colour of their halo; on a real photo the halo is translucent, so the real contrast depends on the photo.
+
+| Token | Value | Target | Ratio on |
+|---|---|---|---|
+| `fg` | `#000000` | 7:1 | bg 18.76, surface 21.00, surface-2 17.14, surface-3 15.02 |
+| `muted` | `#2e2e2e` | 7:1 | bg 12.13, surface 13.58, surface-2 11.08, surface-3 9.71 |
+| `subtle` | `#474747` | 7:1 | bg 8.30, surface 9.29, surface-2 7.58 |
+| `accent-ink` | `#6b4500` | 7:1 | bg 7.57, surface 8.48, accent-soft 7.41 |
+| `accent-fg` | `#ffffff` | 7:1 | accent 7.13, accent-hover 9.32 |
+| `inverse-fg` | `#ffffff` | 7:1 | inverse 21.00 |
+| `danger` | `#8f1710` | 7:1 | bg 8.16, surface 9.14, danger-soft 7.47 |
+| `surface` | `#ffffff` | 7:1 | danger 9.14 |
+| `sev-clear-ink` | `#134d30` | 7:1 | bg 8.80, surface 9.85, sev-clear-soft 8.41 |
+| `sev-low-ink` | `#144372` | 7:1 | bg 9.04, surface 10.12, sev-low-soft 8.46 |
+| `sev-medium-ink` | `#5e3d00` | 7:1 | bg 8.75, surface 9.80, sev-medium-soft 8.31 |
+| `sev-high-ink` | `#7f280a` | 7:1 | bg 8.49, surface 9.50, sev-high-soft 7.84 |
+| `sev-critical-ink` | `#6e0e0e` | 7:1 | bg 10.83, surface 12.12, sev-critical-soft 9.53 |
+| `verdict-clear-ink` | `#134d30` | 7:1 | bg 8.80, surface 9.85, verdict-clear-soft 8.41 |
+| `verdict-review-ink` | `#5e3d00` | 7:1 | bg 8.75, surface 9.80, verdict-review-soft 8.31 |
+| `verdict-confusing-ink` | `#6e0e0e` | 7:1 | bg 10.83, surface 12.12, verdict-confusing-soft 9.53 |
+| `gender-male-ink` | `#08433e` | 7:1 | bg 9.96, surface 11.15, gender-male-soft 9.35 |
+| `gender-female-ink` | `#34277a` | 7:1 | bg 10.92, surface 12.23, gender-female-soft 9.73 |
+| `review-ink` | `#442b59` | 7:1 | bg 10.81, surface 12.10, review-soft 10.09 |
+| `box-ink` | `#141414` | 7:1 | box 9.17, box-review 8.78, box-active 18.42 |
+| `border` | `#6e6e6e` | 3:1 | bg 4.55, surface 5.10 |
+| `border-strong` | `#3a3a3a` | 3:1 | bg 10.16, surface 11.37, surface-2 9.28 |
+| `focus` | `#0047c2` | 3:1 | bg 7.00, surface 7.83, surface-2 6.39 |
+| `accent` | `#7a4f00` | 3:1 | bg 6.37, surface 7.13 |
+| `success` | `#1a6a42` | 3:1 | bg 5.89, surface 6.60 |
+| `sev-clear` | `#1f7a4a` | 3:1 | bg 4.76, surface 5.33 |
+| `sev-low` | `#2a68a0` | 3:1 | bg 5.23, surface 5.86 |
+| `sev-medium` | `#b37a00` | 3:1 | bg 3.29, surface 3.68 |
+| `sev-high` | `#a8380a` | 3:1 | bg 5.80, surface 6.49 |
+| `sev-critical` | `#7d1220` | 3:1 | bg 9.48, surface 10.61 |
+| `verdict-clear` | `#1f7a4a` | 3:1 | bg 4.76, surface 5.33 |
+| `verdict-review` | `#b37a00` | 3:1 | bg 3.29, surface 3.68 |
+| `verdict-confusing` | `#7d1220` | 3:1 | bg 9.48, surface 10.61 |
+| `gender-male` | `#0d6a63` | 3:1 | bg 5.76, surface 6.44 |
+| `gender-female` | `#4a3aa0` | 3:1 | bg 7.80, surface 8.74 |
+| `review` | `#5e3d7a` | 3:1 | bg 7.74, surface 8.66 |
+| `chart-1` | `#2c3b4c` | 3:1 | bg 10.21, surface 11.43 |
+| `chart-2` | `#8a5a00` | 3:1 | bg 5.29, surface 5.93 |
+| `chart-3` | `#3f6b47` | 3:1 | bg 5.51, surface 6.17 |
+| `chart-4` | `#7a4a7a` | 3:1 | bg 6.07, surface 6.80 |
+| `box` | `#f2a900` | 3:1 | #000000 10.45 |
+| `box-review` | `#cfa2ea` | 3:1 | #000000 10.01 |
+| `box-active` | `#ffffff` | 3:1 | #000000 21.00 |
+
+0 values below target. For comparison, light `subtle` is 4.98:1 on bg and `muted` 7.09:1; here they are 8.30:1 and 12.13:1.
+
+**Severity still distinct.** `node web/scripts/check-palette.mjs` now also checks this theme. No pair in it is below ΔE 10 in normal vision or in any of the three simulations. The smallest values are 11.6 (tritan) for `sev-clear` / `sev-low` and for `focus` / `sev-low`, and 17.4 (deutan) for `sev-medium` / `sev-high`, the pair the light theme flags at 2.0. Medium, high and critical step down in lightness (3.29, 5.80, 9.48:1 on bg), so they separate in greyscale too. Severity keeps its icon and word in every theme (U3).
