@@ -12,6 +12,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 · S-24 (#218) · Results validation in CI
+- **Status:** implemented; review pending.
+- **What I did:** Added a standard-library validator for both published experiment files, champion selection, tracked forbidden extensions and file size; wired it into CI with regression tests.
+- **Result:** Current results pass; tests cover out-of-range metrics, a placeholder with numbers, a tracked `.pt` and an oversized file.
+- **Decisions and why:** Used the existing champion selection function to avoid a second inconsistent implementation; additional result fields are allowed.
+- **What I learned / can explain at the defense:** MLOps CI checks data and artifacts as well as source code, catching invalid metrics and accidental weight uploads.
+- **AI use:** Codex desktop, GPT-6; personal review pending.
+- **Open questions / next:** Tair reviews the shared CI and results contract.
+
 ### 2026-11-11 · S-4 (#23) · Local web/API integration
 - **Status:** in progress; blocked on the team-trained E0 weights for the final real-detection check.
 - **What I did:** Ran the local Next.js app and FastAPI on Windows; selected Local and checked health in Settings. Uploaded the screened `img-7.jpg` test-set photo locally, with EXIF removed, and received a real `yolo26n` response. Stopped FastAPI and verified the page showed the actionable `unreachable` message and retry option.

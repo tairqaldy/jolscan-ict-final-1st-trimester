@@ -22,6 +22,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Alizhan (S-24, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Validate results and repository hygiene in CI.
+- **Key prompt:** "следующий раз делай ребейз, и выполняй таски, которые написаны в issues". This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** Results validator, CI steps, regression tests and documentation.
+- **How it was verified:** Validator on current results; five standard-library tests including out-of-range metrics, placeholder values and tracked forbidden/oversized files; compileall. Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** Kept additional result fields permissible and used the existing champion selection function.
+
 ### 11 November 2026, Tair (C-13 real IOAI sample signs)
 
 - **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
