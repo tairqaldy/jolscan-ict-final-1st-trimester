@@ -104,6 +104,20 @@ const TYPE_SCALE = [
   { cls: "font-mono text-sm", label: "mono", sample: "score = 15 · clip-vitb32-ft6 · 41 ms" },
 ];
 
+/** "Which token do I use?" quick reference (G-20). `swatch` is the token drawn in the first column. */
+const TOKEN_CHOICES: { need: string; token: string; example: string; swatch: string }[] = [
+  { need: "Body text and headings", token: "fg", example: "text-fg", swatch: "fg" },
+  { need: "Secondary text", token: "muted", example: "text-muted", swatch: "muted" },
+  { need: "Hints, sources, timestamps", token: "subtle", example: "text-subtle", swatch: "subtle" },
+  { need: "Status text", token: "*-ink", example: "text-sev-high-ink", swatch: "sev-high-ink" },
+  { need: "Badge fill", token: "*-soft + *-ink", example: "bg-sev-high-soft text-sev-high-ink", swatch: "sev-high-soft" },
+  { need: "Marks: bars, dots, map markers", token: "solid", example: "bg-sev-high", swatch: "sev-high" },
+  { need: "Focus ring", token: "focus", example: "outline-focus", swatch: "focus" },
+  { need: "Primary button", token: "accent + accent-fg", example: "bg-accent text-accent-fg", swatch: "accent" },
+  { need: "Link text", token: "accent-ink", example: "text-accent-ink", swatch: "accent-ink" },
+  { need: "Chart series that is not severity", token: "chart-1 to chart-4", example: "var(--chart-1)", swatch: "chart-1" },
+];
+
 const sample = getSample("s01")!;
 
 export function TokenReference() {
@@ -161,6 +175,36 @@ export function TokenReference() {
             </p>
           </div>
         </div>
+      </section>
+
+      <section aria-labelledby="t-which" className="grid gap-4">
+        <h2 id="t-which" className="text-2xl font-bold">Which colour token do I use?</h2>
+        <p className="max-w-2xl text-sm text-muted">
+          Pick the row for what you are drawing. The swatches in both themes below repeat each group with a &quot;use for&quot; and a &quot;never&quot; line.
+        </p>
+        <Table caption="Which colour token to use for each need">
+          <THead>
+            <tr>
+              <TH>Need</TH>
+              <TH>Token</TH>
+              <TH>Example</TH>
+            </tr>
+          </THead>
+          <tbody>
+            {TOKEN_CHOICES.map((c) => (
+              <TR key={c.need}>
+                <TD>
+                  <span className="inline-flex items-center gap-2">
+                    <span aria-hidden className="size-3 shrink-0 rounded-xs border border-border" style={{ background: `var(--${c.swatch})` }} />
+                    {c.need}
+                  </span>
+                </TD>
+                <TD className="font-mono text-xs whitespace-nowrap">{c.token}</TD>
+                <TD className="font-mono text-xs text-muted">{c.example}</TD>
+              </TR>
+            ))}
+          </tbody>
+        </Table>
       </section>
     </div>
   );
