@@ -12,6 +12,16 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 11 November 2026 · M-13 (#62) · Deck plots for the pothole experiment
+
+- **Status:** first version (E0); final after E8
+- **What I did:** wrote `ml/plots.py` (bars and loss curves from committed CSVs) and added the champion's PR curve and confusion matrix at confidence 0.40 from Ultralytics' test evaluation.
+- **Result:** four figures in `ml/results/`. The confusion matrix at 0.40 gives 160 found, 76 missed, 23 false alarms on 236 test boxes, the same recall and precision as `E0.json`.
+- **Decisions and why:** used the confusion matrix at 0.40, not Ultralytics' default one, because the default pass uses confidence 0.001 and shows 2,374 false alarms the app never displays.
+- **What I learned / can explain:** why a detector's confusion matrix depends on the confidence threshold; how recall 0.678 and precision 0.874 follow from 160, 76 and 23.
+- **AI use:** Claude Code wrote the script and caught the misleading default matrix while checking the figures (docs/AI-USAGE-LOG.md).
+- **Open questions:** E2 and E5 curves appear when those runs exist.
+
 ### 11 November 2026 · M-3 (#52) and M-12 (#60) · Train E0 and export the first real results
 
 - **Status:** M-3 done; M-12 first export done (final export after E8)

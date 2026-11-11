@@ -48,3 +48,19 @@ This writes `ml/results/experiments.csv` (for the slides) and `web/data/experime
 - `results/runs/`: one JSON per run. Committed.
 - `results/latency.json`: batch-1 latency per run, measured in task S-15.
 - `results/`: exported table and plots for the slides.
+
+## Deck plots (task M-13)
+
+```bash
+python ml/plots.py
+```
+
+It regenerates `ml/results/fig_runs_map50_recall.png` (test mAP50 and recall at 0.40 per run, champion in the accent colour, bars from zero) and `ml/results/fig_curves.png` (train and validation box loss for E0, E2 and E5, whichever exist) from the committed CSV files only.
+
+Two figures come from Ultralytics' own evaluation of the champion on the test split, the one `train.py` already runs, so test is not read again:
+
+- `fig_champion_pr_curve.png`: the precision-recall curve (Ultralytics' `BoxPR_curve.png`).
+- `fig_champion_confusion_at_040.png`: the confusion matrix at confidence 0.40, the app's counting threshold (Ultralytics' `confusion_matrix.png` from the `conf=0.40` pass). For E0: 160 potholes found, 76 missed, 23 false alarms on 236 test boxes, which gives recall 160/236 = 0.678 and precision 160/183 = 0.874, the numbers in `E0.json`.
+
+Do not use the confusion matrix from the default pass: Ultralytics evaluates at confidence 0.001 there, so it counts thousands of low-confidence boxes as false alarms that the app never shows. After a new champion (E8), copy its two figures from the run's `runs/detect/val-*` folders of the test passes and rerun `ml/plots.py`.
+

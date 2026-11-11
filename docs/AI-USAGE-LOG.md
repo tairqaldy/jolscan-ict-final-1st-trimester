@@ -213,3 +213,13 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** `web/components/app/demo-badge.tsx` (the rule in its comment), `web/components/app/mock-provider-badge.tsx`, `show` on the badges of every seeded-history page, 'Mock result' badges in `analysis-view.tsx` and `compare-result.tsx`, `web/lib/demo-badges.test.ts`; copy fixes in `web/lib/credits.ts`, About, footer, landing and Settings; comments in the mock data files; `web/README.md`.
 - **How I verified it, and who verified it:** `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` in `web/`; the new test was run once against the old reports page and failed, as it should. The dataset facts were copied from the D-1 card in `data/README.md` and the split manifest, not typed from memory. Tair still has to look at the pages in the browser after the merge.
 - **What I rejected or corrected:** did not delete any demo label to make the grep clean; did not write a team AI statement that members have not confirmed (W-14); did not touch the design tokens or the design page text (G-3, Dameli).
+
+### 11 November 2026, Tair (M-13 deck plots)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** figures for the results slides, generated from committed files.
+- **Key prompt(s), with a link to the transcript:** "work on completing tasks for ML for potholes ... grill yourself and improve". Transcript kept locally.
+- **What it produced or changed:** `ml/plots.py`, four PNGs in `ml/results/`, the plots section of `ml/README.md`.
+- **How I verified it, and who verified it:** opened every figure; checked that the confusion matrix at 0.40 reproduces recall 0.678 and precision 0.874 from `E0.json`.
+- **What I rejected or corrected:** the first version used Ultralytics' default confusion matrix (confidence 0.001, 2,374 false alarms) and had a legend over a bar label; both were replaced.
+
