@@ -70,6 +70,24 @@ the contract still labels these boxes as `pothole`. Before using team weights, s
 set `MODEL_WEIGHTS` to their file, remove `ANY_CLASS` (`Remove-Item Env:ANY_CLASS` in PowerShell),
 and restart. Do not present stock-model detections as project results.
 
+## Model readiness and optional warm-up (S-20)
+
+- `GET /health` is a fast liveness check. `status: ok` means the process answers;
+  `ready` is true only if both model backends are already loaded. It does not load models.
+- `GET /ready` attempts to load both backends in worker threads and returns 200 only when
+  both load, or 503 with a per-model failure detail. The first request can download weights
+  and take a long time; offline use requires cached weights. Loading checks initialization,
+  not the accuracy of predictions or a complete end-to-end inference check.
+- Set `WARMUP=1` before starting Uvicorn to load both models and run a blank-image prediction
+  for each at startup. A warm-up failure is logged and does not stop the service. Check the
+  logs and `/ready`, then run an actual demo image before presenting. Defaults stay lazy.
+
+```powershell
+$env:WARMUP = "1"
+..\.venv\Scripts\python.exe -m uvicorn main:app --host 127.0.0.1 --port 8000
+# In a second terminal: Invoke-RestMethod http://127.0.0.1:8000/ready
+```
+
 ## Restroom endpoints
 
 Code in `restroom.py`, shared upload checks in `imaging.py`. The model is OpenAI CLIP through `open_clip_torch` (ViT-B/32 by default, about 600 MB, downloaded on first use into the Hugging Face cache). The first restroom request takes a few seconds longer while it loads.
@@ -84,7 +102,7 @@ curl -F "query=@query.png" -F "gallery=@g1.png" -F "gallery=@g2.png" -F "gallery
 
 - `compare` returns the predicted gender and its confidence for both signs, and their similarity, `(cos + 1) / 2` of the CLIP embeddings.
 - `match` returns the query's prediction and every gallery image as a candidate with id `"0"`, `"1"`, ... in upload order, sorted by similarity. `bestMatchId` is the most similar candidate whose predicted gender is the opposite of the query's, or `null`.
-- Validation is the same as `/predict`: JPEG, PNG or WebP, at most 10 MB per file, at most 60 gallery files. A missing field gives FastAPI's 422.
+- Validation is the same as `/predict`: JPEG, PNG or WebP, at most 10 MB and 40 megapixels per file, at most 60 gallery files. A missing field gives FastAPI's 422.
 
 Configuration:
 
@@ -104,6 +122,17 @@ pip install -r requirements-dev.txt && cd .. && pytest api/
 ```
 
 The tests replace CLIP with a tiny fake encoder, so they download nothing and do not need the YOLO weights.
+
+## Concurrent inference (S-30)
+
+The API shares one YOLO model and one CLIP backend per process. Each model's inference
+uses its own lock inside a worker thread; road and restroom inference can run in parallel
+with each other, but requests for the same backend wait their turn. The response latency
+includes any time waiting for that model lock. `/health` does not take these locks.
+
+Locks are process-local: separate Uvicorn workers have separate model instances and locks.
+Serializing reduces concurrency; it is a stability choice, not an inference speed-up.
+See [Ultralytics thread-safe inference guidance](https://docs.ultralytics.com/guides/yolo-thread-safe-inference/).
 
 ## Two thresholds
 
@@ -152,3 +181,16 @@ python gradio_app.py
 images, oversized files and confidence values. Fake models are injected and restored by
 pytest's monkeypatch. The missing-weights test also injects a failing fake YOLO so tests do
 not attempt downloads even when Ultralytics is installed.
+
+### S-4 integration check, 11 November 2026 (in progress)
+
+- With the local Next.js app and FastAPI running, Settings reported the Local provider connected.
+- An EXIF-stripped test-split road photo (`img-7.jpg`, not committed) was uploaded through
+  `/app/roads/analyze`. The Next.js route and real FastAPI `/predict` both returned HTTP 200;
+  stock `yolo26n` reported zero detections. This checks transport only, not pothole detection.
+- A deliberately synthetic response with one normalized box was then served locally: the
+  app drew one box, listed one detection, and showed R1/R2 rule hits. The result was labeled
+  `S4-FIXTURE`; it is not a prediction. With FastAPI stopped the page showed the readable
+  `unreachable` error and retry option.
+- **Outstanding:** run with the team-trained E0 weights, check real boxes and model name on
+  a screened test image, and complete the S-2 comparison before marking S-4 done.

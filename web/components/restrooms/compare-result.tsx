@@ -4,6 +4,7 @@ import { ArrowLeftRight, Clock, Cpu, MapPin, Timer } from "lucide-react";
 import { useMemo, type ReactNode } from "react";
 import { DemoBadge } from "@/components/app/demo-badge";
 import { PROVIDER_META } from "@/components/app/provider-badge";
+import { isSeededDemo, SEEDED_MODEL_LABEL } from "@/lib/mock/seeded";
 import { Badge } from "@/components/ui/badge";
 import { Callout } from "@/components/ui/callout";
 import { Card, CardBody } from "@/components/ui/card";
@@ -109,11 +110,14 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
               <Meta icon={Cpu} label="Provider">
                 <span className="inline-flex flex-wrap items-center gap-1.5">
                   {PROVIDER_META[check.provider].label}
-                  <DemoBadge show={check.provider === "mock"} label="Mock result" />
+                  <DemoBadge
+                    show={check.provider === "mock" || isSeededDemo(check.id)}
+                    label={isSeededDemo(check.id) ? "Invented demo record" : "Mock result"}
+                  />
                 </span>
               </Meta>
               <Meta icon={Cpu} label="Model">
-                <span className="font-mono text-xs break-all">{check.model}</span>
+                <span className="font-mono text-xs break-all">{isSeededDemo(check.id) ? SEEDED_MODEL_LABEL : check.model}</span>
               </Meta>
               <Meta icon={Timer} label="Model latency">
                 <span className="tabular">{check.latencyMs} ms</span>

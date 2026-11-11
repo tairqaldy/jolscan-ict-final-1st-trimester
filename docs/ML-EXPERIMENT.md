@@ -25,12 +25,16 @@ CLO 5 speaks of classification and clustering and asks for a justified quality m
 - The EDK Global Potholes dataset on Hugging Face is **not** used for training: it has no bounding boxes and its labels were produced by a model. Details in [research/datasets.md](research/datasets.md).
 - The YOLO26 Small model trained inside Roboflow on 3 November is **not** used anywhere: not in the results, not in the app. It was not produced by this experiment.
 
-## Selection rule (fixed before E1, task M-0)
+## Selection rule (task M-0)
 
 - **Primary metric: validation mAP50.** Where exactly a pothole ends is ambiguous even for the person labelling it, so the stricter 0.5–0.95 IoU sweep mostly measures annotation noise. mAP50-95 is reported as a secondary metric.
 - Runs within 0.01 mAP50 of the best count as tied. Ties are broken by **validation recall at confidence 0.40**, the threshold the app counts at. A missed pothole never reaches a repair crew, while a false alarm costs a reviewer a few seconds, so recall matters more than precision (Sup p27).
 - Differences below 0.02 on the test split are not claimed as real.
 - The test split is not used for any choice. `ml/export_results.py` applies this rule from validation numbers only.
+
+**E8 combination policy (accepted by Amina, M-0):** E8 combines every qualifying individual change from E1 (model width), E3 (frozen backbone), E4 (AdamW with its specified learning-rate settings), and E7 (extra P2 detection scale), keeping the other fixed experiment settings unchanged. A change qualifies only if its validation mAP50 exceeds E0 by strictly more than 0.01 on the 0-1 metric scale. E2 (no pretraining) and E5 (standard augmentations off) are ablations and are not combined. If E1 and E7 both qualify, use `yolo26s-p2.yaml` initialised from `yolo26s.pt` where layer shapes match. If none qualifies, use E0 settings for E8. Champion selection always follows the general validation-only rule above across eligible completed runs, including E2 and E5; E0 is not automatically champion. Smoke runs never participate in champion selection. Never use test metrics to select changes or the champion.
+
+**Final revision and timing evidence (11 November 2026):** Amina revised the earlier proposed E0-champion override before E1-E7 start: the no-qualifier fallback changes E8 settings only. Amina confirms from current team information that E1-E7 have not started and authorizes merging this final policy before starting them. This is a team confirmation, not an independently observed training log; no run start time is invented. The actual rule commit and main merge timestamps are available in [PR #369](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/pull/369). Tair handles E0; this task starts no training.
 
 ### Smoke-test boundary
 
@@ -38,7 +42,7 @@ The M-1 one-epoch smoke run is a pipeline check, not a reportable experiment. It
 
 The validation-only smoke run completed for one epoch on a Tesla T4 using trainer commit `3004fdfe8f59e7a261743ec01c390e40d811d791`; the reported MLflow `E0-smoke` run ID is `de59363e3bcd42389b608c2321690ca6` (FINISHED). The actual result JSON and training CSV are in `ml/results/runs/`. The JSON's post-training validation metrics are a separate evaluation from the epoch metrics in the CSV; they are both preserved as generated and should not be expected to match.
 
-Issue #50 currently asks for 12 smoke metrics including test metrics and `test_map50` in MLflow. That acceptance criterion conflicts with this protocol: test is held for the final evaluation, not an early one-epoch check. D-20 also verified that the 100-image D-2 visual-review sample is identical to the test split. Although the validation-only smoke execution succeeded, M-1 remains incomplete until the issue criterion is aligned. The full E0 baseline has not been run.
+Issue #50 originally asked for 12 smoke metrics including test metrics and `test_map50` in MLflow. Tair explicitly accepted the validation-only smoke criterion in [the issue comment](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/50#issuecomment-6789955660), and the completed smoke implementation was merged in [PR #349](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/pull/349). M-1 is complete; no test metric is expected or fabricated for smoke. D-20 verified that the 100-image D-2 visual-review sample is identical to the test split, so test remains reserved for final evaluation. The full E0 baseline is a separate 40-epoch run (M-3).
 
 ## Runs
 

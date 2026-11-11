@@ -22,6 +22,78 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Alizhan (S-4, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Verify the local website-to-FastAPI road analysis flow.
+- **Key prompt:** "хорошо, выпонли s4"; the user later asked "продолжай работу". The full session transcript is not exported here.
+- **What it produced or changed:** Ran the local app and service and recorded partial S-4 verification in `docs/worklog/alizhan.md` and `api/README.md`.
+- **Verification:** Browser observed Local health up; a test-set road photo returned HTTP 200 via the real stock YOLO, with zero detections; an intentionally fake one-box API response checked rendering and rules; the page showed an error when the API was stopped. Alizhan has not yet reviewed these observations.
+- **Limits:** COCO YOLO is not a pothole detector and the fixture is not a model result. Final verification using the team-trained E0 remains outstanding. No model weights or images were committed.
+
+### 11 November 2026, Alizhan (S-13, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Draft a serving and deployment study card for oral practice.
+- **Key prompt:** "давай, продолжай работу" after recommending S-13 and S-3. Full transcript is not exported here.
+- **What it produced:** Seven draft practice answers in `docs/PRESENTATION.md` and a worklog entry.
+- **Verification:** Compared the answers to repository API routes, task instructions and architecture documentation; lecture references have not been checked against the original PDFs and Alizhan has not yet practiced or personally reviewed the answers.
+- **Limits:** S-13 stays open until the teammate practice and code explanation are complete.
+
+### 11 November 2026, Alizhan (S-10, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Measure and improve web performance and accessibility.
+- **Key prompt:** "начни это все выполнять" (following a discussion of S-10 and other optimization tasks). This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** Reduced preloaded font subsets and fixed the accessible representation of animated numbers.
+- **How it was verified:** Lighthouse on the local production build before and after, lint, typecheck, 63 Vitest tests, and production build. Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** Did not claim that a single Lighthouse run proves a speed improvement; S-10 remains in progress until a third improvement is investigated.
+
+### 11 November 2026, Alizhan (S-29, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Declare and publish the API's response contracts.
+- **Key prompt:** "выполняй issues, можешь сам выбрать, что подходит именно под мою задачу". This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** Pydantic response schemas, route declarations, Docker copy instruction, OpenAPI snapshot and tests.
+- **How it was verified:** 32 API tests, compileall and a local server check of `/docs` and `/openapi.json`; models were mocked, and Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** Left the evolving `/health` response untyped and kept the issue open for Tair's review.
+
+### 11 November 2026, Alizhan (S-31, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Improve API handling of oversized and rotated uploads.
+- **Key prompt:** "начни это все выполнять" in response to recommended optimization and reliability tasks. Full transcript is not exported here.
+- **What it produced:** Shared pixel limit and decompression-bomb handling, endpoint and EXIF tests, documentation and worklog.
+- **Verification:** 35 API tests passed in a lightweight environment; Python compilation passed. Alizhan has not personally reviewed this entry.
+- **Limits:** This improves upload robustness, not inference speed or detection accuracy.
+
+### 11 November 2026, Alizhan (S-30, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Make concurrent access to the shared API model backends predictable.
+- **Key prompt:** "начни это все выполнять" following recommended optimization tasks. Full transcript is not exported here.
+- **What it produced:** Separate YOLO/CLIP inference locks, concurrent API tests, and documentation.
+- **Verification:** 32 API tests passed with fake backends; six concurrent requests per backend were serialized, with `/health` responding during blocked road inference. Python compilation passed. Alizhan has not personally reviewed this entry.
+- **Limits:** Locks are per process and can reduce same-model throughput; this does not measure performance or model accuracy. S-20 and C-8 are separate changes requiring integration review.
+
+### 11 November 2026, Alizhan (S-20, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Implement service liveness, model readiness and optional startup warm-up.
+- **Key prompt:** "мне нужно, чтобы ты выполнил таски, потому что ишшьюс будет ревьюить Таир". Full transcript is not exported here.
+- **What it produced:** API readiness and warm-up code, fake-model tests, README and task/worklog updates.
+- **Verification:** 36 API tests passed with fake backends in an isolated lightweight environment. Compile check passed. Alizhan has not yet personally reviewed this draft.
+- **Limits:** No team weights were available; model initialization with real weights and end-to-end inference remain to be checked on the presentation laptop.
+
+### 11 November 2026, Amina (M-0, final pre-run revision)
+
+- **Tool and version:** Codex, GPT-6 family; exact model version not exposed.
+- **Purpose:** Finalize selection and E8 construction before E1-E7 start; complete PR #369 on green CI.
+- **Key prompts:** "Remove the special override that automatically makes E0 champion." "Champion selection always follows the general validation-only rule across eligible completed runs, including E2/E5." "Smoke runs must not participate in champion selection." Amina confirms E1-E7 have not started based on current team information and authorizes the final revision and merge. Full chat export remains outstanding under X-13.
+- **What it produced or changed:** Separate rule revision, exporter smoke-flag exclusion and three offline regression tests, consistent task/worklog/contribution/decision records, and updated PR #369.
+- **How I verified it, and who verified it:** The assistant compared the documentation to `TIE = 0.01`, validation-only champion inputs and `RULES_CONF = 0.40`; three `python -m unittest ml.test_export_results` tests, compilation of ml/api and `git diff --check` passed. Amina supplied the pre-run team confirmation and final policy decision. Fresh required CI is checked before merge.
+- **What I rejected or corrected:** Superseded the earlier E0-champion override rather than implementing it. Preserved the notebook change and previous branches in an isolated worktree. No training, test-metric selection, backdating, dataset changes or claim of independent chat/run verification.
+
 ### 11 November 2026, Alizhan (S-3, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6 family.
@@ -49,14 +121,14 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **Verification:** A fresh Windows Python 3.12 environment and a clean Linux Python 3.12 Actions job installed the pins and passed 30 API tests. Windows Uvicorn `/health` returned 200; Linux used TestClient. Alizhan has not yet personally reviewed this entry.
 - **Limits:** The Docker image was not built, real models were not tested in the new environment, and Tair and Nazar have not yet approved the version choice.
 
-### 11 November 2026, Amina (M-1, in progress)
+### 11 November 2026, Amina (M-1, completed)
 
 - **Tool and version:** Copilot SDK in VS Code; the version was not exposed in this session.
 - **Purpose:** Prepare the M-1 trainer and a reproducible Colab one-epoch smoke workflow.
 - **Key prompt(s), with a link to the transcript:** "Work on M-1 (#50): make train.py run end to end with a one-epoch smoke test" and "Назначила #50 на omodotori, перепроверь и продолжай M-1 по правилам проекта." A later clarification chose `validation_only` when asked how to resolve the test-split conflict. No transcript link is available.
-- **What it produced or changed:** Updated `ml/train.py`, added isolated tests and `ml/colab_runner.ipynb`, documented the validation-only policy, and corrected the notebook to use the repository's explicit `mlflow.db` tracking URI with safe handling for a missing experiment or empty results.
+- **What it produced or changed:** Updated `ml/train.py`, added isolated tests and `ml/colab_runner.ipynb`, documented the validation-only policy, and corrected the notebook to use the repository's explicit `mlflow.db` tracking URI with safe handling for a missing experiment or empty results. After Tair accepted validation-only smoke for M-1, updated the task and experiment status records to reflect completion without conflating smoke with the full E0 baseline.
 - **How I verified it, and who verified it:** Three `python -m unittest ml.test_train` tests and `python -m compileall -q ml api` passed; notebook JSON and code cells were validated locally. Amina supplied the completed Colab smoke evidence. The tool verified the ZIP integrity and inspected the actual JSON/CSV; the JSON records one epoch, Tesla T4, the expected trainer commit and validation-only metrics. The reported MLflow run ID/status came from Amina's execution report; the tool did not independently access the Colab tracking database.
-- **What I rejected or corrected:** Did not evaluate test in smoke, add a fabricated `test_map50`, rerun training, claim the full E0 baseline complete, or commit a dataset archive or weights. The issue's current test-metric acceptance check remains unresolved.
+- **What I rejected or corrected:** Did not evaluate test in smoke, add a fabricated `test_map50`, rerun training, claim the full E0 baseline complete, or commit a dataset archive or weights. Tair's acceptance is recorded in [issue #50](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/50#issuecomment-6789955660); the full E0 baseline remains M-3.
 
 ### 10 November 2026, Alizhan (S-1, AI-assisted; personal review pending)
 
@@ -249,6 +321,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** `web/components/app/demo-badge.tsx` (the rule in its comment), `web/components/app/mock-provider-badge.tsx`, `show` on the badges of every seeded-history page, 'Mock result' badges in `analysis-view.tsx` and `compare-result.tsx`, `web/lib/demo-badges.test.ts`; copy fixes in `web/lib/credits.ts`, About, footer, landing and Settings; comments in the mock data files; `web/README.md`.
 - **How I verified it, and who verified it:** `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` in `web/`; the new test was run once against the old reports page and failed, as it should. The dataset facts were copied from the D-1 card in `data/README.md` and the split manifest, not typed from memory. Tair still has to look at the pages in the browser after the merge.
 - **What I rejected or corrected:** did not delete any demo label to make the grep clean; did not write a team AI statement that members have not confirmed (W-14); did not touch the design tokens or the design page text (G-3, Dameli).
+
+### 11 November 2026, Tair (honest labels on invented demo rows)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** stop invented sample rows from looking like real model runs now that the roads results are real.
+- **Key prompt(s), with a link to the transcript:** "grill yourself and improve". Transcript kept locally.
+- **What it produced or changed:** `web/lib/mock/seeded.ts`, its test, and the provider and model cells in the two tables and two detail views.
+- **How I verified it, and who verified it:** lint, typecheck and 92 unit tests pass; on a local dev server the dashboard shows "Local" for a real analysis and "Demo" for seeded rows.
+- **What I rejected or corrected:** did not change the seeded data's provider, because the analytics page compares providers under its own demo badge.
 
 ### 11 November 2026, Tair (M-13 deck plots)
 
