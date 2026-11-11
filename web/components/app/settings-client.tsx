@@ -285,7 +285,7 @@ export function SettingsClient() {
           <p className="text-xs text-muted">
             Everything here lives in this browser&apos;s localStorage. There is no account and no database in the prototype.
           </p>
-          <Badge tone="outline" className="w-fit">
+          <Badge tone="outline" className="w-fit whitespace-normal!">
             Provider URLs and keys are read on the server only
           </Badge>
         </CardBody>
