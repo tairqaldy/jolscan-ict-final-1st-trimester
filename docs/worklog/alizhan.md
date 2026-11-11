@@ -57,6 +57,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **AI use:** Codex desktop, GPT-6; personal review pending.
 - **Open questions / next:** Recheck deployment before the talk; the recording content was not independently transcribed.
 
+### 2026-11-11 · X-7 (#78) · Contribution log
+- **Status:** in progress; personal confirmation by team members remains.
+- **What I did:** Updated my contribution row using merged PRs and added proposed practice topics to Dameli's and Roma's rows from their study cards.
+- **Result:** The log links work to commits and PRs without claiming that anyone has personally reviewed or mastered the listed material.
+- **Decisions and why:** Only attributed verifiable work and explicitly marked proposed speaking topics for each person to confirm.
+- **What I learned / can explain at the defense:** A contribution log needs evidence for the work and honest individual preparation.
+- **AI use:** Codex desktop, GPT-6; personal review pending.
+- **Open questions / next:** Each participant checks their own row and topics; Tair confirms any remaining shared decisions.
+
 ### 2026-11-11 · M-2 (#51) · Full-run handoff
 - **Status:** in progress; actual shared Drive access and Colab handoff remain unverified.
 - **What I did:** Added an opt-in final Colab cell for copying a full run's best weights to a shared folder and downloading its result JSON and CSV; documented the laptop-to-PR handoff.
