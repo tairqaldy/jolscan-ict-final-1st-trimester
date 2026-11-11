@@ -222,6 +222,26 @@
 [data-theme="dark"] .leaflet-tile-pane {
   filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.9);
 }
+/* G-27: leaflet.css is imported by the map chunk after this file, so its white
+   popups, blue links and white zoom buttons won the tie with the rules above.
+   The .leaflet-container prefix lets the tokens win in both themes. */
+.leaflet-container .leaflet-popup-content-wrapper,
+.leaflet-container .leaflet-popup-tip {
+  background: var(--surface);
+  color: var(--fg);
+}
+.leaflet-container .leaflet-popup-content a {
+  color: var(--accent-ink);
+}
+.leaflet-container .leaflet-bar a {
+  background: var(--surface);
+  color: var(--fg);
+  border-bottom-color: var(--border);
+}
+.leaflet-container .leaflet-bar a:hover,
+.leaflet-container .leaflet-bar a:focus-visible {
+  background: var(--surface-2);
+}
 
 /*
  * Entry motion, CSS only. Content is on screen from the first paint, with or
