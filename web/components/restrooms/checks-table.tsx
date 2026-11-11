@@ -31,7 +31,7 @@ export function ChecksTable({ checks, caption }: { checks: CheckWithSource[]; ca
       </THead>
       <tbody>
         {checks.map((c) => (
-          <TR key={c.id} className="cursor-pointer hover:bg-surface-2" onClick={() => router.push(checkHref(c.id))}>
+          <TR key={c.id} className="cursor-pointer transition-colors duration-[var(--duration-fast)] ease-standard hover:bg-surface-2" onClick={() => router.push(checkHref(c.id))}>
             <TD className="tabular whitespace-nowrap text-muted">{formatDateTime(c.createdAt)}</TD>
             <TD className="min-w-40">
               <Link href={checkHref(c.id)} className="font-medium link-underline" onClick={(e) => e.stopPropagation()}>
