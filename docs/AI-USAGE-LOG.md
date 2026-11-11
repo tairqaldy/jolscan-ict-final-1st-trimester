@@ -638,3 +638,20 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - Switched from CARTO tiles back to OpenStreetMap, because CARTO's tiles now say "API KEY REQUIRED".
   - Dropped a draft rule ("never a soft fill with plain text") because the success callout does exactly that.
   - Did not edit `tokens.css`.
+
+### 11 November 2026, Dameli (G-7, G-71, G-51 chart style and threshold lines)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** one chart style for the analytics and model pages, labelled threshold lines, and the line-or-columns decision for detections per day.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков". Transcript kept locally.
+- **What it produced or changed:** the shared style and `ThresholdMarker` in `web/components/charts/chart-kit.tsx`; `web/lib/charts/thresholds.ts` with its test; the chart files `analytics-client.tsx`, `restroom-analytics.tsx`, `model-comparison.tsx`, `restroom-runs.tsx`; the Charts section of DESIGN-BRIEF.md; my G-12 answer in PRESENTATION.md.
+- **How I verified it, and who verified it:**
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` and `pnpm build` pass in `web/`.
+  - Screenshots of every chart in light and dark at 1440 and 375 px.
+  - Moving S1 and R1 with the sliders on the Rules pages moved the lines and their labels.
+  - Every "Show as table" toggle still opens its table, and the console shows no errors.
+- **What I rejected or corrected:**
+  - Kept the stacked columns after looking at the line variant.
+  - The IOAI labels on `/app/model` were partly hidden behind bars; they now sit above their line with an outline in the card colour.
+  - A histogram bin cut by a threshold was coloured by its lower edge, which disagreed with the chart title; the bin is now split.
+  - No rule logic and no default value was changed.
