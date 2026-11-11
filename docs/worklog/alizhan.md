@@ -12,6 +12,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 · R-2 (#84) · Primary road-condition source
+- **Status:** in progress; source selected for review, slide and timed delivery remain.
+- **What I did:** Located a West Kazakhstan Region road authority's primary report and documented its dated local-road condition figure and scope for the presentation.
+- **Result:** `docs/research/deck-sources.md` links the source, quotes a short original excerpt and proposes an accurate English formulation. No design or slide was changed.
+- **Decisions and why:** Used the reported 60% of local roads in normative condition as of 1 January 2026; did not call it a pothole count or national statistic.
+- **What I learned / can explain at the defense:** A regional road-condition indicator should retain its geography, date, denominator and definition when quoted.
+- **AI use:** Codex desktop, GPT-6; personal review pending.
+- **Open questions / next:** Team reviews the source and includes it in the slide and notes if appropriate; the speaker times the delivery.
+
 ### 2026-11-11 · R-21 (#230) · Architecture slide practice
 - **Status:** done; three recorded attempts are within the duration target and Alizhan confirmed the required handover.
 - **What I did:** Checked slide 4 and its speaker notes in the current PowerPoint against the deck source, API routes and the restroom latency CSV; prepared `docs/R21-ALIZHAN-PRACTICE.md`.
