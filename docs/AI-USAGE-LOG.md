@@ -946,6 +946,19 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - The bar was drawn under the active link's background; it now has a z-index.
   - An underline inside the site header's pill links was rejected (two effects for one hover).
 
+### 11 November 2026, Dameli (G-21 token sync tests)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** turn the "keep in sync" comments around `web/app/tokens.css` into tests that fail when a theme, the Tailwind mapping or a component drifts from it.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-21 among them). Transcript kept locally.
+- **What it produced or changed:** `web/lib/tokens.test.ts`, the shared readers in `web/lib/css-tokens.ts`, two checks added to `web/lib/motion.test.ts`, and `web/lib/print-tokens.test.ts` importing the shared parser instead of its own copy. The new test found that `web/app/design/lab/lab.css` still used the radius tokens G-49 removed; the two dead rules are gone.
+- **How I verified it, and who verified it:**
+  - Broke `tokens.css` and a component on purpose (a dark-only token, an alias to a missing token, a wrong colour mapping, `bg-(--chart-9)`, a changed dark `--bg`, `"#abc"`, `--duration-draw: 650ms`, an extra duration token). Each made a test fail and name the file and line; all restored with git.
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` (19 files, 239 tests) and `pnpm build` pass.
+- **What I rejected or corrected:**
+  - The first version read a fixed list of three stylesheets; the design lab added `lab.css` the same afternoon, so it now reads every stylesheet under `app/` and `components/`.
+  - A trailing `// #fff` comment was reported as a hex colour; comments after a space are now skipped.
+  - Did not copy the existing motion check into `tokens.test.ts`; extended `motion.test.ts` instead.
 ### 11 November 2026, Dameli (G-9 dashboard review)
 - **Tool and version:** Claude Code, Claude Opus 5.5, in the Claude desktop app.
 - **Purpose:** review the overview dashboards against Nielsen's ten heuristics and fix the layout and feedback problems in my design layer.

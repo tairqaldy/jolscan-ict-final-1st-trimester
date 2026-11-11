@@ -43,6 +43,22 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **AI use:** Claude Code wrote the CSS, the shell changes and the Playwright checks (entry in docs/AI-USAGE-LOG.md).
 - **Open questions / next:** the mobile bottom tab bar still switches its pill without motion. The About link underline also runs under its icon.
 
+### 2026-11-11 19:32 · G-21 (#165) · Tests that keep the tokens and the code in sync
+- **Status:** done.
+- **What I did:**
+  - `web/lib/tokens.test.ts` reads `tokens.css`, every stylesheet and the code in `app/`, `components/` and `lib/` as text and checks: every theme block (light, dark, contrast and any new one) declares the light tokens and no others, except the photo box tokens that dark takes from light; aliases such as `--verdict-clear: var(--sev-clear)` point to tokens of the same theme; the `@theme` mapping names only tokens that exist, and each `--color-x` maps to `var(--x)`; every `var(--x)` and `bg-(--x)` in the code is defined (Tailwind's `--tw-*` and Radix's `--radix-*` excepted); the two `themeColor` values in `app/layout.tsx` equal `--bg` of light and dark; no hex colour in `app/` or `components/` code except `layout.tsx`.
+  - `web/lib/css-tokens.ts`: the small readers the tests share. The print test (G-25) now imports its `declarations` parser from there instead of keeping its own copy.
+  - `web/lib/motion.test.ts` already compared the JS motion values with the CSS ones. I extended it in the other direction (every `--duration-*` and `--ease-*` needs a JS twin) and added a check that the default timing function equals `--ease-standard`.
+- **Result:** 14 new checks and 2 new motion checks pass on the branch rebased on `main`. After the last rebase the var() check found one real drift: G-49 removed `--radius-xs` and `--radius-xl`, but `web/app/design/lab/lab.css` (my G-41 file) still pointed `.rounded-xs` and `.rounded-xl` at them. No component uses those classes, so I removed the two rules. Each deliberate break made a test fail with the file and line, then I restored it: a dark-only token, an alias to a missing token, `--color-fg: var(--muted)`, `bg-(--chart-9)` in a component, a changed dark `--bg`, `"#abc"` in a component, `--duration-draw: 650ms` and an extra `--duration-extra`. `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` (19 files, 239 tests) and `pnpm build` pass.
+- **Decisions and why:**
+  - Parsed generically, so a token or theme added by another pull request is checked without editing the test. The only named exceptions are the `--box*` overlay tokens (tokens.css says they are the same in both themes) and the `--tw-` and `--radix-` prefixes.
+  - The motion check stays in `motion.test.ts`, extended rather than copied into `tokens.test.ts`, so one drift fails one test.
+  - `var(--shadow-${size})` in a template string counts as used when some token starts with `--shadow-`.
+  - The hex check skips comments and `href="#..."`, and needs a non-letter after the digits, so `#main` and `#roads` do not count.
+- **What I learned / can explain at the defense:** tokens.css is only "the one file to re-skin the app" if nothing else holds a colour or a timing. These tests turn the "keep in sync" comments into checks that fail in CI when a pull request changes one side only.
+- **AI use:** Claude Code wrote the tests and the helper; I checked them with deliberate breaks (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** the tests read CSS as text and assume plain `selector { --name: value; }` blocks. A nested rule inside a theme block would need a real CSS parser (postcss).
+
 ### 2026-11-11 19:24 · G-49 (#283), G-23 (#167), G-62 (#296) · Three radii, one eyebrow label, one card inset
 - **Status:** done
 - **What I did:**
