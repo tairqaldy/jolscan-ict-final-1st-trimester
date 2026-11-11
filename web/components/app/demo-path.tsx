@@ -4,8 +4,10 @@ import { EyeOff } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { cn } from "@/lib/cn";
 import { DEMO_PATH } from "@/lib/demo-path";
 import { demoPathHiddenStore } from "@/lib/store/demo-path";
+import { LINK_ROW } from "./link-row";
 import { ProviderBadge } from "./provider-badge";
 
 /**
@@ -54,7 +56,7 @@ export function DemoPath() {
             <li key={step.href}>
               <Link
                 href={step.href}
-                className="flex h-full min-h-12 flex-col justify-center rounded-md border border-border px-3 py-2.5 hover:bg-surface-2 sm:justify-start"
+                className={cn("flex h-full min-h-12 flex-col justify-center rounded-md border border-border px-3 py-2.5 sm:justify-start", LINK_ROW)}
               >
                 <span className="flex items-center gap-2 text-sm font-semibold">
                   <span className="tabular grid size-5 shrink-0 place-items-center rounded-sm bg-inverse text-xs text-inverse-fg">
