@@ -14,7 +14,7 @@ import type { Detection } from "@/lib/types";
  * Box coordinates are normalised (0..1), so the overlay uses a viewBox in the
  * image's pixel size and scales with the photo.
  *
- * Styles: counted = solid amber; review = dashed blue; ignored = faint dashed.
+ * Styles: counted = solid amber; review = dashed violet; ignored = faint dashed.
  * The style difference is backed by a label on each box, not colour alone.
  */
 export function DetectionOverlay({
