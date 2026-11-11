@@ -12,6 +12,23 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 19:20 · G-50 (#284) · One drop zone for roads and restrooms
+- **Status:** done
+- **What I did:**
+  - New `web/components/ui/dropzone.tsx`: one `Dropzone` with six states (idle, drag-over, invalid, filled, disabled, busy) and two shapes: `banner` for roads Analyze (the preview sits above it) and `tile` for the restroom sign slot (the preview sits inside it). It checks every chosen or dropped file with `validateImageFile` from `web/lib/upload.ts` and hands a good file to the page; the page still shows the message and still does the re-encoding and EXIF stripping (`web/lib/image.ts`) when it sends the photo.
+  - `analyze-client.tsx` and `sign-slot.tsx` now use it. Compare and Match use `SignSlot`, so `match-client.tsx` and `compare-client.tsx` did not change.
+  - `/design` has a new "Upload drop zone" block with the six states in each theme and one live banner.
+  - `web/lib/dropzone.test.ts`: 14 tests for the file check (wrong type, over 10 MB, good file, nothing picked), the state order and the markup of each state.
+- **Result:** the same Playwright script ran on my dev server before and after, with a text file, an 11 MB file, a dropped WebP and a chosen WebP. The only difference in the two result files is the new `data-state` zones (0 before; 1 on Analyze, 2 on Compare, 1 on Match after). Same accepted types, same messages, the same re-encoded upload (7062 bytes on disk, 7716 bytes sent, as before), and the Analyze, Compare and Match results appear on Mock. Tab reaches the input on all three pages and Enter opens the file dialog. Lint, typecheck, 205 tests and `pnpm build` pass.
+- **Decisions and why:**
+  - Kept each page's message and where it shows (the Callout on Analyze, the line under the buttons in the slot): only the zone was meant to change, and this is the live demo path.
+  - An invalid file now also gives the zone a red border and `aria-invalid`, so the error is next to the place you act.
+  - A disabled slot (Compare and Match while a request runs) now ignores dropped files, as it already ignored clicks.
+  - Async `onFile` shows busy while Analyze reads the image size; the input is not disabled then, so keyboard focus stays.
+- **What I learned / can explain at the defense:** one upload component with the same states in both modules follows consistency and standards (Lec3-HCI p.17); every state has its own look plus a text or ARIA cue, not colour alone.
+- **AI use:** Claude Code wrote the component, the tests and the Playwright checks (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** optional issue steps not done: six references in Drive and `docs/design/references/design-components.md`, and the two layout variants side by side. The screenshots are in the pull request description as file names only (kept on my laptop).
+
 ### 2026-11-11 19:18 · G-60 (#294) · One landing effect kept: the step line on How it works
 - **Status:** done
 - **What I did:**
