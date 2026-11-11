@@ -32,7 +32,7 @@ export function DialogContent({
           "fixed z-50 border border-border bg-surface p-5 text-fg shadow-lg",
           side === "center"
             ? "top-1/2 left-1/2 w-[calc(100vw-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg"
-            : "inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-xl pb-[max(1.25rem,env(safe-area-inset-bottom))]",
+            : "inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-lg pb-[max(1.25rem,env(safe-area-inset-bottom))]",
           className,
         )}
       >

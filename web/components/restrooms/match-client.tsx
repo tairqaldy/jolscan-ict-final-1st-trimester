@@ -244,7 +244,7 @@ function MatchResultView({
         itself only ranks; it has no threshold.
       </p>
 
-      <details className="rounded-lg border border-border bg-surface p-4 text-sm">
+      <details className="rounded-lg border border-border bg-surface p-(--card-pad) text-sm">
         <summary className="cursor-pointer font-medium">Raw JSON</summary>
         <pre className="mt-3 max-h-[24rem] overflow-auto rounded-md bg-surface-2 p-4 font-mono text-xs leading-relaxed">
           <code>{raw}</code>
@@ -302,7 +302,7 @@ function BestPairPanel({ status }: { status: Status }) {
           <figure className="grid content-start gap-2">
             <SignImage src={queryUrl} alt={querySample?.title ?? "Query sign"} />
             <figcaption className="grid gap-1 text-sm">
-              <span className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">Query</span>
+              <span className="eyebrow text-muted">Query</span>
               <span className="font-medium">{querySample?.title ?? result.queryInput.fileName ?? "Uploaded sign"}</span>
               <GenderTag gender={result.query.gender} confidence={result.query.confidence} className="w-fit" />
             </figcaption>

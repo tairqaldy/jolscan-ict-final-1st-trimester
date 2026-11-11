@@ -37,7 +37,7 @@ export function TypeSpecimen() {
       </ul>
 
       <div className="grid gap-1">
-        <p className="text-xs font-semibold tracking-wide text-muted uppercase">Kazakh letters</p>
+        <p className="eyebrow text-muted">Kazakh letters</p>
         <p className="text-2xl" data-lab-sample="kazakh">
           {KAZAKH_LETTERS}
         </p>
@@ -59,7 +59,7 @@ export function TypeSpecimen() {
 
       <div className="grid gap-1">
         <div className="flex flex-wrap items-center gap-2">
-          <p className="text-xs font-semibold tracking-wide text-muted uppercase">KPI</p>
+          <p className="eyebrow text-muted">KPI</p>
           <DemoBadge show label="Placeholder numbers" />
         </div>
         <p className="tabular font-display text-5xl font-bold">1 234</p>

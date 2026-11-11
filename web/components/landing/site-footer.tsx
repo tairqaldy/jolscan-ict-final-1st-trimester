@@ -4,7 +4,7 @@ import { BRAND, MODULES } from "@/lib/brand";
 import { DATA_CREDITS } from "@/lib/credits";
 import { COURSE } from "@/lib/team";
 
-const linkClass = "text-muted hover:text-fg";
+const linkClass = "link-underline text-muted hover:text-fg";
 
 export function SiteFooter() {
   return (

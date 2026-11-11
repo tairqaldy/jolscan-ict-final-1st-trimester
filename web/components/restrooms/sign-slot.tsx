@@ -111,7 +111,7 @@ export function SignSlot({
 
   return (
     <div className="grid content-start gap-3">
-      <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">{label}</p>
+      <p className="eyebrow text-muted">{label}</p>
       <Dropzone
         shape="tile"
         title="Drop a sign image, or click to choose"

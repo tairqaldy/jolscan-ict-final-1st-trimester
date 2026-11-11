@@ -40,7 +40,7 @@ export default function AboutPage() {
     <>
       <SiteHeader />
       <main id="main" className="container-page max-w-3xl pt-12">
-        <p className="text-xs font-semibold tracking-[0.18em] text-accent-ink uppercase">
+        <p className="eyebrow text-accent-ink">
           {COURSE.code} · {COURSE.school}
         </p>
         <h1 className="mt-2 text-4xl font-bold sm:text-5xl">About {BRAND.name}</h1>

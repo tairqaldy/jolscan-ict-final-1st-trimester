@@ -48,7 +48,7 @@ export function PairDemo() {
   });
 
   return (
-    <div className="grid gap-4 rounded-lg border border-border bg-surface-2 p-4 sm:p-5">
+    <div className="grid gap-4 rounded-lg border border-border bg-surface-2 p-(--card-pad)">
       <div key={ex.preset.id} className="grid gap-4">
         <div className="grid grid-cols-2 gap-3 sm:gap-4">
           {(["a", "b"] as const).map((k, i) => {

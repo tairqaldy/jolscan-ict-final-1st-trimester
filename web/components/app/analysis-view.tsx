@@ -60,10 +60,10 @@ export function AnalysisView({ analysis, title }: { analysis: StoredAnalysis; ti
           />
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted">
             <span className="inline-flex items-center gap-1.5">
-              <span aria-hidden className="inline-block h-2.5 w-4 rounded-xs border-2 border-box" /> counted
+              <span aria-hidden className="inline-block h-2.5 w-4 rounded-sm border-2 border-box" /> counted
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <span aria-hidden className="inline-block h-2.5 w-4 rounded-xs border-2 border-dashed border-box-review" /> needs review
+              <span aria-hidden className="inline-block h-2.5 w-4 rounded-sm border-2 border-dashed border-box-review" /> needs review
             </span>
             <span>Hover a box or a row to match them.</span>
           </div>
@@ -73,13 +73,13 @@ export function AnalysisView({ analysis, title }: { analysis: StoredAnalysis; ti
           <CardBody className="grid gap-5">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">Repair priority</p>
+                <p className="eyebrow text-muted">Repair priority</p>
                 <div className="mt-2">
                   <SeverityBadge severity={analysis.severity} size="lg" />
                 </div>
               </div>
               <div className="text-right">
-                <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">Score</p>
+                <p className="eyebrow text-muted">Score</p>
                 <p className="tabular font-display text-5xl leading-none font-bold">{formatScore(analysis.score)}</p>
               </div>
             </div>

@@ -60,9 +60,9 @@ export function PlatformOverviewClient() {
       <div className="grid gap-6 xl:grid-cols-2">
         <ModulePanel id="roads">
           <div className="grid grid-cols-3 gap-2 sm:gap-3">
-            <Kpi label="Photos" value={roads.photos} note="analysed" className="p-3 sm:p-4" />
-            <Kpi label="Urgent" value={roads.urgent} note="high or critical" accentClass="bg-sev-critical" className="p-3 sm:p-4" />
-            <Kpi label="To review" value={roads.review} note="low confidence" accentClass="bg-review" className="p-3 sm:p-4" />
+            <Kpi label="Photos" value={roads.photos} note="analysed" />
+            <Kpi label="Urgent" value={roads.urgent} note="high or critical" accentClass="bg-sev-critical" />
+            <Kpi label="To review" value={roads.review} note="low confidence" accentClass="bg-review" />
           </div>
           <RecentList title="Latest road photos" moreHref="/app/roads/reports">
             {analyses.slice(0, 4).map((a) => (
@@ -81,9 +81,9 @@ export function PlatformOverviewClient() {
 
         <ModulePanel id="restrooms">
           <div className="grid grid-cols-3 gap-2 sm:gap-3">
-            <Kpi label="Checks" value={restrooms.checks} note="sign pairs" className="p-3 sm:p-4" />
-            <Kpi label="Pair" value={restrooms.pair} note="one set, two genders" accentClass="bg-verdict-clear" className="p-3 sm:p-4" />
-            <Kpi label="Not a pair" value={restrooms.notPair} note="S2 or S3 failed" accentClass="bg-verdict-confusing" className="p-3 sm:p-4" />
+            <Kpi label="Checks" value={restrooms.checks} note="sign pairs" />
+            <Kpi label="Pair" value={restrooms.pair} note="one set, two genders" accentClass="bg-verdict-clear" />
+            <Kpi label="Not a pair" value={restrooms.notPair} note="S2 or S3 failed" accentClass="bg-verdict-confusing" />
           </div>
           <RecentList title="Latest sign checks">
             {checks.slice(0, 4).map((c) => (
@@ -117,7 +117,7 @@ export function PlatformOverviewClient() {
             { href: "/app/settings", icon: Settings, title: "Settings", text: "One provider switch for both modules, privacy options, export and reset." },
           ].map((l) => (
             <li key={l.href}>
-              <Link href={l.href} className="flex h-full gap-3 rounded-lg border border-border bg-surface p-4 hover:bg-surface-2">
+              <Link href={l.href} className="flex h-full gap-3 rounded-lg border border-border bg-surface p-(--card-pad) hover:bg-surface-2">
                 <l.icon className="mt-0.5 size-5 shrink-0 text-accent-ink" aria-hidden />
                 <span>
                   <span className="block font-semibold">{l.title}</span>

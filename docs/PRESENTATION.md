@@ -55,6 +55,14 @@ Each person prepares short spoken answers for their lane. The course digest for 
 4. Why is gender accuracy cross-validated grouped by restroom, and what would go wrong without the grouping?
 5. With 10 validation queries, how sure are you that one run beats another?
 
+**M-37: two-sentence answer for R-5 and M-18**
+
+Every one of our 100 test photos contains a labelled pothole, so always answering "pothole present" gives 100% image-level accuracy without locating any pothole.
+Detection instead needs box matching and precision, recall and mAP; unlike fixed-label classification, its empty background regions do not provide a uniquely countable set of true negatives.
+
+Sources: [frozen split manifest](../data/exports/potholes_yolo_v1/split_manifest.json), [Why not accuracy](ML-EXPERIMENT.md#why-not-accuracy).
+This is a sourced draft answer, not evidence that Amina has passed timed practice with a teammate.
+
 **Amina (pothole data, model and rules)**
 1. Where does the dataset come from, what is its licence, and how did you check for leakage?
 2. What exactly did you change between runs, and what stayed the same?

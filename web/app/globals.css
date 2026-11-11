@@ -43,7 +43,7 @@
   :focus-visible {
     outline: 2px solid var(--focus);
     outline-offset: 2px;
-    border-radius: var(--radius-xs);
+    border-radius: var(--radius-sm);
   }
 
   [hidden] {
@@ -89,6 +89,16 @@
 .public-container {
   max-width: none;
   padding-inline: clamp(1.25rem, 3vw, 3.5rem);
+}
+
+/* One eyebrow label (G-23): the small uppercase label above a heading or a
+   value. Colour stays on the element (text-muted, text-accent-ink, text-subtle). */
+@utility eyebrow {
+  font-size: var(--text-xs);
+  line-height: var(--text-xs--line-height);
+  font-weight: 600;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
 }
 
 /* Road-marking stripe used as a quiet brand device (dashed centre line). */
@@ -165,7 +175,7 @@
 .jelly-nav__link {
   display: block;
   padding: 0.5rem 0.65rem;
-  border-radius: 999px;
+  border-radius: var(--radius-full);
   transition: padding 320ms cubic-bezier(0.2, 1.45, 0.4, 1),
     background-color var(--duration-fast), color var(--duration-fast);
 }
@@ -441,4 +451,84 @@ html[data-motion="reduce"] .demo-loop-control {
 }
 html[data-motion="reduce"] .how-steps > li::before {
   animation: none !important;
+}
+
+/*
+ * G-74: hover underline for text links. The line grows from the left edge
+ * under the text on hover and keyboard focus, and shrinks back on leave.
+ * background-size only (no layout change), --duration-base with
+ * --ease-standard (lib/motion.ts duration.base, ease.standard); the colour
+ * change keeps --duration-ui. Use it on text links that have no underline at
+ * rest (nav, footer, table rows); links inside running text keep a permanent
+ * underline. Reduced motion (OS setting or the G-64 switch): no transition,
+ * the full line shows at once.
+ */
+@utility link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition:
+    background-size var(--duration-base) var(--ease-standard),
+    color var(--duration-ui) var(--ease-standard);
+  &:hover,
+  &:focus-visible {
+    background-size: 100% 1px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+  html[data-motion="reduce"] & {
+    transition: none;
+  }
+}
+
+/*
+ * G-74: the app rail's active bar and the Roads / Restrooms thumb move to the
+ * new item instead of jumping (components/app/app-shell.tsx). Transform only,
+ * --duration-base with --ease-emphasized (lib/motion.ts). The transition is
+ * switched on by data-nav-ready on .app-frame one frame after the shell has
+ * mounted, so nothing moves on page load. Reduced motion (OS setting or the
+ * G-64 switch): no transition, the bar and the thumb sit on the new item at once.
+ */
+.rail-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* Above the active link's background (the links are position: relative). */
+  z-index: 1;
+  width: 0.25rem;
+  border-radius: var(--radius-full);
+  background: var(--accent);
+  pointer-events: none;
+}
+.rail-indicator[data-hidden] {
+  opacity: 0;
+}
+/* The per-link bar is the no-JS fallback; hidden once the moving bar is placed. */
+[data-rail-indicator] .rail-static-bar {
+  visibility: hidden;
+}
+.module-thumb {
+  position: absolute;
+  pointer-events: none;
+  transform: translateX(calc(var(--module-index, 0) * (100% + var(--module-gap, 0px))));
+}
+.app-frame[data-nav-ready] .rail-indicator,
+.app-frame[data-nav-ready] .module-thumb {
+  transition:
+    transform var(--duration-base) var(--ease-emphasized),
+    opacity var(--duration-fast) var(--ease-standard);
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-frame[data-nav-ready] .rail-indicator,
+  .app-frame[data-nav-ready] .module-thumb {
+    transition: none;
+  }
+}
+html[data-motion="reduce"] .app-frame[data-nav-ready] .rail-indicator,
+html[data-motion="reduce"] .app-frame[data-nav-ready] .module-thumb {
+  transition: none;
 }
