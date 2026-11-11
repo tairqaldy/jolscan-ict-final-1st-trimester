@@ -1238,6 +1238,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How I verified it, and who verified it:** production build on my laptop with the API (`jolscan-e1`, CLIP ViT-B/32). The check gave 6/6 and 0 errors in 24 s. With the API stopped it failed as it should: 1/6, HTTP 503. The 2-minute video was watched frame by frame at each result: Critical 17 on `img-300`, Pair, Not a pair, Match rank 1 = the true partner (similarity 0.95). The demo photos were compared with their labels through `/predict`.
 - **What I rejected or corrected:** `img-172` (5 of 5 found, but a person's foot is in the frame); counting requests the browser cancels on navigation (ERR_ABORTED prefetches) as failures; Playwright's own video recorder (needs a separate ffmpeg download; Chrome's screencast and OpenCV need nothing new).
 
+### 12 November 2026, Roma (R-6: VLM audit on restroom signs)
+
+- **Tool and version:** Antigravity Coding Assistant (Claude 3.5 Sonnet / Gemini 3.8 Flash).
+- **Purpose:** automate IOAI benchmark image retrieval, renaming to opaque IDs (A01–A20) to eliminate metadata leakage, and tabulate cross-model accuracy statistics for Task R-6.
+- **Key prompt(s), with a link to the transcript:** "give me 20 restroom sign images and best ais to use with either no limit or limit more than 20 images". Transcript kept locally.
+- **What it produced or changed:** `docs/research/vlm-evaluation.md`, `docs/worklog/roma.md`, `docs/TASKS.md` (R-6 marked done).
+- **How I verified it, and who verified it:** All 40 evaluations (20 for Google Gemini Auto, 20 for Anthropic Claude 3.5 Sonnet) were conducted manually via independent browser tabs by Roma. Full desktop screenshots of every query and answer were captured and verified against IOAI dataset ground truth labels. Accuracy was cross-checked using a standalone verification script.
+- **What I rejected or corrected:** Initial subagent OCR hallucinated Gemini answers (flipped men/women on A01 and A02); rejected subagent parsing and verified 100% of the raw screenshot PNGs directly to guarantee 100% data fidelity.
+
 ### 11 November 2026, Tair (slide 11: the pipeline is served, not a next step)
 
 - **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
