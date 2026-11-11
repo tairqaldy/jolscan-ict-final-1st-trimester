@@ -916,6 +916,7 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What I rejected or corrected:**
   - The file list for the radius replace also picked up `tokens.css`, whose new comment names `rounded-xl`; that file was left out so the comment stayed.
   - The new token comment contained the text `tracking-[`, which made the G-23 grep fail; reworded.
+  - The issue's grep only finds `tracking-[…]`; a search for `uppercase` found five more hand-written eyebrows with `tracking-wide`, now on the utility too. Table headers were left as they are.
   - `p-5` on phones for every card (the count winner) was dropped: it would clip KPI numbers at 375 px.
   - `p-4 sm:p-5` on `Card` was dropped: without class merging, `sm:p-5` would override `CardBody className="px-0"` on desktop and break the edge-to-edge tables.
   - A 2.5 % pixel change on `/app/analytics` at 1440 px after G-62 was checked: card and chart widths are identical with and without the change (measured), only the chart's tick placement differed.

@@ -477,7 +477,7 @@ Three radii plus pills, all in `web/app/tokens.css`. Every `rounded-*` class and
 
 The small uppercase label above a heading or a value ("Repair priority", "Signage verdict", section labels on the landing page) is one utility, `eyebrow`, in `web/app/globals.css`: 12 px (`--text-xs`), weight 600, uppercase, letter spacing `--tracking-eyebrow` (0.14em, in `web/app/tokens.css`). Colour stays on the element: `text-muted` in the app, `text-accent-ink` for page and section headers, `text-subtle` in the sidebar.
 
-Before, 15 labels wrote the spacing by hand: 11 with 0.14em, 4 with 0.18em (landing hero, landing section headers, `/about`, `/design`). All now use 0.14em, the common value; the four headers are about half a pixel tighter per letter, the other eleven did not change by a pixel. `/design` shows the style in the type scale. Check: `grep -rn 'tracking-\[' web/app web/components` finds nothing.
+Before, 15 labels wrote the spacing by hand: 11 with 0.14em, 4 with 0.18em (landing hero, landing section headers, `/about`, `/design`). All now use 0.14em, the common value; the four headers are about half a pixel tighter per letter, the other eleven did not change by a pixel. Five more labels wrote the same style with `tracking-wide` (0.025em): the colour group titles on `/design` and four labels on `/design/lab`; they now use `eyebrow` too and are about 1.4 px wider per letter. Table column headers (`THead` in `web/components/ui/table.tsx`) are not eyebrows and keep `tracking-wide`. `/design` shows the style in the type scale. Check: `grep -rn 'tracking-\[' web/app web/components` finds nothing.
 
 ## Spacing rhythm (G-62)
 
