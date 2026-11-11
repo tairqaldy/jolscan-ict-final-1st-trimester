@@ -370,3 +370,10 @@ html[data-motion="reduce"] .jelly-nav__link {
 html[data-motion="reduce"] .demo-loop-control {
   display: none;
 }
+
+/* G-31: the high-contrast theme draws the focus ring 3 px wide (2 px elsewhere). */
+@layer base {
+  [data-theme="contrast"] :focus-visible {
+    outline-width: 3px;
+  }
+}
