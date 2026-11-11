@@ -28,7 +28,7 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
   - A bin cut by the line was coloured by its lower edge before, so the S3 chart showed four "below" pairs while its title said two. Splitting the bin fixes that without changing any rule.
 - **What I learned / can explain at the defense:** never hide context that changes the comparison (Lec4-VizBasics p8): the threshold is drawn and named where the data is. Line for change over time, bars for comparing counts (Lec4-VizBasics p4). Bars from zero and severity colours only for severity (Lec4-DMViz p31).
 - **AI use:** Claude Code wrote the chart changes and the variant screenshots from my task list (entry in docs/AI-USAGE-LOG.md).
-- **Open questions / next:** the G-71 references in Drive and `docs/design/references/design-dataviz.md` are not collected. The severity bands 2, 5 and 9 on the Rules page are still text, because `score-ladder.tsx` (W-43) is not merged. The matplotlib threshold style goes into `docs/design/chart-style.md` once G-52 (#398) is merged.
+- **Open questions / next:** the G-71 references in Drive and `docs/design/references/design-dataviz.md` are not collected. The severity bands 2, 5 and 9 on the Rules page are still text, because `score-ladder.tsx` (W-43) is not merged. The matplotlib threshold style is in the pull request description; G-52 is merged now, so it can be added to `docs/design/chart-style.md` as a "Threshold lines" section and sent to Amina (M-33) and Nazar (C-27).
 
 ### 2026-11-11 17:19 · G-20 (#164), G-26 (#170), G-27 (#171) · Token rules, empty-state drawings, dark map
 - **Status:** done
