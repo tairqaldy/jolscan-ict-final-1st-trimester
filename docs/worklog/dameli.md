@@ -12,6 +12,22 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 19:19 · G-67 (#332) · Poster frame for the backup video
+- **Status:** partial. The poster and the step that puts it in front of the video are ready; R-9's `qarau-demo.mp4` does not exist yet, so the poster is not in the file, in Drive `video/` or on the presenting laptop.
+- **What I did:**
+  - `docs/design/video/make_poster.py` draws three 1920 × 1080 posters from the G-11 Mock shots of the road result and the sign result: A the road result across the width with the name under it, B road result and sign verdict side by side, C name on the left and road result on the right. It also writes a sheet with each one at 320 px wide and at 1280 × 720.
+  - Wrote the "Poster frame" section in `docs/design/video.md`: the three variants, the pick and why, the honesty rules, and an ffmpeg command that scales the poster to the video's size and frame rate, adds a second of silence if the video has sound, and joins it in front.
+  - Ran the command on three 5 s test clips (1920 × 1080 at 30 fps without and with sound, 1440 × 720 at 60 fps).
+- **Result:** `deck-screenshots/poster/qarau-poster-a.png` (the pick), `-b`, `-c` and `compare.png`, outside git. The test copies were 6.00 s long with 180, 180 and 360 frames; the first 30 (60) frames are the poster and the next frame is the clip's first frame. The poster's only words are "Qarau", "Backup demo · Roads and Restrooms" (the title card) and "Mock result" (the app's badge, which stays in the crop).
+- **Decisions and why:**
+  - A, because at 320 px (a file preview) the boxes, the red "Critical" badge and the score 15 are still the picture; in B each shot is under 200 px wide and in C the name takes a third of the frame.
+  - The crops stop above the "Model latency" and "Analysed" row: the time changes with every run, so it would not appear in the recording. Everything else in the crop is fixed by sample `s01` and the Mock provider. The script stops if a crop shows that row or cuts the "Mock result" badge.
+  - No length on the poster yet: the issue wants the length of the real file. `--length 1:12` adds it once R-9's file exists.
+  - The poster is looped for 2 s and trimmed to 1 s after the frame-rate filter: with `-t 1` the `fps` filter dropped the last poster frame (179 frames instead of 180).
+- **What I learned / can explain at the defense:** the backup video opens on a real result screen of the app, labelled "Backup demo" and "Mock result", so the still promises nothing the video does not show; the same words and numbers are in shot 02 of the recording.
+- **AI use:** Claude Code wrote the script and the ffmpeg command and ran the tests; I checked the posters at full size and at 320 px (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** Roma, after R-9: redraw A with `--length`, run the ffmpeg block from video.md on `qarau-demo.mp4`, watch it to the end with Wi-Fi off, put `qarau-demo.mp4`, `qarau-demo-raw.mp4` and `qarau-poster.png` in Drive `video/` and the video on the presenting laptop, and check the player, Drive's preview and the fallback slide. If R-9 records another sample or the Local provider, retake the shot and redraw. The issue's five references and the pick together with Roma were not done; the `ffprobe` lines were not run here (no ffprobe on this machine).
+
 ### 2026-11-11 19:20 · G-50 (#284) · One drop zone for roads and restrooms
 - **Status:** done
 - **What I did:**
