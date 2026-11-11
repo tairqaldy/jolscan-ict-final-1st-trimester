@@ -455,3 +455,20 @@ Every sample was screenshot at 1440 and 375 px wide, light and dark theme (Playw
 2. Review and ignored boxes are meant to be dashed but draw solid: the draw-in animation sets `pathLength`, and motion then writes `stroke-dasharray="1 1"` over the dash pattern (seen in the page DOM). The legend under the photo still shows a dashed swatch for "needs review". The violet colour and the word "review" on the tag still mark these boxes.
 
 **Fixed in the overlay follow-up** (`web/components/app/detection-overlay.tsx`): 1. `placeTags` places tags in box order; a tag that would cover an earlier one moves below its box, then inside it, and stays in the photo. 2. A dashed box is a plain dashed rect, drawn in through a mask with the same motion tokens, so it stays dashed after the draw-in and with reduced motion. Playwright on s01 to s06 at 1440 and 375 px, light and dark, with and without reduced motion: no two tags share any area (s05 at 375 px was 87.4 px²), review boxes compute `stroke-dasharray: 16px, 10px`, tags stay at 11 px or more.
+
+## Corner radii (G-49)
+
+Three radii plus pills, all in `web/app/tokens.css`. Every `rounded-*` class and every `border-radius` in `web/app` and `web/components` uses one of them.
+
+| Token | Value | Class | Used for |
+|---|---|---|---|
+| `--radius-sm` | 4 px | `rounded-sm` | Small marks inside other parts: badges, chips, tooltips, legend and severity swatches, distribution bars, row thumbnails, the slider track, the focus ring. Chart bar tops (`barRadius` in `web/components/charts/chart-kit.tsx`) are 4 px too. |
+| `--radius-md` | 6 px | `rounded-md` | Controls: buttons, inputs, selects, segmented controls, selectable tiles, callouts, skeletons, chart tooltips, the public menu toggle and links. |
+| `--radius-lg` | 10 px | `rounded-lg` | Containers: `Card`, KPI tiles, landing cards and the hero preview, the team grid, dialogs and the bottom sheet (`rounded-t-lg`), the public menu panel, empty states, the photo frame on Analyze. |
+| `--radius-full` | 9999 px | `rounded-full` | Pills and dots: switches, slider thumbs, avatar dots, the nav links on the landing page. |
+
+**What changed.** `--radius-xs` (2 px) and `--radius-xl` (16 px) are gone. The nine `rounded-xs` uses became `rounded-sm` (the focus ring too), so a swatch has the same corner as a chart bar. The seven `rounded-xl` uses became `rounded-lg`, so the landing cards, the hero preview and the theme panels on `/design` have the same corner as every `Card`. The step from 4 to 6 to 10 px keeps the order small mark, control, container that the five values had, with the smallest visual change: 33 of 49 small-and-control uses did not move.
+
+**Not tokens.** The `rx` values inside SVG drawings (logo, app icon, empty-state illustrations, detection boxes) are drawing geometry and scale with the drawing, so they stay in the SVG.
+
+**Do not use** Tailwind's built-in `rounded-xs`, `rounded-xl`, `rounded-2xl` or larger: Tailwind still generates them from its own defaults (2, 12, 16 px), which would bring a fourth value back. Check: `grep -rnE 'rounded-(t-|b-|l-|r-)?(xs|xl|[2-4]xl)\b' web/app web/components` finds nothing, and `grep -cE '^\s+--radius-(xs|sm|md|lg|xl):' web/app/tokens.css` prints 3.
