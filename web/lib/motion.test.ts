@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { duration, ease, reveal, stagger, staggerDelay, timing } from "./motion";
+import { demo, duration, ease, reveal, stagger, staggerDelay, timing } from "./motion";
 
 const css = readFileSync(fileURLToPath(new URL("../app/tokens.css", import.meta.url)), "utf8");
 
@@ -83,5 +83,12 @@ describe("staggered entries end within the 600 ms budget (motion grill)", () => 
     for (const d of [duration.base, duration.draw, duration.slow]) {
       for (let i = 0; i < 20; i++) expect(staggerDelay(i, d) + d).toBeLessThanOrEqual(reveal.budget + 1e-9);
     }
+  });
+});
+
+describe("landing demos (motion grill)", () => {
+  it("show the result line once the drawing is done, without a long pause", () => {
+    expect(demo.resultDelay).toBeGreaterThanOrEqual(reveal.budget);
+    expect(demo.resultDelay).toBeCloseTo(demo.similarityDelay + duration.draw, 5);
   });
 });
