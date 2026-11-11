@@ -131,7 +131,7 @@ export function AnalysisView({ analysis, title, reveal = false }: { analysis: St
                 {formatDateTime(analysis.createdAt)}
               </Meta>
               <Meta icon={Route} label="Road class">
-                <span className="capitalize">{analysis.photo.roadClass ?? "not set (residential)"}</span>
+                {analysis.photo.roadClass ? <span className="capitalize">{analysis.photo.roadClass}</span> : "Not set (residential)"}
               </Meta>
               <Meta icon={School} label="School zone">
                 {analysis.photo.schoolZone ? "Yes" : "No"}
