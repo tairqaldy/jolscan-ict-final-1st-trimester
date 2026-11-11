@@ -92,7 +92,7 @@ $env:WARMUP = "1"
 
 Model card: [ml/restroom/MODEL_CARD.md](../ml/restroom/MODEL_CARD.md) (components, data, results with sources, limits).
 
-Code in `restroom.py`, shared upload checks in `imaging.py`. The model is OpenAI CLIP through `open_clip_torch` (ViT-B/32 by default, about 600 MB, downloaded on first use into the Hugging Face cache). The first restroom request takes a few seconds longer while it loads.
+Code in `restroom.py` and `restroom_pipeline.py` (the two-step pipeline of `/restroom/match`), shared upload checks in `imaging.py`. The pipeline needs OpenCV (`cv2`), which comes with Ultralytics (`opencv-python`) through `requirements.txt`; do not also install `opencv-python-headless` here, the two packages both provide `cv2` and conflict. The CI job installs only the headless one, because it does not install Ultralytics. OpenCV is imported on the first `/restroom/match`, so the service and `/health` start without it. The model is OpenAI CLIP through `open_clip_torch` (ViT-B/32 by default, about 600 MB, downloaded on first use into the Hugging Face cache). The first restroom request takes a few seconds longer while it loads.
 
 ```bash
 curl -F "a=@men.png" -F "b=@women.png" http://localhost:8000/restroom/compare

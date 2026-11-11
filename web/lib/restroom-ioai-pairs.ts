@@ -32,8 +32,14 @@ export type IoaiSplit = {
   label: string;
   queries: number;
   gallery: number;
+  /** Over all queries, including any hidden from the page. */
   pipelineCorrect: number;
   baselineCorrect: number;
+  /** Gallery images not shown (offensive wording); they stay in the counts above. */
+  hiddenGallery: number[];
+  /** Queries not shown because one of their images is hidden. */
+  hiddenQueries: number[];
+  hiddenNote: string | null;
   rows: IoaiRow[];
 };
 

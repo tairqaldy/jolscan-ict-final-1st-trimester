@@ -157,6 +157,7 @@ export function IoaiPairsClient() {
                 {s.pipelineCorrect}/{s.queries}
               </span>{" "}
               right; zero-shot CLIP alone gets {s.baselineCorrect}/{s.queries}.
+              {s.hiddenNote && <span className="block">{s.hiddenNote}</span>}
             </p>
           </div>
           <ul className="grid grid-cols-5 gap-2 sm:grid-cols-10">

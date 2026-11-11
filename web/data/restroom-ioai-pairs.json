@@ -11,6 +11,9 @@
    "gallery": 20,
    "pipelineCorrect": 10,
    "baselineCorrect": 8,
+   "hiddenGallery": [],
+   "hiddenQueries": [],
+   "hiddenNote": null,
    "rows": [
     {
      "n": 1,
@@ -330,6 +333,14 @@
    "gallery": 60,
    "pipelineCorrect": 30,
    "baselineCorrect": 23,
+   "hiddenGallery": [
+    10,
+    47
+   ],
+   "hiddenQueries": [
+    14
+   ],
+   "hiddenNote": "1 restroom with offensive wording is not shown; it is still in every metric.",
    "rows": [
     {
      "n": 1,
@@ -735,37 +746,6 @@
      ]
     },
     {
-     "n": 14,
-     "own": 47,
-     "pair": 10,
-     "answer": 10,
-     "baseline": 51,
-     "ncc": 0.999,
-     "inliers": 24,
-     "candidates": [
-      {
-       "g": 10,
-       "score": 1.34
-      },
-      {
-       "g": 32,
-       "score": 0.89
-      },
-      {
-       "g": 27,
-       "score": 0.86
-      },
-      {
-       "g": 24,
-       "score": 0.83
-      },
-      {
-       "g": 15,
-       "score": 0.44
-      }
-     ]
-    },
-    {
      "n": 15,
      "own": 41,
      "pair": 22,
@@ -907,16 +887,16 @@
        "score": 0.93
       },
       {
-       "g": 47,
-       "score": 0.89
-      },
-      {
        "g": 15,
        "score": 0.65
       },
       {
        "g": 26,
        "score": 0.58
+      },
+      {
+       "g": 59,
+       "score": 0.54
       }
      ]
     },
