@@ -4,6 +4,7 @@ import { Download, ImageUp, Monitor, Moon, ScanSearch, Sun } from "lucide-react"
 import { useState } from "react";
 import { DemoBadge } from "@/components/app/demo-badge";
 import { DetectionOverlay } from "@/components/app/detection-overlay";
+import { BlankSigns, ClearQueue, EmptyRoad, EmptySearch } from "@/components/illustrations";
 import { SeverityBars } from "@/components/app/severity-bars";
 import { CountUp } from "@/components/motion/count-up";
 import { Badge, ReviewBadge, SeverityBadge, SeverityDot } from "@/components/ui/badge";
@@ -116,6 +117,14 @@ const TOKEN_CHOICES: { need: string; token: string; example: string; swatch: str
   { need: "Primary button", token: "accent + accent-fg", example: "bg-accent text-accent-fg", swatch: "accent" },
   { need: "Link text", token: "accent-ink", example: "text-accent-ink", swatch: "accent-ink" },
   { need: "Chart series that is not severity", token: "chart-1 to chart-4", example: "var(--chart-1)", swatch: "chart-1" },
+];
+
+/** The four empty-state drawings (G-26) and the empty state each one is for. */
+const ILLUSTRATIONS = [
+  { name: "EmptyRoad", use: "No photo yet", Drawing: EmptyRoad },
+  { name: "BlankSigns", use: "Nothing to compare or rank", Drawing: BlankSigns },
+  { name: "EmptySearch", use: "No results, not found", Drawing: EmptySearch },
+  { name: "ClearQueue", use: "Nothing to review", Drawing: ClearQueue },
 ];
 
 const sample = getSample("s01")!;
@@ -351,6 +360,20 @@ export function ThemedShowcase() {
         <Callout tone="danger" title="The local model service is not running">Start it or switch to mock.</Callout>
         <Callout tone="success" title="Connected">yolo26n-e7 on cpu.</Callout>
         <EmptyState icon={ImageUp} title="Empty state">Shown when there is nothing yet.</EmptyState>
+        <div className="grid gap-2">
+          <p className="text-sm text-muted">
+            Empty-state drawings: lines in currentColor, fills from surface and border tokens, one accent mark each.
+          </p>
+          <ul className="grid grid-cols-2 gap-3 text-muted">
+            {ILLUSTRATIONS.map(({ name, use, Drawing }) => (
+              <li key={name} className="grid justify-items-center gap-1 rounded-md border border-border bg-surface-2 p-3 text-center">
+                <Drawing className="h-auto w-full max-w-30" />
+                <span className="font-mono text-xs text-fg">{name}</span>
+                <span className="text-xs">{use}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
         <div className="grid gap-2">
           <Skeleton className="h-4 w-2/3" />
           <Skeleton className="h-4 w-1/2" />
