@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotionConfig } from "motion/react";
 import type { LucideIcon } from "lucide-react";
-import { duration, ease, stagger } from "@/lib/motion";
+import { duration, ease, staggerDelay } from "@/lib/motion";
 import { useHydrated } from "@/lib/store/local-store";
 
 export type DistributionItem = {
@@ -19,7 +19,9 @@ export type DistributionItem = {
  * A category distribution as labelled horizontal bars from zero. Each row
  * carries the icon, the word and the count, so colour is never the only
  * signal. The server render shows the final bars; the grow-in animation only
- * plays for bars mounted later in the browser (never a blank chart).
+ * plays for bars mounted later in the browser (never a blank chart). Each bar
+ * grows for --duration-slow, one stagger step after the previous; the last bar
+ * is done by 600 ms however many there are (staggerDelay).
  */
 export function DistributionBars({ items, unit = "items" }: { items: DistributionItem[]; unit?: string }) {
   const reduce = useReducedMotionConfig();
@@ -36,13 +38,13 @@ export function DistributionBars({ items, unit = "items" }: { items: Distributio
               <Icon className="size-4" aria-hidden />
               {item.label}
             </span>
-            <span className="h-3 overflow-hidden rounded-xs bg-surface-2">
+            <span className="h-3 overflow-hidden rounded-sm bg-surface-2">
               <motion.span
-                className={`block h-full origin-left rounded-xs ${item.solidClass}`}
+                className={`block h-full origin-left rounded-sm ${item.solidClass}`}
                 style={{ width: `${(item.count / max) * 100}%` }}
                 initial={reduce || !hydrated ? false : { scaleX: 0 }}
                 animate={{ scaleX: 1 }}
-                transition={{ duration: duration.slow * 1.5, delay: i * stagger, ease: ease.emphasized }}
+                transition={{ duration: duration.slow, delay: staggerDelay(i, duration.slow), ease: ease.emphasized }}
               />
             </span>
             <span className="tabular text-right font-mono">

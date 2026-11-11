@@ -26,6 +26,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tooltip } from "@/components/ui/tooltip";
 import { RESTROOM_SAMPLES } from "@/lib/mock/restroom-samples";
 import { SAMPLES, getSample } from "@/lib/mock/samples";
+import { StatesGrid } from "@/components/design/states-grid";
 import { deriveDetections } from "@/lib/rules";
 import { SEVERITIES, VERDICTS } from "@/lib/types";
 import { GenderTag, SignImage, ThresholdBar, VerdictBadge } from "@/components/restrooms/signage-bits";
@@ -83,7 +84,7 @@ const COLOR_GROUPS: { title: string; tokens: string[]; use: string; never: strin
   {
     title: "Restrooms: verdicts (solid)",
     tokens: ["verdict-clear", "verdict-review", "verdict-confusing"],
-    use: "the restroom verdict (clear, review, confusing) in badges and bars, with its icon and word. By default they reuse sev-clear, sev-medium and sev-critical.",
+    use: "the restroom verdict (pair: verdict-clear, not a pair: verdict-confusing) in badges and bars, with its icon and word. verdict-review is no longer used. By default they reuse sev-clear, sev-medium and sev-critical.",
     never: "for road severity (use sev-*), or without the verdict word.",
   },
   {
@@ -104,6 +105,7 @@ const TYPE_SCALE = [
   { cls: "text-base", label: "base body", sample: "Detections below the threshold go to the review queue." },
   { cls: "text-sm text-muted", label: "sm muted", sample: "Model time per photo on the laptop CPU." },
   { cls: "text-xs text-subtle", label: "xs subtle", sample: "Invented numbers carry a demo badge." },
+  { cls: "eyebrow text-muted", label: "eyebrow", sample: "Repair priority" },
   { cls: "font-mono text-sm", label: "mono", sample: "score = 15 · clip-vitb32-ft6 · 41 ms" },
 ];
 
@@ -158,7 +160,7 @@ export function TokenReference() {
             {[1, 2, 3, 4, 6, 8, 12, 16].map((n) => (
               <div key={n} className="flex items-center gap-3 text-xs">
                 <span className="w-10 font-mono text-subtle">{n}</span>
-                <span className="h-3 rounded-xs bg-accent" style={{ width: `calc(var(--spacing) * ${n})` }} />
+                <span className="h-3 rounded-sm bg-accent" style={{ width: `calc(var(--spacing) * ${n})` }} />
                 <span className="font-mono text-muted">{n * 4}px</span>
               </div>
             ))}
@@ -166,7 +168,7 @@ export function TokenReference() {
           <div className="grid content-start gap-4">
             <h3 className="text-lg font-semibold">Radii and shadows</h3>
             <div className="flex flex-wrap gap-3">
-              {["xs", "sm", "md", "lg", "xl"].map((r) => (
+              {["sm", "md", "lg", "full"].map((r) => (
                 <div key={r} className="grid size-16 place-items-center border border-border-strong bg-surface-2 font-mono text-xs" style={{ borderRadius: `var(--radius-${r})` }}>
                   {r}
                 </div>
@@ -181,7 +183,7 @@ export function TokenReference() {
             </div>
             <h3 className="text-lg font-semibold">Motion</h3>
             <p className="text-sm text-muted">
-              <span className="font-mono">--duration-fast 120ms · base 200ms · slow 420ms · draw 700ms</span>. Easing{" "}
+              <span className="font-mono">--duration-fast 120ms · ui 160ms · base 200ms · slow 420ms · draw 300ms · --stagger-step 45ms</span>; a staged reveal ends within 600ms. Easing{" "}
               <span className="font-mono">--ease-standard</span>, <span className="font-mono">--ease-emphasized</span>. All
               animation stops under prefers-reduced-motion.
             </p>
@@ -207,7 +209,7 @@ export function TokenReference() {
               <TR key={c.need}>
                 <TD>
                   <span className="inline-flex items-center gap-2">
-                    <span aria-hidden className="size-3 shrink-0 rounded-xs border border-border" style={{ background: `var(--${c.swatch})` }} />
+                    <span aria-hidden className="size-3 shrink-0 rounded-sm border border-border" style={{ background: `var(--${c.swatch})` }} />
                     {c.need}
                   </span>
                 </TD>
@@ -237,7 +239,7 @@ export function ThemedShowcase() {
         <h3 className="text-xl font-bold">Colour tokens</h3>
         {COLOR_GROUPS.map((g) => (
           <div key={g.title} className="grid gap-2">
-            <p className="text-xs font-semibold tracking-wide text-muted uppercase">{g.title}</p>
+            <p className="eyebrow text-muted">{g.title}</p>
             <dl className="grid gap-x-3 gap-y-0.5 text-xs text-muted sm:grid-cols-[4.5rem_1fr]">
               <dt className="font-semibold text-fg">Use for</dt>
               <dd>{g.use}</dd>
@@ -278,14 +280,14 @@ export function ThemedShowcase() {
           {VERDICTS.map((v) => (
             <VerdictBadge key={v} verdict={v} />
           ))}
-          <VerdictBadge verdict="confusing" size="lg" />
+          <VerdictBadge verdict="not_pair" size="lg" />
         </div>
         <div className="flex flex-wrap gap-2">
           <GenderTag gender="male" confidence={0.97} />
           <GenderTag gender="female" confidence={0.62} />
         </div>
-        <ThresholdBar value={0.15} threshold={0.2} label="Gap in P(male) between the doors" valueText="0.15" thresholdLabel="S1 0.20" />
-        <VerdictBars verdicts={["clear", "clear", "clear", "review", "review", "confusing"]} />
+        <ThresholdBar value={0.03} threshold={0.05} label="Gap in P(male) between the doors" valueText="0.03" thresholdLabel="S2 0.05" />
+        <VerdictBars verdicts={["pair", "pair", "pair", "pair", "not_pair", "not_pair"]} />
       </section>
 
       <section className="grid gap-4">
@@ -342,6 +344,8 @@ export function ThemedShowcase() {
           <Field label="Text field" placeholder="Kabanbay Batyr Ave" hint="With a hint below." />
         </div>
       </section>
+
+      <StatesGrid />
 
       <section className="grid gap-4">
         <h3 className="text-xl font-bold">Selectable tiles</h3>

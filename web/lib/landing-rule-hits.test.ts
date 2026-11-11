@@ -35,8 +35,8 @@ describe("landing rule hits on the bundled samples", () => {
     expect(marked).toEqual([{ text: `×${DEFAULT_RULES.r3.multiplier}`, kind: "setting" }]);
   });
 
-  it("marks the measured gap and the threshold in the failed sign rule", () => {
-    const preset = RESTROOM_PRESETS.find((p) => p.id === "faint")!;
+  it("marks the measured similarity and the threshold in the failed sign rule", () => {
+    const preset = RESTROOM_PRESETS.find((p) => p.id === "mismatched")!;
     const a = getRestroomSample(preset.a)!;
     const b = getRestroomSample(preset.b)!;
     const similarity = mockSimilarity(a.id, b.id);
@@ -44,7 +44,8 @@ describe("landing rule hits on the bundled samples", () => {
     const hit = result.ruleHits.find((h) => !h.passed)!;
     const marked = markText(hit.detail, signHitMarks(hit, result.doors, similarity)).filter((p) => p.kind);
     expect(marked.map((p) => p.kind)).toEqual(["value", "setting"]);
-    expect(Number(marked[0].text)).toBeCloseTo(result.doors.margin, 2);
-    expect(marked[1].text).toBe(DEFAULT_SIGNAGE.s1.minMargin.toFixed(2));
+    expect(hit.ruleId).toBe("S3");
+    expect(Number(marked[0].text)).toBeCloseTo(similarity, 2);
+    expect(marked[1].text).toBe(DEFAULT_SIGNAGE.s3.minSimilarity.toFixed(2));
   });
 });

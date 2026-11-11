@@ -17,7 +17,7 @@ export default function DesignPage() {
     <>
       <SiteHeader />
       <main id="main" className="container-page public-container pt-12">
-        <p className="text-xs font-semibold tracking-[0.18em] text-accent-ink uppercase">Design system</p>
+        <p className="eyebrow text-accent-ink">Design system</p>
         <h1 className="mt-2 text-4xl font-bold sm:text-5xl">Asphalt, markings and signs</h1>
         <p className="mt-3 max-w-2xl text-lg text-muted">
           Qarau&apos;s shared colours, typography and controls, shown in each theme. To refine the system, edit{" "}
@@ -37,7 +37,7 @@ export default function DesignPage() {
         <h2 className="mt-14 text-2xl font-bold">Components in each theme</h2>
         <div className="mt-6 grid gap-6 xl:grid-cols-2">
           {(["light", "dark", "contrast"] as const).map((t) => (
-            <div key={t} data-theme={t} className="rounded-xl border border-border bg-bg p-4 text-fg sm:p-6">
+            <div key={t} data-theme={t} className="rounded-lg border border-border bg-bg p-(--card-pad) text-fg">
               <p className="mb-6 inline-flex rounded-sm bg-inverse px-2 py-0.5 font-mono text-xs text-inverse-fg">data-theme=&quot;{t}&quot;</p>
               <ThemedShowcase />
             </div>

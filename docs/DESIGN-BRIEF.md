@@ -236,7 +236,7 @@ Each page needs four states: loading, empty, error, and filled.
 | Where | What | Duration |
 |---|---|---|
 | Landing sections | Fade and rise on entry, staggered | 400–600 ms |
-| Detection demo and result | Boxes draw in one by one, then labels | 300 ms each |
+| Detection demo and result | Boxes draw in one by one, then labels; the last label is in by 600 ms (`boxTiming` in `detection-overlay.tsx`) | 300 ms each (`--duration-draw`) |
 | KPI tiles | Numbers count up once | 800 ms |
 | Page changes | Short cross-fade | 150–200 ms |
 | Hover and press | Small scale or tint | 100–150 ms |
@@ -317,7 +317,7 @@ One icon per concept, one size per context. Checked on the road and restroom res
 | Concept | Icon | Defined in or used on |
 |---|---|---|
 | Severity: clear, low, medium, high, critical | CircleCheck, CircleDot, CircleExclamationPoint, TriangleExclamationPoint, OctagonExclamationPoint | `web/lib/severity.ts` |
-| Verdict: clear, review, confusing | CircleCheck, TriangleExclamationPoint, OctagonX | `web/lib/signage-ui.ts` |
+| Verdict: pair, not a pair | CircleCheck, CircleX | `web/lib/signage-ui.ts` |
 | Gender: male, female | Mars, Venus | `web/lib/signage-ui.ts` |
 | Gap in P(male) between the doors (S1, S2) | VenusAndMars | Compare result |
 | Similarity of the two designs (S3) | EqualApproximately | Compare result |
@@ -453,3 +453,73 @@ Every sample was screenshot at 1440 and 375 px wide, light and dark theme (Playw
 
 1. At 375 px on `s05`, the tag of box 3 covers the end of the tag of box 1 ("review" loses its last letter). `placeTag` keeps tags inside the photo but does not move them away from each other.
 2. Review and ignored boxes are meant to be dashed but draw solid: the draw-in animation sets `pathLength`, and motion then writes `stroke-dasharray="1 1"` over the dash pattern (seen in the page DOM). The legend under the photo still shows a dashed swatch for "needs review". The violet colour and the word "review" on the tag still mark these boxes.
+
+**Fixed in the overlay follow-up** (`web/components/app/detection-overlay.tsx`): 1. `placeTags` places tags in box order; a tag that would cover an earlier one moves below its box, then inside it, and stays in the photo. 2. A dashed box is a plain dashed rect, drawn in through a mask with the same motion tokens, so it stays dashed after the draw-in and with reduced motion. Playwright on s01 to s06 at 1440 and 375 px, light and dark, with and without reduced motion: no two tags share any area (s05 at 375 px was 87.4 px²), review boxes compute `stroke-dasharray: 16px, 10px`, tags stay at 11 px or more.
+
+## Corner radii (G-49)
+
+Three radii plus pills, all in `web/app/tokens.css`. Every `rounded-*` class and every `border-radius` in `web/app` and `web/components` uses one of them.
+
+| Token | Value | Class | Used for |
+|---|---|---|---|
+| `--radius-sm` | 4 px | `rounded-sm` | Small parts and parts inside a control: badges (provenance, demo, severity), tooltips, options inside the segmented control and the select list, the dialog close button, the slider's number field, legend and severity swatches, distribution bars, row thumbnails, the focus ring. Chart bar tops (`barRadius` in `web/components/charts/chart-kit.tsx`) are 4 px too. |
+| `--radius-md` | 6 px | `rounded-md` | Controls: buttons, inputs, the select trigger and list, the segmented control frame, selectable tiles, sidebar links, callouts, skeletons, chart tooltips, the public menu toggle and links. |
+| `--radius-lg` | 10 px | `rounded-lg` | Containers: `Card`, KPI tiles, landing cards and the hero preview, the team grid, dialogs and the bottom sheet (`rounded-t-lg`), the public menu panel, empty states, the photo frame on Analyze. |
+| `--radius-full` | 9999 px | `rounded-full` | Pills and dots: switches, the slider track and thumb, the tab-bar pills on phones, the active-link marker, the empty-state icon circle, the nav links on the landing page. |
+
+**What changed.** `--radius-xs` (2 px) and `--radius-xl` (16 px) are gone. The nine `rounded-xs` uses became `rounded-sm` (the focus ring too), so a swatch has the same corner as a chart bar. The seven `rounded-xl` uses became `rounded-lg`, so the landing cards, the hero preview and the theme panels on `/design` have the same corner as every `Card`; the column on `/design/lab`, merged later, got the same change. The step from 4 to 6 to 10 px keeps the order small mark, control, container that the five values had, with the smallest visual change: 89 of the 105 `rounded-*` classes (not counting `full`) kept their value.
+
+**Not tokens.** The `rx` values inside SVG drawings (logo, app icon, empty-state illustrations, detection boxes) are drawing geometry and scale with the drawing, so they stay in the SVG.
+
+**Do not use** Tailwind's built-in `rounded-xs`, `rounded-xl`, `rounded-2xl` or larger: Tailwind still generates them from its own defaults (2, 12, 16 px), which would bring a fourth value back. Check: `grep -rnE 'rounded-(t-|b-|l-|r-)?(xs|xl|[2-4]xl)\b' web/app web/components` finds nothing, and `grep -cE '^\s+--radius-(xs|sm|md|lg|xl):' web/app/tokens.css` prints 3.
+
+## Eyebrow label (G-23)
+
+The small uppercase label above a heading or a value ("Repair priority", "Signage verdict", section labels on the landing page) is one utility, `eyebrow`, in `web/app/globals.css`: 12 px (`--text-xs`), weight 600, uppercase, letter spacing `--tracking-eyebrow` (0.14em, in `web/app/tokens.css`). Colour stays on the element: `text-muted` in the app, `text-accent-ink` for page and section headers, `text-subtle` in the sidebar.
+
+Before, 15 labels wrote the spacing by hand: 11 with 0.14em, 4 with 0.18em (landing hero, landing section headers, `/about`, `/design`). All now use 0.14em, the common value; the four headers are about half a pixel tighter per letter, the other eleven did not change by a pixel. Five more labels wrote the same style with `tracking-wide` (0.025em): the colour group titles on `/design` and four labels on `/design/lab`; they now use `eyebrow` too and are about 1.4 px wider per letter. Table column headers (`THead` in `web/components/ui/table.tsx`) are not eyebrows and keep `tracking-wide`. `/design` shows the style in the type scale. Check: `grep -rn 'tracking-\[' web/app web/components` finds nothing.
+
+## Spacing rhythm (G-62)
+
+**Steps.** Spacing uses the 4 px base (`--spacing`): 4, 8, 12, 16, 24, 32, 48 px (`1, 2, 3, 4, 6, 8, 12`). Counted on 11 November in `web/app` and `web/components` (`p`, `px`, `py`, `gap`, `mt`, `mb`): 8 px 141 times, 12 px 128, 16 px 108, 24 px 38, 32 px 26. Half steps (2 and 6 px) stay for tight parts inside controls.
+
+**Card inset: one value per breakpoint.** Every card uses `p-(--card-pad)` (token in `web/app/tokens.css`, next to `--gutter`): **16 px below 640 px, 20 px from 640 px up.** `Card` (`CardHeader` and `CardBody`), the KPI tile, the landing cards (problem, tools, steps, rule hits, team), the hero preview and the sign-comparison panel on the landing page, the hero and pair demos, the overview link tiles, the model glossary cards, the lifecycle diagram, the provider tiles in Settings, the details panel on Match and the theme panels on `/design`.
+
+| Card | Before (phone / 640 px up) | Now |
+|---|---|---|
+| `Card` (43 uses) | 20 / 20 | 16 / 20 |
+| KPI tile (14), hero and pair demo | 16 / 20 | 16 / 20 |
+| Landing cards (8) | 24 / 24, one 20 / 24 | 16 / 20 |
+| Hero preview and sign-comparison panel on the landing page | 20 / 24 | 16 / 20 |
+| Team cards | 18 / 18 | 16 / 20 |
+| Overview links, glossary, Settings tiles, Match details | 16 / 16 | 16 / 20 |
+| Lifecycle diagram | 20 / 20 | 16 / 20 |
+| Theme panels on `/design` | 16 / 24 | 16 / 20 |
+
+**Why these two values.** From 640 px up, 20 px was already the most common inset (every `Card` and every KPI tile). On phones `Card` used 20 px too, but 20 px clips the KPI numbers: the overview shows three tiles across, and at 375 px the number "40" needs 59 px while a tile with 20 px padding leaves 56 px at most. 16 px is what the KPI tiles and the demos already used on phones, and it is the page gutter on phones. A token instead of `p-4 sm:p-5` keeps overrides working: `cn()` does not merge classes, so a responsive `sm:p-5` would beat an override such as `CardBody className="px-0"` from 640 px up.
+
+**Not cards** (they keep their own padding): dialogs and the bottom sheet (`p-5` plus the safe-area inset), empty states (`px-6 py-12`), small items inside a card with the control radius (lifecycle steps and the illustration list on `/design`: 12 px; the metric boxes in the landing model cards: 16 px), image tiles in the Match results grid (10 px, the image is the content), the theme switch in the sidebar (4 px), and tables that run edge to edge inside a card (`CardBody className="px-0"`).
+
+**Removed.** The overview KPI tiles passed `className="p-3 sm:p-4"`, which never applied (the tile's own `p-4 sm:p-5` came later in the CSS); they render as before.
+
+**Found, not fixed here.** At 320 px the three-across overview tiles clip two-digit numbers (needs 59 px, has 45 px), and "63 ms" on `/app/roads` is clipped at 320 and 375 px. Both were clipped before this change; the fix is a smaller KPI number size on phones, which is a type decision.
+
+## Component states (G-6)
+
+Every primitive in `web/components/ui/` has the states below; `/design` shows them in a "States" grid per component, in light, dark and high contrast. Hover, focus and pressed are drawn there with each component's `forceState` prop, which uses the same classes as the real `hover:` / `active:` variants (`web/lib/ui-states.test.ts` fails if they drift apart).
+
+| Component | Hover | Pressed or selected | Focus | Disabled | Loading or error |
+|---|---|---|---|---|---|
+| Button | darker fill | scales to 98 % | ring eases in | 50 % | `aria-busy` + spinner |
+| Switch | thumb lifts, checked track darkens | thumb stretches 4 px, then slides | ring | 50 %, not-allowed cursor | |
+| Slider | thumb lifts | thumb grows to 110 % while held | ring | 60 % | |
+| Tabs | grey underline grows | amber underline grows from the centre | ring inside the tab | 50 % | |
+| Text field, select | border to `--muted` | select: accent border, chevron turns | ring | `surface-2` fill | field: red border and message (`error`) |
+| Segmented | text to `fg` | raised white segment | ring | 50 %, no hover | |
+| Table row | `surface-2` on clickable rows only | `data-state="selected"`: `accent-soft` | | | |
+| Dialog | | overlay fades, panel grows from 96 % (200 ms), leaves in 120 ms; the phone sheet slides up | trapped | | |
+
+- Card, badge and empty state are not interactive, so they have no hover or focus: a card that opens nothing must not look clickable.
+- Timings: 120 ms for feedback, 200 ms for a dialog entering, the tokens `--duration-fast` and `--duration-base`. The reference site (dope.security) uses 100 to 150 ms on its links and buttons. All of it is cut to the end state by Reduce motion (OS or Settings).
+- Tap targets (U6): below 640 px every button is 48 px tall, segmented options too; the switch and the slider thumb get a 48 px hit area from an invisible `::before` box, so the layout does not move.
+- **Toasts are not used.** Feedback stays next to the control that caused it (`Callout`, a line with `role="status"` or `role="alert"`). A toast appears far from the action and disappears on a timer, often before it is read, and it needs its own focus and pause rules (WCAG 2.2.1). No page needs one.

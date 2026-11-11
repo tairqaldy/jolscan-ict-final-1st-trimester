@@ -23,9 +23,9 @@ R7, the pipeline, has no gender model, so its gender accuracy is null and it can
 the rule still names a fine-tuned run. The pipeline itself was chosen on 200 training episodes and
 validation before its test score was read (pipeline.py); that choice is in the `pipeline` block.
 
-`served` names the row whose method the app's /restroom/match runs. It is null today: the API ranks the
-gallery by zero-shot CLIP similarity and filters by predicted gender, which is none of the rows exactly.
-Set SERVED to "R7" in the pull request that makes the API run the pipeline (task C-8).
+`served` names the row whose method the app's /restroom/match runs: R7, the two-step pipeline, since
+task C-8, in its one-query-at-a-time form (sift_combo_per_query, ml/restroom/pipeline_per_query.py), because
+the API answers one query at a time and cannot use the global assignment over a whole test set.
 """
 
 from __future__ import annotations
@@ -53,7 +53,7 @@ REFERENCE = {
 COMMENT = ("Schema: RestroomExperimentsFile in docs/ARCHITECTURE.md section 2b. Written by "
            "ml/restroom/export_results.py from ml/results/restroom/runs/*.json, pipeline.json (row R7 and "
            "`pipeline`) and layers.csv (`layers`). Rows with isReal false are placeholders with null metrics "
-           "('not run yet'). `served` names the row the app's Match runs; null until the API runs the pipeline. "
+           "('not run yet'). `served` names the row the app's Match runs (R7, one query at a time). "
            "`reference` holds the numbers published by the IOAI committee on their test set (Leaderboard B); "
            "they are not our runs.")
 ROW_KEYS = ("run", "changed", "isReal", "matchTop1Val", "matchTop1Test", "genderAccCv", "latencyMs", "device")
@@ -64,11 +64,12 @@ CUT = {"R5": "cut (task C-4): first in the restroom cut order; the layer sweep (
 PIPELINE_RUN = "R7"
 PIPELINE_CHANGED = ("two-step pipeline, no training: SIFT and a pixel check find the crop's original, colour "
                     "histogram and zero-shot CLIP ViT-B/32 find its partner")
-SERVED: str | None = None
-SERVED_NOTE = ("The app's /restroom/match does not run the two-step pipeline yet: it ranks the gallery by "
-               "zero-shot CLIP ViT-B/32 similarity and picks the most similar sign of the opposite predicted "
-               "gender (0.47 on test, `gender_filter_zeroshot` in R1). `served` becomes \"R7\" when the API runs "
-               "the pipeline (task C-8).")
+SERVED: str | None = "R7"
+SERVED_VARIANT = "sift_combo_per_query"
+SERVED_NOTE = ("The app's /restroom/match runs R7, the two-step pipeline, one query at a time (api/restroom_pipeline.py, "
+               "task C-8): step 1 argmax and step 2 argmax, no assignment across queries. That variant scores "
+               "0.929 +/- 0.040 on 200 training episodes, 10/10 on validation and 30/30 on test "
+               "(ml/results/restroom/pipeline_per_query.json); R7's row shows the global assignment.")
 LAYER_KEYS = {  # layers.csv column -> type
     "backbone": str, "n_trained": int, "trainable_params": int,
     "pair_top1_heldout_vs_all164": float, "pair_top1_heldout_vs_all164_std": float,
@@ -116,7 +117,7 @@ def pipeline_block(p: dict) -> dict:
         tr = p["train_episodes"][name]["top1"]
         approaches.append({"name": name, "label": label, "val": p["val"][name], "test": p["test"][name],
                            "trainEpisodes": tr["mean"], "trainEpisodesStd": tr["std"]})
-    return {"champion": p["champion"], "served": None, "selection": p["protocol"]["selection"],
+    return {"champion": p["champion"], "served": SERVED_VARIANT, "selection": p["protocol"]["selection"],
             "trainEpisodesProtocol": p["protocol"]["train_episodes"], "approaches": approaches}
 
 

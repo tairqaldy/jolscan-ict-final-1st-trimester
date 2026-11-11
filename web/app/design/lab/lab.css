@@ -8,9 +8,6 @@
  * a lab column the radius utilities read the variables again, so column A gets
  * the live values from :root and a variant's inline override reaches them.
  */
-[data-lab-variant] .rounded-xs {
-  border-radius: var(--radius-xs);
-}
 [data-lab-variant] .rounded-sm {
   border-radius: var(--radius-sm);
 }
@@ -19,9 +16,6 @@
 }
 [data-lab-variant] .rounded-lg {
   border-radius: var(--radius-lg);
-}
-[data-lab-variant] .rounded-xl {
-  border-radius: var(--radius-xl);
 }
 
 /*

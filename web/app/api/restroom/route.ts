@@ -18,6 +18,7 @@
  * 4xx/5xx -> { error: { code, message, hint? } }
  */
 import { NextResponse } from "next/server";
+import { ioaiGallery } from "@/lib/mock/restroom-ioai-galleries";
 import { RESTROOM_SAMPLES, getRestroomSample } from "@/lib/mock/restroom-samples";
 import { getRestroomProvider, isProvider, ProviderError, type SignInput } from "@/lib/providers";
 import { buildSignageCheck, normaliseSignage } from "@/lib/signage";
@@ -108,7 +109,9 @@ export async function POST(request: Request) {
     }
 
     const query = await readSign(form, "query", "sampleQuery", "Query sign");
-    const gallery = RESTROOM_SAMPLES.filter((s) => s.id !== query.sign.sample?.id);
+    // An IOAI catalogue sign is matched against its own IOAI set (its true partner included); anything else
+    // against the bundled samples.
+    const gallery = ioaiGallery(query.sign.sample?.id) ?? RESTROOM_SAMPLES.filter((s) => s.id !== query.sign.sample?.id);
     const result = await provider.match({ query: query.sign, gallery });
     const body: WebMatchResult = { ...result, queryInput: query.info };
     return NextResponse.json(body);

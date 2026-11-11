@@ -54,7 +54,7 @@ const ROAD_METRICS: Term[] = [
 const SIGN_METRICS: Term[] = [
   {
     term: "Top-1 matching accuracy",
-    text: "For each query sign the model picks one gallery sign: the most similar sign of the opposite gender. Top-1 accuracy is the share of queries where that pick is the true partner from the same restroom. With 10 validation queries one query is worth 0.10, so smaller differences are noise.",
+    text: "For each query sign the method picks one gallery sign as its partner (each run's rule is in its row). Top-1 accuracy is the share of queries where that pick is the true partner from the same restroom. With 10 validation queries one query is worth 0.10, so smaller differences are noise.",
     source: "Sup p27, Lec8 p42",
   },
   {
@@ -389,7 +389,8 @@ export default function ModelPage() {
                 <dt className="text-muted">Sample icons in this app</dt>
                 <dd className="text-muted">
                   Twelve original drawings made for the demo, and twelve real signs from the IOAI validation set.{" "}
-                  {DATA_CREDITS.restroomSamples.changes}.
+                  {DATA_CREDITS.restroomSamples.changes}.{" "}
+                  The IOAI pairs page shows all IOAI validation and test images, resized, with our pipeline&apos;s results on them.
                 </dd>
               </dl>
             </CardBody>
@@ -442,7 +443,7 @@ function TermGrid({ title, terms }: { title: string; terms: Term[] }) {
       <h3 className="text-lg font-semibold">{title}</h3>
       <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {terms.map((m) => (
-          <div key={m.term} className="rounded-lg border border-border bg-surface p-4">
+          <div key={m.term} className="rounded-lg border border-border bg-surface p-(--card-pad)">
             <dt className="font-display text-lg font-semibold">{m.term}</dt>
             <dd className="mt-1 text-sm text-muted">{m.text}</dd>
             {m.source && <dd className="mt-2 font-mono text-xs text-subtle">Course: {m.source}</dd>}

@@ -391,15 +391,20 @@
   --text-5xl: 4rem;
   --text-5xl--line-height: 4rem;
 
+  /* Eyebrow labels (G-23): the one letter spacing for the `eyebrow` utility
+     in globals.css. No hand-written letter spacing in class names. */
+  --tracking-eyebrow: 0.14em;
+
   /* Spacing: Tailwind multiplies this base (p-4 = 1rem). */
   --spacing: 0.25rem;
 
-  /* Radii: road signs have gently rounded corners */
-  --radius-xs: 2px;
+  /* Radii: road signs have gently rounded corners. Three steps plus pills
+     (G-49, DESIGN-BRIEF.md "Corner radii"): sm for small marks inside other
+     parts, md for controls, lg for cards, panels and dialogs. Do not use
+     Tailwind's built-in rounded-xs, rounded-xl or larger. */
   --radius-sm: 4px;
   --radius-md: 6px;
   --radius-lg: 10px;
-  --radius-xl: 16px;
   --radius-full: 9999px;
   --font-weight-bold: 600;
 
@@ -422,18 +427,24 @@
   --duration-ui: 160ms;
   --duration-base: 200ms;
   --duration-slow: 420ms;
-  --duration-draw: 700ms;
+  --duration-draw: 300ms;
+  /* Delay between items of a staggered entry (lib/motion.ts stagger). */
+  --stagger-step: 45ms;
 
   /* Layout */
   --sidebar-width: 15.5rem;
   --content-max: 76rem;
   --gutter: 1rem;
+  /* Card inset (G-62): every card, KPI tile and landing card uses p-(--card-pad).
+     16 px on phones, the same as the gutter; 20 px from 640 px up. */
+  --card-pad: 1rem;
   --section-gap: 6rem;
 }
 
 @media (min-width: 640px) {
   :root {
     --gutter: 1.5rem;
+    --card-pad: 1.25rem;
   }
 }
 @media (min-width: 1024px) {

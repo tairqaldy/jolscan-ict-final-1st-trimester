@@ -1,0 +1,747 @@
+{
+  "method": "sift_combo_hungarian",
+  "episodes": 200,
+  "episode_size": 30,
+  "restrooms": 82,
+  "never_failed": 62,
+  "rows": [
+    {
+      "restroom": 60,
+      "appearances": 80,
+      "failures": 80,
+      "step1_wrong_in_failures": 80,
+      "failure_rate": 1.0,
+      "failing_step": "step 1",
+      "cause": "label error in the data: the male crop reads XY but the male-folder original reads XX; the two originals sit in each other's folders, so step 1 finds the crop's true original and the label calls it wrong"
+    },
+    {
+      "restroom": 20,
+      "appearances": 69,
+      "failures": 45,
+      "step1_wrong_in_failures": 45,
+      "failure_rate": 0.6522,
+      "failing_step": "step 1",
+      "cause": "data mismatch: the crops (standing figures, legs crossed) were not cut from these originals (jumping 'exit' figures), so step 1 cannot find an own original"
+    },
+    {
+      "restroom": 1,
+      "appearances": 80,
+      "failures": 24,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.3,
+      "failing_step": "step 2",
+      "cause": "the two doors share no colour (black against magenta), so the 30 % histogram pulls the partner towards other black or pink signs"
+    },
+    {
+      "restroom": 7,
+      "appearances": 65,
+      "failures": 19,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.2923,
+      "failing_step": "step 2",
+      "cause": "the two doors are in different styles (a black line figure against a pink box with 'WOMEN'), so neither colour nor CLIP sees them as one set"
+    },
+    {
+      "restroom": 30,
+      "appearances": 75,
+      "failures": 16,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.2133,
+      "failing_step": "step 2",
+      "cause": "different colours for the two doors (teal against pink) and different animal heads: step 2 has little to go on"
+    },
+    {
+      "restroom": 6,
+      "appearances": 67,
+      "failures": 8,
+      "step1_wrong_in_failures": 4,
+      "failure_rate": 0.1194,
+      "failing_step": "step 1",
+      "cause": "the two originals are near copies (the same figure; only the pigtails and the arrow differ), so the pixel check sometimes picks the other door as the crop's own original"
+    },
+    {
+      "restroom": 41,
+      "appearances": 76,
+      "failures": 8,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.1053,
+      "failing_step": "step 2",
+      "cause": null
+    },
+    {
+      "restroom": 2,
+      "appearances": 74,
+      "failures": 7,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0946,
+      "failing_step": "step 2",
+      "cause": null
+    },
+    {
+      "restroom": 27,
+      "appearances": 69,
+      "failures": 6,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.087,
+      "failing_step": "step 2",
+      "cause": null
+    },
+    {
+      "restroom": 53,
+      "appearances": 68,
+      "failures": 5,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0735,
+      "failing_step": "step 2",
+      "cause": null
+    },
+    {
+      "restroom": 79,
+      "appearances": 82,
+      "failures": 6,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0732,
+      "failing_step": "step 2",
+      "cause": null
+    },
+    {
+      "restroom": 37,
+      "appearances": 72,
+      "failures": 4,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0556,
+      "failing_step": "step 2",
+      "cause": null
+    },
+    {
+      "restroom": 51,
+      "appearances": 69,
+      "failures": 3,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0435,
+      "failing_step": "step 2",
+      "cause": null
+    },
+    {
+      "restroom": 11,
+      "appearances": 84,
+      "failures": 3,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0357,
+      "failing_step": "step 2",
+      "cause": null
+    },
+    {
+      "restroom": 5,
+      "appearances": 72,
+      "failures": 2,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0278,
+      "failing_step": "step 2",
+      "cause": null
+    },
+    {
+      "restroom": 21,
+      "appearances": 73,
+      "failures": 2,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0274,
+      "failing_step": "step 2",
+      "cause": null
+    },
+    {
+      "restroom": 63,
+      "appearances": 59,
+      "failures": 1,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0169,
+      "failing_step": "step 2",
+      "cause": null
+    },
+    {
+      "restroom": 3,
+      "appearances": 72,
+      "failures": 1,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0139,
+      "failing_step": "step 2",
+      "cause": null
+    },
+    {
+      "restroom": 42,
+      "appearances": 75,
+      "failures": 1,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0133,
+      "failing_step": "step 2",
+      "cause": null
+    },
+    {
+      "restroom": 19,
+      "appearances": 81,
+      "failures": 1,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0123,
+      "failing_step": "step 2",
+      "cause": null
+    },
+    {
+      "restroom": 4,
+      "appearances": 73,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 8,
+      "appearances": 75,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 9,
+      "appearances": 73,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 10,
+      "appearances": 75,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 12,
+      "appearances": 65,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 13,
+      "appearances": 84,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 14,
+      "appearances": 75,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 15,
+      "appearances": 69,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 16,
+      "appearances": 69,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 17,
+      "appearances": 83,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 18,
+      "appearances": 71,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 22,
+      "appearances": 62,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 23,
+      "appearances": 66,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 24,
+      "appearances": 76,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 25,
+      "appearances": 65,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 26,
+      "appearances": 72,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 28,
+      "appearances": 72,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 29,
+      "appearances": 76,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 31,
+      "appearances": 84,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 32,
+      "appearances": 69,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 33,
+      "appearances": 60,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 34,
+      "appearances": 70,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 35,
+      "appearances": 75,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 36,
+      "appearances": 89,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 38,
+      "appearances": 69,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 39,
+      "appearances": 68,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 40,
+      "appearances": 72,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 43,
+      "appearances": 68,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 44,
+      "appearances": 68,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 45,
+      "appearances": 88,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 46,
+      "appearances": 74,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 47,
+      "appearances": 73,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 48,
+      "appearances": 85,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 49,
+      "appearances": 68,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 50,
+      "appearances": 75,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 52,
+      "appearances": 73,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 54,
+      "appearances": 87,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 55,
+      "appearances": 83,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 56,
+      "appearances": 65,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 57,
+      "appearances": 73,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 58,
+      "appearances": 69,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 59,
+      "appearances": 65,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 61,
+      "appearances": 68,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 62,
+      "appearances": 72,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 64,
+      "appearances": 71,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 65,
+      "appearances": 75,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 66,
+      "appearances": 74,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 67,
+      "appearances": 81,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 68,
+      "appearances": 72,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 69,
+      "appearances": 67,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 70,
+      "appearances": 85,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 71,
+      "appearances": 78,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 72,
+      "appearances": 69,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 73,
+      "appearances": 80,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 74,
+      "appearances": 77,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 75,
+      "appearances": 66,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 76,
+      "appearances": 78,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 77,
+      "appearances": 67,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 78,
+      "appearances": 78,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 80,
+      "appearances": 68,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 81,
+      "appearances": 69,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    },
+    {
+      "restroom": 82,
+      "appearances": 72,
+      "failures": 0,
+      "step1_wrong_in_failures": 0,
+      "failure_rate": 0.0,
+      "failing_step": "none",
+      "cause": null
+    }
+  ]
+}

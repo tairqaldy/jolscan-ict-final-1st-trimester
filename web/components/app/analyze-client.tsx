@@ -1,10 +1,10 @@
 "use client";
 
-import { ArrowRight, ImageUp, LoaderCircle, RotateCcw, ScanSearch } from "lucide-react";
+import { ArrowRight, CircleCheck, ImageUp, LoaderCircle, RotateCcw, ScanSearch } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotionConfig } from "motion/react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { Callout } from "@/components/ui/callout";
 import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,7 +17,9 @@ import { Switch } from "@/components/ui/switch";
 import { makeThumbnail, readImageSize, reencodeWithoutMetadata } from "@/lib/image";
 import { SAMPLES, getSample, type Sample } from "@/lib/mock/samples";
 import { timing } from "@/lib/motion";
+import { cn } from "@/lib/cn";
 import { addToHistory } from "@/lib/store/history";
+import { useHydrated } from "@/lib/store/local-store";
 import { rulesStore, settingsStore } from "@/lib/store/settings";
 import { ROAD_CLASSES, type RoadClass, type StoredAnalysis } from "@/lib/types";
 import type { ApiError } from "@/lib/upload";
@@ -143,13 +145,27 @@ export function AnalyzeClient() {
 
   const previewImage = source?.kind === "sample" ? source.sample.file : source?.previewUrl;
   const providerMeta = PROVIDER_META[settings.provider];
+  const hydrated = useHydrated();
+
+  // G-75: a live region that stays mounted while the view switches to the result,
+  // so screen readers announce the save (a region that mounts with its text is often skipped).
+  const withSavedStatus = (view: ReactNode) => (
+    <>
+      <p role="status" aria-live="polite" className="sr-only">
+        {status.state === "done" ? "Analysis saved to this browser." : ""}
+      </p>
+      {view}
+    </>
+  );
 
   if (status.state === "done") {
-    return (
+    return withSavedStatus(
       // scroll-mt keeps a gap above the result; below lg the html scroll-padding in globals.css clears the sticky top bar.
-      <div ref={resultRef} tabIndex={-1} className="grid scroll-mt-4 gap-5 outline-none lg:scroll-mt-6">
+      // key: the result gets its own element instead of reusing the form's grid, so nothing shifts as it appears (G-75).
+      <div key="result" ref={resultRef} tabIndex={-1} className="grid scroll-mt-4 gap-5 outline-none lg:scroll-mt-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="text-sm text-muted" aria-live="polite">
+          <p className="text-sm text-muted">
+            <CircleCheck className="saved-tick mr-1.5 inline size-4 align-middle text-accent-ink" aria-hidden />
             Analysis saved to this browser.{" "}
             <Link href={`/app/roads/reports/${status.analysis.id}`} className="font-medium text-accent-ink underline underline-offset-2">
               Open as report
@@ -162,13 +178,14 @@ export function AnalyzeClient() {
         <AnalysisView
           analysis={status.analysis}
           title={source?.kind === "sample" ? source.sample.title : source?.file.name}
+          reveal
         />
-      </div>
+      </div>,
     );
   }
 
-  return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
+  return withSavedStatus(
+    <div key="form" className="grid gap-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
       {/* Left: photo */}
       <div className="grid content-start gap-4">
         {previewImage ? (
@@ -190,12 +207,17 @@ export function AnalyzeClient() {
                   exit={{ opacity: 0 }}
                 >
                   {!reduce && (
+                    // The scan line sits at the top of a photo-sized layer that moves by
+                    // transform (100 % of its own height = the photo), not by `top`, so the
+                    // sweep looks the same and causes no layout work (motion grill).
                     <motion.div
-                      className="absolute inset-x-0 h-1 bg-accent shadow-lg"
-                      initial={{ top: "0%" }}
-                      animate={{ top: ["0%", "100%", "0%"] }}
+                      className="absolute inset-0"
+                      initial={{ y: "0%" }}
+                      animate={{ y: ["0%", "100%", "0%"] }}
                       transition={{ duration: timing.scanSweep, repeat: Infinity, ease: "easeInOut" }}
-                    />
+                    >
+                      <div className="h-1 bg-accent shadow-lg" />
+                    </motion.div>
                   )}
                 </motion.div>
               )}
@@ -267,7 +289,7 @@ export function AnalyzeClient() {
 
         <Card>
           <CardBody className="grid gap-4">
-            <div className="flex items-start gap-3 text-sm">
+            <div className={cn("flex items-start gap-3 text-sm", !hydrated && "invisible")}>
               <providerMeta.icon className="mt-0.5 size-4 shrink-0 text-muted" aria-hidden />
               <p>
                 <span className="font-medium">{providerMeta.label} provider.</span>{" "}
@@ -327,6 +349,6 @@ export function AnalyzeClient() {
           How is the priority calculated? <ArrowRight aria-hidden />
         </ButtonLink>
       </div>
-    </div>
+    </div>,
   );
 }
