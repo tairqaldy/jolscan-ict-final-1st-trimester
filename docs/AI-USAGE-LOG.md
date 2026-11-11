@@ -932,6 +932,14 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - `p-4 sm:p-5` on `Card` was dropped: without class merging, `sm:p-5` would override `CardBody className="px-0"` on desktop and break the edge-to-edge tables.
   - A 2.5 % pixel change on `/app/analytics` at 1440 px after G-62 was checked: card and chart widths are identical with and without the change (measured), only the chart's tick placement differed.
 
+### 11 November 2026, Dameli (G-76 brand and copy pass)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** check the copy on my surfaces and in the app against `docs/design/ANTI-SLOP.md` and the voice in `docs/design/PRINCIPLES.md`, in three rounds, and fix only the text I wrote.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков"; transcript kept locally.
+- **What it produced or changed:** the ownership trace (`git log -S`, `git blame -w`), the greps and first drafts of the rewrites in `web/app/page.tsx` and `web/app/opengraph-image.alt.txt`, the updated quotes, line numbers and voice table in `docs/design/PRINCIPLES.md`, and `docs/design/copy-review.md` (25 findings).
+- **How I verified it, and who verified it:** every changed string compared with `main` in `git diff origin/main`; honesty labels and numbers unchanged; each PRINCIPLES line number checked with `grep -n`; `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` (223 tests) pass.
+- **What I rejected or corrected:** the first hero lead put "with computer vision" after the sign task only, so it read as if roads did not use it; reworded in round 2. A first draft of the review named a writing tool and called the parallel branches agents; replaced with the patterns and branch names. Changing "Change the thresholds and watch the result move" was dropped: the wording is Tair's, so it is a proposal.
 ### 11 November 2026, Dameli (G-74 navigation motion)
 
 - **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment.

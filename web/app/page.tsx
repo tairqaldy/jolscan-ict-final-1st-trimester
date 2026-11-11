@@ -120,12 +120,13 @@ export default function LandingPage() {
             </StaggerItem>
             <StaggerItem>
               <h1 className="max-w-3xl text-4xl leading-[1.04] font-bold sm:text-5xl">
-                Inspect roads and signs <span className="text-muted">with clarity.</span>
+                Inspect roads and signs <span className="text-muted">from a photo.</span>
               </h1>
             </StaggerItem>
             <StaggerItem>
               <p className="max-w-xl text-lg text-muted">
-                Inspect road damage and compare door signs with computer vision. Qarau shows the evidence behind each result.
+                {BRAND.name} uses computer vision to find potholes in road photos and to compare restroom door signs. Each result
+                shows what the model found and which rules decided it.
               </p>
             </StaggerItem>
             <StaggerItem className="flex flex-wrap gap-3">
@@ -153,7 +154,7 @@ export default function LandingPage() {
             <div className="grid gap-4 p-(--card-pad)">
               <HeroDemo />
               <div className="border-t border-border pt-4 text-sm">
-                <p className="font-medium">Why this priority?</p>
+                <p className="font-medium">Why this priority</p>
                 <p className="mt-1 text-muted">{roadHit.title}: {roadHit.detail} (+{roadHit.points} points).</p>
               </div>
               <Link href="/app/roads/analyze?sample=s01" className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-accent-ink underline underline-offset-4">
@@ -207,8 +208,8 @@ export default function LandingPage() {
 
         {/* Modules */}
         <section id="modules" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="modules-h">
-          <SectionTitle id="modules-h" eyebrow="The tools" title="One approach, two inspection tasks" />
-          <p className="mt-3 max-w-2xl text-muted">Choose a task to see how an image becomes an explainable result.</p>
+          <SectionTitle id="modules-h" eyebrow="The tools" title="Two inspection tasks" />
+          <p className="mt-3 max-w-2xl text-muted">Choose a task to see the steps from photo to result.</p>
           <div className="mt-8 grid gap-6 lg:grid-cols-2">
             <ModuleCard
               id="roads"
@@ -264,7 +265,8 @@ export default function LandingPage() {
         <section id="rules" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="rules-h">
           <SectionTitle id="rules-h" eyebrow="Explainable by design" title="Rules you can read" />
           <p className="mt-3 max-w-3xl text-muted">
-            The model produces predictions; the team’s rules turn those predictions into an outcome. These examples use mock predictions and show rule hits computed by the app:
+            The model makes predictions; rules the team wrote turn them into a decision. Both examples are rule hits the app
+            computed from mock predictions:
           </p>
           <div className="mt-8 grid gap-4 lg:grid-cols-2">
             <RuleHitCard
@@ -375,7 +377,7 @@ export default function LandingPage() {
         {/* Course */}
         <section id="course" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="course-h">
           <details>
-            <summary className="cursor-pointer text-sm font-semibold text-accent-ink">Explore the course foundations</summary>
+            <summary className="cursor-pointer text-sm font-semibold text-accent-ink">Show the course topics behind the project</summary>
             <div className="mt-6"><SectionTitle id="course-h" eyebrow={`Built on ${COURSE.code}`} title="What the course taught, applied" /></div>
           <Stagger className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {COURSE_TOPICS.map((t) => (
