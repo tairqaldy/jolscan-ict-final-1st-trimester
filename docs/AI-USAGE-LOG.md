@@ -22,6 +22,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Alizhan (S-23, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Pin the API's direct dependencies and test a compatible Python version.
+- **Key prompt:** "покажи мне саму шпаргалку и продолжай выполнять остальные таски, которые назначены мне". Full transcript is not exported here.
+- **What it produced:** Direct dependency pins, Python 3.12 alignment, a proposed decision record, README and worklog.
+- **Verification:** A fresh Windows Python 3.12 environment and a clean Linux Python 3.12 Actions job installed the pins and passed 30 API tests. Windows Uvicorn `/health` returned 200; Linux used TestClient. Alizhan has not yet personally reviewed this entry.
+- **Limits:** The Docker image was not built, real models were not tested in the new environment, and Tair and Nazar have not yet approved the version choice.
+
 ### 11 November 2026, Amina (M-1, in progress)
 
 - **Tool and version:** Copilot SDK in VS Code; the version was not exposed in this session.

@@ -8,7 +8,7 @@ The FastAPI service was run with real stock YOLO weights on Windows for S-1; see
 
 ## Run locally
 
-Use Python 3.11 or newer in a virtual environment (S-1 was verified with Python 3.12.10). The install is large because it includes PyTorch.
+Use Python 3.12 in a virtual environment (S-1 was verified with Python 3.12.10). The install is large because it includes PyTorch. Direct dependencies are pinned; NumPy 2.5.4 requires Python 3.12 or newer. See [decision 0008](../docs/decisions/0008-api-python-312.md) for the version choice and its verification limits.
 
 ```bash
 cd api && python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements-dev.txt
