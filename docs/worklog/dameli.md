@@ -12,6 +12,22 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 19:23 · G-28 (#172), G-47 (#281), G-48 (#282) · Dashed review boxes and tags that do not cover each other
+- **Status:** done. Follow-up to the three merged tasks; the issues and TASKS.md rows stay as they are.
+- **What I did:**
+  - Review and ignored boxes were drawn solid. motion's `pathLength` (the draw-in) writes its own `stroke-dasharray` (one dash as long as the outline), so the dash pattern was overwritten, with and without reduced motion. In `web/components/app/detection-overlay.tsx` a dashed box is now a plain dashed `<rect>`; the draw-in runs on a mask that uncovers it along its outline, with the same `duration.draw` and `ease.emphasized` tokens. Counted boxes keep the old draw-in and stay solid.
+  - Tags: `placeTags` places them in box order. If a tag comes within one stroke width of an earlier tag, it tries below its box, then inside the box at the top, then inside at the bottom. Every spot stays inside the photo; the font size rule from G-28 is unchanged.
+  - Tests in `web/lib/detection-overlay.test.ts`: the s05 layout at 375 px, the order of the fallback spots, and a server render that checks the review boxes carry `stroke-dasharray="16 10"` and no `pathLength`.
+  - Added a "Fixed in the overlay follow-up" note under the G-48 "Found, not fixed here" list in DESIGN-BRIEF.md.
+- **Result:** Playwright on `/app/roads/analyze?sample=s01` to `s06`, 1440 and 375 px, light and dark, plus reduced motion from the OS and from the Settings switch (48 page loads): before, tags 1 and 3 on s05 at 375 px shared 87.4 px² and the review boxes computed `1px, 1px` (solid); after, no two tags share any area on any load, both review boxes compute `16px, 10px`, counted boxes stay solid, every tag is inside the photo, tags measure 11.00 px at 375 px and 12.98 px at 1440 px. Box colours, halo and detection data unchanged.
+- **Decisions and why:**
+  - A mask instead of swapping the solid box for a dashed one when the draw-in ends: no jump from solid to dashed, and the dashed box looks the same during and after the animation.
+  - Below the box before inside it: on s05 tag 3 placed inside its 17 × 8 px box hid the outline.
+  - Only tags are kept apart, not tags and other boxes: the issue was a tag covering a tag's text.
+- **What I learned / can explain at the defense:** the legend says dashed means "needs review", so the box has to be dashed in every state, not only before the animation; style plus label, not colour alone (WCAG 1.4.1). Labels on a chart must not cover each other; a simple ordered fallback is enough for a few boxes.
+- **AI use:** Claude Code found the cause, made the change and wrote the Playwright check (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** with many boxes in a small area every spot can be taken; the tag then takes the spot that covers the least. Real photos (D-5) may need another look.
+
 ### 2026-11-11 19:22 · G-41 (#275), G-46 (#280), G-43 (#277), G-70 (#335) · Design lab, palette and font trials, and the visual-direction record
 - **Status:** G-41, G-46 and G-70 done. G-43 partial: the text fonts of all three pairs render the nine Kazakh letters, but JetBrains Mono, the mono of the chosen pair, does not (see Result).
 - **What I did:**
