@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useMemo } from "react";
 import { DemoBadge } from "@/components/app/demo-badge";
 import { Kpi } from "@/components/app/kpi";
+import { LINK_ROW } from "@/components/app/link-row";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { ButtonLink } from "@/components/ui/button";
 import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,6 +13,7 @@ import { ClearQueue } from "@/components/illustrations";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageHeader } from "@/components/ui/page-header";
 import { MODULES } from "@/lib/brand";
+import { cn } from "@/lib/cn";
 import { formatDate, formatDateTime } from "@/lib/format";
 import { MOCK_ANCHOR } from "@/lib/mock/analyses";
 import { VERDICT_META } from "@/lib/signage-ui";
@@ -125,7 +127,7 @@ export function RestroomOverviewClient() {
                     <li key={c.id}>
                       <Link
                         href={checkHref(c.id)}
-                        className="flex items-center justify-between gap-3 rounded-md border border-border px-3 py-2.5 hover:bg-surface-2"
+                        className={cn("flex items-center justify-between gap-3 rounded-md border border-border px-3 py-2.5", LINK_ROW)}
                       >
                         <span className="min-w-0">
                           <span className="block truncate font-medium">{checkLabel(c)}</span>
