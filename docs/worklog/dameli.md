@@ -24,7 +24,7 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
   - Principles: five, each with a route and file lines. Copy changes (generic 500 errors, US/British mix) are listed, not made.
 - **What I learned / can explain at the defense:** every screenshot uses one frame and scale; imagery follows the privacy rules (no faces, plates or restroom interiors, EXIF stripped, Syl p.9); the principles come from the brief and each points to a screen, for example "decision first, evidence one click away" is the result card above the "Why this priority" tab.
 - **AI use:** Claude Code wrote the drafts, the screenshot script and the SVG cards from my rules and the tokens (entry in docs/AI-USAGE-LOG.md).
-- **Open questions / next:** upload `deck-screenshots/` to Drive `screenshots/` and copy it to the presenting laptop (G-11); Roma confirms the frame (G-56) and takes the cards (G-57); Russian and Kazakh terms with Tair and a native speaker, and the copy-change issue for W-21 / R-12 (G-69).
+- **Open questions / next:** retake the screenshots with the script once port 3000 serves the latest main (G-29, G-45 and others changed the result screens after the shots), then upload `deck-screenshots/` to Drive `screenshots/` and copy it to the presenting laptop (G-11); Roma confirms the frame (G-56) and takes the cards (G-57); Russian and Kazakh terms with Tair and a native speaker, and the copy-change issue for W-21 / R-12 (G-69).
 
 ### 2026-11-11 17:15 · G-45 (#279), G-28 (#172) · Numbers line up, box tags readable on phones
 - **Status:** done
