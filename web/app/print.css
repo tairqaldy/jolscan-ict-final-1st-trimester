@@ -13,9 +13,12 @@
   /*
    * 1. Paper is always light. The dark theme takes the light values while
    *    printing. A copy of the first block in tokens.css: keep them the same
-   *    (lib/print-tokens.test.ts fails when they drift apart).
+   *    (lib/print-tokens.test.ts fails when they drift apart). The high-contrast
+   *    theme (G-31) prints the same light paper, so a report looks the same
+   *    whoever prints it.
    */
-  [data-theme="dark"] {
+  [data-theme="dark"],
+  [data-theme="contrast"] {
     color-scheme: light;
     --bg: #f3f2ee;
     --surface: #ffffff;
