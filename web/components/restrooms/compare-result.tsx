@@ -4,6 +4,7 @@ import { Brain, Clock, EqualApproximately, MapPin, Timer, VenusAndMars, type Luc
 import { useMemo, type ReactNode } from "react";
 import { ResultProvenanceBadge } from "@/components/app/demo-badge";
 import { PROVIDER_META } from "@/components/app/provider-badge";
+import { rowDelay, stage, useStagedReveal } from "@/components/motion/stage";
 import { isSeededDemo, SEEDED_MODEL_LABEL } from "@/lib/mock/seeded";
 import { Badge } from "@/components/ui/badge";
 import { Callout } from "@/components/ui/callout";
@@ -12,6 +13,7 @@ import { Table, TD, TH, THead, TR } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/cn";
 import { formatDateTime } from "@/lib/format";
+import { reveal as revealAt } from "@/lib/motion";
 import { getRestroomSample } from "@/lib/mock/restroom-samples";
 import { assignDoors, doorGender, rejudge } from "@/lib/signage";
 import { VERDICT_CLASSES, VERDICT_META } from "@/lib/signage-ui";
@@ -27,9 +29,16 @@ export function signTitle(info: SignInputInfo, fallback: string): string {
  * Full result of a compare check, shared by Compare and the check detail page:
  * both signs side by side with gender and confidence, the similarity, the
  * verdict, the rule hits and the raw JSON.
+ * reveal (Compare, right after a run): the signs, then the verdict card, then
+ * the verdict, then the rule rows rise in, within 600 ms (G-75). The check
+ * detail page opens without it.
  */
-export function CompareResultView({ check }: { check: StoredSignageCheck }) {
+export function CompareResultView({ check, reveal = false }: { check: StoredSignageCheck; reveal?: boolean }) {
   const rules = signageRulesStore.useStore();
+  const staged = useStagedReveal(reveal);
+  const signsStage = stage(staged, 0);
+  const cardStage = stage(staged, revealAt.card);
+  const verdictStage = stage(staged, revealAt.key);
   const current = useMemo(() => rejudge(check, rules), [check, rules]);
   const rulesChanged = current.verdict !== check.verdict;
   const t2 = rules.s2.minMargin;
@@ -49,7 +58,7 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
   return (
     <div className="grid gap-6">
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
-        <Card>
+        <Card className={signsStage.className} style={signsStage.style}>
           {/* lg: tighter gaps and smaller signs (see SignColumn), so on a 1280×720 projector
               both signs, the two bars and the verdict card fit on one screen (W-60). */}
           <CardBody className="grid gap-6 lg:gap-4">
@@ -88,11 +97,11 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
           </CardBody>
         </Card>
 
-        <Card className={cn("border-t-4", VERDICT_CLASSES[check.verdict].border)}>
+        <Card className={cn("border-t-4", VERDICT_CLASSES[check.verdict].border, cardStage.className)} style={cardStage.style}>
           <CardBody className="grid content-start gap-5">
             <div>
               <p className="eyebrow text-muted">Verdict</p>
-              <div className="mt-2">
+              <div className={cn("mt-2", verdictStage.className)} style={verdictStage.style}>
                 <VerdictBadge verdict={check.verdict} size="lg" />
               </div>
               <p className="mt-2 text-sm text-muted">{check.reason}.</p>
@@ -148,8 +157,8 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
                   </tr>
                 </THead>
                 <tbody>
-                  {check.ruleHits.map((h) => (
-                    <TR key={h.ruleId}>
+                  {check.ruleHits.map((h, i) => (
+                    <TR key={h.ruleId} {...stage(staged, rowDelay(i))}>
                       <TD className="whitespace-nowrap">
                         <span className="font-mono text-xs text-muted">{h.ruleId}</span>{" "}
                         <span className="font-medium">{h.title}</span>

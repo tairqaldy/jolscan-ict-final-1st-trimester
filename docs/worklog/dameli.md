@@ -12,6 +12,59 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 20:33 · G-75 (#434) · Staged result reveal and save confirmation
+- **Status:** done
+- **What I did:**
+  - Added `reveal` timings to `web/lib/motion.ts` (card 60 ms, key value 120 ms, rule rows from 180 ms in 40 ms steps, last start 360 ms) and a test that the reveal ends within 600 ms.
+  - Added `.result-stage` and `.saved-tick` to `web/app/globals.css` (opacity and transform only, `--duration-base`, `--ease-emphasized`), with `animation: none` under the OS setting and the Settings switch, and a small helper `web/components/motion/stage.ts`.
+  - Road result (`analysis-view.tsx`, only when opened from Analyze): the priority card, then the score, then the rule rows. Compare result (`compare-result.tsx`): the signs, the verdict card, the verdict, then S1 to S3. Reports and check pages open without it.
+  - "Analysis saved to this browser" is now announced by a `role="status"` region that stays mounted; Compare's existing live region now also says "Saved to this browser". A tick pops once next to both save lines.
+  - Gave the Analyze form and result their own elements (`key`), which removed a 4 px shift when the result appears.
+- **Result:** Playwright on my dev server: road reveal 559 ms, Compare 467 ms (measured from mount to the last animation end), CLS 0 from mount at 1440 px; with Reduce motion (OS or Settings) 0 animations and every staged element at opacity 1 on the first frame. Lint, typecheck and all tests pass.
+- **Decisions and why:**
+  - CSS animation, not motion/react: no client cost, and the existing reduced-motion blocks cover it.
+  - No count-up on the score: it would show values that are not the result, and `timing.countUp` is 800 ms.
+  - The reveal stops once it has played, so switching tabs does not replay the rows.
+  - Did not touch `detection-overlay.tsx` (another task) or Match (Nazar's PR #426).
+- **What I learned / can explain at the defense:** a live region that mounts together with its text is often not read; it has to exist first and then change. With reduced motion the global `transition-duration: 0.01ms` still animates a property change on a reused element for one frame, which shows up as a layout shift.
+- **AI use:** Claude Code wrote the code and the Playwright checks; I set the order and timing and checked the numbers.
+- **Open questions / next:** the box draw-in on the photo (detection-overlay.tsx) runs on its own timing, longer than 600 ms. At 375 px on Compare the "Saved to this browser" line wraps under the heading and moves the result down (CLS 0.031, also before this change). No copy actions exist in the app, so none needed a confirmation.
+
+### 2026-11-11 20:33 · G-6 (#124) · States and micro-interactions for the UI primitives
+- **Status:** done
+- **What I did:**
+  - Gave every interactive primitive in `web/components/ui/` a clear hover, pressed or selected, focus and disabled state, plus loading (button) and error (text field): button press scale to 98 %, switch thumb stretch on press, slider thumb lift and hold, tabs underline that grows from the centre, select chevron turn, dialog and phone sheet enter and exit.
+  - A focus ring that eases in (`.focus-ring-in`) and the dialog keyframes in one G-6 block at the end of `web/app/globals.css`, on the duration and easing tokens only.
+  - Buttons and segmented options 48 px tall below 640 px; the switch and slider thumb get a 48 px hit area from an invisible `::before` box.
+  - A "States" grid per component on `/design` (`web/components/design/states-grid.tsx`), shown in light, dark and high contrast; each component takes `forceState` to draw hover, focus and pressed.
+  - Wrote the states table, tap targets and the no-toast decision in `docs/DESIGN-BRIEF.md`.
+- **Result:** Playwright on my dev server: 97 Button primitives on `/design` at 375 px are 48 px tall (the forced "pressed" ones measure 47 because of the 98 % scale), `/app/analyze` and `/app/settings` 48 px; no sideways scroll at 375 px; no console errors. Dialog opens with `ui-panel-in`, closes with `ui-panel-out` and is removed; a press gives `scale: 0.98`; Tab focus runs `ui-focus-ring-in`. With reduced motion (OS and the Settings attribute) transitions and animations are 0.01 ms. Lint, typecheck and 233 tests pass.
+- **Decisions and why:**
+  - Forced states use the same classes as the real variants, and a test fails if they drift. Otherwise `/design` could show a look the app never has.
+  - Card, badge and empty state get no hover: they are not clickable and must not look it.
+  - No toast: feedback stays next to the control (Callout, `role="status"`); a toast disappears before it is read.
+  - Tabs draw the focus ring inside the tab, because the scrolling tab list clipped a ring drawn outside.
+  - Timings 120 ms for feedback and 200 ms for a dialog entering, close to the reference site's 100 to 150 ms on links and buttons.
+- **What I learned / can explain at the defense:** every control shows what it is doing (visibility of system status) and the same state looks the same everywhere (consistency, Lec3-HCI); a keyboard user sees focus on every control; tap targets are 48 px on phones (U6, Fitts's Law); motion explains a change and is cut by Reduce motion (WCAG 2.3.3).
+- **AI use:** Claude Code wrote the class changes, the states grid and the tests; I checked them with Playwright screenshots and computed styles. See `docs/AI-USAGE-LOG.md`.
+- **Open questions / next:** the tabs underline grows in place instead of sliding from the old tab; a slide would need JS to measure the tabs.
+
+### 2026-11-11 20:35 · G-76 (#435) · Brand and copy pass, three rounds
+- **Status:** done
+- **What I did:**
+  - Traced every string on the landing page, `/design`, the empty states, the social card and `docs/design/*` to its author with `git log -S` and `git blame -w`, then audited the copy in `web/app` and `web/components` against `docs/design/ANTI-SLOP.md` and the voice in `docs/design/PRINCIPLES.md`.
+  - Rewrote my own text on the landing page: the hero heading ("with clarity" became "from a photo"), the hero lead (names potholes and door signs, and says each result shows what the model found and which rules decided it), "Why this priority" without the question mark, the section label "Two inspection tasks", the steps sentence, the Rules intro (keeps "mock predictions") and the course toggle. Rewrote the social card alt text so it describes the card.
+  - Updated `PRINCIPLES.md`: the new hero quote, seven line numbers that had moved, and a Do and a Don't from the app for each voice word.
+  - Wrote `docs/design/copy-review.md`: 25 findings with file, line, rule, fix, owner and decision, plus what rounds 2 and 3 found.
+- **Result:** 10 findings fixed on my surfaces; 13 proposals for Tair (and R-12 for the spelling) and 2 for the lab branch, with their code untouched. The third pass found nothing new. Lint, typecheck and 223 tests pass.
+- **Decisions and why:**
+  - Lines that blame gives to me only because G-8 re-indented them (the landing Problem, privacy and team text) stay Tair's, since `git log -S` shows he wrote them.
+  - "Change the thresholds and watch the result move" sits in my G-61 card but is Tair's wording, so it is a proposal, not a change.
+  - The lab findings stay proposals because an open lab branch edits those files today.
+  - The first-audit table in `ANTI-SLOP.md` keeps its old line number: it is a dated record.
+- **What I learned / can explain at the defense:** the portability test: if a heading would fit any product ("with clarity", "One approach, two inspection tasks"), it says nothing; a label that names the content does. And honesty labels and numbers are the one thing a copy pass must never touch.
+- **AI use:** Claude Code (Claude Opus 5.5) for the ownership trace, the greps and first drafts of the rewrites; I chose the wording. Logged in `docs/AI-USAGE-LOG.md`.
+- **Open questions / next:** Tair to decide T1 to T13 in `copy-review.md`; the team to pick one spelling (R-12); L1 needs a native speaker for the Kazakh and Russian lines.
 ### 2026-11-11 20:32 · G-73 (#432) · Motion spec from the reference site
 - **Status:** done.
 - **What I did:**

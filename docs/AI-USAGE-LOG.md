@@ -942,6 +942,14 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - `p-4 sm:p-5` on `Card` was dropped: without class merging, `sm:p-5` would override `CardBody className="px-0"` on desktop and break the edge-to-edge tables.
   - A 2.5 % pixel change on `/app/analytics` at 1440 px after G-62 was checked: card and chart widths are identical with and without the change (measured), only the chart's tick placement differed.
 
+### 11 November 2026, Dameli (G-76 brand and copy pass)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** check the copy on my surfaces and in the app against `docs/design/ANTI-SLOP.md` and the voice in `docs/design/PRINCIPLES.md`, in three rounds, and fix only the text I wrote.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков"; transcript kept locally.
+- **What it produced or changed:** the ownership trace (`git log -S`, `git blame -w`), the greps and first drafts of the rewrites in `web/app/page.tsx` and `web/app/opengraph-image.alt.txt`, the updated quotes, line numbers and voice table in `docs/design/PRINCIPLES.md`, and `docs/design/copy-review.md` (25 findings).
+- **How I verified it, and who verified it:** every changed string compared with `main` in `git diff origin/main`; honesty labels and numbers unchanged; each PRINCIPLES line number checked with `grep -n`; `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` (223 tests) pass.
+- **What I rejected or corrected:** the first hero lead put "with computer vision" after the sign task only, so it read as if roads did not use it; reworded in round 2. A first draft of the review named a writing tool and called the parallel branches agents; replaced with the patterns and branch names. Changing "Change the thresholds and watch the result move" was dropped: the wording is Tair's, so it is a proposal.
 ### 11 November 2026, Dameli (G-74 navigation motion)
 
 - **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment.
@@ -990,3 +998,33 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** `docs/design/dashboard-review.md` and its screenshots; `web/components/app/link-row.ts`; class changes in the three overview clients, `kpi.tsx`, `demo-path.tsx`, `analyses-table.tsx` and `checks-table.tsx`.
 - **How I verified it:** Playwright on a dev server: screenshots at 1440 and 375 px in both themes, element positions against the fold, computed transition values with Reduce motion on and off, and a script that measures every KPI number against its tile at 320 to 1440 px (4 overflowing pages before, 0 after). `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` pass.
 - **What I rejected or corrected:** a first try passed `shadow-none` through `className`, which did nothing because `cn()` does not merge classes; replaced by a `nested` prop. Moving the review queues was left to W-7 because the page order is Tair's.
+
+### 11 November 2026, Dameli (G-6 component states)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment for the checks.
+- **Purpose:** clear hover, pressed, focus, disabled, loading and error states with small motion for the UI primitives, and a states grid on `/design`.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-6 among them). Transcript kept locally.
+- **What it produced or changed:** class changes and a `forceState` prop in `button.tsx`, `switch.tsx`, `slider.tsx`, `tabs.tsx`, `select.tsx`; states in `input.tsx` (with an `error` prop), `segmented.tsx`, `table.tsx`, `dialog.tsx`; `web/components/ui/states.ts`; a G-6 motion block in `web/app/globals.css`; `web/components/design/states-grid.tsx`; `web/lib/ui-states.test.ts`; a section in `docs/DESIGN-BRIEF.md`.
+- **How I verified it, and who verified it:**
+  - Playwright on my own dev server: `/design` at 1440 and 375 px, light, dark and high contrast; button heights, dialog open and close animations, press scale, focus animation, and reduced motion from the OS and from the Settings attribute (0.01 ms).
+  - Computed transitions on the reference site (dope.security) for the timings: 100 to 150 ms on links and buttons.
+  - `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` (233 tests) pass.
+- **What I rejected or corrected:**
+  - Rows marked with `aria-selected` (not valid outside a grid); they use `data-state="selected"`.
+  - A focus ring outside the tab: the scrolling tab list clipped it. It is drawn inside now.
+  - A grey hover underline in `--border-strong`: about 2:1 on the dark background, not visible; it uses `--subtle`.
+  - Plain keyframe names like `fade-in`, which another branch could also define; they are prefixed `ui-`.
+
+### 11 November 2026, Dameli (G-75 result reveal)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment for the checks.
+- **Purpose:** stage the road and restroom Compare results within 600 ms and announce the save to screen readers.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-75 among them). Transcript kept locally.
+- **What it produced or changed:** `reveal` timings in `web/lib/motion.ts` with a test, `.result-stage` and `.saved-tick` in `web/app/globals.css`, `web/components/motion/stage.ts`, staging in `analysis-view.tsx` and `compare-result.tsx`, the status region and tick in `analyze-client.tsx` and `compare-client.tsx`.
+- **How I verified it, and who verified it:**
+  - Playwright on my own dev server, both result pages at 1440 and 375 px, light and dark, motion on, OS reduced motion and the Settings switch: reveal end 559 ms (road) and 467 ms (Compare), CLS 0 from mount at 1440 px, 0 animations and full opacity on the first frame with reduced motion, the status text present after the run.
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` pass.
+- **What I rejected or corrected:**
+  - The first timing ended at exactly 600 ms (617 ms measured); tightened to 540 ms planned.
+  - A 4 px shift when the result appeared turned out to come from React reusing the form's grid; fixed with keys rather than hidden.
+  - A count-up on the score: it would show numbers that are not the result.
