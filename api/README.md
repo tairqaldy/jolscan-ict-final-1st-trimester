@@ -194,3 +194,18 @@ not attempt downloads even when Ultralytics is installed.
   `unreachable` error and retry option.
 - **Outstanding:** run with the team-trained E0 weights, check real boxes and model name on
   a screened test image, and complete the S-2 comparison before marking S-4 done.
+
+### S-2: serving the team's weights, 11 November 2026
+
+Served model: the champion by the selection rule, **E4** (`weights/jolscan-e4.pt`, YOLO26n trained with AdamW, `ml/results/runs/E4.json`). `YOLO('weights/jolscan-e4.pt').names` is `{0: 'pothole'}`, so no `ANY_CLASS` is needed. Started with `MODEL_WEIGHTS=weights/jolscan-e4.pt uvicorn main:app --port 8000`; `/health` reported model `jolscan-e4` and `weightsFileFound: true`.
+
+Three test-split photos, `conf=0.25`, compared with Ultralytics' own `yolo predict` on the same file:
+
+| Photo | `/predict` boxes (confidences) | `yolo predict` | Labelled potholes |
+|---|---|---|---:|
+| `img-104.jpg` | 2 (0.37, 0.87) | 2 (0.37, 0.87) | 2 |
+| `img-300.jpg` | 4 (0.55, 0.68, 0.79, 0.79) | 4 (0.55, 0.68, 0.79, 0.79) | 4 |
+| `img-654.jpg` | 3 (0.32, 0.60, 0.89) | 3 (0.32, 0.60, 0.89) | 3 |
+
+The weights are in the shared Drive (`weights/`) and on the presenting laptop, never in git. `scripts/demo-local.sh` serves this file by default. If E8 becomes the champion, repeat this check with `jolscan-e8.pt`.
+
