@@ -1,6 +1,6 @@
 "use client";
 
-import { animate, useReducedMotion } from "motion/react";
+import { animate, useReducedMotionConfig } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { ease, timing } from "@/lib/motion";
 
@@ -8,7 +8,8 @@ import { ease, timing } from "@/lib/motion";
  * A number that is always rendered at its real value (server render, first
  * paint, screenshots, no JS). When the value changes later in the browser,
  * for example when this browser's own analyses are merged in, it counts from
- * the old value to the new one. Respects prefers-reduced-motion.
+ * the old value to the new one. Respects reduced motion (device setting or the
+ * Settings switch, through MotionConfig in motion-preference.tsx).
  */
 export function CountUp({
   value,
@@ -21,7 +22,7 @@ export function CountUp({
   suffix?: string;
   className?: string;
 }) {
-  const reduce = useReducedMotion();
+  const reduce = useReducedMotionConfig();
   const [shown, setShown] = useState(value);
   const from = useRef(value);
 
