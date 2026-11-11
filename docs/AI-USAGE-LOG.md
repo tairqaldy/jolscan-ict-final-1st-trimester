@@ -741,7 +741,7 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **Purpose:** add a high-contrast theme with every text token at 7:1 or more, and measure it.
 - **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков". Transcript kept locally.
 - **What it produced or changed:**
-  - The `[data-theme="contrast"]` block in `web/app/tokens.css`; `"contrast"` in the theme store, the inline script, Settings, the header toggle and `/design`; `flex-wrap` on the segmented control.
+  - The `[data-theme="contrast"]` block in `web/app/tokens.css`; `"contrast"` in the theme store, the inline script, Settings and `/design` (the header toggle only leads out of it); `flex-wrap` on the segmented control.
   - A 3 px focus ring in this theme (`globals.css`); the light values for printing (`print.css`).
   - `web/scripts/check-contrast.mjs`, `web/lib/contrast-theme.test.ts`, two cases in `theme-script.test.ts`, the new theme in `check-palette.mjs`; the section "High-contrast theme (G-31)" in DESIGN-BRIEF.md.
 - **How I verified it, and who verified it:**

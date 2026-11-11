@@ -16,7 +16,7 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **Status:** done
 - **What I did:**
   - Added a third theme, `[data-theme="contrast"]`, in `web/app/tokens.css`, built from the light theme: black text on white cards, a light grey page, dark grey borders, the amber accent darkened so it carries white text, and darker severity, verdict, gender, review and chart colours in the same hues.
-  - Accepted `"contrast"` in the theme store and in the inline script that sets the theme before first paint; added "High contrast" to the Theme control in Settings and to the header toggle; added a third panel on `/design`.
+  - Accepted `"contrast"` in the theme store and in the inline script that sets the theme before first paint; added "High contrast" to the Theme control in Settings (the header toggle keeps System, Light, Dark and leads from high contrast back to System); added a third panel on `/design`.
   - A 3 px focus ring in this theme; printing gives it the light values, like dark.
   - `web/scripts/check-contrast.mjs` prints the ratio table; `web/lib/contrast-theme.test.ts` fails if a token is missing or a ratio drops; `check-palette.mjs` now checks this theme too.
   - The segmented control (`web/components/ui/segmented.tsx`) wraps onto a second row when it does not fit: with four theme options it made the Settings page 14 px wider than a 375 px phone.
@@ -29,7 +29,7 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **Decisions and why:**
   - Built from light, not dark: light themes hold up better on a projector, and the issue asks for dark text on white.
   - The system setting never picks it. "System" stays light or dark, and only a person chooses high contrast.
-  - The header toggle cycles System, Light, Dark, High contrast and then System, so one click always leads out of it.
+  - The header toggle keeps its three steps, so a click during the demo never switches to high contrast; from high contrast one click leads back to System.
   - The block declares every token, including the verdict aliases: otherwise the nested panel on `/design` would take the page's values.
   - Printing stays on the light values, so a report looks the same whoever prints it (G-25).
   - Photo boxes keep their colours, because they sit on the photo; only their halo is darker.
