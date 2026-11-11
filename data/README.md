@@ -132,6 +132,31 @@ python data/make_potholes_yolo_v1.py --source data/raw/potholes-kaggle/src --out
 
 It re-derives the split (sorted paths, `random.Random(42).shuffle`, first 465 train, next 100 val, last 100 test) instead of copying it from the manifest. It removes the one zero-width box in `img-415.xml`, converts the XML bounds as described above, and then compares every image's SHA-256, split and object count, plus the per-split totals, with `split_manifest.json`. It stops on the first difference. Run on 11 November 2026 against the Kaggle download (`chitholian/annotated-potholes-dataset`, 48,139,872 bytes): all 665 images and 1,739 boxes matched (train 465 / 1,198, val 100 / 305, test 100 / 236). The label text uses six decimals; the Colab export's number format was not recorded, so label files may differ in the last digits while describing the same boxes. The output goes to `data/raw/`, which is git-ignored.
 
+### The D-2 sample is the test split (task D-20, found 10 November)
+
+D-2 drew its visual-review sample with `random.Random(42).sample(pairs, 100)` from the sorted list of 665 photos; D-3 shuffled the same sorted list with `random.Random(42).shuffle` and took the last 100 as test. With the same seed and the same list, `sample` and `shuffle` draw the same random positions, so the 100 photos reviewed in D-2 are exactly the 100 test photos. Checked on 11 November 2026:
+
+```bash
+python3 -c "
+import json, random
+m = json.load(open('data/exports/potholes_yolo_v1/split_manifest.json'))
+paths = sorted(i['source_image'] for i in m['images'])
+split = {i['source_image']: i['split'] for i in m['images']}
+x = list(paths); random.Random(42).shuffle(x)
+print('last 100 after shuffle are test:', all(split[p] == 'test' for p in x[565:]))
+s = random.Random(42).sample(paths, 100)
+print('D-2 sample == test split:', set(s) == {p for p in paths if split[p] == 'test'})
+"
+```
+
+Output: `last 100 after shuffle are test: True` and `D-2 sample == test split: True`. A second check over the 27 photos named in the D-2 notes printed `test` for 26 of them; the one exception, `img-415.jpg`, came from the separate archive check, not from the sample, and is in `train`.
+
+Rules that follow, for the rest of the project:
+
+1. No label in `potholes_yolo_v1` changes, in any split.
+2. The D-2 notes on test photos are used only as condition tags written before any model existed (D-21, M-36), never to choose a model or a threshold.
+3. The D-2 "Recommended follow-up" to recheck ambiguous annotations applies only to a future dataset version.
+
 ## Box-size clustering for R2 (task D-11)
 
 K-means (`k=3`, `random_state=42`, `n_init=20`, scikit-learn 1.6.1) was fit to the natural logarithm of normalized bounding-box area using only the training split: 465 images and 1,198 boxes. The sorted log-space cluster centers were `-5.413906222570803`, `-3.5205198333222225`, and `-1.722409700683948`. Boundaries are the geometric midpoints between adjacent centers, transformed back to normalized area.
