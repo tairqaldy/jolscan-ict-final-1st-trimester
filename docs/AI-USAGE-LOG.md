@@ -28,7 +28,7 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **Purpose:** Independently compare the committed presentation's text and numbers with the available source files.
 - **Key prompt:** "продолжай выполнять таски дальше, но если они связаны с дизайном, то дропай их". This is an excerpt; no full transcript is available in the repository.
 - **What it produced or changed:** A documented numbers audit, including a stale AI-log count and source gaps.
-- **How it was verified:** Rebuilt the deck in an isolated copy, compared slide text, inspected the generated 183-row source audit and compared selected website data metrics with both experiment CSVs. The live page, chart images and spoken values were not checked. Alizhan has not yet personally reviewed the findings.
+- **How it was verified:** Rebuilt the deck in an isolated copy, compared slide text, inspected the generated 183-row source audit and compared selected website data metrics with both experiment CSVs. Spot-checked E1, R3 and R4 on the live model page; remaining live-page values, chart images and spoken values were not checked. Alizhan has not yet personally reviewed the findings.
 - **What was rejected or corrected:** Did not change presentation design, pretend absent measurements exist, or treat a generated table as proof that the old deck has current data.
 
 ### 11 November 2026, Alizhan (R-21, AI-assisted; personal review pending)

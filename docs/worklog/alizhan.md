@@ -15,11 +15,11 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 ### 2026-11-11 · R-15 (#99) · Audit numbers in the defense deck
 - **Status:** in progress; one stale slide number and three documented source gaps remain.
 - **What I did:** Rebuilt the deck in an isolated copy, compared all slide text with the committed PowerPoint, and compared road and restroom export rows with the website's data files.
-- **Result:** The generator checked 183 number records. The only text difference between the committed deck and the fresh build was the changing number of AI-log entries on slide 10. Three gaps remain on slides 2, 8 and 10. The compared export metrics matched website data; the live website itself was not checked.
+- **Result:** The generator checked 183 number records. The only text difference between the committed deck and the fresh build was the changing number of AI-log entries on slide 10. Three gaps remain on slides 2, 8 and 10. The compared export metrics matched website data; E1, R3 and R4 were spot-checked on the live model page.
 - **Decisions and why:** Recorded the mismatch and gaps rather than silently changing the presentation or claiming all numbers match. The generator validates the values it registers; this is not proof that every image, chart or spoken number was independently audited.
 - **What I learned / can explain at the defense:** Recalculate numbers from source files and compare against the actual version being presented, not just against a newly generated copy.
 - **AI use:** Codex desktop, GPT-6; personal review pending.
-- **Open questions / next:** Rebuild or correct the stale slide count after the final AI-log edit; resolve or explicitly accept the missing source gaps, audit charts and the live model page, and repeat after later results change.
+- **Open questions / next:** Rebuild or correct the stale slide count after the final AI-log edit; resolve or explicitly accept the missing source gaps, audit charts and the remaining live-page values, and repeat after later results change.
 
 ### 2026-11-11 · R-21 (#230) · Architecture slide practice
 - **Status:** done; three recorded attempts are within the duration target and Alizhan confirmed the required handover.
