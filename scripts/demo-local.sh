@@ -6,12 +6,12 @@
 #   PYTHON=api/.venv/bin/python WEB_PORT=3000 scripts/demo-local.sh
 #
 # PYTHON   the Python that has api/requirements.txt installed (default: api/.venv/bin/python)
-# WEIGHTS  the weights file inside api/ (default: the champion, weights/jolscan-e4.pt; never committed)
+# WEIGHTS  the weights file inside api/ (default: the champion, weights/jolscan-e1.pt; never committed)
 # WEB_PORT the web app's port (default: 3000)
 set -euo pipefail
 cd "$(dirname "$0")/.."
 PYTHON=${PYTHON:-api/.venv/bin/python}
-WEIGHTS=${WEIGHTS:-weights/jolscan-e4.pt}
+WEIGHTS=${WEIGHTS:-weights/jolscan-e1.pt}
 WEB_PORT=${WEB_PORT:-3000}
 PY_ABS=$(cd "$(dirname "$PYTHON")" && pwd)/$(basename "$PYTHON")
 

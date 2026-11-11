@@ -158,7 +158,7 @@ pnpm dev -p 3100       # check the port is free first: lsof -nP -iTCP:3100 -sTCP
 - **Design system page:** http://localhost:3100/design shows tokens and components.
 - **Mock provider:** the default. It needs no model; use it for all design work.
 - **Real model on your own laptop (optional):**
-  1. Get `jolscan-e0.pt` from the shared Drive (`weights/`) and put it in `api/weights/`.
+  1. Get `jolscan-e1.pt` (the champion; `championModelName` in `web/data/experiments.json`) from the shared Drive (`weights/`) and put it in `api/weights/`.
   2. Install `api/requirements.txt` in a Python 3.12 virtual environment.
   3. Run `scripts/demo-local.sh` (after PR #368).
   4. Choose **Local** in Settings.

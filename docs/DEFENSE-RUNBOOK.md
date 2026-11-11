@@ -10,7 +10,7 @@ How to run the live demo with the real models on the presenting laptop, and what
 
 | Screen | Real or demo |
 |---|---|
-| Roads analyze result on the **Local** provider | Real: the champion by the selection rule, E4 (`jolscan-e4`), on this laptop, rules from `web/lib/rules` |
+| Roads analyze result on the **Local** provider | Real: the champion by the selection rule, E1 (`jolscan-e1`, YOLO26s), on this laptop, rules from `web/lib/rules` |
 | Restrooms Compare on **Local** | Real CLIP model on this laptop (check it in the rehearsal, see below) |
 | `/app/model` tables and charts | Real: written by `ml/export_results.py` from the committed run files |
 | Overview, analytics, reports, map | Seeded demo history, marked "Includes demo data"; seeded rows say "Demo" |
@@ -20,7 +20,7 @@ Say it aloud during the demo (PRESENTATION.md, demo script step 5).
 
 ## The day before (online)
 
-1. Pull `main`. Copy the served weights from the shared Drive (`weights/`) to `api/weights/jolscan-e4.pt`, the champion `championModelName` in `web/data/experiments.json` names (if E8 becomes champion, `jolscan-e8.pt` once E8 exists). Weights never go into git.
+1. Pull `main`. Copy the served weights from the shared Drive (`weights/`) to `api/weights/jolscan-e1.pt`, the champion `championModelName` in `web/data/experiments.json` names (if E8 becomes champion, `jolscan-e8.pt` once E8 exists). Weights never go into git.
 2. API environment: `cd api && python3.12 -m venv .venv && .venv/bin/pip install -r requirements.txt` (api/README.md).
 3. Web app: `cd web && corepack enable && pnpm install && pnpm build`. Build online: `next/font/google` downloads the fonts at build time.
 4. Warm every model once **online**, so all weights are cached on disk:
@@ -42,7 +42,7 @@ The script:
 
 1. Refuses to start if port 8000 or the web port is busy.
 2. Checks that the weights file and the production build exist.
-3. Starts the API with `MODEL_WEIGHTS=weights/jolscan-e4.pt` (the champion; override with `WEIGHTS=`) and prints `/health`.
+3. Starts the API with `MODEL_WEIGHTS=weights/jolscan-e1.pt` (the champion; override with `WEIGHTS=`) and prints `/health`.
 4. Warms the pothole model with a blank image (`api/smoke.py`).
 5. Starts `pnpm start` with `MODEL_API_URL=http://localhost:8000`.
 
@@ -61,6 +61,7 @@ Then in the browser:
 - `/health`: 7 ms.
 - `scripts/demo-local.sh` itself, run on 11 Nov with the production build: health printed, model warmed, `next start` ready in 68 ms; a real photo through the web app then took 21 ms model time.
 - Test photo `img-300.jpg`: 4 potholes found (4 labelled), severity Critical, score 17.
+- The champion E1 (YOLO26s, 20 MB, about four times the weights of the nano runs), measured through the API on CPU on 11 Nov: first photo 973 ms model time while the model loads, then 51–71 ms per photo (`api/README.md`, S-2). Still well under a second, so the demo does not change.
 
 Measure the cold start again with Wi-Fi off in Rehearsal 2 and write it here.
 

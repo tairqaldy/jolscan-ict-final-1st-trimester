@@ -197,7 +197,17 @@ not attempt downloads even when Ultralytics is installed.
 
 ### S-2: serving the team's weights, 11 November 2026
 
-Served model: the champion by the selection rule, **E4** (`weights/jolscan-e4.pt`, YOLO26n trained with AdamW, `ml/results/runs/E4.json`). `YOLO('weights/jolscan-e4.pt').names` is `{0: 'pothole'}`, so no `ANY_CLASS` is needed. Started with `MODEL_WEIGHTS=weights/jolscan-e4.pt uvicorn main:app --port 8000`; `/health` reported model `jolscan-e4` and `weightsFileFound: true`.
+Served model: the champion by the selection rule, **E1** (`weights/jolscan-e1.pt`, YOLO26s, `ml/results/runs/E1.json`). E1 and E6 finished after E4 and E1 became champion, so the check was repeated with its weights: `/health` reported model `jolscan-e1`, `names` is `{0: 'pothole'}`, and `/predict` at `conf=0.25` returned exactly what `yolo predict` returns:
+
+| Photo | `/predict` boxes (confidences) | `yolo predict` | Labelled potholes |
+|---|---|---|---:|
+| `img-104.jpg` | 2 (0.67, 0.90) | 2 (0.67, 0.90) | 2 |
+| `img-300.jpg` | 4 (0.66, 0.78, 0.80, 0.83) | 4 (0.66, 0.78, 0.80, 0.83) | 4 |
+| `img-654.jpg` | 2 (0.67, 0.92) | 2 (0.67, 0.92) | 3 |
+
+Model time on CPU: 973 ms for the first photo (model load), then 51–71 ms.
+
+The first check, made while **E4** was champion (`weights/jolscan-e4.pt`, YOLO26n trained with AdamW, `ml/results/runs/E4.json`): `YOLO('weights/jolscan-e4.pt').names` is `{0: 'pothole'}`, so no `ANY_CLASS` is needed. Started with `MODEL_WEIGHTS=weights/jolscan-e4.pt uvicorn main:app --port 8000`; `/health` reported model `jolscan-e4` and `weightsFileFound: true`.
 
 Three test-split photos, `conf=0.25`, compared with Ultralytics' own `yolo predict` on the same file:
 
@@ -207,5 +217,5 @@ Three test-split photos, `conf=0.25`, compared with Ultralytics' own `yolo predi
 | `img-300.jpg` | 4 (0.55, 0.68, 0.79, 0.79) | 4 (0.55, 0.68, 0.79, 0.79) | 4 |
 | `img-654.jpg` | 3 (0.32, 0.60, 0.89) | 3 (0.32, 0.60, 0.89) | 3 |
 
-The weights are in the shared Drive (`weights/`) and on the presenting laptop, never in git. `scripts/demo-local.sh` serves this file by default. If E8 becomes the champion, repeat this check with `jolscan-e8.pt`.
+The weights are in the shared Drive (`weights/`) and on the presenting laptop, never in git. `scripts/demo-local.sh` serves the champion, `jolscan-e1.pt`, by default. If E8 becomes the champion, repeat this check with `jolscan-e8.pt`.
 
