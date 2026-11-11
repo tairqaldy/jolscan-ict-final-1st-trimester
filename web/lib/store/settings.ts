@@ -35,7 +35,7 @@ export const settingsStore = createLocalStore<Settings>(storageKey("settings"), 
 /** Rules page state. Sent with every analysis so the server scores with it. */
 export const rulesStore = createLocalStore<RulesConfig>(storageKey("rules"), DEFAULT_RULES, normaliseRules);
 
-/** Restroom Rules page state (S1, S3 thresholds). Sent with every compare so the server judges with it. */
+/** Restroom Rules page state (S2, S3 thresholds). Sent with every compare so the server judges with it. */
 export const signageRulesStore = createLocalStore<SignageConfig>(storageKey("signage-rules"), DEFAULT_SIGNAGE, normaliseSignage);
 
 /**

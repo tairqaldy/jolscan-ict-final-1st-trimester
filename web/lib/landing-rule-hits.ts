@@ -61,8 +61,6 @@ export function signHitMarks(
     { token: threshold.toFixed(2), kind: "setting" },
   ];
   switch (hit.ruleId) {
-    case "S1":
-      return pair(doors.margin, config.s1.minMargin);
     case "S2":
       return pair(doors.margin, config.s2.minMargin);
     case "S3":

@@ -50,11 +50,11 @@ const roadSample = getSample("s01")!;
 const roadResult = scoreDetections(roadSample.detections, roadSample.meta);
 const roadHit = roadResult.ruleHits.find((h) => h.ruleId === "R3")!;
 
-const faint = RESTROOM_PRESETS.find((p) => p.id === "faint")!;
-const faintA = getRestroomSample(faint.a)!;
-const faintB = getRestroomSample(faint.b)!;
-const faintSimilarity = mockSimilarity(faintA.id, faintB.id);
-const signResult = evaluateSignage({ a: faintA.mock, b: faintB.mock, similarity: faintSimilarity });
+const twoSets = RESTROOM_PRESETS.find((p) => p.id === "mismatched")!;
+const twoSetsA = getRestroomSample(twoSets.a)!;
+const twoSetsB = getRestroomSample(twoSets.b)!;
+const twoSetsSimilarity = mockSimilarity(twoSetsA.id, twoSetsB.id);
+const signResult = evaluateSignage({ a: twoSetsA.mock, b: twoSetsB.mock, similarity: twoSetsSimilarity });
 const signHit = signResult.ruleHits.find((h) => !h.passed)!;
 
 const STEPS = [
@@ -76,7 +76,7 @@ const STEPS = [
   {
     icon: ListChecks,
     title: "Action",
-    text: "A repair priority with a target time, or a signage verdict with what to do next. Uncertain cases go to a review queue instead of being hidden.",
+    text: "A repair priority with a target time for a road, a pair or not a pair for two door signs. Uncertain road photos go to a review queue instead of being hidden.",
   },
 ];
 
@@ -220,7 +220,7 @@ export default function LandingPage() {
             <ModuleCard
               id="restrooms"
               demo={<p className="rounded-md bg-surface-2 p-4 font-mono text-sm text-muted">Photos → comparison → signage verdict</p>}
-              text="A CLIP image encoder reads each door sign: which gender it shows, and how alike two designs are. Three rules turn a pair into clear, review or confusing."
+              text="A CLIP image encoder reads each door sign: which gender it shows, and how alike two designs are. Two rules decide: one design set and different genders is a pair, anything else is not a pair."
               output="Verdict and recommended action"
               cta={{
                 href: `/app/restrooms/compare?a=${RESTROOM_PRESETS[0].a}&b=${RESTROOM_PRESETS[0].b}`,
@@ -284,15 +284,15 @@ export default function LandingPage() {
             />
             <RuleHitCard
               module="restrooms"
-              context={`${faint.title} sample pair`}
+              context={`${twoSets.title} sample pair`}
               ruleId={signHit.ruleId}
               title={signHit.title}
               detail={signHit.detail}
-              marks={signHitMarks(signHit, signResult.doors, faintSimilarity)}
+              marks={signHitMarks(signHit, signResult.doors, twoSetsSimilarity)}
               effect="Failed"
               outcome={
                 <>
-                  <VerdictBadge verdict={signResult.verdict} /> {signResult.recommendedAction}
+                  <VerdictBadge verdict={signResult.verdict} /> {signResult.reason}
                 </>
               }
               href="/app/restrooms/rules"

@@ -84,7 +84,7 @@ export function PairDemo() {
         </div>
         <motion.div {...step(demo.resultDelay)} className="flex flex-wrap items-center gap-x-3 gap-y-2">
           <VerdictBadge verdict={ex.result.verdict} size="lg" />
-          <span className="text-sm text-muted">{ex.result.recommendedAction}</span>
+          <span className="text-sm text-muted">{ex.result.reason}</span>
         </motion.div>
       </div>
       <div className="flex flex-wrap gap-1.5" role="group" aria-label="Example pairs">

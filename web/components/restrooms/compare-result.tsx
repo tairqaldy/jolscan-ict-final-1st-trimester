@@ -32,11 +32,9 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
   const rules = signageRulesStore.useStore();
   const current = useMemo(() => rejudge(check, rules), [check, rules]);
   const rulesChanged = current.verdict !== check.verdict;
-  const t1 = rules.s1.minMargin;
   const t2 = rules.s2.minMargin;
   const t3 = rules.s3.minSimilarity;
   const doors = assignDoors(check.a, check.b);
-  const meta = VERDICT_META[check.verdict];
 
   const raw = useMemo(() => {
     const strip = (i: SignInputInfo) => ({
@@ -61,14 +59,14 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
             </div>
             <div className="grid gap-2 border-t border-border pt-5 lg:pt-4">
               <p className="inline-flex items-center gap-2 font-display text-lg font-semibold">
-                <VenusAndMars className="size-4.5 text-muted" aria-hidden /> How clearly do the two doors differ?
+                <VenusAndMars className="size-4.5 text-muted" aria-hidden /> Do the two doors read as different genders?
               </p>
               <ThresholdBar
                 value={doors.margin}
-                threshold={t1}
+                threshold={t2}
                 label="Gap in P(male) between the doors (0 the same, 1 opposite)"
                 valueText={doors.margin.toFixed(2)}
-                thresholdLabel={`the S1 threshold ${t1.toFixed(2)}. Below ${t2.toFixed(2)} (S2) the doors cannot be told apart`}
+                thresholdLabel={`the S2 threshold ${t2.toFixed(2)}: below it both signs read as the same gender`}
               />
               <p className="text-xs text-subtle">
                 The doors are compared with each other: the sign with the higher P(male) is read as the men&apos;s room. On the IOAI
@@ -77,7 +75,7 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
             </div>
             <div className="grid gap-2 border-t border-border pt-5 lg:pt-4">
               <p className="inline-flex items-center gap-2 font-display text-lg font-semibold">
-                <EqualApproximately className="size-4.5 text-muted" aria-hidden /> How alike are the two designs?
+                <EqualApproximately className="size-4.5 text-muted" aria-hidden /> Are the two designs one set?
               </p>
               <ThresholdBar
                 value={check.similarity}
@@ -93,19 +91,15 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
         <Card className={cn("border-t-4", VERDICT_CLASSES[check.verdict].border)}>
           <CardBody className="grid content-start gap-5">
             <div>
-              <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">Signage verdict</p>
+              <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">Verdict</p>
               <div className="mt-2">
                 <VerdictBadge verdict={check.verdict} size="lg" />
               </div>
-              <p className="mt-2 text-sm text-muted">{meta.description}.</p>
-            </div>
-            <div className="grid gap-0.5 text-sm">
-              <p className="text-xs text-muted">Recommended action</p>
-              <p className="font-semibold">{check.recommendedAction}</p>
+              <p className="mt-2 text-sm text-muted">{check.reason}.</p>
             </div>
             {rulesChanged && (
               <Callout tone="info" title="Your rules have changed since this check">
-                With the current thresholds this pair would be {VERDICT_META[current.verdict].label.toLowerCase()}.
+                With the current thresholds the verdict would be: {VERDICT_META[current.verdict].label}.
               </Callout>
             )}
             <dl className="grid grid-cols-2 gap-x-4 gap-y-3 border-t border-border pt-4 text-sm">
@@ -169,7 +163,7 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
                 </tbody>
               </Table>
               <p className="mt-3 text-sm text-muted">
-                Clear when all three pass. Review when S2 passes but S1 or S3 fails. Confusing when S2 fails, whatever the others say.
+                Pair when both rules pass. Not a pair when either fails.
               </p>
             </TabsContent>
             <TabsContent value="json">

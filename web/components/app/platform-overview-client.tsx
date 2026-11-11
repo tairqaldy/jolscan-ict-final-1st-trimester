@@ -35,9 +35,9 @@ export function PlatformOverviewClient() {
   );
   const restrooms = useMemo(
     () => ({
-      pairs: checks.length,
-      confusing: checks.filter((c) => c.verdict === "confusing").length,
-      review: checks.filter((c) => c.verdict === "review").length,
+      checks: checks.length,
+      pair: checks.filter((c) => c.verdict === "pair").length,
+      notPair: checks.filter((c) => c.verdict === "not_pair").length,
     }),
     [checks],
   );
@@ -81,9 +81,9 @@ export function PlatformOverviewClient() {
 
         <ModulePanel id="restrooms">
           <div className="grid grid-cols-3 gap-2 sm:gap-3">
-            <Kpi label="Pairs" value={restrooms.pairs} note="checked" className="p-3 sm:p-4" />
-            <Kpi label="Confusing" value={restrooms.confusing} note="replace signs" accentClass="bg-verdict-confusing" className="p-3 sm:p-4" />
-            <Kpi label="To review" value={restrooms.review} note="check on site" accentClass="bg-verdict-review" className="p-3 sm:p-4" />
+            <Kpi label="Checks" value={restrooms.checks} note="sign pairs" className="p-3 sm:p-4" />
+            <Kpi label="Pair" value={restrooms.pair} note="one set, two genders" accentClass="bg-verdict-clear" className="p-3 sm:p-4" />
+            <Kpi label="Not a pair" value={restrooms.notPair} note="S2 or S3 failed" accentClass="bg-verdict-confusing" className="p-3 sm:p-4" />
           </div>
           <RecentList title="Latest sign checks" moreHref="/app/restrooms">
             {checks.slice(0, 4).map((c) => (

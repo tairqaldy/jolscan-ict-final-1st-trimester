@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useMemo } from "react";
 import { DemoBadge } from "@/components/app/demo-badge";
 import { Kpi } from "@/components/app/kpi";
+import { RestroomLayersChart } from "@/components/charts/restroom-layers";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { ButtonLink } from "@/components/ui/button";
 import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,7 +15,6 @@ import { PageHeader } from "@/components/ui/page-header";
 import { MODULES } from "@/lib/brand";
 import { formatDate, formatDateTime } from "@/lib/format";
 import { MOCK_ANCHOR } from "@/lib/mock/analyses";
-import { VERDICT_META } from "@/lib/signage-ui";
 import { useRestroomChecks } from "@/lib/store/restroom-history";
 import { ChecksTable, checkHref, checkLabel } from "./checks-table";
 import { VerdictBadge } from "./signage-bits";
@@ -23,21 +23,18 @@ import { VerdictBars } from "./verdict-bars";
 export function RestroomOverviewClient() {
   const checks = useRestroomChecks();
   const kpis = useMemo(() => {
-    const clear = checks.filter((c) => c.verdict === "clear").length;
+    const pairs = checks.filter((c) => c.verdict === "pair").length;
     return {
       total: checks.length,
-      clearPct: checks.length ? Math.round((clear / checks.length) * 100) : 0,
-      review: checks.filter((c) => c.verdict === "review").length,
-      confusing: checks.filter((c) => c.verdict === "confusing").length,
+      pairs,
+      pairPct: checks.length ? Math.round((pairs / checks.length) * 100) : 0,
+      notPairs: checks.length - pairs,
     };
   }, [checks]);
 
-  // Worst first, then newest.
+  // Not a pair, newest first.
   const queue = useMemo(
-    () =>
-      checks
-        .filter((c) => c.verdict !== "clear")
-        .sort((a, b) => VERDICT_META[b.verdict].rank - VERDICT_META[a.verdict].rank || b.createdAt.localeCompare(a.createdAt)),
+    () => checks.filter((c) => c.verdict === "not_pair").sort((a, b) => b.createdAt.localeCompare(a.createdAt)),
     [checks],
   );
 
@@ -70,8 +67,8 @@ export function RestroomOverviewClient() {
             embedding. From it the model predicts the gender the sign shows and how alike two designs are.
           </p>
           <p>
-            <span className="font-semibold text-fg">What it decides.</span> Three rules (S1–S3) turn a pair into clear, review
-            or confusing, with a recommended action for the facility manager.
+            <span className="font-semibold text-fg">What it decides.</span> Pair or not a pair: the two signs are one design set
+            (rule S3) and the doors read as different genders (rule S2).
           </p>
           <p>
             <span className="font-semibold text-fg">What it never sees.</span> People. Inputs are cropped icons. Never upload a
@@ -82,18 +79,20 @@ export function RestroomOverviewClient() {
 
       <Stagger className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
         <StaggerItem>
-          <Kpi label="Pairs checked" value={kpis.total} note="all providers" />
+          <Kpi label="Checks" value={kpis.total} note="sign pairs compared, all providers" />
         </StaggerItem>
         <StaggerItem>
-          <Kpi label="Clear" value={kpis.clearPct} suffix="%" note="all three rules pass" accentClass="bg-verdict-clear" />
+          <Kpi label="Pair" value={kpis.pairs} note="S2 and S3 pass" accentClass="bg-verdict-clear" />
         </StaggerItem>
         <StaggerItem>
-          <Kpi label="Need review" value={kpis.review} note="S1 or S3 failed" accentClass="bg-verdict-review" />
+          <Kpi label="Not a pair" value={kpis.notPairs} note="S2 or S3 failed" accentClass="bg-verdict-confusing" />
         </StaggerItem>
         <StaggerItem>
-          <Kpi label="Confusing" value={kpis.confusing} note="replace the signage" accentClass="bg-verdict-confusing" />
+          <Kpi label="Pair rate" value={kpis.pairPct} suffix="%" note="of all checks" />
         </StaggerItem>
       </Stagger>
+
+      <RestroomLayersChart />
 
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
         <div className="grid content-start gap-4">
@@ -101,7 +100,7 @@ export function RestroomOverviewClient() {
             <CardHeader>
               <div>
                 <CardTitle>Verdicts</CardTitle>
-                <CardDescription>How many checked pairs fall in each verdict.</CardDescription>
+                <CardDescription>How many checks were a pair and how many were not.</CardDescription>
               </div>
             </CardHeader>
             <CardBody>
@@ -112,13 +111,13 @@ export function RestroomOverviewClient() {
           <Card>
             <CardHeader>
               <div>
-                <CardTitle>Review queue</CardTitle>
-                <CardDescription>Confusing pairs first, then pairs to check on site.</CardDescription>
+                <CardTitle>Not a pair</CardTitle>
+                <CardDescription>Checks where the two signs are not one pair, newest first.</CardDescription>
               </div>
             </CardHeader>
             <CardBody>
               {queue.length === 0 ? (
-                <EmptyState icon={CircleCheck} illustration={<ClearQueue />} title="Nothing to review" />
+                <EmptyState icon={CircleCheck} illustration={<ClearQueue />} title="Every check is a pair" />
               ) : (
                 <ul className="grid gap-2">
                   {queue.slice(0, 6).map((c) => (

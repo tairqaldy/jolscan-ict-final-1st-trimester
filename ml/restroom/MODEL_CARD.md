@@ -68,7 +68,7 @@ Nothing in the served model was trained by us. The choices made on data used the
 
 ## Ethical considerations
 
-The data contains no people, faces or licence plates. A wrong verdict could make a confusing pair look acceptable, so the app shows the reasons and a "review" outcome instead of a pass or fail alone. The model knows only male and female signs; it is not meant to judge whether a building is inclusive. Uploaded photos stay on the laptop with the local provider; the cloud provider is opt-in (`docs/ARCHITECTURE.md`).
+The data contains no people, faces or licence plates. A wrong verdict could call two unrelated signs a pair, so next to the verdict (pair or not a pair) the app shows which rule passed or failed and the numbers behind it. The model knows only male and female signs; it is not meant to judge whether a building is inclusive. Uploaded photos stay on the laptop with the local provider; the cloud provider is opt-in (`docs/ARCHITECTURE.md`).
 
 ## How to reproduce
 

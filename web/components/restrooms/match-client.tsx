@@ -12,8 +12,19 @@ import { BlankSigns } from "@/components/illustrations";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/cn";
-import { IOAI_GALLERY_MAX, IOAI_MATCH_ACCURACY, IOAI_MATCH_METHODS, SERVED_METHOD, ioaiPicks } from "@/lib/mock/restroom-ioai-match";
-import { RESTROOM_IOAI_CATALOGUE, RESTROOM_IOAI_GROUPS, RESTROOM_SAMPLES, getRestroomSample, truePartner } from "@/lib/mock/restroom-samples";
+import experiments from "@/data/restroom-experiments.json";
+import {
+  IOAI_GALLERY_MAX,
+  IOAI_LAYER_DISAGREE,
+  IOAI_LAYER_METHODS,
+  IOAI_MATCH_ACCURACY,
+  IOAI_MATCH_METHODS,
+  IOAI_TRAINED_ON,
+  SERVED_METHOD,
+  ioaiPicks,
+  type IoaiMatchMethod,
+} from "@/lib/mock/restroom-ioai-match";
+import { RESTROOM_IOAI_CATALOGUE, RESTROOM_IOAI_GROUPS, RESTROOM_SAMPLES, getRestroomSample, truePartner, type RestroomSample } from "@/lib/mock/restroom-samples";
 import { settingsStore, signageRulesStore } from "@/lib/store/settings";
 import type { Provider, WebMatchResult } from "@/lib/types";
 import type { ApiError } from "@/lib/upload";
@@ -42,8 +53,8 @@ export function MatchClient() {
   const resultRef = useRef<HTMLDivElement>(null);
   useRevokePreviews([query]);
 
-  const run = async (provider: Provider = settings.provider) => {
-    if (!query) return;
+  const run = async (provider: Provider = settings.provider, q: SlotValue | null = query) => {
+    if (!q) return;
     if (provider === "cloud" && settings.keepPhotosLocal) {
       setStatus({ state: "error", error: cloudBlocked });
       return;
@@ -52,7 +63,7 @@ export function MatchClient() {
     const form = new FormData();
     form.set("mode", "match");
     form.set("provider", provider);
-    const info = await appendSign(form, query, "query", "sampleQuery", settings);
+    const info = await appendSign(form, q, "query", "sampleQuery", settings);
     const res = await postRestroom<WebMatchResult>(form);
     if (!res.ok) {
       setStatus({ state: "error", error: res.error });
@@ -113,7 +124,17 @@ export function MatchClient() {
         <BestPairPanel status={status} />
       </div>
 
-      {status.state === "done" && ioaiPicks(status.querySampleId) && <ModelComparison querySampleId={status.querySampleId!} />}
+      {status.state === "done" && ioaiPicks(status.querySampleId) && (
+        <ModelComparison
+          querySampleId={status.querySampleId!}
+          onTry={(sample) => {
+            const v: SlotValue = { kind: "sample", sample };
+            setQuery(v);
+            window.scrollTo({ top: 0 });
+            void run(settings.provider, v);
+          }}
+        />
+      )}
 
       <section aria-labelledby="ranked-h" className="grid gap-4">
         <h2 id="ranked-h" className="text-2xl font-bold">
@@ -318,57 +339,110 @@ function BestPairPanel({ status }: { status: Status }) {
   );
 }
 
+type LayerSweepRow = { backbone: string; n_trained: number; pair_top1_heldout_vs_all164: number; gender_acc_heldout: number; best: boolean };
+const CLIP_SWEEP = ((experiments as { layers?: LayerSweepRow[] }).layers ?? []).filter((r) => r.backbone === "clip");
+
 /** For an IOAI sign: the sign each of our models picks from the same gallery, precomputed offline. */
-function ModelComparison({ querySampleId }: { querySampleId: string }) {
+function ModelComparison({ querySampleId, onTry }: { querySampleId: string; onTry: (sample: RestroomSample) => void }) {
   const picks = ioaiPicks(querySampleId)!;
   const query = getRestroomSample(querySampleId);
   const partner = query ? truePartner(query) : undefined;
   const group = RESTROOM_IOAI_CATALOGUE.find((s) => s.id === querySampleId)?.group ?? "val";
   const groupLabel = RESTROOM_IOAI_GROUPS.find((g) => g.id === group)?.label ?? group;
-  return (
-    <section aria-labelledby="models-h" className="grid gap-4">
-      <div>
-        <h2 id="models-h" className="text-2xl font-bold">
-          What each of our models picks
-        </h2>
-        <p className="mt-1 max-w-3xl text-sm text-muted">
-          The same query and the same gallery (its true partner and up to {IOAI_GALLERY_MAX - 1} other signs of the {groupLabel}{" "}
-          set), answered by each model we built or trained. Real outputs computed offline by{" "}
-          <code>ml/restroom/export_match.py</code>. The share is how often the model finds the true partner over every sign
-          of this set.
+  const seen = group === IOAI_TRAINED_ON;
+  const zero = CLIP_SWEEP.find((r) => r.n_trained === 0);
+  const best = CLIP_SWEEP.find((r) => r.best);
+  const all = CLIP_SWEEP.find((r) => r.n_trained === 12);
+  const hard = [...(IOAI_LAYER_DISAGREE.val ?? []), ...(IOAI_LAYER_DISAGREE.test ?? []), ...(IOAI_LAYER_DISAGREE.train ?? []).slice(0, 4)]
+    .map((id) => getRestroomSample(id))
+    .filter((s): s is RestroomSample => !!s && s.id !== querySampleId);
+  const card = (m: IoaiMatchMethod, compact = false) => {
+    const pick = getRestroomSample(picks[m.id]);
+    const right = pick && partner ? pick.id === partner.id : false;
+    const acc = IOAI_MATCH_ACCURACY[m.id]?.[group];
+    const served = m.id === SERVED_METHOD;
+    return (
+      <li key={m.id} className={cn("grid content-start gap-2 rounded-lg border bg-surface p-3", served ? "border-2 border-accent" : "border-border")}>
+        <div className="flex flex-wrap items-center gap-1.5">
+          <span className="font-mono text-sm font-semibold">{m.id}</span>
+          {served && <Badge tone="accent">served</Badge>}
+          {m.trained && <Badge tone="outline">fine-tuned by us</Badge>}
+        </div>
+        <p className="text-sm font-medium leading-snug">{m.label}</p>
+        <SignImage src={pick?.file} alt={pick?.title ?? "No pick"} />
+        {!compact && <p className="text-xs text-muted">{pick ? pick.title : "No answer"}</p>}
+        <p className={cn("inline-flex items-center gap-1 text-sm font-medium", right ? "text-verdict-clear-ink" : "text-verdict-confusing-ink")}>
+          {right ? <CircleCheck className="size-4" aria-hidden /> : <CircleX className="size-4" aria-hidden />}
+          {right ? "true partner" : "wrong"}
         </p>
+        {acc !== undefined && (
+          <p className="tabular text-xs text-muted">
+            {Math.round(acc * 100)}% right on this set{m.trained && seen ? " (seen in training)" : ""}
+          </p>
+        )}
+        {!compact && <p className="text-xs text-subtle">{m.detail}</p>}
+      </li>
+    );
+  };
+  return (
+    <section aria-labelledby="models-h" className="grid gap-6">
+      <div className="grid gap-4">
+        <div>
+          <h2 id="models-h" className="text-2xl font-bold">
+            What each of our models picks
+          </h2>
+          <p className="mt-1 max-w-3xl text-sm text-muted">
+            The same query and the same gallery (its true partner and up to {IOAI_GALLERY_MAX - 1} other signs of the {groupLabel}{" "}
+            set), answered by each model we built. Real outputs computed offline by <code>ml/restroom/export_match.py</code>.
+            The share is how often the model finds the true partner over every sign of this set.
+          </p>
+          <p className="mt-1 max-w-3xl text-sm text-muted">
+            <span className="font-medium text-fg">Fine-tuned by us</span> means we trained the CLIP weights ourselves, on the 82
+            IOAI training restrooms. The other models use CLIP as OpenAI released it, plus our own rules or colour scores.
+            {seen
+              ? " This query is a training sign, so the fine-tuned models have seen its answer: pick a validation or test sign to see how they do on new restrooms."
+              : " This query comes from a restroom no model was trained on."}
+          </p>
+        </div>
+        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">{IOAI_MATCH_METHODS.map((m) => card(m))}</ul>
       </div>
-      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-        {IOAI_MATCH_METHODS.map((m) => {
-          const pick = getRestroomSample(picks[m.id]);
-          const right = pick && partner ? pick.id === partner.id : false;
-          const acc = IOAI_MATCH_ACCURACY[m.id]?.[group];
-          const served = m.id === SERVED_METHOD;
-          return (
-            <li key={m.id} className={cn("grid content-start gap-2 rounded-lg border bg-surface p-3", served ? "border-2 border-accent" : "border-border")}>
-              <div className="flex flex-wrap items-center gap-1.5">
-                <span className="font-mono text-sm font-semibold">{m.id}</span>
-                {served && <Badge tone="accent">served</Badge>}
-                {m.trained && <Badge tone="outline">trained by us</Badge>}
-              </div>
-              <p className="text-sm font-medium leading-snug">{m.label}</p>
-              <SignImage src={pick?.file} alt={pick?.title ?? "No pick"} />
-              <p className="text-xs text-muted">{pick ? pick.title : "No answer"}</p>
-              <p className={cn("inline-flex items-center gap-1 text-sm font-medium", right ? "text-verdict-clear-ink" : "text-verdict-confusing-ink")}>
-                {right ? <CircleCheck className="size-4" aria-hidden /> : <CircleX className="size-4" aria-hidden />}
-                {right ? "true partner" : "wrong"}
-              </p>
-              {acc !== undefined && (
-                <p className="tabular text-xs text-muted">
-                  {Math.round(acc * 100)}% right on this set
-                  {m.trained && group === "train" ? " (trained on these restrooms: memorised)" : ""}
-                </p>
-              )}
-              <p className="text-xs text-subtle">{m.detail}</p>
-            </li>
-          );
-        })}
-      </ul>
+
+      <div className="grid gap-4">
+        <div>
+          <h3 className="text-xl font-bold">Same CLIP, different number of trained layers</h3>
+          <p className="mt-1 max-w-3xl text-sm text-muted">
+            CLIP ViT-B/32 has 12 transformer blocks. Each model below was fine-tuned with only its last N blocks unfrozen (the
+            recipe of R4), on the same 82 training restrooms; 0 blocks is zero-shot CLIP. On whole signs with a gallery from one
+            set the task is easy: once any block is trained, almost every partner is found. The number of layers matters in the
+            harder IOAI setting, a cropped query against all 164 originals on restrooms held out of training
+            {zero && best && all
+              ? `: ${zero.pair_top1_heldout_vs_all164.toFixed(2)} with 0 blocks, ${best.pair_top1_heldout_vs_all164.toFixed(2)} with ${best.n_trained}, ${all.pair_top1_heldout_vs_all164.toFixed(2)} with all 12, while gender accuracy falls from ${zero.gender_acc_heldout.toFixed(2)} to ${all.gender_acc_heldout.toFixed(2)}`
+              : ""}
+            . That sweep is the chart on the Restroom overview.
+          </p>
+        </div>
+        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">{IOAI_LAYER_METHODS.map((m) => card(m, true))}</ul>
+        {hard.length > 0 && (
+          <div className="grid gap-2">
+            <p className="text-sm font-medium">Signs where at least one of these models is wrong. Try one:</p>
+            <ul className="flex flex-wrap gap-2">
+              {hard.map((s) => (
+                <li key={s.id}>
+                  <button
+                    type="button"
+                    onClick={() => onTry(s)}
+                    className="grid w-24 gap-1 rounded-md border border-border bg-surface p-1.5 text-left hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-accent"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={s.file} alt="" className="aspect-[5/6] w-full object-contain" loading="lazy" />
+                    <span className="text-[11px] leading-tight">{s.title}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
     </section>
   );
 }

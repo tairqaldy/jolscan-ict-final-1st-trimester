@@ -169,13 +169,13 @@ Same validation as `/predict`: JPEG, PNG or WebP, at most 10 MB and 40 megapixel
 The web app applies the signage rules (RULES.md, part 2) to a `CompareResult` and returns:
 
 ```ts
-type SignageVerdict = "clear" | "review" | "confusing";
+type SignageVerdict = "pair" | "not_pair";   // since 11 Nov 2026; was "clear" | "review" | "confusing"
 type SignageAnalysis = CompareResult & {
   id: string;
   createdAt: string;
   verdict: SignageVerdict;
-  ruleHits: Array<{ ruleId: string; title: string; detail: string; passed: boolean }>;
-  recommendedAction: string;
+  ruleHits: Array<{ ruleId: string; title: string; detail: string; passed: boolean }>;  // S2, S3
+  reason: string;                              // one line: why it is or is not a pair (replaced recommendedAction)
   doors?: { mens: "a" | "b"; pMaleA: number; pMaleB: number; margin: number };  // pairwise reading, RULES.md part 2
 };
 ```

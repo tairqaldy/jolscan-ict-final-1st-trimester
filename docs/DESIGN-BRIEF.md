@@ -317,7 +317,7 @@ One icon per concept, one size per context. Checked on the road and restroom res
 | Concept | Icon | Defined in or used on |
 |---|---|---|
 | Severity: clear, low, medium, high, critical | CircleCheck, CircleDot, CircleExclamationPoint, TriangleExclamationPoint, OctagonExclamationPoint | `web/lib/severity.ts` |
-| Verdict: clear, review, confusing | CircleCheck, TriangleExclamationPoint, OctagonX | `web/lib/signage-ui.ts` |
+| Verdict: pair, not a pair | CircleCheck, CircleX | `web/lib/signage-ui.ts` |
 | Gender: male, female | Mars, Venus | `web/lib/signage-ui.ts` |
 | Gap in P(male) between the doors (S1, S2) | VenusAndMars | Compare result |
 | Similarity of the two designs (S3) | EqualApproximately | Compare result |

@@ -88,7 +88,7 @@ These are image-relative size bands, not physical measurements and not validated
 
 > **Owner: Nazar (lane C).** Part 1 is Amina's. Ask Nazar before changing part 2.
 
-The model answers two questions about a pair of door signs: how "male" each sign looks, and how alike the two designs are. The rules turn that into a verdict a facility manager can act on: is it obvious to a visitor which door is which?
+The model answers two questions about a pair of door signs: how "male" each sign looks, and how alike the two designs are. The rules turn that into one of two verdicts: the two signs are a **pair** (one design set, one men's and one women's door) or **not a pair**.
 
 ## Why the doors are compared with each other
 
@@ -114,13 +114,12 @@ From the model, for signs `a` and `b`: predicted gender and its confidence, and 
 
 | ID | Rule | Default | Fails when | Evidence (82 IOAI training restrooms) |
 |---|---|---|---|---|
-| S1 | Which door is which is clear | gap ≥ 0.20 | The reading is too close to trust without a person checking | 62% of real pairs pass (95 % interval 0.51–0.73), and every one of them is read the right way round ([curves](../ml/results/restroom/figs/signage_thresholds.png)) |
-| S2 | The two doors can be told apart | gap ≥ 0.05 | The two signs look almost the same to the model | Below 0.05 the reading is close to a coin toss; 15% of real pairs fall there ([curves](../ml/results/restroom/figs/signage_thresholds.png)) |
-| S3 | The signs belong to one set | similarity ≥ 0.88 | The two designs look unrelated, so visitors may not read them as a pair | 95% of same-restroom pairs pass; 89% of pairs from two different restrooms fail. The first default, 0.75, flagged only 1% of them ([curves](../ml/results/restroom/figs/signage_thresholds.png)) |
+| S2 | The doors read as different genders | gap ≥ 0.05 | Both signs read as the same gender to the model | Below 0.05 the reading is close to a coin toss; 15% of real pairs fall there ([curves](../ml/results/restroom/figs/signage_thresholds.png)) |
+| S3 | The signs belong to one set | similarity ≥ 0.88 | The two designs look like two different sets | 95% of same-restroom pairs pass; 89% of pairs from two different restrooms fail. The first default, 0.75, flagged only 1% of them ([curves](../ml/results/restroom/figs/signage_thresholds.png)) |
 
-S2 is never stricter than S1.
+**Retired on 11 Nov 2026:** rule S1 (gap ≥ 0.20, "which door is which is clear") and the three verdicts clear / review / confusing. The app now answers one question, are these two signs a pair, so only the two rules that decide it are left. S1's numbers stay in the tables below as measurements: 62% of real training pairs had a gap of at least 0.20, and every one of them was read the right way round.
 
-The trade-off behind each default is drawn in [`figs/signage_thresholds.png`](../ml/results/restroom/figs/signage_thresholds.png) (`python ml/restroom/signage_plots.py`, task C-27). S1 = 0.20 is the smallest margin at which every passing training pair is read the right way round. That is an in-sample choice, made on the same 82 restrooms it is measured on, which is why task C-26 checks the rules on the 10 validation restrooms.
+The trade-off behind each default is drawn in [`figs/signage_thresholds.png`](../ml/results/restroom/figs/signage_thresholds.png) (`python ml/restroom/signage_plots.py`, task C-27). The thresholds were chosen on the same 82 restrooms they are measured on, which is why task C-26 checks the rules on the 10 validation restrooms.
 
 ### Out-of-sample check (task C-26)
 
@@ -140,19 +139,18 @@ Validation agrees with training on every rule: 9 of 10 restrooms read the right 
 
 ## Verdict
 
-| Verdict | When | Recommended action |
+| Verdict | When | Reason shown |
 |---|---|---|
-| clear | S1, S2 and S3 pass | No action |
-| review | S2 passes, and S1 or S3 fails | Check the signs on site. Make the difference between the doors clearer, or replace the sign that does not match the set |
-| confusing | S2 fails | Replace the signage. Visitors are likely to enter the wrong room |
+| `pair` | S2 and S3 pass | One design set, and the two doors read as different genders |
+| `not_pair` | S2 or S3 fails | Which rule failed: different sets, both signs read as the same gender, or both |
 
 ## Worked examples
 
-**A.** Door A male 0.97, door B female 0.94, similarity 0.94. P(male) 0.97 and 0.06, gap 0.91: door A is the men's room. All rules pass, verdict `clear`.
+**A.** Door A male 0.97, door B female 0.94, similarity 0.94. P(male) 0.97 and 0.06, gap 0.91: door A is the men's room. Both rules pass, verdict `pair`.
 
-**B.** Door A male 0.62, door B male 0.52, similarity 0.93. On its own door B even reads slightly male, but compared with door A it is the women's room: P(male) 0.62 against 0.52. The gap of 0.10 passes S2 and fails S1, verdict `review`.
+**B.** Door A male 0.62, door B male 0.52, similarity 0.93. On its own door B even reads slightly male, but compared with door A it is the women's room: P(male) 0.62 against 0.52. The gap of 0.10 passes S2 and S3 passes, verdict `pair`.
 
-**C.** Door A male 0.71, door B male 0.69, similarity 0.95. Gap 0.02, below 0.05: S2 fails, verdict `confusing`.
+**C.** Door A male 0.71, door B male 0.69, similarity 0.95. Gap 0.02, below 0.05: S2 fails, verdict `not_pair` ("Both signs read as the same gender").
 
 ## Known limits
 
