@@ -12,6 +12,24 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 12:55 · W-21 (#103) · Remove stale placeholders from the site copy
+- **Status:** done
+- **What I did:** ran the issue's grep over `web/` and sorted every hit. Fixed the stale copy: the pothole credit in `web/lib/credits.ts` (name, author, Kaggle link, ODbL/DbCL licence from the D-1 card), the footer and About lines that called demo badges "placeholders", the About dataset warning and the "to be completed" AI-use callout, the landing results sentence, and the disabled RU/KZ options in Settings. The model-page dataset card and the placeholder `experiments.json` dataset block were already fixed by W-11 Part A, which merged while I worked.
+- **Result:** pull request closing #103. No page shows 'TBD', 'to be confirmed', 'to be filled in' or 'to be completed'; the remaining grep hits are listed in the pull request with their group.
+- **Decisions and why:** removed the RU and KZ options instead of leaving 'coming soon': no translation is ready before the defense, and W-58 adds them back wired. The About AI-use section now points to `docs/AI-USAGE-LOG.md` and lists no tools, because the full team statement needs every member's confirmation (W-14). `web/app/design/page.tsx` and `tokens.css` still say the direction is a placeholder; that stays true until Dameli's G-3 lands.
+- **What I learned / can explain at the defense:** a demo label is honest, a forgotten placeholder is not. Seeded histories stay invented and keep their badge (U8); placeholder text that promises something later reads as unfinished work.
+- **AI use:** Claude Code (Claude Opus 5.5) did the sweep and the edits; entry in docs/AI-USAGE-LOG.md.
+- **Open questions / next:** W-14 writes the confirmed AI-use statement and the remaining About fixes; look at https://qarau.vercel.app `/`, `/about`, `/app/model` after the merge.
+
+### 2026-11-11 12:50 · W-28 (#132) · Tie the Demo data badges to the data on screen
+- **Status:** done
+- **What I did:** every page that shows the seeded demo analyses or sign checks (roads overview, reports, map, analytics, report detail, restroom overview and analytics, platform overview, the app shell) now passes `show` to its badge. Results made by the mock provider show 'Mock result' next to the provider. Compare and Match show 'Mock predictions' through a small client component that reads the provider setting. Only the results places (model page, landing results cards, the two run charts) still follow `isMock`.
+- **Result:** pull request closing #132; `web/lib/demo-badges.test.ts` fails if a seeded-history page loses `show` (checked against the old reports page) or a result view stops marking mock results.
+- **Decisions and why:** a unit test instead of the manual `pnpm dev` check, so the rule is checked on every CI run. Compare and Match showed no badge at all, even on the Mock provider, because their badge followed the restroom results file, which is already real; the provider-based badge fixes that.
+- **What I learned / can explain at the defense:** U8: the badge follows the data on screen. Seeded histories are always invented, mock results are invented per result, and real model results come only from the results files.
+- **AI use:** Claude Code (Claude Opus 5.5) wrote the changes and the test; entry in docs/AI-USAGE-LOG.md.
+- **Open questions / next:** tell Amina and Nazar that the export can set `isMock: false` safely. Dameli's G-29 can now design the badge set on top of this rule.
+
 ### 11 November 2026 · W-11 (#109) Part A · Model page follows the selection rule
 
 - **Status:** Part A done; Part B waits for the real export (M-12).
