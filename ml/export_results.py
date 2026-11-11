@@ -43,7 +43,7 @@ TIE = 0.01
 
 def pick_champion(rows: list[dict]) -> str:
     best_map = max(r["valMap50"] for r in rows)
-    tied = [r for r in rows if best_map - r["valMap50"] <= TIE]
+    tied = [r for r in rows if round(best_map - r["valMap50"], 6) <= TIE]
     return max(tied, key=lambda r: r["valRecallAtRulesConf"])["run"]
 
 
@@ -87,11 +87,11 @@ def main() -> None:
 
     CSV_OUT.parent.mkdir(parents=True, exist_ok=True)
     header = list(rows[0].keys())
-    # csv.writer quotes a field that contains a comma (E8's "changed" text does); a plain join would shift the columns.
+    # DictWriter quotes commas and quotes in the changed field, preserving the columns.
     with CSV_OUT.open("w", newline="") as f:
-        writer = csv.writer(f, lineterminator="\n")
-        writer.writerow(header)
-        writer.writerows(["" if row[k] is None else row[k] for k in header] for row in rows)
+        writer = csv.DictWriter(f, fieldnames=header, lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(rows)
 
     JSON_OUT.parent.mkdir(parents=True, exist_ok=True)
     manifest = json.loads(MANIFEST.read_text())

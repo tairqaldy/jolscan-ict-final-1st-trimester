@@ -27,6 +27,8 @@ CLO 5 speaks of classification and clustering and asks for a justified quality m
 
 ## Selection rule (task M-0)
 
+The exporter rounds the validation mAP difference to six decimal places before applying the inclusive 0.01 tie band, avoiding floating-point errors at the boundary. `ml/test_export_results.py` exercises this rule and CSV quoting in CI. With the runs currently exported, the correction leaves E1 as champion; this does not alter the stated selection rule.
+
 - **Primary metric: validation mAP50.** Where exactly a pothole ends is ambiguous even for the person labelling it, so the stricter 0.5–0.95 IoU sweep mostly measures annotation noise. mAP50-95 is reported as a secondary metric.
 - Runs within 0.01 mAP50 of the best count as tied. Ties are broken by **validation recall at confidence 0.40**, the threshold the app counts at. A missed pothole never reaches a repair crew, while a false alarm costs a reviewer a few seconds, so recall matters more than precision (Sup p27).
 - Differences below 0.02 on the test split are not claimed as real.

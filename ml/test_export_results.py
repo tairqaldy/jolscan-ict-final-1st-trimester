@@ -1,11 +1,56 @@
-"""Offline regression checks for M-0 champion eligibility; no model execution."""
+"""Regression tests for validation-only selection and CSV export."""
+
+import csv
 import json
 from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch
 
-from ml import export_results as export
+import export_results as export
+
+
+def row(name, score, recall):
+    return {"run": name, "valMap50": score, "valRecallAtRulesConf": recall}
+
+
+def test_tie_goes_to_recall():
+    assert export.pick_champion([row("A", 0.80, 0.60), row("B", 0.795, 0.70)]) == "B"
+
+
+def test_exact_tie_band_edge():
+    assert export.pick_champion([row("A", 0.7512, 0.60), row("B", 0.7412, 0.70)]) == "B"
+
+
+def test_outside_band_highest_map_wins():
+    assert export.pick_champion([row("A", 0.80, 0.50), row("B", 0.78, 0.90)]) == "A"
+
+
+def test_csv_quotes_commas(monkeypatch, tmp_path):
+    runs = tmp_path / "runs"
+    runs.mkdir()
+    metrics = {key: 0.5 for key in (
+        "test_precision", "test_recall", "test_map50", "test_map50_95",
+        "test_precision_at_rules_conf", "test_recall_at_rules_conf", "val_map50", "val_recall_at_rules_conf",
+    )}
+    (runs / "E0.json").write_text(json.dumps({
+        "run": "E0", "changed": 'best combination: yolo26s, "AdamW"', "metrics": metrics,
+        "weights_mb": 5.0, "dataset_version": "potholes_yolo_v1",
+    }), encoding="utf-8")
+    manifest = tmp_path / "manifest.json"
+    manifest.write_text(json.dumps({"image_counts": {"train": 1, "val": 1, "test": 1}}), encoding="utf-8")
+    monkeypatch.setattr(export, "RUNS_DIR", runs)
+    monkeypatch.setattr(export, "LATENCY_FILE", tmp_path / "latency.json")
+    monkeypatch.setattr(export, "CSV_OUT", tmp_path / "results.csv")
+    monkeypatch.setattr(export, "JSON_OUT", tmp_path / "results.json")
+    monkeypatch.setattr(export, "MANIFEST", manifest)
+    export.main()
+    with export.CSV_OUT.open(newline="", encoding="utf-8") as stream:
+        saved = list(csv.DictReader(stream))
+    assert len(saved) == 1
+    assert saved[0]["changed"] == 'best combination: yolo26s, "AdamW"'
+    assert float(saved[0]["map50"]) == 0.5
+    assert saved[0]["latencyMs"] == ""
 
 
 class ChampionPolicyTests(unittest.TestCase):
@@ -55,7 +100,3 @@ class ChampionPolicyTests(unittest.TestCase):
             with patch.object(export, "RUNS_DIR", root):
                 with self.assertRaisesRegex(SystemExit, "No completed non-smoke"):
                     export.main()
-
-
-if __name__ == "__main__":
-    unittest.main()
