@@ -33,7 +33,6 @@ from fastapi import APIRouter, File, HTTPException, UploadFile
 from fastapi.concurrency import run_in_threadpool
 
 from imaging import read_image
-from restroom_pipeline import find_pair
 from schemas import CompareResult, MatchResult
 
 log = logging.getLogger("restroom")
@@ -214,4 +213,7 @@ async def match(query: UploadFile = File(...), gallery: list[UploadFile] = File(
 def _pair(query, gallery: list, emb: np.ndarray):
     # OpenCV's SIFT object is shared, so one request at a time, like the CLIP inference.
     with _inference_lock:
+        # Imported on first use, like CLIP: the service and /health start without OpenCV.
+        from restroom_pipeline import find_pair
+
         return find_pair(query, gallery, emb)
