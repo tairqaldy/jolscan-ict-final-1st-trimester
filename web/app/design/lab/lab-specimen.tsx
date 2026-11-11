@@ -27,7 +27,7 @@ export function LabSpecimen() {
   return (
     <div className="grid gap-5">
       <div className="grid gap-1">
-        <p className="text-xs font-semibold tracking-wide text-accent-ink uppercase">Roads</p>
+        <p className="eyebrow text-accent-ink">Roads</p>
         <p className="font-display text-2xl font-bold">Repair priority</p>
         <p className="text-sm text-muted">Detections below the threshold go to the review queue.</p>
       </div>

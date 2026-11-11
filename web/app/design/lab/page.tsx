@@ -37,7 +37,7 @@ export default async function DesignLabPage({ searchParams }: PageProps<"/design
   return (
     <main id="main" className={cn(LAB_FONT_VARIABLES, "grid gap-10 px-4 py-10 sm:px-6 lg:px-10")}>
       <header className="grid max-w-3xl gap-3">
-        <p className="text-xs font-semibold tracking-wide text-accent-ink uppercase">
+        <p className="eyebrow text-accent-ink">
           <Link href="/design" className="underline-offset-4 hover:underline">
             Design system
           </Link>{" "}
