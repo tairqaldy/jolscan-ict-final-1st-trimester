@@ -22,3 +22,4 @@
 - [ ] Rebased on the latest `main`; checks **web**, **python** and **up-to-date** are green
 - [ ] No datasets, weights, `.env` files, tokens, or photos with faces or licence plates in the diff
 - [ ] No demo number shown as a real result
+- [ ] Design PRs: `docs/design/ANTI-SLOP.md` checked
