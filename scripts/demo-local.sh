@@ -23,15 +23,17 @@ done
 [ -f "api/$WEIGHTS" ] || { echo "Missing api/$WEIGHTS: copy it from the shared Drive (weights/ folder)."; exit 1; }
 [ -f web/.next/BUILD_ID ] || { echo "No production build: run 'cd web && pnpm build' once while online."; exit 1; }
 
-(cd api && MODEL_WEIGHTS="$WEIGHTS" exec "$PY_ABS" -m uvicorn main:app --port 8000) &
+# WARMUP=1 loads both models (YOLO and CLIP) before the API answers, so the first road photo and the first
+# sign comparison in the demo are fast. CLIP must already be in the Hugging Face cache when Wi-Fi is off.
+(cd api && MODEL_WEIGHTS="$WEIGHTS" WARMUP=1 exec "$PY_ABS" -m uvicorn main:app --port 8000) &
 API=$!
 WEB=""
 trap 'kill $API $WEB 2>/dev/null || true' EXIT INT TERM
 
 for _ in $(seq 1 60); do curl -sf localhost:8000/health >/dev/null && break; sleep 1; done
 curl -s localhost:8000/health; echo
-# Warm the pothole model once so the first real photo in the demo is fast (model loading takes a few seconds).
-(cd api && "$PY_ABS" smoke.py --url http://127.0.0.1:8000 >/dev/null 2>&1) && echo "Pothole model warmed up." || echo "Warm-up failed: check the API log above."
+# One real request through /predict as a smoke check of the whole pothole path.
+(cd api && "$PY_ABS" smoke.py --url http://127.0.0.1:8000 >/dev/null 2>&1) && echo "Models warmed up; /predict answers." || echo "Smoke check failed: check the API log above."
 
 (cd web && MODEL_API_URL=http://localhost:8000 exec pnpm start -p "$WEB_PORT") &
 WEB=$!

@@ -4,7 +4,17 @@ How to run the live demo with the real models on the presenting laptop, and what
 
 - **Defense:** Thursday 12 November 2026, 10 minutes (7+ talk, 2–3 Q&A). Slot: see `docs/PLAN.md` (task X-3).
 - **Presenting laptop (decided by Tair, lead, 11 Nov):** Tair's MacBook (Apple M5). E0 was trained on it, and the real-model demo below was run on it on 11 November 2026.
-- **Who clicks:** Tair (slide 3, demo). **Who watches the time:** Roma (one-minute warning). **Who opens code if asked:** the owner of the lane (source-code tour, R-30).
+- **Day roles (X-23, set by Tair as lead on 11 Nov; say in the chat if one does not work for you):**
+
+  | Role | Who | What exactly |
+  |---|---|---|
+  | Presenter and clicker | Tair | Runs the demo on slide 3 and moves the slides |
+  | Timekeeper | Roma | Shows a one-minute signal at 7:00 and a stop signal at 8:00 |
+  | Question catcher | Dameli | Writes every question asked, word for word, for the retrospective (X-27) |
+  | Backup device holder | Alizhan | Phone with the deck PDF and `qarau-demo.mp4` offline, plus the USB stick with both |
+  | Source-code opener | Owner of the lane asked about: Amina (`ml/train.py`, `web/lib/rules`), Nazar (`ml/restroom/`), Alizhan (`api/main.py`), Tair (`web/`) | Opens the file in the order of PRESENTATION.md, "Showing source code" (R-30) |
+
+- **Arrival:** everyone at the room 40 minutes before the slot (the slot itself is in `docs/PLAN.md`, X-3), so the T−30 steps below happen with all six present. Everyone brings a charged phone with the deck PDF and the video available offline; Tair brings the laptop charger and a USB-C to HDMI adapter. Phone numbers stay in the chat, never in this public repository.
 
 ## What "real" means in the demo
 
@@ -25,7 +35,7 @@ Say it aloud during the demo (PRESENTATION.md, demo script step 5).
 3. Web app: `cd web && corepack enable && pnpm install && pnpm build`. Build online: `next/font/google` downloads the fonts at build time.
 4. Warm every model once **online**, so all weights are cached on disk:
    - Roads: `scripts/demo-local.sh` warms the pothole model by itself.
-   - Restrooms: run one Compare on the Local provider. The CLIP weights are downloaded on first use; with Wi-Fi off they must already be there.
+   - Restrooms: run one Compare on the Local provider. The CLIP weights are downloaded on first use; with Wi-Fi off they must already be there. On 11 Nov the first Compare without warm-up took 5 s (CLIP loading), then 38 ms model time; the script now warms CLIP at start-up.
 5. Put on the desktop:
    - a road photo that is not in the training split and shows no people or licence plates (D-12);
    - the mismatched sign pair;
@@ -43,7 +53,7 @@ The script:
 1. Refuses to start if port 8000 or the web port is busy.
 2. Checks that the weights file and the production build exist.
 3. Starts the API with `MODEL_WEIGHTS=weights/jolscan-e1.pt` (the champion; override with `WEIGHTS=`) and prints `/health`.
-4. Warms the pothole model with a blank image (`api/smoke.py`).
+4. Loads and warms both models at start-up (`WARMUP=1`: YOLO and CLIP), then sends one blank image through `/predict` (`api/smoke.py`).
 5. Starts `pnpm start` with `MODEL_API_URL=http://localhost:8000`.
 
 If port 3000 is taken, pick another one with `WEB_PORT=3100`.
