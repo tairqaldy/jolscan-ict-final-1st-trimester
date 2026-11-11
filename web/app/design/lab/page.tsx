@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { CSSProperties } from "react";
+import { Check, X } from "lucide-react";
+import { Table, TD, TH, THead, TR } from "@/components/ui/table";
 import { cn } from "@/lib/cn";
 import {
   LAB_SETS,
   LAB_THEMES,
+  columnTokens,
+  contrastResults,
   getLabSet,
   variantOverrides,
+  type LabSet,
   type LabTheme,
   type LabVariant,
 } from "@/lib/design-lab";
@@ -75,7 +80,7 @@ export default async function DesignLabPage({ searchParams }: PageProps<"/design
             <h3 className="text-xl font-bold">{theme === "light" ? "Light theme" : "Dark theme"}</h3>
             <div className={cn("grid items-start gap-4", GRID_COLS[set.variants.length] ?? "lg:grid-cols-3")}>
               {set.variants.map((variant) => (
-                <LabColumn key={variant.id} variant={variant} theme={theme} />
+                <LabColumn key={variant.id} set={set} variant={variant} theme={theme} />
               ))}
             </div>
           </div>
@@ -90,7 +95,7 @@ export default async function DesignLabPage({ searchParams }: PageProps<"/design
   );
 }
 
-function LabColumn({ variant, theme }: { variant: LabVariant; theme: LabTheme }) {
+function LabColumn({ set, variant, theme }: { set: LabSet; variant: LabVariant; theme: LabTheme }) {
   const overrides = variantOverrides(variant, theme);
   const names = Object.keys(overrides);
 
@@ -126,7 +131,47 @@ function LabColumn({ variant, theme }: { variant: LabVariant; theme: LabTheme })
       <div data-lab-specimen>
         <LabSpecimen />
       </div>
+
+      {set.contrast && <ContrastTable set={set} variant={variant} theme={theme} />}
     </article>
   );
 }
 
+/** WCAG 2.x ratios of this column's colours, computed from the token values. */
+function ContrastTable({ set, variant, theme }: { set: LabSet; variant: LabVariant; theme: LabTheme }) {
+  const results = contrastResults(columnTokens(set, variant, theme));
+  return (
+    <div className="grid gap-2 rounded-lg border border-border bg-surface">
+      <p className="px-5 pt-4 text-sm font-semibold">Contrast (WCAG 2.x, lowest on bg and surface)</p>
+      <Table caption={`Contrast, ${variant.name}, ${theme} theme`}>
+        <THead>
+          <tr>
+            <TH>Check</TH>
+            <TH className="text-right">Ratio</TH>
+            <TH className="text-right">Needs</TH>
+          </tr>
+        </THead>
+        <tbody>
+          {results.map((r) => (
+            <TR key={r.label}>
+              <TD className="py-2">
+                {r.label}
+                <span className="block font-mono text-xs text-subtle">
+                  {r.fg} on {r.on.join(", ")}
+                </span>
+              </TD>
+              <TD className="py-2 text-right font-mono">{r.ratio.toFixed(2)}</TD>
+              <TD className="py-2 text-right">
+                <span className={cn("inline-flex items-center gap-1 font-mono", r.pass ? "text-success" : "text-danger")}>
+                  {r.pass ? <Check aria-hidden className="size-3.5" /> : <X aria-hidden className="size-3.5" />}
+                  {r.min}
+                  <span className="sr-only">{r.pass ? ", passes" : ", fails"}</span>
+                </span>
+              </TD>
+            </TR>
+          ))}
+        </tbody>
+      </Table>
+    </div>
+  );
+}
