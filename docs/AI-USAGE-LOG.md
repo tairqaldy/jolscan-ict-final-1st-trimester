@@ -22,6 +22,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Alizhan (R-4, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Collect the current speaker scripts and expose gaps before rehearsal.
+- **Key prompt:** "можешь параллельно выполнять задания, которые отмечены, как bare minimum и никем не выполнены?". This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** A 12-slide script snapshot in `docs/PRESENTATION.md` with estimated durations, handover notes and an explicit stale-C-8 warning.
+- **How it was verified:** Compared extracted scripts with the generated deck source and checked the status of C-8. No full timed group read-through or participant approval occurred in this session.
+- **What was rejected or corrected:** Did not invent rehearsal results or claim unreviewed speaker scripts and handovers are final.
+
 ### 11 November 2026, Alizhan (R-2, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.
