@@ -73,6 +73,21 @@ IOAI reference on the same test set: baseline 0.77, best 0.90.
 
 R4 ran later, on Nazar's laptop (Apple M4 CPU); its latency is not directly comparable with the other rows. The champion by the fixed rule stays **R3**: R2, R3 and R4 tie on validation at 1.00, and R3 has the highest gender accuracy. R4's 30/30 on test does not change the choice, because the rule never looks at test. As in the layer experiment, training more blocks helps matching and costs gender accuracy (R2 0.680, R3 0.753, R4 0.643).
 
+### How sure are these numbers? (task C-20)
+
+Exact 95 % intervals and paired tests from the stored predictions, written by `python ml/restroom/intervals.py` to `ml/results/restroom/intervals.json`. No method was re-run on test.
+
+| Method | Test | 95 % interval | Validation | 95 % interval |
+|---|---|---|---|---|
+| R0, zero-shot CLIP ViT-B/16 (IOAI baseline reproduction) | 23/30 = 0.767 | 0.577–0.901 | 8/10 | 0.44–0.97 |
+| R3, last 3 blocks fine-tuned (run-rule champion) | 27/30 = 0.900 | 0.735–0.979 | 10/10 | 0.69–1.00 |
+| R4, last 6 blocks fine-tuned | 30/30 = 1.000 | 0.884–1.000 | 10/10 | 0.69–1.00 |
+| R7, two-step pipeline, global assignment | 30/30 = 1.000 | 0.884–1.000 | 10/10 | 0.69–1.00 |
+
+- **All methods answer the same 30 queries, so they are compared pairwise** on the queries where exactly one of them is right (exact McNemar test). The pipeline against R0: right on 7 queries R0 misses, wrong on 0 that R0 gets, p = 0.016. That gain over the IOAI baseline reproduction is unlikely to be luck.
+- **The pipeline against R3:** 3 to 0, p = 0.25. On 30 queries the pipeline is **not provably better than R3**; three queries are too few to tell.
+- **10/10 on validation still allows anything from about 0.69 to 1.0**, which is why validation alone could not separate R2, R3, R4 and the pipeline.
+
 What the numbers say:
 
 - **R0 reproduces the IOAI baseline** (0.767 against the published 0.77). This is the check that our data loading and scoring are right.

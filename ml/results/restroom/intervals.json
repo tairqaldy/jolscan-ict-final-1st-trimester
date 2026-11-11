@@ -1,0 +1,351 @@
+{
+  "protocol": "Exact (Clopper-Pearson) 95 % intervals of stored predictions against the IOAI answers; exact McNemar tests on the test queries where exactly one method is right. No method was re-run.",
+  "scores": {
+    "R0": {
+      "val": {
+        "k": 8,
+        "n": 10,
+        "accuracy": 0.8,
+        "ci95": [
+          0.4439,
+          0.9748
+        ]
+      },
+      "test": {
+        "k": 23,
+        "n": 30,
+        "accuracy": 0.7667,
+        "ci95": [
+          0.5772,
+          0.9007
+        ]
+      }
+    },
+    "R1": {
+      "val": {
+        "k": 8,
+        "n": 10,
+        "accuracy": 0.8,
+        "ci95": [
+          0.4439,
+          0.9748
+        ]
+      },
+      "test": {
+        "k": 23,
+        "n": 30,
+        "accuracy": 0.7667,
+        "ci95": [
+          0.5772,
+          0.9007
+        ]
+      }
+    },
+    "R2": {
+      "val": {
+        "k": 10,
+        "n": 10,
+        "accuracy": 1.0,
+        "ci95": [
+          0.6915,
+          1.0
+        ]
+      },
+      "test": {
+        "k": 26,
+        "n": 30,
+        "accuracy": 0.8667,
+        "ci95": [
+          0.6928,
+          0.9624
+        ]
+      }
+    },
+    "R3": {
+      "val": {
+        "k": 10,
+        "n": 10,
+        "accuracy": 1.0,
+        "ci95": [
+          0.6915,
+          1.0
+        ]
+      },
+      "test": {
+        "k": 27,
+        "n": 30,
+        "accuracy": 0.9,
+        "ci95": [
+          0.7347,
+          0.9789
+        ]
+      }
+    },
+    "R4": {
+      "val": {
+        "k": 10,
+        "n": 10,
+        "accuracy": 1.0,
+        "ci95": [
+          0.6915,
+          1.0
+        ]
+      },
+      "test": {
+        "k": 30,
+        "n": 30,
+        "accuracy": 1.0,
+        "ci95": [
+          0.8843,
+          1.0
+        ]
+      }
+    },
+    "R6": {
+      "val": {
+        "k": 5,
+        "n": 10,
+        "accuracy": 0.5,
+        "ci95": [
+          0.1871,
+          0.8129
+        ]
+      },
+      "test": {
+        "k": 9,
+        "n": 30,
+        "accuracy": 0.3,
+        "ci95": [
+          0.1473,
+          0.494
+        ]
+      }
+    },
+    "pipeline:ioai_baseline_clip": {
+      "val": {
+        "k": 8,
+        "n": 10,
+        "accuracy": 0.8,
+        "ci95": [
+          0.4439,
+          0.9748
+        ]
+      },
+      "test": {
+        "k": 23,
+        "n": 30,
+        "accuracy": 0.7667,
+        "ci95": [
+          0.5772,
+          0.9007
+        ]
+      }
+    },
+    "pipeline:singapore_hist_top2_sift": {
+      "val": {
+        "k": 10,
+        "n": 10,
+        "accuracy": 1.0,
+        "ci95": [
+          0.6915,
+          1.0
+        ]
+      },
+      "test": {
+        "k": 25,
+        "n": 30,
+        "accuracy": 0.8333,
+        "ci95": [
+          0.6528,
+          0.9436
+        ]
+      }
+    },
+    "pipeline:clip_clip_greedy": {
+      "val": {
+        "k": 10,
+        "n": 10,
+        "accuracy": 1.0,
+        "ci95": [
+          0.6915,
+          1.0
+        ]
+      },
+      "test": {
+        "k": 26,
+        "n": 30,
+        "accuracy": 0.8667,
+        "ci95": [
+          0.6928,
+          0.9624
+        ]
+      }
+    },
+    "pipeline:siftinl_clip_greedy": {
+      "val": {
+        "k": 10,
+        "n": 10,
+        "accuracy": 1.0,
+        "ci95": [
+          0.6915,
+          1.0
+        ]
+      },
+      "test": {
+        "k": 30,
+        "n": 30,
+        "accuracy": 1.0,
+        "ci95": [
+          0.8843,
+          1.0
+        ]
+      }
+    },
+    "pipeline:sift_clip_greedy": {
+      "val": {
+        "k": 10,
+        "n": 10,
+        "accuracy": 1.0,
+        "ci95": [
+          0.6915,
+          1.0
+        ]
+      },
+      "test": {
+        "k": 30,
+        "n": 30,
+        "accuracy": 1.0,
+        "ci95": [
+          0.8843,
+          1.0
+        ]
+      }
+    },
+    "pipeline:sift_hist_greedy": {
+      "val": {
+        "k": 9,
+        "n": 10,
+        "accuracy": 0.9,
+        "ci95": [
+          0.555,
+          0.9975
+        ]
+      },
+      "test": {
+        "k": 25,
+        "n": 30,
+        "accuracy": 0.8333,
+        "ci95": [
+          0.6528,
+          0.9436
+        ]
+      }
+    },
+    "pipeline:sift_combo_greedy": {
+      "val": {
+        "k": 10,
+        "n": 10,
+        "accuracy": 1.0,
+        "ci95": [
+          0.6915,
+          1.0
+        ]
+      },
+      "test": {
+        "k": 30,
+        "n": 30,
+        "accuracy": 1.0,
+        "ci95": [
+          0.8843,
+          1.0
+        ]
+      }
+    },
+    "pipeline:sift_clip_hungarian": {
+      "val": {
+        "k": 10,
+        "n": 10,
+        "accuracy": 1.0,
+        "ci95": [
+          0.6915,
+          1.0
+        ]
+      },
+      "test": {
+        "k": 30,
+        "n": 30,
+        "accuracy": 1.0,
+        "ci95": [
+          0.8843,
+          1.0
+        ]
+      }
+    },
+    "pipeline:sift_hist_hungarian": {
+      "val": {
+        "k": 10,
+        "n": 10,
+        "accuracy": 1.0,
+        "ci95": [
+          0.6915,
+          1.0
+        ]
+      },
+      "test": {
+        "k": 30,
+        "n": 30,
+        "accuracy": 1.0,
+        "ci95": [
+          0.8843,
+          1.0
+        ]
+      }
+    },
+    "pipeline:sift_combo_hungarian": {
+      "val": {
+        "k": 10,
+        "n": 10,
+        "accuracy": 1.0,
+        "ci95": [
+          0.6915,
+          1.0
+        ]
+      },
+      "test": {
+        "k": 30,
+        "n": 30,
+        "accuracy": 1.0,
+        "ci95": [
+          0.8843,
+          1.0
+        ]
+      }
+    }
+  },
+  "paired_test": [
+    {
+      "first": "pipeline:sift_combo_hungarian",
+      "second": "R0",
+      "split": "test",
+      "only_first_right": 7,
+      "only_second_right": 0,
+      "p_exact_mcnemar": 0.0156
+    },
+    {
+      "first": "pipeline:sift_combo_hungarian",
+      "second": "R3",
+      "split": "test",
+      "only_first_right": 3,
+      "only_second_right": 0,
+      "p_exact_mcnemar": 0.25
+    },
+    {
+      "first": "pipeline:sift_combo_hungarian",
+      "second": "pipeline:ioai_baseline_clip",
+      "split": "test",
+      "only_first_right": 7,
+      "only_second_right": 0,
+      "p_exact_mcnemar": 0.0156
+    }
+  ]
+}
