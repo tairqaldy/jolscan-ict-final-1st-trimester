@@ -22,6 +22,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Alizhan (S-25, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Test and correct the model-selection boundary and verify CSV export.
+- **Key prompt:** "начни выполнять остальные, которые находятся в issues и отмечены зелеными". This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** Selection boundary fix, DictWriter export, four regression tests, CI and documentation.
+- **How it was verified:** The boundary test failed on the old code, then all API and export tests passed; current exported champion stayed E1. Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** Existing CSV quoting was already fixed by earlier work; kept the rule itself unchanged and used synthetic test fixtures only.
+
 ### 11 November 2026, Alizhan (S-24, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.

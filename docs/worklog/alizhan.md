@@ -12,6 +12,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 · S-25 (#219) · Test model selection and export
+- **Status:** implemented; Amina's review pending.
+- **What I did:** Corrected floating-point comparison at the inclusive tie boundary, switched the existing CSV writer to `DictWriter`, and added four CI regression tests.
+- **Result:** The boundary test failed before the fix and passes after it; the already exported champion remains E1. Existing CSV quoting already worked and is now tested explicitly.
+- **Decisions and why:** Kept the documented validation-only selection rule and used synthetic test inputs in a temporary directory.
+- **What I learned / can explain at the defense:** Binary floating-point arithmetic can put an exact decimal boundary just outside the intended comparison; CI should test that boundary.
+- **AI use:** Codex desktop, GPT-6; personal review pending.
+- **Open questions / next:** Amina reviews the ML change; repeat checks after rebasing on current main.
+
 ### 2026-11-11 · S-24 (#218) · Results validation in CI
 - **Status:** implemented; review pending.
 - **What I did:** Added a standard-library validator for both published experiment files, champion selection, tracked forbidden extensions and file size; wired it into CI with regression tests.
