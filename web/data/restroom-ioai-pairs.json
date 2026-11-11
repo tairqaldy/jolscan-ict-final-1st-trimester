@@ -4,6 +4,7 @@
  "histogramWeight": 0.3,
  "imageBase": "/samples/restrooms/ioai",
  "credit": "Images: IOAI 2025 Individual Contest, “Restroom Icon Matching”, by the IOAI 2025 committee, CC-BY-4.0 (https://github.com/IOAI-official/IOAI-2025/tree/main/Individual-Contest/Restroom). Resized, otherwise unchanged.",
+ "ioaiBaseline": "The IOAI baseline notebook as run R0 ran it: zero-shot CLIP ViT-B/16, the second most similar original is the answer (ml/results/restroom/runs/R0.json). Validation and test only; `baseline` is the same rule on ViT-B/32.",
  "splits": {
   "val": {
    "label": "Validation",
@@ -11,8 +12,10 @@
    "gallery": 20,
    "method": "global assignment over the whole set (the 30/30 method)",
    "galleryLabels": null,
+   "queryLabels": null,
    "pipelineCorrect": 10,
    "baselineCorrect": 8,
+   "ioaiBaselineCorrect": 8,
    "hiddenGallery": [],
    "hiddenQueries": [],
    "hiddenNote": null,
@@ -23,6 +26,7 @@
      "pair": 2,
      "answer": 2,
      "baseline": 2,
+     "ioaiBaseline": 2,
      "ncc": 0.992,
      "inliers": 14,
      "candidates": [
@@ -54,6 +58,7 @@
      "pair": 18,
      "answer": 18,
      "baseline": 10,
+     "ioaiBaseline": 18,
      "ncc": 0.997,
      "inliers": 17,
      "candidates": [
@@ -85,6 +90,7 @@
      "pair": 14,
      "answer": 14,
      "baseline": 6,
+     "ioaiBaseline": 10,
      "ncc": 0.996,
      "inliers": 50,
      "candidates": [
@@ -116,6 +122,7 @@
      "pair": 19,
      "answer": 19,
      "baseline": 19,
+     "ioaiBaseline": 19,
      "ncc": 0.976,
      "inliers": 25,
      "candidates": [
@@ -147,6 +154,7 @@
      "pair": 3,
      "answer": 3,
      "baseline": 3,
+     "ioaiBaseline": 3,
      "ncc": 0.998,
      "inliers": 550,
      "candidates": [
@@ -178,6 +186,7 @@
      "pair": 5,
      "answer": 5,
      "baseline": 5,
+     "ioaiBaseline": 5,
      "ncc": 1.0,
      "inliers": 334,
      "candidates": [
@@ -209,6 +218,7 @@
      "pair": 15,
      "answer": 15,
      "baseline": 15,
+     "ioaiBaseline": 19,
      "ncc": 0.993,
      "inliers": 25,
      "candidates": [
@@ -240,6 +250,7 @@
      "pair": 11,
      "answer": 11,
      "baseline": 11,
+     "ioaiBaseline": 11,
      "ncc": 0.999,
      "inliers": 404,
      "candidates": [
@@ -271,6 +282,7 @@
      "pair": 13,
      "answer": 13,
      "baseline": 13,
+     "ioaiBaseline": 13,
      "ncc": 0.989,
      "inliers": 86,
      "candidates": [
@@ -302,6 +314,7 @@
      "pair": 20,
      "answer": 20,
      "baseline": 20,
+     "ioaiBaseline": 20,
      "ncc": 0.998,
      "inliers": 30,
      "candidates": [
@@ -335,8 +348,10 @@
    "gallery": 60,
    "method": "global assignment over the whole set (the 30/30 method)",
    "galleryLabels": null,
+   "queryLabels": null,
    "pipelineCorrect": 30,
    "baselineCorrect": 23,
+   "ioaiBaselineCorrect": 23,
    "hiddenGallery": [
     10,
     47
@@ -352,6 +367,7 @@
      "pair": 37,
      "answer": 37,
      "baseline": 37,
+     "ioaiBaseline": 37,
      "ncc": 1.0,
      "inliers": 32,
      "candidates": [
@@ -383,6 +399,7 @@
      "pair": 13,
      "answer": 13,
      "baseline": 13,
+     "ioaiBaseline": 13,
      "ncc": 0.999,
      "inliers": 157,
      "candidates": [
@@ -414,6 +431,7 @@
      "pair": 45,
      "answer": 45,
      "baseline": 45,
+     "ioaiBaseline": 45,
      "ncc": 1.0,
      "inliers": 498,
      "candidates": [
@@ -445,6 +463,7 @@
      "pair": 17,
      "answer": 17,
      "baseline": 17,
+     "ioaiBaseline": 17,
      "ncc": 0.984,
      "inliers": 43,
      "candidates": [
@@ -476,6 +495,7 @@
      "pair": 58,
      "answer": 58,
      "baseline": 58,
+     "ioaiBaseline": 35,
      "ncc": 1.0,
      "inliers": 23,
      "candidates": [
@@ -507,6 +527,7 @@
      "pair": 49,
      "answer": 49,
      "baseline": 49,
+     "ioaiBaseline": 49,
      "ncc": 0.984,
      "inliers": 53,
      "candidates": [
@@ -538,6 +559,7 @@
      "pair": 14,
      "answer": 14,
      "baseline": 14,
+     "ioaiBaseline": 14,
      "ncc": 1.0,
      "inliers": 121,
      "candidates": [
@@ -569,6 +591,7 @@
      "pair": 59,
      "answer": 59,
      "baseline": 59,
+     "ioaiBaseline": 59,
      "ncc": 0.989,
      "inliers": 37,
      "candidates": [
@@ -600,6 +623,7 @@
      "pair": 39,
      "answer": 39,
      "baseline": 39,
+     "ioaiBaseline": 39,
      "ncc": 0.98,
      "inliers": 160,
      "candidates": [
@@ -631,6 +655,7 @@
      "pair": 7,
      "answer": 7,
      "baseline": 29,
+     "ioaiBaseline": 19,
      "ncc": 0.997,
      "inliers": 71,
      "candidates": [
@@ -662,6 +687,7 @@
      "pair": 18,
      "answer": 18,
      "baseline": 18,
+     "ioaiBaseline": 18,
      "ncc": 0.999,
      "inliers": 153,
      "candidates": [
@@ -693,6 +719,7 @@
      "pair": 21,
      "answer": 21,
      "baseline": 21,
+     "ioaiBaseline": 21,
      "ncc": 1.0,
      "inliers": 150,
      "candidates": [
@@ -724,6 +751,7 @@
      "pair": 44,
      "answer": 44,
      "baseline": 44,
+     "ioaiBaseline": 44,
      "ncc": 0.999,
      "inliers": 291,
      "candidates": [
@@ -755,6 +783,7 @@
      "pair": 22,
      "answer": 22,
      "baseline": 22,
+     "ioaiBaseline": 22,
      "ncc": 1.0,
      "inliers": 162,
      "candidates": [
@@ -786,6 +815,7 @@
      "pair": 19,
      "answer": 19,
      "baseline": 19,
+     "ioaiBaseline": 19,
      "ncc": 1.0,
      "inliers": 105,
      "candidates": [
@@ -817,6 +847,7 @@
      "pair": 57,
      "answer": 57,
      "baseline": 57,
+     "ioaiBaseline": 57,
      "ncc": 0.999,
      "inliers": 662,
      "candidates": [
@@ -848,6 +879,7 @@
      "pair": 35,
      "answer": 35,
      "baseline": 35,
+     "ioaiBaseline": 35,
      "ncc": 0.996,
      "inliers": 56,
      "candidates": [
@@ -879,6 +911,7 @@
      "pair": 27,
      "answer": 27,
      "baseline": 31,
+     "ioaiBaseline": 26,
      "ncc": 0.998,
      "inliers": 120,
      "candidates": [
@@ -910,6 +943,7 @@
      "pair": 46,
      "answer": 46,
      "baseline": 52,
+     "ioaiBaseline": 46,
      "ncc": 0.985,
      "inliers": 76,
      "candidates": [
@@ -941,6 +975,7 @@
      "pair": 50,
      "answer": 50,
      "baseline": 50,
+     "ioaiBaseline": 5,
      "ncc": 0.998,
      "inliers": 181,
      "candidates": [
@@ -972,6 +1007,7 @@
      "pair": 12,
      "answer": 12,
      "baseline": 12,
+     "ioaiBaseline": 12,
      "ncc": 0.999,
      "inliers": 496,
      "candidates": [
@@ -1003,6 +1039,7 @@
      "pair": 16,
      "answer": 16,
      "baseline": 22,
+     "ioaiBaseline": 16,
      "ncc": 0.954,
      "inliers": 32,
      "candidates": [
@@ -1034,6 +1071,7 @@
      "pair": 9,
      "answer": 9,
      "baseline": 43,
+     "ioaiBaseline": 4,
      "ncc": 0.999,
      "inliers": 31,
      "candidates": [
@@ -1065,6 +1103,7 @@
      "pair": 54,
      "answer": 54,
      "baseline": 54,
+     "ioaiBaseline": 54,
      "ncc": 1.0,
      "inliers": 597,
      "candidates": [
@@ -1096,6 +1135,7 @@
      "pair": 31,
      "answer": 31,
      "baseline": 31,
+     "ioaiBaseline": 31,
      "ncc": 0.998,
      "inliers": 68,
      "candidates": [
@@ -1127,6 +1167,7 @@
      "pair": 20,
      "answer": 20,
      "baseline": 20,
+     "ioaiBaseline": 20,
      "ncc": 1.0,
      "inliers": 578,
      "candidates": [
@@ -1158,6 +1199,7 @@
      "pair": 29,
      "answer": 29,
      "baseline": 29,
+     "ioaiBaseline": 29,
      "ncc": 0.993,
      "inliers": 133,
      "candidates": [
@@ -1189,6 +1231,7 @@
      "pair": 15,
      "answer": 15,
      "baseline": 15,
+     "ioaiBaseline": 15,
      "ncc": 1.0,
      "inliers": 69,
      "candidates": [
@@ -1220,6 +1263,7 @@
      "pair": 28,
      "answer": 28,
      "baseline": 44,
+     "ioaiBaseline": 1,
      "ncc": 0.953,
      "inliers": 13,
      "candidates": [
@@ -1418,8 +1462,175 @@
     "restroom 81, female",
     "restroom 82, female"
    ],
+   "queryLabels": [
+    "restroom 1, male",
+    "restroom 2, male",
+    "restroom 3, male",
+    "restroom 4, male",
+    "restroom 5, male",
+    "restroom 6, male",
+    "restroom 7, male",
+    "restroom 8, male",
+    "restroom 9, male",
+    "restroom 10, male",
+    "restroom 11, male",
+    "restroom 12, male",
+    "restroom 13, male",
+    "restroom 14, male",
+    "restroom 15, male",
+    "restroom 16, male",
+    "restroom 17, male",
+    "restroom 18, male",
+    "restroom 19, male",
+    "restroom 20, male",
+    "restroom 21, male",
+    "restroom 22, male",
+    "restroom 23, male",
+    "restroom 24, male",
+    "restroom 25, male",
+    "restroom 26, male",
+    "restroom 27, male",
+    "restroom 28, male",
+    "restroom 29, male",
+    "restroom 30, male",
+    "restroom 31, male",
+    "restroom 32, male",
+    "restroom 33, male",
+    "restroom 34, male",
+    "restroom 35, male",
+    "restroom 36, male",
+    "restroom 37, male",
+    "restroom 38, male",
+    "restroom 39, male",
+    "restroom 40, male",
+    "restroom 41, male",
+    "restroom 42, male",
+    "restroom 43, male",
+    "restroom 44, male",
+    "restroom 45, male",
+    "restroom 46, male",
+    "restroom 47, male",
+    "restroom 48, male",
+    "restroom 49, male",
+    "restroom 50, male",
+    "restroom 51, male",
+    "restroom 52, male",
+    "restroom 53, male",
+    "restroom 54, male",
+    "restroom 55, male",
+    "restroom 56, male",
+    "restroom 57, male",
+    "restroom 58, male",
+    "restroom 59, male",
+    "restroom 60, male",
+    "restroom 61, male",
+    "restroom 62, male",
+    "restroom 63, male",
+    "restroom 64, male",
+    "restroom 65, male",
+    "restroom 66, male",
+    "restroom 67, male",
+    "restroom 68, male",
+    "restroom 69, male",
+    "restroom 70, male",
+    "restroom 71, male",
+    "restroom 72, male",
+    "restroom 73, male",
+    "restroom 74, male",
+    "restroom 75, male",
+    "restroom 76, male",
+    "restroom 77, male",
+    "restroom 78, male",
+    "restroom 79, male",
+    "restroom 80, male",
+    "restroom 81, male",
+    "restroom 82, male",
+    "restroom 1, female",
+    "restroom 2, female",
+    "restroom 3, female",
+    "restroom 4, female",
+    "restroom 5, female",
+    "restroom 6, female",
+    "restroom 7, female",
+    "restroom 8, female",
+    "restroom 9, female",
+    "restroom 10, female",
+    "restroom 11, female",
+    "restroom 12, female",
+    "restroom 13, female",
+    "restroom 14, female",
+    "restroom 15, female",
+    "restroom 16, female",
+    "restroom 17, female",
+    "restroom 18, female",
+    "restroom 19, female",
+    "restroom 20, female",
+    "restroom 21, female",
+    "restroom 22, female",
+    "restroom 23, female",
+    "restroom 24, female",
+    "restroom 25, female",
+    "restroom 26, female",
+    "restroom 27, female",
+    "restroom 28, female",
+    "restroom 29, female",
+    "restroom 30, female",
+    "restroom 31, female",
+    "restroom 32, female",
+    "restroom 33, female",
+    "restroom 34, female",
+    "restroom 35, female",
+    "restroom 36, female",
+    "restroom 37, female",
+    "restroom 38, female",
+    "restroom 39, female",
+    "restroom 40, female",
+    "restroom 41, female",
+    "restroom 42, female",
+    "restroom 43, female",
+    "restroom 44, female",
+    "restroom 45, female",
+    "restroom 46, female",
+    "restroom 47, female",
+    "restroom 48, female",
+    "restroom 49, female",
+    "restroom 50, female",
+    "restroom 51, female",
+    "restroom 52, female",
+    "restroom 53, female",
+    "restroom 54, female",
+    "restroom 55, female",
+    "restroom 56, female",
+    "restroom 57, female",
+    "restroom 58, female",
+    "restroom 59, female",
+    "restroom 60, female",
+    "restroom 61, female",
+    "restroom 62, female",
+    "restroom 63, female",
+    "restroom 64, female",
+    "restroom 65, female",
+    "restroom 66, female",
+    "restroom 67, female",
+    "restroom 68, female",
+    "restroom 69, female",
+    "restroom 70, female",
+    "restroom 71, female",
+    "restroom 72, female",
+    "restroom 73, female",
+    "restroom 74, female",
+    "restroom 75, female",
+    "restroom 76, female",
+    "restroom 77, female",
+    "restroom 78, female",
+    "restroom 79, female",
+    "restroom 80, female",
+    "restroom 81, female",
+    "restroom 82, female"
+   ],
    "pipelineCorrect": 147,
    "baselineCorrect": 80,
+   "ioaiBaselineCorrect": null,
    "hiddenGallery": [
     18,
     59,
@@ -1440,6 +1651,7 @@
      "pair": 7,
      "answer": 83,
      "baseline": 88,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 32,
      "candidates": [
@@ -1471,6 +1683,7 @@
      "pair": 84,
      "answer": 84,
      "baseline": 2,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 404,
      "candidates": [
@@ -1502,6 +1715,7 @@
      "pair": 85,
      "answer": 85,
      "baseline": 9,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 225,
      "candidates": [
@@ -1533,6 +1747,7 @@
      "pair": 86,
      "answer": 86,
      "baseline": 86,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 204,
      "candidates": [
@@ -1564,6 +1779,7 @@
      "pair": 87,
      "answer": 87,
      "baseline": 87,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 30,
      "candidates": [
@@ -1595,6 +1811,7 @@
      "pair": 88,
      "answer": 88,
      "baseline": 88,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 79,
      "candidates": [
@@ -1626,6 +1843,7 @@
      "pair": 1,
      "answer": 89,
      "baseline": 87,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 11,
      "candidates": [
@@ -1657,6 +1875,7 @@
      "pair": 90,
      "answer": 90,
      "baseline": 90,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 63,
      "candidates": [
@@ -1688,6 +1907,7 @@
      "pair": 91,
      "answer": 91,
      "baseline": 91,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 141,
      "candidates": [
@@ -1719,6 +1939,7 @@
      "pair": 92,
      "answer": 92,
      "baseline": 92,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 64,
      "candidates": [
@@ -1750,6 +1971,7 @@
      "pair": 93,
      "answer": 93,
      "baseline": 98,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 139,
      "candidates": [
@@ -1781,6 +2003,7 @@
      "pair": 94,
      "answer": 94,
      "baseline": 12,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 77,
      "candidates": [
@@ -1812,6 +2035,7 @@
      "pair": 95,
      "answer": 95,
      "baseline": 95,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 1011,
      "candidates": [
@@ -1843,6 +2067,7 @@
      "pair": 96,
      "answer": 96,
      "baseline": 96,
+     "ioaiBaseline": null,
      "ncc": 0.998,
      "inliers": 58,
      "candidates": [
@@ -1874,6 +2099,7 @@
      "pair": 2,
      "answer": 97,
      "baseline": 7,
+     "ioaiBaseline": null,
      "ncc": 0.998,
      "inliers": 276,
      "candidates": [
@@ -1905,6 +2131,7 @@
      "pair": 98,
      "answer": 98,
      "baseline": 98,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 51,
      "candidates": [
@@ -1936,6 +2163,7 @@
      "pair": 99,
      "answer": 99,
      "baseline": 17,
+     "ioaiBaseline": null,
      "ncc": 0.996,
      "inliers": 23,
      "candidates": [
@@ -1967,6 +2195,7 @@
      "pair": 101,
      "answer": 101,
      "baseline": 117,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 31,
      "candidates": [
@@ -1998,6 +2227,7 @@
      "pair": 27,
      "answer": 102,
      "baseline": 87,
+     "ioaiBaseline": null,
      "ncc": 0.362,
      "inliers": 3,
      "candidates": [
@@ -2029,6 +2259,7 @@
      "pair": 103,
      "answer": 103,
      "baseline": 14,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 58,
      "candidates": [
@@ -2060,6 +2291,7 @@
      "pair": 104,
      "answer": 104,
      "baseline": 29,
+     "ioaiBaseline": null,
      "ncc": 0.996,
      "inliers": 90,
      "candidates": [
@@ -2091,6 +2323,7 @@
      "pair": 105,
      "answer": 105,
      "baseline": 94,
+     "ioaiBaseline": null,
      "ncc": 0.987,
      "inliers": 27,
      "candidates": [
@@ -2122,6 +2355,7 @@
      "pair": 106,
      "answer": 106,
      "baseline": 106,
+     "ioaiBaseline": null,
      "ncc": 0.557,
      "inliers": 3,
      "candidates": [
@@ -2153,6 +2387,7 @@
      "pair": 107,
      "answer": 107,
      "baseline": 107,
+     "ioaiBaseline": null,
      "ncc": 0.997,
      "inliers": 19,
      "candidates": [
@@ -2184,6 +2419,7 @@
      "pair": 108,
      "answer": 108,
      "baseline": 7,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 23,
      "candidates": [
@@ -2215,6 +2451,7 @@
      "pair": 109,
      "answer": 109,
      "baseline": 87,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 79,
      "candidates": [
@@ -2246,6 +2483,7 @@
      "pair": 110,
      "answer": 110,
      "baseline": 49,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 157,
      "candidates": [
@@ -2277,6 +2515,7 @@
      "pair": 111,
      "answer": 111,
      "baseline": 2,
+     "ioaiBaseline": null,
      "ncc": 0.998,
      "inliers": 118,
      "candidates": [
@@ -2308,6 +2547,7 @@
      "pair": 1,
      "answer": 112,
      "baseline": 7,
+     "ioaiBaseline": null,
      "ncc": 0.951,
      "inliers": 24,
      "candidates": [
@@ -2339,6 +2579,7 @@
      "pair": 113,
      "answer": 113,
      "baseline": 113,
+     "ioaiBaseline": null,
      "ncc": 0.997,
      "inliers": 42,
      "candidates": [
@@ -2370,6 +2611,7 @@
      "pair": 114,
      "answer": 114,
      "baseline": 2,
+     "ioaiBaseline": null,
      "ncc": 0.997,
      "inliers": 26,
      "candidates": [
@@ -2401,6 +2643,7 @@
      "pair": 115,
      "answer": 115,
      "baseline": 115,
+     "ioaiBaseline": null,
      "ncc": 0.997,
      "inliers": 264,
      "candidates": [
@@ -2432,6 +2675,7 @@
      "pair": 116,
      "answer": 116,
      "baseline": 1,
+     "ioaiBaseline": null,
      "ncc": 0.997,
      "inliers": 127,
      "candidates": [
@@ -2463,6 +2707,7 @@
      "pair": 19,
      "answer": 117,
      "baseline": 117,
+     "ioaiBaseline": null,
      "ncc": 0.504,
      "inliers": 6,
      "candidates": [
@@ -2494,6 +2739,7 @@
      "pair": 118,
      "answer": 118,
      "baseline": 87,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 119,
      "candidates": [
@@ -2525,6 +2771,7 @@
      "pair": 119,
      "answer": 119,
      "baseline": 37,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 197,
      "candidates": [
@@ -2556,6 +2803,7 @@
      "pair": 120,
      "answer": 120,
      "baseline": 120,
+     "ioaiBaseline": null,
      "ncc": 0.997,
      "inliers": 75,
      "candidates": [
@@ -2587,6 +2835,7 @@
      "pair": 121,
      "answer": 121,
      "baseline": 121,
+     "ioaiBaseline": null,
      "ncc": 0.995,
      "inliers": 122,
      "candidates": [
@@ -2618,6 +2867,7 @@
      "pair": 122,
      "answer": 122,
      "baseline": 129,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 119,
      "candidates": [
@@ -2649,6 +2899,7 @@
      "pair": 123,
      "answer": 123,
      "baseline": 123,
+     "ioaiBaseline": null,
      "ncc": 0.998,
      "inliers": 78,
      "candidates": [
@@ -2680,6 +2931,7 @@
      "pair": 124,
      "answer": 124,
      "baseline": 6,
+     "ioaiBaseline": null,
      "ncc": 0.989,
      "inliers": 26,
      "candidates": [
@@ -2711,6 +2963,7 @@
      "pair": 125,
      "answer": 125,
      "baseline": 41,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 133,
      "candidates": [
@@ -2742,6 +2995,7 @@
      "pair": 126,
      "answer": 126,
      "baseline": 126,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 25,
      "candidates": [
@@ -2773,6 +3027,7 @@
      "pair": 127,
      "answer": 127,
      "baseline": 127,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 60,
      "candidates": [
@@ -2804,6 +3059,7 @@
      "pair": 128,
      "answer": 128,
      "baseline": 128,
+     "ioaiBaseline": null,
      "ncc": 0.965,
      "inliers": 8,
      "candidates": [
@@ -2835,6 +3091,7 @@
      "pair": 129,
      "answer": 129,
      "baseline": 129,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 63,
      "candidates": [
@@ -2866,6 +3123,7 @@
      "pair": 130,
      "answer": 130,
      "baseline": 35,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 289,
      "candidates": [
@@ -2897,6 +3155,7 @@
      "pair": 131,
      "answer": 131,
      "baseline": 1,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 33,
      "candidates": [
@@ -2928,6 +3187,7 @@
      "pair": 132,
      "answer": 132,
      "baseline": 132,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 39,
      "candidates": [
@@ -2959,6 +3219,7 @@
      "pair": 133,
      "answer": 133,
      "baseline": 133,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 211,
      "candidates": [
@@ -2990,6 +3251,7 @@
      "pair": 134,
      "answer": 134,
      "baseline": 134,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 68,
      "candidates": [
@@ -3021,6 +3283,7 @@
      "pair": 135,
      "answer": 135,
      "baseline": 135,
+     "ioaiBaseline": null,
      "ncc": 0.997,
      "inliers": 100,
      "candidates": [
@@ -3052,6 +3315,7 @@
      "pair": 136,
      "answer": 136,
      "baseline": 88,
+     "ioaiBaseline": null,
      "ncc": 0.991,
      "inliers": 13,
      "candidates": [
@@ -3083,6 +3347,7 @@
      "pair": 137,
      "answer": 137,
      "baseline": 137,
+     "ioaiBaseline": null,
      "ncc": 0.996,
      "inliers": 37,
      "candidates": [
@@ -3114,6 +3379,7 @@
      "pair": 138,
      "answer": 138,
      "baseline": 138,
+     "ioaiBaseline": null,
      "ncc": 0.956,
      "inliers": 14,
      "candidates": [
@@ -3145,6 +3411,7 @@
      "pair": 139,
      "answer": 139,
      "baseline": 139,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 163,
      "candidates": [
@@ -3176,6 +3443,7 @@
      "pair": 140,
      "answer": 140,
      "baseline": 58,
+     "ioaiBaseline": null,
      "ncc": 0.998,
      "inliers": 73,
      "candidates": [
@@ -3207,6 +3475,7 @@
      "pair": 60,
      "answer": 142,
      "baseline": 7,
+     "ioaiBaseline": null,
      "ncc": 0.996,
      "inliers": 34,
      "candidates": [
@@ -3238,6 +3507,7 @@
      "pair": 143,
      "answer": 143,
      "baseline": 143,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 88,
      "candidates": [
@@ -3269,6 +3539,7 @@
      "pair": 144,
      "answer": 144,
      "baseline": 144,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 109,
      "candidates": [
@@ -3300,6 +3571,7 @@
      "pair": 145,
      "answer": 145,
      "baseline": 75,
+     "ioaiBaseline": null,
      "ncc": 0.982,
      "inliers": 16,
      "candidates": [
@@ -3331,6 +3603,7 @@
      "pair": 146,
      "answer": 146,
      "baseline": 157,
+     "ioaiBaseline": null,
      "ncc": 0.995,
      "inliers": 153,
      "candidates": [
@@ -3362,6 +3635,7 @@
      "pair": 147,
      "answer": 147,
      "baseline": 147,
+     "ioaiBaseline": null,
      "ncc": 0.991,
      "inliers": 9,
      "candidates": [
@@ -3393,6 +3667,7 @@
      "pair": 148,
      "answer": 148,
      "baseline": 148,
+     "ioaiBaseline": null,
      "ncc": 0.996,
      "inliers": 272,
      "candidates": [
@@ -3424,6 +3699,7 @@
      "pair": 149,
      "answer": 149,
      "baseline": 149,
+     "ioaiBaseline": null,
      "ncc": 0.996,
      "inliers": 216,
      "candidates": [
@@ -3455,6 +3731,7 @@
      "pair": 150,
      "answer": 150,
      "baseline": 150,
+     "ioaiBaseline": null,
      "ncc": 0.995,
      "inliers": 70,
      "candidates": [
@@ -3486,6 +3763,7 @@
      "pair": 151,
      "answer": 151,
      "baseline": 151,
+     "ioaiBaseline": null,
      "ncc": 0.997,
      "inliers": 32,
      "candidates": [
@@ -3517,6 +3795,7 @@
      "pair": 152,
      "answer": 152,
      "baseline": 144,
+     "ioaiBaseline": null,
      "ncc": 0.997,
      "inliers": 26,
      "candidates": [
@@ -3548,6 +3827,7 @@
      "pair": 153,
      "answer": 153,
      "baseline": 75,
+     "ioaiBaseline": null,
      "ncc": 0.988,
      "inliers": 38,
      "candidates": [
@@ -3579,6 +3859,7 @@
      "pair": 154,
      "answer": 154,
      "baseline": 154,
+     "ioaiBaseline": null,
      "ncc": 0.989,
      "inliers": 15,
      "candidates": [
@@ -3610,6 +3891,7 @@
      "pair": 155,
      "answer": 155,
      "baseline": 79,
+     "ioaiBaseline": null,
      "ncc": 0.973,
      "inliers": 26,
      "candidates": [
@@ -3641,6 +3923,7 @@
      "pair": 156,
      "answer": 156,
      "baseline": 156,
+     "ioaiBaseline": null,
      "ncc": 0.977,
      "inliers": 800,
      "candidates": [
@@ -3672,6 +3955,7 @@
      "pair": 157,
      "answer": 157,
      "baseline": 154,
+     "ioaiBaseline": null,
      "ncc": 0.993,
      "inliers": 34,
      "candidates": [
@@ -3703,6 +3987,7 @@
      "pair": 158,
      "answer": 158,
      "baseline": 68,
+     "ioaiBaseline": null,
      "ncc": 0.998,
      "inliers": 42,
      "candidates": [
@@ -3734,6 +4019,7 @@
      "pair": 159,
      "answer": 159,
      "baseline": 94,
+     "ioaiBaseline": null,
      "ncc": 0.997,
      "inliers": 386,
      "candidates": [
@@ -3765,6 +4051,7 @@
      "pair": 160,
      "answer": 160,
      "baseline": 160,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 631,
      "candidates": [
@@ -3796,6 +4083,7 @@
      "pair": 161,
      "answer": 161,
      "baseline": 49,
+     "ioaiBaseline": null,
      "ncc": 0.992,
      "inliers": 11,
      "candidates": [
@@ -3827,6 +4115,7 @@
      "pair": 162,
      "answer": 162,
      "baseline": 98,
+     "ioaiBaseline": null,
      "ncc": 0.981,
      "inliers": 38,
      "candidates": [
@@ -3858,6 +4147,7 @@
      "pair": 163,
      "answer": 163,
      "baseline": 157,
+     "ioaiBaseline": null,
      "ncc": 0.995,
      "inliers": 37,
      "candidates": [
@@ -3889,6 +4179,7 @@
      "pair": 164,
      "answer": 164,
      "baseline": 164,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 58,
      "candidates": [
@@ -3920,6 +4211,7 @@
      "pair": 112,
      "answer": 1,
      "baseline": 112,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 98,
      "candidates": [
@@ -3951,6 +4243,7 @@
      "pair": 2,
      "answer": 2,
      "baseline": 2,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 233,
      "candidates": [
@@ -3982,6 +4275,7 @@
      "pair": 3,
      "answer": 3,
      "baseline": 16,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 124,
      "candidates": [
@@ -4013,6 +4307,7 @@
      "pair": 4,
      "answer": 4,
      "baseline": 4,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 151,
      "candidates": [
@@ -4044,6 +4339,7 @@
      "pair": 5,
      "answer": 5,
      "baseline": 5,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 53,
      "candidates": [
@@ -4075,6 +4371,7 @@
      "pair": 6,
      "answer": 6,
      "baseline": 6,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 107,
      "candidates": [
@@ -4106,6 +4403,7 @@
      "pair": 126,
      "answer": 7,
      "baseline": 90,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 80,
      "candidates": [
@@ -4137,6 +4435,7 @@
      "pair": 8,
      "answer": 8,
      "baseline": 8,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 70,
      "candidates": [
@@ -4168,6 +4467,7 @@
      "pair": 9,
      "answer": 9,
      "baseline": 9,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 204,
      "candidates": [
@@ -4199,6 +4499,7 @@
      "pair": 10,
      "answer": 10,
      "baseline": 10,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 76,
      "candidates": [
@@ -4230,6 +4531,7 @@
      "pair": 11,
      "answer": 11,
      "baseline": 98,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 232,
      "candidates": [
@@ -4261,6 +4563,7 @@
      "pair": 12,
      "answer": 12,
      "baseline": 12,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 71,
      "candidates": [
@@ -4292,6 +4595,7 @@
      "pair": 13,
      "answer": 13,
      "baseline": 13,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 762,
      "candidates": [
@@ -4323,6 +4627,7 @@
      "pair": 14,
      "answer": 14,
      "baseline": 14,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 75,
      "candidates": [
@@ -4354,6 +4659,7 @@
      "pair": 25,
      "answer": 15,
      "baseline": 62,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 122,
      "candidates": [
@@ -4385,6 +4691,7 @@
      "pair": 16,
      "answer": 16,
      "baseline": 16,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 122,
      "candidates": [
@@ -4416,6 +4723,7 @@
      "pair": 17,
      "answer": 17,
      "baseline": 87,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 20,
      "candidates": [
@@ -4447,6 +4755,7 @@
      "pair": 19,
      "answer": 19,
      "baseline": 19,
+     "ioaiBaseline": null,
      "ncc": 0.998,
      "inliers": 42,
      "candidates": [
@@ -4478,6 +4787,7 @@
      "pair": 79,
      "answer": 20,
      "baseline": 88,
+     "ioaiBaseline": null,
      "ncc": 0.45,
      "inliers": 5,
      "candidates": [
@@ -4509,6 +4819,7 @@
      "pair": 21,
      "answer": 21,
      "baseline": 99,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 155,
      "candidates": [
@@ -4540,6 +4851,7 @@
      "pair": 22,
      "answer": 22,
      "baseline": 85,
+     "ioaiBaseline": null,
      "ncc": 0.996,
      "inliers": 68,
      "candidates": [
@@ -4571,6 +4883,7 @@
      "pair": 23,
      "answer": 23,
      "baseline": 105,
+     "ioaiBaseline": null,
      "ncc": 0.987,
      "inliers": 30,
      "candidates": [
@@ -4602,6 +4915,7 @@
      "pair": 24,
      "answer": 24,
      "baseline": 106,
+     "ioaiBaseline": null,
      "ncc": 0.382,
      "inliers": 4,
      "candidates": [
@@ -4633,6 +4947,7 @@
      "pair": 25,
      "answer": 25,
      "baseline": 25,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 44,
      "candidates": [
@@ -4664,6 +4979,7 @@
      "pair": 14,
      "answer": 26,
      "baseline": 26,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 65,
      "candidates": [
@@ -4695,6 +5011,7 @@
      "pair": 27,
      "answer": 27,
      "baseline": 27,
+     "ioaiBaseline": null,
      "ncc": 0.998,
      "inliers": 53,
      "candidates": [
@@ -4726,6 +5043,7 @@
      "pair": 28,
      "answer": 28,
      "baseline": 14,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 91,
      "candidates": [
@@ -4757,6 +5075,7 @@
      "pair": 29,
      "answer": 29,
      "baseline": 91,
+     "ioaiBaseline": null,
      "ncc": 0.997,
      "inliers": 215,
      "candidates": [
@@ -4788,6 +5107,7 @@
      "pair": 83,
      "answer": 30,
      "baseline": 89,
+     "ioaiBaseline": null,
      "ncc": 0.998,
      "inliers": 25,
      "candidates": [
@@ -4819,6 +5139,7 @@
      "pair": 31,
      "answer": 31,
      "baseline": 31,
+     "ioaiBaseline": null,
      "ncc": 0.997,
      "inliers": 68,
      "candidates": [
@@ -4850,6 +5171,7 @@
      "pair": 32,
      "answer": 32,
      "baseline": 132,
+     "ioaiBaseline": null,
      "ncc": 0.995,
      "inliers": 10,
      "candidates": [
@@ -4881,6 +5203,7 @@
      "pair": 33,
      "answer": 33,
      "baseline": 33,
+     "ioaiBaseline": null,
      "ncc": 0.997,
      "inliers": 175,
      "candidates": [
@@ -4912,6 +5235,7 @@
      "pair": 34,
      "answer": 34,
      "baseline": 1,
+     "ioaiBaseline": null,
      "ncc": 0.995,
      "inliers": 111,
      "candidates": [
@@ -4943,6 +5267,7 @@
      "pair": 101,
      "answer": 35,
      "baseline": 101,
+     "ioaiBaseline": null,
      "ncc": 0.998,
      "inliers": 77,
      "candidates": [
@@ -4974,6 +5299,7 @@
      "pair": 36,
      "answer": 36,
      "baseline": 108,
+     "ioaiBaseline": null,
      "ncc": 0.998,
      "inliers": 144,
      "candidates": [
@@ -5005,6 +5331,7 @@
      "pair": 37,
      "answer": 37,
      "baseline": 88,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 219,
      "candidates": [
@@ -5036,6 +5363,7 @@
      "pair": 38,
      "answer": 38,
      "baseline": 38,
+     "ioaiBaseline": null,
      "ncc": 0.998,
      "inliers": 194,
      "candidates": [
@@ -5067,6 +5395,7 @@
      "pair": 39,
      "answer": 39,
      "baseline": 121,
+     "ioaiBaseline": null,
      "ncc": 0.995,
      "inliers": 127,
      "candidates": [
@@ -5098,6 +5427,7 @@
      "pair": 40,
      "answer": 40,
      "baseline": 39,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 139,
      "candidates": [
@@ -5129,6 +5459,7 @@
      "pair": 41,
      "answer": 41,
      "baseline": 41,
+     "ioaiBaseline": null,
      "ncc": 0.998,
      "inliers": 87,
      "candidates": [
@@ -5160,6 +5491,7 @@
      "pair": 42,
      "answer": 42,
      "baseline": 87,
+     "ioaiBaseline": null,
      "ncc": 0.98,
      "inliers": 30,
      "candidates": [
@@ -5191,6 +5523,7 @@
      "pair": 43,
      "answer": 43,
      "baseline": 125,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 202,
      "candidates": [
@@ -5222,6 +5555,7 @@
      "pair": 44,
      "answer": 44,
      "baseline": 44,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 35,
      "candidates": [
@@ -5253,6 +5587,7 @@
      "pair": 45,
      "answer": 45,
      "baseline": 45,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 98,
      "candidates": [
@@ -5284,6 +5619,7 @@
      "pair": 46,
      "answer": 46,
      "baseline": 129,
+     "ioaiBaseline": null,
      "ncc": 0.976,
      "inliers": 11,
      "candidates": [
@@ -5315,6 +5651,7 @@
      "pair": 47,
      "answer": 47,
      "baseline": 47,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 66,
      "candidates": [
@@ -5346,6 +5683,7 @@
      "pair": 48,
      "answer": 48,
      "baseline": 139,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 177,
      "candidates": [
@@ -5377,6 +5715,7 @@
      "pair": 49,
      "answer": 49,
      "baseline": 112,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 63,
      "candidates": [
@@ -5408,6 +5747,7 @@
      "pair": 50,
      "answer": 50,
      "baseline": 50,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 49,
      "candidates": [
@@ -5439,6 +5779,7 @@
      "pair": 51,
      "answer": 51,
      "baseline": 51,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 267,
      "candidates": [
@@ -5470,6 +5811,7 @@
      "pair": 52,
      "answer": 52,
      "baseline": 52,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 99,
      "candidates": [
@@ -5501,6 +5843,7 @@
      "pair": 53,
      "answer": 53,
      "baseline": 53,
+     "ioaiBaseline": null,
      "ncc": 0.997,
      "inliers": 157,
      "candidates": [
@@ -5532,6 +5875,7 @@
      "pair": 54,
      "answer": 54,
      "baseline": 88,
+     "ioaiBaseline": null,
      "ncc": 0.993,
      "inliers": 11,
      "candidates": [
@@ -5563,6 +5907,7 @@
      "pair": 55,
      "answer": 55,
      "baseline": 55,
+     "ioaiBaseline": null,
      "ncc": 0.995,
      "inliers": 13,
      "candidates": [
@@ -5594,6 +5939,7 @@
      "pair": 56,
      "answer": 56,
      "baseline": 56,
+     "ioaiBaseline": null,
      "ncc": 0.975,
      "inliers": 20,
      "candidates": [
@@ -5625,6 +5971,7 @@
      "pair": 57,
      "answer": 57,
      "baseline": 16,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 191,
      "candidates": [
@@ -5656,6 +6003,7 @@
      "pair": 58,
      "answer": 58,
      "baseline": 62,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 34,
      "candidates": [
@@ -5687,6 +6035,7 @@
      "pair": 142,
      "answer": 60,
      "baseline": 50,
+     "ioaiBaseline": null,
      "ncc": 0.997,
      "inliers": 37,
      "candidates": [
@@ -5718,6 +6067,7 @@
      "pair": 61,
      "answer": 61,
      "baseline": 61,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 227,
      "candidates": [
@@ -5749,6 +6099,7 @@
      "pair": 62,
      "answer": 62,
      "baseline": 62,
+     "ioaiBaseline": null,
      "ncc": 1.0,
      "inliers": 188,
      "candidates": [
@@ -5780,6 +6131,7 @@
      "pair": 63,
      "answer": 63,
      "baseline": 161,
+     "ioaiBaseline": null,
      "ncc": 0.984,
      "inliers": 18,
      "candidates": [
@@ -5811,6 +6163,7 @@
      "pair": 64,
      "answer": 64,
      "baseline": 64,
+     "ioaiBaseline": null,
      "ncc": 0.996,
      "inliers": 156,
      "candidates": [
@@ -5842,6 +6195,7 @@
      "pair": 63,
      "answer": 65,
      "baseline": 147,
+     "ioaiBaseline": null,
      "ncc": 0.979,
      "inliers": 20,
      "candidates": [
@@ -5873,6 +6227,7 @@
      "pair": 66,
      "answer": 66,
      "baseline": 66,
+     "ioaiBaseline": null,
      "ncc": 0.994,
      "inliers": 223,
      "candidates": [
@@ -5904,6 +6259,7 @@
      "pair": 67,
      "answer": 67,
      "baseline": 67,
+     "ioaiBaseline": null,
      "ncc": 0.997,
      "inliers": 94,
      "candidates": [
@@ -5935,6 +6291,7 @@
      "pair": 68,
      "answer": 68,
      "baseline": 81,
+     "ioaiBaseline": null,
      "ncc": 0.992,
      "inliers": 63,
      "candidates": [
@@ -5966,6 +6323,7 @@
      "pair": 69,
      "answer": 69,
      "baseline": 69,
+     "ioaiBaseline": null,
      "ncc": 0.995,
      "inliers": 30,
      "candidates": [
@@ -5997,6 +6355,7 @@
      "pair": 70,
      "answer": 70,
      "baseline": 164,
+     "ioaiBaseline": null,
      "ncc": 0.998,
      "inliers": 20,
      "candidates": [
@@ -6028,6 +6387,7 @@
      "pair": 71,
      "answer": 71,
      "baseline": 164,
+     "ioaiBaseline": null,
      "ncc": 0.995,
      "inliers": 66,
      "candidates": [
@@ -6059,6 +6419,7 @@
      "pair": 72,
      "answer": 72,
      "baseline": 137,
+     "ioaiBaseline": null,
      "ncc": 0.994,
      "inliers": 6,
      "candidates": [
@@ -6090,6 +6451,7 @@
      "pair": 73,
      "answer": 73,
      "baseline": 131,
+     "ioaiBaseline": null,
      "ncc": 0.989,
      "inliers": 35,
      "candidates": [
@@ -6121,6 +6483,7 @@
      "pair": 74,
      "answer": 74,
      "baseline": 74,
+     "ioaiBaseline": null,
      "ncc": 0.983,
      "inliers": 925,
      "candidates": [
@@ -6152,6 +6515,7 @@
      "pair": 75,
      "answer": 75,
      "baseline": 94,
+     "ioaiBaseline": null,
      "ncc": 0.998,
      "inliers": 29,
      "candidates": [
@@ -6183,6 +6547,7 @@
      "pair": 128,
      "answer": 76,
      "baseline": 128,
+     "ioaiBaseline": null,
      "ncc": 0.993,
      "inliers": 25,
      "candidates": [
@@ -6214,6 +6579,7 @@
      "pair": 77,
      "answer": 77,
      "baseline": 153,
+     "ioaiBaseline": null,
      "ncc": 0.998,
      "inliers": 371,
      "candidates": [
@@ -6245,6 +6611,7 @@
      "pair": 78,
      "answer": 78,
      "baseline": 78,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 483,
      "candidates": [
@@ -6276,6 +6643,7 @@
      "pair": 79,
      "answer": 79,
      "baseline": 152,
+     "ioaiBaseline": null,
      "ncc": 0.996,
      "inliers": 23,
      "candidates": [
@@ -6307,6 +6675,7 @@
      "pair": 80,
      "answer": 80,
      "baseline": 71,
+     "ioaiBaseline": null,
      "ncc": 0.979,
      "inliers": 47,
      "candidates": [
@@ -6338,6 +6707,7 @@
      "pair": 81,
      "answer": 81,
      "baseline": 81,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 39,
      "candidates": [
@@ -6369,6 +6739,7 @@
      "pair": 82,
      "answer": 82,
      "baseline": 153,
+     "ioaiBaseline": null,
      "ncc": 0.999,
      "inliers": 51,
      "candidates": [

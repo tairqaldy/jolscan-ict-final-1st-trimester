@@ -25,7 +25,7 @@ export function LayerCode() {
       </CardHeader>
       <CardBody>
         <Tabs defaultValue={LAYER_CODE[0].id}>
-          <TabsList aria-label="Code excerpts">
+          <TabsList aria-label="Code excerpts" className="overflow-y-hidden">
             {LAYER_CODE.map((e) => (
               <TabsTrigger key={e.id} value={e.id}>
                 {e.title}

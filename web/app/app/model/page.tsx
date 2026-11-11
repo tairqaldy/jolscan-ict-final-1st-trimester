@@ -390,7 +390,7 @@ export default function ModelPage() {
                 <dd className="text-muted">
                   Twelve original drawings made for the demo, and twelve real signs from the IOAI validation set.{" "}
                   {DATA_CREDITS.restroomSamples.changes}.{" "}
-                  The IOAI pairs page shows all IOAI validation and test images, resized, with our pipeline&apos;s results on them.
+                  The IOAI task page shows the IOAI validation, test and training images, resized, with their answers and the IOAI baseline&apos;s picks.
                 </dd>
               </dl>
             </CardBody>

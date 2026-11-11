@@ -5,7 +5,7 @@ import { IOAI_PAIRS, IOAI_SPLITS, ioaiGalleryUrl, ioaiQueryUrl } from "./restroo
 
 const publicFile = (url: string) => path.join(__dirname, "..", "public", url);
 
-describe("IOAI pairs export", () => {
+describe("IOAI data export (IOAI task page)", () => {
   it.each(IOAI_SPLITS)("%s: the counts match the rows, hidden queries included in the counts", (split) => {
     const s = IOAI_PAIRS.splits[split];
     const hidden = s.hiddenQueries.length;
@@ -20,11 +20,31 @@ describe("IOAI pairs export", () => {
     expect(Boolean(s.hiddenNote)).toBe(hidden > 0);
   });
 
+  it("holds the IOAI baseline notebook's picks (R0) on validation and test, with its published-level score", () => {
+    for (const split of ["val", "test"] as const) {
+      const s = IOAI_PAIRS.splits[split];
+      const shown = s.rows.filter((r) => r.ioaiBaseline === r.answer).length;
+      expect(s.ioaiBaselineCorrect).not.toBeNull();
+      expect(s.ioaiBaselineCorrect!).toBeGreaterThanOrEqual(shown);
+      expect(s.ioaiBaselineCorrect!).toBeLessThanOrEqual(shown + s.hiddenQueries.length);
+    }
+    expect(IOAI_PAIRS.splits.val.ioaiBaselineCorrect).toBe(8);
+    expect(IOAI_PAIRS.splits.test.ioaiBaselineCorrect).toBe(23);
+    expect(IOAI_PAIRS.splits.train.ioaiBaselineCorrect).toBeNull();
+    expect(IOAI_PAIRS.splits.train.rows.every((r) => r.ioaiBaseline === null)).toBe(true);
+    const train = IOAI_PAIRS.splits.train;
+    expect(train.queryLabels).toHaveLength(train.queries);
+    expect(train.queryLabels![39]).toBe("restroom 40, male");
+    expect(train.galleryLabels![train.rows.find((r) => r.n === 40)!.answer - 1]).toBe("restroom 40, female");
+  });
+
   it.each(IOAI_SPLITS)("%s: no hidden image is shown anywhere", (split) => {
     const s = IOAI_PAIRS.splits[split];
     const hidden = new Set(s.hiddenGallery);
     for (const r of s.rows) {
-      for (const g of [r.own, r.pair, r.answer, r.baseline, ...r.candidates.map((c) => c.g)]) expect(hidden.has(g)).toBe(false);
+      for (const g of [r.own, r.pair, r.answer, r.baseline, r.ioaiBaseline ?? r.answer, ...r.candidates.map((c) => c.g)]) {
+        expect(hidden.has(g)).toBe(false);
+      }
     }
     for (const g of s.hiddenGallery) expect(existsSync(publicFile(ioaiGalleryUrl(split, g)))).toBe(false);
   });
@@ -32,7 +52,7 @@ describe("IOAI pairs export", () => {
   it.each(IOAI_SPLITS)("%s: every number points at a gallery file and the ranking is sorted", (split) => {
     const s = IOAI_PAIRS.splits[split];
     for (const r of s.rows) {
-      for (const g of [r.own, r.pair, r.answer, r.baseline, ...r.candidates.map((c) => c.g)]) {
+      for (const g of [r.own, r.pair, r.answer, r.baseline, r.ioaiBaseline ?? r.answer, ...r.candidates.map((c) => c.g)]) {
         expect(g).toBeGreaterThanOrEqual(1);
         expect(g).toBeLessThanOrEqual(s.gallery);
       }

@@ -15,6 +15,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 23:40 · IOAI task page · The task, the dataset and the given baseline
+- **Status:** done, on branch `restroom/ioai-task-page` from the latest `main` (PR #451 was already merged).
+- **What I did:** Replaced the IOAI pairs page (`/app/restrooms/ioai`, now "IOAI task" in the menu) with three parts: what the IOAI task asks, with training restroom 40 as the example; the dataset (82 training restrooms × 4 images, 10 validation and 30 test queries, the folders, and a browser of every crop with its answer); and the baseline that came with the task notebook (zero-shot CLIP ViT-B/16, the second most similar original), with its code cells, its score and the queries it gets wrong. `export_pairs.py` now also stores the notebook baseline's picks from run R0.
+- **Result:** The baseline is wrong on 2 of 10 validation and 7 of 30 test queries (23/30 = 0.767, the published 0.77).
+- **Decisions and why:** The page starts from what we were given, so the defense can show the starting point before our own work. The baseline picks come from R0 (ViT-B/16, the notebook's model), not from the ViT-B/32 version in `pipeline.py`, which misses other queries. The step-by-step view of our pipeline is gone from the site; Match shows its answer and `demo.py` the steps.
+- **What I learned / can explain at the defense:** Why the baseline takes the second most similar original (the first should be the crop's own original) and why that fails (the own original can come second, or a sign from another restroom looks more alike than the partner).
+- **AI use:** Claude Code (Claude Opus 5.5); entry in `docs/AI-USAGE-LOG.md`.
+- **Open questions / next:** none.
+
 ### 2026-11-11 21:00 · Restroom verdict and layer models · Pair or not a pair; per-layer models on Match
 - **Status:** done locally on branch `restroom/ioai-train-set`, not pushed.
 - **What I did:** The signage verdict is now only `pair` or `not_pair`: a pair when the two signs are one design set (S3, similarity ≥ 0.88) and the doors read as different genders (S2, gap ≥ 0.05). Rule S1 and the verdicts clear / review / confusing, and the recommended action, are gone; a one-line reason replaces the action. Trained CLIP with its last 1, 2, 4, 6, 8 and 12 blocks fine-tuned (`ml/restroom/train_layer_models.py`) and added their picks to Match next to the other models, with the signs where they disagree. The Restroom overview has the layer chart from the C-11 sweep.
