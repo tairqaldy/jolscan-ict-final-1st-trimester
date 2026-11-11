@@ -22,6 +22,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Alizhan (S-13 serving card correction, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Correct an outdated study-card statement after C-8 was merged.
+- **Key prompt:** “продолжай выполнять таски”. Full transcript not committed.
+- **What it produced or changed:** Updated the Match description in `docs/PRESENTATION.md` and refreshed generated deck counts.
+- **How it was verified:** Checked the Match route and pipeline source; regenerated the deck and checked the diff. Alizhan has not yet personally reviewed this entry.
+- **What was rejected or corrected:** The previous card said Match was not assumed to be served; the endpoint now returns the two-step pipeline selection. Real-world benchmark assumptions remain limitations.
+
 ### 11 November 2026, Alizhan (R-15 post-23:00 recheck, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.

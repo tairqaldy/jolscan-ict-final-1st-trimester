@@ -263,3 +263,9 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **What I learned / can explain at the defense:** Direct pins constrain package versions; Python compatibility and transitive dependencies still matter.
 - **AI use:** Codex assisted; see AI-USAGE-LOG.md. Alizhan has not personally reviewed this entry.
 - **Open questions / next:** Tair and Nazar review the proposed Python/Pillow choice. Build the image under S-8 and verify real models on the presenting laptop under S-14.
+
+### 2026-11-11 · S-13 (#26) · Correct Match study-card draft
+- **Status:** correction prepared for review; S-13 remains open.
+- **What changed:** Updated the card to reflect the served C-8 Match pipeline and its benchmark assumptions. Refreshed the deck count after adding an AI-use entry.
+- **Verification:** Checked the Match endpoint and pipeline sources; rebuilt the deck. Alizhan has not yet personally reviewed this entry.
+- **Next:** Alizhan studies the card, demonstrates `/predict`, and answers three questions aloud with a teammate.

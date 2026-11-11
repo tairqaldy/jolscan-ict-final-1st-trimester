@@ -83,7 +83,7 @@ Working snapshot copied from `docs/deck/SLIDES.md` at commit `1c28a49`. The fina
 ### 10. AI use and its limits
 **Speaker and budget:** Roma · **budget** 0:35 · **script** 80 words, about 0:37
 
-> We used AI tools, mainly Claude Code, Codex and Copilot, to write and review code and tests, to draft documents, and to check text against our result files. Every use is logged with its prompt: 105 entries. Whoever used a tool checked its output, with tests and CI, and every number on these slides is traced to a committed file. We planned an audit of two vision-language models; it is not finished, so we show no numbers. Next, the limits.
+> We used AI tools, mainly Claude Code, Codex and Copilot, to write and review code and tests, to draft documents, and to check text against our result files. Every use is logged with its prompt: 109 entries. Whoever used a tool checked its output, with tests and CI, and every number on these slides is traced to a committed file. We planned an audit of two vision-language models; it is not finished, so we show no numbers. Next, the limits.
 
 ### 11. Limitations and next steps
 **Speaker and budget:** Roma · **budget** 0:25 · **script** 50 words, about 0:23
@@ -183,7 +183,7 @@ Every number below comes from `ml/results/experiments.csv`, `ml/results/operatin
 
 **Alizhan — short practice answers (S-13, draft for personal review)**
 
-1. **Upload to result.** The browser sends the road image to the Next.js `/api/analyze` route. That server forwards the image and confidence to FastAPI `/predict`. YOLO returns normalized bounding boxes; the web server applies the rules and sends the analysis back for display. For Compare, `/api/restroom` forwards two signs to `/restroom/compare` and the web app applies the signage rules. The two-step Match pipeline is separate work (C-8), not assumed to be serving yet.
+1. **Upload to result.** The browser sends the road image to the Next.js `/api/analyze` route. That server forwards the image and confidence to FastAPI `/predict`. YOLO returns normalized bounding boxes; the web server applies the rules and sends the analysis back for display. For Compare, `/api/restroom` forwards two signs to `/restroom/compare` and the web app applies the signage rules. For Match, FastAPI `/restroom/match` uses the two-step pipeline to identify the best partner (`bestMatchId`); the benchmark assumes the query is a crop of a gallery original and the partner is in the gallery, which need not hold in real use (C-8, `api/restroom_pipeline.py`).
 2. **HTTP and errors.** REST-style services use HTTP methods and status codes to operate on resources; responses here use JSON. FastAPI returns 200 for success, 400 for bad image bytes or confidence, 422 for missing required fields, and 503 if weights cannot load. The Next.js proxy can translate a service failure or malformed response into 502, or report an unreachable service as 503. HTTP 200 from `/health` means the process answers, not that trained weights work.
 3. **FastAPI, Gradio, Streamlit.** FastAPI is our programmatic HTTP API, validating requests and returning JSON. Gradio makes a simple interactive model demo; Streamlit is suited to interactive data applications and dashboards. The Gradio demo still needs verification with the team's weights.
 4. **Batch, online, edge.** Batch processes a stored group of inputs later; online serving answers individual requests as they arrive; edge runs inference on or close to the device. Our laptop-local setup is an edge-style deployment; an actual hosted service would be online serving.
