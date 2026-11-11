@@ -143,14 +143,14 @@ export default function LandingPage() {
             </StaggerItem>
           </Stagger>
           <aside aria-label="Example road inspection" className="inspection-preview w-full overflow-hidden rounded-lg border border-border bg-surface shadow-sm lg:max-w-[36rem] lg:justify-self-end">
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-5 py-4 sm:px-6">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-(--card-pad) py-4">
               <div>
                 <p className="font-mono text-xs text-muted">INSPECTION 01 / ROADS</p>
                 <p className="mt-1 text-sm font-medium">From detection to priority</p>
               </div>
               <DemoBadge show label="Sample result" />
             </div>
-            <div className="grid gap-4 p-5 sm:p-6">
+            <div className="grid gap-4 p-(--card-pad)">
               <HeroDemo />
               <div className="border-t border-border pt-4 text-sm">
                 <p className="font-medium">Why this priority?</p>
@@ -184,14 +184,14 @@ export default function LandingPage() {
         <section id="problem" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="problem-h">
           <SectionTitle id="problem-h" eyebrow="The problem" title="Most inspection is still done by eye" />
           <Stagger className="mt-8 grid gap-4 md:grid-cols-2">
-            <StaggerItem as="article" className="rounded-lg border border-border bg-surface p-6">
+            <StaggerItem as="article" className="rounded-lg border border-border bg-surface p-(--card-pad)">
               <h3 className="text-xl font-bold">Potholes are found late</h3>
               <p className="mt-2 text-muted">
                 Most are reported by drivers after they damage a car. An inspector cannot drive every street every week, and a
                 list of complaints does not say which hole to fix first.
               </p>
             </StaggerItem>
-            <StaggerItem as="article" className="rounded-lg border border-border bg-surface p-6">
+            <StaggerItem as="article" className="rounded-lg border border-border bg-surface p-(--card-pad)">
               <h3 className="text-xl font-bold">Door signs confuse visitors</h3>
               <p className="mt-2 text-muted">
                 Signs are installed once and rarely checked. When the two doors of a restroom carry signs from different sets, or
@@ -230,8 +230,8 @@ export default function LandingPage() {
             />
           </div>
           <details className="mt-6 rounded-lg border border-border bg-surface">
-            <summary className="cursor-pointer px-5 py-4 font-medium sm:px-6">Preview a sign comparison</summary>
-            <div className="grid gap-3 border-t border-border p-5 sm:p-6">
+            <summary className="cursor-pointer px-(--card-pad) py-4 font-medium">Preview a sign comparison</summary>
+            <div className="grid gap-3 border-t border-border p-(--card-pad)">
               <div><DemoBadge show label="Sample result" /></div>
               <PairDemo />
             </div>
@@ -245,7 +245,7 @@ export default function LandingPage() {
             {STEPS.map((s, i) => {
               const Icon = s.icon;
               return (
-                <StaggerItem as="li" key={s.title} className="relative rounded-lg border border-border bg-surface p-6">
+                <StaggerItem as="li" key={s.title} className="relative rounded-lg border border-border bg-surface p-(--card-pad)">
                   <span className="font-display text-5xl leading-none font-bold text-surface-3" aria-hidden>
                     {i + 1}
                   </span>
@@ -379,7 +379,7 @@ export default function LandingPage() {
             <div className="mt-6"><SectionTitle id="course-h" eyebrow={`Built on ${COURSE.code}`} title="What the course taught, applied" /></div>
           <Stagger className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {COURSE_TOPICS.map((t) => (
-              <StaggerItem as="article" key={t.title} className="rounded-lg border border-border bg-surface p-6">
+              <StaggerItem as="article" key={t.title} className="rounded-lg border border-border bg-surface p-(--card-pad)">
                 <BookOpenText className="size-5 text-accent-ink" aria-hidden />
                 <h3 className="mt-3 text-xl font-bold">{t.title}</h3>
                 <p className="mt-2 text-muted">{t.text}</p>
@@ -423,7 +423,7 @@ function ModuleCard({
   const m = MODULES[id];
   const Icon = MODULE_ICONS[id];
   return (
-    <article className="flex h-full flex-col gap-5 rounded-lg border border-border bg-surface p-5 sm:p-6" aria-labelledby={`card-${id}`}>
+    <article className="flex h-full flex-col gap-5 rounded-lg border border-border bg-surface p-(--card-pad)" aria-labelledby={`card-${id}`}>
       <div className="flex items-start gap-3">
         <span className="grid size-10 shrink-0 place-items-center rounded-md bg-inverse text-inverse-fg">
           <Icon className="size-5" aria-hidden />
@@ -451,7 +451,7 @@ function ModuleCard({
 
 function Feature({ icon: Icon, title, children }: { icon: typeof Laptop; title: string; children: ReactNode }) {
   return (
-    <article className="rounded-lg border border-border bg-surface p-6">
+    <article className="rounded-lg border border-border bg-surface p-(--card-pad)">
       <Icon className="size-6 text-accent-ink" aria-hidden />
       <h3 className="mt-3 text-xl font-bold">{title}</h3>
       <p className="mt-2 text-muted">{children}</p>
@@ -471,7 +471,7 @@ function PrivacyPoint({ icon: Icon, children }: { icon: typeof Lock; children: R
 function ResultsCard({ module, badge, children }: { module: ModuleId; badge: ReactNode; children: ReactNode }) {
   const Icon = MODULE_ICONS[module];
   return (
-    <article className="grid content-start gap-4 rounded-lg border border-border bg-surface p-6">
+    <article className="grid content-start gap-4 rounded-lg border border-border bg-surface p-(--card-pad)">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h3 className="inline-flex items-center gap-2 text-xl font-bold">
           <Icon className="size-5 text-accent-ink" aria-hidden /> {MODULES[module].name}

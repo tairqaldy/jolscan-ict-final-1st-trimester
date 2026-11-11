@@ -7,7 +7,7 @@ export function TeamGrid() {
       {TEAM.map((m) => (
         <li
           key={m.name}
-          className="group relative flex flex-col justify-between rounded-lg border border-border bg-surface p-4.5 transition-all duration-[var(--duration-base)] motion-safe:hover:-translate-y-1 hover:border-border-strong hover:bg-surface-2 hover:shadow-lg"
+          className="group relative flex flex-col justify-between rounded-lg border border-border bg-surface p-(--card-pad) transition-all duration-[var(--duration-base)] motion-safe:hover:-translate-y-1 hover:border-border-strong hover:bg-surface-2 hover:shadow-lg"
         >
           <div>
             <span
