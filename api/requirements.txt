@@ -1,9 +1,10 @@
 # The model service. Same Ultralytics version as training.
-fastapi
-uvicorn[standard]
-python-multipart
+fastapi==0.162.3
+uvicorn[standard]==0.54.0
+python-multipart==0.0.33
 ultralytics==8.4.208
-pillow
-numpy
+# Gradio 6.31.0 requires Pillow < 13; use the version tested in S-1.
+pillow==12.3.0
+numpy==2.5.4
 # Restroom endpoints (CLIP). Same version as ml/restroom/requirements.txt.
 open_clip_torch==4.2.1

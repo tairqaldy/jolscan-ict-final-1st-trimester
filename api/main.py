@@ -17,10 +17,13 @@ import os
 import threading
 import time
 import uuid
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.concurrency import run_in_threadpool
+from fastapi.responses import JSONResponse
+from PIL import Image
 
 import restroom
 from imaging import read_image
@@ -32,11 +35,36 @@ PROVIDER = os.getenv("PROVIDER_NAME", "local")  # set to "cloud" on the hosted c
 ANY_CLASS = os.getenv("ANY_CLASS") == "1"
 
 log = logging.getLogger("qarau")
-app = FastAPI(title="Qarau model service")
+
+
+def _warm_pothole():
+    get_yolo().predict(Image.new("RGB", (640, 640)), conf=0.25, verbose=False)
+
+
+def _warm_restroom():
+    backend = restroom.get_backend()
+    embeddings = backend.encode([Image.new("RGB", (224, 224))])
+    backend.gender_proba(embeddings)
+
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    if os.getenv("WARMUP") == "1":
+        for name, warm in (("pothole", _warm_pothole), ("restroom", _warm_restroom)):
+            try:
+                await run_in_threadpool(warm)
+            except Exception:
+                # Keep liveness available even when a model cannot be warmed.
+                log.exception("Could not warm %s model", name)
+    yield
+
+
+app = FastAPI(title="Qarau model service", lifespan=lifespan)
 app.include_router(restroom.router)
 
 _yolo = None
 _yolo_lock = threading.Lock()
+_yolo_inference_lock = threading.Lock()
 
 
 def get_yolo():
@@ -59,17 +87,42 @@ def get_yolo():
     return _yolo
 
 
+def _predict_locked(model, image, conf):
+    """Serialize calls on the shared model inside a worker, not the event loop."""
+    with _yolo_inference_lock:
+        return model.predict(image, conf=conf, verbose=False)
+
+
 @app.get("/health")
 def health() -> dict:
+    restroom_info = restroom.status()
     return {
         "status": "ok",
+        "ready": _yolo is not None and restroom_info["loaded"],
         "model": MODEL_NAME,
         "device": str(_yolo.device) if _yolo is not None else "not loaded",
         "models": {
             "pothole": {"loaded": _yolo is not None, "weights": WEIGHTS, "weightsFileFound": Path(WEIGHTS).exists()},
-            "restroom": restroom.status(),
+            "restroom": restroom_info,
         },
     }
+
+
+@app.get("/ready")
+async def ready() -> JSONResponse:
+    """Load both model backends and report whether each could be loaded."""
+    models = {}
+    for name, loader in (("pothole", get_yolo), ("restroom", restroom.get_backend)):
+        try:
+            await run_in_threadpool(loader)
+            models[name] = {"ready": True}
+        except HTTPException as exc:
+            models[name] = {"ready": False, "detail": exc.detail}
+        except Exception:
+            log.exception("Unexpected failure loading %s model", name)
+            models[name] = {"ready": False, "detail": "Model loading failed; check server logs."}
+    ok = all(model["ready"] for model in models.values())
+    return JSONResponse(status_code=200 if ok else 503, content={"ready": ok, "models": models})
 
 
 @app.post("/predict")
@@ -82,7 +135,7 @@ async def predict(file: UploadFile = File(...), conf: float = Form(0.25)) -> dic
 
     start = time.perf_counter()
     # Inference is blocking, so it runs in a worker thread and /health stays responsive.
-    results = await run_in_threadpool(model.predict, image, conf=conf, verbose=False)
+    results = await run_in_threadpool(_predict_locked, model, image, conf)
     latency_ms = round((time.perf_counter() - start) * 1000)
     result = results[0]
 

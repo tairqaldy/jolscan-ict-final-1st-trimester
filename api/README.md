@@ -8,7 +8,7 @@ The FastAPI service was run with real stock YOLO weights on Windows for S-1; see
 
 ## Run locally
 
-Use Python 3.11 or newer in a virtual environment (S-1 was verified with Python 3.12.10). The install is large because it includes PyTorch.
+Use Python 3.12 in a virtual environment (S-1 was verified with Python 3.12.10). The install is large because it includes PyTorch. Direct dependencies are pinned; NumPy 2.5.4 requires Python 3.12 or newer. See [decision 0008](../docs/decisions/0008-api-python-312.md) for the version choice and its verification limits.
 
 ```bash
 cd api && python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements-dev.txt
@@ -70,6 +70,24 @@ the contract still labels these boxes as `pothole`. Before using team weights, s
 set `MODEL_WEIGHTS` to their file, remove `ANY_CLASS` (`Remove-Item Env:ANY_CLASS` in PowerShell),
 and restart. Do not present stock-model detections as project results.
 
+## Model readiness and optional warm-up (S-20)
+
+- `GET /health` is a fast liveness check. `status: ok` means the process answers;
+  `ready` is true only if both model backends are already loaded. It does not load models.
+- `GET /ready` attempts to load both backends in worker threads and returns 200 only when
+  both load, or 503 with a per-model failure detail. The first request can download weights
+  and take a long time; offline use requires cached weights. Loading checks initialization,
+  not the accuracy of predictions or a complete end-to-end inference check.
+- Set `WARMUP=1` before starting Uvicorn to load both models and run a blank-image prediction
+  for each at startup. A warm-up failure is logged and does not stop the service. Check the
+  logs and `/ready`, then run an actual demo image before presenting. Defaults stay lazy.
+
+```powershell
+$env:WARMUP = "1"
+..\.venv\Scripts\python.exe -m uvicorn main:app --host 127.0.0.1 --port 8000
+# In a second terminal: Invoke-RestMethod http://127.0.0.1:8000/ready
+```
+
 ## Restroom endpoints
 
 Code in `restroom.py`, shared upload checks in `imaging.py`. The model is OpenAI CLIP through `open_clip_torch` (ViT-B/32 by default, about 600 MB, downloaded on first use into the Hugging Face cache). The first restroom request takes a few seconds longer while it loads.
@@ -104,6 +122,17 @@ pip install -r requirements-dev.txt && cd .. && pytest api/
 ```
 
 The tests replace CLIP with a tiny fake encoder, so they download nothing and do not need the YOLO weights.
+
+## Concurrent inference (S-30)
+
+The API shares one YOLO model and one CLIP backend per process. Each model's inference
+uses its own lock inside a worker thread; road and restroom inference can run in parallel
+with each other, but requests for the same backend wait their turn. The response latency
+includes any time waiting for that model lock. `/health` does not take these locks.
+
+Locks are process-local: separate Uvicorn workers have separate model instances and locks.
+Serializing reduces concurrency; it is a stability choice, not an inference speed-up.
+See [Ultralytics thread-safe inference guidance](https://docs.ultralytics.com/guides/yolo-thread-safe-inference/).
 
 ## Two thresholds
 
@@ -144,3 +173,11 @@ python gradio_app.py
 - No endpoint implementation fix was needed for this smoke check. The changes add verification
   and Windows instructions. Team weights, real-road accuracy, web integration, Gradio and Docker
   remain separate tasks; S-1 does not establish that they work.
+
+
+### S-3 input validation checks
+
+`api/test_predict.py` checks a valid image and normalized box, class filtering, invalid
+images, oversized files and confidence values. Fake models are injected and restored by
+pytest's monkeypatch. The missing-weights test also injects a failing fake YOLO so tests do
+not attempt downloads even when Ultralytics is installed.
