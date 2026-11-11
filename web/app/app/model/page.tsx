@@ -382,7 +382,10 @@ export default function ModelPage() {
                 <dt className="text-muted">People</dt>
                 <dd>None. The images are icons on doors and walls.</dd>
                 <dt className="text-muted">Sample icons in this app</dt>
-                <dd className="text-muted">Original drawings made for the demo, not IOAI images.</dd>
+                <dd className="text-muted">
+                  Twelve original drawings made for the demo, and twelve real signs from the IOAI validation set.{" "}
+                  {DATA_CREDITS.restroomSamples.changes}.
+                </dd>
               </dl>
             </CardBody>
           </Card>

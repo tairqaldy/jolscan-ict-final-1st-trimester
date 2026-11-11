@@ -20,6 +20,8 @@ import { GenderTag, SignImage } from "./signage-bits";
 import { SignSlot, type SlotValue } from "./sign-slot";
 import { appendSign, cloudBlocked, postRestroom, useRevokePreviews } from "./use-sign-upload";
 
+const REAL_SAMPLE_COUNT = RESTROOM_SAMPLES.filter((s) => !s.file.endsWith(".svg")).length;
+
 type Status =
   | { state: "idle" }
   | { state: "loading" }
@@ -65,7 +67,10 @@ export function MatchClient() {
           <CardHeader>
             <div>
               <CardTitle>Query sign</CardTitle>
-              <CardDescription>One door sign. The gallery is the {RESTROOM_SAMPLES.length} bundled samples, minus this one.</CardDescription>
+              <CardDescription>
+                One door sign. The gallery is the {RESTROOM_SAMPLES.length} bundled samples, minus this one. Local and Cloud rank
+                only the {REAL_SAMPLE_COUNT} real signs: a real model cannot read the drawings.
+              </CardDescription>
             </div>
           </CardHeader>
           <CardBody className="grid gap-4">

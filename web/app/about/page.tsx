@@ -146,12 +146,14 @@ export default function AboutPage() {
                 <a href={DATA_CREDITS.restroom.url} className="break-all text-accent-ink underline underline-offset-2">
                   {DATA_CREDITS.restroom.url}
                 </a>
-                . The reference scores (baseline 0.77, best 0.90) are theirs, not ours.
+                . The reference scores (baseline 0.77, best 0.90) are theirs, not ours. The twelve real sample signs are images
+                from its validation set, by the {DATA_CREDITS.restroomSamples.author}, licensed{" "}
+                {DATA_CREDITS.restroomSamples.licence}. {DATA_CREDITS.restroomSamples.changes}.
               </dd>
               <dt>Sample images</dt>
               <dd className="text-fg">
-                Road scenes and restroom icons in this app are original SVG drawings made for this project (no third-party
-                images).
+                Road scenes and the drawn restroom icons are original SVG drawings made for this project. The real restroom
+                signs are the IOAI images credited above.
               </dd>
               <dt>Map</dt>
               <dd className="text-fg">
