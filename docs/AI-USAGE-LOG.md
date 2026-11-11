@@ -31,6 +31,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How it was verified:** Read slide 4 and its speaker notes from the PowerPoint and checked the deck source, API configuration and CSV. Alizhan supplied three audio recordings; their file durations were measured, but the spoken content was not independently checked.
 - **What was rejected or corrected:** Distinguished recorded file durations from verified spoken content, and R1's 25.7 ms from R3's 26.9 ms.
 
+### 11 November 2026, Alizhan (M-2, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Prepare the full-training artifact handoff in the existing smoke-test notebook.
+- **Key prompt:** "выполняй вот эти таски, которые являются bare minimum ... смотри по таскам, которые ты можешь выполнить по возможности и отметь их галочкой". This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** Opt-in Colab handoff cell and after-run instructions.
+- **How it was verified:** Simulated full-run artifact copy and downloads with temporary files and a fake Colab interface; verified the default skip, smoke rejection and overwrite protection. No live Colab or shared Drive access was verified; Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** Kept M-2 open until actual shared folder access and a full-run handoff are checked; did not label smoke weights as a trained model.
+
 ### 11 November 2026, Alizhan (S-28, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.
