@@ -5,8 +5,8 @@ The first person to run it in Colab (task M-1) fixes whatever breaks and commits
 
 Usage, from the repository root:
     pip install -r ml/requirements.txt
-    python ml/train.py --run E0 --data /content/pothole/data.yaml --dataset-version v1 --smoke   # 1 epoch
-    python ml/train.py --run E0 --data /content/pothole/data.yaml --dataset-version v1
+    python ml/train.py --run E0 --data /content/data/data.yaml --dataset-version potholes_yolo_v1 --smoke
+    python ml/train.py --run E0 --data /content/data/data.yaml --dataset-version potholes_yolo_v1
 
 Every run keeps the same split, seed and budget and changes one thing (docs/ML-EXPERIMENT.md).
 
@@ -20,7 +20,12 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import shutil
+import subprocess
+import tempfile
+from contextlib import contextmanager, nullcontext
 from pathlib import Path
+from typing import Iterator
 
 import mlflow
 import torch
@@ -58,10 +63,42 @@ RUNS: dict[str, dict] = {
 }
 
 
-def evaluate(model: YOLO, data: str, imgsz: int) -> dict[str, float]:
-    """Validation metrics choose between runs. Test metrics go in the final table."""
+@contextmanager
+def smoke_dataset_yaml(data_yaml: Path) -> Iterator[Path]:
+    """Create a temporary train/val-only config so a smoke run cannot read test."""
+    import yaml
+
+    with data_yaml.open(encoding="utf-8") as source:
+        config = yaml.safe_load(source)
+    if not isinstance(config, dict):
+        raise ValueError(f"Dataset YAML must contain a mapping: {data_yaml}")
+    if "train" not in config or "val" not in config:
+        raise ValueError(f"Dataset YAML must define train and val splits: {data_yaml}")
+
+    smoke_config = {key: value for key, value in config.items() if key != "test"}
+    with tempfile.NamedTemporaryFile(
+        mode="w",
+        encoding="utf-8",
+        suffix=".yaml",
+        prefix=".m1-smoke-",
+        dir=data_yaml.parent,
+        delete=False,
+    ) as temporary:
+        temporary_path = Path(temporary.name)
+    try:
+        with temporary_path.open("w", encoding="utf-8") as target:
+            yaml.safe_dump(smoke_config, target, sort_keys=False)
+        yield temporary_path
+    finally:
+        if temporary_path.exists():
+            temporary_path.unlink()
+
+
+def evaluate(model: YOLO, data: str, imgsz: int, *, include_test: bool) -> dict[str, float]:
+    """Use validation for smoke checks; only full runs evaluate the test split."""
     out: dict[str, float] = {}
-    for split in ("val", "test"):
+    splits = ("val", "test") if include_test else ("val",)
+    for split in splits:
         m = model.val(data=data, split=split, imgsz=imgsz)
         out[f"{split}_precision"] = float(m.box.mp)
         out[f"{split}_recall"] = float(m.box.mr)
@@ -78,7 +115,11 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--run", required=True, choices=sorted(RUNS))
     parser.add_argument("--data", required=True, help="path to the dataset data.yaml")
-    parser.add_argument("--dataset-version", required=True, help="Roboflow dataset version, e.g. v1")
+    parser.add_argument(
+        "--dataset-version",
+        required=True,
+        help="dataset export name, e.g. potholes_yolo_v1",
+    )
     parser.add_argument("--smoke", action="store_true", help="1 epoch, to test the script. Not exported")
     parser.add_argument("--batch", type=int, default=None, help="only if the GPU runs out of memory")
     args = parser.parse_args()
@@ -100,38 +141,77 @@ def main() -> None:
     # this variable stops it from creating a second experiment named after the project folder.
     os.environ["MLFLOW_EXPERIMENT_NAME"] = EXPERIMENT
     mlflow.set_experiment(EXPERIMENT)
+    git_commit = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    out_dir = Path("ml/results/runs")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    data_yaml = Path(args.data).resolve()
+    run_data_context = smoke_dataset_yaml(data_yaml) if args.smoke else nullcontext(data_yaml)
 
     with mlflow.start_run(run_name=run_name):
-        mlflow.set_tags({"changed": changed, "dataset_version": args.dataset_version, "smoke": str(args.smoke)})
+        mlflow.set_tags(
+            {
+                "changed": changed,
+                "dataset_version": args.dataset_version,
+                "smoke": str(args.smoke),
+                "git_commit": git_commit,
+                "test_evaluated": str(not args.smoke),
+            }
+        )
         mlflow.log_params({"weights": weights, **{f"cfg_{k}": v for k, v in train_args.items()}})
 
         model = YOLO(weights)
-        # An absolute project path keeps the output in ./runs/<run>, wherever Ultralytics' default is.
-        model.train(data=args.data, project=str(Path.cwd() / "runs"), name=run_name, exist_ok=True, **train_args)
-        best = Path(model.trainer.best)
+        with run_data_context as run_data:
+            # An absolute project path keeps the output in ./runs/<run>, wherever Ultralytics' default is.
+            model.train(
+                data=str(run_data),
+                project=str(Path.cwd() / "runs"),
+                name=run_name,
+                exist_ok=True,
+                **train_args,
+            )
+            best = Path(model.trainer.best)
+            metrics = evaluate(
+                YOLO(str(best)),
+                str(run_data),
+                train_args["imgsz"],
+                include_test=not args.smoke,
+            )
 
-        metrics = evaluate(YOLO(str(best)), args.data, train_args["imgsz"])
+        results_csv = Path(model.trainer.save_dir) / "results.csv"
+        if not results_csv.is_file():
+            raise FileNotFoundError(f"Ultralytics did not write training curves: {results_csv}")
+        saved_csv = out_dir / f"{run_name}-results.csv"
+        shutil.copy2(results_csv, saved_csv)
+
         weights_mb = best.stat().st_size / 1e6
         mlflow.log_metrics({**metrics, "weights_mb": weights_mb})
+        mlflow.log_artifact(str(saved_csv), artifact_path="training")
 
         result = {
             "run": args.run,
             "smoke": args.smoke,
+            "evaluation_splits": ["val"] if args.smoke else ["val", "test"],
+            "test_evaluated": not args.smoke,
             "changed": changed,
             "weights": weights,
             "dataset_version": args.dataset_version,
+            "commit": git_commit,
             "params": train_args,
             "metrics": {k: round(v, 4) for k, v in metrics.items()},
+            "training_results_csv": str(saved_csv),
             "weights_mb": round(weights_mb, 2),
             "ultralytics": ultralytics.__version__,
             "torch": torch.__version__,
             "device": torch.cuda.get_device_name(0) if torch.cuda.is_available() else "cpu",
         }
-        out_dir = Path("ml/results/runs")
-        out_dir.mkdir(parents=True, exist_ok=True)
         out_file = out_dir / f"{run_name}.json"
         out_file.write_text(json.dumps(result, indent=2, allow_nan=False) + "\n")
-        print(f"Wrote {out_file}. Best weights: {best}")
+        print(f"Wrote {out_file} and {saved_csv}. Best weights: {best}")
 
 
 if __name__ == "__main__":
