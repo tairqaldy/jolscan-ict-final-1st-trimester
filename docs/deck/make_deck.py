@@ -1614,6 +1614,162 @@ def slide_backup_approaches(prs) -> SlideDoc:
                     extra_sources=["docs/ML-EXPERIMENT-RESTROOM.md ('The final pipeline')"])
 
 
+# Course outcome backups (R-26: one slide per CLO the project is graded on, Syl p.6) ---------------
+
+GROUNDING_REL = "docs/COURSE-GROUNDING.md"
+
+
+def clo_quote(n: int) -> str:
+    """The syllabus wording of what CLO n is assessed on, as docs/COURSE-GROUNDING.md quotes it."""
+    return grab(rf'CLO {n}(?: is assessed)? on "([^"]+)"', GROUNDING_REL).group(1)
+
+
+def clo_slide(prs, number: str, clo: int, page: int, title_words: str, rows: list[list[str]],
+              col_w: list[float]) -> str:
+    s = new_slide(prs)
+    backup_header(s, f"Course outcome · CLO {clo}", title_words)
+    quote = f"Assessed on “{clo_quote(clo)}” (Syllabus p.{page})."
+    T.text(s, MARGIN, Inches(1.62), CONTENT_W, Inches(0.4), quote, size=15, color="muted", line=1.1)
+    widths = [Inches(w) for w in col_w]
+    widths.append(CONTENT_W - sum(widths))
+    row_h = Inches(min(0.9, 3.9 / (len(rows) - 1)))  # the table ends above the footer
+    tbl = table(s, MARGIN, Inches(2.15), widths, rows, row_h=row_h, size=14, head_size=13)
+    tbl.rows[0].height = Inches(0.38)
+    for r in range(1, len(rows)):
+        tbl.cell(r, 0).text_frame.paragraphs[0].runs[0].font.bold = True
+    numbered_footer(s, number)
+    return quote
+
+
+def count(pattern: str, rel: str, what: str) -> str:
+    n = len(set(re.findall(pattern, read(rel), re.M)))
+    return R(str(n), rel, what, n)
+
+
+def slide_backup_clo5(prs) -> SlideDoc:
+    R.slide = "B6"
+    csvf, op, r1f, pj, kmf = ("ml/results/experiments.csv", "ml/results/operating_point.json",
+                              "ml/results/restroom/runs/R1.json", "ml/results/restroom/pipeline.json",
+                              "ml/results/pothole_area_clusters.json")
+    champ = WEB_POT["champion"]
+    n_runs = R(str(len(POT)), csvf, "number of rows (runs)", len(POT))
+    conf = R(d(OP["conf"], 2), op, "conf", OP["conf"])
+    prec = R(d(OP["precision"]), op, "precision", OP["precision"])
+    rec = R(d(OP["recall"]), op, "recall", OP["recall"])
+    r1 = REST_RUN["R1"]
+    if r1["params"]["arch"] != SERVED_ARCH_RAW:
+        raise SystemExit("R1 no longer uses the CLIP backbone the API serves: update B6")
+    zs, probe = r1["gender"]["zero_shot_prompts"], r1["gender"]["probe_lr"]
+    cm = zs["confusion_matrix_rows_true_male_female"]
+    men = R(str(sum(cm[0])), r1f, "gender.zero_shot_prompts confusion matrix, row men, sum", sum(cm[0]))
+    women = R(str(sum(cm[1])), r1f, "gender.zero_shot_prompts confusion matrix, row women, sum", sum(cm[1]))
+    n_prompts = len(r1["gender"]["prompts"]["male"])
+    prompts = R(str(n_prompts), r1f, "gender.prompts.male, length", n_prompts)
+    zs_acc = R(d(zs["accuracy"]), r1f, "gender.zero_shot_prompts.accuracy", zs["accuracy"])
+    probe_acc = R(d(probe["accuracy"]), r1f, "gender.probe_lr.accuracy", probe["accuracy"])
+    folds = R(str(len(probe["fold_accuracy"])), r1f, "gender.probe_lr.fold_accuracy, length", len(probe["fold_accuracy"]))
+    best = PIPE["champion"]
+    nt = len(PIPE["predictions"]["test"][best])
+    pt = R(f"{round(PIPE['test'][best] * nt)}/{nt}", pj, f"test.{best} × {nt} queries",
+           f"{round(PIPE['test'][best] * nt)}/{nt}")
+    t1, t2 = KM["area_thresholds"]
+    k = R(str(KM["k"]), kmf, "k", KM["k"])
+    boxes = R(thousands(KM["boxes"]), kmf, "boxes", KM["boxes"])
+    small = R(d(t1 * 100, 2), kmf, "area_thresholds[0] × 100 (% of image)", t1 * 100)
+    large = R(d(t2 * 100, 2), kmf, "area_thresholds[1] × 100 (% of image)", t2 * 100)
+    rows = [["Task", "Method", "Metric, and why", "Result"],
+            ["Find potholes (detection)", f"YOLO, {n_runs} runs (E0–E8)",
+             f"Validation mAP50 picks the model; near-ties go to recall at {conf}: a missed pothole costs more than a "
+             f"false alarm", f"{champ} on test (not used to choose): precision {prec}, recall {rec}"],
+            ["Gender of a sign (classification)", f"Zero-shot CLIP {SERVED_ARCH}, {prompts} prompts per gender",
+             f"Accuracy: the training signs are {men} men and {women} women, so one class cannot inflate it",
+             f"{zs_acc} (served); a logistic probe gets {probe_acc} in {folds}-fold CV grouped by restroom"],
+            ["Find the partner sign (matching)", "SIFT and a pixel check, then colour histogram + CLIP, one global "
+             "assignment", "Top-1 accuracy: the IOAI contest's own metric, so it compares with its published scores",
+             f"{pt} on test, read once"],
+            ["Size bands (clustering)", f"k-means, k = {k}, on log box area of {boxes} training boxes",
+             "No size labels exist: three groups give rule R2 its small, medium and large",
+             f"Small below {small} %, large from {large} % of the image"]]
+    title_words = "CLO 5: the methods we chose, and why each metric"
+    quote = clo_slide(prs, "B6", 5, 2, title_words, rows, [2.3, 3.0, 3.9])
+    return SlideDoc("B6", "Backup: CLO 5, methods and metrics", "Amina, Nazar", "on request", title_words,
+                    [quote] + [" · ".join(r) for r in rows[1:]], "Table, no image", "Only on request.",
+                    cues="Box areas are shares of the image, not physical size (pothole_area_clusters.json, "
+                         "limitation). Never quote R4's 100%: it was picked on test.",
+                    extra_sources=[f"{GROUNDING_REL} (CLO 5 wording, Syllabus p.2)",
+                                   "docs/ML-EXPERIMENT.md ('Selection rule')", "ml/restroom/common.py (grouped_folds)"])
+
+
+def slide_backup_clo6(prs) -> SlideDoc:
+    R.slide = "B7"
+    ci = ".github/workflows/ci.yml"
+    jobs = re.findall(r"^  ([a-z-]+):$", read(ci).split("\njobs:", 1)[1], re.M)
+    known = {"web": "web (lint, types, unit tests, build)",
+             "python": "python (result files and hygiene, slide-number sources, API tests)",
+             "up-to-date": "up-to-date (the branch has the latest main)"}
+    if set(jobs) != set(known):
+        raise SystemExit(f"{ci}: CI jobs are now {jobs}: update B7")
+    n_jobs = R(str(len(jobs)), ci, "number of jobs", len(jobs))
+    dec_files = sorted(p.name for p in (ROOT / "docs/decisions").glob("[0-9][0-9][0-9][0-9]-*.md") if not p.name.startswith("0000"))
+    n_dec = R(str(len(dec_files)), "docs/decisions/", "number of decision records (0001–)", len(dec_files))
+    n_ts = count(r"^## (TS-\d+) ", "docs/QA-SCRIPTS.md", "number of '## TS-NN' sections")
+    n_q = count(r"^### (Q\d+)\. ", "docs/DEFENSE-QA.md", "number of '### QN.' answers")
+    n_checks = count(r'await check\("([^"]+)"', "scripts/demo_check.py", "number of check(...) steps")
+    rows = [["Criterion", "Evidence"],
+            ["Working prototype", f"A web app (Next.js) and a model service (FastAPI) on this laptop: {WEB_POT['champion']} "
+             f"(YOLO) for potholes, CLIP {SERVED_ARCH} and the two-step pipeline for restroom signs. Shown live on slide 3."],
+            ["Documentation", f"Document map docs/README.md; JSON contracts in docs/ARCHITECTURE.md; rules in docs/RULES.md; "
+             f"two experiment reports; {n_dec} decision records in docs/decisions/"],
+            ["Automated checks", f"CI on every pull request, {n_jobs} jobs: " + "; ".join(known[j] for j in jobs)],
+            ["Manual checks", f"{n_ts} test scripts in docs/QA-SCRIPTS.md; scripts/demo_check.py runs {n_checks} checks "
+             "on the real models before the defence"],
+            ["Defence", f"{n_q} prepared answers (docs/DEFENSE-QA.md), a runbook (docs/DEFENSE-RUNBOOK.md), and every "
+             "number on the slides checked against its file when the deck is built"]]
+    title_words = "CLO 6: a working prototype, documented and checked"
+    quote = clo_slide(prs, "B7", 6, 2, title_words, rows, [2.4])
+    return SlideDoc("B7", "Backup: CLO 6, prototype and documentation", "Tair", "on request", title_words,
+                    [quote] + [" · ".join(r) for r in rows[1:]], "Table, no image", "Only on request.",
+                    cues="If asked to prove it works: run the morning check live (docs/DEFENSE-RUNBOOK.md, T−30).",
+                    extra_sources=[f"{GROUNDING_REL} (CLO 6 wording, Syllabus p.2)", "docs/README.md",
+                                   "docs/ARCHITECTURE.md"])
+
+
+def slide_backup_clo7(prs) -> SlideDoc:
+    R.slide = "B8"
+    log = "docs/AI-USAGE-LOG.md"
+    vm = grab(r"\*\*Gender of one sign \(same question\)\*\* \| \*\*(\d+)/(\d+) \([\d.]+%\)\*\* \| "
+              r"\*\*(\d+)/(\d+) \([\d.]+%\)\*\*", VLM_REL)
+    gem = R(f"{vm[1]}/{vm[2]}", VLM_REL, "section 5, Google Gemini, gender of one sign", f"{vm[1]}/{vm[2]}")
+    cla = R(f"{vm[3]}/{vm[4]}", VLM_REL, "section 5, Anthropic Claude, gender of one sign", f"{vm[3]}/{vm[4]}")
+    n_audit = R(vm[2], VLM_REL, "section 3, audit sample size", vm[2])
+    echo = grab(r"echoed image filenames in (\d+) of (\d+) responses", VLM_REL)
+    n_echo = R(echo[1], VLM_REL, "findings 4, responses that echoed the filename", echo[1])
+    wrong = read(log).split("## What the AI tools got wrong", 1)[1].split("\n## ", 1)[0]
+    n_err = len(re.findall(r"^\| \d+ \|", wrong, re.M))
+    n_err_s = R(str(n_err), log, "'What the AI tools got wrong': table rows", n_err)
+    lec = grab(r'Lec7 p70: "([^"]+)"', log).group(1)
+    n_entries = ai_log_entries()
+    n_s = R(str(n_entries), log, "number of '### ' entries under 'Entries' at build time", n_entries)
+    rows = [["Part", "What we did"],
+            ["Audit of two VLMs (R-6)", f"Gemini and Claude, one new chat per sign, files renamed A01–A{n_audit}: {gem} and "
+             f"{cla} on gender. Both missed A17; Gemini echoed the file name in {n_echo} of {n_audit}. {n_audit} signs are "
+             "too few to rank them."],
+            ["Errors we recorded", f"{n_err_s} cases where an AI tool was wrong, each caught outside the tool: a primary "
+             "source, a measurement, or a second reviewer (a person or another model)"],
+            ["Our rule", f"No number from an AI tool goes on a slide until it is traced to a committed file; this deck "
+             f"stops building when a slide and its file disagree (Lec7 p70: “{lec}”)"],
+            ["Privacy and law", "No personal or biometric data to external AI services (Syllabus p.9); the audit sent only "
+             "IOAI icons. What may go out, per type of data: docs/research/privacy-and-law.md"],
+            ["Prompt log", f"{n_s} entries in docs/AI-USAGE-LOG.md, each with the tool, the prompt and how it was checked"]]
+    title_words = "CLO 7: how we checked the AI tools"
+    quote = clo_slide(prs, "B8", 7, 3, title_words, rows, [2.4])
+    return SlideDoc("B8", "Backup: CLO 7, evaluating AI tools", "Roma", "on request", title_words,
+                    [quote] + [" · ".join(r) for r in rows[1:]], "Table, no image", "Only on request.",
+                    cues="The six cases are in docs/AI-USAGE-LOG.md ('What the AI tools got wrong'). Model versions: "
+                         "say what the free web apps showed on the day; the report does not prove a version.",
+                    extra_sources=[f"{GROUNDING_REL} (CLO 7 wording, Syllabus p.3)", "docs/research/privacy-and-law.md"])
+
+
 # --------------------------------------------------------------------------------------------
 # Checks, build and write
 # --------------------------------------------------------------------------------------------
@@ -1648,7 +1804,8 @@ def build(shots_dir: Path | None):
     docs = [slide_title(prs), slide_problem(prs), slide_demo(prs), slide_architecture(prs), slide_roads_data(prs),
             slide_roads_results(prs), slide_restroom_data(prs), slide_restroom_results(prs), slide_design(prs, shots_dir),
             slide_ai(prs), slide_limits(prs), slide_closing(prs), slide_backup_table(prs), slide_backup_operating(prs),
-            slide_backup_curves(prs), slide_backup_kmeans(prs), slide_backup_approaches(prs)]
+            slide_backup_curves(prs), slide_backup_kmeans(prs), slide_backup_approaches(prs), slide_backup_clo5(prs),
+            slide_backup_clo6(prs), slide_backup_clo7(prs)]
     for slide, doc in zip(prs.slides, docs):
         write_notes(slide, doc)
     check_sizes(prs)

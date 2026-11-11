@@ -22,7 +22,7 @@
 
 ---
 
-## 2. Comprehensive Vocabulary Table (38 Terms)
+## 2. Comprehensive Vocabulary Table (43 Terms)
 
 ### A. Computer Vision & Object Detection (Lecture 8)
 

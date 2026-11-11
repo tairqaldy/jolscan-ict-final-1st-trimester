@@ -27,7 +27,7 @@ Total about 8:10. If Rehearsal 1 runs long, merge slides 10 and 11. If the potho
 
 ## Backup slides index (Task R-26)
 
-Backup slides after the closing are numbered B1–B11. Each slide has at most five lines, a visible slide number for rapid navigation ("Backup B6, please"), and an explicit `Sources:` line naming primary evidence files. B1–B5 are in the deck (`docs/deck/SLIDES.md`, written by `docs/deck/make_deck.py`). B6–B11 are notes in this file until they are added to `make_deck.py`; `SLIDES.md` is regenerated on every build, so they cannot be typed into it.
+Backup slides after the closing are numbered B1–B11. Each slide has at most five lines, a visible slide number for rapid navigation ("Backup B6, please"), and an explicit `Sources:` line naming primary evidence files. B1–B8 are in the deck (`docs/deck/SLIDES.md`, written by `docs/deck/make_deck.py`). B9–B11 are notes in this file until they are added to `make_deck.py`; `SLIDES.md` is regenerated on every build, so they cannot be typed into it.
 
 | # | Backup Slide Title | Speaker | Primary Trigger Question | Evidence Files |
 |---|---|---|---|---|
@@ -101,7 +101,7 @@ Working snapshot copied from `docs/deck/SLIDES.md` at commit `1c28a49`. The fina
 ### 10. AI use and its limits
 **Speaker and budget:** Roma · **budget** 0:35 · **script** 78 words, about 0:36
 
-> We used Claude Code, Codex and Copilot to write and review code, draft documents and check text against our results. Every use is logged with its prompt and check: 112 entries, and every number here is traced to a committed file. We also audited Gemini and Claude on 20 IOAI signs: each named the gender correctly on 17. Our CLIP gets 0.756 on all 328 training signs; 20 signs are too few to rank them. Next, the limits.
+> We used Claude Code, Codex and Copilot to write and review code, draft documents and check text against our results. Every use is logged with its prompt and check: 114 entries, and every number here is traced to a committed file. We also audited Gemini and Claude on 20 IOAI signs: each named the gender correctly on 17. Our CLIP gets 0.756 on all 328 training signs; 20 signs are too few to rank them. Next, the limits.
 
 **AI errors and verification (R-41, CLO 7):** six cases where an AI tool was wrong, each with the check that caught it (a primary source, a measurement or a second reviewer), are in [`docs/AI-USAGE-LOG.md`](AI-USAGE-LOG.md), section 'What the AI tools got wrong'. The lesson is Lec7 p64 ("Verify important claims") and p70 ("Choose evidence over fluency").
 
@@ -350,7 +350,7 @@ At most three sentences each, as R-13 asks. The audit report (R-6, `docs/researc
 
 ## Backup slide details (Task R-26)
 
-Checked against the result files on 12 November 2026 (Tair). B1–B5 match the generated deck; B6–B11 are notes only.
+Checked against the result files on 12 November 2026 (Tair). B1–B5 match the generated deck. B6–B8 (the CLO slides) were then built into the deck from these notes; the deck's wording is in `docs/deck/SLIDES.md`. B9–B11 are notes only.
 
 ### Backup B1 · Full pothole metrics table
 **Speaker:** Amina · **budget** on request
@@ -415,7 +415,7 @@ Checked against the result files on 12 November 2026 (Tair). B1–B5 match the g
 **Title:** CLO 6: a working prototype, documented and defended, assessed on "the working state of the prototype, completeness of documentation and quality of the defence" (Syl p.2)
 **On the slide:**
 - Prototype: Next.js web app and a FastAPI model service with YOLO (`jolscan-e1.pt`) and CLIP ViT-B/32.
-- Documentation: the document map and a 38-term glossary (`docs/README.md`, `docs/research/glossary.md`).
+- Documentation: the document map and a 43-term glossary (`docs/README.md`, `docs/research/glossary.md`).
 - Checks: one CI workflow with three jobs (`web`: lint, types, Vitest, build; `python`: result checks and API tests; `up-to-date`).
 - Verification: 14 manual test scripts (TS-01 to TS-14), 18 prepared answers (Q1 to Q18) and a defense runbook.
 **Sources:** `docs/README.md` · `api/main.py` · `.github/workflows/ci.yml` · `docs/QA-SCRIPTS.md` · `docs/DEFENSE-QA.md` · `docs/DEFENSE-RUNBOOK.md` · Syllabus p.2 (CLO 6)

@@ -11,7 +11,7 @@ Reference style: `Lec8 p38` is page 38 of the Lecture 8 deck. `Syl` is the sylla
 ## What the syllabus says about this project
 
 - The group project is the 30-point assignment of Midterm Control 2, defended in class in week 10, mapped to CLO 5, 6 and 7 (Syl p.6).
-- CLO 5 is assessed on "the correctness of the method chosen and the justification of the quality metric". CLO 6 on "the working state of the prototype, completeness of documentation and quality of the defence". CLO 7 on "the rigour of the verification procedure and the strength of the conclusion" when evaluating generative AI tools (Syl p.3).
+- CLO 5 is assessed on "the correctness of the method chosen and the justification of the quality metric". CLO 6 on "the working state of the prototype, completeness of documentation and quality of the defence". CLO 7 on "the rigour of the verification procedure and the strength of the conclusion" when evaluating generative AI tools (Syl p.2 for CLO 5 and 6, p.3 for CLO 7).
 - Each team keeps a contribution log, every member is asked an individual question about their own part, and "a student who cannot explain their own part does not receive the team mark" (Syl p.5).
 - AI level 3 applies: "A prompt log is mandatory." AI use is declared with tool and version, purpose, key prompts, what was produced or changed, and how it was verified (Syl pp.4, 9).
 - "Personal, medical, biometric, financial or confidential data must never be uploaded to external AI services or public repositories." The named alternative is a local model (Syl p.9).
