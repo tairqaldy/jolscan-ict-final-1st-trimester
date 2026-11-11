@@ -583,3 +583,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - Greyscale screenshots of each selected tile and chip in both themes at 1440 and 375 px, and one with keyboard focus inside the sign picker.
   - `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` pass.
 - **What I rejected or corrected:** a first violet for review was too close to low severity under simulated protanopia (ΔE 9.1), so it was made darker. Did not recolour the restroom "review" verdict or the analytics chart (other lanes, never blue), and did not change the focus ring.
+
+### 11 November 2026, Dameli (G-29 provenance badges, G-24 icon audit)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** one badge set for demo, mock and model results, and one icon per concept on the result cards.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков". Transcript kept locally.
+- **What it produced or changed:** `ProvenanceBadge` and `ResultProvenanceBadge` in `web/components/app/demo-badge.tsx`, `resultProvenance` in `web/lib/mock/seeded.ts`, the badge on the road, compare and match results, the "Mock predictions" badge, an optional `icon` on `Callout`, the new icons on both result cards, the tests in `web/lib/demo-badges.test.ts` and the design brief section.
+- **How I verified it, and who verified it:**
+  - `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` pass.
+  - Screenshots in both themes, at 1440 px and 375 px, of a mock road result, a Local road result, a seeded road report, a mock compare result, a Cloud compare check, a seeded check and a mock match. Each result showed exactly one provenance badge; the Local and Cloud records were copies made in the test browser only, to see the look.
+  - Checked in the lucide-react package that TriangleAlert is the same drawing as TriangleExclamationPoint, and that every new icon name exists in version 1.70.
+- **What I rejected or corrected:** a first layout put the badge inside the Provider row, which left a hole in the details grid; it now has its own row. A thin amber line on "Demo data" made it look like the outlined Mock badge in the dark theme, so Demo data is a fill without a line. The four icon clashes outside the result cards were written down, not changed, because those files belong to other tasks.
