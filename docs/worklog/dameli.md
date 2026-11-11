@@ -12,6 +12,22 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 20:32 · G-74 (#433) · Rail bar, module switch and link underline that move
+- **Status:** done
+- **What I did:**
+  - App rail (`web/components/app/app-shell.tsx`): one accent bar for the whole rail that slides to the active link (transform only) instead of a bar per link. The old per-link bar stays as the no-JS fallback and is hidden once the moving bar is placed.
+  - Roads / Restrooms switch: one thumb (the white segment in the sidebar, the amber line in the mobile bar) that slides to the current module.
+  - `@utility link-underline` in `web/app/globals.css`: the underline grows from the left on hover and keyboard focus. Used on the report and check row links, the site footer links and the About link in the rail.
+  - Reference: on the dope.security site (Dameli's style board) nav links change colour in 100 ms, buttons in 150 ms and panels move with transform in 300 ms. I kept the idea (short colour change, transform for movement) and our own tokens.
+- **Result:** Playwright on my dev server: rail bar and thumb `transform 0.2s cubic-bezier(0.3, 0, 0, 1)`, underline `background-size 0.2s` and `color 0.16s` with `--ease-standard`; mid-flight samples move (rail 141 to 300 px, thumb 0 to 108.5 px, underline 0 to 100 %). With the OS setting or the Settings switch every one reports `transition-property: none` and shows the end state at once. Checked at 1440 and 375 px, light and dark. Lint, typecheck and 223 tests pass.
+- **Decisions and why:**
+  - Transitions switch on one frame after the shell mounts, so nothing moves on page load or when the last module is read from localStorage.
+  - The site header keeps its G-8 pill hover: an underline inside the pill would give two effects for one hover. Its padding transition (320 ms, overshoot) is not on the tokens and moves neighbouring links; left for me to decide separately.
+  - The page fade on route change already existed (`page-transition.tsx`, 200 ms), so I did not add another.
+- **What I learned / can explain at the defense:** a moving indicator shows where you went, not only where you are (NN/g microinteractions); WCAG 2.3.3 is met because both reduce-motion paths remove the transition. A parent ref is not attached yet when a child's layout effect runs on first mount, so the bar reads its parent element instead.
+- **AI use:** Claude Code wrote the CSS, the shell changes and the Playwright checks (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** the mobile bottom tab bar still switches its pill without motion. The About link underline also runs under its icon.
+
 ### 2026-11-11 19:24 · G-49 (#283), G-23 (#167), G-62 (#296) · Three radii, one eyebrow label, one card inset
 - **Status:** done
 - **What I did:**
