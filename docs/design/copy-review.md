@@ -1,6 +1,6 @@
 # Copy review (G-76)
 
-A brand and copy pass over the user-facing text in `web/app` and `web/components` (headings, buttons, labels, empty states, errors, page titles, metadata) and over `docs/design/*.md`, in three rounds on 11 November 2026. The checklist is `ANTI-SLOP.md` (R5 placeholder copy, R6 numbers, R11 words), the voice in `PRINCIPLES.md` (Plain, Exact, Honest) and, for sentences, the patterns of the unslop writing guide (vague claim, slogan pair, colon reveal, link text that names no target). File and line refer to this branch after the rebase on `main` of 11 November, 19:35.
+A brand and copy pass over the user-facing text in `web/app` and `web/components` (headings, buttons, labels, empty states, errors, page titles, metadata) and over `docs/design/*.md`, in three rounds on 11 November 2026. The checklist is `ANTI-SLOP.md` (R5 placeholder copy, R6 numbers, R11 words), the voice in `PRINCIPLES.md` (Plain, Exact, Honest) and, for sentences, four patterns: a vague claim, a slogan pair, a colon reveal and link text that names no target. File and line refer to this branch after the rebase on `main` of 11 November, 19:35.
 
 **Ownership.** Each string was traced with `git log -S '<text>'` and `git blame -w`. Dameli owns what her commits wrote: the landing hero and the sections she rewrote in G-8 (`ff4a0d2`), G-60 and G-61, her lines on `/design` and in `design-showcase.tsx`, the empty-state drawings (G-26 added the drawings only; the empty-state text is the teammates'), the social card alt text (G-5) and `docs/design/*`. A line that blame gives to `dkalikhan` only because G-8 re-indented it (the landing privacy and team sections, the Problem section restored in #382) stays with its first author, Tair. Dameli's rows are rewritten in this branch; every other row is a proposal for its owner and the code is untouched.
 
@@ -13,7 +13,7 @@ A brand and copy pass over the user-facing text in `web/app` and `web/components
 | # | Where | Before | Rule | After | Decision |
 |---|---|---|---|---|---|
 | D1 | `web/app/page.tsx` line 123 (hero heading) | "Inspect roads and signs with clarity." | Plain: "with clarity" fits any product and says nothing a visitor can check | "Inspect roads and signs from a photo." | Changed |
-| D2 | `web/app/page.tsx` lines 128–129 (hero lead) | "Inspect road damage and compare door signs with computer vision. Qarau shows the evidence behind each result." | Exact: the road model finds only potholes ("The model only finds potholes", `web/app/app/roads/rules/page.tsx` line 13); "Inspect" repeats the heading; "the evidence" is vague | "Qarau finds potholes in road photos and compares restroom door signs with computer vision. Each result shows what the model found and which rules decided it." The name comes from `BRAND.name` | Changed |
+| D2 | `web/app/page.tsx` lines 128–129 (hero lead) | "Inspect road damage and compare door signs with computer vision. Qarau shows the evidence behind each result." | Exact: the road model finds only potholes ("The model only finds potholes", `web/app/app/roads/rules/page.tsx` line 13); "Inspect" repeats the heading; "the evidence" is vague | "Qarau uses computer vision to find potholes in road photos and to compare restroom door signs. Each result shows what the model found and which rules decided it." The name comes from `BRAND.name` | Changed |
 | D3 | `web/app/page.tsx` line 157 (hero card) | "Why this priority?" | One name per thing: the result tab is "Why this priority" (`web/components/app/analysis-view.tsx` line 148) | "Why this priority" | Changed |
 | D4 | `web/app/page.tsx` line 211 (section heading) | "One approach, two inspection tasks" | Slogan pair ("one X, two Y"); a heading names what the section holds (PRINCIPLES 4) | "Two inspection tasks" | Changed |
 | D5 | `web/app/page.tsx` line 212 | "Choose a task to see how an image becomes an explainable result." | Plain: "explainable" is a label, not a fact; the cards show the steps ("Photo → detections → repair priority") | "Choose a task to see the steps from photo to result." | Changed |
@@ -38,7 +38,7 @@ Dameli's text checked and kept: the hero card ("INSPECTION 01 / ROADS", "From de
 | T7 | Page titles: `web/app/app/analytics/page.tsx` line 8, `web/app/app/restrooms/match/page.tsx` line 9, `web/app/app/roads/rules/page.tsx` line 5 | Tab "Analytics", heading "Monitoring"; tab "Find the counterpart", heading "Find the other door"; tab "Rules" while the restroom tab says "Signage rules" | One name per page (WCAG 2.4.2: the tab, the history and a screen reader announce the title) | Make each tab title a short form of its heading: "Monitoring", "Find the other door", "Repair rules" | Tair |
 | T8 | `analyze-client.tsx` 283 "Analysing…" next to 287 "Analyze photo"; "Analysed" in `analysis-view.tsx` 122, `report-detail-client.tsx` 54, `web/app/app/roads/map/page.tsx` 16 (with "coloured"); "analysed" in `dashboard-client.tsx` 67, 79, 98 and `platform-overview-client.tsx` 63; `web/app/api/analyze/route.ts` 104 | Two spellings in one interface | One spelling (already open in PRINCIPLES, R-12) | Pick US or British once; routes such as `/app/roads/analyze` stay | Team decision, R-12 |
 | T9 | `web/app/api/analyze/route.ts` line 104, `web/app/api/restroom/route.ts` line 119 | "Something went wrong while …" | No cause, no next step (already in the PRINCIPLES Don't table) | "The photo could not be analysed. Try again, or switch to the mock provider in Settings." | Tair |
-| T10 | `web/components/design/design-showcase.tsx` lines 401, 405, 431–432, 472, 481 | "Info callout" / "Neutral information.", "Empty state" / "Shown when there is nothing yet.", "Card title" / "Card description.", "First panel.", "Dialog title" | R5: placeholder copy on a public page | Real strings from the app, e.g. "Recent analyses" / "Newest first. Open a row for the full report." (`dashboard-client.tsx` lines 111–112) and the "Reset demo data?" dialog | Tair (`abecc25`); the G-6 agent is editing these sections now |
+| T10 | `web/components/design/design-showcase.tsx` lines 401, 405, 431–432, 472, 481 | "Info callout" / "Neutral information.", "Empty state" / "Shown when there is nothing yet.", "Card title" / "Card description.", "First panel.", "Dialog title" | R5: placeholder copy on a public page | Real strings from the app, e.g. "Recent analyses" / "Newest first. Open a row for the full report." (`dashboard-client.tsx` lines 111–112) and the "Reset demo data?" dialog | Tair (`abecc25`); the open G-6 branch edits these sections |
 | T11 | `web/app/design/page.tsx` line 21 | "Asphalt, markings and signs" | The heading names a mood; the page holds colours, type and components | "Colours, type and components" (optional: the eyebrow already says "Design system") | Tair (`9782b6f`) |
 | T12 | `web/app/not-found.tsx` line 7 | "Nothing to inspect here" | The first thing a screen reader announces is a pun, not the state | "Page not found", keeping "The page you asked for is not here." | Tair |
 | T13 | `web/components/app/map-view.tsx` line 67 | "Map tiles could not load (offline?)." | A guess in brackets instead of a next step | "Map tiles could not load. Check the internet connection; markers are still shown and listed below." | Tair |
@@ -47,7 +47,7 @@ Teammates' text checked and kept: the error and hint pairs in `web/lib/providers
 
 ### Design lab (Dameli's, proposals only)
 
-The G-41 lab agent is editing `web/app/design/lab/` and `web/lib/design-lab.ts` in parallel, so these stay as proposals to avoid a conflict.
+An open lab branch edits `web/app/design/lab/` and `web/lib/design-lab.ts` today, so these stay as proposals to avoid a conflict.
 
 | # | Where | Text | Rule | Proposal |
 |---|---|---|---|---|
@@ -55,5 +55,15 @@ The G-41 lab agent is editing `web/app/design/lab/` and `web/lib/design-lab.ts` 
 | L2 | `web/lib/design-lab.ts` line 156 | "a darker amber that carries a white label" | "Carries" stands in for a measured claim | "a darker amber with a white label" (the contrast table below the columns gives the ratio) |
 
 ## Round 2: re-read as a critic
+
+Every changed line and this file, read again against the same checklist.
+
+| # | Found | Fix |
+|---|---|---|
+| R2.1 | D2: "… compares restroom door signs with computer vision" reads as if only the signs use computer vision | "Qarau uses computer vision to find potholes in road photos and to compare restroom door signs." (`web/app/page.tsx` line 128) |
+| R2.2 | D10: "Name the thing the model really finds": "really" is filler | "Name only what the model finds" |
+| R2.3 | This file named a writing tool and called the parallel branches "agents"; the review should name the patterns and the branches | Patterns named in the intro; "the open G-6 branch", "an open lab branch" |
+
+Checked and fine: D1 and D4 headings are noun labels; D6 still says "mock predictions"; D8 alt text names everything on the card except the decorative road line; the PRINCIPLES line numbers match the rebased files (each quoted string checked with `grep -n`).
 
 ## Round 3: re-read as a critic
