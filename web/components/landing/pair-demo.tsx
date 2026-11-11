@@ -1,13 +1,14 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotionConfig } from "motion/react";
 import { useEffect, useState } from "react";
 import { GenderTag, SignImage, VerdictBadge } from "@/components/restrooms/signage-bits";
 import { cn } from "@/lib/cn";
-import { duration, ease } from "@/lib/motion";
+import { demo, duration, ease } from "@/lib/motion";
 import { RESTROOM_PRESETS, getRestroomSample, mockSimilarity } from "@/lib/mock/restroom-samples";
 import { DEFAULT_SIGNAGE, doorGender, evaluateSignage } from "@/lib/signage";
 import { useHydrated } from "@/lib/store/local-store";
+import { DemoPauseButton } from "./demo-pause-button";
 
 // The landing page keeps the four drawn example pairs; the real IOAI pairs are on the Compare page.
 const LANDING_PRESETS = ["matching", "faint", "mismatched", "same"];
@@ -22,18 +23,19 @@ const EXAMPLES = RESTROOM_PRESETS.filter((p) => LANDING_PRESETS.includes(p.id)).
 /**
  * Landing mini-demo for the restroom module: a sign pair resolves to a
  * verdict. Cycles through the four example pairs; the first one is rendered
- * complete on the server, later ones animate in. A click on an example stops
- * the cycle. No cycling under prefers-reduced-motion.
+ * complete on the server, later ones animate in. The Pause button or a click
+ * on an example stops the cycle; Play resumes it (WCAG 2.2.2). No cycling
+ * under reduced motion.
  */
 export function PairDemo() {
-  const reduce = useReducedMotion();
+  const reduce = useReducedMotionConfig();
   const hydrated = useHydrated();
   const [index, setIndex] = useState(0);
   const [auto, setAuto] = useState(true);
 
   useEffect(() => {
     if (reduce || !auto) return;
-    const t = setInterval(() => setIndex((i) => (i + 1) % EXAMPLES.length), 5000);
+    const t = setInterval(() => setIndex((i) => (i + 1) % EXAMPLES.length), demo.pairCycle * 1000);
     return () => clearInterval(t);
   }, [reduce, auto]);
 
@@ -54,7 +56,7 @@ export function PairDemo() {
             return (
               <div key={k} className="grid content-start gap-2">
                 <SignImage src={s.file} alt={`Door ${k.toUpperCase()}: ${s.title}`} className="bg-surface" />
-                <motion.div {...step(0.35 + i * 0.15)}>
+                <motion.div {...step(demo.tagDelay + i * demo.tagStep)}>
                   <span className="inline-flex flex-wrap items-center gap-1.5 text-xs text-muted">
                     <GenderTag gender={doorGender(ex.result.doors, k)} />
                     <span className="tabular font-mono">P(male) {(k === "a" ? ex.result.doors.pMaleA : ex.result.doors.pMaleB).toFixed(2)}</span>
@@ -75,12 +77,12 @@ export function PairDemo() {
               style={{ width: `${ex.similarity * 100}%` }}
               initial={play ? { scaleX: 0 } : false}
               animate={{ scaleX: 1 }}
-              transition={{ duration: duration.draw, delay: 0.7, ease: ease.emphasized }}
+              transition={{ duration: duration.draw, delay: demo.similarityDelay, ease: ease.emphasized }}
             />
             <span className="absolute -top-1 -bottom-1 w-0.5 rounded-full bg-fg" style={{ left: `${DEFAULT_SIGNAGE.s3.minSimilarity * 100}%` }} />
           </div>
         </div>
-        <motion.div {...step(1.4)} className="flex flex-wrap items-center gap-x-3 gap-y-2">
+        <motion.div {...step(demo.resultDelay)} className="flex flex-wrap items-center gap-x-3 gap-y-2">
           <VerdictBadge verdict={ex.result.verdict} size="lg" />
           <span className="text-sm text-muted">{ex.result.recommendedAction}</span>
         </motion.div>
@@ -103,6 +105,9 @@ export function PairDemo() {
             {e.preset.title}
           </button>
         ))}
+      </div>
+      <div className="demo-loop-control flex justify-end">
+        <DemoPauseButton paused={!auto} onToggle={() => setAuto((a) => !a)} name="sign demo" />
       </div>
     </div>
   );

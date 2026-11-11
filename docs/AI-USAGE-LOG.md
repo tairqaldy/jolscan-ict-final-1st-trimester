@@ -680,3 +680,22 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - The first alt text called the demo pictures photos; they are drawings, so it now says "Sample drawing".
   - Hiding the navigation applied to every page in print; it now applies only to report and check pages.
   - Did not edit `analysis-view.tsx`, `compare-result.tsx` or `app-shell.tsx`, which other open work changes.
+
+### 11 November 2026, Dameli (G-59 motion tokens, G-54 demo pause, G-64 reduce-motion switch)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** name every animation timing, add a pause button to the landing demos and a Reduce motion switch in Settings.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков". Transcript kept locally.
+- **What it produced or changed:**
+  - `web/lib/motion.ts` tokens and `--duration-ui`; `web/components/landing/demo-pause-button.tsx` and the two demos.
+  - `web/components/motion/motion-preference.tsx`, `motionStore`, the inline script, the Settings switch and a CSS block.
+  - Two tests; the R7 line in ANTI-SLOP.md; a note in DESIGN-BRIEF.md.
+- **How I verified it, and who verified it:**
+  - lint, typecheck, all 148 tests and the build pass after the rebase on `main`.
+  - A Playwright run on port 3102 read every animation frame for 3 s on the four routes. Switch on: no element took more than one value. Baseline: chart bars took 20 values, KPI numbers 10.
+  - The same run with the device setting emulated gave the same result as the switch.
+  - Pause and Play worked with Enter, Space and a click.
+- **What I rejected or corrected:**
+  - Did not hide the pause button with conditional markup (hydration mismatch); CSS hides it instead.
+  - Did not touch the chart files or the count-up rendering, which other tasks edit today.
+  - A first test of the sign demo failed because it sits in a closed `<details>`; the test now opens it first.

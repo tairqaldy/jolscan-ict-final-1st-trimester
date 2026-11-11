@@ -2,6 +2,7 @@ import { normaliseRules, DEFAULT_RULES, type RulesConfig } from "@/lib/rules/con
 import { PROVIDERS, type Provider } from "@/lib/types";
 import { storageKey } from "@/lib/brand";
 import { normaliseSignage, DEFAULT_SIGNAGE, type SignageConfig } from "@/lib/signage/config";
+import { MOTION_STORAGE_KEY } from "@/lib/theme-script";
 import { createLocalStore } from "./local-store";
 
 /** Settings page state, remembered in this browser only. One provider setting drives both modules. */
@@ -36,3 +37,10 @@ export const rulesStore = createLocalStore<RulesConfig>(storageKey("rules"), DEF
 
 /** Restroom Rules page state (S1, S3 thresholds). Sent with every compare so the server judges with it. */
 export const signageRulesStore = createLocalStore<SignageConfig>(storageKey("signage-rules"), DEFAULT_SIGNAGE, normaliseSignage);
+
+/**
+ * Settings switch "Reduce motion": true stops animations in this app; false follows
+ * the device setting. Its own key, so the inline script in lib/theme-script.ts can read
+ * it before first paint. Kept on "Reset demo data", like the theme.
+ */
+export const motionStore = createLocalStore<boolean>(MOTION_STORAGE_KEY, false, (raw) => raw === true);

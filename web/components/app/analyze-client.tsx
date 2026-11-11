@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowRight, ImageUp, LoaderCircle, RotateCcw, ScanSearch } from "lucide-react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotionConfig } from "motion/react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState, type DragEvent } from "react";
@@ -16,6 +16,7 @@ import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/cn";
 import { makeThumbnail, readImageSize, reencodeWithoutMetadata } from "@/lib/image";
 import { SAMPLES, getSample, type Sample } from "@/lib/mock/samples";
+import { timing } from "@/lib/motion";
 import { addToHistory } from "@/lib/store/history";
 import { rulesStore, settingsStore } from "@/lib/store/settings";
 import { ROAD_CLASSES, type RoadClass, type StoredAnalysis } from "@/lib/types";
@@ -36,7 +37,7 @@ type Status =
 export function AnalyzeClient() {
   const params = useSearchParams();
   const settings = settingsStore.useStore();
-  const reduce = useReducedMotion();
+  const reduce = useReducedMotionConfig();
   const initialSample = getSample(params.get("sample"));
   const [source, setSource] = useState<Source | null>(initialSample ? { kind: "sample", sample: initialSample } : null);
   const [roadClass, setRoadClass] = useState<RoadClass | "unknown">(initialSample?.meta.roadClass ?? "unknown");
@@ -205,7 +206,7 @@ export function AnalyzeClient() {
                       className="absolute inset-x-0 h-1 bg-accent shadow-lg"
                       initial={{ top: "0%" }}
                       animate={{ top: ["0%", "100%", "0%"] }}
-                      transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+                      transition={{ duration: timing.scanSweep, repeat: Infinity, ease: "easeInOut" }}
                     />
                   )}
                 </motion.div>

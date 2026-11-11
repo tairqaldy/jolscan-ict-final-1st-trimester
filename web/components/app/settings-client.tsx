@@ -16,7 +16,7 @@ import { cn } from "@/lib/cn";
 import { BRAND } from "@/lib/brand";
 import { historyStore, useAnalyses } from "@/lib/store/history";
 import { restroomHistoryStore, useRestroomChecks } from "@/lib/store/restroom-history";
-import { rulesStore, settingsStore, signageRulesStore } from "@/lib/store/settings";
+import { motionStore, rulesStore, settingsStore, signageRulesStore } from "@/lib/store/settings";
 import { themeStore, type ThemePreference } from "@/lib/store/theme";
 import { PROVIDERS, type Provider } from "@/lib/types";
 import type { HealthResult } from "@/lib/providers/types";
@@ -28,6 +28,7 @@ export function SettingsClient() {
   const settings = settingsStore.useStore();
   const rules = rulesStore.useStore();
   const theme = themeStore.useStore();
+  const reduceMotion = motionStore.useStore();
   const history = historyStore.useStore();
   const analyses = useAnalyses();
   const signChecks = useRestroomChecks();
@@ -220,6 +221,12 @@ export function SettingsClient() {
               { value: "dark", label: "Dark", icon: Moon },
             ]}
           />
+          <Switch
+            label="Reduce motion"
+            description="On: animations stop in this app. Off: follows your device setting."
+            checked={reduceMotion}
+            onCheckedChange={(v) => motionStore.set(v)}
+          />
           <Select
             label="Language"
             value="en"
@@ -254,7 +261,7 @@ export function SettingsClient() {
               </DialogTrigger>
               <DialogContent
                 title="Reset demo data?"
-                description="This clears road analyses and sign checks made in this browser, your rule changes in both modules and your settings. The seeded demo sets stay. Theme is kept."
+                description="This clears road analyses and sign checks made in this browser, your rule changes in both modules and your settings. The seeded demo sets stay. Theme and Reduce motion are kept."
               >
                 <div className="flex justify-end gap-2">
                   <DialogClose asChild>

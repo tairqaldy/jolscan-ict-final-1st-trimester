@@ -1,7 +1,7 @@
 "use client";
 
 import { ImageOff } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotionConfig } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 import { duration, ease } from "@/lib/motion";
@@ -78,7 +78,7 @@ export function DetectionOverlay({
   alt: string;
   className?: string;
 }) {
-  const reduce = useReducedMotion();
+  const reduce = useReducedMotionConfig();
   // Server-rendered boxes are drawn at once (visible without JS); only overlays
   // mounted later in the browser, or replayed, animate in.
   const hydrated = useHydrated();
