@@ -246,7 +246,7 @@ export default function LandingPage() {
               const Icon = s.icon;
               return (
                 <StaggerItem as="li" key={s.title} className="relative rounded-lg border border-border bg-surface p-6">
-                  <span className="font-display text-6xl leading-none font-bold text-surface-3" aria-hidden>
+                  <span className="font-display text-5xl leading-none font-bold text-surface-3" aria-hidden>
                     {i + 1}
                   </span>
                   <div className="mt-4 flex items-center gap-2">
