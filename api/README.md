@@ -102,7 +102,7 @@ curl -F "query=@query.png" -F "gallery=@g1.png" -F "gallery=@g2.png" -F "gallery
 
 - `compare` returns the predicted gender and its confidence for both signs, and their similarity, `(cos + 1) / 2` of the CLIP embeddings.
 - `match` returns the query's prediction and every gallery image as a candidate with id `"0"`, `"1"`, ... in upload order, sorted by similarity. `bestMatchId` is the most similar candidate whose predicted gender is the opposite of the query's, or `null`.
-- Validation is the same as `/predict`: JPEG, PNG or WebP, at most 10 MB per file, at most 60 gallery files. A missing field gives FastAPI's 422.
+- Validation is the same as `/predict`: JPEG, PNG or WebP, at most 10 MB and 40 megapixels per file, at most 60 gallery files. A missing field gives FastAPI's 422.
 
 Configuration:
 
@@ -122,6 +122,17 @@ pip install -r requirements-dev.txt && cd .. && pytest api/
 ```
 
 The tests replace CLIP with a tiny fake encoder, so they download nothing and do not need the YOLO weights.
+
+## Concurrent inference (S-30)
+
+The API shares one YOLO model and one CLIP backend per process. Each model's inference
+uses its own lock inside a worker thread; road and restroom inference can run in parallel
+with each other, but requests for the same backend wait their turn. The response latency
+includes any time waiting for that model lock. `/health` does not take these locks.
+
+Locks are process-local: separate Uvicorn workers have separate model instances and locks.
+Serializing reduces concurrency; it is a stability choice, not an inference speed-up.
+See [Ultralytics thread-safe inference guidance](https://docs.ultralytics.com/guides/yolo-thread-safe-inference/).
 
 ## Two thresholds
 

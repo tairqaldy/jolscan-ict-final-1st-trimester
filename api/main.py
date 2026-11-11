@@ -27,6 +27,7 @@ from PIL import Image
 
 import restroom
 from imaging import read_image
+from schemas import InferenceResult
 
 WEIGHTS = os.getenv("MODEL_WEIGHTS", "weights/jolscan-e8.pt")
 MODEL_NAME = os.getenv("MODEL_NAME", Path(WEIGHTS).stem)
@@ -64,6 +65,7 @@ app.include_router(restroom.router)
 
 _yolo = None
 _yolo_lock = threading.Lock()
+_yolo_inference_lock = threading.Lock()
 
 
 def get_yolo():
@@ -84,6 +86,12 @@ def get_yolo():
                         detail=f"The pothole model could not be loaded from {WEIGHTS}: {exc}. Set MODEL_WEIGHTS.",
                     ) from None
     return _yolo
+
+
+def _predict_locked(model, image, conf):
+    """Serialize calls on the shared model inside a worker, not the event loop."""
+    with _yolo_inference_lock:
+        return model.predict(image, conf=conf, verbose=False)
 
 
 @app.get("/health")
@@ -118,7 +126,7 @@ async def ready() -> JSONResponse:
     return JSONResponse(status_code=200 if ok else 503, content={"ready": ok, "models": models})
 
 
-@app.post("/predict")
+@app.post("/predict", response_model=InferenceResult)
 async def predict(file: UploadFile = File(...), conf: float = Form(0.25)) -> dict:
     if not 0.0 < conf < 1.0:
         raise HTTPException(status_code=400, detail="conf must be between 0 and 1.")
@@ -128,7 +136,7 @@ async def predict(file: UploadFile = File(...), conf: float = Form(0.25)) -> dic
 
     start = time.perf_counter()
     # Inference is blocking, so it runs in a worker thread and /health stays responsive.
-    results = await run_in_threadpool(model.predict, image, conf=conf, verbose=False)
+    results = await run_in_threadpool(_predict_locked, model, image, conf)
     latency_ms = round((time.perf_counter() - start) * 1000)
     result = results[0]
 

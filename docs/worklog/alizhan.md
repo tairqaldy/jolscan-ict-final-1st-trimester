@@ -21,6 +21,42 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **AI use:** Codex drafted the card; see AI-USAGE-LOG.md. Alizhan has not personally verified it.
 - **Open questions / next:** Answer three random questions without notes to a teammate and show `/predict`; check lecture references against original PDFs.
 
+### 2026-11-11 · S-10 (#33) · Lighthouse pass
+- **Status:** in progress; two issues addressed, a third still needs investigation.
+- **What I did:** Measured the production build of the landing page and dashboard in Lighthouse, reduced unnecessary font preloads, and corrected inaccessible labels on animated statistics.
+- **Result:** On the local production build, `/app` accessibility improved from 96 to 100 on mobile and desktop. Both pages loaded 7 font files (126,044 bytes) instead of 13 (185,522 bytes). Performance was 100 in both local runs; these single runs do not establish a latency improvement. See the S-10 pull request for all scores and measurement conditions.
+- **Decisions and why:** Preload only Latin glyphs; other font ranges remain available when needed. Expose the final number to assistive technology while hiding the animated visual copy.
+- **What I learned / can explain at the defense:** Preloading font subsets consumes network bandwidth even if a page does not use those glyphs; accessible text should be exposed once without unsupported ARIA attributes.
+- **AI use:** Codex desktop, GPT-6, for measurement and changes; personal review pending.
+- **Open questions / next:** Identify and validate a third meaningful improvement and repeat measurements on the deployed site after review and deployment.
+
+### 2026-11-11 · S-29 (#223) · API response schemas
+- **Status:** implemented; review pending.
+- **What I did:** Declared Pydantic response models for road detection and restroom compare/match, attached them to the routes, and included them in the Docker build. Exported the OpenAPI specification from the running local service.
+- **Result:** `/docs` exposes the three response models; `api/openapi.json` records the contract. All 32 API tests pass with lightweight test dependencies, including checks for schema publication and invalid response rejection.
+- **Decisions and why:** Kept `/health` unchanged because its shape is evolving; preserved all current response fields and the documented provider values.
+- **What I learned / can explain at the defense:** Response models document an API and make FastAPI validate its output against the shared contract.
+- **AI use:** Codex desktop, GPT-6; personal review pending.
+- **Open questions / next:** Tair should review the shared contract and integration with any concurrent restroom changes.
+
+### 2026-11-11 · S-31 (#225) · Image upload boundaries
+- **Status:** implemented and tested; awaiting review.
+- **What I did:** Added a 40-megapixel limit and mapped Pillow decompression-bomb errors to HTTP 400; documented the shared upload validation.
+- **Result:** 35 API tests passed without models, including both endpoints, dimension limits and an EXIF-rotated JPEG.
+- **Decisions and why:** Reject excessive pixel dimensions before decoding or loading a model, while preserving the existing 10 MB byte limit and image-type validation.
+- **What I learned / can explain at the defense:** A compressed image can be small as a file but huge when decoded, so the API validates both bytes and dimensions.
+- **AI use:** Codex assisted; see AI-USAGE-LOG.md. Alizhan has not personally reviewed this entry.
+- **Open questions / next:** Tair reviews the contract documentation change; real-image verification remains separate.
+
+### 2026-11-11 · S-30 (#224) · Shared-model concurrency
+- **Status:** implemented and tested; awaiting review.
+- **What I did:** Added a per-model lock around shared YOLO and CLIP calls in worker threads. Added concurrent endpoint tests, including a health request while YOLO is blocked.
+- **Result:** 32 API tests pass; six requests per backend returned 200 and maximum fake-backend concurrency was one. `/health` responded during blocked inference.
+- **Decisions and why:** Use separate process-local locks for the two models to avoid same-model races without blocking the event loop. Requests to one model queue; this is not a speed benchmark.
+- **What I learned / can explain at the defense:** A shared model needs safe concurrent access; locking trades same-model throughput for predictable serialized access. Each server process has its own lock.
+- **AI use:** Codex assisted; see AI-USAGE-LOG.md. Alizhan has not personally reviewed this entry.
+- **Open questions / next:** Review with Tair and Nazar and reconcile with S-20 warm-up and Nazar's C-8 before merging.
+
 ### 2026-11-11 · S-20 (#214) · Model readiness and optional warm-up
 - **Status:** implemented and tested with fake backends; awaiting review.
 - **What I did:** Added `/ready` to load and report both models independently, a loaded-state flag on `/health`, and optional startup warm-up on blank images. A model failure does not stop the service.
