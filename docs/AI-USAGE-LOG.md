@@ -22,6 +22,17 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Amina (R-22 and R-23, presentation drafts)
+
+- **Tool and version:** Codex, GPT-6 family.
+- **Purpose:** Prepare Amina's existing Roads slides as GitHub documents, preserving correct attribution and numerical evidence.
+- **Key prompt:** "Update only Slides 5 and 6 in docs/deck/SLIDES.md." "Clearly distinguish my dataset, clustering, selection-policy and smoke work from Tair's full E0-E8 training." "Do not claim a timed rehearsal occurred." Full transcript archival remains outstanding under X-13.
+- **What it produced or changed:** Separate Slide 5 and Slide 6 commits plus supporting worklog/AI notes. Assigned the available issues to omodotori and pushed the claim-only main commit before preparing the slides.
+- **How verified:** Successfully fetched and fast-forwarded main; compared all numerical claims with the manifest, run JSONs/CSV, operating-point JSON, clustering JSON, rule configuration and unchanged deck-source index. Verified other slide sections are unchanged, script word counts 127/90, repository-result/hygiene checks and five checker tests passed; git diff --check passed.
+- **What rejected or corrected:** Removed misleading single-test-read wording; retained prior review overlap and multiple evaluation-pass limitations. No attribution of Tair's full training to Amina, invented uncertainty/latency, course-page verification or rehearsal evidence. No QA, application code, generated results, generator/PPTX, unrelated slides or Alizhan's source-audit file were changed. Manual edits to the generated Markdown are explicitly requested scope and need separate coordination before future regeneration.
+
+
+
 ### 11 November 2026, Amina (M-37)
 
 - **Tool and version:** Codex, GPT-6 family.
