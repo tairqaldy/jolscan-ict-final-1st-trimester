@@ -9,8 +9,10 @@ import "./globals.css";
  * Fonts. Barlow is inspired by highway signage, which fits public infrastructure.
  * To re-skin: swap these and keep the CSS variable names (tokens.css reads them).
  */
-const body = Barlow({ subsets: ["latin", "latin-ext"], weight: ["400", "500", "600", "700"], variable: "--font-body" });
-const heading = Barlow_Condensed({ subsets: ["latin", "latin-ext"], weight: ["600", "700"], variable: "--font-heading" });
+// Only preload the subset needed by the default English UI; other glyph ranges
+// remain available through the generated font-face rules when text needs them.
+const body = Barlow({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-body" });
+const heading = Barlow_Condensed({ subsets: ["latin"], weight: ["600", "700"], variable: "--font-heading" });
 const code = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-code" });
 
 export const metadata: Metadata = {

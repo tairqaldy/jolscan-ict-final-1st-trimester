@@ -21,6 +21,26 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **AI use:** Claude Code (Claude Opus 5.5) measured the variants in the browser and wrote the changes; entry in docs/AI-USAGE-LOG.md.
 - **Open questions / next:** with the browser's tab and address bars the window is about 1280×630; then everything still fits except the threshold note under the similarity bar. Present in full screen anyway. I did not open `/app/restrooms/checks/[id]` in the browser; it uses the same component. W-31 (presentation mode with larger type) will change these sizes, so check again after it lands.
 
+### 11 November 2026 · X-16 (#97) · Defense-day runbook and a one-command demo start
+
+- **Status:** first version; to be tried in Rehearsal 2 with Wi-Fi off
+- **What I did:** wrote `docs/DEFENSE-RUNBOOK.md` and `scripts/demo-local.sh`, which checks the ports, the weights and the production build, starts the API with the E0 weights, warms the model and starts the web app.
+- **Result:** run once on this laptop: a real photo through the web app took 21 ms model time after the warm-up; the cold first request without warm-up took about 2.4 s.
+- **Decisions and why:** warm the model in the script, so the first photo in front of the examiners is fast; production build, not `next dev`, because dev compiles pages on first open.
+- **What I learned / can explain:** why the deployed site cannot run our model (its server cannot reach the laptop), and what is real and what is demo on each screen.
+- **AI use:** Claude Code wrote the runbook and the script and ran them (docs/AI-USAGE-LOG.md).
+- **Open questions:** confirm the presenting laptop in the chat; Restrooms Compare on Local still has to be checked in the rehearsal.
+
+### 11 November 2026 · follow-up to W-28 (#132) · Invented rows no longer claim a provider or model
+
+- **Status:** done
+- **What I did:** seeded demo records (ids `demo-…`) now show "Demo" in the provider column of the analyses and sign-check tables, and "Invented demo record" with model "none" on their detail pages.
+- **Result:** after E0 made the roads results real, a sample row like "9 Nov, Bogenbay Batyr Ave, Critical, Local" read as a real model run; it now reads "Demo", while my real test analysis still reads "Local".
+- **Decisions and why:** label by id (`lib/mock/seeded.ts`) instead of changing the seeded data, so the analytics charts keep their provider split under the page's "Includes demo data" badge.
+- **What I learned / can explain:** why a page-level badge is not enough once real and invented rows sit in one table.
+- **AI use:** Claude Code made the change and found the problem while checking the dashboard in a browser (docs/AI-USAGE-LOG.md).
+- **Open questions:** none.
+
 ### 11 November 2026 · D-14 (#70) · Rebuild potholes_yolo_v1 from the Kaggle source
 
 - **Status:** done

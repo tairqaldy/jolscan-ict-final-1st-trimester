@@ -41,7 +41,9 @@ describe("Demo data badges (W-28)", () => {
   it.each(RESULT_VIEW_FILES)("%s marks results made by the mock provider", (file) => {
     const badges = demoBadges(file);
     expect(badges).toHaveLength(1);
-    expect(badges[0]).toMatch(/show=\{\w+\.provider === "mock"\}/);
-    expect(badges[0]).toContain('label="Mock result"');
+    // Mock results and the invented seeded records are both marked (lib/mock/seeded.ts).
+    expect(badges[0]).toMatch(/show=\{\w+\.provider === "mock" \|\| isSeededDemo\(\w+\.id\)\}/);
+    expect(badges[0]).toContain('"Mock result"');
+    expect(badges[0]).toContain('"Invented demo record"');
   });
 });

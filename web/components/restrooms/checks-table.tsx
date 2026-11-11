@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { PROVIDER_META } from "@/components/app/provider-badge";
+import { isSeededDemo } from "@/lib/mock/seeded";
 import { Table, TD, TH, THead, TR } from "@/components/ui/table";
 import { formatDateTime } from "@/lib/format";
 import type { CheckWithSource } from "@/lib/store/restroom-history";
@@ -53,7 +54,9 @@ export function ChecksTable({ checks, caption }: { checks: CheckWithSource[]; ca
               <VerdictBadge verdict={c.verdict} />
             </TD>
             <TD className="tabular text-right font-mono">{c.similarity.toFixed(2)}</TD>
-            <TD className="whitespace-nowrap text-muted">{PROVIDER_META[c.provider].label}</TD>
+            <TD className="whitespace-nowrap text-muted">
+              {isSeededDemo(c.id) ? "Demo" : PROVIDER_META[c.provider].label}
+            </TD>
           </TR>
         ))}
       </tbody>
