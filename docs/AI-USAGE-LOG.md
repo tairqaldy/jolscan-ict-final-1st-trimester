@@ -526,6 +526,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How I verified it, and who verified it:** every check was run on `main` on 11 November; both percentages were traced to their source lines; the looping components were opened to confirm the intervals.
 - **What I rejected or corrected:** did not count the Demo badge as slop (it is the honesty rule); did not change any component here; the fixes belong to G-23, G-49 and G-54.
 
+### 11 November 2026, Tair (D-13, M-18, R-13 study-card drafts for Amina and Roma)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, as a sub-agent of the planning session.
+- **Purpose:** draft short practice answers for Amina's and Roma's study cards, so both can practise tonight.
+- **Key prompt(s), with a link to the transcript:** "и в целом все эти таски надо начать выполнять" (start doing all these tasks); the sub-agent got the card questions, the issues D-13, M-18, R-13 and the result files as sources. Transcript kept locally.
+- **What it produced or changed:** the two "short practice answers" blocks in `docs/PRESENTATION.md` and a draft note in TASKS.md for D-13, M-18, R-13.
+- **How I verified it, and who verified it:** every number was checked against `ml/results/experiments.csv`, `operating_point.json`, `pothole_area_clusters.json` and the run files; worked example A against `web/lib/rules/engine.test.ts` (score 15, critical). Amina and Roma still have to check and practise their answers.
+- **What I rejected or corrected:** facts not in the repository are left as `[check: …]` (the R-6 audit report does not exist yet), and "the app serves E8" lines in PRESENTATION.md and ML-EXPERIMENT.md now say E1.
+
 ### 11 November 2026, Dameli (G-52 chart style)
 
 - **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with matplotlib 3.9.4 in a throwaway environment.
