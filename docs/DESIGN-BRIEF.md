@@ -8,6 +8,50 @@ For Tair and Dameli. The scaffold in `web/` gives working pages on a neutral sta
 
 Starting point until then: asphalt and road markings. Graphite and stone neutrals, one signal accent in road-sign amber, five severity colours. Calm, technical, readable. The product is a work tool for a road-maintenance dispatcher, and the landing page is the only place that sells.
 
+### References for the proposed direction (G-2)
+
+Dameli selected a **calm technical** direction with graphite, warm neutrals and amber on 10 November. This is a proposal for Tair to review in W-3; it is not a completed team sign-off. Use Barlow for both headings and body text with JetBrains Mono for technical detail; retain the two themes and the road-sign amber. Reduce the number of competing visual emphases: let the most urgent decision and the next action lead; reserve the strong accent for actions and meaningful marks. Give both modules equal prominence, and pair every status with a word or icon.
+
+- [Linear](https://linear.app/) — landing: concise product statement and one clear first action; keep Qarau’s own content and voice.
+- [Grafana dashboards](https://grafana.com/grafana/dashboards/) — monitoring: modular panels and a clear hierarchy from overview to detailed evidence.
+- [Google Cloud Monitoring dashboards](https://docs.cloud.google.com/monitoring/dashboards) — operations: group related charts with inspectable tables and useful time context.
+- [Carbon data table](https://www.carbondesignsystem.com/building-blocks/core/components/data-table/guidelines) — dense reports: consistent columns and readable scanning, not decorative borders.
+- [Carbon charts](https://www.carbondesignsystem.com/building-blocks/data-visualization/overview) — analytics: use chart types appropriate to the data and pair them with accessible detail.
+- [Barlow](https://fonts.google.com/specimen/Barlow) and [JetBrains Mono](https://www.jetbrains.com/lp/mono/) — keep the readable Barlow text and tabular technical voice; do not introduce another font family without a need.
+- [FHWA warning signs](https://mutcd.fhwa.dot.gov/HTM/2003/part2/part2c.htm) — historical wayfinding reference for dark-on-yellow contrast and shape; this is visual inspiration, not a claim about Kazakhstan road standards.
+
+### Contrast audit (G-3, preliminary)
+
+Ratios below were calculated from the hex tokens using WCAG relative luminance. Text and `-ink` rows are checked against both backgrounds; solid marks are checked for a 3:1 target on `--surface`. Badges also need their actual ink/soft pair checked. Contrast numbers alone do not establish overall accessibility or colour-blind distinguishability; browser and grayscale review remains outstanding. The dark theme is unchanged.
+
+| Token | Light | Light on bg / surface | Dark | Dark on bg / surface |
+|---|---|---|---|---|
+| `fg` | `#1b1c1e` | 15.22 / 17.05 | `#ecebe7` | 15.59 / 14.45 |
+| `muted` | `#4f5156` | 7.09 / 7.94 | `#b1b2ae` | 8.72 / 8.08 |
+| `subtle` | `#66686d` | 4.98 / 5.58 | `#8f908c` | 5.79 / 5.36 |
+| `accent-ink` | `#855700` | 5.58 / 6.25 | `#ffc547` | 11.81 / 10.94 |
+| `sev-clear-ink` | `#1d6440` | 6.36 / 7.12 | `#86dfb3` | 11.71 / 10.85 |
+| `sev-low-ink` | `#1f5582` | 6.99 / 7.84 | `#a8cdf1` | 11.22 / 10.40 |
+| `sev-medium-ink` | `#7a4f0e` | 6.35 / 7.11 | `#f2c77d` | 11.73 / 10.87 |
+| `sev-high-ink` | `#9a3412` | 6.52 / 7.31 | `#f8ab8a` | 9.91 / 9.18 |
+| `sev-critical-ink` | `#8e1b14` | 8.09 / 9.06 | `#ff9a93` | 9.12 / 8.45 |
+| `gender-male-ink` | `#0b5a54` | 7.20 / 8.06 | `#8fdcd2` | 11.81 / 10.95 |
+| `gender-female-ink` | `#45378f` | 8.54 / 9.56 | `#c7befa` | 10.78 / 9.99 |
+| `accent` | `#b87f00` | 3.09 / 3.46 | `#ffb81c` | 10.74 / 9.95 |
+| `sev-clear` | `#2e8b57` | 3.79 / 4.25 | `#3fb27f` | 6.99 / 6.47 |
+| `sev-low` | `#3e7cb1` | 3.97 / 4.45 | `#5d9de0` | 6.52 / 6.04 |
+| `sev-medium` | `#b87f00` | 3.09 / 3.46 | `#e8c547` | 11.08 / 10.27 |
+| `sev-high` | `#d9601a` | 3.32 / 3.72 | `#f0843c` | 7.15 / 6.62 |
+| `sev-critical` | `#93202a` | 7.56 / 8.47 | `#e8455a` | 4.81 / 4.46 |
+| `gender-male` | `#0f766e` | 4.89 / 5.47 | `#3fb8a9` | 7.65 / 7.09 |
+| `gender-female` | `#5b4bb0` | 6.09 / 6.82 | `#9d8ff0` | 6.75 / 6.25 |
+| `chart-1` | `#3d4f63` | 7.51 / 8.41 | `#9fb3c8` | 8.64 / 8.01 |
+| `chart-2` | `#b87f00` | 3.09 / 3.46 | `#ffb81c` | 10.74 / 9.95 |
+| `chart-3` | `#6b8f71` | 3.24 / 3.63 | `#8fbf96` | 8.91 / 8.26 |
+| `chart-4` | `#9a6b9a` | 3.79 / 4.25 | `#c79ac7` | 7.86 / 7.28 |
+
+Light accent and medium/chart amber changed to `#b87f00`: 3.46:1 on the white surface, while dark text on the accent is 4.93:1. The existing photo overlay `--box` remains brighter because its context is a photograph, not a white chart surface. Validate its appearance on real images separately. Severity remains labelled and uses icons; the palette is not claimed to be distinguishable by colour alone.
+
 ## Where the look lives
 
 All colours, radii, shadows, fonts and motion timings are tokens in one file in `web/` (see `web/README.md` for the path). Components never use raw colour values. Changing the look means changing tokens, then checking the `/design` page in light and dark.
