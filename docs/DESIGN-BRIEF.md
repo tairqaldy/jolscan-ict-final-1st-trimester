@@ -86,6 +86,70 @@ Ratios below were calculated from the hex tokens using WCAG relative luminance. 
 
 Light accent and medium/chart amber changed to `#b87f00`: 3.46:1 on the white surface, while dark text on the accent is 4.93:1. The existing photo overlay `--box` remains brighter because its context is a photograph, not a white chart surface. Validate its appearance on real images separately. Severity remains labelled and uses icons; the palette is not claimed to be distinguishable by colour alone.
 
+### Colour-blind check (G-22)
+
+`node web/scripts/check-palette.mjs` simulates protanopia, deuteranopia and tritanopia (Machado, Oliveira and Fernandes 2009, severity 1.0, on linear RGB). It prints the CIE76 ΔE between every pair of colours in each set. **Bold** marks pairs below 10, a rule of thumb chosen for this project, not a standard. Run on 11 November 2026, on `main`.
+
+**Light theme**
+
+| Set | Pair | Normal | Protan | Deutan | Tritan |
+|---|---|---|---|---|---|
+| severity | sev-clear / sev-low | 65.3 | 57.3 | 53.8 | 11.1 |
+| severity | sev-clear / sev-medium | 68.9 | 33.7 | 45.9 | 72.3 |
+| severity | sev-clear / sev-high | 92.1 | 27.5 | 43.9 | 105.1 |
+| severity | sev-clear / sev-critical | 89.3 | 30.4 | 18.0 | 98.8 |
+| severity | sev-low / sev-medium | 98.9 | 90.9 | 99.2 | 70.2 |
+| severity | sev-low / sev-high | 103.5 | 84.4 | 97.2 | 103.2 |
+| severity | sev-low / sev-critical | 78.9 | 52.2 | 66.5 | 97.1 |
+| severity | sev-medium / sev-high | 31.1 | **8.8** | **2.0** | 33.2 |
+| severity | sev-medium / sev-critical | 57.4 | 54.2 | 40.5 | 34.6 |
+| severity | sev-high / sev-critical | 40.9 | 45.6 | 38.7 | 22.9 |
+| verdict | verdict-clear / verdict-review | 68.9 | 33.7 | 45.9 | 72.3 |
+| verdict | verdict-clear / verdict-confusing | 89.3 | 30.4 | 18.0 | 98.8 |
+| verdict | verdict-review / verdict-confusing | 57.4 | 54.2 | 40.5 | 34.6 |
+| gender | gender-male / gender-female | 78.9 | 54.1 | 47.7 | 25.7 |
+| chart | chart-1 / chart-2 | 82.4 | 75.2 | 81.4 | 57.5 |
+| chart | chart-1 / chart-3 | 38.9 | 36.2 | 34.3 | 23.5 |
+| chart | chart-1 / chart-4 | 34.1 | 18.5 | 20.3 | 37.6 |
+| chart | chart-2 / chart-3 | 60.8 | 44.8 | 51.6 | 53.4 |
+| chart | chart-2 / chart-4 | 82.6 | 81.3 | 78.5 | 23.7 |
+| chart | chart-3 / chart-4 | 54.9 | 37.3 | 26.9 | 35.4 |
+| boxes | box / box-review | 112.9 | 105.1 | 112.1 | 69.5 |
+
+**Dark theme**
+
+| Set | Pair | Normal | Protan | Deutan | Tritan |
+|---|---|---|---|---|---|
+| severity | sev-clear / sev-low | 71.7 | 60.6 | 56.5 | 12.9 |
+| severity | sev-clear / sev-medium | 66.7 | 47.3 | 53.6 | 68.6 |
+| severity | sev-clear / sev-high | 89.2 | 28.8 | 44.5 | 100.7 |
+| severity | sev-clear / sev-critical | 108.6 | 25.2 | 19.0 | 126.5 |
+| severity | sev-low / sev-medium | 106.5 | 107.3 | 108.7 | 66.2 |
+| severity | sev-low / sev-high | 102.3 | 88.6 | 100.8 | 97.5 |
+| severity | sev-low / sev-critical | 92.0 | 52.8 | 74.9 | 123.3 |
+| severity | sev-medium / sev-high | 40.8 | 25.6 | 14.0 | 37.1 |
+| severity | sev-medium / sev-critical | 79.9 | 66.6 | 39.3 | 64.5 |
+| severity | sev-high / sev-critical | 42.2 | 42.4 | 27.7 | 27.4 |
+| verdict | verdict-clear / verdict-review | 66.7 | 47.3 | 53.6 | 68.6 |
+| verdict | verdict-clear / verdict-confusing | 108.6 | 25.2 | 19.0 | 126.5 |
+| verdict | verdict-review / verdict-confusing | 79.9 | 66.6 | 39.3 | 64.5 |
+| gender | gender-male / gender-female | 78.1 | 51.8 | 42.2 | 36.8 |
+| chart | chart-1 / chart-2 | 92.9 | 89.6 | 91.1 | 49.9 |
+| chart | chart-1 / chart-3 | 35.9 | 31.3 | 27.7 | **8.6** |
+| chart | chart-1 / chart-4 | 27.2 | **9.6** | **2.0** | 30.3 |
+| chart | chart-2 / chart-3 | 73.6 | 58.3 | 63.7 | 55.2 |
+| chart | chart-2 / chart-4 | 95.9 | 97.9 | 92.6 | 23.7 |
+| chart | chart-3 / chart-4 | 58.4 | 39.8 | 29.0 | 37.4 |
+| boxes | box / box-review | 112.9 | 105.1 | 112.1 | 69.5 |
+
+**Decisions for the five flagged values**
+
+| Pair | Below 10 for | Decision |
+|---|---|---|
+| `sev-medium` / `sev-high`, light | protan 8.8, deutan 2.0 | **Keep.** Every severity carries its word and its own icon: a circle with an exclamation mark for medium, a triangle for high (`web/lib/severity.ts`). The severity chart has a worded legend, and map markers sit next to a list that names each severity. Colour is never the only cue (U3). If the team wants more margin, push `sev-high` towards red, together with Tair. |
+| `chart-1` / `chart-4`, dark | protan 9.6, deutan 2.0 | **Keep.** Every chart names its series in a legend with words (checked on `/app/analytics`), and no chart in the app uses `chart-3` or `chart-4` today: they appear only as swatches on `/design`. Revisit if a chart starts using them. |
+| `chart-1` / `chart-3`, dark | tritan 8.6 | **Keep.** Same reason: `chart-3` is not used by any chart yet, and tritanopia is rare. |
+
 ## Where the look lives
 
 All colours, radii, shadows, fonts and motion timings are tokens in one file in `web/` (see `web/README.md` for the path). Components never use raw colour values. Changing the look means changing tokens, then checking the `/design` page in light and dark.
