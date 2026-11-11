@@ -1,23 +1,30 @@
 "use client";
 
 import { useMemo } from "react";
+import { Bar, BarChart, BarStack, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  Label,
-  ReferenceLine,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
-import { axisLabelProps, axisProps, ChartCard, DataTable, gridProps, LegendSwatch, tooltipProps } from "@/components/charts/chart-kit";
+  axisProps,
+  barRadius,
+  BinEdgeTick,
+  ChartCard,
+  chartMargin,
+  DataTable,
+  gridProps,
+  LegendSwatch,
+  SERIES,
+  stackSeparatorProps,
+  ThresholdMarker,
+  tooltipProps,
+  xAxisTitle,
+  yAxisTitle,
+  yAxisWidth,
+} from "@/components/charts/chart-kit";
 import { ModelComparisonChart } from "@/components/charts/model-comparison";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
+import { splitBins } from "@/lib/charts/thresholds";
 import { dayKey, formatDate, formatDayKey, median, percentile } from "@/lib/format";
 import { MOCK_ANCHOR } from "@/lib/mock/analyses";
+import { DEFAULT_RULES } from "@/lib/rules/config";
 import { SEVERITY_META } from "@/lib/severity";
 import { useAnalyses } from "@/lib/store/history";
 import { rulesStore } from "@/lib/store/settings";
@@ -27,11 +34,16 @@ import { PROVIDER_META } from "./provider-badge";
 
 const DAY = 24 * 60 * 60 * 1000;
 
+/** Confidence histogram: bins of 0.05 from 0.25 (or from a lower review floor) up to 1. */
+const HIST_FROM = 0.25;
+const HIST_STEP = 0.05;
+
 /** Roads (pothole) charts. */
 export function RoadsAnalytics() {
   const analyses = useAnalyses();
   const rules = rulesStore.useStore();
   const tau = rules.r1.threshold;
+  const floor = rules.r1.reviewFloor;
 
   // 30 days ending on the demo anchor date (10 Nov 2026), or on the newest
   // analysis if this browser has newer ones. Deterministic: no Date.now().
@@ -69,17 +81,11 @@ export function RoadsAnalytics() {
   }, [analyses, windowEnd]);
 
   const histogram = useMemo(() => {
-    const bins = Array.from({ length: 15 }, (_, i) => {
-      const lo = 0.25 + i * 0.05;
-      return { lo, label: lo.toFixed(2), count: 0 };
-    });
-    for (const a of analyses)
-      for (const d of a.detections) {
-        const i = Math.min(14, Math.floor((d.confidence - 0.25) / 0.05 + 1e-9));
-        if (i >= 0) bins[i].count++;
-      }
-    return bins;
-  }, [analyses]);
+    // Start lower when the review floor is set below 0.25, so its line stays on the chart.
+    const from = Math.min(HIST_FROM, Math.floor(floor / HIST_STEP + 1e-9) * HIST_STEP);
+    const values = analyses.flatMap((a) => a.detections.map((d) => d.confidence));
+    return splitBins(values, from, 1, HIST_STEP, tau);
+  }, [analyses, floor, tau]);
 
   const latency = useMemo(
     () =>
@@ -99,22 +105,24 @@ export function RoadsAnalytics() {
           badge={<DemoBadge show label="Includes demo data" />}
           legend={
             <>
-              <LegendSwatch color="var(--chart-1)" label="Counted" />
-              <LegendSwatch color="var(--chart-2)" label="Needs review" />
+              <LegendSwatch color={SERIES[0]} label="Counted" />
+              <LegendSwatch color={SERIES[1]} label="Needs review" />
             </>
           }
           table={<DataTable head={["Day", "Photos", "Counted", "Review"]} rows={daily.map((d) => [d.label, d.photos, d.counted, d.review])} />}
         >
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={daily} margin={{ top: 8, right: 8, bottom: 0, left: -16 }}>
+            <BarChart data={daily} margin={chartMargin()}>
               <CartesianGrid {...gridProps} />
               <XAxis dataKey="label" interval="preserveStartEnd" minTickGap={24} {...axisProps} />
-              <YAxis allowDecimals={false} {...axisProps}>
-                <Label value="Boxes" angle={-90} position="insideLeft" offset={20} {...axisLabelProps} />
+              <YAxis allowDecimals={false} width={yAxisWidth(3)} {...axisProps}>
+                {yAxisTitle("Boxes")}
               </YAxis>
               <Tooltip {...tooltipProps} />
-              <Bar dataKey="counted" name="Counted" stackId="a" fill="var(--chart-1)" stroke="var(--surface)" strokeWidth={1} />
-              <Bar dataKey="review" name="Needs review" stackId="a" fill="var(--chart-2)" stroke="var(--surface)" strokeWidth={1} radius={[4, 4, 0, 0]} />
+              <BarStack radius={barRadius}>
+                <Bar dataKey="counted" name="Counted" fill={SERIES[0]} {...stackSeparatorProps} />
+                <Bar dataKey="review" name="Needs review" fill={SERIES[1]} {...stackSeparatorProps} />
+              </BarStack>
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -135,25 +143,18 @@ export function RoadsAnalytics() {
           }
         >
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={severityByWeek} margin={{ top: 8, right: 8, bottom: 0, left: -16 }}>
+            <BarChart data={severityByWeek} margin={chartMargin()}>
               <CartesianGrid {...gridProps} />
               <XAxis dataKey="label" {...axisProps} />
-              <YAxis allowDecimals={false} {...axisProps}>
-                <Label value="Photos" angle={-90} position="insideLeft" offset={20} {...axisLabelProps} />
+              <YAxis allowDecimals={false} width={yAxisWidth(3)} {...axisProps}>
+                {yAxisTitle("Photos")}
               </YAxis>
               <Tooltip {...tooltipProps} />
-              {SEVERITIES.map((s, i) => (
-                <Bar
-                  key={s}
-                  dataKey={s}
-                  name={SEVERITY_META[s].label}
-                  stackId="sev"
-                  fill={SEVERITY_META[s].cssVar}
-                  stroke="var(--surface)"
-                  strokeWidth={2}
-                  radius={i === SEVERITIES.length - 1 ? [4, 4, 0, 0] : undefined}
-                />
-              ))}
+              <BarStack radius={barRadius}>
+                {SEVERITIES.map((s) => (
+                  <Bar key={s} dataKey={s} name={SEVERITY_META[s].label} fill={SEVERITY_META[s].cssVar} {...stackSeparatorProps} />
+                ))}
+              </BarStack>
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -162,31 +163,31 @@ export function RoadsAnalytics() {
       <StaggerItem>
         <ChartCard
           title="Confidence histogram"
-          description="All boxes by model confidence. The line is the R1 threshold; boxes to its left are not counted."
+          description={`All boxes by model confidence. The lines are rule R1 at ${tau.toFixed(2)} and its review floor at ${floor.toFixed(2)}: boxes at or above R1 are counted, boxes between the lines go to review, boxes below the floor are ignored.`}
           legend={
             <>
-              <LegendSwatch color="var(--chart-1)" label={`≥ ${tau.toFixed(2)} counted`} />
-              <LegendSwatch color="var(--chart-2)" label="below threshold" />
+              <LegendSwatch color={SERIES[0]} label={`≥ ${tau.toFixed(2)} counted`} />
+              <LegendSwatch color={SERIES[1]} label="below R1, not counted" />
             </>
           }
           table={<DataTable head={["From", "Boxes"]} rows={histogram.map((b) => [b.label, b.count])} />}
         >
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={histogram} margin={{ top: 8, right: 8, bottom: 14, left: -16 }} barCategoryGap={2}>
+            <BarChart data={histogram} margin={chartMargin({ xTitle: true, labelRows: 2 })} barCategoryGap={2}>
               <CartesianGrid {...gridProps} />
-              <XAxis dataKey="label" interval={2} {...axisProps}>
-                <Label value="Model confidence" position="insideBottom" offset={-10} {...axisLabelProps} />
+              <XAxis dataKey="label" interval={2} {...axisProps} tick={<BinEdgeTick />}>
+                {xAxisTitle("Model confidence")}
               </XAxis>
-              <YAxis allowDecimals={false} {...axisProps}>
-                <Label value="Boxes" angle={-90} position="insideLeft" offset={20} {...axisLabelProps} />
+              <YAxis allowDecimals={false} width={yAxisWidth(3)} {...axisProps}>
+                {yAxisTitle("Boxes")}
               </YAxis>
-              <Tooltip {...tooltipProps} labelFormatter={(l) => `Confidence ${l}–${(Number(l) + 0.05).toFixed(2)}`} />
-              <ReferenceLine x={histogram.find((b) => b.lo >= tau - 1e-9)?.label} stroke="var(--fg)" strokeDasharray="4 3" />
-              <Bar dataKey="count" name="Boxes" radius={[4, 4, 0, 0]}>
-                {histogram.map((b) => (
-                  <Cell key={b.label} fill={b.lo + 1e-9 >= tau ? "var(--chart-1)" : "var(--chart-2)"} />
-                ))}
-              </Bar>
+              <Tooltip {...tooltipProps} labelFormatter={(l) => `Confidence ${l}–${(Number(l) + HIST_STEP).toFixed(2)}`} />
+              <BarStack radius={barRadius}>
+                <Bar dataKey="below" name="Not counted" fill={SERIES[1]} {...stackSeparatorProps} />
+                <Bar dataKey="atOrAbove" name="Counted" fill={SERIES[0]} {...stackSeparatorProps} />
+              </BarStack>
+              <ThresholdMarker bins={histogram} value={tau} rule="R1" defaultValue={DEFAULT_RULES.r1.threshold} />
+              <ThresholdMarker bins={histogram} value={floor} rule="R1 floor" defaultValue={DEFAULT_RULES.r1.reviewFloor} row={1} />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -198,20 +199,22 @@ export function RoadsAnalytics() {
           description="Model time per photo. Cloud adds network time on the hosted side."
           legend={
             <>
-              <LegendSwatch color="var(--chart-1)" label="Median" />
-              <LegendSwatch color="var(--chart-2)" label="95th percentile" />
+              <LegendSwatch color={SERIES[0]} label="Median" />
+              <LegendSwatch color={SERIES[1]} label="95th percentile" />
             </>
           }
           table={<DataTable head={["Provider", "Photos", "Median ms", "p95 ms"]} rows={latency.map((l) => [l.provider, l.n, l.median, l.p95])} />}
         >
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={latency} margin={{ top: 8, right: 8, bottom: 0, left: -8 }} barGap={2}>
+            <BarChart data={latency} margin={chartMargin()} barGap={2}>
               <CartesianGrid {...gridProps} />
               <XAxis dataKey="provider" {...axisProps} />
-              <YAxis unit=" ms" width={60} {...axisProps} />
+              <YAxis width={yAxisWidth(4)} {...axisProps}>
+                {yAxisTitle("Model time (ms)")}
+              </YAxis>
               <Tooltip {...tooltipProps} formatter={(v) => `${v} ms`} />
-              <Bar dataKey="median" name="Median" fill="var(--chart-1)" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="p95" name="95th percentile" fill="var(--chart-2)" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="median" name="Median" fill={SERIES[0]} radius={barRadius} />
+              <Bar dataKey="p95" name="95th percentile" fill={SERIES[1]} radius={barRadius} />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
