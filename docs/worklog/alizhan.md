@@ -21,6 +21,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **AI use:** Codex desktop, GPT-6; personal review pending.
 - **Open questions / next:** Team corrects the stale note in the deck source, checks every speaker's own text and handovers, and records a full timed read-through.
 
+### 2026-11-11 · R-15 (#99) · Independent recheck of deck and intervals
+- **Status:** in progress; the final freeze rebuild and outstanding R-6 audit remain.
+- **What I did:** Rebuilt the deck at `2d37b34` in an isolated copy, compared all slide and notes text and the embedded media hashes, and independently recomputed the stored restroom confidence intervals and paired p-values.
+- **Result:** The rebuild checked 191 registered values and reported R-6 as the remaining gap. Text, notes and seven embedded media hashes matched; all 37 stored intervals and six paired p-values matched to four decimals.
+- **Decisions and why:** Kept the task open: recomputing from stored counts is not verification of each prediction, and the deck must be checked again at the freeze.
+- **What I learned / can explain at the defense:** Exact confidence intervals reflect uncertainty in a small test set, and a paired test compares cases on which methods disagree.
+- **AI use:** Codex desktop, GPT-6; personal review pending.
+- **Open questions / next:** Complete R-6 and repeat the comparison on the final deck; review the slides, live values and spoken script.
+
 ### 2026-11-11 · R-2 (#84) · Primary road-condition source
 - **Status:** in progress; source selected for review, slide and timed delivery remain.
 - **What I did:** Located a West Kazakhstan Region road authority's primary report and documented its dated local-road condition figure and scope for the presentation.
@@ -92,6 +101,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **What I learned / can explain at the defense:** Keep model weights outside Git and preserve the actual per-run results and curves alongside the source code.
 - **AI use:** Codex desktop, GPT-6; personal review pending.
 - **Open questions / next:** Verify the shared folder exists and all runners can edit it, then run the handoff for an actual full run in Colab.
+
+### 2026-11-11 · D-29 (#345) · Reproduce pothole size bands
+- **Status:** implementation and numerical verification complete; Amina's review pending.
+- **What I did:** Wrote a training-only YOLO label reader, log-area KMeans script, histogram export and synthetic checks; documented the command, pinned scikit-learn, and ran it on a manifest-verified rebuild of the Kaggle dataset.
+- **Result:** Rebuilt train has 465 images and 1,198 boxes; counts 429/499/270 match. Both thresholds and all cluster centers agree with the committed JSON to six decimals. Non-float fields are identical. The supplied figure was not compared pixel by pixel.
+- **Decisions and why:** Restrict the input to a training directory and write to a temporary output before comparing; do not alter the rule thresholds.
+- **What I learned / can explain at the defense:** Clustering log area gives image-relative groups, not physical measurements; test data must not determine thresholds.
+- **AI use:** Codex desktop, GPT-6; personal review pending.
+- **Open questions / next:** Amina should review the reproduced output and the remaining small floating-point differences; the original Drive archive was not directly inspected.
 
 ### 2026-11-11 · S-28 (#222) · Validation-only promotion gate
 - **Status:** implemented; Amina's review pending.
