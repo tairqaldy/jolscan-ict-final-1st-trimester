@@ -15,6 +15,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-12 00:30 · Defense deck · Slide 7 shows the layer experiment
+- **Status:** done, in a PR from `restroom/deck-slide7-sweep`; Tair decides whether it goes into the deck before the defense.
+- **What I did:** Slide 7 now shows the layer sweep (C-11): CLIP with its last 0 to 12 blocks fine-tuned, how often the partner is found on new restrooms and on the training restrooms, and gender accuracy. The script says what it shows. The frozen-feature probe moved to the speaker cues. Slide 8 no longer says "as the app will answer".
+- **Result:** 4 blocks are best (0.965 on new restrooms); all 12 reach 1.0 on the training restrooms but 0.91 on new ones, and gender falls from 0.74 to 0.60.
+- **Decisions and why:** Option A of the assignment is the number of trained layers, so the slide should show that experiment, not the probe, which only explains why it happens.
+- **What I learned / can explain at the defense:** Overfitting in one picture: the dashed training line stays at 1.0 while the new-restroom line falls after 4 blocks.
+- **AI use:** Claude Code (Claude Opus 5.5); entry in `docs/AI-USAGE-LOG.md`.
+- **Open questions / next:** if the team presents from Canva, slide 7's chart must be re-imported there.
+
 ### 2026-11-11 23:40 · IOAI task page · The task, the dataset and the given baseline
 - **Status:** done, on branch `restroom/ioai-task-page` from the latest `main` (PR #451 was already merged).
 - **What I did:** Replaced the IOAI pairs page (`/app/restrooms/ioai`, now "IOAI task" in the menu) with three parts: what the IOAI task asks, with training restroom 40 as the example; the dataset (82 training restrooms × 4 images, 10 validation and 30 test queries, the folders, and a browser of every crop with its answer); and the baseline that came with the task notebook (zero-shot CLIP ViT-B/16, the second most similar original), with its code cells, its score and the queries it gets wrong. `export_pairs.py` now also stores the notebook baseline's picks from run R0.
