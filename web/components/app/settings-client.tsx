@@ -1,6 +1,6 @@
 "use client";
 
-import { Download, LoaderCircle, Monitor, Moon, PlugZap, RotateCcw, Sun, Trash2 } from "lucide-react";
+import { Contrast, Download, LoaderCircle, Monitor, Moon, PlugZap, RotateCcw, Sun, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -219,6 +219,7 @@ export function SettingsClient() {
               { value: "system", label: "System", icon: Monitor },
               { value: "light", label: "Light", icon: Sun },
               { value: "dark", label: "Dark", icon: Moon },
+              { value: "contrast", label: "High contrast", icon: Contrast },
             ]}
           />
           <Switch
