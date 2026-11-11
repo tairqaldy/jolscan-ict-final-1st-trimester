@@ -1004,3 +1004,17 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - A focus ring outside the tab: the scrolling tab list clipped it. It is drawn inside now.
   - A grey hover underline in `--border-strong`: about 2:1 on the dark background, not visible; it uses `--subtle`.
   - Plain keyframe names like `fade-in`, which another branch could also define; they are prefixed `ui-`.
+
+### 11 November 2026, Dameli (G-75 result reveal)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment for the checks.
+- **Purpose:** stage the road and restroom Compare results within 600 ms and announce the save to screen readers.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-75 among them). Transcript kept locally.
+- **What it produced or changed:** `reveal` timings in `web/lib/motion.ts` with a test, `.result-stage` and `.saved-tick` in `web/app/globals.css`, `web/components/motion/stage.ts`, staging in `analysis-view.tsx` and `compare-result.tsx`, the status region and tick in `analyze-client.tsx` and `compare-client.tsx`.
+- **How I verified it, and who verified it:**
+  - Playwright on my own dev server, both result pages at 1440 and 375 px, light and dark, motion on, OS reduced motion and the Settings switch: reveal end 559 ms (road) and 467 ms (Compare), CLS 0 from mount at 1440 px, 0 animations and full opacity on the first frame with reduced motion, the status text present after the run.
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` pass.
+- **What I rejected or corrected:**
+  - The first timing ended at exactly 600 ms (617 ms measured); tightened to 540 ms planned.
+  - A 4 px shift when the result appeared turned out to come from React reusing the form's grid; fixed with keys rather than hidden.
+  - A count-up on the score: it would show numbers that are not the result.
