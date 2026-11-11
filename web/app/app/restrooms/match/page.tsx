@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { DemoBadge } from "@/components/app/demo-badge";
+import { MockProviderBadge } from "@/components/app/mock-provider-badge";
 import { MatchClient } from "@/components/restrooms/match-client";
 import { PageHeader } from "@/components/ui/page-header";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -17,7 +17,7 @@ export default function MatchPage() {
         description={
           <span className="inline-flex flex-wrap items-center gap-2">
             Give one sign; the model ranks the gallery and picks the most similar sign of the opposite gender.{" "}
-            <DemoBadge module="restrooms" label="Mock predictions" />
+            <MockProviderBadge />
           </span>
         }
       />
