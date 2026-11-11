@@ -753,3 +753,20 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - An amber accent with black text, as in light, cannot be 3:1 on white and 7:1 under black text at once, so the accent became dark amber with white text.
   - A batch value change in the shell first hit the light and dark blocks too; it was reverted from git before any commit, and the values were set inside the contrast block only.
   - At 375 px the fourth theme option pushed the Settings page 14 px wider than the screen; the segmented control now wraps.
+
+### 11 November 2026, Dameli (G-48 box colours on the samples)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) and Pillow in a throwaway environment for the screenshots and measurements.
+- **Purpose:** check that the detection boxes and tags stay visible on the road samples in both themes, compare three box styles and apply the best one.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-48 among them). Transcript kept locally.
+- **What it produced or changed:** `--box-halo` 0.45 to 0.65 in `web/app/tokens.css` and `web/app/print.css`; `HALO_SCALE` (4, was 2.4) in `web/components/app/detection-overlay.tsx` with a test in `web/lib/detection-overlay.test.ts`; the section "Box colours on real photos (G-48)" in `docs/DESIGN-BRIEF.md`. Screenshots and the measuring scripts stay outside git.
+- **How I verified it, and who verified it:**
+  - 96 screenshots on my own dev server: six samples, variants A, B, C and the pick, at 1440 and 375 px, light and dark; I looked at the side-by-side grids and zoomed crops of the hardest boxes.
+  - A Pillow script measured the contrast of the stroke against the halo-darkened pixels along every box edge; the worst points sit on white lane markings. The page DOM showed the new halo (width 16, colour `#000000a6`).
+  - `node web/scripts/check-palette.mjs`: box / box-review unchanged.
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` (153 tests after the rebase) and `pnpm build` pass.
+- **What I rejected or corrected:**
+  - Rejected the white box (B): white already marks the hovered box, and the legend shows amber for "counted".
+  - Raised the tested 60% halo to 65% so pure white also reaches 3:1.
+  - The first run of the tests failed because the print copy of the tokens still had 0.45; updated it.
+  - The samples are drawings, so G-48 stays open until it is checked on the D-5 photos; the two overlay problems found (overlapping tags on `s05` at 375 px, review boxes drawn solid) are reported, not fixed.
