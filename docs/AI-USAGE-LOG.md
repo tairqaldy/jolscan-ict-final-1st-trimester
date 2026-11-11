@@ -912,7 +912,7 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How I verified it, and who verified it:**
   - `grep -cE '^\s+--radius-(xs|sm|md|lg|xl):' web/app/tokens.css` prints 3; `grep -rn "tracking-\[" web/components web/app` prints nothing.
   - Playwright on my own dev server: screenshots of five routes at 1440 and 375 px, light and dark, before and after each task, compared pixel by pixel; computed styles of the eyebrow and the card padding; the 320 px scroll check printed `false` on all five routes after each task; KPI number clipping measured at 320, 375 and 1440 px before and after.
-  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` (191 tests) and `pnpm build` pass.
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` (208 tests after rebasing on `main`) and `pnpm build` pass.
 - **What I rejected or corrected:**
   - The file list for the radius replace also picked up `tokens.css`, whose new comment names `rounded-xl`; that file was left out so the comment stayed.
   - The new token comment contained the text `tracking-[`, which made the G-23 grep fail; reworded.
