@@ -9,7 +9,8 @@
 import { describe, expect, it } from "vitest";
 import { cssBlocks, lineOf, readWeb, sourceFiles, stripComments, themeBlocks, varReferences } from "./css-tokens";
 
-const STYLESHEETS = ["app/tokens.css", "app/globals.css", "app/print.css"];
+/** Every stylesheet, so a new one (like app/design/lab/lab.css) is read without editing this file. */
+const STYLESHEETS = sourceFiles(["app", "components"], /\.css$/);
 const tokensCss = readWeb("app/tokens.css");
 const themes = themeBlocks(tokensCss);
 const light = themes.get("light")!;
