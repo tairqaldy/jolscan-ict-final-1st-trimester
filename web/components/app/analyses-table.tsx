@@ -50,7 +50,7 @@ export function AnalysesTable({ analyses, caption }: { analyses: AnalysisWithSou
                 <div className="min-w-0">
                   <Link
                     href={`/app/roads/reports/${a.id}`}
-                    className="font-medium hover:underline"
+                    className="font-medium link-underline"
                     onClick={(e) => e.stopPropagation()}
                   >
                     {a.location?.label ?? a.photo.fileName ?? "Uploaded photo"}
