@@ -7,7 +7,7 @@
  * `latencyMs` and `device`, plus a `dataset` block). This loader accepts both
  * shapes. A number missing from the file stays null, so the page can show
  * "—" instead of a fake 0. Its `isMock` flag drives the "Demo data" badges
- * of the roads module.
+ * on the pothole results only (components/app/demo-badge.tsx).
  */
 import raw from "@/data/experiments.json";
 
@@ -128,7 +128,7 @@ export function chartTakeaway(runs: ExperimentRun[], championId: string): string
 
 export const EXPERIMENTS = normaliseExperiments(raw);
 
-/** Drives the "Demo data" badges of the roads module (and the seeded demo analyses). */
+/** True while data/experiments.json is the placeholder. Drives the badges on the pothole results only. */
 export const IS_DEMO_DATA = EXPERIMENTS.isMock;
 
 const EMPTY_RUN: ExperimentRun = {

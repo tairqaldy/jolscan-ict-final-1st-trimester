@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { DemoBadge } from "@/components/app/demo-badge";
+import { MockProviderBadge } from "@/components/app/mock-provider-badge";
 import { CompareClient } from "@/components/restrooms/compare-client";
 import { PageHeader } from "@/components/ui/page-header";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -17,7 +17,7 @@ export default function ComparePage() {
         description={
           <span className="inline-flex flex-wrap items-center gap-2">
             The model reads the gender on each sign and how alike the two designs are. The rules decide whether a visitor
-            can tell the doors apart. <DemoBadge module="restrooms" label="Mock predictions" />
+            can tell the doors apart. <MockProviderBadge />
           </span>
         }
       />

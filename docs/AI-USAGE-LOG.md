@@ -205,3 +205,11 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How I verified it, and who verified it:** the numbers are copied by the scripts from Ultralytics' own evaluation; the test split was evaluated once, after training; the export picked E0 by the selection rule.
 - **What I rejected or corrected:** the result file's device used to say "cpu" for any non-CUDA run, which would have been wrong for the M5 GPU; it now records the real device.
 
+### 11 November 2026, Tair (W-28 demo badges, W-21 stale copy)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** make every demo badge follow the data on screen, and remove stale placeholder copy from the site.
+- **Key prompt(s), with a link to the transcript:** "implement W-28 (#132) and W-21 (#103) in one pull request; never present demo numbers as real". Transcript kept locally.
+- **What it produced or changed:** `web/components/app/demo-badge.tsx` (the rule in its comment), `web/components/app/mock-provider-badge.tsx`, `show` on the badges of every seeded-history page, 'Mock result' badges in `analysis-view.tsx` and `compare-result.tsx`, `web/lib/demo-badges.test.ts`; copy fixes in `web/lib/credits.ts`, About, footer, landing and Settings; comments in the mock data files; `web/README.md`.
+- **How I verified it, and who verified it:** `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` in `web/`; the new test was run once against the old reports page and failed, as it should. The dataset facts were copied from the D-1 card in `data/README.md` and the split manifest, not typed from memory. Tair still has to look at the pages in the browser after the merge.
+- **What I rejected or corrected:** did not delete any demo label to make the grep clean; did not write a team AI statement that members have not confirmed (W-14); did not touch the design tokens or the design page text (G-3, Dameli).

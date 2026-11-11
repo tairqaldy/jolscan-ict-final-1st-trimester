@@ -128,7 +128,7 @@ export default function LandingPage() {
             </StaggerItem>
             <StaggerItem>
               <p className="inline-flex flex-wrap items-center gap-2 text-sm text-muted">
-                {COURSE.code} course prototype. Runs on demo data until the trained models are connected. <DemoBadge module="any" />
+                {COURSE.code} course prototype. Runs on demo data until the trained models are connected. <DemoBadge show />
               </p>
             </StaggerItem>
           </Stagger>
@@ -274,7 +274,7 @@ export default function LandingPage() {
           <SectionTitle id="results-h" eyebrow="Results" title="What the models score" />
           <p className="mt-3 max-w-3xl text-muted">
             Both modules follow the same protocol: one change per run against a fixed baseline, chosen on validation, test read
-            once. Placeholders are labelled until training finishes.
+            once. Invented numbers carry a demo badge.
           </p>
           <div className="mt-8 grid gap-4 lg:grid-cols-2">
             <ResultsCard module="roads" badge={<DemoBadge show={IS_DEMO_DATA} label="Placeholder numbers" />}>

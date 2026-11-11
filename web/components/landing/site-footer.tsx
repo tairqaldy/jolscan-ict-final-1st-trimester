@@ -14,8 +14,8 @@ export function SiteFooter() {
         <div className="grid content-start gap-2">
           <Logo />
           <p className="max-w-sm text-sm text-muted">
-            {COURSE.code} group project, {COURSE.school}. A prototype, not a city or campus service: numbers marked “Demo data” are
-            placeholders.
+            {COURSE.code} group project, {COURSE.school}. A prototype, not a city or campus service: anything with a demo or mock
+            badge is invented for the demo.
           </p>
         </div>
         <nav aria-label="Footer">
@@ -31,7 +31,11 @@ export function SiteFooter() {
         <div className="grid content-start gap-2 text-sm">
           <p className="font-semibold">Data credits</p>
           <p className="text-muted">
-            Potholes: {DATA_CREDITS.pothole.name}. {DATA_CREDITS.pothole.licence}.
+            Potholes:{" "}
+            <a href={DATA_CREDITS.pothole.url} className="text-accent-ink underline underline-offset-2">
+              {DATA_CREDITS.pothole.name}
+            </a>
+            , by {DATA_CREDITS.pothole.author}. {DATA_CREDITS.pothole.licence}.
           </p>
           <p className="text-muted">
             Restrooms:{" "}

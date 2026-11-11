@@ -2,8 +2,9 @@
  * PLACEHOLDER VALUES. About 40 invented analyses so the dashboard, reports,
  * analytics and map have something to show before real photos are analysed.
  * Nothing here is a real measurement: dates, places, latencies and
- * confidences are generated. Replace with real analyses (or delete) once the
- * model is connected; real MLflow metrics go in data/experiments.json.
+ * confidences are generated. They stay demo data: every page that shows them
+ * carries a "Demo data" badge with `show` (components/app/demo-badge.tsx).
+ * Real MLflow metrics go in data/experiments.json.
  *
  * Generation is deterministic: a fixed seed and a fixed anchor date, computed
  * once at module load (never Math.random or Date.now at render time), so the
