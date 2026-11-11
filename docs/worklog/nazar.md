@@ -15,6 +15,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 · C-27 (#208), C-26 (#207), C-25 (#206), C-28 (#209), C-24 (#205) · Signage checks and error analysis
+- **Status:** done locally, not merged.
+- **What I did:** signage threshold curves; the signage rules on the 10 validation restrooms; the hardest training restrooms; sign-style clusters; step 1 under rotated, blurred, darker and smaller crops.
+- **Result:** validation agrees with training (9/10 restrooms read the right way round, training 0.90); 62 of 82 restrooms never fail and the two worst are data errors; gender errors do not concentrate in a style cluster. Robustness numbers in `results/robustness.json`.
+- **Decisions and why:** thresholds unchanged after the validation check (no tuning on validation); the k-means rule fixed before running.
+- **What I learned / can explain at the defense:** what an out-of-sample check is and why 10 restrooms give wide intervals; why some failures are the data's, not the method's.
+- **AI use:** Claude Code (Claude Opus 5.5); the validation gender labels and the failure causes were written by the tool from the images and need my check.
+- **Open questions / next:** check the 20 labels and the six causes by eye.
+
 ### 2026-11-11 · C-22 (#203), C-30 (#211) · App setting and model card
 - **Status:** done locally, not merged.
 - **What I did:** measured Match the way the app uses it (a whole sign, not in the gallery) on the training restrooms, and wrote the model card of the restroom service.
