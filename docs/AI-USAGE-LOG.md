@@ -51,6 +51,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How it was verified:** Tests for comparable and incomparable synthetic runs, refusal of smoke and missing metadata, test-metric independence and a real E6/E1 comparison. Alizhan has not yet personally reviewed the result.
 - **What was rejected or corrected:** No test metrics used for selection; no claim that the registry, deployment or Level 1 pipeline already operates automatically.
 
+### 11 November 2026, Alizhan (S-12, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Add a privacy-conscious prediction monitoring log.
+- **Key prompt:** "сделай таски, которые находятся в issues, by wed 11 nov 23:00(code freeze) и отмечай. делай перепроверку, rebase". This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** Configurable aggregate CSV log, process-local serialization, Git ignore, tests and API documentation.
+- **How it was verified:** API tests with fake models, concurrent writes, privacy and write-error tests, compileall, results check and Git ignore check. Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** After Tair's review, made logging opt-in and kept predictions available on log-write errors. No images or uploaded filenames are logged; no claim that confidence alone diagnoses drift or that the log feeds analytics.
+
 ### 11 November 2026, Alizhan (S-25, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.
