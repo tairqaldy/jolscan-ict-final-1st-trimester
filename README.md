@@ -54,7 +54,7 @@ Open http://localhost:3000. It works without any model: the default provider is 
 
 ## Run the model service
 
-Needs Python 3.11 or newer. See [api/README.md](api/README.md).
+Needs Python 3.12. See [api/README.md](api/README.md).
 
 ```bash
 cd api && pip install -r requirements-dev.txt && uvicorn main:app --port 8000

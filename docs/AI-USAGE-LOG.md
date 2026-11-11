@@ -22,6 +22,69 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Alizhan (S-29, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Declare and publish the API's response contracts.
+- **Key prompt:** "выполняй issues, можешь сам выбрать, что подходит именно под мою задачу". This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** Pydantic response schemas, route declarations, Docker copy instruction, OpenAPI snapshot and tests.
+- **How it was verified:** 32 API tests, compileall and a local server check of `/docs` and `/openapi.json`; models were mocked, and Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** Left the evolving `/health` response untyped and kept the issue open for Tair's review.
+
+### 11 November 2026, Alizhan (S-31, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Improve API handling of oversized and rotated uploads.
+- **Key prompt:** "начни это все выполнять" in response to recommended optimization and reliability tasks. Full transcript is not exported here.
+- **What it produced:** Shared pixel limit and decompression-bomb handling, endpoint and EXIF tests, documentation and worklog.
+- **Verification:** 35 API tests passed in a lightweight environment; Python compilation passed. Alizhan has not personally reviewed this entry.
+- **Limits:** This improves upload robustness, not inference speed or detection accuracy.
+
+### 11 November 2026, Alizhan (S-30, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Make concurrent access to the shared API model backends predictable.
+- **Key prompt:** "начни это все выполнять" following recommended optimization tasks. Full transcript is not exported here.
+- **What it produced:** Separate YOLO/CLIP inference locks, concurrent API tests, and documentation.
+- **Verification:** 32 API tests passed with fake backends; six concurrent requests per backend were serialized, with `/health` responding during blocked road inference. Python compilation passed. Alizhan has not personally reviewed this entry.
+- **Limits:** Locks are per process and can reduce same-model throughput; this does not measure performance or model accuracy. S-20 and C-8 are separate changes requiring integration review.
+
+### 11 November 2026, Alizhan (S-20, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Implement service liveness, model readiness and optional startup warm-up.
+- **Key prompt:** "мне нужно, чтобы ты выполнил таски, потому что ишшьюс будет ревьюить Таир". Full transcript is not exported here.
+- **What it produced:** API readiness and warm-up code, fake-model tests, README and task/worklog updates.
+- **Verification:** 36 API tests passed with fake backends in an isolated lightweight environment. Compile check passed. Alizhan has not yet personally reviewed this draft.
+- **Limits:** No team weights were available; model initialization with real weights and end-to-end inference remain to be checked on the presentation laptop.
+
+### 11 November 2026, Alizhan (S-3, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Check the existing road API tests against S-3, verify validation errors and keep tests offline.
+- **Key prompt:** "давай, продолжай работу" following the recommendation to do S-13 and check S-3. Full transcript is not exported here.
+- **What it produced:** More specific validation assertions, a fake missing-weights loader, and documentation.
+- **Verification:** 30 API tests passed without model packages or weights, and compileall passed. Alizhan has not yet personally reviewed this entry.
+- **Limits:** Fake-model tests check API behavior and do not measure detection accuracy.
+
+### 11 November 2026, Alizhan (S-16, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Add API tests to GitHub Actions and verify that an intentionally failing test causes a red check.
+- **Key prompts:** "тогда начни выполнять таски, которые можно сделать сейчас" and "мне нужно, чтобы ты выполнил таски, потому что ишшьюс будет ревьюить Таир". The full transcript is not exported here.
+- **What it produced:** Python CI steps and S-16 task and worklog updates.
+- **Verification:** GitHub Actions run 42901513219 showed 30 passing tests and one intentional failure, and the temporary test was removed. The normal run's result is available in the PR checks. Alizhan has not personally reviewed this draft.
+- **Limits:** Only lightweight fake-model tests run; this does not validate actual YOLO or CLIP inference.
+
+### 11 November 2026, Alizhan (S-23, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Pin the API's direct dependencies and test a compatible Python version.
+- **Key prompt:** "покажи мне саму шпаргалку и продолжай выполнять остальные таски, которые назначены мне". Full transcript is not exported here.
+- **What it produced:** Direct dependency pins, Python 3.12 alignment, a proposed decision record, README and worklog.
+- **Verification:** A fresh Windows Python 3.12 environment and a clean Linux Python 3.12 Actions job installed the pins and passed 30 API tests. Windows Uvicorn `/health` returned 200; Linux used TestClient. Alizhan has not yet personally reviewed this entry.
+- **Limits:** The Docker image was not built, real models were not tested in the new environment, and Tair and Nazar have not yet approved the version choice.
+
 ### 11 November 2026, Amina (M-1, in progress)
 
 - **Tool and version:** Copilot SDK in VS Code; the version was not exposed in this session.
@@ -177,6 +240,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How I verified it, and who verified it:** Compared the JSON's full-precision thresholds with the configured percentage units and ran the existing rules tests, including exact threshold-boundary tests. The supplied clustering results and PNG were not recomputed.
 - **What I rejected or corrected:** Kept normalized fraction versus percentage units explicit, used only the training split, and did not treat the size bands as physical measurements or calibrated repair severity. D-6 remains separate; no split change or model training was done.
 - **C-12 (Nazar's prompt: "do C-12"):** the tool extended `export_results.py` with row R7 (the two-step pipeline), the `pipeline` block and the `layers` table, and documented the two selection rules. **Corrected against the issue:** issue #37 asked for `served: "R7"`, but the tool read `api/restroom.py` and found that `/restroom/match` does not run the pipeline (it uses CLIP similarity and a gender filter), so it wrote `served: null` with a note instead of a claim that is not true yet. It also removed a lecture reference it had added without checking it against the course PDFs.
+
+### 11 November 2026, Tair (D-14 dataset rebuild script)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** commit code that rebuilds the frozen `potholes_yolo_v1` export, whose Colab cells were never committed.
+- **Key prompt(s), with a link to the transcript:** "work on completing tasks for ML for potholes"; the tool chose D-14 from the board. Transcript kept locally.
+- **What it produced or changed:** `data/make_potholes_yolo_v1.py` and the D-14 paragraph in `data/README.md`.
+- **How I verified it, and who verified it:** ran the script on the Kaggle download; it re-derived the split and matched every image's SHA-256, split and object count in the committed manifest (465/100/100 images, 1,198/305/236 boxes).
+- **What I rejected or corrected:** the label number format of the original Colab export is unknown, so the README says label files may differ in the last digits.
 
 ### 11 November 2026, Tair (D-1 dataset card, M-20 export fields)
 

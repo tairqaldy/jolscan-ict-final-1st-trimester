@@ -21,6 +21,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **AI use:** Claude Code (Claude Opus 5.5) measured the variants in the browser and wrote the changes; entry in docs/AI-USAGE-LOG.md.
 - **Open questions / next:** with the browser's tab and address bars the window is about 1280×630; then everything still fits except the threshold note under the similarity bar. Present in full screen anyway. I did not open `/app/restrooms/checks/[id]` in the browser; it uses the same component. W-31 (presentation mode with larger type) will change these sizes, so check again after it lands.
 
+### 11 November 2026 · D-14 (#70) · Rebuild potholes_yolo_v1 from the Kaggle source
+
+- **Status:** done
+- **What I did:** wrote `data/make_potholes_yolo_v1.py`, which rebuilds the frozen pothole dataset from the Kaggle download and checks it image by image against `split_manifest.json`.
+- **Result:** all 665 images and 1,739 boxes matched (SHA-256, split, object count); the seed-42 shuffle reproduces the documented split exactly.
+- **Decisions and why:** re-derive the split instead of copying it from the manifest, so the script proves the documented procedure; stop on the first difference, so a rebuilt folder is the frozen version or nothing.
+- **What I learned / can explain:** why a frozen split with a manifest and hashes makes every run comparable; how Pascal VOC corners become YOLO centre and size.
+- **AI use:** Claude Code wrote the script from the procedure in data/README.md; I ran it against the Kaggle download and checked the output counts (docs/AI-USAGE-LOG.md).
+
 ### 11 November 2026 · M-13 (#62) · Deck plots for the pothole experiment
 
 - **Status:** first version (E0); final after E8

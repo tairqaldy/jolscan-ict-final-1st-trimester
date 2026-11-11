@@ -124,6 +124,14 @@ The archive contains `images/{train,val,test}/`, `labels/{train,val,test}/`, `da
 
 All model experiments must use this same frozen split. This export has not been privacy-screened as a public sample set. Provenance, usage rights, privacy screening, and ambiguous annotation concerns remain unresolved. This preparation does not complete D-1 or D-12. **Decision (Tair, 10 November 2026):** the Colab export `potholes_yolo_v1` is accepted in place of the planned Roboflow version and is the frozen dataset version for every pothole run. D-3 is complete. Committing the conversion and split code (suggested in the review of #4) would make the version reproducible from `potholes_corrected_v1.zip`.
 
+**Rebuild from the Kaggle source (task D-14, 11 November 2026).** `data/make_potholes_yolo_v1.py` repeats this procedure from the original Kaggle download and checks the result against the committed manifest:
+
+```bash
+python data/make_potholes_yolo_v1.py --source data/raw/potholes-kaggle/src --out data/raw/potholes_yolo_v1
+```
+
+It re-derives the split (sorted paths, `random.Random(42).shuffle`, first 465 train, next 100 val, last 100 test) instead of copying it from the manifest. It removes the one zero-width box in `img-415.xml`, converts the XML bounds as described above, and then compares every image's SHA-256, split and object count, plus the per-split totals, with `split_manifest.json`. It stops on the first difference. Run on 11 November 2026 against the Kaggle download (`chitholian/annotated-potholes-dataset`, 48,139,872 bytes): all 665 images and 1,739 boxes matched (train 465 / 1,198, val 100 / 305, test 100 / 236). The label text uses six decimals; the Colab export's number format was not recorded, so label files may differ in the last digits while describing the same boxes. The output goes to `data/raw/`, which is git-ignored.
+
 ## Box-size clustering for R2 (task D-11)
 
 K-means (`k=3`, `random_state=42`, `n_init=20`, scikit-learn 1.6.1) was fit to the natural logarithm of normalized bounding-box area using only the training split: 465 images and 1,198 boxes. The sorted log-space cluster centers were `-5.413906222570803`, `-3.5205198333222225`, and `-1.722409700683948`. Boundaries are the geometric midpoints between adjacent centers, transformed back to normalized area.
