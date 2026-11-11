@@ -22,6 +22,64 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Alizhan (R-2, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Find a primary, dated road-condition indicator for the problem statement.
+- **Key prompt:** "делай еще" following a request to do available non-design tasks. This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** A cited regional government source, a brief original-language excerpt and a proposed English sentence in `docs/research/deck-sources.md`.
+- **How it was verified:** Opened the primary government page, checked its author, date, geography and exact indicator. Alizhan has not yet personally reviewed the source.
+- **What was rejected or corrected:** Did not describe the reported share as a national pothole count or present the source as proof of model accuracy; slide and speaker timing remain unverified.
+
+### 11 November 2026, Alizhan (R-15, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Independently compare the committed presentation's text and numbers with the available source files.
+- **Key prompt:** "продолжай выполнять таски дальше, но если они связаны с дизайном, то дропай их". This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** A documented numbers audit, including a stale AI-log count and source gaps.
+- **How it was verified:** Rebuilt the deck in an isolated copy, compared slide text, inspected the generated 183-row source audit and compared selected website data metrics with both experiment CSVs. Spot-checked E1, R3 and R4 on the live model page; remaining live-page values, chart images and spoken values were not checked. Alizhan has not yet personally reviewed the findings.
+- **What was rejected or corrected:** Did not change presentation design, pretend absent measurements exist, or treat a generated table as proof that the old deck has current data.
+
+### 11 November 2026, Alizhan (X-13, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Preserve selected prompts and verification context for Alizhan's project work.
+- **Key prompt:** "ладно начни выполнять все задание в code freeze". Additional exact prompts and task-specific outcomes are in [the selected session excerpts](ai-logs/alizhan/2026-11-11-serving-codex-excerpts.md).
+- **What it produced or changed:** A sanitized, partial prompt and outcome record with links to the existing worklog and PRs.
+- **How it was verified:** Checked the quoted prompts against the conversation context and linked work to recorded PRs; searched the new file for common secret and personal-contact patterns. Alizhan has not yet personally reviewed the record.
+- **What was rejected or corrected:** Did not present excerpts as a complete transcript or create fictitious transcripts for other members. X-13 remains open pending the remaining team material and review.
+
+### 11 November 2026, Amina (R-22 and R-23, presentation drafts)
+
+- **Review correction:** User asked to distinguish the project's 0.02 reporting convention from statistical equivalence/significance and dataset-level licence metadata from unresolved individual-photo rights. Verified protocol history (`6bc6c07`), `docs/ML-EXPERIMENT.md`, the source index and `data/README.md`; revised the spoken scripts and notes accordingly. Personal rehearsal and live Rules-page checks remain pending.
+
+- **Tool and version:** Codex, GPT-6 family.
+- **Purpose:** Prepare Amina's existing Roads slides as GitHub documents, preserving correct attribution and numerical evidence.
+- **Key prompt:** "Update only Slides 5 and 6 in docs/deck/SLIDES.md." "Clearly distinguish my dataset, clustering, selection-policy and smoke work from Tair's full E0-E8 training." "Do not claim a timed rehearsal occurred." Full transcript archival remains outstanding under X-13.
+- **What it produced or changed:** Separate Slide 5 and Slide 6 commits plus supporting worklog/AI notes. Assigned the available issues to omodotori and pushed the claim-only main commit before preparing the slides.
+- **How verified:** Successfully fetched and fast-forwarded main; compared all numerical claims with the manifest, run JSONs/CSV, operating-point JSON, clustering JSON, rule configuration and unchanged deck-source index. Verified other slide sections are unchanged, script word counts 127/90, repository-result/hygiene checks and five checker tests passed; git diff --check passed.
+- **What rejected or corrected:** Removed misleading single-test-read wording; retained prior review overlap and multiple evaluation-pass limitations. No attribution of Tair's full training to Amina, invented uncertainty/latency, course-page verification or rehearsal evidence. No QA, application code, generated results, generator/PPTX, unrelated slides or Alizhan's source-audit file were changed. Manual edits to the generated Markdown are explicitly requested scope and need separate coordination before future regeneration.
+
+
+
+### 11 November 2026, Amina (M-37)
+
+- **Tool and version:** Codex, GPT-6 family.
+- **Purpose:** Complete the available why-not-accuracy documentation task using real repository counts.
+- **Key prompt:** "?? ??? ???? ??? 200 ?????? ???? ??? ???? ????? ? ?????? ????" after the task-status discussion; selected M-37 (#195), checked availability, and followed the claim workflow. Full transcript archival remains pending under X-13.
+- **What it produced or changed:** Focused five-sentence explanation, separate two-sentence defense answer, task/worklog/contribution updates; no model code or result changes.
+- **How verified:** Read current issue and CONTRIBUTING.md after successful fetch/ff-only pull. Checked all 665 manifest entries: train/val/test 465/100/100, zero empty photos; R1 gender row sums 164/164. Repository result/hygiene checks and five existing checker tests passed; git diff --check passed.
+- **What rejected or corrected:** Distinguished presence answers from localized detections and undefined background counting; no invented negative examples, course-page verification, teammate rehearsal, training or attribution of Tair's results to Amina. E1 preparation remains on its existing separate branch.
+
+### 11 November 2026, Alizhan (S-26, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Prepare a reproducible inventory of experiment numbers and their source fields.
+- **Key prompt:** "начни выполнять таски, которые не связаны с дизайном и которые ты можешь выполнить сейчас". This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** Standard-library inventory generator, generated page, CI check, synthetic tests and documentation.
+- **How it was verified:** Tests exercise actual source reading, missing and corrupt data, mock placeholders and the no-write mode; the command was run against the current results. Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** Kept unavailable results explicitly missing and did not claim the inventory by itself verifies every number in the final deck.
+
 ### 11 November 2026, Alizhan (R-21, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.
@@ -40,6 +98,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How it was verified:** Compared entries with merged PR metadata and the study cards. Participants have not yet personally confirmed these entries.
 - **What was rejected or corrected:** Did not invent contributions or claim that other people can explain material without their confirmation.
 
+### 11 November 2026, Alizhan (M-2, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Prepare the full-training artifact handoff in the existing smoke-test notebook.
+- **Key prompt:** "выполняй вот эти таски, которые являются bare minimum ... смотри по таскам, которые ты можешь выполнить по возможности и отметь их галочкой". This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** Opt-in Colab handoff cell and after-run instructions.
+- **How it was verified:** Simulated full-run artifact copy and downloads with temporary files and a fake Colab interface; verified the default skip, smoke rejection and overwrite protection. No live Colab or shared Drive access was verified; Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** Kept M-2 open until actual shared folder access and a full-run handoff are checked; did not label smoke weights as a trained model.
+
 ### 11 November 2026, Alizhan (S-28, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.
@@ -48,6 +115,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** Gate CLI, regression tests, CI integration and architecture plan.
 - **How it was verified:** Tests for comparable and incomparable synthetic runs, refusal of smoke and missing metadata, test-metric independence and a real E6/E1 comparison. Alizhan has not yet personally reviewed the result.
 - **What was rejected or corrected:** No test metrics used for selection; no claim that the registry, deployment or Level 1 pipeline already operates automatically.
+
+### 11 November 2026, Alizhan (S-12, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Add a privacy-conscious prediction monitoring log.
+- **Key prompt:** "сделай таски, которые находятся в issues, by wed 11 nov 23:00(code freeze) и отмечай. делай перепроверку, rebase". This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** Configurable aggregate CSV log, process-local serialization, Git ignore, tests and API documentation.
+- **How it was verified:** API tests with fake models, concurrent writes, privacy and write-error tests, compileall, results check and Git ignore check. Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** After Tair's review, made logging opt-in and kept predictions available on log-write errors. No images or uploaded filenames are logged; no claim that confidence alone diagnoses drift or that the log feeds analytics.
 
 ### 11 November 2026, Alizhan (S-25, AI-assisted; personal review pending)
 
@@ -84,7 +160,6 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced:** Claim-only main commit, separate model/m4-e1 branch, docs/E1-COLAB.md and worklog. Trainer, smoke notebook and evidence unchanged.
 - **How verified:** Live assignment/claims checked; fetched e0-trainer; trainer/requirements diff against it is empty. Offline AST inspection confirms effective E1/E0 differs only in weights and descriptive label; E0 JSON explicit params match BASE. Reviewed runbook code syntax and git diff --check. Colab cells and training were not executed.
 - **What rejected or corrected:** No guessed E0 defaults, automatic Torch upgrade policy, smoke commit reuse, training, E0 duplication or fabricated result. Explicitly identified missing resolved E0 args/environment and CUDA/MPS difference.
-
 
 ### 11 November 2026, Alizhan (S-4, AI-assisted; personal review pending)
 
@@ -330,6 +405,18 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - The first layer-experiment metric (full pipeline on held-out restrooms) was 1.000 for every setting, so it could not compare settings. The harder "partner among all 164 originals" metric replaced it as the main one.
   - The tool did not store or use a token pasted in the chat. Nazar saved the Kaggle token on the laptop directly, through a hidden prompt. Remove that token from the transcript before committing it.
 - **Later the same evening (Nazar's prompt: "find the bare minimum and let's close the tasks"):** the tool ran R4 on Nazar's laptop (C-3), exported the results to the web app (C-5), drew the failure-case figure (`failures.py`, C-6), wrote the study card (`ml/restroom/STUDY-CARD.md`, C-9), and cut R5 and the Gradio tab (C-4, C-10) as the cut order in TASKS.md allows. The failure cases are the baseline's first test failures by query number, not hand-picked; one with offensive words on the sign was left off the figure, and that is recorded in `failures.json`. The study card's answers were written by the tool from the result files: Nazar must check them and practise them.
+- **C-12 (Nazar's prompt: "do C-12"):** the tool extended `export_results.py` with row R7 (the two-step pipeline), the `pipeline` block and the `layers` table, and documented the two selection rules. **Corrected against the issue:** issue #37 asked for `served: "R7"`, but the tool read `api/restroom.py` and found that `/restroom/match` does not run the pipeline (it uses CLIP similarity and a gender filter), so it wrote `served: null` with a note instead of a claim that is not true yet. It also removed a lecture reference it had added without checking it against the course PDFs.
+- **Pair-finder demo (Nazar's prompt: "why don't you use our IOAI dataset, I want to pick a photo from the dataset and have it find the pair"):** the tool wrote `ml/restroom/demo.py`, a local Gradio page that runs the pipeline live on the IOAI validation and test sets. Verified: its answers equal the stored `pipeline.json` predictions on both sets, and it was clicked through in a browser.
+- **IOAI pairs page on the website (Nazar's choice: "on the Qarau site"):** the tool added `ml/restroom/export_pairs.py`, the web page `/app/restrooms/ioai`, a data loader with a vitest test, and a nav link, and corrected the model page's dataset card, which said the app shows no IOAI images. Verified with the web lint, type check, all 68 tests, a production build and a click-through at phone width. The results are stored, not computed live, and the page says so.
+- **Restroom issues, 11 November (Nazar's prompt: "continue with the issues where my part is"):** the tool did C-20 (`intervals.py`: exact intervals and McNemar tests from stored predictions), C-21 (`pipeline_per_query.py`: one query at a time; test read once, after the training-episode and validation numbers were written), the slide-8 numbers in `docs/deck/make_deck.py` (R-25), C-8 (`api/restroom_pipeline.py` in `/restroom/match`, new API tests, the docs) and C-23 (`ablation_table.py`). Verified: C-20 reproduced the issue's expected values (0.884–1.000, p 0.25 and 0.016); C-21 reproduced pipeline.json's 0.9597 and 0.917 before adding new rows; the deck build checks every number against its file; `pytest api/` 47 passed, the live endpoint gave 10/10 on validation and 12/12 on the real sample signs, and Match and Compare were clicked through with the local provider. The C-8 threshold was chosen on the training crops only. `api/` is Alizhan's folder and `web/` and the deck are Tair's and Roma's: they review those parts.
+- **C-22 and C-30 (Nazar's prompt: "yes, continue"):** the tool wrote `app_setting.py` (Match in the app's setting, training restrooms only) and `ml/restroom/MODEL_CARD.md`. **Corrected:** the first table showed a per-episode ± that was only the binomial spread of 0/1 outcomes, so it now shows the share of the 500 queries answered right. The CLIP licences were read from the GitHub repositories (openai/CLIP: MIT; open_clip: MIT text, listed by GitHub as "Other"), not assumed. One unverified claim (that the app tells users it knows only two classes) was removed from the card.
+- **C-24 to C-28 (Nazar's prompt: "take the issues with my name or restroom"):** the tool wrote `signage_plots.py` (C-27), `signage_val.py` with hand labels of the 20 validation signs (C-26), `hard_restrooms.py` (C-25), `style_clusters.py` (C-28) and `robustness.py` (C-24). **What a person should check:** the 20 gender labels in `val_gallery_labels.csv` were made by the tool looking at the images (cross-checked: every pair is one male and one female sign with one IOAI answer), and the causes of the six hardest restrooms were written by the tool from the images. **Corrected or flagged:** in C-28 a split noticed on the PCA plot after the fact is written up as a lead, not a result; the signage thresholds were not changed after the validation check.
+- **PR #426 review (Tair):** the tool hid the test restroom with offensive words from the IOAI pairs page (an exclusion list in `export_pairs.py`; the two images and the query crop are deleted; the page says so; the metrics still count it), made the API import OpenCV lazily and installed it in the CI test step after the python check failed, and noted in `api/README.md` that OpenCV comes with Ultralytics. Verified: 199 web tests, 64 API and ML tests in a venv with exactly the CI packages, and the page at /app/restrooms/ioai (29 test queries, the note, no broken images).
+- **Training set on the IOAI pairs page (Nazar's prompt: "why only 10 pictures, load the whole dataset"):** the tool added the 164 training crops to `export_pairs.py`, one query at a time (147/164), and looked at all 164 training originals on contact sheets first. It hid restroom 18 (photos of real people with faces, which the repository rules forbid) and restroom 59 (nude figures); no obscene words were found. Verified: 235 web tests and the page (160 training queries, labels, no broken or hidden images).
+- **All IOAI signs in Compare and Match (Nazar's prompt: "I want all the options in Choose a sample"):** the tool wrote `export_catalogue.py` (238 signs with real zero-shot CLIP outputs and int8 embeddings, served only to the mock provider on the server), labelled the 60 test signs' gender by eye (four marked unsure), and added IOAI tabs to the picker. Verified: 240 web tests including a new catalogue test, Compare through the web API with the mock and local providers (close numbers), and the picker in the browser.
+- **Best pair on the right and the model comparison on Match (Nazar's prompts: "show the best pair on the right instead of the text", "why is the red one best, fix it", "show which models we trained and what they pick"):** the tool found that the gallery did not contain the true partner of IOAI signs, built per-sign galleries from the sign's own set with `export_match.py`, made the mock answer IOAI signs with the served pipeline's pick, and added the best-pair panel and a per-model comparison (R1, R6, R4, colour, R7). Verified: 243 web tests including a gallery test, Match through the web API with mock and local (same pick), and the page in the browser.
+- **Pair / not a pair and the layer models (Nazar's prompts: "I want the verdict to be either pair or not a pair, nothing else, no review", "what does trained by us mean, show how the results change when we change the layers"):** the tool changed the signage engine to two verdicts decided by S2 and S3, removed S1 and the recommended action, re-judges old saved checks on load, and updated every page, test and doc that showed the old verdicts (the `SignageAnalysis` contract in ARCHITECTURE.md changed). It trained CLIP with 1, 2, 4, 6, 8 and 12 fine-tuned blocks on Nazar's laptop (`train_layer_models.py`, about 11 minutes), added their picks to `export_match.py` and the Match page, renamed the badge to "fine-tuned by us" with an explanation, and added the C-11 layer chart to the Restroom overview. Verified: 244 web tests, lint and typecheck; Compare, Rules, Match, the overview and the landing page in the browser. **Flagged:** on whole signs the fine-tuned models are all close to 100%, so the page says the layer count shows in the crop sweep and in gender accuracy, not on this Match.
+- **Layer code on the Restroom overview (Nazar's prompt: "add the pieces of code showing how we changed the layers, from the Colab document; do we even have one?"):** the tool found that the restroom model has no Colab notebook (`ml/colab_runner.ipynb` is the pothole smoke test; the layer sweep is `layers.py`, run on Kaggle by `kaggle_run_layers.py`), and added a card with five excerpts copied verbatim from the Python files, with links to the lines on GitHub. A new test fails if an excerpt stops matching its file. Verified: 246 web tests, lint, typecheck and the card in the browser.
 
 ### 10 November 2026, Amina (D-11 size clustering)
 
@@ -339,7 +426,6 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** Copied the supplied JSON and histogram into `ml/results/`, updated `docs/RULES.md`, `data/README.md`, and the default R2 configuration/tests, and marked D-11 complete after validation.
 - **How I verified it, and who verified it:** Compared the JSON's full-precision thresholds with the configured percentage units and ran the existing rules tests, including exact threshold-boundary tests. The supplied clustering results and PNG were not recomputed.
 - **What I rejected or corrected:** Kept normalized fraction versus percentage units explicit, used only the training split, and did not treat the size bands as physical measurements or calibrated repair severity. D-6 remains separate; no split change or model training was done.
-- **C-12 (Nazar's prompt: "do C-12"):** the tool extended `export_results.py` with row R7 (the two-step pipeline), the `pipeline` block and the `layers` table, and documented the two selection rules. **Corrected against the issue:** issue #37 asked for `served: "R7"`, but the tool read `api/restroom.py` and found that `/restroom/match` does not run the pipeline (it uses CLIP similarity and a gender filter), so it wrote `served: null` with a note instead of a claim that is not true yet. It also removed a lecture reference it had added without checking it against the course PDFs.
 
 ### 11 November 2026, Tair (D-14 dataset rebuild script)
 
@@ -707,6 +793,7 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** `docs/design/deck-critique.md` (18 must-fix and 36 nice-to-have findings, measurements per slide); the G-58 claim line in `docs/TASKS.md`. The deck, `SLIDES.md` and `make_deck.py` were not changed.
 - **How I verified it, and who verified it:** fonts, sizes, word counts and pictures read from the .pptx with python-pptx; every number on the slide faces and in the scripts compared by hand with its source file; each chart opened and its placed size computed from its pixels and DPI; the AI-log count recounted on `origin/main`. Roma and Tair still have to go through the findings.
 - **What I rejected or corrected:** the first count for slide 9's script cut did not add up to the 18 words it promised and was corrected; a slide render was not faked: Quick Look gave no image, so the critique says no render was made and estimates overflow from box sizes instead.
+
 ### 11 November 2026, Dameli (G-59 motion tokens, G-54 demo pause, G-64 reduce-motion switch)
 
 - **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
@@ -833,3 +920,216 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - Before: the Vercel deployment list showed 40 Git deployments in about 80 minutes, all from pushes (claim commits on `main` and pull-request branches), none started by hand.
   - After: the result for this branch and for the merge commit is in a comment on the pull request.
 - **What I rejected or corrected:** an Ignored Build Step that skips commits outside `web/` (every web merge and every preview would still build), and only batching claim commits (previews would still build).
+
+### 11 November 2026, Dameli (G-60 one landing effect)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) and Pillow in a throwaway environment for the screenshots.
+- **Purpose:** finish G-60 after a stopped session: review its comparison of three effects on the How it works steps, keep at most one, and redo the work as small commits.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-60 among them). Transcript kept locally.
+- **What it produced or changed:** the step-line block in `web/app/globals.css`, the class `how-steps` in `web/app/page.tsx`, the test `web/lib/how-steps-motion.test.ts`, `docs/design/borrowed.md` and the comparison screenshots in `docs/design/landing-effect-g60/`.
+- **How I verified it, and who verified it:**
+  - Screenshots of no effect, beam, step line and spotlight at 1440 and 375 px in light and dark, and frame strips of the step line while scrolling.
+  - Playwright on `/`: with no preference the four lines have `animation-name: how-step-line` on a `view()` timeline and fill in order; with the OS reduced-motion setting and with the Settings switch every line has `animation-name: none` and `transform: none`. Layout shift while scrolling through the section: 0.
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` (194 tests) and `pnpm build` pass.
+- **What I rejected or corrected:**
+  - The beam and the spotlight (reasons in `docs/design/borrowed.md`).
+  - The stopped session's single unreviewed commit was undone and redone as small commits; its temporary comparison route is not in the pull request.
+  - The first typecheck failed on route types the dev server had generated for the deleted temporary route; clearing them fixed it.
+  - No Lighthouse run: it is not installed, and adding it would be a new dependency.
+
+### 11 November 2026, Dameli (G-50 one drop zone)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment for the checks.
+- **Purpose:** merge the two upload drop zones (roads Analyze and the restroom sign slot) into one `Dropzone` without changing what happens to the photo.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-50 among them). Transcript kept locally.
+- **What it produced or changed:** `web/components/ui/dropzone.tsx`, its use in `web/components/app/analyze-client.tsx` and `web/components/restrooms/sign-slot.tsx`, a states block in `web/components/design/design-showcase.tsx`, and `web/lib/dropzone.test.ts`.
+- **How I verified it, and who verified it:**
+  - One Playwright script ran before and after on my own dev server with real files (`ioai-v1.webp`, `ioai-v2.webp`, a text file, an 11 MB file): the result files differ only in the count of new drop zones; messages, accepted types, the re-encoded upload size (7716 bytes) and the Analyze, Compare and Match results are the same.
+  - Tab reaches the input on all three pages and Enter opens the file dialog.
+  - Screenshots at 1440 and 375 px, light and dark, and of the six states on `/design` in each theme.
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` (205 tests) and `pnpm build` pass.
+- **What I rejected or corrected:**
+  - The first "before" run hit the new code because the dev server had already picked up the commits; I put the two old files back, ran it again, checked the zone count was 0, and restored them.
+  - Playwright could not read the multipart body, so the upload check now records the `FormData` the page sends.
+  - Did not move the error messages into the zone or change their copy: that would change both pages on the demo path.
+
+### 11 November 2026, Dameli (G-67 backup video poster)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) and Pillow in a throwaway environment, and a static ffmpeg 7.1 (pip package `imageio-ffmpeg`, outside the repository) for the tests.
+- **Purpose:** draw the poster frame for the backup video from a real result screen, pick one, and write the step that puts it in front of `qarau-demo.mp4` for one second.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-67 among them). Transcript kept locally.
+- **What it produced or changed:** `docs/design/video/make_poster.py` (three 1920 × 1080 variants and a 320 px / 1280 × 720 comparison sheet, written outside git), the "Poster frame" section and one table row in `docs/design/video.md`, the G-67 claim line in `docs/TASKS.md`.
+- **How I verified it, and who verified it:**
+  - Opened the three posters at full size and at 320 px wide; A keeps the boxes, "Critical" and 15 readable as a preview.
+  - The script's checks: every crop keeps the whole "Mock result" badge and leaves out the latency and time row; a crop moved onto either one makes it stop (tried both).
+  - Ran the ffmpeg block on three 5 s test clips (1920 × 1080 at 30 fps without and with sound, 1440 × 720 at 60 fps): 6.00 s, 180, 180 and 360 frames, poster for exactly the first second, then the clip. The `ffprobe` lines were not run (no ffprobe here); the real video does not exist yet.
+- **What I rejected or corrected:**
+  - The first ffmpeg version lost one poster frame (179 instead of 180): the `fps` filter drops the last frame of a 1 s loop. Now it loops 2 s and trims to 1 s after the `fps` filter.
+  - A duration check that passed two files to one `ffprobe` call (it takes one input); now a loop.
+  - Labels "Road result" and "Sign verdict" under variant B: those words are not in the recording, so they were removed.
+  - Crops that showed "Analysed 11 Nov, 18:09": that time would not match the recording.
+
+### 11 November 2026, Dameli (G-41 design lab, G-46 palette trial, G-43 font trial, G-70 visual-direction record)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment for the screenshots and checks.
+- **Purpose:** build `/design/lab` to compare token variants side by side, run the palette and font trials on it, and write the decision record for the visual direction.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-41, G-46, G-43 and G-70 among them). Transcript kept locally.
+- **What it produced or changed:** `web/app/design/lab/` (page, specimens, fonts, `lab.css`), `web/lib/design-lab.ts` and its test, a link on `/design`, screenshots in `docs/design/lab/`, `docs/decisions/0011-visual-direction.md` and its table row, and one-line pointers in `web/app/tokens.css` (a comment) and DESIGN-BRIEF.md.
+- **How I verified it, and who verified it:**
+  - A computed-style diff of columns A and B on `/design/lab?set=radii` over 150 elements: only `border-radius` differs, on the 7 `rounded-md` controls.
+  - The contrast numbers come from the WCAG formula in `web/lib/design-lab.ts`; the test reproduces the G-3 audit values (3.46, 15.22, 4.98) and fails if the copied colours drift from `tokens.css`.
+  - The rendered font of every Kazakh letter in every column, read with the Chrome DevTools Protocol; the lab fonts appear only in the lab route's CSS.
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` (201 tests) and `pnpm build` pass. I picked A in each set.
+- **What I rejected or corrected:**
+  - The stopped session's draft set the current radii inline on every column; removed, so column A reads the live tokens and survives a change to the radius count.
+  - Its type outcome said all three pairs render the nine Kazakh letters; the per-letter check showed JetBrains Mono misses six, so the text now says so and G-43 stays open.
+  - The first diff compared the whole columns and was thrown off by the list of overrides; it now compares only the specimen.
+
+### 11 November 2026, Dameli (G-28, G-47, G-48 follow-up: dashed review boxes, tag spacing)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment for the checks.
+- **Purpose:** make review boxes dashed like the legend swatch, and stop box tags from covering each other at 375 px.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (overlay follow-ups among them). Transcript kept locally.
+- **What it produced or changed:** in `web/components/app/detection-overlay.tsx`, dashed boxes as a plain dashed rect drawn in through a mask, and `placeTags`, which moves a tag that would cover an earlier one; five tests in `web/lib/detection-overlay.test.ts`; a note in DESIGN-BRIEF.md.
+- **How I verified it, and who verified it:**
+  - Playwright on my own dev server, `/app/roads/analyze?sample=s01` to `s06`, 1440 and 375 px, light and dark, plus reduced motion from the OS and from the Settings switch (48 page loads). Before: tags 1 and 3 on s05 at 375 px shared 87.4 px², review boxes computed `stroke-dasharray: 1px, 1px` (solid). After: no tag pair shares any area, review boxes compute `16px, 10px`, counted boxes stay solid, tags stay inside the photo at 11.00 px (375) and 12.98 px (1440).
+  - Screenshots of s05 before and after, during the draw-in and on hover.
+  - `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` pass.
+- **What I rejected or corrected:**
+  - Swapping the solid box for a dashed one when the animation ends (a visible jump).
+  - The first fallback put tag 3 inside its own box, which hid the 17 × 8 px box on a phone; below the box now comes first.
+
+### 11 November 2026, Dameli (G-49 radii, G-23 eyebrow label, G-62 card inset)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) and Pillow in a throwaway environment for screenshots and pixel diffs.
+- **Purpose:** cut the corner radii to three, replace the hand-written eyebrow labels with one style, and give every card one padding per breakpoint.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-49, G-23 and G-62 among them). Transcript kept locally.
+- **What it produced or changed:** radius, eyebrow and `--card-pad` tokens in `web/app/tokens.css`; the `eyebrow` utility and two radius lines in `web/app/globals.css`; class changes in `card.tsx`, `kpi.tsx`, `badge.tsx`, `dialog.tsx`, `row-thumb.tsx`, `page-header.tsx`, the landing, analysis, restroom, overview, Settings, Model and `/design` files; three sections at the end of `docs/DESIGN-BRIEF.md`.
+- **How I verified it, and who verified it:**
+  - `grep -cE '^\s+--radius-(xs|sm|md|lg|xl):' web/app/tokens.css` prints 3; `grep -rn "tracking-\[" web/components web/app` prints nothing.
+  - Playwright on my own dev server: screenshots of five routes at 1440 and 375 px, light and dark, before and after each task, compared pixel by pixel; computed styles of the eyebrow and the card padding; the 320 px scroll check printed `false` on all five routes after each task; KPI number clipping measured at 320, 375 and 1440 px before and after.
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` (223 tests after rebasing on `main`) and `pnpm build` pass.
+- **What I rejected or corrected:**
+  - The file list for the radius replace also picked up `tokens.css`, whose new comment names `rounded-xl`; that file was left out so the comment stayed.
+  - The new token comment contained the text `tracking-[`, which made the G-23 grep fail; reworded.
+  - The issue's grep only finds `tracking-[…]`; a search for `uppercase` found five more hand-written eyebrows with `tracking-wide`, now on the utility too. Table headers were left as they are.
+  - `p-5` on phones for every card (the count winner) was dropped: it would clip KPI numbers at 375 px.
+  - `p-4 sm:p-5` on `Card` was dropped: without class merging, `sm:p-5` would override `CardBody className="px-0"` on desktop and break the edge-to-edge tables.
+  - A 2.5 % pixel change on `/app/analytics` at 1440 px after G-62 was checked: card and chart widths are identical with and without the change (measured), only the chart's tick placement differed.
+
+### 11 November 2026, Dameli (G-76 brand and copy pass)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** check the copy on my surfaces and in the app against `docs/design/ANTI-SLOP.md` and the voice in `docs/design/PRINCIPLES.md`, in three rounds, and fix only the text I wrote.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков"; transcript kept locally.
+- **What it produced or changed:** the ownership trace (`git log -S`, `git blame -w`), the greps and first drafts of the rewrites in `web/app/page.tsx` and `web/app/opengraph-image.alt.txt`, the updated quotes, line numbers and voice table in `docs/design/PRINCIPLES.md`, and `docs/design/copy-review.md` (25 findings).
+- **How I verified it, and who verified it:** every changed string compared with `main` in `git diff origin/main`; honesty labels and numbers unchanged; each PRINCIPLES line number checked with `grep -n`; `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` (223 tests) pass.
+- **What I rejected or corrected:** the first hero lead put "with computer vision" after the sign task only, so it read as if roads did not use it; reworded in round 2. A first draft of the review named a writing tool and called the parallel branches agents; replaced with the patterns and branch names. Changing "Change the thresholds and watch the result move" was dropped: the wording is Tair's, so it is a proposal.
+
+### 11 November 2026, Dameli (G-74 navigation motion)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment.
+- **Purpose:** make the app rail, the Roads / Restrooms switch and text links move with the motion tokens and stop under Reduce motion.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-74 among them). Transcript kept locally.
+- **What it produced or changed:** the `link-underline` utility and the rail / module thumb rules in `web/app/globals.css`; the moving rail bar and module thumb in `web/components/app/app-shell.tsx`; class changes in `analyses-table.tsx`, `checks-table.tsx` and `site-footer.tsx`.
+- **How I verified it, and who verified it:**
+  - Playwright on my own dev server: computed transitions equal the tokens (0.2 s, 0.16 s, 0.12 s, ease tokens), sampled transforms move during the change, and with the OS setting or the Settings switch every element reports `transition-property: none`. Screenshots at 1440 and 375 px, light and dark.
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` (223 tests) pass.
+- **What I rejected or corrected:**
+  - The first rail bar read a ref on the parent nav, which is not attached on first mount, so the bar was missing until the first navigation; it now uses its parent element.
+  - The bar was drawn under the active link's background; it now has a z-index.
+  - An underline inside the site header's pill links was rejected (two effects for one hover).
+
+### 11 November 2026, Dameli (G-73 motion spec)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment, and web search and fetch for the sources.
+- **Purpose:** measure the micro-interactions of the reference site, read the motion guidance, and write `docs/design/motion.md`.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-73 among them). Transcript kept locally.
+- **What it produced or changed:** `docs/design/motion.md` (catalogue, rules, map, durations, sources), the G-73 line in `docs/TASKS.md`, my worklog entry.
+- **How I verified it, and who verified it:**
+  - Every duration and easing in the catalogue comes from the probe output (computed styles or style mutations), not from memory; rows read only from a class are marked "class".
+  - Each Qarau file path in the map was checked to exist on `main`; the four rule breaks were read in the code (`globals.css`, `distribution-bars.tsx`, `detection-overlay.tsx`).
+  - Quotes kept to one short phrase per source; the M3 site does not render without JavaScript, so its values come from Google's token files, and the document says so.
+- **What I rejected or corrected:**
+  - The first scroll probe sampled the same sticky headings at every step and showed nothing; replaced it with a MutationObserver on inline styles.
+  - Two Vercel quotes in one rule (one source, one quote); the second became a summary.
+  - "Text types in for about 2 s": I only watched 2 s, so it now says "at least".
+
+### 11 November 2026, Dameli (G-21 token sync tests)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** turn the "keep in sync" comments around `web/app/tokens.css` into tests that fail when a theme, the Tailwind mapping or a component drifts from it.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-21 among them). Transcript kept locally.
+- **What it produced or changed:** `web/lib/tokens.test.ts`, the shared readers in `web/lib/css-tokens.ts`, two checks added to `web/lib/motion.test.ts`, and `web/lib/print-tokens.test.ts` importing the shared parser instead of its own copy. The new test found that `web/app/design/lab/lab.css` still used the radius tokens G-49 removed; the two dead rules are gone.
+- **How I verified it, and who verified it:**
+  - Broke `tokens.css` and a component on purpose (a dark-only token, an alias to a missing token, a wrong colour mapping, `bg-(--chart-9)`, a changed dark `--bg`, `"#abc"`, `--duration-draw: 650ms`, an extra duration token). Each made a test fail and name the file and line; all restored with git.
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` (19 files, 239 tests) and `pnpm build` pass.
+- **What I rejected or corrected:**
+  - The first version read a fixed list of three stylesheets; the design lab added `lab.css` the same afternoon, so it now reads every stylesheet under `app/` and `components/`.
+  - A trailing `// #fff` comment was reported as a hex colour; comments after a space are now skipped.
+  - Did not copy the existing motion check into `tokens.test.ts`; extended `motion.test.ts` instead.
+
+### 11 November 2026, Dameli (G-9 dashboard review)
+- **Tool and version:** Claude Code, Claude Opus 5.5, in the Claude desktop app.
+- **Purpose:** review the overview dashboards against Nielsen's ten heuristics and fix the layout and feedback problems in my design layer.
+- **Key prompt(s):** "мне просто нужно сейчас сделать просто максимальное колво тасков"; transcript kept locally.
+- **What it produced or changed:** `docs/design/dashboard-review.md` and its screenshots; `web/components/app/link-row.ts`; class changes in the three overview clients, `kpi.tsx`, `demo-path.tsx`, `analyses-table.tsx` and `checks-table.tsx`.
+- **How I verified it:** Playwright on a dev server: screenshots at 1440 and 375 px in both themes, element positions against the fold, computed transition values with Reduce motion on and off, and a script that measures every KPI number against its tile at 320 to 1440 px (4 overflowing pages before, 0 after). `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` pass.
+- **What I rejected or corrected:** a first try passed `shadow-none` through `className`, which did nothing because `cn()` does not merge classes; replaced by a `nested` prop. Moving the review queues was left to W-7 because the page order is Tair's.
+
+### 11 November 2026, Dameli (G-6 component states)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment for the checks.
+- **Purpose:** clear hover, pressed, focus, disabled, loading and error states with small motion for the UI primitives, and a states grid on `/design`.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-6 among them). Transcript kept locally.
+- **What it produced or changed:** class changes and a `forceState` prop in `button.tsx`, `switch.tsx`, `slider.tsx`, `tabs.tsx`, `select.tsx`; states in `input.tsx` (with an `error` prop), `segmented.tsx`, `table.tsx`, `dialog.tsx`; `web/components/ui/states.ts`; a G-6 motion block in `web/app/globals.css`; `web/components/design/states-grid.tsx`; `web/lib/ui-states.test.ts`; a section in `docs/DESIGN-BRIEF.md`.
+- **How I verified it, and who verified it:**
+  - Playwright on my own dev server: `/design` at 1440 and 375 px, light, dark and high contrast; button heights, dialog open and close animations, press scale, focus animation, and reduced motion from the OS and from the Settings attribute (0.01 ms).
+  - Computed transitions on the reference site (dope.security) for the timings: 100 to 150 ms on links and buttons.
+  - `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` (233 tests) pass.
+- **What I rejected or corrected:**
+  - Rows marked with `aria-selected` (not valid outside a grid); they use `data-state="selected"`.
+  - A focus ring outside the tab: the scrolling tab list clipped it. It is drawn inside now.
+  - A grey hover underline in `--border-strong`: about 2:1 on the dark background, not visible; it uses `--subtle`.
+  - Plain keyframe names like `fade-in`, which another branch could also define; they are prefixed `ui-`.
+
+### 11 November 2026, Dameli (G-75 result reveal)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment for the checks.
+- **Purpose:** stage the road and restroom Compare results within 600 ms and announce the save to screen readers.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-75 among them). Transcript kept locally.
+- **What it produced or changed:** `reveal` timings in `web/lib/motion.ts` with a test, `.result-stage` and `.saved-tick` in `web/app/globals.css`, `web/components/motion/stage.ts`, staging in `analysis-view.tsx` and `compare-result.tsx`, the status region and tick in `analyze-client.tsx` and `compare-client.tsx`.
+- **How I verified it, and who verified it:**
+  - Playwright on my own dev server, both result pages at 1440 and 375 px, light and dark, motion on, OS reduced motion and the Settings switch: reveal end 559 ms (road) and 467 ms (Compare), CLS 0 from mount at 1440 px, 0 animations and full opacity on the first frame with reduced motion, the status text present after the run.
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` pass.
+- **What I rejected or corrected:**
+  - The first timing ended at exactly 600 ms (617 ms measured); tightened to 540 ms planned.
+  - A 4 px shift when the result appeared turned out to come from React reusing the form's grid; fixed with keys rather than hidden.
+  - A count-up on the score: it would show numbers that are not the result.
+
+### 11 November 2026, Tair (demo-screen polish: provider line and road class)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with its built-in browser on my local dev server and the local model service.
+- **Purpose:** run the defense flow on `main` after the evening's design merges, and fix what looked wrong on the demo screens.
+- **Key prompt(s), with a link to the transcript:** "we need to iterate on design too ... we need to get it working and polish and improve. u need to keep merging improving and making decisions on your own". Transcript kept locally.
+- **What it produced or changed:** the provider badge and the "… provider." line on Analyze, Compare and Match stay hidden until the saved provider is read, so they no longer say "Mock" for the first moment when Local is chosen; the result card says "Not set (residential)" instead of "Not Set (Residential)".
+- **How I verified it, and who verified it:**
+  - Before the change, on Local with the model service running: `img-300.jpg` gave 4 potholes, Critical, score 17 with `jolscan-e1` (117 ms); two IOAI crops on Compare gave Clear with `clip-vitb32-zs` (101 ms). Both pages first showed "Mock provider" and an empty Road class until the page loaded.
+  - `pnpm typecheck` and eslint on the four files pass; the CI checks on the pull request; the flow again after merging.
+- **What I rejected or corrected:** rendering the provider from a server cookie (a bigger change the night before the defense); hiding the whole card instead of only the line (the layout would jump).
+
+### 11 November 2026, Dameli (G-73, G-74, G-75, G-9 motion grill)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment for the checks.
+- **Purpose:** fix the motion rule breaks listed in `docs/design/motion.md`, then review the whole app twice as a strict reviewer and fix what was safe.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков", and "iterate and grill a couple of times". Transcript kept locally.
+- **What it produced or changed:** `staggerDelay()` and the 45 ms stagger in `web/lib/motion.ts` and `web/app/tokens.css`; `.stagger`, `.jelly-nav__link` and the landing car in `web/app/globals.css`; `distribution-bars.tsx`, `detection-overlay.tsx` (`boxTiming()`), `analyze-client.tsx` (scan line), `compare-client.tsx` (saved line), `page-header.tsx` (eyebrow dot), two landing cards and the `/design` motion line; tests in `motion.test.ts`, `detection-overlay.test.ts` and a new `page-header.test.ts`; the fixed list and "Known gaps (11 Nov)" in `docs/design/motion.md`; one row in `docs/DESIGN-BRIEF.md`.
+- **How I verified it, and who verified it:**
+  - Playwright on my own dev server: 10 pages at 1440 and 375 px, light, dark and high contrast, Reduce motion off and on, twice (before and after the round 1 fixes): animation timings, declared transitions, layout shifts, clipped text, focus after Tab, console errors, honesty badges, and the G-65 check at 320 px.
+  - Header links: the other links' positions are identical while each one is hovered. Eyebrow: the glyph was measured with canvas `measureText` (advance 0, ink 0.04 to 0.20 em).
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` and `pnpm build` pass.
+- **What I rejected or corrected:**
+  - Changing the bottom bar items for `/app/roads`: that is navigation structure (Tair), written up instead.
+  - Removing the hover lift on the team cards: a teammate's design; only `transition: all` was replaced.
+  - The first probe waited for text that was already on the page before the result, so its "moved under Reduce motion" hits were the loading state; the wait was fixed for round 2.
+  - The dev server kept serving the old landing car CSS until `.next/dev` was deleted.

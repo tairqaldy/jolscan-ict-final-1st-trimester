@@ -36,6 +36,8 @@ Grouped 5-fold cross-validation (scikit-learn `GroupKFold` with the restroom as 
 
 Not sure at all. One validation query is worth 0.1. R0 and R1 score 8/10 and R2 to R4 all score 10/10, and a 10/10 result still has a 95% confidence interval from about 0.69 to 1.0. The 30 test queries are better but still coarse: one query is 0.033, so R2 against R3 is a difference of one query, and even R4's 30/30 has an interval from about 0.88 to 1.0.
 
+Because all methods answer the same 30 queries, compare them pairwise, only on the queries where exactly one is right (an exact McNemar test, `intervals.json`): the pipeline against the zero-shot baseline R0 is 7 to 0, p = 0.016, so that gain is unlikely to be luck; against R3 it is 3 to 0, p = 0.25, so on 30 queries we cannot say it is better than R3.
+
 That is why the layer experiment measures on all 164 training originals with cross-validation: one original is worth 0.006, and the 95% interval is about ±0.036. Even then, only two differences are clearly real: any training against none (0.780 to 0.917 or more), and 4 blocks against 12 (0.965 against 0.910). The settings from 2 to 8 blocks are a plateau within noise.
 
 ## 6. How does your final pipeline work, and why not just a neural network?
@@ -46,6 +48,8 @@ It has two steps and needs no training:
 2. **Find the partner of the opposite gender.** Among the remaining originals, the most similar one in style: 0.3 × colour-histogram similarity plus 0.7 × CLIP similarity.
 
 Both steps use a global assignment (the Hungarian algorithm), so two queries cannot take the same image. Result: 0.960 on 200 training episodes, 10/10 on validation and **30/30 on test**, against IOAI's best 0.90.
+
+Honest detail: the global assignment uses the fact that the gallery holds exactly the queries' pairs, which a real building does not give. One query at a time, the way the app works, the pipeline scores 0.929 on training episodes, 10/10 on validation and still 30/30 on test (`pipeline_per_query.json`). Since task C-8 the app's Match uses exactly this per-query version (`api/restroom_pipeline.py`); before, it took the most similar sign of the opposite predicted gender, which scored only 9/30.
 
 ## 7. What is top-1 accuracy here?
 
@@ -65,7 +69,7 @@ Without training, ResNet50 starts higher (0.878 against 0.780), but after fine-t
 
 ## 11. Why do the signage rules compare the two doors instead of judging each sign alone?
 
-Because one sign alone is often ambiguous: an abstract pair of legs or a top hat reads as "male" only next to its partner. On the 82 real training restrooms, all correctly signed, judging each sign alone read both doors the right way round in only 57% of restrooms, and the old "genders differ" rule wrongly called 39% of them confusing. Comparing the two doors (the one with the higher probability of "male" is the men's door) gets 90% right. That is why RULES.md part 2 compares the pair (`ml/results/restroom/pair_separation.json`).
+Because one sign alone is often ambiguous: an abstract pair of legs or a top hat reads as "male" only next to its partner. On the 82 real training restrooms, all correctly signed, judging each sign alone read both doors the right way round in only 57% of restrooms, and the old "genders differ" rule wrongly failed 39% of them. Comparing the two doors (the one with the higher probability of "male" is the men's door) gets 90% right. That is why RULES.md part 2 compares the pair (`ml/results/restroom/pair_separation.json`). On the 10 validation restrooms, which the thresholds never saw, it reads 9 of 10 the right way round (`signage_val.json`), the same range as on training.
 
 ## The failure cases (slide figures)
 

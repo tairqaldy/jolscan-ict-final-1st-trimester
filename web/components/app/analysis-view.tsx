@@ -7,8 +7,10 @@ import { Callout } from "@/components/ui/callout";
 import { Card, CardBody } from "@/components/ui/card";
 import { Table, TD, TH, THead, TR } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { rowDelay, stage, useStagedReveal } from "@/components/motion/stage";
 import { cn } from "@/lib/cn";
 import { formatDateTime, formatPct, formatScore, formatSla } from "@/lib/format";
+import { reveal as revealAt } from "@/lib/motion";
 import { deriveDetections, rescore } from "@/lib/rules";
 import { SEVERITY_CLASSES } from "@/lib/severity";
 import { rulesStore } from "@/lib/store/settings";
@@ -22,9 +24,15 @@ import { PROVIDER_META } from "./provider-badge";
  * Full result view, shared by /app/roads/analyze and /app/roads/reports/[id]:
  * photo + boxes, priority, rule hits, detections table, raw JSON.
  * Hovering a box highlights its row and vice versa.
+ * reveal (Analyze, right after a run): the priority card, then the score, then
+ * the rule rows rise in, within 600 ms (G-75). Reports open without it.
  */
-export function AnalysisView({ analysis, title }: { analysis: StoredAnalysis; title?: string }) {
+export function AnalysisView({ analysis, title, reveal = false }: { analysis: StoredAnalysis; title?: string; reveal?: boolean }) {
   const rules = rulesStore.useStore();
+  const staged = useStagedReveal(reveal);
+  const cardStage = stage(staged, revealAt.card);
+  const scoreStage = stage(staged, revealAt.key);
+  const totalStage = stage(staged, rowDelay(analysis.ruleHits.length));
   const [activeId, setActiveId] = useState<string | null>(null);
   const derived = useMemo(() => deriveDetections(analysis.detections, rules), [analysis.detections, rules]);
   const current = useMemo(() => rescore(analysis, rules), [analysis, rules]);
@@ -60,26 +68,26 @@ export function AnalysisView({ analysis, title }: { analysis: StoredAnalysis; ti
           />
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted">
             <span className="inline-flex items-center gap-1.5">
-              <span aria-hidden className="inline-block h-2.5 w-4 rounded-xs border-2 border-box" /> counted
+              <span aria-hidden className="inline-block h-2.5 w-4 rounded-sm border-2 border-box" /> counted
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <span aria-hidden className="inline-block h-2.5 w-4 rounded-xs border-2 border-dashed border-box-review" /> needs review
+              <span aria-hidden className="inline-block h-2.5 w-4 rounded-sm border-2 border-dashed border-box-review" /> needs review
             </span>
             <span>Hover a box or a row to match them.</span>
           </div>
         </div>
 
-        <Card className={cn("border-t-4", sev.border)}>
+        <Card className={cn("border-t-4", sev.border, cardStage.className)} style={cardStage.style}>
           <CardBody className="grid gap-5">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">Repair priority</p>
+                <p className="eyebrow text-muted">Repair priority</p>
                 <div className="mt-2">
                   <SeverityBadge severity={analysis.severity} size="lg" />
                 </div>
               </div>
-              <div className="text-right">
-                <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">Score</p>
+              <div className={cn("text-right", scoreStage.className)} style={scoreStage.style}>
+                <p className="eyebrow text-muted">Score</p>
                 <p className="tabular font-display text-5xl leading-none font-bold">{formatScore(analysis.score)}</p>
               </div>
             </div>
@@ -123,7 +131,7 @@ export function AnalysisView({ analysis, title }: { analysis: StoredAnalysis; ti
                 {formatDateTime(analysis.createdAt)}
               </Meta>
               <Meta icon={Route} label="Road class">
-                <span className="capitalize">{analysis.photo.roadClass ?? "not set (residential)"}</span>
+                {analysis.photo.roadClass ? <span className="capitalize">{analysis.photo.roadClass}</span> : "Not set (residential)"}
               </Meta>
               <Meta icon={School} label="School zone">
                 {analysis.photo.schoolZone ? "Yes" : "No"}
@@ -163,8 +171,8 @@ export function AnalysisView({ analysis, title }: { analysis: StoredAnalysis; ti
                     </tr>
                   </THead>
                   <tbody>
-                    {analysis.ruleHits.map((h) => (
-                      <TR key={h.ruleId}>
+                    {analysis.ruleHits.map((h, i) => (
+                      <TR key={h.ruleId} {...stage(staged, rowDelay(i))}>
                         <TD>
                           <span className="font-mono text-xs text-muted">{h.ruleId}</span>{" "}
                           <span className="font-medium">{h.title}</span>
@@ -173,7 +181,7 @@ export function AnalysisView({ analysis, title }: { analysis: StoredAnalysis; ti
                         <TD className="tabular text-right font-mono">{h.points > 0 ? `+${formatScore(h.points)}` : formatScore(h.points)}</TD>
                       </TR>
                     ))}
-                    <TR className="bg-surface-2">
+                    <TR className={cn("bg-surface-2", totalStage.className)} style={totalStage.style}>
                       <TD colSpan={2} className="font-semibold">
                         Score
                       </TD>

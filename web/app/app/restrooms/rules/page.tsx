@@ -11,7 +11,7 @@ export default function RestroomRulesPage() {
       <PageHeader
         eyebrow={`${MODULES.restrooms.name} · Rules`}
         title="Signage rules you can read"
-        description="The model reads each sign. These three rules decide whether a pair of signs is clear. Thresholds are team-defined starting values, not a building-code requirement."
+        description="The model reads each sign. These two rules decide whether two signs are a pair. Thresholds are team-defined starting values, not a building-code requirement."
       />
       <RestroomRulesClient />
     </div>

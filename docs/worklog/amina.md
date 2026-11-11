@@ -10,6 +10,30 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 ## Entries
 
+### 2026-11-11 - R-22 (#231), R-23 (#232) - Prepare personal Roads presentation material
+- **Status:** prepared for review; personal timed reading and live rules-page check remain pending; neither task is marked complete.
+- **Review clarification:** Traced the 0.02 cutoff to the original experiment-protocol commit `6bc6c07` and current source index; it is a project reporting policy, not evidence of statistical equivalence or a universal significance threshold. Both spoken scripts now explicitly preserve that distinction and unresolved rights for individual watermarked photos despite dataset-level ODbL/DbCL metadata. Word counts remain 127/90; no personal timed rehearsal or Rules-page result has been supplied.
+- **What I did:** Updated only Slides 5 and 6 in `docs/deck/SLIDES.md`, preserving the existing structure and time budgets. Distinguished my dataset review/preparation, duplicate/XML checks, invalid-annotation correction, YOLO export, clustering, M-0 and successful M-1 smoke from Tair's full E0-E8 training.
+- **Result:** [Slide 5](../deck/SLIDES.md#slide-5--roads-data-and-experiment) and [Slide 6](../deck/SLIDES.md#slide-6--roads-results), each committed separately. Speaker scripts are 127 and 90 words; estimates at the document's rate are 58.6 and 41.5 seconds, not measured rehearsal times.
+- **Decisions and why:** Keep slide faces concise and detailed attribution/evidence in Cues and Sources. Replace the ambiguous "test read once" statement with reporting-only selection language and explain the prior D-2/test overlap and multiple evaluation passes. E8 construction remains separate from champion selection, and apparent box size is not physical severity.
+- **Verification:** Checked every run-table value against JSON/CSV, champion and E8 qualification arithmetic, manifest totals, smoke split exclusion, operating-point counts/settings/ratios, cluster thresholds and rules example arithmetic. Confirmed all text outside Slides 5-6 and existing source-index mappings remain unchanged. `ml/check_results.py`, five `test_check_results.py` tests and `git diff --check` passed. No training, result generation, PPTX editing, browser QA or rehearsal was performed.
+- **What I can explain at the defense:** My personal contribution and its limits, why E1 wins the validation tie-break, and why fixed-threshold operating-point counts cannot be mixed with Ultralytics' different pass.
+- **AI use:** Codex assisted with source checks and wording; see AI-USAGE-LOG.md.
+- **Open questions / next:** Amina reads the scripts aloud with a timer; the worked example still needs the requested live rules-page check in later QA. Tair/Roma review the notes and numerical sources. SLIDES.md is normally generated: per the explicitly limited scope, its generator, PPTX and source index are unchanged, so these approved manual document edits must be carried into a later deck regeneration separately. M-18 rehearsal remains incomplete.
+
+
+
+### 2026-11-11 ? M-37 (#195) ? Why not accuracy
+- **Status:** complete in this PR; M-18 timed practice remains incomplete.
+- **What I did:** Verified photo/object counts from the frozen manifest and the R1 gender confusion matrix, added a five-sentence explanation to ML-EXPERIMENT.md and a two-sentence answer for R-5/M-18 in PRESENTATION.md.
+- **Result:** [Why not accuracy](../ML-EXPERIMENT.md#why-not-accuracy): an always-positive image answer is 100/100 correct on presence while locating no boxes. Train/val/test contain 465/100/100 photos, zero without potholes, with per-photo object ranges 1-18 / 1-19 / 1-14. R1 gender rows sum to 164/164.
+- **Decisions and why:** Separate image-presence accuracy from box detection and fixed-label classification; do not describe the issue as ordinary class imbalance or alter selection policy.
+- **What I learned / can explain at the defense:** A perfect answer to the easier presence question does not measure whether a detector finds and localizes objects. Background regions have no unique count for detection true negatives.
+- **AI use:** Codex assisted with inspection and wording, logged in AI-USAGE-LOG.md.
+- **Verification / next:** Manifest and R1 assertions passed; ml/check_results.py passed and five test_check_results.py tests passed; git diff --check passed. No training or evaluation rerun. Roma can use the sourced answer in R-5; real timed teammate practice remains required for M-18.
+
+
+
 ### 2026-11-11 ? M-4 (#53) ? Prepare E1 without training
 - **Status:** in progress; compatibility confirmation required before training.
 - **What I did:** Claimed available E1 for omodotori, compared the actual E0 tagged trainer and explicit JSON configuration with E1, and prepared [separate Colab instructions](../E1-COLAB.md).

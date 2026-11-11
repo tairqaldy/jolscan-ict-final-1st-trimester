@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { storageKey } from "@/lib/brand";
 import { MOCK_RESTROOM_CHECKS } from "@/lib/mock/restroom-checks";
+import { evaluateSignage } from "@/lib/signage";
 import type { StoredSignageCheck } from "@/lib/types";
 import { createLocalStore } from "./local-store";
 
@@ -18,9 +19,21 @@ export const restroomHistoryStore = createLocalStore<StoredSignageCheck[]>(stora
           c.a &&
           c.b &&
           Array.isArray(c.ruleHits),
-      )
+      ).map(upgrade)
     : [],
 );
+
+/**
+ * Checks saved before the verdict became pair / not a pair (11 Nov 2026) carry
+ * "clear", "review" or "confusing" and rule S1. Judge them again with the
+ * default rules so every page shows only the two verdicts.
+ */
+function upgrade(c: StoredSignageCheck): StoredSignageCheck {
+  if ((c.verdict === "pair" || c.verdict === "not_pair") && typeof c.reason === "string") return c;
+  const { recommendedAction: _old, ...rest } = c as StoredSignageCheck & { recommendedAction?: string };
+  void _old;
+  return { ...rest, ...evaluateSignage(c) };
+}
 
 export function addRestroomCheck(check: StoredSignageCheck) {
   restroomHistoryStore.set((prev) => [check, ...prev.filter((c) => c.id !== check.id)].slice(0, MAX_HISTORY));

@@ -2,6 +2,8 @@
 
     POST /restroom/compare  multipart: a=<image>, b=<image>                     -> CompareResult
     POST /restroom/match    multipart: query=<image>, gallery=<image> (1..60x)  -> MatchResult
+                            bestMatchId comes from the two-step pipeline in restroom_pipeline.py
+                            (SIFT + pixel check, then colour + CLIP), not from the predicted genders.
 
 The model is CLIP (ViT image encoder). It is loaded on the first restroom request, not at start-up,
 so the pothole service starts as fast as before and runs without the CLIP download.
@@ -186,18 +188,32 @@ async def match(query: UploadFile = File(...), gallery: list[UploadFile] = File(
     backend = await run_in_threadpool(get_backend)
     emb, preds, latency = await run_in_threadpool(_infer, backend, [q_img, *g_imgs])
 
+    # bestMatchId: the two-step pipeline (restroom_pipeline.py, task C-8), not the predicted genders.
+    start = time.perf_counter()
+    pair = await run_in_threadpool(_pair, q_img, g_imgs, emb)
+    latency += round((time.perf_counter() - start) * 1000)
+
     sims = _similarity(emb[:1], emb[1:])[0]
     q_pred = preds[0]
     candidates = [{"id": str(i), "similarity": round(float(s), 4), "prediction": preds[i + 1]} for i, s in enumerate(sims)]
     # Most similar first; equal similarity keeps upload order.
     order = sorted(range(len(candidates)), key=lambda i: (-sims[i], i))
     candidates = [candidates[i] for i in order]
-    best = next((c["id"] for c in candidates if c["prediction"]["gender"] != q_pred["gender"]), None)
     return {
         "provider": PROVIDER,
         "model": backend.name,
         "latencyMs": latency,
         "query": q_pred,
         "candidates": candidates,
-        "bestMatchId": best,
+        "bestMatchId": None if pair.best is None else str(pair.best),
+        "ownId": None if pair.own is None else str(pair.own),
     }
+
+
+def _pair(query, gallery: list, emb: np.ndarray):
+    # OpenCV's SIFT object is shared, so one request at a time, like the CLIP inference.
+    with _inference_lock:
+        # Imported on first use, like CLIP: the service and /health start without OpenCV.
+        from restroom_pipeline import find_pair
+
+        return find_pair(query, gallery, emb)

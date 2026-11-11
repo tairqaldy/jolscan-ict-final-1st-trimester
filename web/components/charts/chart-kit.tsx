@@ -220,7 +220,7 @@ export function LegendSwatch({ color, label, dashed, faded }: { color: string; l
     <span className="inline-flex items-center gap-1.5">
       <span
         aria-hidden
-        className="inline-block h-2.5 w-3.5 rounded-xs"
+        className="inline-block h-2.5 w-3.5 rounded-sm"
         style={dashed ? { borderTop: `2px dashed ${color}`, height: 0 } : { background: color, opacity: faded ? FADED_OPACITY : undefined }}
       />
       {label}

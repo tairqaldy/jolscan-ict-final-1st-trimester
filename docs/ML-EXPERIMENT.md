@@ -40,6 +40,14 @@ The exporter rounds the validation mAP difference to six decimal places before a
 
 **Final revision and timing evidence (11 November 2026):** Amina revised the earlier proposed E0-champion override before E1-E7 start: the no-qualifier fallback changes E8 settings only. Amina confirms from current team information that E1-E7 have not started and authorizes merging this final policy before starting them. This is a team confirmation, not an independently observed training log; no run start time is invented. The actual rule commit and main merge timestamps are available in [PR #369](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/pull/369). Tair handles E0; this task starts no training.
 
+### Why not accuracy
+
+Every photo in the frozen [split manifest](../data/exports/potholes_yolo_v1/split_manifest.json) contains at least one labelled pothole (train 465/465, validation 100/100, test 100/100), so a constant answer of "pothole present" scores 100% image-level accuracy on our test split (100/100 correct presence answers).
+That answers only whether a photo contains a pothole: it provides no locations, and a detector returning no boxes would find none of the 236 labelled test potholes despite that perfect presence score.
+For box detection, ordinary accuracy has no uniquely countable true-negative denominator, because the number of empty background regions depends on how we choose to divide the image.
+Instead we report precision (the fraction of predicted potholes that are real), recall (the fraction of labelled potholes found), IoU (intersection area divided by union area for two boxes), and mAP (average precision across classes); the existing selection rule uses validation mAP50, with validation recall at confidence 0.40 breaking ties within 0.01 because missed potholes matter to the repair workflow.
+By contrast, the [R1 restroom gender confusion matrix](../ml/results/restroom/runs/R1.json), `gender.zero_shot_prompts.confusion_matrix_rows_true_male_female`, contains 164 true male and 164 true female signs, so accuracy has a fixed denominator of 328 labelled classification examples and an always-one-class answer scores only 50%; the IOAI matching score similarly counts correct choices out of a fixed set of queries, rather than uncountable background regions.
+
 ### Smoke-test boundary
 
 The M-1 one-epoch smoke run is a pipeline check, not a reportable experiment. It trains on `train` and checks metrics on `val` only. Its temporary dataset YAML omits `test`, so neither training nor evaluation can read test images. The smoke JSON contains validation metrics only; it must not contain a placeholder or copied `test_map50`.

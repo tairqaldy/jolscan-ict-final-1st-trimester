@@ -13,7 +13,7 @@ export const BRAND = {
   tagline: "Computer vision inspection of public infrastructure from photos, with rules you can read.",
   /** One-line description for metadata and social previews. */
   description:
-    "Qarau runs a computer vision model on a photo of public infrastructure, then applies rules you can read: potholes on roads become a repair priority, restroom door signs become a clear, review or confusing verdict. ICT1103 course project at QAIRU.",
+    "Qarau runs a computer vision model on a photo of public infrastructure, then applies rules you can read: potholes on roads become a repair priority, two restroom door signs become a pair or not a pair. ICT1103 course project at QAIRU.",
   /**
    * Prefix for localStorage keys. Changing it starts every browser with empty
    * history and default rules, so leave it alone when only the name changes.
@@ -52,7 +52,7 @@ export const MODULES: Record<ModuleId, ModuleInfo> = {
     subject: "Door signs",
     href: "/app/restrooms",
     summary:
-      "A CLIP image encoder reads restroom door signs; three rules decide whether a pair of signs is clear, needs review or is confusing.",
+      "A CLIP image encoder reads restroom door signs; two rules decide whether two signs are a pair or not a pair.",
   },
 };
 

@@ -12,6 +12,42 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 · R-2 (#84) · Primary road-condition source
+- **Status:** in progress; source selected for review, slide and timed delivery remain.
+- **What I did:** Located a West Kazakhstan Region road authority's primary report and documented its dated local-road condition figure and scope for the presentation.
+- **Result:** `docs/research/deck-sources.md` links the source, quotes a short original excerpt and proposes an accurate English formulation. No design or slide was changed.
+- **Decisions and why:** Used the reported 60% of local roads in normative condition as of 1 January 2026; did not call it a pothole count or national statistic.
+- **What I learned / can explain at the defense:** A regional road-condition indicator should retain its geography, date, denominator and definition when quoted.
+- **AI use:** Codex desktop, GPT-6; personal review pending.
+- **Open questions / next:** Team reviews the source and includes it in the slide and notes if appropriate; the speaker times the delivery.
+
+### 2026-11-11 · R-15 (#99) · Audit numbers in the defense deck
+- **Status:** in progress; one stale slide number and three documented source gaps remain.
+- **What I did:** Rebuilt the deck in an isolated copy, compared all slide text with the committed PowerPoint, and compared road and restroom export rows with the website's data files.
+- **Result:** The generator checked 183 number records. The only text difference between the committed deck and the fresh build was the changing number of AI-log entries on slide 10. Three gaps remain on slides 2, 8 and 10. The compared export metrics matched website data; E1, R3 and R4 were spot-checked on the live model page.
+- **Decisions and why:** Recorded the mismatch and gaps rather than silently changing the presentation or claiming all numbers match. The generator validates the values it registers; this is not proof that every image, chart or spoken number was independently audited.
+- **What I learned / can explain at the defense:** Recalculate numbers from source files and compare against the actual version being presented, not just against a newly generated copy.
+- **AI use:** Codex desktop, GPT-6; personal review pending.
+- **Open questions / next:** Rebuild or correct the stale slide count after the final AI-log edit; resolve or explicitly accept the missing source gaps, audit charts and the remaining live-page values, and repeat after later results change.
+
+### 2026-11-11 · X-13 (#77) · AI prompt-log excerpts
+- **Status:** in progress; full transcripts and other members' records still need collection and review.
+- **What I did:** Collected selected exact prompts and evidence-backed summaries for the serving work in `docs/ai-logs/alizhan/2026-11-11-serving-codex-excerpts.md`, avoiding personal paths and recording the lack of a full export.
+- **Result:** A partial, sanitized record with links to task-specific PRs and the worklog, not a substitute for the full conversation.
+- **Decisions and why:** Did not invent missing transcripts or claim that other members used no AI.
+- **What I learned / can explain at the defense:** State how AI was used, what was verified and what remains uncertain; the defense answers are personal.
+- **AI use:** Codex desktop, GPT-6, to assemble and check the excerpts.
+- **Open questions / next:** Alizhan reviews the excerpts; each member contributes their own export or explains why it is unavailable, then the team audits the complete log.
+
+### 2026-11-11 · S-26 (#220) · Slide-number source inventory
+- **Status:** in progress; Roma's use in R-15 and final deck comparison remain to be confirmed.
+- **What I did:** Added a standard-library command that reads road and restroom result files, writes a source-labelled inventory, and marks missing or mock values unavailable; added a no-write CI mode and tests.
+- **Result:** `ml/results/SLIDE-NUMBERS.md` lists currently available model results and sources. Missing latency and interval files are explicit, not estimated.
+- **Decisions and why:** Kept the inventory separate from the actual deck audit and included the generation time and Git HEAD; the list alone does not prove every slide number is current.
+- **What I learned / can explain at the defense:** Trace experiment figures to committed files and regenerate the inventory when results change.
+- **AI use:** Codex desktop, GPT-6; personal review pending.
+- **Open questions / next:** Roma checks the final deck against the page; regenerate after results change and review the feature-freeze policy before merging.
+
 ### 2026-11-11 · R-21 (#230) · Architecture slide practice
 - **Status:** done; three recorded attempts are within the duration target and Alizhan confirmed the required handover.
 - **What I did:** Checked slide 4 and its speaker notes in the current PowerPoint against the deck source, API routes and the restroom latency CSV; prepared `docs/R21-ALIZHAN-PRACTICE.md`.
@@ -30,6 +66,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **AI use:** Codex desktop, GPT-6; personal review pending.
 - **Open questions / next:** Each participant checks their own row and topics; Tair confirms any remaining shared decisions.
 
+### 2026-11-11 · M-2 (#51) · Full-run handoff
+- **Status:** in progress; actual shared Drive access and Colab handoff remain unverified.
+- **What I did:** Added an opt-in final Colab cell for copying a full run's best weights to a shared folder and downloading its result JSON and CSV; documented the laptop-to-PR handoff.
+- **Result:** Local temporary-file simulation passed, including normal copy/download, skipping the smoke default, rejecting smoke metadata and refusing to overwrite existing weights. No actual weights or dataset were used.
+- **Decisions and why:** The notebook runs an M-1 smoke test by default; full-run copying must be explicitly configured and checked so smoke weights cannot be mistaken for a trained model.
+- **What I learned / can explain at the defense:** Keep model weights outside Git and preserve the actual per-run results and curves alongside the source code.
+- **AI use:** Codex desktop, GPT-6; personal review pending.
+- **Open questions / next:** Verify the shared folder exists and all runners can edit it, then run the handoff for an actual full run in Colab.
+
 ### 2026-11-11 · S-28 (#222) · Validation-only promotion gate
 - **Status:** implemented; Amina's review pending.
 - **What I did:** Added a standard-library CLI that validates comparability and applies the existing champion selection rule using validation metrics only; described a future Level 1 pipeline without claiming it is automated.
@@ -38,6 +83,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **What I learned / can explain at the defense:** A promotion gate should compare like-for-like runs and never use the held-out test set to choose a model.
 - **AI use:** Codex desktop, GPT-6; personal review pending.
 - **Open questions / next:** Amina reviews the gate and declared-change warning policy; registry and deployment remain separate.
+
+### 2026-11-11 · S-12 (#35) · Prediction call log
+- **Status:** implemented; review pending.
+- **What I did:** Added a configurable CSV log of successful road predictions with a process-local lock and no uploaded image or filename, plus error handling and tests.
+- **Result:** Each successful request writes aggregate metadata; tests cover repeated requests, empty detections, concurrent writes, privacy and an unwritable log path. The default log directory is Git-ignored.
+- **Decisions and why:** Mean confidence is blank when no objects are detected. Following Tair's review, logging is opt-in and a write failure logs a warning without failing inference. Multiple processes need separate destinations or a coordinated collector.
+- **What I learned / can explain at the defense:** Monitoring can record latency and confidence over time without storing source images, but confidence alone does not prove data drift.
+- **AI use:** Codex desktop, GPT-6; personal review pending.
+- **Open questions / next:** Tair reviews the logging and deployment implications; analytics integration is separate.
 
 ### 2026-11-11 · S-25 (#219) · Test model selection and export
 - **Status:** implemented; Amina's review pending.

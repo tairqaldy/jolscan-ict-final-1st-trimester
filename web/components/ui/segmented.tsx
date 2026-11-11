@@ -36,9 +36,10 @@ export function Segmented<T extends string>({
             <label
               key={o.value}
               className={cn(
-                "relative inline-flex cursor-pointer items-center gap-1.5 rounded-sm px-3 py-1.5 text-sm font-medium transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-focus",
-                active ? "bg-surface text-fg shadow-sm" : "text-muted hover:text-fg",
-                o.disabled && "cursor-not-allowed opacity-50",
+                // G-6: 48 px tall below sm (U6). A disabled option has no hover.
+                "relative inline-flex min-h-12 cursor-pointer items-center gap-1.5 rounded-sm px-3 py-1.5 text-sm font-medium transition-[color,background-color,box-shadow] duration-[var(--duration-fast)] ease-standard has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-focus sm:min-h-0",
+                active ? "bg-surface text-fg shadow-sm" : !o.disabled && "text-muted hover:text-fg",
+                o.disabled && "cursor-not-allowed text-muted opacity-50",
               )}
             >
               <input

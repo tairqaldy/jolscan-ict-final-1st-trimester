@@ -40,7 +40,7 @@ export function AnalysesTable({ analyses, caption }: { analyses: AnalysisWithSou
         {analyses.map((a) => (
           <TR
             key={a.id}
-            className="cursor-pointer hover:bg-surface-2"
+            className="cursor-pointer transition-colors duration-[var(--duration-fast)] ease-standard hover:bg-surface-2"
             onClick={() => router.push(`/app/roads/reports/${a.id}`)}
           >
             <TD className="tabular whitespace-nowrap text-muted">{formatDateTime(a.createdAt)}</TD>
@@ -50,7 +50,7 @@ export function AnalysesTable({ analyses, caption }: { analyses: AnalysisWithSou
                 <div className="min-w-0">
                   <Link
                     href={`/app/roads/reports/${a.id}`}
-                    className="font-medium hover:underline"
+                    className="font-medium link-underline"
                     onClick={(e) => e.stopPropagation()}
                   >
                     {a.location?.label ?? a.photo.fileName ?? "Uploaded photo"}

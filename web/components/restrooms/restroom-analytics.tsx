@@ -34,7 +34,6 @@ import { VERDICTS } from "@/lib/types";
 export function RestroomAnalytics() {
   const checks = useRestroomChecks();
   const rules = signageRulesStore.useStore();
-  const t1 = rules.s1.minMargin;
   const t2 = rules.s2.minMargin;
   const t3 = rules.s3.minSimilarity;
 
@@ -42,18 +41,18 @@ export function RestroomAnalytics() {
     () => VERDICTS.map((v) => ({ verdict: v, label: VERDICT_META[v].label, count: checks.filter((c) => c.verdict === v).length })),
     [checks],
   );
-  const clearPct = checks.length ? Math.round((verdicts[0].count / checks.length) * 100) : 0;
+  const pairPct = checks.length ? Math.round((verdicts[0].count / checks.length) * 100) : 0;
   const similarity = useMemo(() => splitBins(checks.map((c) => c.similarity), 0.3, 1.0, 0.05, t3), [checks, t3]);
-  const confidence = useMemo(() => splitBins(checks.map((c) => assignDoors(c.a, c.b).margin), 0, 1.0, 0.05, t1), [checks, t1]);
+  const confidence = useMemo(() => splitBins(checks.map((c) => assignDoors(c.a, c.b).margin), 0, 1.0, 0.05, t2), [checks, t2]);
   const belowS3 = checks.filter((c) => c.similarity < t3).length;
-  const belowS1 = checks.filter((c) => assignDoors(c.a, c.b).margin < t1).length;
+  const belowS2 = checks.filter((c) => assignDoors(c.a, c.b).margin < t2).length;
 
   return (
     <Stagger className="grid gap-4 lg:grid-cols-2">
       <StaggerItem>
         <ChartCard
-          title={`${clearPct}% of checked sign pairs are clear`}
-          description="Pairs per signage verdict, from zero. Clear: all rules pass. Review: S1 or S3 failed. Confusing: the two doors look almost the same to the model."
+          title={`${pairPct}% of checked sign pairs are a pair`}
+          description="Checks per verdict, from zero. Pair: one design set (S3) and the doors read as different genders (S2). Not a pair: either rule failed."
           badge={<DemoBadge show label="Includes demo data" />}
           legend={VERDICTS.map((v) => (
             <LegendSwatch key={v} color={VERDICT_META[v].cssVar} label={VERDICT_META[v].label} />
@@ -115,19 +114,19 @@ export function RestroomAnalytics() {
 
       <StaggerItem>
         <ChartCard
-          title={`${belowS1} of ${checks.length} pairs had a gap below ${t1.toFixed(2)} between the doors`}
-          description={`Gap in P(male) between the two doors of each pair, from zero. The lines are rule S1 at ${t1.toFixed(2)} and rule S2 at ${t2.toFixed(2)}: pairs left of S1 need a person to check which door is which, pairs left of S2 are confusing.`}
+          title={`${belowS2} of ${checks.length} pairs had a gap below ${t2.toFixed(2)} between the doors`}
+          description={`Gap in P(male) between the two doors of each pair, from zero. The line is rule S2 at ${t2.toFixed(2)}: pairs to its left read as the same gender, so they are not a pair.`}
           badge={<DemoBadge show label="Includes demo data" />}
           legend={
             <>
-              <LegendSwatch color={SERIES[0]} label={`≥ ${t1.toFixed(2)} clear which door is which`} />
-              <LegendSwatch color={SERIES[1]} label="below S1" />
+              <LegendSwatch color={SERIES[0]} label={`≥ ${t2.toFixed(2)} different genders`} />
+              <LegendSwatch color={SERIES[1]} label="below S2" />
             </>
           }
           table={<DataTable head={["Gap from", "Pairs"]} rows={confidence.map((b) => [b.label, b.count])} />}
         >
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={confidence} margin={chartMargin({ xTitle: true, labelRows: 2 })} barCategoryGap={2}>
+            <BarChart data={confidence} margin={chartMargin({ xTitle: true, labelRows: 1 })} barCategoryGap={2}>
               <CartesianGrid {...gridProps} />
               <XAxis dataKey="label" {...axisProps} tick={<BinEdgeTick />}>
                 {xAxisTitle("Gap in P(male) between the doors")}
@@ -137,11 +136,10 @@ export function RestroomAnalytics() {
               </YAxis>
               <Tooltip {...tooltipProps} labelFormatter={(l) => `Gap ${l}–${(Number(l) + 0.05).toFixed(2)}`} />
               <BarStack radius={barRadius}>
-                <Bar dataKey="below" name="Below S1" fill={SERIES[1]} {...stackSeparatorProps} />
-                <Bar dataKey="atOrAbove" name="Clear which door is which" fill={SERIES[0]} {...stackSeparatorProps} />
+                <Bar dataKey="below" name="Below S2" fill={SERIES[1]} {...stackSeparatorProps} />
+                <Bar dataKey="atOrAbove" name="Different genders" fill={SERIES[0]} {...stackSeparatorProps} />
               </BarStack>
-              <ThresholdMarker bins={confidence} value={t1} rule="S1" defaultValue={DEFAULT_SIGNAGE.s1.minMargin} />
-              <ThresholdMarker bins={confidence} value={t2} rule="S2" defaultValue={DEFAULT_SIGNAGE.s2.minMargin} row={1} />
+              <ThresholdMarker bins={confidence} value={t2} rule="S2" defaultValue={DEFAULT_SIGNAGE.s2.minMargin} />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>

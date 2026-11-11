@@ -20,8 +20,21 @@ export function THead({ className, ...props }: ComponentProps<"thead">) {
   return <thead className={cn("border-b border-border text-xs tracking-wide text-muted uppercase", className)} {...props} />;
 }
 
+/**
+ * G-6: a row eases its colour when a page makes it clickable (hover:bg-surface-2)
+ * and shows data-state="selected" with the accent-soft fill used by selected tiles.
+ * Plain rows have no hover, so they do not pretend to be clickable.
+ */
 export function TR({ className, ...props }: ComponentProps<"tr">) {
-  return <tr className={cn("border-b border-border last:border-0", className)} {...props} />;
+  return (
+    <tr
+      className={cn(
+        "border-b border-border transition-colors duration-[var(--duration-fast)] ease-standard last:border-0 data-[state=selected]:bg-accent-soft",
+        className,
+      )}
+      {...props}
+    />
+  );
 }
 
 export function TH({ className, ...props }: ComponentProps<"th">) {

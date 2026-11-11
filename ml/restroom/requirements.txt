@@ -12,3 +12,5 @@ opencv-python-headless==5.0.0.93
 scipy==1.18.1
 # figures (plots.py, failures.py, layers_report.py, layer_probe.py)
 matplotlib==3.11.2
+# local demo (demo.py)
+gradio==6.31.0

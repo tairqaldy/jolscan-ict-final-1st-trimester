@@ -1,44 +1,84 @@
 "use client";
 
-import { ImageUp, LayoutGrid, X } from "lucide-react";
-import { useState, type DragEvent } from "react";
+import { LayoutGrid, X } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dropzone } from "@/components/ui/dropzone";
+import { Segmented } from "@/components/ui/segmented";
 import { SelectableTile } from "@/components/ui/selectable-tile";
 import { cn } from "@/lib/cn";
-import { RESTROOM_SAMPLES, type RestroomSample } from "@/lib/mock/restroom-samples";
-import { ACCEPTED_IMAGE_TYPES, validateImageFile } from "@/lib/upload";
+import {
+  RESTROOM_IOAI_CATALOGUE,
+  RESTROOM_IOAI_CREDIT,
+  RESTROOM_IOAI_GROUPS,
+  RESTROOM_SAMPLES,
+  type IoaiGroupId,
+  type RestroomSample,
+} from "@/lib/mock/restroom-samples";
 import { SignImage } from "./signage-bits";
 
 export type SlotValue = { kind: "sample"; sample: RestroomSample } | { kind: "file"; file: File; previewUrl: string };
 
-/** Grid of the bundled sample signs; one click picks one. */
+type PickerGroup = "bundled" | IoaiGroupId;
+
+/** Grid of sample signs, one click picks one: the bundled samples or, with `withIoai`, every IOAI sign. */
 export function SamplePicker({
   selectedId,
   onPick,
   exclude,
   columns = "grid-cols-3 sm:grid-cols-4",
+  withIoai = false,
 }: {
   selectedId?: string;
   onPick: (sample: RestroomSample) => void;
   exclude?: string;
   columns?: string;
+  withIoai?: boolean;
 }) {
+  const [group, setGroup] = useState<PickerGroup>(() => {
+    const picked = RESTROOM_IOAI_CATALOGUE.find((s) => s.id === selectedId);
+    return picked ? picked.group : "bundled";
+  });
+  const list: RestroomSample[] =
+    group === "bundled" ? RESTROOM_SAMPLES : RESTROOM_IOAI_CATALOGUE.filter((s) => s.group === group);
   return (
-    <ul className={cn("grid gap-2", columns)}>
-      {RESTROOM_SAMPLES.filter((s) => s.id !== exclude).map((s) => {
-        const selected = s.id === selectedId;
-        return (
-          <li key={s.id}>
-            <SelectableTile selected={selected} onClick={() => onPick(s)} className="grid w-full gap-1 p-1.5">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={s.file} alt="" className="aspect-[5/6] w-full object-contain" loading="lazy" />
-              <span className="text-xs leading-snug font-medium">{s.title}</span>
-            </SelectableTile>
-          </li>
-        );
-      })}
-    </ul>
+    <div className="grid gap-3">
+      {withIoai && (
+        <div className="grid gap-1.5">
+          <Segmented
+            label="Signs"
+            hideLabel
+            value={group}
+            onChange={setGroup}
+            options={[
+              { value: "bundled", label: `Samples (${RESTROOM_SAMPLES.length})` },
+              ...RESTROOM_IOAI_GROUPS.map((g) => ({ value: g.id as PickerGroup, label: `${g.label} (${g.count})` })),
+            ]}
+          />
+          {group !== "bundled" && (
+            <p className="text-xs text-muted">
+              Real IOAI door signs. With the mock provider their gender, confidence and similarity are real zero-shot CLIP
+              outputs; validation and test genders were labelled by eye. {RESTROOM_IOAI_CREDIT}
+            </p>
+          )}
+        </div>
+      )}
+      <ul className={cn("grid gap-2", columns)}>
+        {list.filter((s) => s.id !== exclude).map((s) => {
+          const selected = s.id === selectedId;
+          return (
+            <li key={s.id}>
+              <SelectableTile selected={selected} onClick={() => onPick(s)} className="grid w-full gap-1 p-1.5">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={s.file} alt="" className="aspect-[5/6] w-full object-contain" loading="lazy" />
+                <span className="text-xs leading-snug font-medium">{s.title}</span>
+              </SelectableTile>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }
 
@@ -58,24 +98,12 @@ export function SignSlot({
   disabled?: boolean;
 }) {
   const [error, setError] = useState<string | null>(null);
-  const [dragging, setDragging] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
 
-  const pickFile = (file: File | undefined) => {
-    if (!file) return;
-    const problem = validateImageFile(file);
-    if (problem) {
-      setError(problem);
-      return;
-    }
+  // The Dropzone has already checked type and size with validateImageFile.
+  const pickFile = (file: File) => {
     setError(null);
     onChange({ kind: "file", file, previewUrl: URL.createObjectURL(file) });
-  };
-
-  const onDrop = (e: DragEvent) => {
-    e.preventDefault();
-    setDragging(false);
-    pickFile(e.dataTransfer.files?.[0]);
   };
 
   const src = value?.kind === "sample" ? value.sample.file : value?.previewUrl;
@@ -83,47 +111,17 @@ export function SignSlot({
 
   return (
     <div className="grid content-start gap-3">
-      <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">{label}</p>
-      <label
-        onDragOver={(e) => {
-          e.preventDefault();
-          setDragging(true);
-        }}
-        onDragLeave={() => setDragging(false)}
-        onDrop={onDrop}
-        className={cn(
-          "relative block cursor-pointer rounded-md transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-focus",
-          dragging && "ring-2 ring-accent",
-        )}
-      >
-        {src ? (
-          <SignImage src={src} alt={`${label}: ${title}`} />
-        ) : (
-          <span
-            className={cn(
-              "grid aspect-[5/6] place-items-center rounded-md border-2 border-dashed px-3 text-center",
-              dragging ? "border-accent bg-accent-soft" : "border-border-strong bg-surface hover:bg-surface-2",
-            )}
-          >
-            <span className="grid justify-items-center gap-2">
-              <ImageUp className="size-6 text-muted" aria-hidden />
-              <span className="text-sm font-medium">Drop a sign image, or click to choose</span>
-              <span className="text-xs text-muted">JPEG, PNG or WebP, up to 10 MB</span>
-            </span>
-          </span>
-        )}
-        <input
-          type="file"
-          accept={ACCEPTED_IMAGE_TYPES.join(",")}
-          className="sr-only"
-          disabled={disabled}
-          aria-label={`${label}: upload a sign image`}
-          onChange={(e) => {
-            pickFile(e.target.files?.[0]);
-            e.target.value = "";
-          }}
-        />
-      </label>
+      <p className="eyebrow text-muted">{label}</p>
+      <Dropzone
+        shape="tile"
+        title="Drop a sign image, or click to choose"
+        inputLabel={`${label}: upload a sign image`}
+        preview={src ? <SignImage src={src} alt={`${label}: ${title}`} /> : undefined}
+        onFile={pickFile}
+        onReject={setError}
+        invalid={error !== null}
+        disabled={disabled}
+      />
       <p className="min-h-5 truncate text-sm font-medium" title={title}>
         {title ?? <span className="text-muted">No sign chosen</span>}
       </p>
@@ -134,9 +132,10 @@ export function SignSlot({
               <LayoutGrid aria-hidden /> Choose a sample
             </Button>
           </DialogTrigger>
-          <DialogContent title={`${label}: choose a sample sign`} description="Six sets of original drawings and six sets of real IOAI signs." className="max-w-2xl">
+          <DialogContent title={`${label}: choose a sample sign`} description="The bundled samples, or any IOAI door sign from the validation, test or training set." className="max-w-3xl">
             <div className="max-h-[60vh] overflow-y-auto p-1">
               <SamplePicker
+                withIoai
                 selectedId={value?.kind === "sample" ? value.sample.id : undefined}
                 onPick={(s) => {
                   setError(null);
