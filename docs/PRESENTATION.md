@@ -110,6 +110,8 @@ Working snapshot copied from `docs/deck/SLIDES.md` at commit `1c28a49`. The fina
 
 > Three limits. Box area is not physical size: a far pothole looks small. The restroom data has 82 training restrooms and two classes, so accessible and all-gender signs are missing. And none of our road photos are from Kazakhstan. Next: screened local photos, and accessible and all-gender signs. Tair closes.
 
+**Privacy & legal grounding (R-45, CLO 7):** Local model execution by default and browser EXIF stripping ensure road uploads with potential pedestrian faces or license plates do not leave the machine to external AI APIs, complying with Kazakhstan Law No. 94-V and Syllabus p.9 (note: face blurring is an unbuilt future milestone). Complete 5-row classification policy in [`docs/research/privacy-and-law.md`](research/privacy-and-law.md).
+
 ### 12. Closing
 **Speaker and budget:** Tair · **budget** 0:10 · **script** 21 words, about 0:10
 

@@ -10,6 +10,15 @@
 
 ## Entries
 
+### 2026-11-12 02:20 · R-45 (#254) · Decide which of our data may go to external AI services
+- **Status:** done
+- **What I did:** Authored [`docs/research/privacy-and-law.md`](../research/privacy-and-law.md) defining the data classification and external AI transmission policy. Verified Kazakhstan statutory framework on `adilet.zan.kz`, confirming Law No. 94-V (*On Personal Data and their Protection*) as the binding statutory authority in force, and noting the Digital Code (No. 255-VIII) and AI Law (No. 230-VIII) as legislative drafts in Parliament. Formulated the 5-row data classification matrix, grounded policy in Lecture 9 (p.50, public demo risks) and Lecture 4 (p.14, restricted data tier), and synchronized limitations with Slide 11 and task D-7. Linked document from `docs/README.md`.
+- **Result:** Complete policy document in `docs/research/privacy-and-law.md`, unblocking R-11 and supporting CLO 7 defense criteria.
+- **Decisions and why:** Enforced the project verification rule to quote only verified statutory sources from `adilet.zan.kz` rather than unverified draft citations. Maintained absolute defense honesty: clearly stated that while EXIF stripping is implemented by default, automated facial/license-plate blurring is not built.
+- **What I learned / can explain at the defense:** How Law No. 94-V defines personal data in road imagery, why cross-border transfer (Art. 16) restricts cloud LLM inference, and how local runtime defaults protect data subjects.
+- **AI use:** Assistant used to help structure markdown classification tables and format statutory URLs.
+- **Open questions / next:** Ensure Slide 11 rehearsed delivery matches documented privacy boundaries.
+
 ### 2026-11-12 02:12 · R-26 (#235) · Build the backup slides: one per CLO, then the full tables
 - **Status:** done
 - **What I did:** Built the complete backup slide specifications across [`docs/deck/SLIDES.md`](../deck/SLIDES.md) and [`docs/PRESENTATION.md`](../PRESENTATION.md). Created dedicated backup slides for CLO 5 (methods & metrics), CLO 6 (prototype & verification), and CLO 7 (generative AI evaluation), each directly quoting Syllabus p.3 and citing at least two primary repository evidence files. Added the complete B1–B11 backup slide index and detailed slide specifications with on-slide constraints (≤ 5 lines), speaker cues, and verifiable sources.

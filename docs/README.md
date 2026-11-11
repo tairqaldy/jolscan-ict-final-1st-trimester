@@ -33,6 +33,7 @@ Every document has an owner who keeps it true, and a moment when it gets updated
 | [decisions/](decisions/README.md) | Why each important choice was made | whoever made it | when you choose |
 | [research/](research/) | Course digests, datasets considered, audits | Roma | new research |
 | [research/glossary.md](research/glossary.md) | Course glossary and 38-term defense vocabulary guide | Roma | checking terms or preparing defense answers |
+| [research/privacy-and-law.md](research/privacy-and-law.md) | External AI data policy, 5-row matrix, and Kazakhstan Law No. 94-V audit | Roma | checking data classification and external AI transmission |
 | [DEFENSE-QA.md](DEFENSE-QA.md) | Hard examiner questions with 3-sentence grounded answers | Roma | preparing defense Q&A and rehearsals |
 | [../data/README.md](../data/README.md) | Dataset cards, quality checks, privacy screening | Amina, Nazar | data changes |
 | [../CONTRIBUTING.md](../CONTRIBUTING.md) | How we work: claim, rebase, merge | Tair | the workflow changes |
