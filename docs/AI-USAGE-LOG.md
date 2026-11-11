@@ -570,3 +570,16 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** `docs/design/architecture-slide.svg`, `docs/design/architecture-detail.svg`, `docs/design/architecture-diagram.md`, `docs/design/render_svg.py`.
 - **How I verified it, and who verified it:** every route, folder and rule ID checked with `ls web/app/api`, `grep -nE "@app|@router" api/main.py api/restroom.py` and the rule configs; S-7 status read in TASKS.md; both PNGs opened and read at full size.
 - **What I rejected or corrected:** a first draft said the Gradio app uses the same models; `api/gradio_app.py` is unrun starter code for potholes only, so it was removed. The "no database" note moved from the training band to the serving band.
+
+### 11 November 2026, Dameli (G-30 tile states, G-47 review colour)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright and Chromium for screenshots.
+- **Purpose:** clear selected, hover and focus states on hand-made tiles and chips; a colour for "needs review" that is not blue.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков". Transcript kept locally.
+- **What it produced or changed:** `web/components/ui/selectable-tile.tsx`, `ReviewBadge` in `web/components/ui/badge.tsx`, the `--review` tokens and the new `--box-review` value in `web/app/tokens.css`, a `review` set in `web/scripts/check-palette.mjs`, the tiles and chips on Analyze, Compare, the sign picker, Settings and Reports, and two sections in `docs/DESIGN-BRIEF.md`.
+- **How I verified it, and who verified it:**
+  - Contrast ratios were computed from the hex values with the WCAG formula; every mark is 3:1 or more and every text colour 4.5:1 or more.
+  - `node web/scripts/check-palette.mjs` was run after the change; its rows are copied into the design brief.
+  - Greyscale screenshots of each selected tile and chip in both themes at 1440 and 375 px, and one with keyboard focus inside the sign picker.
+  - `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` pass.
+- **What I rejected or corrected:** a first violet for review was too close to low severity under simulated protanopia (ΔE 9.1), so it was made darker. Did not recolour the restroom "review" verdict or the analytics chart (other lanes, never blue), and did not change the focus ring.
