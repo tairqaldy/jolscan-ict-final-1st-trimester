@@ -15,6 +15,7 @@ import { rulesStore } from "@/lib/store/settings";
 import type { StoredAnalysis } from "@/lib/types";
 import { DemoBadge } from "./demo-badge";
 import { DetectionOverlay } from "./detection-overlay";
+import { isSeededDemo, SEEDED_MODEL_LABEL } from "@/lib/mock/seeded";
 import { PROVIDER_META } from "./provider-badge";
 
 /**
@@ -106,11 +107,14 @@ export function AnalysisView({ analysis, title }: { analysis: StoredAnalysis; ti
               <Meta icon={Cpu} label="Provider">
                 <span className="inline-flex flex-wrap items-center gap-1.5">
                   {PROVIDER_META[analysis.provider].label}
-                  <DemoBadge show={analysis.provider === "mock"} label="Mock result" />
+                  <DemoBadge
+                    show={analysis.provider === "mock" || isSeededDemo(analysis.id)}
+                    label={isSeededDemo(analysis.id) ? "Invented demo record" : "Mock result"}
+                  />
                 </span>
               </Meta>
               <Meta icon={Cpu} label="Model">
-                <span className="font-mono text-xs">{analysis.model}</span>
+                <span className="font-mono text-xs">{isSeededDemo(analysis.id) ? SEEDED_MODEL_LABEL : analysis.model}</span>
               </Meta>
               <Meta icon={Timer} label="Model latency">
                 <span className="tabular">{analysis.latencyMs} ms</span>

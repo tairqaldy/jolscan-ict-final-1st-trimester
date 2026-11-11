@@ -32,6 +32,14 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What rejected or corrected:** No guessed E0 defaults, automatic Torch upgrade policy, smoke commit reuse, training, E0 duplication or fabricated result. Explicitly identified missing resolved E0 args/environment and CUDA/MPS difference.
 
 
+### 11 November 2026, Alizhan (S-4, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Verify the local website-to-FastAPI road analysis flow.
+- **Key prompt:** "хорошо, выпонли s4"; the user later asked "продолжай работу". The full session transcript is not exported here.
+- **What it produced or changed:** Ran the local app and service and recorded partial S-4 verification in `docs/worklog/alizhan.md` and `api/README.md`.
+- **Verification:** Browser observed Local health up; a test-set road photo returned HTTP 200 via the real stock YOLO, with zero detections; an intentionally fake one-box API response checked rendering and rules; the page showed an error when the API was stopped. Alizhan has not yet reviewed these observations.
+- **Limits:** COCO YOLO is not a pothole detector and the fixture is not a model result. Final verification using the team-trained E0 remains outstanding. No model weights or images were committed.
 
 ### 11 November 2026, Alizhan (S-13, AI-assisted; personal review pending)
 
@@ -324,6 +332,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How I verified it, and who verified it:** `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` in `web/`; the new test was run once against the old reports page and failed, as it should. The dataset facts were copied from the D-1 card in `data/README.md` and the split manifest, not typed from memory. Tair still has to look at the pages in the browser after the merge.
 - **What I rejected or corrected:** did not delete any demo label to make the grep clean; did not write a team AI statement that members have not confirmed (W-14); did not touch the design tokens or the design page text (G-3, Dameli).
 
+### 11 November 2026, Tair (honest labels on invented demo rows)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** stop invented sample rows from looking like real model runs now that the roads results are real.
+- **Key prompt(s), with a link to the transcript:** "grill yourself and improve". Transcript kept locally.
+- **What it produced or changed:** `web/lib/mock/seeded.ts`, its test, and the provider and model cells in the two tables and two detail views.
+- **How I verified it, and who verified it:** lint, typecheck and 92 unit tests pass; on a local dev server the dashboard shows "Local" for a real analysis and "Demo" for seeded rows.
+- **What I rejected or corrected:** did not change the seeded data's provider, because the analytics page compares providers under its own demo badge.
+
 ### 11 November 2026, Tair (M-13 deck plots)
 
 - **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
@@ -332,4 +349,22 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** `ml/plots.py`, four PNGs in `ml/results/`, the plots section of `ml/README.md`.
 - **How I verified it, and who verified it:** opened every figure; checked that the confusion matrix at 0.40 reproduces recall 0.678 and precision 0.874 from `E0.json`.
 - **What I rejected or corrected:** the first version used Ultralytics' default confusion matrix (confidence 0.001, 2,374 false alarms) and had a legend over a bar label; both were replaced.
+
+### 11 November 2026, Tair (W-60 projector fit)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with its built-in browser.
+- **Purpose:** make each demo result (Analyze, report, Compare) fit on one 1280×720 projector screen.
+- **Key prompt(s), with a link to the transcript:** "implement W-60 (#298): try A current, B smaller photo column, C collapsed meta block, compare them at 1280×720 and 1440×900 and pick one with a reason". Transcript kept locally.
+- **What it produced or changed:** the jump to the top of the result in `web/components/app/analyze-client.tsx` and `web/components/restrooms/compare-client.tsx`; smaller signs and tighter gaps on desktop in `web/components/restrooms/compare-result.tsx`; the variant comparison in the pull request.
+- **How I verified it, and who verified it:** the tool ran the dev server and measured element positions in the browser at 1280×720, 1440×900 and 375×812 with the Mock provider and bundled samples only (s01, s04, the s01 report, all four Compare presets), then ran `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` in `web/`. Tair still has to look at it on the projector laptop.
+- **What I rejected or corrected:** a 4:3 box for the signs (it cropped the 5:6 drawings); variant C (it hides the "Mock result" badge and does not shorten Compare); variant B on roads (smaller photo, same height); the first scroll margin on phones, which left the result under the 105 px sticky top bar.
+
+### 11 November 2026, Tair (X-16 runbook and demo starter)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** make the real-model demo repeatable on the presenting laptop.
+- **Key prompt(s), with a link to the transcript:** "making non-demo working example". Transcript kept locally.
+- **What it produced or changed:** `docs/DEFENSE-RUNBOOK.md`, `scripts/demo-local.sh`, the checklist link in `docs/TASKS.md`.
+- **How I verified it, and who verified it:** ran the script on this laptop; `/health`, the warm-up and a real photo through the web app worked; the servers were stopped afterwards.
+- **What I rejected or corrected:** the first version checked only that `web/.next` exists, which a dev server also creates; it now checks for the production build's `BUILD_ID`.
 

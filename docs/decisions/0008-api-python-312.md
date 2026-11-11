@@ -1,6 +1,6 @@
 # 0008: Align the API on Python 3.12
 
-**Status:** Proposed for Tair and Nazar's review, 11 November 2026.
+**Status:** Accepted by Tair (lead), 11 November 2026. Nazar's restroom environment already uses Python 3.12; anyone on another version recreates the API virtual environment with 3.12.
 
 The service's S-1 environment and restroom experiments use Python 3.12 and NumPy 2.5.4,
 but the Dockerfile and Python CI job used 3.11. NumPy 2.5.4 declares `Requires-Python >=3.12`.
