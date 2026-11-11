@@ -22,6 +22,17 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Amina (M-37)
+
+- **Tool and version:** Codex, GPT-6 family.
+- **Purpose:** Complete the available why-not-accuracy documentation task using real repository counts.
+- **Key prompt:** "?? ??? ???? ??? 200 ?????? ???? ??? ???? ????? ? ?????? ????" after the task-status discussion; selected M-37 (#195), checked availability, and followed the claim workflow. Full transcript archival remains pending under X-13.
+- **What it produced or changed:** Focused five-sentence explanation, separate two-sentence defense answer, task/worklog/contribution updates; no model code or result changes.
+- **How verified:** Read current issue and CONTRIBUTING.md after successful fetch/ff-only pull. Checked all 665 manifest entries: train/val/test 465/100/100, zero empty photos; R1 gender row sums 164/164. Repository result/hygiene checks and five existing checker tests passed; git diff --check passed.
+- **What rejected or corrected:** Distinguished presence answers from localized detections and undefined background counting; no invented negative examples, course-page verification, teammate rehearsal, training or attribution of Tair's results to Amina. E1 preparation remains on its existing separate branch.
+
+
+
 ### 11 November 2026, Alizhan (R-21, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.
