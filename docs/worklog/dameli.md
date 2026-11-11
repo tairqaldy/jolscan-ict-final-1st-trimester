@@ -12,6 +12,23 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 20:35 · G-76 (#435) · Brand and copy pass, three rounds
+- **Status:** done
+- **What I did:**
+  - Traced every string on the landing page, `/design`, the empty states, the social card and `docs/design/*` to its author with `git log -S` and `git blame -w`, then audited the copy in `web/app` and `web/components` against `docs/design/ANTI-SLOP.md` and the voice in `docs/design/PRINCIPLES.md`.
+  - Rewrote my own text on the landing page: the hero heading ("with clarity" became "from a photo"), the hero lead (names potholes and door signs, and says each result shows what the model found and which rules decided it), "Why this priority" without the question mark, the section label "Two inspection tasks", the steps sentence, the Rules intro (keeps "mock predictions") and the course toggle. Rewrote the social card alt text so it describes the card.
+  - Updated `PRINCIPLES.md`: the new hero quote, seven line numbers that had moved, and a Do and a Don't from the app for each voice word.
+  - Wrote `docs/design/copy-review.md`: 25 findings with file, line, rule, fix, owner and decision, plus what rounds 2 and 3 found.
+- **Result:** 10 findings fixed on my surfaces; 13 proposals for Tair (and R-12 for the spelling) and 2 for the lab branch, with their code untouched. The third pass found nothing new. Lint, typecheck and 223 tests pass.
+- **Decisions and why:**
+  - Lines that blame gives to me only because G-8 re-indented them (the landing Problem, privacy and team text) stay Tair's, since `git log -S` shows he wrote them.
+  - "Change the thresholds and watch the result move" sits in my G-61 card but is Tair's wording, so it is a proposal, not a change.
+  - The lab findings stay proposals because an open lab branch edits those files today.
+  - The first-audit table in `ANTI-SLOP.md` keeps its old line number: it is a dated record.
+- **What I learned / can explain at the defense:** the portability test: if a heading would fit any product ("with clarity", "One approach, two inspection tasks"), it says nothing; a label that names the content does. And honesty labels and numbers are the one thing a copy pass must never touch.
+- **AI use:** Claude Code (Claude Opus 5.5) for the ownership trace, the greps and first drafts of the rewrites; I chose the wording. Logged in `docs/AI-USAGE-LOG.md`.
+- **Open questions / next:** Tair to decide T1 to T13 in `copy-review.md`; the team to pick one spelling (R-12); L1 needs a native speaker for the Kazakh and Russian lines.
+
 ### 2026-11-11 19:24 · G-49 (#283), G-23 (#167), G-62 (#296) · Three radii, one eyebrow label, one card inset
 - **Status:** done
 - **What I did:**
