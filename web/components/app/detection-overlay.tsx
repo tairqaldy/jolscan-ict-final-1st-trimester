@@ -2,12 +2,28 @@
 
 import { ImageOff } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 import { duration, ease } from "@/lib/motion";
 import { useHydrated } from "@/lib/store/local-store";
 import type { DerivedDetection } from "@/lib/rules";
 import type { Detection } from "@/lib/types";
+
+/** Smallest box tag text on screen, in CSS pixels (G-28). */
+export const MIN_TAG_PX = 11;
+
+/**
+ * Box tag font size in viewBox units. `scale` is screen pixels per viewBox
+ * unit. Until the figure has been measured (server render and first client
+ * render) it is null and the tag keeps the fixed size from before G-28, so the
+ * server and client HTML match. Once measured, the tag never shows below
+ * MIN_TAG_PX on screen; wide screens keep the old size.
+ */
+export function tagFontSize(viewBoxWidth: number, scale: number | null): number {
+  const base = Math.max(12, viewBoxWidth / 50);
+  if (!scale || scale <= 0) return base;
+  return Math.max(base, MIN_TAG_PX / scale);
+}
 
 /**
  * A photo with the detection boxes drawn over it as SVG.
@@ -49,14 +65,28 @@ export function DetectionOverlay({
   // mounted later in the browser, or replayed, animate in.
   const hydrated = useHydrated();
   const [failed, setFailed] = useState(false);
+  // Rendered size of the figure, read in an effect (never during render) so
+  // the first render matches the server; null until measured.
+  const figureRef = useRef<HTMLElement>(null);
+  const [rendered, setRendered] = useState<{ w: number; h: number } | null>(null);
+  useEffect(() => {
+    const el = figureRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(([entry]) => setRendered({ w: entry.contentRect.width, h: entry.contentRect.height }));
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
   const W = imageWidth || 1280;
   const H = imageHeight || 720;
   const stroke = Math.max(2, W / 320);
-  const font = Math.max(12, W / 50);
+  // The SVG fits the viewBox inside the figure ("meet"), so the smaller ratio is the on-screen scale.
+  const scale = rendered ? Math.min(rendered.w / W, rendered.h / H) : null;
+  const font = tagFontSize(W, scale);
   const animate = drawIn && !reduce && hydrated;
 
   return (
     <figure
+      ref={figureRef}
       className={cn("relative w-full overflow-hidden rounded-lg border border-border bg-surface-3", className)}
       style={{ aspectRatio: `${W} / ${H}` }}
     >
@@ -97,7 +127,9 @@ export function DetectionOverlay({
           const colour = active ? "var(--box-active)" : review ? "var(--box-review)" : "var(--box)";
           const tag = `${i + 1} · ${Math.round(d.confidence * 100)}%${review ? " review" : ignored ? " ignored" : ""}`;
           const tagW = tag.length * font * 0.58 + font * 0.8;
-          const tagY = y - font * 1.5 < 0 ? y + h : y - font * 1.5;
+          const tagH = font * 1.5;
+          const tagX = x;
+          const tagY = y - tagH < 0 ? y + h : y - tagH;
           const delay = animate ? 0.25 + i * 0.18 : 0;
           return (
             <g
@@ -127,9 +159,9 @@ export function DetectionOverlay({
                 animate={{ opacity: 1 }}
                 transition={{ duration: duration.base, delay: delay + duration.draw * 0.7 }}
               >
-                <rect x={x} y={tagY} width={tagW} height={font * 1.5} rx={stroke} fill={colour} />
+                <rect x={tagX} y={tagY} width={tagW} height={tagH} rx={stroke} fill={colour} />
                 <text
-                  x={x + font * 0.4}
+                  x={tagX + font * 0.4}
                   y={tagY + font * 1.08}
                   fontSize={font}
                   fontFamily="var(--font-code), monospace"
