@@ -23,6 +23,41 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 ## Entries
 
 ### 11 November 2026, Amina (M-1, completed)
+### 11 November 2026, Alizhan (S-29, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Declare and publish the API's response contracts.
+- **Key prompt:** "выполняй issues, можешь сам выбрать, что подходит именно под мою задачу". This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** Pydantic response schemas, route declarations, Docker copy instruction, OpenAPI snapshot and tests.
+- **How it was verified:** 32 API tests, compileall and a local server check of `/docs` and `/openapi.json`; models were mocked, and Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** Left the evolving `/health` response untyped and kept the issue open for Tair's review.
+
+### 11 November 2026, Alizhan (S-31, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Improve API handling of oversized and rotated uploads.
+- **Key prompt:** "начни это все выполнять" in response to recommended optimization and reliability tasks. Full transcript is not exported here.
+- **What it produced:** Shared pixel limit and decompression-bomb handling, endpoint and EXIF tests, documentation and worklog.
+- **Verification:** 35 API tests passed in a lightweight environment; Python compilation passed. Alizhan has not personally reviewed this entry.
+- **Limits:** This improves upload robustness, not inference speed or detection accuracy.
+
+### 11 November 2026, Alizhan (S-30, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Make concurrent access to the shared API model backends predictable.
+- **Key prompt:** "начни это все выполнять" following recommended optimization tasks. Full transcript is not exported here.
+- **What it produced:** Separate YOLO/CLIP inference locks, concurrent API tests, and documentation.
+- **Verification:** 32 API tests passed with fake backends; six concurrent requests per backend were serialized, with `/health` responding during blocked road inference. Python compilation passed. Alizhan has not personally reviewed this entry.
+- **Limits:** Locks are per process and can reduce same-model throughput; this does not measure performance or model accuracy. S-20 and C-8 are separate changes requiring integration review.
+
+### 11 November 2026, Alizhan (S-20, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Implement service liveness, model readiness and optional startup warm-up.
+- **Key prompt:** "мне нужно, чтобы ты выполнил таски, потому что ишшьюс будет ревьюить Таир". Full transcript is not exported here.
+- **What it produced:** API readiness and warm-up code, fake-model tests, README and task/worklog updates.
+- **Verification:** 36 API tests passed with fake backends in an isolated lightweight environment. Compile check passed. Alizhan has not yet personally reviewed this draft.
+- **Limits:** No team weights were available; model initialization with real weights and end-to-end inference remain to be checked on the presentation laptop.
 
 ### 11 November 2026, Alizhan (S-3, AI-assisted; personal review pending)
 
