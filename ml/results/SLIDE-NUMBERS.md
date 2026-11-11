@@ -1,7 +1,7 @@
 # Slide numbers: source inventory
 
-Generated (UTC): 2026-11-11T15:22:23+00:00
-Git HEAD at generation: `2a7c781` (working-tree changes, if any, are not captured by the hash).
+Generated (UTC): 2026-11-11T15:23:56+00:00
+Git HEAD at generation: `63e2edf` (working-tree changes, if any, are not captured by the hash).
 
 Values are read from files, not necessarily used in the final slides. Missing values are marked explicitly. Re-run after updates and verify the final deck.
 
@@ -181,4 +181,3 @@ Values are read from files, not necessarily used in the final slides. Missing va
 | Pairwise male-door ranking accuracy (original images) | 0.9024 | 0.902 | `ml/results/restroom/pair_separation.json → zero_shot.orig.pairwise.accuracy_men_door_has_higher_p_male` |
 | Original pairs passing margin 0.20 | 0.622 | 0.622 | `ml/results/restroom/pair_separation.json → zero_shot.orig.pairwise.sweep[margin=0.20].real_pairs_pass` |
 | Restroom confidence intervals | not available yet | not available yet | `ml/results/restroom/intervals.json` |
-

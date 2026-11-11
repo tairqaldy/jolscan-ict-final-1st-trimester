@@ -148,7 +148,7 @@ def render(root: Path, revision: str, generated: str) -> str:
         for name, value, approx, source in rows:
             lines.append(f"| {name} | {value} | {approx} | `{source}` |")
         lines.append("")
-    return "\n".join(lines) + "\n"
+    return "\n".join(lines).rstrip() + "\n"
 
 
 def main() -> int:
