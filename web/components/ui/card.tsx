@@ -6,7 +6,7 @@ export function Card({ className, ...props }: ComponentProps<"section">) {
 }
 
 export function CardHeader({ className, ...props }: ComponentProps<"header">) {
-  return <header className={cn("flex flex-wrap items-start justify-between gap-3 px-5 pt-5", className)} {...props} />;
+  return <header className={cn("flex flex-wrap items-start justify-between gap-3 px-(--card-pad) pt-(--card-pad)", className)} {...props} />;
 }
 
 export function CardTitle({ className, ...props }: ComponentProps<"h2">) {
@@ -18,5 +18,5 @@ export function CardDescription({ className, ...props }: ComponentProps<"p">) {
 }
 
 export function CardBody({ className, ...props }: ComponentProps<"div">) {
-  return <div className={cn("p-5", className)} {...props} />;
+  return <div className={cn("p-(--card-pad)", className)} {...props} />;
 }
