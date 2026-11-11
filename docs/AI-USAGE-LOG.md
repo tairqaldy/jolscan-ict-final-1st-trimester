@@ -630,7 +630,7 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** the rules and the token table in `web/components/design/design-showcase.tsx`; `web/components/illustrations/` and `web/lib/illustrations.test.ts`; an optional `illustration` prop in `web/components/ui/empty-state.tsx` and its use in 8 empty states; the Leaflet block in `web/app/globals.css`; `web/components/app/map-view.tsx` and `map-client.tsx`.
 - **How I verified it, and who verified it:**
   - Each "never" rule was searched for a counter-example in `web/`.
-  - On the dev server, every one of the 8 colour groups showed both lines in both theme panels, at 1440 and 375 px, with no sideways scroll.
+  - On the dev server, every one of the 9 colour groups showed both lines in both theme panels, at 1440 and 375 px, with no sideways scroll.
   - Screenshots of the map in both themes and widths: dark tiles, five distinct marker fills, 37 markers for "Findings on the map (37)".
   - With the tile host blocked, the offline notice still shows on a dark background.
   - `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` (114 tests) pass.
