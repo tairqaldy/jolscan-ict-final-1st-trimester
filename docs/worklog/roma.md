@@ -10,6 +10,15 @@
 
 ## Entries
 
+### 2026-11-12 00:44 · R-13 (#92) · Prepare Roma's study card on AI evaluation and limits
+- **Status:** done
+- **What I did:** Completed all eight study card questions in `docs/PRESENTATION.md` with concise, three-sentence answers. Grounded every answer in our concrete R-6 audit results (`docs/research/vlm-evaluation.md`), citing specific image failures (A17 robot figure, A11/A12 chopstick geometry), Gemini metadata leakage (`A07.png`), VLM architecture components (encoder, connector, language model per Lec8 p57), and syllabus privacy constraints (Syllabus p.9).
+- **Result:** Fully populated Q&A study card for Roma in `docs/PRESENTATION.md`. Ready for mock Q&A and timed rehearsals (R-10).
+- **Decisions and why:** Replaced all placeholder tags (`[check]`) with our verified empirical audit figures and exact lecture citations (Lec7 p64, Lec7 p66, Lec8 p56–57) so answers rely on evidence rather than generic statements about AI.
+- **What I learned / can explain at the defense:** How to explain VLM hallucinations through architectural limits (generative fluency vs. spatial reasoning), why pre-training priors skew predictions on abstract icons, and the three core system limitations of Qarau.
+- **AI use:** Assistant used to format concise 3-sentence constraints according to issue #92 instructions.
+- **Open questions / next:** Practice answering the 8 questions without notes in under 40 seconds each for Rehearsal 1/2 (R-10).
+
 ### 2026-11-12 00:20 · R-6 (#85) · Audit two vision-language models on restroom signs (CLO 7)
 - **Status:** done
 - **What I did:** Performed a structured comparative evaluation of Google Gemini (Auto) and Anthropic Claude (3.5 Sonnet) on 20 balanced restroom sign images (10 male, 10 female) from the IOAI benchmark. Downloaded and anonymized all filenames to opaque IDs (A01–A20) to eliminate label contamination. Executed all 40 queries across isolated browser chat sessions with an identical single-word prompt, captured full audit screenshots, and compiled the evaluation report and Slide 10 defense briefing.
