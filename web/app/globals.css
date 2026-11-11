@@ -162,8 +162,10 @@
   left: -7rem;
   top: 0.3rem;
   width: 5.5rem;
-  /* One drive-in that parks the car, so nothing loops (DESIGN-BRIEF.md, Motion). */
-  animation: car-drive 2.4s cubic-bezier(0.2, 0.7, 0.3, 1) 0.4s 1 both;
+  /* One drive-in that parks the car, so nothing loops (DESIGN-BRIEF.md, Motion).
+     Motion grill: was 2.4 s after 0.4 s; now it brakes into place with the
+     hero's own entry and is parked by 540 ms (rule 4 of docs/design/motion.md). */
+  animation: car-drive var(--duration-slow) var(--ease-emphasized, cubic-bezier(0.3, 0, 0, 1)) var(--duration-fast) 1 both;
 }
 .landing-road__car svg { display: block; width: 100%; }
 @keyframes car-drive {
