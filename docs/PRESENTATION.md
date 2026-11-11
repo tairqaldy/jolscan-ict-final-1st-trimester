@@ -85,6 +85,8 @@ Working snapshot copied from `docs/deck/SLIDES.md` at commit `1c28a49`. The fina
 
 > We used Claude Code, Codex and Copilot to write and review code, draft documents and check text against our results. Every use is logged with its prompt and check: 112 entries, and every number here is traced to a committed file. We also audited Gemini and Claude on 20 IOAI signs: each named the gender correctly on 17. Our CLIP gets 0.756 on all 328 training signs; 20 signs are too few to rank them. Next, the limits.
 
+**AI errors and verification (R-41, CLO 7):** Eight verified failure cases (from training path crashes and false-alarm scoring to Gemini metadata leakage) are documented in [`docs/AI-USAGE-LOG.md`](AI-USAGE-LOG.md); every critical claim is checked by empirical measurement, primary sources, or code review (Lec7 p64, p70).
+
 ### 11. Limitations and next steps
 **Speaker and budget:** Roma · **budget** 0:25 · **script** 50 words, about 0:23
 

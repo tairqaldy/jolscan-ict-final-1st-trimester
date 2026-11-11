@@ -10,6 +10,15 @@
 
 ## Entries
 
+### 2026-11-12 02:00 · R-41 (#250) · Write where the AI tools were wrong and what caught it
+- **Status:** done
+- **What I did:** Authored the comprehensive evaluation section `## What the AI tools got wrong, and what caught it` in [`docs/AI-USAGE-LOG.md`](../AI-USAGE-LOG.md). Compiled 8 verified failure cases across the project (training script output path crashes, false-alarm severity dominance, IOAI task misinterpretation as classification, single-sign rule failures on pairs, hallucinated box-free road datasets, shifted course digest citations, mismatched exam answers, and Gemini filename leakage). Formulated an evidence-based synthesis table and a three-sentence conclusion citing Lecture 7 (p.64, p.70). Linked findings to Slide 10 in `docs/PRESENTATION.md`.
+- **Result:** Complete AI error verification section in `docs/AI-USAGE-LOG.md` directly unblocking R-26 (CLO 7 backup slide) and R-42.
+- **Decisions and why:** Categorized errors by failure type and verification check (empirical measurement, primary document audit, peer code review) to satisfy CLO 7 evaluation criteria (rigour of verification procedure and strength of conclusion per Syllabus p.3).
+- **What I learned / can explain at the defense:** How to articulate concrete limitations of LLMs/VLMs in production engineering workflows and justify why empirical verification must precede adoption.
+- **AI use:** Assistant used to draft summary tables and cross-reference issue descriptions.
+- **Open questions / next:** Build CLO 7 backup slide (R-26).
+
 ### 2026-11-12 01:48 · R-31 (#240) · Write the examiner's hardest questions with honest answers
 - **Status:** done
 - **What I did:** Created [`docs/DEFENSE-QA.md`](../DEFENSE-QA.md) containing 18 uncomfortable defense questions covering all 6 lanes (coordination, data, YOLO detection, CLIP restroom matching, FastAPI serving, and Next.js frontend). Structured every answer with a strict constraint of at most three sentences, an upfront acknowledgement of the limitation, and exact citations to repository files or course lectures. Added the "If you do not know" protocol and confirmation tags for each lane owner. Linked the document from `docs/README.md` and `docs/PRESENTATION.md`.
