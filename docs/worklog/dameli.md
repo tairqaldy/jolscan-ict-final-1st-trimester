@@ -19,11 +19,13 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
   - Accepted `"contrast"` in the theme store and in the inline script that sets the theme before first paint; added "High contrast" to the Theme control in Settings and to the header toggle; added a third panel on `/design`.
   - A 3 px focus ring in this theme; printing gives it the light values, like dark.
   - `web/scripts/check-contrast.mjs` prints the ratio table; `web/lib/contrast-theme.test.ts` fails if a token is missing or a ratio drops; `check-palette.mjs` now checks this theme too.
+  - The segmented control (`web/components/ui/segmented.tsx`) wraps onto a second row when it does not fit: with four theme options it made the Settings page 14 px wider than a 375 px phone.
 - **Result:**
   - Every text token is 7.13:1 or more (lowest: white text on the accent button), every mark 3.29:1 or more (lowest: medium severity on bg). Table in `docs/DESIGN-BRIEF.md`, "High-contrast theme (G-31)".
   - No colour pair in this theme is below ΔE 10 in the colour-blind simulations; medium / high is 17.4 at its lowest (2.0 in the light theme).
   - Playwright: clicking High contrast in Settings sets `data-theme="contrast"`, and a reload keeps it, even with JavaScript files blocked. Screenshots of `/`, `/app/roads/analyze?sample=s01`, `/app/restrooms`, `/app/restrooms/compare`, `/app/analytics`, `/app/settings` and `/design` kept outside git. In print emulation the page gets the light values.
-  - Lint, typecheck and 186 tests pass.
+  - At 375 px the Theme control wraps to two rows and the page no longer scrolls sideways.
+  - Lint, typecheck and 190 tests pass after merging `main`.
 - **Decisions and why:**
   - Built from light, not dark: light themes hold up better on a projector, and the issue asks for dark text on white.
   - The system setting never picks it. "System" stays light or dark, and only a person chooses high contrast.
