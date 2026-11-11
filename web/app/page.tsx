@@ -113,7 +113,7 @@ export default function LandingPage() {
           <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-12">
           <Stagger className="grid content-start gap-6">
             <StaggerItem>
-              <p className="flex items-center gap-3 text-xs font-semibold tracking-[0.18em] text-accent-ink uppercase">
+              <p className="flex items-center gap-3 eyebrow text-accent-ink">
                 <span className="h-px w-8 bg-accent" aria-hidden />
                 {BRAND.name} ({BRAND.nativeName}) · {BRAND.meaning}
               </p>
@@ -399,7 +399,7 @@ export default function LandingPage() {
 function SectionTitle({ id, eyebrow, title }: { id: string; eyebrow: string; title: string }) {
   return (
     <div>
-      <p className="text-xs font-semibold tracking-[0.18em] text-accent-ink uppercase">{eyebrow}</p>
+      <p className="eyebrow text-accent-ink">{eyebrow}</p>
       <h2 id={id} className="mt-2 text-3xl font-bold sm:text-4xl">
         {title}
       </h2>
@@ -429,7 +429,7 @@ function ModuleCard({
           <Icon className="size-5" aria-hidden />
         </span>
         <div>
-          <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">{m.name}</p>
+          <p className="eyebrow text-muted">{m.name}</p>
           <h3 id={`card-${id}`} className="text-2xl font-bold">
             {m.task}
           </h3>
