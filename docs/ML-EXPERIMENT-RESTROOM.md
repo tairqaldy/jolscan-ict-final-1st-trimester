@@ -180,6 +180,21 @@ In the app the query is a whole door sign that is not in the gallery, so step 1 
 
 The Match page uses the last rule (since C-8) and may quote **0.976 on 6 training restrooms**. The old gender filter loses about 40 points: one wrong gender, on the query or the partner, breaks the match. These are training restrooms, whose designs the step-2 weight was chosen on, so the number is optimistic for new designs; the 12/12 on the app's real validation signs (C-8) is the out-of-sample check, on only 12 signs.
 
+### Where it fails (task C-25, `ml/restroom/hard_restrooms.py`)
+
+On the 200 training episodes, 62 of 82 restrooms never fail. The six that fail most, with the cause seen by eye (figure: `ml/results/restroom/figs/hard_restrooms.png`; all 82 in `ml/results/restroom/hard_restrooms.json`):
+
+| Restroom | Fails | Failing step | Cause |
+|---|---|---|---|
+| 60 | 80/80 = 100% | step 1 | Label error in the data: the male crop reads XY but the male-folder original reads XX; the two originals sit in each other's folders, so step 1 finds the crop's true original and the label calls it wrong |
+| 20 | 45/69 = 65% | step 1 | Data mismatch: the crops (standing figures, legs crossed) were not cut from these originals (jumping 'exit' figures), so step 1 cannot find an own original |
+| 1 | 24/80 = 30% | step 2 | The two doors share no colour (black against magenta), so the 30 % histogram pulls the partner towards other black or pink signs |
+| 7 | 19/65 = 29% | step 2 | The two doors are in different styles (a black line figure against a pink box with 'WOMEN'), so neither colour nor CLIP sees them as one set |
+| 30 | 16/75 = 21% | step 2 | Different colours for the two doors (teal against pink) and different animal heads: step 2 has little to go on |
+| 6 | 8/67 = 12% | step 1 | The two originals are near copies (the same figure; only the pigtails and the arrow differ), so the pixel check sometimes picks the other door as the crop's own original |
+
+The two worst are errors in the data, not in the method: restroom 60's originals are in each other's gender folders, and restroom 20's crops were not cut from its originals. They pull the training-episode mean down by about two points. The real weaknesses are step 2 on doors that share no colour or style, and step 1 when the two doors of a restroom are near copies.
+
 ## The layer experiment (`ml/restroom/layers.py`, Kaggle Tesla T4)
 
 The pipeline leaves one learned part, the step-2 similarity: how alike the two doors of one restroom look. That similarity is fine-tuned with the IOAI reference recipe: InfoNCE on male ↔ female originals, Adam at lr 1e-4, a cosine schedule, 50 epochs, batch 32, keeping the epoch with the lowest loss. **Only one thing changes: how many of the last layers are trained.**
