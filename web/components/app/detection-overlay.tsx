@@ -26,6 +26,24 @@ export function tagFontSize(viewBoxWidth: number, scale: number | null): number 
 }
 
 /**
+ * Top-left corner of a box tag (viewBox units). The tag sits above the box, or
+ * below its top edge when there is no room, and is pushed back inside the photo
+ * so it never runs past the right or bottom edge.
+ */
+export function placeTag(
+  box: { x: number; y: number; h: number },
+  tag: { w: number; h: number },
+  frame: { w: number; h: number },
+): { x: number; y: number } {
+  const above = box.y - tag.h;
+  const y = above < 0 ? box.y + box.h : above;
+  return {
+    x: Math.max(0, Math.min(box.x, frame.w - tag.w)),
+    y: Math.max(0, Math.min(y, frame.h - tag.h)),
+  };
+}
+
+/**
  * A photo with the detection boxes drawn over it as SVG.
  * Box coordinates are normalised (0..1), so the overlay uses a viewBox in the
  * image's pixel size and scales with the photo.
@@ -128,8 +146,7 @@ export function DetectionOverlay({
           const tag = `${i + 1} · ${Math.round(d.confidence * 100)}%${review ? " review" : ignored ? " ignored" : ""}`;
           const tagW = tag.length * font * 0.58 + font * 0.8;
           const tagH = font * 1.5;
-          const tagX = x;
-          const tagY = y - tagH < 0 ? y + h : y - tagH;
+          const { x: tagX, y: tagY } = placeTag({ x, y, h }, { w: tagW, h: tagH }, { w: W, h: H });
           const delay = animate ? 0.25 + i * 0.18 : 0;
           return (
             <g
