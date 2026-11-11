@@ -1,4 +1,4 @@
-import { CircleCheck, Info, TriangleAlert } from "lucide-react";
+import { CircleCheck, Info, TriangleAlert, type LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
@@ -11,21 +11,27 @@ const tones: Record<Tone, { box: string; icon: typeof Info }> = {
   success: { box: "border-success bg-sev-clear-soft", icon: CircleCheck },
 };
 
-/** Inline message box. Uses role="alert" only for danger so screen readers announce errors. */
+/**
+ * Inline message box. Uses role="alert" only for danger so screen readers announce errors.
+ * `icon` replaces the tone's icon when the message has a concept of its own (G-24).
+ */
 export function Callout({
   tone = "info",
+  icon,
   title,
   children,
   action,
   className,
 }: {
   tone?: Tone;
+  icon?: LucideIcon;
   title: string;
   children?: ReactNode;
   action?: ReactNode;
   className?: string;
 }) {
-  const { box, icon: Icon } = tones[tone];
+  const { box, icon: toneIcon } = tones[tone];
+  const Icon = icon ?? toneIcon;
   return (
     <div role={tone === "danger" ? "alert" : undefined} className={cn("flex gap-3 rounded-md border-l-4 p-4", box, className)}>
       <Icon className="mt-0.5 size-5 shrink-0" aria-hidden />
