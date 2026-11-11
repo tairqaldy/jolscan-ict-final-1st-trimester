@@ -37,7 +37,7 @@ Say it aloud during the demo (PRESENTATION.md, demo script step 5).
    - Roads: `scripts/demo-local.sh` warms the pothole model by itself.
    - Restrooms: run one Compare on the Local provider. The CLIP weights are downloaded on first use; with Wi-Fi off they must already be there. On 11 Nov the first Compare without warm-up took 5 s (CLIP loading), then 38 ms model time; the script now warms CLIP at start-up.
 5. Put on the desktop:
-   - a road photo that is not in the training split and shows no people or licence plates (D-12);
+   - a road photo that is not in the training split and shows no people or licence plates (D-12): `img-18.jpg` from `data/raw/potholes_yolo_v1/images/test/` (720 px, sharp on a projector), with `img-300.jpg` as a backup;
    - the mismatched sign pair;
    - the backup video `qarau-demo.mp4` (R-9);
    - the deck PDF.
@@ -62,7 +62,15 @@ Then in the browser:
 
 1. Open `http://localhost:3000/app/settings`.
 2. Choose **Local** and press **Check connection**. On 11 Nov with the champion it said "Connected · jolscan-e1 on cpu (9 ms)".
-3. Open the tabs in order: deck, `/`, `/app/roads/analyze`, `/app/restrooms/compare`, `/app`, `/app/model`, the GitHub repository.
+3. Run the automatic check (about 25 s). It clicks through every page on Local with the real models and must end with `6/6 checks passed; 0 page errors or failed requests`:
+
+   ```bash
+   uv venv /tmp/qarau-check && uv pip install --python /tmp/qarau-check/bin/python playwright opencv-python-headless
+   /tmp/qarau-check/bin/python scripts/demo_check.py --base http://localhost:3000
+   ```
+
+   It checks that Check connection names the champion, that the road photo is analysed on Local by the champion, that Compare gives **Pair** for two doors of one IOAI restroom and **Not a pair** for signs from two restrooms, that Match ranks the true partner first, and that the other 12 pages load. It uses the Chrome installed on the laptop and writes nothing to the repository. Install the two packages the day before, while online.
+4. Open the tabs in order: deck, `/`, `/app/roads/analyze`, `/app/restrooms/compare`, `/app`, `/app/model`, the GitHub repository.
 
 ## Measured on 11 November 2026 (Tair's MacBook, Apple M5)
 
@@ -70,7 +78,9 @@ Then in the browser:
 - Warm: 39–47 ms model time for a 720 px photo through the web app.
 - `/health`: 7 ms.
 - `scripts/demo-local.sh` itself, run on 11 Nov with the production build: health printed, model warmed, `next start` ready in 68 ms; a real photo through the web app then took 21 ms model time.
-- Test photo `img-300.jpg`: 4 potholes found (4 labelled), severity Critical, score 17.
+- Test photo `img-300.jpg`: 4 potholes found (4 labelled), severity Critical, score 17. It is 300 px, so it looks blurred when enlarged.
+- Demo photo `img-18.jpg` (720 px, 5 labelled), through the web app with Strip GPS on: 6 boxes, 5 counted and 1 in the review band ("Needs a human look"), severity **Critical, score 12**; rules R1 (5 of 6 at or above 0.40), R2 (+8), R3 (+2) and R4 (+2) fire; 69 ms model time. Calling `/predict` directly gives the same 5 counted boxes; the sixth comes from the browser's re-encoding.
+- `scripts/demo_check.py` on 11 Nov, 21:5x, production build: 6/6 checks passed, 0 errors, 24 s. With the API stopped it fails (1/6, HTTP 503 from `/api/analyze` and `/api/restroom`).
 - The champion E1 (YOLO26s, 20 MB, about four times the weights of the nano runs), measured through the API on CPU on 11 Nov: first photo 973 ms model time while the model loads, then 51–71 ms per photo (`api/README.md`, S-2). Still well under a second, so the demo does not change.
 
 - Cold start with E1 (11 Nov, 16:45, Wi-Fi on, production build already made): `scripts/demo-local.sh` printed `/health`, warmed the model and had `next start` ready **4 s** after launch. The first real photo through the web app then took 88 ms model time (4 boxes, Critical 17).
@@ -86,7 +96,7 @@ Turn Wi-Fi off and run the demo script from PRESENTATION.md (slide 3) with a tim
 
 1. **The API errors or hangs:** Settings → **Mock**, and say aloud that the result is now demo data.
 2. **The local web app fails:** open https://qarau.vercel.app. Analyses run on Mock there; the model page shows the real results.
-3. **The laptop fails:** play `qarau-demo.mp4` and show the deck PDF from a second laptop or a USB stick. Name who carries the USB stick: ______.
+3. **The laptop fails:** play `qarau-demo.mp4` (if R-9's video is not ready, `scripts/demo_check.py --video qarau-demo.mp4` records a 2-minute click-through on the real models, with captions) and show the deck PDF from a second laptop or a USB stick. Name who carries the USB stick: ______.
 
 ## Before the talk and after it
 
