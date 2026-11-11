@@ -31,9 +31,9 @@ Backup slides after the closing: architecture diagram in detail, full metrics ta
 
 Working snapshot copied from `docs/deck/SLIDES.md` at commit `1c28a49`. The final deck and speaker notes are generated from `docs/deck/make_deck.py`; reconcile changes there before the defense. Word counts and durations below are estimates, not a timed group rehearsal. Speakers must check their own wording and complete R-10.
 
-**Known gap:** slide 11 currently describes serving the two-step pipeline as a next step, but C-8 has since been merged. Verify the current serving configuration and update the deck source and notes before presenting; this draft preserves the existing script rather than silently changing it.
+**Slide 11, fixed 11 November evening:** the script no longer calls the two-step pipeline a next step. Since C-8 (#426) the app's Match page runs it (`api/restroom.py`, `bestMatchId`); Compare still runs zero-shot CLIP. The next step it names now is accessible and all-gender signs, as on the slide. Deck source: `docs/deck/make_deck.py`.
 
-**Full timed read-through:** not yet recorded. The deck estimates 8:02 with the 1:30 live demo; a real timed rehearsal is still required.
+**Full timed read-through:** not yet recorded. The deck estimates 8:01 with the 1:30 live demo; a real timed rehearsal is still required.
 
 ### 1. Title
 **Speaker and budget:** Tair · **budget** 0:15 · **script** 32 words, about 0:15
@@ -83,12 +83,12 @@ Working snapshot copied from `docs/deck/SLIDES.md` at commit `1c28a49`. The fina
 ### 10. AI use and its limits
 **Speaker and budget:** Roma · **budget** 0:35 · **script** 80 words, about 0:37
 
-> We used AI tools, mainly Claude Code, Codex and Copilot, to write and review code and tests, to draft documents, and to check text against our result files. Every use is logged with its prompt: 100 entries. Whoever used a tool checked its output, with tests and CI, and every number on these slides is traced to a committed file. We planned an audit of two vision-language models; it is not finished, so we show no numbers. Next, the limits.
+> We used AI tools, mainly Claude Code, Codex and Copilot, to write and review code and tests, to draft documents, and to check text against our result files. Every use is logged with its prompt: 105 entries. Whoever used a tool checked its output, with tests and CI, and every number on these slides is traced to a committed file. We planned an audit of two vision-language models; it is not finished, so we show no numbers. Next, the limits.
 
 ### 11. Limitations and next steps
-**Speaker and budget:** Roma · **budget** 0:25 · **script** 52 words, about 0:24
+**Speaker and budget:** Roma · **budget** 0:25 · **script** 50 words, about 0:23
 
-> Three limits. Box area is not physical size: a far pothole looks small. The restroom data has 82 training restrooms and two classes, so accessible and all-gender signs are missing. And none of our road photos are from Kazakhstan. Next: screened local photos and the two-step pipeline in the app. Tair closes.
+> Three limits. Box area is not physical size: a far pothole looks small. The restroom data has 82 training restrooms and two classes, so accessible and all-gender signs are missing. And none of our road photos are from Kazakhstan. Next: screened local photos, and accessible and all-gender signs. Tair closes.
 
 ### 12. Closing
 **Speaker and budget:** Tair · **budget** 0:10 · **script** 21 words, about 0:10
