@@ -17,8 +17,8 @@ CLO 5 speaks of classification and clustering and asks for a justified quality m
 
 ## Dataset
 
-- Source: a pothole object-detection dataset of 665 images with Pascal VOC boxes, quality-checked in D-2 and D-4 ([data/README.md](../data/README.md)). **Open item D-1:** record its original name, author and licence.
-- The syllabus lists allowed sources: "Only open, licence-clean sources: data.egov.kz, stat.gov.kz, Kaggle Datasets, UCI Machine Learning Repository, OpenML" (Syl p.9). Roboflow Universe is not on that list. D-1 therefore also looks for the same dataset on Kaggle and cites that as the source. If there is none, the licence goes on the Data slide and the team asks the instructor before the defense.
+- Source: the Kaggle dataset "Annotated Potholes Image Dataset" by Atikur Rahman Chitholian, 665 images with Pascal VOC boxes, licence ODbL (database) and DbCL (contents), quality-checked in D-2 and D-4. Dataset card: [data/README.md](../data/README.md) (D-1).
+- The syllabus lists allowed sources: "Only open, licence-clean sources: data.egov.kz, stat.gov.kz, Kaggle Datasets, UCI Machine Learning Repository, OpenML" (Syl p.9). The source is Kaggle with an open licence. Three photos carry stock-photo watermarks, so they are never shown publicly (D-12).
 - One class: `pothole`.
 - Duplicates first, split second. If copies of one photo land in train and in test, the test score is inflated. Task D-4 checked exact and perceptual-hash duplicates **before** the split and found none (Sup p10, Lab 6: no test data in training).
 - Frozen version: **`potholes_yolo_v1`**, a Colab export (accepted on 10 November in place of a Roboflow version). 465 / 100 / 100 train / validation / test images (1,198 / 305 / 236 boxes), shuffled once with seed 42. The D-4 check found no exact or near-duplicate images, so a random split by image does not leak copies across splits. No resize and no offline augmentation. The zip is in the shared Drive; the split manifest with a SHA-256 per image is in `data/exports/potholes_yolo_v1/`. Every run passes `--dataset-version potholes_yolo_v1`.

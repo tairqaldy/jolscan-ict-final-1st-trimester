@@ -177,3 +177,13 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How I verified it, and who verified it:** Compared the JSON's full-precision thresholds with the configured percentage units and ran the existing rules tests, including exact threshold-boundary tests. The supplied clustering results and PNG were not recomputed.
 - **What I rejected or corrected:** Kept normalized fraction versus percentage units explicit, used only the training split, and did not treat the size bands as physical measurements or calibrated repair severity. D-6 remains separate; no split change or model training was done.
 - **C-12 (Nazar's prompt: "do C-12"):** the tool extended `export_results.py` with row R7 (the two-step pipeline), the `pipeline` block and the `layers` table, and documented the two selection rules. **Corrected against the issue:** issue #37 asked for `served: "R7"`, but the tool read `api/restroom.py` and found that `/restroom/match` does not run the pipeline (it uses CLIP similarity and a gender filter), so it wrote `served: null` with a note instead of a claim that is not true yet. It also removed a lecture reference it had added without checking it against the course PDFs.
+
+### 11 November 2026, Tair (D-1 dataset card, M-20 export fields)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** fill the dataset card from the real source and stop the model page from showing "To be added" placeholders.
+- **Key prompt(s), with a link to the transcript:** "work on completing tasks for ML for potholes". Transcript kept locally.
+- **What it produced or changed:** the dataset card in `data/README.md`, two lines in `docs/ML-EXPERIMENT.md`, the metadata in `ml/export_results.py`, the `ExperimentsFile` type in `docs/ARCHITECTURE.md`.
+- **How I verified it, and who verified it:** the licence and author were read from Kaggle's dataset data on 11 November 2026; the 665 image hashes were compared with the manifest by `data/make_potholes_yolo_v1.py`; a test export with a temporary run file produced the expected JSON, and the temporary files were deleted.
+- **What I rejected or corrected:** did not call the photos licence-clean: three carry stock watermarks.
+
