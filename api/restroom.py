@@ -31,6 +31,7 @@ from fastapi import APIRouter, File, HTTPException, UploadFile
 from fastapi.concurrency import run_in_threadpool
 
 from imaging import read_image
+from schemas import CompareResult, MatchResult
 
 log = logging.getLogger("restroom")
 
@@ -116,6 +117,7 @@ class ClipBackend:
 
 _backend = None
 _lock = threading.Lock()
+_inference_lock = threading.Lock()
 
 
 def get_backend():
@@ -152,12 +154,13 @@ def _similarity(a: np.ndarray, b: np.ndarray) -> np.ndarray:
 
 def _infer(backend, images: list) -> tuple[np.ndarray, list[dict], int]:
     start = time.perf_counter()
-    emb = backend.encode(images)
-    preds = _predictions(backend.gender_proba(emb))
+    with _inference_lock:
+        emb = backend.encode(images)
+        preds = _predictions(backend.gender_proba(emb))
     return emb, preds, round((time.perf_counter() - start) * 1000)
 
 
-@router.post("/compare")
+@router.post("/compare", response_model=CompareResult)
 async def compare(a: UploadFile = File(...), b: UploadFile = File(...)) -> dict:
     img_a = await read_image(a, "Sign a")
     img_b = await read_image(b, "Sign b")
@@ -174,7 +177,7 @@ async def compare(a: UploadFile = File(...), b: UploadFile = File(...)) -> dict:
     }
 
 
-@router.post("/match")
+@router.post("/match", response_model=MatchResult)
 async def match(query: UploadFile = File(...), gallery: list[UploadFile] = File(...)) -> dict:
     if len(gallery) > MAX_GALLERY:
         raise HTTPException(status_code=400, detail=f"Send at most {MAX_GALLERY} gallery images, got {len(gallery)}.")
