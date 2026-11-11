@@ -14,7 +14,7 @@ This is Hick's law in practice (HCI p35): fewer choices first, more on demand.
 
 ## 2. Every number has a source or a Demo badge
 
-- **So we** read measured numbers from the results files (the Model page reads `web/data/experiments.json`, written by `ml/export_results.py`) and mark every invented number with "Demo data", "Includes demo data", "Mock result" or "Sample result".
+- **So we** read measured numbers from the results files (the Model page reads `web/data/experiments.json`, written by `ml/export_results.py`) and mark every invented number with a provenance badge: "Demo data", "Includes demo data", "Invented demo record", "Mock result", "Mock predictions" or "Sample result" (`web/components/app/demo-badge.tsx`).
 - **So we never** show a typed number without a source, or demo data without its badge (U8; ANTI-SLOP R6 and R13).
 - **Screens:** `/app`, where the header says "Both modules at a glance: the 30 days to 10 Nov 2026 (demo sets) plus work done in this browser." next to "Includes demo data" (`web/components/app/platform-overview-client.tsx` lines 49–53). `/app/model`, where runs without results say "not run yet" instead of a number (`web/app/app/model/page.tsx` line 308) and the IOAI scores sit in their own callout, "IOAI reference points", which says the best score is "a ceiling to compare against, not a target we claim" (lines 292–294; the "Not our runs" sentence comes from the results file).
 
