@@ -1,11 +1,13 @@
-# M-4 / E1 Colab preparation ? do not train yet
+# M-4 / E1 Colab preparation (fallback runbook)
+
+> **Status, 11 November 2026 (Tair's decision in [#53](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/53#issuecomment-6791110382)):** E1 trains on the same Apple M5 as E0 (`ml/train.py --run E1 --device mps`, trainer tagged `e0-trainer`), queued after E7, so every run shares one device. This runbook is the Colab fallback. Tair confirmed in #53 that a Colab E1 is still comparable (same split, seed and trainer; the run file records the GPU), so if it is used, set `APPROVED_REV` to the `e0-trainer` commit and `CONFIGURATION_COMPATIBILITY_CONFIRMED = True`, and tell Tair before starting so the Mac run is dropped.
 
 Owner: Amina / `omodotori`, [issue #53](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/53), branch `model/m4-e1`. E0 belongs to Tair. M-4 remains incomplete. This document prepares a future full E1 run; none has been executed.
 
 ## Compatibility findings and stop conditions
 
 - E0's JSON records trainer `6c1a525e551eb6766178a9dd378cf443ca76e780`, preserved by annotated tag `e0-trainer` (peel it with `git rev-parse e0-trainer^{}`). Current `ml/train.py` and `ml/requirements.txt` have no diff against that trainer. Main also contains M-0 policy commit `9d183a50c8b75e8b99db983d3c6063ad634b974f`.
-- Offline AST inspection of the actual effective configuration confirms E1 and E0 differ only in `weights` (`yolo26n.pt` ? `yolo26s.pt`) and the descriptive `changed` label. Explicit BASE parameters equal E0.json: epochs 40, image size 640, batch 16, seed 42, SGD, lr0 0.01, pretrained true. No freeze, optimizer or augmentation override is added for E1. The experiment defines small as wider at the same depth; confirm the installed 8.4.208 model scales/model summaries before training rather than assuming parameter counts from the label.
+- Offline AST inspection of the actual effective configuration confirms E1 and E0 differ only in `weights` (`yolo26n.pt` → `yolo26s.pt`) and the descriptive `changed` label. Explicit BASE parameters equal E0.json: epochs 40, image size 640, batch 16, seed 42, SGD, lr0 0.01, pretrained true. No freeze, optimizer or augmentation override is added for E1. The experiment defines small as wider at the same depth; confirm the installed 8.4.208 model scales/model summaries before training rather than assuming parameter counts from the label.
 - Use frozen `potholes_yolo_v1`: 465/100/100 train/val/test, 1198/305/236 objects, manifest seed 42. No resplitting, relabeling, resizing export, new augmentation policy or dataset rebuilding for this run.
 - E0 ran on Apple M5/MPS with Torch 2.15.0 and Ultralytics 8.4.208. Colab CUDA/T4 is a backend/hardware difference, not a controlled constant. Matching the explicit BASE dictionary alone does not establish equivalent training. Torch is not pinned by `ml/requirements.txt`; pandas is also unpinned. Ultralytics 8.4.208 and MLflow 3.18.0 are pinned.
 - Need Tair's actual command, `runs/E0/args.yaml`, `pip freeze` (including Python, torch/torchvision, Ultralytics, MLflow and albumentations), any local source edits/environment overrides, dataset archive SHA-256 or equivalent label/image provenance, checkpoint identity, and confirmation that all 40 epochs completed without resume or an OOM batch change. E0.json is evidence for the recorded explicit parameters and reported versions, not the full resolved defaults. Ask for full args including augmentation, workers, deterministic/AMP, optimizer schedule, nbs/accumulation, early stopping, cache and evaluation settings.
@@ -76,7 +78,7 @@ PREP = Path('/content/e1-preflight'); PREP.mkdir(exist_ok=False)
 
 Compare this preflight evidence and the two installed model scales against Tair's resolved E0 arguments/environment before changing the compatibility flag. Do not train either model for inspection.
 
-## Exact proposed training command ? DO NOT EXECUTE YET
+## Exact proposed training command (fallback only)
 
 From `/content/jolscan-e1`:
 
