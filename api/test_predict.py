@@ -1,5 +1,6 @@
 """Road API contract checks; no weights or network access required."""
 
+import csv
 import io
 from types import SimpleNamespace
 
@@ -36,6 +37,53 @@ def client(monkeypatch):
     monkeypatch.setattr(main, "_yolo", Detector())
     monkeypatch.setattr(main, "ANY_CLASS", False)
     return TestClient(main.app)
+
+
+def test_predict_writes_private_aggregate_log(client, monkeypatch, tmp_path):
+    path = tmp_path / "logs" / "calls.csv"
+    monkeypatch.setenv("PREDICT_LOG_PATH", str(path))
+    for _ in range(2):
+        response = client.post("/predict", files={"file": ("private-name.png", png())})
+        assert response.status_code == 200
+    with path.open(newline="", encoding="utf-8") as stream:
+        rows = list(csv.DictReader(stream))
+    assert len(rows) == 2
+    assert set(rows[0]) == {"timeUtc", "latencyMs", "detectionCount", "meanConfidence", "model", "provider"}
+    assert all(r["detectionCount"] == "1" and float(r["meanConfidence"]) == 0.875 for r in rows)
+    assert all(r["timeUtc"].endswith("+00:00") and int(r["latencyMs"]) >= 0 for r in rows)
+    assert "private-name" not in path.read_text(encoding="utf-8")
+
+
+def test_prediction_log_write_error_keeps_prediction(client, monkeypatch, tmp_path, caplog):
+    path = tmp_path / "not-a-directory"
+    path.write_text("x")
+    monkeypatch.setenv("PREDICT_LOG_PATH", str(path / "calls.csv"))
+    response = client.post("/predict", files={"file": ("image.png", png())})
+    assert response.status_code == 200
+    assert len(response.json()["detections"]) == 1
+    assert "Could not write prediction log" in caplog.text
+
+
+def test_prediction_log_is_disabled_by_default(client, monkeypatch):
+    monkeypatch.delenv("PREDICT_LOG_PATH", raising=False)
+    def must_not_write(*args):
+        pytest.fail("Logging is disabled without PREDICT_LOG_PATH")
+    monkeypatch.setattr(main, "_log_prediction", must_not_write)
+    response = client.post("/predict", files={"file": ("image.png", png())})
+    assert response.status_code == 200
+
+
+def test_concurrent_log_writes_preserve_every_row(monkeypatch, tmp_path):
+    from concurrent.futures import ThreadPoolExecutor
+
+    path = tmp_path / "calls.csv"
+    monkeypatch.setenv("PREDICT_LOG_PATH", str(path))
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        list(pool.map(lambda _: main._log_prediction(12, []), range(32)))
+    with path.open(newline="", encoding="utf-8") as stream:
+        rows = list(csv.DictReader(stream))
+    assert len(rows) == 32
+    assert all(r["detectionCount"] == "0" and r["meanConfidence"] == "" for r in rows)
 
 
 def test_predict_contract_and_class_filter(client):

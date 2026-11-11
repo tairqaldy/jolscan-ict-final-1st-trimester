@@ -9,14 +9,13 @@ import { Select } from "@/components/ui/select";
 import { SliderField } from "@/components/ui/slider";
 import { cn } from "@/lib/cn";
 import { RESTROOM_PRESETS, RESTROOM_SAMPLES, getRestroomSample, mockSimilarity } from "@/lib/mock/restroom-samples";
-import { DEFAULT_SIGNAGE, SIGNAGE_RULE_TITLES, VERDICT_ACTIONS, evaluateSignage, type SignageRuleId } from "@/lib/signage";
+import { DEFAULT_SIGNAGE, SIGNAGE_RULE_TITLES, evaluateSignage, type SignageRuleId } from "@/lib/signage";
 import { signageRulesStore } from "@/lib/store/settings";
 import { GenderTag, SignImage, VerdictBadge } from "./signage-bits";
 
 const DESCRIPTIONS: Record<SignageRuleId, string> = {
-  S1: "The model's confidence in the gender it predicts must be at least this for both signs. Below it, the model, and likely a visitor, cannot tell the gender at a glance.",
-  S2: "The two signs must be read as different genders. If both read as the same gender, visitors cannot tell which door is which. No threshold: it compares the two predictions.",
-  S3: "The two designs must look like one set: similarity at least this. Unrelated designs, for example after one sign was replaced, may not be read as a pair.",
+  S2: "The two signs are compared with each other: the one with the higher P(male) is the men's door. The gap between their P(male) values must be at least this, otherwise both signs read as the same gender.",
+  S3: "The two designs must look like one set: similarity at least this. Signs from two different sets are not a pair.",
 };
 
 export function RestroomRulesClient() {
@@ -44,35 +43,22 @@ export function RestroomRulesClient() {
           </Button>
         </div>
 
-        <RuleCard id="S1" passed={current.ruleHits[0].passed}>
+        <RuleCard id="S2" passed={current.ruleHits[0].passed}>
           <SliderField
             label="Minimum gap in P(male) between the doors"
-            value={rules.s1.minMargin}
-            min={0.05}
+            value={rules.s2.minMargin}
+            min={0}
             max={0.6}
             step={0.01}
             format={(v) => v.toFixed(2)}
-            onChange={(v) => signageRulesStore.set((r) => ({ ...r, s1: { minMargin: v }, s2: { minMargin: Math.min(r.s2.minMargin, v) } }))}
+            onChange={(v) => signageRulesStore.set((r) => ({ ...r, s2: { minMargin: v } }))}
           />
           <p className="text-xs text-subtle">
-            Default 0.20: on the 82 IOAI training restrooms, every pair at or above this gap was read the right way round (62% of pairs).
+            Default 0.05: below it, the model&apos;s reading of which door is which is close to a coin toss. 85% of the 82 IOAI
+            training restrooms are at or above it.
           </p>
         </RuleCard>
-        <RuleCard id="S2" passed={current.ruleHits[1].passed}>
-          <SliderField
-            label="Gap below which the doors cannot be told apart"
-            value={rules.s2.minMargin}
-            min={0}
-            max={rules.s1.minMargin}
-            step={0.01}
-            format={(v) => v.toFixed(2)}
-            onChange={(v) => signageRulesStore.set((r) => ({ ...r, s2: { minMargin: Math.min(v, r.s1.minMargin) } }))}
-          />
-          <p className="text-xs text-subtle">
-            Default 0.05: below it, the model&apos;s reading of which door is which is close to a coin toss. Never higher than S1.
-          </p>
-        </RuleCard>
-        <RuleCard id="S3" passed={current.ruleHits[2].passed}>
+        <RuleCard id="S3" passed={current.ruleHits[1].passed}>
           <SliderField
             label="Minimum similarity"
             value={rules.s3.minSimilarity}
@@ -91,13 +77,10 @@ export function RestroomRulesClient() {
             <h2 className="font-display text-lg font-semibold">Verdict (fixed)</h2>
             <ul className="mt-2 grid gap-2 text-sm">
               <li className="flex flex-wrap items-center gap-2">
-                <VerdictBadge verdict="clear" /> <span className="text-muted">S1, S2 and S3 pass. {VERDICT_ACTIONS.clear}.</span>
+                <VerdictBadge verdict="pair" /> <span className="text-muted">S2 and S3 pass.</span>
               </li>
               <li className="flex flex-wrap items-center gap-2">
-                <VerdictBadge verdict="review" /> <span className="text-muted">S2 passes, S1 or S3 fails. {VERDICT_ACTIONS.review}.</span>
-              </li>
-              <li className="flex flex-wrap items-center gap-2">
-                <VerdictBadge verdict="confusing" /> <span className="text-muted">S2 fails. {VERDICT_ACTIONS.confusing}.</span>
+                <VerdictBadge verdict="not_pair" /> <span className="text-muted">S2 or S3 fails.</span>
               </li>
             </ul>
           </CardBody>
@@ -147,9 +130,7 @@ export function RestroomRulesClient() {
               <VerdictBox label="Team defaults" verdict={<VerdictBadge verdict={defaults.verdict} />} />
               <VerdictBox label="Your rules" verdict={<VerdictBadge verdict={current.verdict} />} highlight={current.verdict !== defaults.verdict} />
             </div>
-            <p className="text-sm">
-              <span className="text-muted">Action:</span> <span className="font-medium">{current.recommendedAction}</span>
-            </p>
+            <p className="text-sm text-muted">{current.reason}.</p>
             <ul className="grid gap-1.5 text-sm">
               {current.ruleHits.map((h) => (
                 <li key={h.ruleId} className="grid grid-cols-[auto_minmax(0,1fr)_auto] gap-2 border-b border-border pb-1.5 last:border-0">

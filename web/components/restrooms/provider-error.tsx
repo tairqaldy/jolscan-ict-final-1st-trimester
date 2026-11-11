@@ -5,6 +5,8 @@ import Link from "next/link";
 import { PROVIDER_META } from "@/components/app/provider-badge";
 import { Button } from "@/components/ui/button";
 import { Callout } from "@/components/ui/callout";
+import { cn } from "@/lib/cn";
+import { useHydrated } from "@/lib/store/local-store";
 import { settingsStore } from "@/lib/store/settings";
 import type { Provider } from "@/lib/types";
 import type { ApiError } from "@/lib/upload";
@@ -51,8 +53,9 @@ export function ProviderErrorCallout({
 /** "Mock provider. Canned … Change" line shown above a run button. */
 export function ProviderLine({ provider }: { provider: Provider }) {
   const meta = PROVIDER_META[provider];
+  const hydrated = useHydrated();
   return (
-    <div className="flex items-start gap-3 text-sm">
+    <div className={cn("flex items-start gap-3 text-sm", !hydrated && "invisible")}>
       <meta.icon className="mt-0.5 size-4 shrink-0 text-muted" aria-hidden />
       <p>
         <span className="font-medium">{meta.label} provider.</span> <span className="text-muted">{meta.description}</span>{" "}

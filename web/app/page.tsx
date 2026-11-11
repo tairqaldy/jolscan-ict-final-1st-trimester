@@ -50,11 +50,11 @@ const roadSample = getSample("s01")!;
 const roadResult = scoreDetections(roadSample.detections, roadSample.meta);
 const roadHit = roadResult.ruleHits.find((h) => h.ruleId === "R3")!;
 
-const faint = RESTROOM_PRESETS.find((p) => p.id === "faint")!;
-const faintA = getRestroomSample(faint.a)!;
-const faintB = getRestroomSample(faint.b)!;
-const faintSimilarity = mockSimilarity(faintA.id, faintB.id);
-const signResult = evaluateSignage({ a: faintA.mock, b: faintB.mock, similarity: faintSimilarity });
+const twoSets = RESTROOM_PRESETS.find((p) => p.id === "mismatched")!;
+const twoSetsA = getRestroomSample(twoSets.a)!;
+const twoSetsB = getRestroomSample(twoSets.b)!;
+const twoSetsSimilarity = mockSimilarity(twoSetsA.id, twoSetsB.id);
+const signResult = evaluateSignage({ a: twoSetsA.mock, b: twoSetsB.mock, similarity: twoSetsSimilarity });
 const signHit = signResult.ruleHits.find((h) => !h.passed)!;
 
 const STEPS = [
@@ -76,7 +76,7 @@ const STEPS = [
   {
     icon: ListChecks,
     title: "Action",
-    text: "A repair priority with a target time, or a signage verdict with what to do next. Uncertain cases go to a review queue instead of being hidden.",
+    text: "A repair priority with a target time for a road, a pair or not a pair for two door signs. Uncertain road photos go to a review queue instead of being hidden.",
   },
 ];
 
@@ -113,19 +113,20 @@ export default function LandingPage() {
           <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-12">
           <Stagger className="grid content-start gap-6">
             <StaggerItem>
-              <p className="flex items-center gap-3 text-xs font-semibold tracking-[0.18em] text-accent-ink uppercase">
+              <p className="flex items-center gap-3 eyebrow text-accent-ink">
                 <span className="h-px w-8 bg-accent" aria-hidden />
                 {BRAND.name} ({BRAND.nativeName}) · {BRAND.meaning}
               </p>
             </StaggerItem>
             <StaggerItem>
               <h1 className="max-w-3xl text-4xl leading-[1.04] font-bold sm:text-5xl">
-                Inspect roads and signs <span className="text-muted">with clarity.</span>
+                Inspect roads and signs <span className="text-muted">from a photo.</span>
               </h1>
             </StaggerItem>
             <StaggerItem>
               <p className="max-w-xl text-lg text-muted">
-                Inspect road damage and compare door signs with computer vision. Qarau shows the evidence behind each result.
+                {BRAND.name} uses computer vision to find potholes in road photos and to compare restroom door signs. Each result
+                shows what the model found and which rules decided it.
               </p>
             </StaggerItem>
             <StaggerItem className="flex flex-wrap gap-3">
@@ -142,18 +143,18 @@ export default function LandingPage() {
               </p>
             </StaggerItem>
           </Stagger>
-          <aside aria-label="Example road inspection" className="inspection-preview w-full overflow-hidden rounded-xl border border-border bg-surface shadow-sm lg:max-w-[36rem] lg:justify-self-end">
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-5 py-4 sm:px-6">
+          <aside aria-label="Example road inspection" className="inspection-preview w-full overflow-hidden rounded-lg border border-border bg-surface shadow-sm lg:max-w-[36rem] lg:justify-self-end">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-(--card-pad) py-4">
               <div>
                 <p className="font-mono text-xs text-muted">INSPECTION 01 / ROADS</p>
                 <p className="mt-1 text-sm font-medium">From detection to priority</p>
               </div>
               <DemoBadge show label="Sample result" />
             </div>
-            <div className="grid gap-4 p-5 sm:p-6">
+            <div className="grid gap-4 p-(--card-pad)">
               <HeroDemo />
               <div className="border-t border-border pt-4 text-sm">
-                <p className="font-medium">Why this priority?</p>
+                <p className="font-medium">Why this priority</p>
                 <p className="mt-1 text-muted">{roadHit.title}: {roadHit.detail} (+{roadHit.points} points).</p>
               </div>
               <Link href="/app/roads/analyze?sample=s01" className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-accent-ink underline underline-offset-4">
@@ -184,14 +185,14 @@ export default function LandingPage() {
         <section id="problem" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="problem-h">
           <SectionTitle id="problem-h" eyebrow="The problem" title="Most inspection is still done by eye" />
           <Stagger className="mt-8 grid gap-4 md:grid-cols-2">
-            <StaggerItem as="article" className="rounded-lg border border-border bg-surface p-6">
+            <StaggerItem as="article" className="rounded-lg border border-border bg-surface p-(--card-pad)">
               <h3 className="text-xl font-bold">Potholes are found late</h3>
               <p className="mt-2 text-muted">
                 Most are reported by drivers after they damage a car. An inspector cannot drive every street every week, and a
                 list of complaints does not say which hole to fix first.
               </p>
             </StaggerItem>
-            <StaggerItem as="article" className="rounded-lg border border-border bg-surface p-6">
+            <StaggerItem as="article" className="rounded-lg border border-border bg-surface p-(--card-pad)">
               <h3 className="text-xl font-bold">Door signs confuse visitors</h3>
               <p className="mt-2 text-muted">
                 Signs are installed once and rarely checked. When the two doors of a restroom carry signs from different sets, or
@@ -207,8 +208,8 @@ export default function LandingPage() {
 
         {/* Modules */}
         <section id="modules" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="modules-h">
-          <SectionTitle id="modules-h" eyebrow="The tools" title="One approach, two inspection tasks" />
-          <p className="mt-3 max-w-2xl text-muted">Choose a task to see how an image becomes an explainable result.</p>
+          <SectionTitle id="modules-h" eyebrow="The tools" title="Two inspection tasks" />
+          <p className="mt-3 max-w-2xl text-muted">Choose a task to see the steps from photo to result.</p>
           <div className="mt-8 grid gap-6 lg:grid-cols-2">
             <ModuleCard
               id="roads"
@@ -220,7 +221,7 @@ export default function LandingPage() {
             <ModuleCard
               id="restrooms"
               demo={<p className="rounded-md bg-surface-2 p-4 font-mono text-sm text-muted">Photos → comparison → signage verdict</p>}
-              text="A CLIP image encoder reads each door sign: which gender it shows, and how alike two designs are. Three rules turn a pair into clear, review or confusing."
+              text="A CLIP image encoder reads each door sign: which gender it shows, and how alike two designs are. Two rules decide: one design set and different genders is a pair, anything else is not a pair."
               output="Verdict and recommended action"
               cta={{
                 href: `/app/restrooms/compare?a=${RESTROOM_PRESETS[0].a}&b=${RESTROOM_PRESETS[0].b}`,
@@ -229,9 +230,9 @@ export default function LandingPage() {
               }}
             />
           </div>
-          <details className="mt-6 rounded-xl border border-border bg-surface">
-            <summary className="cursor-pointer px-5 py-4 font-medium sm:px-6">Preview a sign comparison</summary>
-            <div className="grid gap-3 border-t border-border p-5 sm:p-6">
+          <details className="mt-6 rounded-lg border border-border bg-surface">
+            <summary className="cursor-pointer px-(--card-pad) py-4 font-medium">Preview a sign comparison</summary>
+            <div className="grid gap-3 border-t border-border p-(--card-pad)">
               <div><DemoBadge show label="Sample result" /></div>
               <PairDemo />
             </div>
@@ -241,11 +242,11 @@ export default function LandingPage() {
         {/* How it works */}
         <section id="how" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="how-h">
           <SectionTitle id="how-h" eyebrow="How it works" title="Photo, model, rules, action" />
-          <Stagger as="ol" className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <Stagger as="ol" className="how-steps mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {STEPS.map((s, i) => {
               const Icon = s.icon;
               return (
-                <StaggerItem as="li" key={s.title} className="relative rounded-lg border border-border bg-surface p-6">
+                <StaggerItem as="li" key={s.title} className="relative rounded-lg border border-border bg-surface p-(--card-pad)">
                   <span className="font-display text-5xl leading-none font-bold text-surface-3" aria-hidden>
                     {i + 1}
                   </span>
@@ -264,7 +265,8 @@ export default function LandingPage() {
         <section id="rules" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="rules-h">
           <SectionTitle id="rules-h" eyebrow="Explainable by design" title="Rules you can read" />
           <p className="mt-3 max-w-3xl text-muted">
-            The model produces predictions; the team’s rules turn those predictions into an outcome. These examples use mock predictions and show rule hits computed by the app:
+            The model makes predictions; rules the team wrote turn them into a decision. Both examples are rule hits the app
+            computed from mock predictions:
           </p>
           <div className="mt-8 grid gap-4 lg:grid-cols-2">
             <RuleHitCard
@@ -284,15 +286,15 @@ export default function LandingPage() {
             />
             <RuleHitCard
               module="restrooms"
-              context={`${faint.title} sample pair`}
+              context={`${twoSets.title} sample pair`}
               ruleId={signHit.ruleId}
               title={signHit.title}
               detail={signHit.detail}
-              marks={signHitMarks(signHit, signResult.doors, faintSimilarity)}
+              marks={signHitMarks(signHit, signResult.doors, twoSetsSimilarity)}
               effect="Failed"
               outcome={
                 <>
-                  <VerdictBadge verdict={signResult.verdict} /> {signResult.recommendedAction}
+                  <VerdictBadge verdict={signResult.verdict} /> {signResult.reason}
                 </>
               }
               href="/app/restrooms/rules"
@@ -375,11 +377,11 @@ export default function LandingPage() {
         {/* Course */}
         <section id="course" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="course-h">
           <details>
-            <summary className="cursor-pointer text-sm font-semibold text-accent-ink">Explore the course foundations</summary>
+            <summary className="cursor-pointer text-sm font-semibold text-accent-ink">Show the course topics behind the project</summary>
             <div className="mt-6"><SectionTitle id="course-h" eyebrow={`Built on ${COURSE.code}`} title="What the course taught, applied" /></div>
           <Stagger className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {COURSE_TOPICS.map((t) => (
-              <StaggerItem as="article" key={t.title} className="rounded-lg border border-border bg-surface p-6">
+              <StaggerItem as="article" key={t.title} className="rounded-lg border border-border bg-surface p-(--card-pad)">
                 <BookOpenText className="size-5 text-accent-ink" aria-hidden />
                 <h3 className="mt-3 text-xl font-bold">{t.title}</h3>
                 <p className="mt-2 text-muted">{t.text}</p>
@@ -399,7 +401,7 @@ export default function LandingPage() {
 function SectionTitle({ id, eyebrow, title }: { id: string; eyebrow: string; title: string }) {
   return (
     <div>
-      <p className="text-xs font-semibold tracking-[0.18em] text-accent-ink uppercase">{eyebrow}</p>
+      <p className="eyebrow text-accent-ink">{eyebrow}</p>
       <h2 id={id} className="mt-2 text-3xl font-bold sm:text-4xl">
         {title}
       </h2>
@@ -423,13 +425,13 @@ function ModuleCard({
   const m = MODULES[id];
   const Icon = MODULE_ICONS[id];
   return (
-    <article className="flex h-full flex-col gap-5 rounded-xl border border-border bg-surface p-5 sm:p-6" aria-labelledby={`card-${id}`}>
+    <article className="flex h-full flex-col gap-5 rounded-lg border border-border bg-surface p-(--card-pad)" aria-labelledby={`card-${id}`}>
       <div className="flex items-start gap-3">
         <span className="grid size-10 shrink-0 place-items-center rounded-md bg-inverse text-inverse-fg">
           <Icon className="size-5" aria-hidden />
         </span>
         <div>
-          <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">{m.name}</p>
+          <p className="eyebrow text-muted">{m.name}</p>
           <h3 id={`card-${id}`} className="text-2xl font-bold">
             {m.task}
           </h3>
@@ -451,7 +453,7 @@ function ModuleCard({
 
 function Feature({ icon: Icon, title, children }: { icon: typeof Laptop; title: string; children: ReactNode }) {
   return (
-    <article className="rounded-lg border border-border bg-surface p-6">
+    <article className="rounded-lg border border-border bg-surface p-(--card-pad)">
       <Icon className="size-6 text-accent-ink" aria-hidden />
       <h3 className="mt-3 text-xl font-bold">{title}</h3>
       <p className="mt-2 text-muted">{children}</p>
@@ -471,7 +473,7 @@ function PrivacyPoint({ icon: Icon, children }: { icon: typeof Lock; children: R
 function ResultsCard({ module, badge, children }: { module: ModuleId; badge: ReactNode; children: ReactNode }) {
   const Icon = MODULE_ICONS[module];
   return (
-    <article className="grid content-start gap-4 rounded-lg border border-border bg-surface p-6">
+    <article className="grid content-start gap-4 rounded-lg border border-border bg-surface p-(--card-pad)">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h3 className="inline-flex items-center gap-2 text-xl font-bold">
           <Icon className="size-5 text-accent-ink" aria-hidden /> {MODULES[module].name}

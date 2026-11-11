@@ -1,0 +1,19 @@
+  320 /app            tiles=6 font=36px  worst='40' margin=1.0px ok
+  320 /app/roads      tiles=4 font=36px  worst='63 ms' margin=2.2px ok
+  320 /app/restrooms  tiles=4 font=36px  worst='83%' margin=28.8px ok
+  375 /app            tiles=6 font=36px  worst='40' margin=19.3px ok
+  375 /app/roads      tiles=4 font=36px  worst='63 ms' margin=29.7px ok
+  375 /app/restrooms  tiles=4 font=36px  worst='83%' margin=56.3px ok
+  768 /app            tiles=6 font=48px  worst='40' margin=116.9px ok
+  768 /app/roads      tiles=4 font=48px  worst='63 ms' margin=176.2px ok
+  768 /app/restrooms  tiles=4 font=48px  worst='83%' margin=211.7px ok
+ 1024 /app            tiles=6 font=36px  worst='40' margin=123.6px ok
+ 1024 /app/roads      tiles=4 font=36px  worst='63 ms' margin=18.2px ok
+ 1024 /app/restrooms  tiles=4 font=36px  worst='83%' margin=44.8px ok
+ 1280 /app            tiles=6 font=64px  worst='40' margin=11.8px ok
+ 1280 /app/roads      tiles=4 font=64px  worst='63 ms' margin=3.0px ok
+ 1280 /app/restrooms  tiles=4 font=64px  worst='83%' margin=50.3px ok
+ 1440 /app            tiles=6 font=64px  worst='40' margin=38.5px ok
+ 1440 /app/roads      tiles=4 font=64px  worst='63 ms' margin=43.0px ok
+ 1440 /app/restrooms  tiles=4 font=64px  worst='83%' margin=90.3px ok
+pages with an overflowing KPI number: 0

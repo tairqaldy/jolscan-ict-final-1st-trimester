@@ -36,8 +36,8 @@ export function RuleHitCard({
   href: string;
 }) {
   return (
-    <article className="grid content-start gap-4 rounded-lg border border-border bg-surface p-6">
-      <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">
+    <article className="grid content-start gap-4 rounded-lg border border-border bg-surface p-(--card-pad)">
+      <p className="eyebrow text-muted">
         {MODULES[module].name} · {context}
       </p>
       <div className="grid gap-2">

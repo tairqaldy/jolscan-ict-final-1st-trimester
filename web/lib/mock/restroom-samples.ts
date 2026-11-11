@@ -5,6 +5,7 @@
  * from the IOAI validation set carry real model outputs (see the manifest's
  * _comment). Edit the manifest only.
  */
+import catalogue from "@/data/restroom-ioai-catalogue.json";
 import manifest from "@/public/samples/restrooms/samples.json";
 import type { Gender, SignPrediction } from "@/lib/types";
 import { hash32 } from "./prng";
@@ -31,6 +32,13 @@ type SimilarityConfig = {
 };
 
 export const RESTROOM_SAMPLES = manifest.samples as RestroomSample[];
+
+/** Every IOAI sign the public pages may show (web/data/restroom-ioai-catalogue.json), pickable like a sample. */
+export type IoaiGroupId = "val" | "test" | "train";
+export type IoaiCatalogueSample = RestroomSample & { group: IoaiGroupId; genderByEye: boolean; genderUnsure: boolean };
+export const RESTROOM_IOAI_CATALOGUE = catalogue.samples as IoaiCatalogueSample[];
+export const RESTROOM_IOAI_GROUPS = catalogue.groups as { id: IoaiGroupId; label: string; count: number }[];
+export const RESTROOM_IOAI_CREDIT = catalogue.credit;
 export const RESTROOM_SETS = manifest.sets as RestroomSet[];
 export const RESTROOM_PRESETS = manifest.presets as RestroomPreset[];
 export const RESTROOM_MOCK_MODEL = manifest.model;
@@ -38,7 +46,7 @@ export const RESTROOM_MOCK_LATENCY_MS = manifest.mockLatencyMs;
 const SIM = manifest.similarity as unknown as SimilarityConfig;
 
 export function getRestroomSample(id: string | null | undefined): RestroomSample | undefined {
-  return RESTROOM_SAMPLES.find((s) => s.id === id);
+  return RESTROOM_SAMPLES.find((s) => s.id === id) ?? RESTROOM_IOAI_CATALOGUE.find((s) => s.id === id);
 }
 
 export function getRestroomSet(id: string): RestroomSet | undefined {
@@ -47,7 +55,8 @@ export function getRestroomSet(id: string): RestroomSet | undefined {
 
 /** The sign of the opposite (true) gender from the same set: the right answer for Match. */
 export function truePartner(sample: RestroomSample): RestroomSample | undefined {
-  return RESTROOM_SAMPLES.find((s) => s.set === sample.set && s.trueGender !== sample.trueGender);
+  const pool: RestroomSample[] = RESTROOM_SAMPLES.some((s) => s.id === sample.id) ? RESTROOM_SAMPLES : RESTROOM_IOAI_CATALOGUE;
+  return pool.find((s) => s.set === sample.set && s.trueGender !== sample.trueGender);
 }
 
 const round2 = (n: number) => Math.round(n * 100) / 100;

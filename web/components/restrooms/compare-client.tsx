@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeftRight, GitCompareArrows, LoaderCircle } from "lucide-react";
+import { ArrowLeftRight, CircleCheck, GitCompareArrows, LoaderCircle } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useRef, useState } from "react";
@@ -12,6 +12,7 @@ import { Field } from "@/components/ui/input";
 import { SelectableTile } from "@/components/ui/selectable-tile";
 import { Skeleton } from "@/components/ui/skeleton";
 import { RESTROOM_PRESETS, getRestroomSample } from "@/lib/mock/restroom-samples";
+import { VERDICT_META } from "@/lib/signage-ui";
 import { addRestroomCheck } from "@/lib/store/restroom-history";
 import { settingsStore, signageRulesStore } from "@/lib/store/settings";
 import type { Provider, StoredSignageCheck } from "@/lib/types";
@@ -169,7 +170,11 @@ export function CompareClient() {
                 )}
               </Button>
               <p className="sr-only" aria-live="polite">
-                {status.state === "loading" ? "Comparing the two signs" : status.state === "done" ? `Verdict: ${status.check.verdict}` : ""}
+                {status.state === "loading"
+                  ? "Comparing the two signs"
+                  : status.state === "done"
+                    ? `Verdict: ${VERDICT_META[status.check.verdict].label}. Saved to this browser.`
+                    : ""}
               </p>
               {(!a || !b) && <p className="text-center text-xs text-muted">Choose two signs first.</p>}
             </CardBody>
@@ -188,19 +193,27 @@ export function CompareClient() {
           <h2 id="result-h" className="text-2xl font-bold">
             Result
           </h2>
-          {status.state === "done" && (
+          {status.state === "done" ? (
             <p className="text-sm text-muted">
+              <CircleCheck className="saved-tick mr-1.5 inline size-4 align-middle text-accent-ink" aria-hidden />
               Saved to this browser.{" "}
               <Link href={`/app/restrooms/checks/${status.check.id}`} className="font-medium text-accent-ink underline underline-offset-2">
                 Open as a page
               </Link>
+            </p>
+          ) : (
+            // Holds the line's place, so on a phone (where it wraps under the
+            // heading) the result does not jump down when it appears (motion grill).
+            <p className="invisible text-sm" aria-hidden>
+              <span className="mr-1.5 inline-block size-4 align-middle" />
+              Saved to this browser. Open as a page
             </p>
           )}
         </div>
         {/* scroll-mt keeps a gap above the result; below lg the html scroll-padding in globals.css clears the sticky top bar. */}
         <div ref={resultRef} tabIndex={-1} className="scroll-mt-4 outline-none">
           {status.state === "done" ? (
-            <CompareResultView check={status.check} />
+            <CompareResultView check={status.check} reveal />
           ) : status.state === "loading" ? (
             <div className="grid gap-6 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]" aria-hidden>
               <Skeleton className="h-96" />

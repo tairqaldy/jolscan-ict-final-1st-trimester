@@ -73,6 +73,21 @@ IOAI reference on the same test set: baseline 0.77, best 0.90.
 
 R4 ran later, on Nazar's laptop (Apple M4 CPU); its latency is not directly comparable with the other rows. The champion by the fixed rule stays **R3**: R2, R3 and R4 tie on validation at 1.00, and R3 has the highest gender accuracy. R4's 30/30 on test does not change the choice, because the rule never looks at test. As in the layer experiment, training more blocks helps matching and costs gender accuracy (R2 0.680, R3 0.753, R4 0.643).
 
+### How sure are these numbers? (task C-20)
+
+Exact 95 % intervals and paired tests from the stored predictions, written by `python ml/restroom/intervals.py` to `ml/results/restroom/intervals.json`. No method was re-run on test.
+
+| Method | Test | 95 % interval | Validation | 95 % interval |
+|---|---|---|---|---|
+| R0, zero-shot CLIP ViT-B/16 (IOAI baseline reproduction) | 23/30 = 0.767 | 0.577–0.901 | 8/10 | 0.44–0.97 |
+| R3, last 3 blocks fine-tuned (run-rule champion) | 27/30 = 0.900 | 0.735–0.979 | 10/10 | 0.69–1.00 |
+| R4, last 6 blocks fine-tuned | 30/30 = 1.000 | 0.884–1.000 | 10/10 | 0.69–1.00 |
+| R7, two-step pipeline, global assignment | 30/30 = 1.000 | 0.884–1.000 | 10/10 | 0.69–1.00 |
+
+- **All methods answer the same 30 queries, so they are compared pairwise** on the queries where exactly one of them is right (exact McNemar test). The pipeline against R0: right on 7 queries R0 misses, wrong on 0 that R0 gets, p = 0.016. That gain over the IOAI baseline reproduction is unlikely to be luck.
+- **The pipeline against R3:** 3 to 0, p = 0.25. On 30 queries the pipeline is **not provably better than R3**; three queries are too few to tell.
+- **10/10 on validation still allows anything from about 0.69 to 1.0**, which is why validation alone could not separate R2, R3, R4 and the pipeline.
+
 What the numbers say:
 
 - **R0 reproduces the IOAI baseline** (0.767 against the published 0.77). This is the check that our data loading and scoring are right.
@@ -100,6 +115,85 @@ The task splits into two steps, and the answer is the partner of the query's own
 | **SIFT + 30 % histogram + CLIP, global** (champion) | **0.960 ± 0.041** | 0.975 | **0.993** | **1.00** | **1.000** |
 
 The champion was chosen on the training episodes, then validation. The 30 test queries are easier than the training episodes, and several approaches reach 1.000 on them, so only the episodes tell those approaches apart. Test scores were printed during development, but every change was made from error analysis on the training set. Numbers: `ml/results/restroom/pipeline.json`.
+
+### Step by step (task C-23, `python ml/restroom/ablation_table.py`)
+
+What each half of the method adds, read from `pipeline.json` (no new runs). Figure: `ml/results/restroom/figs/ablation_steps.png`.
+
+**Step 1 alone**: own original found among all 164 training originals, 164 crops
+
+| Scorer | Accuracy |
+|---|---|
+| SIFT + pixel check (chosen) | 0.976 |
+| SIFT inlier count | 0.933 |
+| colour histogram | 0.817 |
+| CLIP similarity | 0.774 |
+
+**Step 2 alone**: partner found when given the true own original, 200 training episodes of 30 restrooms
+
+| Scorer | Greedy | Global assignment |
+|---|---|---|
+| 30 % histogram + CLIP (chosen) | 0.946 ± 0.044 | 0.993 ± 0.020 |
+| CLIP similarity | 0.837 ± 0.071 | 0.980 ± 0.035 |
+| colour histogram | 0.795 ± 0.078 | 0.940 ± 0.059 |
+
+**End to end**
+
+| Approach | Training episodes | Validation | Test |
+|---|---|---|---|
+| `ioai_baseline_clip`: IOAI baseline: second most similar original, CLIP ViT-B/32 zero-shot | 0.574 ± 0.086 | 0.80 | 0.767 |
+| `singapore_hist_top2_sift`: colour histogram picks the restroom (top 2), SIFT rejects the own original | 0.735 ± 0.068 | 1.00 | 0.833 |
+| `clip_clip_greedy`: two-step, CLIP for both steps, greedy (IOAI reference matching, zero-shot) | 0.641 ± 0.089 | 1.00 | 0.867 |
+| `siftinl_clip_greedy`: step 1 SIFT inlier count, step 2 CLIP, greedy | 0.775 ± 0.082 | 1.00 | 1.000 |
+| `sift_clip_greedy`: step 1 SIFT + pixel check, step 2 CLIP, greedy | 0.808 ± 0.074 | 1.00 | 1.000 |
+| `sift_hist_greedy`: step 1 SIFT + pixel check, step 2 colour histogram, greedy | 0.779 ± 0.078 | 0.90 | 0.833 |
+| `sift_combo_greedy`: step 1 SIFT + pixel check, step 2 30% histogram + CLIP, greedy | 0.917 ± 0.051 | 1.00 | 1.000 |
+| `sift_clip_hungarian`: step 1 SIFT + pixel check, step 2 CLIP, global assignment | 0.939 ± 0.061 | 1.00 | 1.000 |
+| `sift_hist_hungarian`: step 1 SIFT + pixel check, step 2 colour histogram, global assignment | 0.900 ± 0.069 | 1.00 | 1.000 |
+| `sift_combo_hungarian` **(champion)**: step 1 SIFT + pixel check, step 2 30% histogram + CLIP, global assignment | 0.960 ± 0.041 | 1.00 | 1.000 |
+
+SIFT with a pixel check is why step 1 works: CLIP alone confuses unrelated icons with similar shapes (0.774 against 0.976), and counting SIFT inliers alone is fooled by shared stock watermarks (0.933). Colour helps CLIP in step 2 because the two doors of one restroom were photographed in the same place, with the same wall and light.
+
+### One query at a time (task C-21, `ml/restroom/pipeline_per_query.py`)
+
+The 30/30 uses a **global assignment**: every query gets a different own original and every own original a different partner. That relies on a fact of the IOAI benchmark, that the queries come from different restrooms and the gallery holds exactly their pairs, so each answer depends on the other queries. The greedy variant also uses them (it skips partners already given out). A real door sign comes alone, and the API answers one query at a time, so the truly per-query variant (step 1 argmax, step 2 argmax) was scored too:
+
+| Variant | Training episodes (200 × 30 restrooms) | Validation |
+|---|---|---|
+| Global assignment (`sift_combo_hungarian`, the 30/30) | 0.960 ± 0.041 | 1.00 |
+| Greedy, query order (`sift_combo_greedy`) | 0.917 ± 0.051 | 1.00 |
+| **One query at a time** (`sift_combo_per_query`, what the API serves after C-8) | **0.928 ± 0.040** | 1.00 |
+| One query at a time, CLIP for both steps | 0.675 ± 0.076 | 1.00 |
+
+The per-query variant loses about 3 points on training episodes against the global assignment and is a little better than the greedy one. Its test score was read once, after the numbers above were written: **30/30** (interval and paired tests in `intervals.json`: the same as the global assignment, 0.884–1.000). The 30/30 in the tables is labelled 'global assignment over the 30 test queries'; the method the app serves is the per-query one.
+
+### In the app's setting (task C-22, `ml/restroom/app_setting.py`)
+
+In the app the query is a whole door sign that is not in the gallery, so step 1 finds no own original and only step 2 matters. Built from the 82 **training** restrooms (500 episodes per size, seed 42, one query each, so the table shows the share of the 500 queries answered right): the query is one door sign, the gallery is its partner plus both signs of K − 1 other restrooms.
+
+| Rule | K = 6 (gallery 11, like the app's 12 real samples; chance 0.091) | K = 30 (gallery 59; chance 0.017) |
+|---|---|---|
+| Gender filter: most similar of the opposite predicted gender (the API before C-8, R6's rule) | 0.594 | 0.560 |
+| CLIP similarity alone | 0.934 | 0.840 |
+| Colour histogram alone | 0.930 | 0.828 |
+| **0.3 z(histogram) + 0.7 z(CLIP), the API since C-8** | 0.976 | 0.950 |
+
+The Match page uses the last rule (since C-8) and may quote **0.976 on 6 training restrooms**. The old gender filter loses about 40 points: one wrong gender, on the query or the partner, breaks the match. These are training restrooms, whose designs the step-2 weight was chosen on, so the number is optimistic for new designs; the 12/12 on the app's real validation signs (C-8) is the out-of-sample check, on only 12 signs.
+
+### Where it fails (task C-25, `ml/restroom/hard_restrooms.py`)
+
+On the 200 training episodes, 62 of 82 restrooms never fail. The six that fail most, with the cause seen by eye (figure: `ml/results/restroom/figs/hard_restrooms.png`; all 82 in `ml/results/restroom/hard_restrooms.json`):
+
+| Restroom | Fails | Failing step | Cause |
+|---|---|---|---|
+| 60 | 80/80 = 100% | step 1 | Label error in the data: the male crop reads XY but the male-folder original reads XX; the two originals sit in each other's folders, so step 1 finds the crop's true original and the label calls it wrong |
+| 20 | 45/69 = 65% | step 1 | Data mismatch: the crops (standing figures, legs crossed) were not cut from these originals (jumping 'exit' figures), so step 1 cannot find an own original |
+| 1 | 24/80 = 30% | step 2 | The two doors share no colour (black against magenta), so the 30 % histogram pulls the partner towards other black or pink signs |
+| 7 | 19/65 = 29% | step 2 | The two doors are in different styles (a black line figure against a pink box with 'WOMEN'), so neither colour nor CLIP sees them as one set |
+| 30 | 16/75 = 21% | step 2 | Different colours for the two doors (teal against pink) and different animal heads: step 2 has little to go on |
+| 6 | 8/67 = 12% | step 1 | The two originals are near copies (the same figure; only the pigtails and the arrow differ), so the pixel check sometimes picks the other door as the crop's own original |
+
+The two worst are errors in the data, not in the method: restroom 60's originals are in each other's gender folders, and restroom 20's crops were not cut from its originals. They pull the training-episode mean down by about two points. The real weaknesses are step 2 on doors that share no colour or style, and step 1 when the two doors of a restroom are near copies.
 
 ## The layer experiment (`ml/restroom/layers.py`, Kaggle Tesla T4)
 
@@ -156,6 +250,14 @@ Features read out after every block or stage on the 82 training restrooms: CLIP'
 
 **The middle of the network knows the restroom; the end of the network knows the gender.** Gender is the information that pulls same-gender signs together and the two doors apart, so CLIP's final embedding is worse at pairing than its middle blocks. That is also why fine-tuning the last blocks helps pairing and hurts gender. All numbers: `ml/results/restroom/layer_probe.json`.
 
+### Where gender fails, by style (task C-28, `ml/restroom/style_clusters.py`)
+
+K-means on the CLIP embeddings of the 164 training originals, with the rule for k fixed in advance (k = 2–8, best cosine silhouette or the smallest k within 0.01), picks **k = 2**. The silhouettes are all low (0.06–0.14), so the signs do not fall into clear style groups.
+
+- **Errors do not concentrate in a cluster.** Zero-shot gender is right on 86/113 = 0.76 (0.67–0.84) signs of cluster 0 and 40/51 = 0.78 (0.65–0.89) of cluster 1, against 0.77 overall; the intervals overlap.
+- **A lead, not a result:** on the PCA plot (`figs/style_clusters_pca.png`) the wrongly gendered signs sit mostly in the lower half of the second principal direction: 51/79 = 0.65 right there against 75/85 = 0.88 above (Fisher p = 0.0004). This split was noticed on the plot after the fact, so it needs a check on new signs before anyone builds on it.
+- Examples per cluster: `figs/style_clusters_examples.png`.
+
 ## Figures for the slides (`ml/results/restroom/figs/`)
 
 - `approaches.png`: the approach ladder, from the IOAI baseline to the final pipeline.
@@ -183,10 +285,24 @@ Study card for the defense: [ml/restroom/STUDY-CARD.md](../ml/restroom/STUDY-CAR
 
 - **The fine-tuning runs (R0–R6) keep their rule.** The champion is the run with the highest validation accuracy, then the highest gender accuracy: **R3**. That rule was fixed before the runs and is not changed because of any test number.
 - **The matching method is chosen separately: the two-step pipeline, row R7.** It was chosen on 200 training episodes of 30 restrooms (0.960 ± 0.041 with the global assignment; 0.917 ± 0.051 for the greedy variant that scores one query at a time) and then on validation (10/10, tied with R2–R4). Its test score, 30/30, was read once, after the choice. Under the run rule R7 cannot be champion: it has no gender model, so its gender accuracy is empty, and the tie-break goes to R3. Giving it a gender number from another model would mix two models in one row.
-- **What the app serves today is neither.** `/restroom/match` in the API ranks the gallery by zero-shot CLIP ViT-B/32 similarity and takes the most similar sign of the opposite predicted gender (0.47 on test, `gender_filter_zeroshot` in R1). So the export writes `served: null` with a note. It becomes `"R7"` in the pull request that makes the API run the pipeline (task C-8).
+- **What the app serves: R7, one query at a time (task C-8).** Until C-8, `/restroom/match` took the most similar sign of the opposite predicted gender (0.47 on test, `gender_filter_zeroshot` in R1). Now `api/restroom_pipeline.py` runs the two-step pipeline per query (`sift_combo_per_query`, 0.929 ± 0.040 on training episodes), so the export writes `served: "R7"`. Checked through the live endpoint: 10/10 on validation, and 12/12 on the web app's twelve real sample signs, where the query is a whole sign that is not in the gallery. The own-original threshold (aligned correlation ≥ 0.95) was chosen on the training crops only.
 - 30/30 is strong but small: one test query is 0.033, and the 95% interval for 30/30 runs from about 0.88 to 1.0.
 
 ## How it feeds the app
+
+**Live demo on the IOAI data:** `python ml/restroom/demo.py` opens a local Gradio page where you pick a query crop from the validation or test set and the pipeline finds its pair step by step. It runs the same code as `pipeline.py` and reproduces its stored answers (10/10 validation, 30/30 test). On the website, the **IOAI pairs** page (`/app/restrooms/ioai`) shows the same step-by-step result for every validation and test query, from answers stored by `ml/restroom/export_pairs.py` with the IOAI images (CC-BY-4.0, resized). One test restroom (gallery 10 and 47, query 14) is not shown, because its signs carry offensive words; it is still counted in every metric (`HIDDEN` in `export_pairs.py`). The page also has the **training set**: all 164 crops against all 164 originals, one query at a time (the global assignment cannot run there, because each restroom gives two queries), 147/164 right against 80/164 for zero-shot CLIP; optimistic, because the step-2 weight was chosen on these restrooms. Two training restrooms are not shown: 18 (photos of real people with their faces) and 59 (nude figures). On **Compare and Match**, "Choose a sample" now also lists these 238 IOAI signs (`ml/restroom/export_catalogue.py`); with the mock provider their gender, confidence and similarity are real zero-shot CLIP outputs computed on the original images. The test genders were labelled by eye (`test_gallery_labels.csv`; four signs marked unsure, which does not change any pair).
+**Match on any IOAI sign (`ml/restroom/export_match.py`).** For each catalogue sign as a whole-sign query, a gallery from its own IOAI set (its true partner plus up to 58 others, seeded; at most 59, the API's limit) and the pick of each model. Share of queries whose pick is the true partner:
+
+| Model | Validation (20) | Test (58) | Training (160) |
+|---|---|---|---|
+| R1 zero-shot CLIP, most similar | 0.95 | 0.97 | 0.85 |
+| R6 gender filter (the API before C-8) | 0.70 | 0.60 | 0.54 |
+| R4 fine-tuned CLIP, last 6 blocks (trained on the training restrooms: memorised there) | 1.00 | 1.00 | 1.00 |
+| Colour histogram only | 0.90 | 0.95 | 0.82 |
+| R7 two-step pipeline (served) | 1.00 | 1.00 | 0.93 |
+
+The Match page shows these picks side by side for the chosen sign, and the mock provider answers IOAI signs with R7's pick. On whole signs R4 is perfect on validation and test as well; it was trained on exactly this task (one door against the other), while the pipeline is built for the IOAI crop task. Worth a follow-up: serve R4 for whole-sign queries.
+
 
 `ml/restroom/export_results.py` writes `web/data/restroom-experiments.json` for the model page: the run rows R0–R4, R6 and R7 (R5 cut), the champion by the run rule (R3), `served` (null for now, see above), a `pipeline` block with every approach from `pipeline.py` (validation, test, training-episode mean and spread), and a `layers` table with one row per backbone and number of trained blocks or stages from `layers.csv`. The table shows the rows today; the pipeline card and the layer table on the page are task W-25 (Tair).
 
@@ -196,6 +312,7 @@ The signage rules (RULES.md, part 2) use the gender confidence and the similarit
 
 ## Limits to state
 
+- **Changed crops (task C-24, `ml/restroom/robustness.py`, `figs/robustness.png`).** Step 1 with SIFT and the pixel check stays at 0.93 or more under a 10° turn, blur, 60 % brightness, JPEG quality 30 and half size, but drops to 0.82 for a 30° turn, the most damaging change for the chosen scorer (clean 0.98). CLIP alone suffers most from blur (0.41) and the 30° turn (0.47), and the colour histogram collapses on darker images (0.14): colour is not safe on its own; step 1 does not use it, and in step 2 it has a weight of 0.3 (chosen on training episodes, not for this reason). Measured on the 164 training crops against clean originals; real photos combine these changes.
 - Very small data: 82 training restrooms, 10 validation and 30 test queries.
 - Most icons come from stock photos; some carry watermarks. Unusual or local designs may be misread.
 - Two classes only. Accessible and all-gender restrooms are not in the data.

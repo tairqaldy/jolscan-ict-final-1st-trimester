@@ -67,10 +67,11 @@ export type MatchResult = {
   latencyMs: number;
   query: SignPrediction;
   candidates: MatchCandidate[]; // sorted, most similar first
-  bestMatchId: string | null; // most similar candidate of the opposite gender
+  bestMatchId: string | null; // mock: most similar of the opposite gender; local/cloud: the two-step pipeline's pick
 };
 
-export type SignageVerdict = "clear" | "review" | "confusing";
+/** Pair: one design set and the doors read as different genders (rules S2 and S3). Otherwise not a pair. */
+export type SignageVerdict = "pair" | "not_pair";
 export type SignageRuleHit = { ruleId: string; title: string; detail: string; passed: boolean };
 
 /** Pairwise reading of the two signs (RULES.md part 2): the sign with the higher P(male) is the men's door. */
@@ -81,13 +82,14 @@ export type SignageAnalysis = CompareResult & {
   createdAt: string;
   verdict: SignageVerdict;
   ruleHits: SignageRuleHit[];
-  recommendedAction: string;
+  /** One line: why the pair is or is not a pair. */
+  reason: string;
   /** Optional so checks saved before the pairwise rules still load; recompute with assignDoors(a, b). */
   doors?: SignageDoors;
 };
 
 export const GENDERS: Gender[] = ["male", "female"];
-export const VERDICTS: SignageVerdict[] = ["clear", "review", "confusing"];
+export const VERDICTS: SignageVerdict[] = ["pair", "not_pair"];
 
 // ---------------------------------------------------------------------------
 // Web-only additions (not part of the model-service contract)

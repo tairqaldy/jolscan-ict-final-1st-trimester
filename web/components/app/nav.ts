@@ -5,6 +5,7 @@ import {
   FlaskConical,
   GitCompareArrows,
   House,
+  Images,
   LayoutDashboard,
   Map as MapIcon,
   ScanSearch,
@@ -45,6 +46,7 @@ export const MODULE_NAV: Record<ModuleId, NavItem[]> = {
     { href: MODULES.restrooms.href, label: "Overview", icon: LayoutDashboard, exact: true, mobile: true, also: ["/app/restrooms/checks"] },
     { href: "/app/restrooms/compare", label: "Compare", icon: GitCompareArrows, mobile: true },
     { href: "/app/restrooms/match", label: "Match", icon: Search, mobile: true },
+    { href: "/app/restrooms/ioai", label: "IOAI pairs", icon: Images },
     { href: "/app/restrooms/rules", label: "Rules", icon: SlidersHorizontal },
   ],
 };

@@ -37,7 +37,7 @@ export const DEMO_PATH: DemoStep[] = [
   },
   {
     title: "Restrooms: matching pair",
-    note: "One set, two genders: the verdict is clear.",
+    note: "One set, two genders: the verdict is Pair.",
     href: compareHref("matching"),
   },
   {

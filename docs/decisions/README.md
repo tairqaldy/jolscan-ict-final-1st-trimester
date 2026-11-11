@@ -16,3 +16,4 @@ Write one when you pick a dataset, a model, a metric or a threshold, change a co
 | [0008](0008-api-python-312.md) | Python 3.12 for the API environment | 2026-11-11 | Accepted by Tair (lead) |
 | [0009](0009-m0-e8-policy.md) | Finalize M-0 E8 settings independently of champion selection | 2026-11-11 | Amina; pre-run team confirmation |
 | [0010](0010-deploy-on-go-ahead.md) | Production deploys only on Tair's go-ahead; pushes no longer deploy | 2026-11-11 | Tair |
+| [0011](0011-visual-direction.md) | Visual direction: stone and asphalt tokens, road-sign amber, Overpass and JetBrains Mono, plus a high-contrast theme | 2026-11-11 | Dameli (design lane) |

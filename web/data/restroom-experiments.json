@@ -1,5 +1,5 @@
 {
-  "_comment": "Schema: RestroomExperimentsFile in docs/ARCHITECTURE.md section 2b. Written by ml/restroom/export_results.py from ml/results/restroom/runs/*.json, pipeline.json (row R7 and `pipeline`) and layers.csv (`layers`). Rows with isReal false are placeholders with null metrics ('not run yet'). `served` names the row the app's Match runs; null until the API runs the pipeline. `reference` holds the numbers published by the IOAI committee on their test set (Leaderboard B); they are not our runs.",
+  "_comment": "Schema: RestroomExperimentsFile in docs/ARCHITECTURE.md section 2b. Written by ml/restroom/export_results.py from ml/results/restroom/runs/*.json, pipeline.json (row R7 and `pipeline`) and layers.csv (`layers`). Rows with isReal false are placeholders with null metrics ('not run yet'). `served` names the row the app's Match runs (R7, one query at a time). `reference` holds the numbers published by the IOAI committee on their test set (Leaderboard B); they are not our runs.",
   "isMock": false,
   "champion": "R3",
   "reference": {
@@ -79,11 +79,11 @@
       "device": "Apple M4 CPU"
     }
   ],
-  "served": null,
-  "servedNote": "The app's /restroom/match does not run the two-step pipeline yet: it ranks the gallery by zero-shot CLIP ViT-B/32 similarity and picks the most similar sign of the opposite predicted gender (0.47 on test, `gender_filter_zeroshot` in R1). `served` becomes \"R7\" when the API runs the pipeline (task C-8).",
+  "served": "R7",
+  "servedNote": "The app's /restroom/match runs R7, the two-step pipeline, one query at a time (api/restroom_pipeline.py, task C-8): step 1 argmax and step 2 argmax, no assignment across queries. That variant scores 0.929 +/- 0.040 on 200 training episodes, 10/10 on validation and 30/30 on test (ml/results/restroom/pipeline_per_query.json); R7's row shows the global assignment.",
   "pipeline": {
     "champion": "sift_combo_hungarian",
-    "served": null,
+    "served": "sift_combo_per_query",
     "selection": "highest mean train-episode top-1, then validation top-1, then the simpler row; test read once",
     "trainEpisodesProtocol": "200 episodes of 30 training restrooms, random query gender, gallery = their 60 originals",
     "approaches": [
