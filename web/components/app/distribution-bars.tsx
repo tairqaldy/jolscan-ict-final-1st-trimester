@@ -36,9 +36,9 @@ export function DistributionBars({ items, unit = "items" }: { items: Distributio
               <Icon className="size-4" aria-hidden />
               {item.label}
             </span>
-            <span className="h-3 overflow-hidden rounded-xs bg-surface-2">
+            <span className="h-3 overflow-hidden rounded-sm bg-surface-2">
               <motion.span
-                className={`block h-full origin-left rounded-xs ${item.solidClass}`}
+                className={`block h-full origin-left rounded-sm ${item.solidClass}`}
                 style={{ width: `${(item.count / max) * 100}%` }}
                 initial={reduce || !hydrated ? false : { scaleX: 0 }}
                 animate={{ scaleX: 1 }}

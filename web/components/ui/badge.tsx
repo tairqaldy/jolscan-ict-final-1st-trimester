@@ -73,5 +73,5 @@ export function ReviewBadge({ children = "Review", className }: { children?: Rea
 
 /** A small coloured square + label, for legends. */
 export function SeverityDot({ severity, className }: { severity: Severity; className?: string }) {
-  return <span aria-hidden className={cn("inline-block size-2.5 shrink-0 rounded-xs", SEVERITY_CLASSES[severity].solid, className)} />;
+  return <span aria-hidden className={cn("inline-block size-2.5 shrink-0 rounded-sm", SEVERITY_CLASSES[severity].solid, className)} />;
 }

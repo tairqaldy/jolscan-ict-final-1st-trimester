@@ -60,10 +60,10 @@ export function AnalysisView({ analysis, title }: { analysis: StoredAnalysis; ti
           />
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted">
             <span className="inline-flex items-center gap-1.5">
-              <span aria-hidden className="inline-block h-2.5 w-4 rounded-xs border-2 border-box" /> counted
+              <span aria-hidden className="inline-block h-2.5 w-4 rounded-sm border-2 border-box" /> counted
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <span aria-hidden className="inline-block h-2.5 w-4 rounded-xs border-2 border-dashed border-box-review" /> needs review
+              <span aria-hidden className="inline-block h-2.5 w-4 rounded-sm border-2 border-dashed border-box-review" /> needs review
             </span>
             <span>Hover a box or a row to match them.</span>
           </div>
