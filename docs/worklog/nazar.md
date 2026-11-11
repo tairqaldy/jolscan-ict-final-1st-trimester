@@ -24,6 +24,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **AI use:** Claude Code (Claude Opus 5.5); entry in `docs/AI-USAGE-LOG.md`.
 - **Open questions / next:** tell the team that `SignageAnalysis` changed (`verdict` values and `reason` instead of `recommendedAction`, ARCHITECTURE.md).
 
+### 2026-11-11 19:30 · Restroom follow-ups · IOAI training set, every IOAI sign as a sample, Match comparison
+- **Status:** done, in the PR from `restroom/ioai-train-set`.
+- **What I did:** The IOAI pairs page shows the training set too (164 crops, one query at a time, 147/164). Compare and Match can pick any of the 238 IOAI signs (validation, test, training) with real zero-shot CLIP outputs (`export_catalogue.py`). Match gives each IOAI sign a gallery from its own set with its true partner (`export_match.py`), shows the best pair on the right, and compares what each of our models picks.
+- **Result:** The "best" sign on Match was wrong before because the gallery did not contain the true partner; with per-sign galleries the served pipeline finds it. Training restroom 30 (the deer) stays wrong for R7 and zero-shot CLIP; only R4, which trained on it, finds it.
+- **Decisions and why:** Restrooms 18 (photos of people with faces) and 59 (nude figures) are hidden, as the repository rules require. Validation and test genders were labelled by eye; four test signs are marked unsure.
+- **What I learned / can explain at the defense:** Why a gallery without the true partner makes any model look wrong, and why a model's score on the restrooms it trained on is not evidence.
+- **AI use:** Claude Code (Claude Opus 5.5); entries in `docs/AI-USAGE-LOG.md`.
+- **Open questions / next:** none.
+
 ### 2026-11-11 · C-27 (#208), C-26 (#207), C-25 (#206), C-28 (#209), C-24 (#205) · Signage checks and error analysis
 - **Status:** done locally, not merged.
 - **What I did:** signage threshold curves; the signage rules on the 10 validation restrooms; the hardest training restrooms; sign-style clusters; step 1 under rotated, blurred, darker and smaller crops.
