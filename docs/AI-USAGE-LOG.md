@@ -516,3 +516,12 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - The claim that `chart-3` and `chart-4` are unused was checked by searching the web code.
   - The visual check in Chrome DevTools is still for me to do.
 - **What I rejected or corrected:** a first draft said the analytics page "uses only chart-1 and chart-2"; it now says no chart uses `chart-3` or `chart-4`, which is what the search showed. No token was changed without Tair.
+
+### 11 November 2026, Dameli (G-42 anti-slop checklist)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** turn the team's design rules into searchable checks and audit `main` once.
+- **Key prompt(s), with a link to the transcript:** "do all of these, deadline is too close". Transcript kept locally.
+- **What it produced or changed:** `docs/design/ANTI-SLOP.md` and one line in `.github/pull_request_template.md`.
+- **How I verified it, and who verified it:** every check was run on `main` on 11 November; both percentages were traced to their source lines; the looping components were opened to confirm the intervals.
+- **What I rejected or corrected:** did not count the Demo badge as slop (it is the honesty rule); did not change any component here; the fixes belong to G-23, G-49 and G-54.
