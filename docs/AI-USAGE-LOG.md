@@ -31,6 +31,32 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **Verification:** 30 API tests passed without model packages or weights, and compileall passed. Alizhan has not yet personally reviewed this entry.
 - **Limits:** Fake-model tests check API behavior and do not measure detection accuracy.
 
+### 11 November 2026, Alizhan (S-16, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Add API tests to GitHub Actions and verify that an intentionally failing test causes a red check.
+- **Key prompts:** "тогда начни выполнять таски, которые можно сделать сейчас" and "мне нужно, чтобы ты выполнил таски, потому что ишшьюс будет ревьюить Таир". The full transcript is not exported here.
+- **What it produced:** Python CI steps and S-16 task and worklog updates.
+- **Verification:** GitHub Actions run 42901513219 showed 30 passing tests and one intentional failure, and the temporary test was removed. The normal run's result is available in the PR checks. Alizhan has not personally reviewed this draft.
+- **Limits:** Only lightweight fake-model tests run; this does not validate actual YOLO or CLIP inference.
+
+### 11 November 2026, Alizhan (S-23, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Pin the API's direct dependencies and test a compatible Python version.
+- **Key prompt:** "покажи мне саму шпаргалку и продолжай выполнять остальные таски, которые назначены мне". Full transcript is not exported here.
+- **What it produced:** Direct dependency pins, Python 3.12 alignment, a proposed decision record, README and worklog.
+- **Verification:** A fresh Windows Python 3.12 environment and a clean Linux Python 3.12 Actions job installed the pins and passed 30 API tests. Windows Uvicorn `/health` returned 200; Linux used TestClient. Alizhan has not yet personally reviewed this entry.
+- **Limits:** The Docker image was not built, real models were not tested in the new environment, and Tair and Nazar have not yet approved the version choice.
+
+### 11 November 2026, Amina (M-1, in progress)
+
+- **Tool and version:** Copilot SDK in VS Code; the version was not exposed in this session.
+- **Purpose:** Prepare the M-1 trainer and a reproducible Colab one-epoch smoke workflow.
+- **Key prompt(s), with a link to the transcript:** "Work on M-1 (#50): make train.py run end to end with a one-epoch smoke test" and "Назначила #50 на omodotori, перепроверь и продолжай M-1 по правилам проекта." A later clarification chose `validation_only` when asked how to resolve the test-split conflict. No transcript link is available.
+- **What it produced or changed:** Updated `ml/train.py`, added isolated tests and `ml/colab_runner.ipynb`, documented the validation-only policy, and corrected the notebook to use the repository's explicit `mlflow.db` tracking URI with safe handling for a missing experiment or empty results.
+- **How I verified it, and who verified it:** Three `python -m unittest ml.test_train` tests and `python -m compileall -q ml api` passed; notebook JSON and code cells were validated locally. Amina supplied the completed Colab smoke evidence. The tool verified the ZIP integrity and inspected the actual JSON/CSV; the JSON records one epoch, Tesla T4, the expected trainer commit and validation-only metrics. The reported MLflow run ID/status came from Amina's execution report; the tool did not independently access the Colab tracking database.
+- **What I rejected or corrected:** Did not evaluate test in smoke, add a fabricated `test_map50`, rerun training, claim the full E0 baseline complete, or commit a dataset archive or weights. The issue's current test-metric acceptance check remains unresolved.
 
 ### 10 November 2026, Alizhan (S-1, AI-assisted; personal review pending)
 
@@ -178,3 +204,58 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How I verified it, and who verified it:** Compared the JSON's full-precision thresholds with the configured percentage units and ran the existing rules tests, including exact threshold-boundary tests. The supplied clustering results and PNG were not recomputed.
 - **What I rejected or corrected:** Kept normalized fraction versus percentage units explicit, used only the training split, and did not treat the size bands as physical measurements or calibrated repair severity. D-6 remains separate; no split change or model training was done.
 - **C-12 (Nazar's prompt: "do C-12"):** the tool extended `export_results.py` with row R7 (the two-step pipeline), the `pipeline` block and the `layers` table, and documented the two selection rules. **Corrected against the issue:** issue #37 asked for `served: "R7"`, but the tool read `api/restroom.py` and found that `/restroom/match` does not run the pipeline (it uses CLIP similarity and a gender filter), so it wrote `served: null` with a note instead of a claim that is not true yet. It also removed a lecture reference it had added without checking it against the course PDFs.
+
+### 11 November 2026, Tair (D-14 dataset rebuild script)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** commit code that rebuilds the frozen `potholes_yolo_v1` export, whose Colab cells were never committed.
+- **Key prompt(s), with a link to the transcript:** "work on completing tasks for ML for potholes"; the tool chose D-14 from the board. Transcript kept locally.
+- **What it produced or changed:** `data/make_potholes_yolo_v1.py` and the D-14 paragraph in `data/README.md`.
+- **How I verified it, and who verified it:** ran the script on the Kaggle download; it re-derived the split and matched every image's SHA-256, split and object count in the committed manifest (465/100/100 images, 1,198/305/236 boxes).
+- **What I rejected or corrected:** the label number format of the original Colab export is unknown, so the README says label files may differ in the last digits.
+
+### 11 November 2026, Tair (D-1 dataset card, M-20 export fields)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** fill the dataset card from the real source and stop the model page from showing "To be added" placeholders.
+- **Key prompt(s), with a link to the transcript:** "work on completing tasks for ML for potholes". Transcript kept locally.
+- **What it produced or changed:** the dataset card in `data/README.md`, two lines in `docs/ML-EXPERIMENT.md`, the metadata in `ml/export_results.py`, the `ExperimentsFile` type in `docs/ARCHITECTURE.md`.
+- **How I verified it, and who verified it:** the licence and author were read from Kaggle's dataset data on 11 November 2026; the 665 image hashes were compared with the manifest by `data/make_potholes_yolo_v1.py`; a test export with a temporary run file produced the expected JSON, and the temporary files were deleted.
+- **What I rejected or corrected:** did not call the photos licence-clean: three carry stock watermarks.
+
+### 11 November 2026, Tair (W-11 Part A, model page)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** make the model page follow the selection rule in docs/ML-EXPERIMENT.md and read every field `ml/export_results.py` writes.
+- **Key prompt(s), with a link to the transcript:** "Implement W-11 (#109) Part A" with the changes since the issue was written (M-20's dataset block and `device` field, a loader test, a chart that works with one run). Transcript kept locally.
+- **What it produced or changed:** `web/lib/mock/experiments.ts` (nullable fields, export fields, chart title), `web/lib/mock/experiments.test.ts`, `web/data/experiments.json` (placeholder, still `isMock: true`), `web/app/app/model/page.tsx`, `web/components/charts/model-comparison.tsx`, a null-safe fix in `web/app/page.tsx`.
+- **How I verified it, and who verified it:** `pnpm lint`, typecheck and `vitest run` in `web/`; the loader test uses an object shaped like the ExperimentsFile type in ARCHITECTURE section 2. Tair to check the page in the browser after the real export (Part B).
+- **What I rejected or corrected:** the issue asked to move the dataset card into `web/lib/credits.ts`; since M-20 the export writes the dataset block, so the card keeps reading it from the results file. Placeholder latency and device are null instead of invented values.
+
+### 11 November 2026, Tair (M-3 E0 baseline, M-12 first export)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** train the late E0 baseline and put its real numbers on the model page.
+- **Key prompt(s), with a link to the transcript:** "work on completing tasks for ML for potholes ... and making non-demo working example". Transcript kept locally.
+- **What it produced or changed:** the `--device` option in `ml/train.py`, the run files `ml/results/runs/E0.json` and `E0-results.csv` (written by the script), and the export output `ml/results/experiments.csv` and `web/data/experiments.json` (written by the script).
+- **How I verified it, and who verified it:** the numbers are copied by the scripts from Ultralytics' own evaluation; the test split was evaluated once, after training; the export picked E0 by the selection rule.
+- **What I rejected or corrected:** the result file's device used to say "cpu" for any non-CUDA run, which would have been wrong for the M5 GPU; it now records the real device.
+
+### 11 November 2026, Tair (W-28 demo badges, W-21 stale copy)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** make every demo badge follow the data on screen, and remove stale placeholder copy from the site.
+- **Key prompt(s), with a link to the transcript:** "implement W-28 (#132) and W-21 (#103) in one pull request; never present demo numbers as real". Transcript kept locally.
+- **What it produced or changed:** `web/components/app/demo-badge.tsx` (the rule in its comment), `web/components/app/mock-provider-badge.tsx`, `show` on the badges of every seeded-history page, 'Mock result' badges in `analysis-view.tsx` and `compare-result.tsx`, `web/lib/demo-badges.test.ts`; copy fixes in `web/lib/credits.ts`, About, footer, landing and Settings; comments in the mock data files; `web/README.md`.
+- **How I verified it, and who verified it:** `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` in `web/`; the new test was run once against the old reports page and failed, as it should. The dataset facts were copied from the D-1 card in `data/README.md` and the split manifest, not typed from memory. Tair still has to look at the pages in the browser after the merge.
+- **What I rejected or corrected:** did not delete any demo label to make the grep clean; did not write a team AI statement that members have not confirmed (W-14); did not touch the design tokens or the design page text (G-3, Dameli).
+
+### 11 November 2026, Tair (M-13 deck plots)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** figures for the results slides, generated from committed files.
+- **Key prompt(s), with a link to the transcript:** "work on completing tasks for ML for potholes ... grill yourself and improve". Transcript kept locally.
+- **What it produced or changed:** `ml/plots.py`, four PNGs in `ml/results/`, the plots section of `ml/README.md`.
+- **How I verified it, and who verified it:** opened every figure; checked that the confusion matrix at 0.40 reproduces recall 0.678 and precision 0.874 from `E0.json`.
+- **What I rejected or corrected:** the first version used Ultralytics' default confusion matrix (confidence 0.001, 2,374 false alarms) and had a legend over a bar label; both were replaced.
+

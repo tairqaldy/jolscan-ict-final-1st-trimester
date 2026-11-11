@@ -2,6 +2,7 @@
 
 import { ArrowLeftRight, Clock, Cpu, MapPin, Timer } from "lucide-react";
 import { useMemo, type ReactNode } from "react";
+import { DemoBadge } from "@/components/app/demo-badge";
 import { PROVIDER_META } from "@/components/app/provider-badge";
 import { Badge } from "@/components/ui/badge";
 import { Callout } from "@/components/ui/callout";
@@ -106,7 +107,10 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
             )}
             <dl className="grid grid-cols-2 gap-x-4 gap-y-3 border-t border-border pt-4 text-sm">
               <Meta icon={Cpu} label="Provider">
-                {PROVIDER_META[check.provider].label}
+                <span className="inline-flex flex-wrap items-center gap-1.5">
+                  {PROVIDER_META[check.provider].label}
+                  <DemoBadge show={check.provider === "mock"} label="Mock result" />
+                </span>
               </Meta>
               <Meta icon={Cpu} label="Model">
                 <span className="font-mono text-xs break-all">{check.model}</span>
