@@ -717,3 +717,20 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How I verified it, and who verified it:** rendered every slide and looked at it; the build still stops on any number that differs from its file and on text under 14 pt; `ml/check_results.py` passes. Dameli checks the response table.
 - **What I rejected or corrected:** the highlight on slide 8 stays partial, because highlighting one restroom run would decide the headline that Nazar has not confirmed.
 
+### 11 November 2026, Dameli (G-61 rule hit variants)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright and Pillow in a throwaway environment.
+- **Purpose:** try three ways to show a rule hit in the landing section "Rules you can read", compare them, keep one.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков". Transcript kept locally.
+- **What it produced or changed:**
+  - `web/components/landing/rule-hit-card.tsx` and `web/lib/landing-rule-hits.ts` with a test; the section in `web/app/page.tsx` uses the new card.
+  - Four comparison sheets in `docs/design/rule-hit-g61/`.
+  - A temporary comparison page that was deleted again.
+- **How I verified it, and who verified it:**
+  - lint, typecheck, all 152 tests and `pnpm build` pass.
+  - Playwright on port 3110 read the marked values from the landing section in both themes and at both widths: ×1.5, 0.20 and 0.10.
+  - The built `index.html` contains the same marks.
+  - I looked at the sheets and picked B.
+- **What I rejected or corrected:**
+  - The first sign images in C were cropped by a height limit, and the lane label covered a box at 375 px; both were fixed before comparing, so C was judged at its best.
+  - A rewritten sentence for the cards was not used. The cards show the engine's own sentence and only mark tokens in it, so no copy or meaning changed.
