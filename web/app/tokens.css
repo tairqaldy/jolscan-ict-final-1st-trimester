@@ -391,6 +391,10 @@
   --text-5xl: 4rem;
   --text-5xl--line-height: 4rem;
 
+  /* Eyebrow labels (G-23): the one letter spacing for the `eyebrow` utility
+     in globals.css. No hand-written letter spacing in class names. */
+  --tracking-eyebrow: 0.14em;
+
   /* Spacing: Tailwind multiplies this base (p-4 = 1rem). */
   --spacing: 0.25rem;
 

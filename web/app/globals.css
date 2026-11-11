@@ -91,6 +91,16 @@
   padding-inline: clamp(1.25rem, 3vw, 3.5rem);
 }
 
+/* One eyebrow label (G-23): the small uppercase label above a heading or a
+   value. Colour stays on the element (text-muted, text-accent-ink, text-subtle). */
+@utility eyebrow {
+  font-size: var(--text-xs);
+  line-height: var(--text-xs--line-height);
+  font-weight: 600;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+}
+
 /* Road-marking stripe used as a quiet brand device (dashed centre line). */
 @utility lane-stripe {
   background-image: repeating-linear-gradient(
