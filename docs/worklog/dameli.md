@@ -12,6 +12,22 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 18:19 · G-48 (#282) · Detection box colours checked on the samples
+- **Status:** partial. The six bundled samples are still drawings; D-5 (#43, real test photos) is not merged, so the check on real photos is still to do.
+- **What I did:**
+  - Tried three variants on every sample on `/app/roads/analyze` by injecting CSS into the running page: A the current amber box with a 45% halo, B a white box with an amber tag, C amber with a thicker, darker halo. Screenshots of `s01` to `s06` at 1440 and 375 px in light and dark.
+  - Measured the contrast of the box stroke against the halo-darkened pixels along every box edge, and against flat colours for surfaces the drawings do not have (yellow markings, concrete, wet asphalt).
+  - Applied C with the halo at 65%: `--box-halo` 0.45 to 0.65 in `tokens.css` (and its print copy), halo width 2.4 to 4 times the stroke in the overlay, with a test.
+- **Result:** with the old halo, 6 of 10 boxes dropped to 2.1 to 2.3:1 where they touch a white lane marking; with the pick every box stays at 4.1:1 or more on the samples, and at 3.3:1 or more on pure white and yellow paint. Every box and tag is visible on all six samples in both themes at both widths. `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` and `pnpm build` pass. Numbers and tables in DESIGN-BRIEF.md, "Box colours on real photos (G-48)".
+- **Decisions and why:**
+  - 65%, not the 60% I tested: pure white (an overexposed marking) needs 63% for 3:1, and a darker halo costs nothing on dark asphalt.
+  - Not the white box (B): white already means the hovered or selected box, and the legend shows amber for "counted".
+  - Wider halo: at 375 px the old dark rim was 0.75 px, now 1.6 px.
+  - Box colours did not change, so the G-22 palette check is the same (box / box-review 108.5 normal, 34.2 tritan).
+- **What I learned / can explain at the defense:** a mark on a photo cannot rely on its own colour, because the photo can be any colour; the dark halo gives it a known background. WCAG asks 3:1 for marks that must be seen (non-text contrast). The hardest places were white lane markings, not the darkest sample.
+- **AI use:** Claude Code ran the screenshots and the contrast script and wrote the change (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** run the same check on the D-5 photos when #43 merges, then tick G-48. Two findings for the overlay owner: on `s05` at 375 px tag 3 covers the end of tag 1; review boxes draw solid instead of dashed, because the draw-in animation's `pathLength` overrides the dash pattern.
+
 ### 2026-11-11 18:18 · G-31 (#175) · High-contrast theme
 - **Status:** done
 - **What I did:**
