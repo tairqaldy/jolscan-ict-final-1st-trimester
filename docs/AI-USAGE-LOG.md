@@ -543,3 +543,13 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** `docs/design/chart-style.md`, `docs/design/chart_style_sample.py` and its PNG.
 - **How I verified it, and who verified it:** hex values copied from `web/app/tokens.css`; the sample reads its numbers and the champion from the committed results files, and I opened the image; bars start at zero.
 - **What I rejected or corrected:** did not restyle `ml/plots.py` or `ml/restroom/layers_report.py` myself (the model lanes own them); did not pick a champion by eye.
+
+### 11 November 2026, Tair (defense deck draft: R-20, R-21 and the other slides)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, as a sub-agent of the planning session.
+- **Purpose:** build a first version of all 12 slides and the backups from the committed result files, so every speaker has text and a script tonight.
+- **Key prompt(s), with a link to the transcript:** "и в целом все эти таски надо начать выполнять" (start doing all these tasks); the sub-agent got the slide issues R-20 to R-25, G-13, R-3, R-15 as the spec. Transcript kept locally.
+- **What it produced or changed:** `docs/deck/make_deck.py`, `docs/deck/qarau-defense-deck.pptx`, `docs/deck/SLIDES.md`, `docs/research/deck-sources.md`.
+- **How I verified it, and who verified it:** the build reads every number from the result files and stops if a shown number differs from its file value; I looked at every slide rendered to PNG and ran `ml/check_results.py`. Each speaker still reads their slide aloud with a timer.
+- **What I rejected or corrected:** slide 12 called the live site "demo data"; it now says the model page there is real and only its analyses run on demo data. Numbers that are not in any file (slide 2 statistic, restroom intervals, the R-6 audit) are shown as marked gaps, not filled in.
+
