@@ -22,6 +22,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Alizhan (S-28, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Add a validation-only promotion gate and document the future Level 1 pipeline.
+- **Key prompt:** "сделай таски, которые находятся в issues, by wed 11 nov 23:00(code freeze) и отмечай. делай перепроверку, rebase". This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** Gate CLI, regression tests, CI integration and architecture plan.
+- **How it was verified:** Tests for comparable and incomparable synthetic runs, refusal of smoke and missing metadata, test-metric independence and a real E6/E1 comparison. Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** No test metrics used for selection; no claim that the registry, deployment or Level 1 pipeline already operates automatically.
+
 ### 11 November 2026, Alizhan (S-25, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.
