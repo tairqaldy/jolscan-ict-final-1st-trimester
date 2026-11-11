@@ -10,6 +10,7 @@ import { Callout } from "@/components/ui/callout";
 import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Select } from "@/components/ui/select";
+import { SelectableTile } from "@/components/ui/selectable-tile";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/cn";
 import { makeThumbnail, readImageSize, reencodeWithoutMetadata } from "@/lib/image";
@@ -253,20 +254,11 @@ export function AnalyzeClient() {
             {SAMPLES.map((s) => {
               const selected = source?.kind === "sample" && source.sample.id === s.id;
               return (
-                <button
-                  key={s.id}
-                  type="button"
-                  aria-pressed={selected}
-                  onClick={() => pickSample(s)}
-                  className={cn(
-                    "group overflow-hidden rounded-md border-2 bg-surface text-left transition-colors",
-                    selected ? "border-accent" : "border-border hover:border-border-strong",
-                  )}
-                >
+                <SelectableTile key={s.id} selected={selected} onClick={() => pickSample(s)} className="group overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={s.file} alt="" className="aspect-video w-full object-cover" loading="lazy" />
                   <span className="block px-2 py-1.5 text-xs leading-snug font-medium">{s.title}</span>
-                </button>
+                </SelectableTile>
               );
             })}
           </div>
