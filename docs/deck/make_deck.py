@@ -10,6 +10,7 @@ colours read from web/app/tokens.css.
 
     .venv/bin/python docs/deck/make_deck.py
     .venv/bin/python docs/deck/make_deck.py --preview /tmp/deck-preview   # one .pptx per slide
+    .venv/bin/python docs/deck/make_deck.py --roads-only  # preserve all other existing slide parts/text
 
 Writes
     docs/deck/qarau-defense-deck.pptx   12 slides plus backups; script and Sources in the notes
@@ -36,6 +37,7 @@ import io
 import json
 import logging
 import re
+from zipfile import ZIP_DEFLATED, ZipFile
 from dataclasses import dataclass, field
 from decimal import ROUND_HALF_UP, Decimal
 from fractions import Fraction
@@ -1688,17 +1690,107 @@ def write_sources_md() -> None:
     SOURCES_MD.write_text(new, encoding="utf-8")
 
 
+def save_roads_only(prs, docs: list[SlideDoc], out: Path) -> None:
+    """Update only Roads slide/notes parts and text; reject changed shared resources.
+
+    Full builds can refresh unrelated artifact-derived values (for example slide 10's
+    AI-log count). This mode preserves those independently maintained slide artifacts.
+    It intentionally cannot add/change shared media, relationships, themes or layouts;
+    such a change needs a separately reviewed full rebuild.
+    """
+    global SLIDES_MD, SOURCES_MD
+    required = (out, SLIDES_MD, SOURCES_MD)
+    if not all(path.is_file() for path in required):
+        raise SystemExit("--roads-only requires an existing PPTX, SLIDES.md and source index")
+    buffer = io.BytesIO()
+    prs.save(buffer)
+    selected = {f"ppt/{folder}/{stem}{n}.xml" for n in (5, 6)
+                for folder, stem in (("slides", "slide"), ("notesSlides", "notesSlide"))}
+    slide_part = re.compile(r"ppt/(?:slides/slide|notesSlides/notesSlide)\d+\.xml$")
+    with ZipFile(out) as previous, ZipFile(buffer) as rebuilt:
+        if set(previous.namelist()) != set(rebuilt.namelist()):
+            raise SystemExit("--roads-only cannot change package resources; review a full rebuild")
+        shared_changes = [name for name in previous.namelist()
+                          if not slide_part.fullmatch(name) and previous.read(name) != rebuilt.read(name)]
+        if shared_changes:
+            raise SystemExit("--roads-only cannot change shared resources: " + ", ".join(shared_changes))
+        merged = io.BytesIO()
+        with ZipFile(merged, "w", ZIP_DEFLATED) as result:
+            for info in previous.infolist():
+                result.writestr(info, rebuilt.read(info.filename) if info.filename in selected
+                                else previous.read(info.filename))
+
+    # Generate candidate text in memory, using the normal writers, before changing anything.
+    import tempfile
+    old_slides, old_sources = SLIDES_MD, SOURCES_MD
+    previous_md, previous_sources = old_slides.read_text(encoding="utf-8"), old_sources.read_text(encoding="utf-8")
+    try:
+        with tempfile.TemporaryDirectory() as directory:
+            SLIDES_MD, SOURCES_MD = Path(directory) / "SLIDES.md", Path(directory) / "sources.md"
+            SOURCES_MD.write_text(previous_sources, encoding="utf-8")
+            write_slides_md(docs)
+            write_sources_md()
+            candidate_md = SLIDES_MD.read_text(encoding="utf-8")
+            candidate_sources = SOURCES_MD.read_text(encoding="utf-8")
+    finally:
+        SLIDES_MD, SOURCES_MD = old_slides, old_sources
+
+    def section(text: str, n: int) -> tuple[int, int]:
+        match = re.search(rf"^## Slide {n} .*?(?=^## |\Z)", text, re.M | re.S)
+        if not match:
+            raise SystemExit(f"Missing slide {n} text for scoped generation")
+        return match.span()
+
+    updated = previous_md
+    seconds_delta = 0
+    for n in (5, 6):
+        a, b = section(updated, n)
+        x, y = section(candidate_md, n)
+        updated = updated[:a] + candidate_md[x:y] + updated[b:]
+        row = re.compile(rf"^\| {n} \|.*$", re.M)
+        old_row, new_row = row.search(previous_md), row.search(candidate_md)
+        if not old_row or not new_row:
+            raise SystemExit(f"Missing slide {n} summary row")
+        old_time = re.search(r"(\d+):(\d+) \|$", old_row.group())
+        new_time = re.search(r"(\d+):(\d+) \|$", new_row.group())
+        seconds_delta += (int(new_time[1]) * 60 + int(new_time[2])
+                          - int(old_time[1]) * 60 - int(old_time[2]))
+        updated = row.sub(lambda _: new_row.group(), updated)
+    if seconds_delta:
+        total = re.compile(r"(Estimated total for slides .*?: )(\d+):(\d+)(\.)")
+        updated = total.sub(lambda m: m[1] + mmss(int(m[2]) * 60 + int(m[3]) + seconds_delta) + m[4], updated)
+
+    # Preserve every non-Roads source row and all manual text outside generated markers.
+    source_lines = previous_sources.splitlines(keepends=True)
+    for n in (5, 6):
+        indexes = [i for i, line in enumerate(source_lines) if line.startswith(f"| {n} |")]
+        rows = [line for line in candidate_sources.splitlines(keepends=True) if line.startswith(f"| {n} |")]
+        if not indexes or not rows:
+            raise SystemExit(f"Missing slide {n} source rows")
+        if indexes != list(range(indexes[0], indexes[-1] + 1)):
+            raise SystemExit(f"Non-contiguous slide {n} source rows")
+        source_lines[indexes[0]:indexes[-1] + 1] = rows
+    out.write_bytes(merged.getvalue())
+    old_slides.write_text(updated, encoding="utf-8")
+    old_sources.write_text("".join(source_lines), encoding="utf-8")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.split("\n", 1)[0])
     parser.add_argument("--out", type=Path, default=OUT)
+    parser.add_argument("--roads-only", action="store_true",
+                        help="update only existing slides 5-6, their notes and source rows; preserve all other slides")
     parser.add_argument("--screenshots", type=Path, default=None,
                         help="folder outside the repository with the three slide 9 crops (09-heuristic-*.png)")
     parser.add_argument("--preview", type=Path, help="also write one .pptx per slide into this folder")
     args = parser.parse_args()
     prs, docs = build(args.screenshots)
-    prs.save(args.out)
-    write_slides_md(docs)
-    write_sources_md()
+    if args.roads_only:
+        save_roads_only(prs, docs, args.out)
+    else:
+        prs.save(args.out)
+        write_slides_md(docs)
+        write_sources_md()
     print(f"wrote {args.out.relative_to(ROOT) if args.out.is_relative_to(ROOT) else args.out} ({len(prs.slides)} slides), "
           f"{SLIDES_MD.relative_to(ROOT)}, {SOURCES_MD.relative_to(ROOT)}")
     print(f"{len(R.rows)} numbers checked against their files, {len(R.gaps)} open gaps, no main-slide text under {MIN_PT} pt")
