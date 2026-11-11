@@ -394,3 +394,13 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** the hero action in `web/app/page.tsx`; `web/lib/demo-path.ts`, `web/lib/demo-path.test.ts`, `web/lib/store/demo-path.ts`, `web/components/app/demo-path.tsx` and the card in `web/components/app/platform-overview-client.tsx`; the U1 count in `docs/DESIGN-BRIEF.md`; the variant comparison in the pull request.
 - **How I verified it, and who verified it:** the tool ran the dev server and clicked through in the browser with the Mock provider and bundled samples only: the click count for each landing variant at 1440×900 and 375×812, all seven demo links (each opened with its input selected), Hide surviving a reload, the card height at 1280×720, light and dark. Then `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` in `web/`. Tair still has to look at it and get the timings from two people and from Roma.
 - **What I rejected or corrected:** variant C (two module buttons in the hero); a first card layout that was 362 px tall at 1280×720 (now 295 px), because its notes ran to three lines; step notes with numbers in them (they would go stale when the rules change).
+
+### 11 November 2026, Tair (X-18 public repository safety)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** check the now-public repository for personal data, course material and secrets.
+- **Key prompt(s), with a link to the transcript:** "complete some bare minimum tasks". Transcript kept locally.
+- **What it produced or changed:** the X-18 entries in decision 0006, the digest move, the link updates.
+- **How I verified it, and who verified it:** the searches in the X-18 issue were run on the full history and on all tracked files; secret scanning was checked through the GitHub API (disabled).
+- **What I rejected or corrected:** decision 0006 said secret scanning "now runs"; it does not, so the text now says so.
+

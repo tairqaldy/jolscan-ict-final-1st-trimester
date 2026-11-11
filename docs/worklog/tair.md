@@ -12,6 +12,16 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 11 November 2026 · X-18 (#227) · Public repository safety
+
+- **Status:** checks done; two follow-ups for people
+- **What I did:** searched tracked files for emails and phone numbers (none), searched the full history for secret formats (none), listed the commit emails the history exposes, and moved the two course digests out of the public repository into the team Drive.
+- **Result:** decision 0006 records the email, digest and secret decisions; COURSE-GROUNDING and PRESENTATION point to the Drive copy.
+- **Decisions and why:** no history rewrite (it would break every branch the day before the defense); digests out, because they paraphrase lecture slides page by page.
+- **What I learned / can explain:** what a public repository exposes beyond its files (author emails in history) and why a leaked key must be revoked, not just deleted.
+- **AI use:** Claude Code ran the searches and drafted the decision text (docs/AI-USAGE-LOG.md).
+- **Open questions:** teammates switch to no-reply emails; secret scanning has to be enabled in the repository settings.
+
 ### 2026-11-11 14:05 · C-13 (#38) · Real IOAI door signs in the restroom samples
 - **Status:** done (pull request closing #38)
 - **What I did:** found the two originals of each of the 10 validation restrooms with the issue's SIFT script and the answer file, checked every pair by eye, and picked six restrooms with clearly different designs: glasses and words (v17, v2), triangle figures (v7, v14), yellow plate (v9, v15), painted doors (v5, v1), king and queen (v6, v13), brush strokes (v10, v20). I left out the poster set with legs (v4, v3), the engraved portrait (v8, v11) and the abstract lines whose gender I could not tell by eye (v12, v18). Resized to at most 256 px and saved as WebP (72 KB for all twelve), then sent these exact files to the API (`POST /restroom/compare`, all 66 pairs, model `clip-vitb32-zs`, CPU) and wrote the outputs into `samples.json` with a script, not by hand. Four new presets, the drawings and their preset ids unchanged. Local and cloud Match now send only the non-SVG signs as the gallery (422 only when none is left), with a unit test. `draw-samples.mjs` skips manifest entries that are not SVG. Credits in `lib/credits.ts`, About, the model page, the footer and `web/README.md`; the Match card and the sample picker no longer say every sign is a drawing.
