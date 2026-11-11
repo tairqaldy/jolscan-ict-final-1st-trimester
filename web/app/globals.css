@@ -532,3 +532,77 @@ html[data-motion="reduce"] .app-frame[data-nav-ready] .rail-indicator,
 html[data-motion="reduce"] .app-frame[data-nav-ready] .module-thumb {
   transition: none;
 }
+
+/*
+ * G-6: motion of the UI primitives (components/ui). Durations and easings are
+ * the tokens in tokens.css; each runs once, never loops. Both Reduce motion
+ * paths above (the OS setting and html[data-motion="reduce"]) cut every
+ * animation to 0.01 ms, so the end state shows at once.
+ *
+ * Focus ring: the outline grows out from the edge to its 2 px offset.
+ */
+@keyframes ui-focus-ring-in {
+  from {
+    outline-offset: 0;
+  }
+}
+.focus-ring-in:focus-visible {
+  animation: ui-focus-ring-in var(--duration-fast) var(--ease-standard);
+}
+
+/* Dialog: the overlay fades, the panel grows from 96 %, the bottom sheet slides up. Exit is shorter. */
+@keyframes ui-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes ui-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes ui-panel-in {
+  from {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+@keyframes ui-panel-out {
+  to {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+@keyframes ui-sheet-in {
+  from {
+    translate: 0 100%;
+  }
+}
+@keyframes ui-sheet-out {
+  to {
+    translate: 0 100%;
+  }
+}
+.dialog-overlay[data-state="open"] {
+  animation: ui-fade-in var(--duration-base) var(--ease-standard);
+}
+.dialog-overlay[data-state="closed"] {
+  animation: ui-fade-out var(--duration-fast) var(--ease-exit) forwards;
+}
+.dialog-panel[data-state="open"] {
+  animation: ui-panel-in var(--duration-base) var(--ease-emphasized);
+}
+.dialog-panel[data-state="closed"] {
+  animation: ui-panel-out var(--duration-fast) var(--ease-exit) forwards;
+}
+.dialog-sheet[data-state="open"] {
+  animation: ui-sheet-in var(--duration-base) var(--ease-emphasized);
+}
+.dialog-sheet[data-state="closed"] {
+  animation: ui-sheet-out var(--duration-fast) var(--ease-exit) forwards;
+}
+
+/* Select list: fades in next to its trigger. */
+.popover-in[data-state="open"] {
+  animation: ui-fade-in var(--duration-fast) var(--ease-standard);
+}
