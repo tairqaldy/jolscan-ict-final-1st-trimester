@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotionConfig } from "motion/react";
 import { useEffect, useState } from "react";
 import { GenderTag, SignImage, VerdictBadge } from "@/components/restrooms/signage-bits";
 import { cn } from "@/lib/cn";
@@ -28,7 +28,7 @@ const EXAMPLES = RESTROOM_PRESETS.filter((p) => LANDING_PRESETS.includes(p.id)).
  * under reduced motion.
  */
 export function PairDemo() {
-  const reduce = useReducedMotion();
+  const reduce = useReducedMotionConfig();
   const hydrated = useHydrated();
   const [index, setIndex] = useState(0);
   const [auto, setAuto] = useState(true);

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotionConfig } from "motion/react";
 import { useEffect, useState } from "react";
 import { DetectionOverlay } from "@/components/app/detection-overlay";
 import { SeverityBadge } from "@/components/ui/badge";
@@ -22,7 +22,7 @@ const derived = deriveDetections(sample.detections);
  * replays (WCAG 2.2.2). No replay under reduced motion.
  */
 export function HeroDemo() {
-  const reduce = useReducedMotion();
+  const reduce = useReducedMotionConfig();
   const hydrated = useHydrated();
   const [run, setRun] = useState(0);
   const [paused, setPaused] = useState(false);
