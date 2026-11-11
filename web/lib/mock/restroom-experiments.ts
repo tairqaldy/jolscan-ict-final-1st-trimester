@@ -60,7 +60,7 @@ function normalise(input: unknown): RestroomExperiments {
 
 export const RESTROOM_EXPERIMENTS = normalise(raw);
 
-/** Drives the "Demo data" badges of the restroom module. */
+/** True while data/restroom-experiments.json is a placeholder. Drives the badges on the restroom results only. */
 export const RESTROOM_IS_DEMO = RESTROOM_EXPERIMENTS.isMock;
 
 /** A run with at least one number in it. */

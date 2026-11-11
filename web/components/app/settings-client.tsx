@@ -222,8 +222,6 @@ export function SettingsClient() {
             onValueChange={() => {}}
             options={[
               { value: "en", label: "English" },
-              { value: "ru", label: "Русский", disabled: true, hint: "coming soon" },
-              { value: "kk", label: "Қазақша", disabled: true, hint: "coming soon" },
             ]}
           />
         </CardBody>

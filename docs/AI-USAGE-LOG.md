@@ -195,3 +195,12 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** `web/lib/mock/experiments.ts` (nullable fields, export fields, chart title), `web/lib/mock/experiments.test.ts`, `web/data/experiments.json` (placeholder, still `isMock: true`), `web/app/app/model/page.tsx`, `web/components/charts/model-comparison.tsx`, a null-safe fix in `web/app/page.tsx`.
 - **How I verified it, and who verified it:** `pnpm lint`, typecheck and `vitest run` in `web/`; the loader test uses an object shaped like the ExperimentsFile type in ARCHITECTURE section 2. Tair to check the page in the browser after the real export (Part B).
 - **What I rejected or corrected:** the issue asked to move the dataset card into `web/lib/credits.ts`; since M-20 the export writes the dataset block, so the card keeps reading it from the results file. Placeholder latency and device are null instead of invented values.
+
+### 11 November 2026, Tair (W-28 demo badges, W-21 stale copy)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** make every demo badge follow the data on screen, and remove stale placeholder copy from the site.
+- **Key prompt(s), with a link to the transcript:** "implement W-28 (#132) and W-21 (#103) in one pull request; never present demo numbers as real". Transcript kept locally.
+- **What it produced or changed:** `web/components/app/demo-badge.tsx` (the rule in its comment), `web/components/app/mock-provider-badge.tsx`, `show` on the badges of every seeded-history page, 'Mock result' badges in `analysis-view.tsx` and `compare-result.tsx`, `web/lib/demo-badges.test.ts`; copy fixes in `web/lib/credits.ts`, About, footer, landing and Settings; comments in the mock data files; `web/README.md`.
+- **How I verified it, and who verified it:** `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` in `web/`; the new test was run once against the old reports page and failed, as it should. The dataset facts were copied from the D-1 card in `data/README.md` and the split manifest, not typed from memory. Tair still has to look at the pages in the browser after the merge.
+- **What I rejected or corrected:** did not delete any demo label to make the grep clean; did not write a team AI statement that members have not confirmed (W-14); did not touch the design tokens or the design page text (G-3, Dameli).
