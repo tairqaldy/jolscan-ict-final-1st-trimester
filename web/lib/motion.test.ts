@@ -60,3 +60,20 @@ describe("staged result reveal (G-75)", () => {
     expect(reveal.budget).toBeLessThanOrEqual(0.6);
   });
 });
+
+describe("staggered entries end within the 600 ms budget (motion grill)", () => {
+  const globals = readFileSync(fileURLToPath(new URL("../app/globals.css", import.meta.url)), "utf8");
+
+  it("the CSS step mirrors the JS stagger", () => {
+    expect(ms(cssVar("stagger-step"))).toBeCloseTo(stagger, 5);
+  });
+
+  it(".stagger: the last item's rise ends by reveal.budget", () => {
+    const rules = [...globals.matchAll(/\.stagger > :nth-child\([^)]*\) \{ animation-delay: ([^;]+); \}/g)].map((m) => m[1]);
+    expect(rules.length).toBeGreaterThan(0);
+    const steps = rules.map((v) => (v === "var(--stagger-step)" ? 1 : Number(v.match(/\* (\d+)\)$/)?.[1])));
+    for (const n of steps) expect(Number.isFinite(n)).toBe(true);
+    expect(duration.slow + Math.max(...steps) * stagger).toBeLessThanOrEqual(reveal.budget + 1e-9);
+    expect(globals).toMatch(/\.stagger > :nth-child\(n \+ \d+\)/);
+  });
+});
