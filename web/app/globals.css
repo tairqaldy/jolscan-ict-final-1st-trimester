@@ -171,20 +171,41 @@
   to { transform: translateX(calc(62vw + 7rem)); }
 }
 
-/* Jelly Radio-inspired links: growing padding makes adjacent links move too. */
+/* Jelly Radio-inspired links: a pill grows out from behind the hovered, focused
+   or current link. The pill is a pseudo-element that scales (transform), so the
+   link box keeps its size and its neighbours never move; it reaches 0.25rem past
+   the link on each side, into the gap (motion grill: was a 320 ms padding
+   overshoot that pushed the next links along). */
 .jelly-nav__link {
+  position: relative;
+  isolation: isolate;
   display: block;
   padding: 0.5rem 0.65rem;
   border-radius: var(--radius-full);
-  transition: padding 320ms cubic-bezier(0.2, 1.45, 0.4, 1),
-    background-color var(--duration-fast), color var(--duration-fast);
+  transition: color var(--duration-fast) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1));
+}
+.jelly-nav__link::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0 -0.25rem;
+  border-radius: inherit;
+  background: var(--surface-2);
+  opacity: 0;
+  transform: scaleX(0.88);
+  transition: opacity var(--duration-fast) var(--ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    transform var(--duration-base) var(--ease-emphasized, cubic-bezier(0.3, 0, 0, 1));
 }
 .jelly-nav__link:hover,
 .jelly-nav__link:focus,
 .jelly-nav__link[aria-current] {
-  padding-inline: 1rem;
   color: var(--fg);
-  background: var(--surface-2);
+}
+.jelly-nav__link:hover::before,
+.jelly-nav__link:focus::before,
+.jelly-nav__link[aria-current]::before {
+  opacity: 1;
+  transform: none;
 }
 .public-menu__toggle {
   display: grid;
@@ -324,7 +345,8 @@
     left: 50%;
     transform: translateX(-50%);
   }
-  .jelly-nav__link {
+  .jelly-nav__link,
+  .jelly-nav__link::before {
     transition: none;
   }
 }
@@ -387,7 +409,8 @@ html[data-motion="reduce"] .landing-road__car {
   left: 50%;
   transform: translateX(-50%);
 }
-html[data-motion="reduce"] .jelly-nav__link {
+html[data-motion="reduce"] .jelly-nav__link,
+html[data-motion="reduce"] .jelly-nav__link::before {
   transition: none;
 }
 html[data-motion="reduce"] .demo-loop-control {
