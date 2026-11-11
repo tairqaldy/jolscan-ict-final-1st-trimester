@@ -1105,7 +1105,7 @@ def slide_closing(prs) -> SlideDoc:
                            "docs/research/vlm-evaluation.md") if (ROOT / p).exists()]
     worked = [p for p in ("docs/AI-USAGE-LOG.md", "docs/CONTRIBUTION-LOG.md") if (ROOT / p).exists()]
     links = [("Repository", ["github.com/tairqaldy/qarau-ict-final-1st-trimester"]),
-             ("Live site", ["qarau.vercel.app  (demo data; the real models run on this laptop)"]),
+             ("Live site", ["qarau.vercel.app  (real model page; analyses there run on demo data)"]),
              ("Results", results), ("How we worked", worked)]
     y = Inches(1.95)
     for label, values in links:
@@ -1125,7 +1125,7 @@ def slide_closing(prs) -> SlideDoc:
             "web/lib/rules/, then api/main.py (docs/PRESENTATION.md 'Showing source code').")
     return SlideDoc("12", "Closing", "Tair", "0:10", "Where everything is",
                     ["Repository: github.com/tairqaldy/qarau-ict-final-1st-trimester",
-                     "Live site: qarau.vercel.app (demo data; the real models run on this laptop)",
+                     "Live site: qarau.vercel.app (real model page; analyses there run on demo data)",
                      "Results: " + ", ".join(results), "How we worked: " + ", ".join(worked), real],
                     "Links and the road band from the template", script, cues=cues,
                     extra_sources=["README.md ('Live demo')", "docs/decisions/0006-public-repository.md",

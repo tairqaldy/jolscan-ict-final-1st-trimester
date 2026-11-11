@@ -296,7 +296,7 @@ Times are estimates at 130 words per minute; read each script aloud with a timer
 **On the slide:**
 
 - Repository: github.com/tairqaldy/qarau-ict-final-1st-trimester
-- Live site: qarau.vercel.app (demo data; the real models run on this laptop)
+- Live site: qarau.vercel.app (real model page; analyses there run on demo data)
 - Results: ml/results/experiments.csv, ml/results/restroom/experiments.csv
 - How we worked: docs/AI-USAGE-LOG.md, docs/CONTRIBUTION-LOG.md
 - Real: both analyze flows on this laptop and the model page. Demo data: the overview tiles and charts, marked with a badge.
