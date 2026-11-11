@@ -1,18 +1,18 @@
 # Slide 4 practice: Alizhan (R-21)
 
-The slide and its speaker notes are already in `docs/deck/qarau-defense-deck.pptx`, generated from `docs/deck/make_deck.py` and described in `docs/deck/SLIDES.md`. This sheet helps Alizhan practise; it does not claim a rehearsal has happened.
+The slide and its speaker notes are already in `docs/deck/qarau-defense-deck.pptx`, generated from `docs/deck/make_deck.py` and described in `docs/deck/SLIDES.md`. Alizhan supplied three recordings of practice attempts; their durations were measured from the files.
 
 ## Script in the slide notes
 
 > This is the path of one photo. The browser sends it to our Next.js server, which uses the provider chosen in Settings: mock for offline demo data, local for the model on this laptop, or cloud. Local calls our FastAPI service, where YOLO finds potholes and CLIP reads restroom signs. The detections come back, and the rules run in the web server, so every provider is scored by the same rules. Cloud is opt-in, because road photos can show faces and plates. Amina will show what the roads model learned from.
 
-The deck estimates 42 seconds at 130 words per minute; this is an estimate, not a timed reading. Alizhan: read it aloud three times, record the actual times, and adjust delivery to 35–45 seconds. Do not tick R-21 until the real timings and handover have been checked.
+The deck estimates 42 seconds at 130 words per minute. The three supplied audio files are within the 35–45 second target. File durations include any silence; the recordings' spoken content and handover have not been independently checked in this session. Do not tick R-21 until that check is complete.
 
 | Reading | Actual time | Notes |
 | --- | --- | --- |
-| 1 | Not yet recorded | |
-| 2 | Not yet recorded | |
-| 3 | Not yet recorded | |
+| 1 | 40.98 seconds | File `Запись (2).m4a`, measured duration |
+| 2 | 35.93 seconds | File `Запись (3).m4a`, measured duration |
+| 3 | 35.93 seconds | File `Запись (4).m4a`, measured duration |
 
 ## What the diagram means
 

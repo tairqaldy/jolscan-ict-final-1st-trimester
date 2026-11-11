@@ -28,8 +28,8 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **Purpose:** Verify slide 4 and prepare Alizhan's rehearsal notes.
 - **Key prompt:** "x-7, d-29 r-21 выполни эти три таска". This is an excerpt; no full transcript is available in the repository.
 - **What it produced or changed:** A rehearsal sheet explaining the diagram, script, time estimate and source of the slide's latency.
-- **How it was verified:** Read slide 4 and its speaker notes from the PowerPoint and checked the deck source, API configuration and CSV. No timed human reading has happened in this session.
-- **What was rejected or corrected:** Did not report the estimated duration as a measured rehearsal or confuse R1's 25.7 ms with R3's 26.9 ms.
+- **How it was verified:** Read slide 4 and its speaker notes from the PowerPoint and checked the deck source, API configuration and CSV. Alizhan supplied three audio recordings; their file durations were measured, but the spoken content was not independently checked.
+- **What was rejected or corrected:** Distinguished recorded file durations from verified spoken content, and R1's 25.7 ms from R3's 26.9 ms.
 
 ### 11 November 2026, Alizhan (S-28, AI-assisted; personal review pending)
 
