@@ -1,2 +1,4 @@
 run,changed,precision,recall,map50,map50_95,precisionAtRulesConf,recallAtRulesConf,latencyMs,sizeMb,valMap50,valRecallAtRulesConf,datasetVersion,device
 E0,baseline,0.8667,0.678,0.7992,0.5173,0.8743,0.678,,5.44,0.8235,0.6951,potholes_yolo_v1,Apple M5 GPU (mps)
+E2,no transfer learning: random weights,0.5721,0.4746,0.5302,0.2472,0.7658,0.3602,,5.37,0.4391,0.2918,potholes_yolo_v1,Apple M5 GPU (mps)
+E3,frozen backbone: layers 0-10,0.7908,0.7049,0.7632,0.4843,0.8083,0.661,,5.44,0.7789,0.6459,potholes_yolo_v1,Apple M5 GPU (mps)

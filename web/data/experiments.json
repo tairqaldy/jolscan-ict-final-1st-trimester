@@ -36,6 +36,38 @@
       "valRecallAtRulesConf": 0.6951,
       "datasetVersion": "potholes_yolo_v1",
       "device": "Apple M5 GPU (mps)"
+    },
+    {
+      "run": "E2",
+      "changed": "no transfer learning: random weights",
+      "precision": 0.5721,
+      "recall": 0.4746,
+      "map50": 0.5302,
+      "map50_95": 0.2472,
+      "precisionAtRulesConf": 0.7658,
+      "recallAtRulesConf": 0.3602,
+      "latencyMs": null,
+      "sizeMb": 5.37,
+      "valMap50": 0.4391,
+      "valRecallAtRulesConf": 0.2918,
+      "datasetVersion": "potholes_yolo_v1",
+      "device": "Apple M5 GPU (mps)"
+    },
+    {
+      "run": "E3",
+      "changed": "frozen backbone: layers 0-10",
+      "precision": 0.7908,
+      "recall": 0.7049,
+      "map50": 0.7632,
+      "map50_95": 0.4843,
+      "precisionAtRulesConf": 0.8083,
+      "recallAtRulesConf": 0.661,
+      "latencyMs": null,
+      "sizeMb": 5.44,
+      "valMap50": 0.7789,
+      "valRecallAtRulesConf": 0.6459,
+      "datasetVersion": "potholes_yolo_v1",
+      "device": "Apple M5 GPU (mps)"
     }
   ]
 }
