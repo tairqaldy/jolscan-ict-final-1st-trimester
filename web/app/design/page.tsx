@@ -37,7 +37,7 @@ export default function DesignPage() {
         <h2 className="mt-14 text-2xl font-bold">Components in each theme</h2>
         <div className="mt-6 grid gap-6 xl:grid-cols-2">
           {(["light", "dark", "contrast"] as const).map((t) => (
-            <div key={t} data-theme={t} className="rounded-xl border border-border bg-bg p-4 text-fg sm:p-6">
+            <div key={t} data-theme={t} className="rounded-lg border border-border bg-bg p-4 text-fg sm:p-6">
               <p className="mb-6 inline-flex rounded-sm bg-inverse px-2 py-0.5 font-mono text-xs text-inverse-fg">data-theme=&quot;{t}&quot;</p>
               <ThemedShowcase />
             </div>
