@@ -10,6 +10,15 @@
 
 ## Entries
 
+### 2026-11-12 02:12 · R-26 (#235) · Build the backup slides: one per CLO, then the full tables
+- **Status:** done
+- **What I did:** Built the complete backup slide specifications across [`docs/deck/SLIDES.md`](../deck/SLIDES.md) and [`docs/PRESENTATION.md`](../PRESENTATION.md). Created dedicated backup slides for CLO 5 (methods & metrics), CLO 6 (prototype & verification), and CLO 7 (generative AI evaluation), each directly quoting Syllabus p.3 and citing at least two primary repository evidence files. Added the complete B1–B11 backup slide index and detailed slide specifications with on-slide constraints (≤ 5 lines), speaker cues, and verifiable sources.
+- **Result:** Complete backup slide suite (B1–B11) in `docs/PRESENTATION.md` and `docs/deck/SLIDES.md`, unblocking R-10 (timed rehearsal drills).
+- **Decisions and why:** Directly mapped syllabus criteria quotes to concrete artifacts (e.g. mAP50 selection rule, vitest CI counts, Gemini audit failure cases) so any team member can respond to grading inquiries with a single click.
+- **What I learned / can explain at the defense:** How to defend CLO 5, 6, and 7 with immediate evidence citations and demonstrate project integrity across modeling, software architecture, and AI ethics.
+- **AI use:** Assistant used to draft slide outlines and verify source references across repository files.
+- **Open questions / next:** Run timed mock rehearsals (R-10).
+
 ### 2026-11-12 02:00 · R-41 (#250) · Write where the AI tools were wrong and what caught it
 - **Status:** done
 - **What I did:** Authored the comprehensive evaluation section `## What the AI tools got wrong, and what caught it` in [`docs/AI-USAGE-LOG.md`](../AI-USAGE-LOG.md). Compiled 8 verified failure cases across the project (training script output path crashes, false-alarm severity dominance, IOAI task misinterpretation as classification, single-sign rule failures on pairs, hallucinated box-free road datasets, shifted course digest citations, mismatched exam answers, and Gemini filename leakage). Formulated an evidence-based synthesis table and a three-sentence conclusion citing Lecture 7 (p.64, p.70). Linked findings to Slide 10 in `docs/PRESENTATION.md`.
