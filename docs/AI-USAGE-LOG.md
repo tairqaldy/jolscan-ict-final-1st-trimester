@@ -51,6 +51,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How it was verified:** Tests for comparable and incomparable synthetic runs, refusal of smoke and missing metadata, test-metric independence and a real E6/E1 comparison. Alizhan has not yet personally reviewed the result.
 - **What was rejected or corrected:** No test metrics used for selection; no claim that the registry, deployment or Level 1 pipeline already operates automatically.
 
+### 11 November 2026, Alizhan (S-12, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Add a privacy-conscious prediction monitoring log.
+- **Key prompt:** "сделай таски, которые находятся в issues, by wed 11 nov 23:00(code freeze) и отмечай. делай перепроверку, rebase". This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** Configurable aggregate CSV log, process-local serialization, Git ignore, tests and API documentation.
+- **How it was verified:** API tests with fake models, concurrent writes, privacy and write-error tests, compileall, results check and Git ignore check. Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** After Tair's review, made logging opt-in and kept predictions available on log-write errors. No images or uploaded filenames are logged; no claim that confidence alone diagnoses drift or that the log feeds analytics.
+
 ### 11 November 2026, Alizhan (S-25, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.
@@ -1028,3 +1037,14 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - The first timing ended at exactly 600 ms (617 ms measured); tightened to 540 ms planned.
   - A 4 px shift when the result appeared turned out to come from React reusing the form's grid; fixed with keys rather than hidden.
   - A count-up on the score: it would show numbers that are not the result.
+
+### 11 November 2026, Tair (demo-screen polish: provider line and road class)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with its built-in browser on my local dev server and the local model service.
+- **Purpose:** run the defense flow on `main` after the evening's design merges, and fix what looked wrong on the demo screens.
+- **Key prompt(s), with a link to the transcript:** "we need to iterate on design too ... we need to get it working and polish and improve. u need to keep merging improving and making decisions on your own". Transcript kept locally.
+- **What it produced or changed:** the provider badge and the "… provider." line on Analyze, Compare and Match stay hidden until the saved provider is read, so they no longer say "Mock" for the first moment when Local is chosen; the result card says "Not set (residential)" instead of "Not Set (Residential)".
+- **How I verified it, and who verified it:**
+  - Before the change, on Local with the model service running: `img-300.jpg` gave 4 potholes, Critical, score 17 with `jolscan-e1` (117 ms); two IOAI crops on Compare gave Clear with `clip-vitb32-zs` (101 ms). Both pages first showed "Mock provider" and an empty Road class until the page loaded.
+  - `pnpm typecheck` and eslint on the four files pass; the CI checks on the pull request; the flow again after merging.
+- **What I rejected or corrected:** rendering the provider from a server cookie (a bigger change the night before the defense); hiding the whole card instead of only the line (the layout would jump).

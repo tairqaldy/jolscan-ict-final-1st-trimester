@@ -17,7 +17,9 @@ import { Switch } from "@/components/ui/switch";
 import { makeThumbnail, readImageSize, reencodeWithoutMetadata } from "@/lib/image";
 import { SAMPLES, getSample, type Sample } from "@/lib/mock/samples";
 import { timing } from "@/lib/motion";
+import { cn } from "@/lib/cn";
 import { addToHistory } from "@/lib/store/history";
+import { useHydrated } from "@/lib/store/local-store";
 import { rulesStore, settingsStore } from "@/lib/store/settings";
 import { ROAD_CLASSES, type RoadClass, type StoredAnalysis } from "@/lib/types";
 import type { ApiError } from "@/lib/upload";
@@ -143,6 +145,7 @@ export function AnalyzeClient() {
 
   const previewImage = source?.kind === "sample" ? source.sample.file : source?.previewUrl;
   const providerMeta = PROVIDER_META[settings.provider];
+  const hydrated = useHydrated();
 
   // G-75: a live region that stays mounted while the view switches to the result,
   // so screen readers announce the save (a region that mounts with its text is often skipped).
@@ -281,7 +284,7 @@ export function AnalyzeClient() {
 
         <Card>
           <CardBody className="grid gap-4">
-            <div className="flex items-start gap-3 text-sm">
+            <div className={cn("flex items-start gap-3 text-sm", !hydrated && "invisible")}>
               <providerMeta.icon className="mt-0.5 size-4 shrink-0 text-muted" aria-hidden />
               <p>
                 <span className="font-medium">{providerMeta.label} provider.</span>{" "}

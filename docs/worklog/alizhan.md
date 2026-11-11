@@ -30,6 +30,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **AI use:** Codex desktop, GPT-6; personal review pending.
 - **Open questions / next:** Amina reviews the gate and declared-change warning policy; registry and deployment remain separate.
 
+### 2026-11-11 · S-12 (#35) · Prediction call log
+- **Status:** implemented; review pending.
+- **What I did:** Added a configurable CSV log of successful road predictions with a process-local lock and no uploaded image or filename, plus error handling and tests.
+- **Result:** Each successful request writes aggregate metadata; tests cover repeated requests, empty detections, concurrent writes, privacy and an unwritable log path. The default log directory is Git-ignored.
+- **Decisions and why:** Mean confidence is blank when no objects are detected. Following Tair's review, logging is opt-in and a write failure logs a warning without failing inference. Multiple processes need separate destinations or a coordinated collector.
+- **What I learned / can explain at the defense:** Monitoring can record latency and confidence over time without storing source images, but confidence alone does not prove data drift.
+- **AI use:** Codex desktop, GPT-6; personal review pending.
+- **Open questions / next:** Tair reviews the logging and deployment implications; analytics integration is separate.
+
 ### 2026-11-11 · S-25 (#219) · Test model selection and export
 - **Status:** implemented; Amina's review pending.
 - **What I did:** Corrected floating-point comparison at the inclusive tie boundary, switched the existing CSV writer to `DictWriter`, and added four CI regression tests.
