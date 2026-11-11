@@ -15,6 +15,7 @@ import { MOCK_ANCHOR } from "@/lib/mock/analyses";
 import { useAnalyses } from "@/lib/store/history";
 import { useRestroomChecks } from "@/lib/store/restroom-history";
 import { DemoBadge } from "./demo-badge";
+import { DemoPath } from "./demo-path";
 import { Kpi } from "./kpi";
 import { MODULE_ICONS, MODULE_NAV } from "./nav";
 import { ProviderBadge } from "./provider-badge";
@@ -53,6 +54,8 @@ export function PlatformOverviewClient() {
           </span>
         }
       />
+
+      <DemoPath />
 
       <div className="grid gap-6 xl:grid-cols-2">
         <ModulePanel id="roads">

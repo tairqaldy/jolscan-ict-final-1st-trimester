@@ -27,6 +27,19 @@ Written the way Lab 3 asks: user, task, measurable criterion.
 | U7 | When the model service is down, the user sees what happened and one action to fix it | Stop the API and try |
 | U8 | A user can tell demo data from real data on every page | "Demo data" badge visible |
 
+### U1 count (W-62, 11 November 2026)
+
+Counted by clicking through on the dev server with the Mock provider and the bundled samples, at 1440 px and 375 px. A screen is a page the user sees, the landing page included. A click is a press; scrolling is not counted.
+
+| Path from the landing page | Screens | Clicks | U1 |
+|---|---|---|---|
+| Hero "Analyze a road photo" (opens Analyze with sample s01 selected), then "Analyze photo" | 2 | 2 | Pass |
+| Module card "Compare two signs" (matching pair selected), then "Compare signs" | 2 | 2, after scrolling (the button sits about 2,200 px down at 1440 px, 3,200 px at 375 px) | Pass |
+| Header "Open the app", a step in the demo path on `/app` (W-30), then Analyze or Compare | 3 | 3 | Clicks pass, one screen too many |
+| Before W-62 and W-30: hero "Open the app", "Analyze" in the sidebar, pick a sample, "Analyze photo" | 3 | 4 | Fail |
+
+The hero keeps one primary action; only its target changed (variant B in the W-62 pull request). Not yet measured: the time two first-time users need, and the count on the deployed site.
+
 ## Heuristics to apply (Lec3-HCI)
 
 | Heuristic | Where it shows in Qarau |

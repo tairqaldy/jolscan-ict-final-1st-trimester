@@ -37,6 +37,12 @@ import { getSample } from "@/lib/mock/samples";
 import { scoreDetections } from "@/lib/rules";
 import { evaluateSignage } from "@/lib/signage";
 
+/*
+ * The hero's primary action opens Analyze with sample s01 already selected, so a first-time
+ * visitor reaches a result in 2 screens and 2 clicks (U1 in docs/DESIGN-BRIEF.md, task W-62).
+ */
+const ROAD_SAMPLE_HREF = "/app/roads/analyze?sample=s01";
+
 /* One real rule hit from each engine, computed at build time from the bundled samples. */
 const roadSample = getSample("s01")!;
 const roadResult = scoreDetections(roadSample.detections, roadSample.meta);
@@ -119,8 +125,8 @@ export default function LandingPage() {
               </p>
             </StaggerItem>
             <StaggerItem className="flex flex-wrap gap-3">
-              <ButtonLink href="/app" size="lg">
-                Open the app <ArrowRight aria-hidden />
+              <ButtonLink href={ROAD_SAMPLE_HREF} size="lg">
+                Analyze a road photo <ArrowRight aria-hidden />
               </ButtonLink>
               <ButtonLink href="#how" size="lg" variant="secondary">
                 See how it works
@@ -170,7 +176,7 @@ export default function LandingPage() {
               demo={<HeroDemo />}
               text="A YOLO object detector draws a box around each pothole. Six rules weigh size, lane position, clusters, road class and school zones into a repair priority with a target time."
               output="Severity, score and target time"
-              cta={{ href: "/app/roads/analyze?sample=s01", label: "Analyze a road photo", icon: ScanSearch }}
+              cta={{ href: ROAD_SAMPLE_HREF, label: "Analyze a road photo", icon: ScanSearch }}
             />
             <ModuleCard
               id="restrooms"

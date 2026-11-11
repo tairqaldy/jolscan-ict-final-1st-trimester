@@ -12,6 +12,24 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 13:50 · W-62 (#300) · Shorten the path from the landing page to a first result
+- **Status:** done (timing with two people still open)
+- **What I did:** counted the clicks from the landing page to a result for the current hero and tried three variants at 1440 px and 375 px with the Mock provider: A current ("Open the app"), B hero action straight to Analyze with sample s01, C two hero actions, one per module (roads primary, restrooms secondary).
+- **Result:** B. "Analyze a road photo" opens Analyze with s01 selected, so a result is 2 screens and 2 clicks away; before it was 3 screens and 4 clicks through the app. The count is in `docs/DESIGN-BRIEF.md` (U1 count). Pull request closing #300.
+- **Decisions and why:** B over C. Both meet U1, but C makes a first-time visitor choose a module before knowing either (Hick's law), and drops "See how it works", the only way to the explanation from the hero on a phone, where the header has no section links. B keeps one primary action and one low-commitment secondary. "Open the app" stays in the header.
+- **What I learned / can explain at the defense:** U1 as a measured requirement (Lab 3): user, task, number. Why a preselected sample is recognition over recall, and why one primary action (Fitts's law, Hick's law).
+- **AI use:** Claude Code (Claude Opus 5.5) built and measured the variants in the browser; entry in docs/AI-USAGE-LOG.md.
+- **Open questions / next:** the issue asks to time two people reaching a result; not done yet. Count again on the deployed site after the merge.
+
+### 2026-11-11 13:45 · W-30 (#135) · Demo path card on /app
+- **Status:** done (Roma's timing of the click path still open)
+- **What I did:** added `web/lib/demo-path.ts` (the seven steps of the slide 3 demo as `{ title, note, href }`, Compare links built from the restroom presets by id), a test that every link's sample ids exist, and a "Demo path" card on `/app` with a Hide button stored in localStorage and a "Show the demo path" link.
+- **Result:** clicked all seven links on Mock: each opened with the right input selected (s01, s05, the matching, two-sets and trousers pairs, faint-f in Match, the roads section of the model page). Hiding survives a reload. Pull request closing #135.
+- **Decisions and why:** links only preselect, so the provider line stays in view and nothing runs on page load. The card says the samples are drawings that only Mock can read: on Local each sample link gives the "SVG drawing" error, so in the defense drop the prepared photos instead. On phones the notes are hidden so the card stays one screen tall. At 1280×720 the card pushes the overview tiles to the bottom edge; Hide brings them back up.
+- **What I learned / can explain at the defense:** recognition rather than recall (Lec3-HCI): the demo inputs are links, not ids to remember. How `useSyncExternalStore` keeps the hidden state without a hydration mismatch.
+- **AI use:** Claude Code (Claude Opus 5.5) wrote the code and the test and clicked every link in the browser; entry in docs/AI-USAGE-LOG.md.
+- **Open questions / next:** ask Roma to time the click path against the demo script (issue step 7). Real sample photos (D-5, C-13) would make the links work on Local too; the test will catch the renamed ids.
+
 ### 2026-11-11 13:20 · W-60 (#298) · Fit each demo result on one projector screen
 - **Status:** done
 - **What I did:** ran s01 on Analyze, the s01 report and all four Compare presets at 1280×720 and 1440×900 (Mock provider, bundled samples) and measured where the photo, badge, score and action land. Tried three variants: A current, B smaller photo column, C meta block collapsed into "Run details".

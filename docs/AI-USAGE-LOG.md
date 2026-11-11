@@ -358,3 +358,12 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How I verified it, and who verified it:** ran the script on this laptop; `/health`, the warm-up and a real photo through the web app worked; the servers were stopped afterwards.
 - **What I rejected or corrected:** the first version checked only that `web/.next` exists, which a dev server also creates; it now checks for the production build's `BUILD_ID`.
 
+
+### 11 November 2026, Tair (W-62 first-result path, W-30 demo path card)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with its built-in browser.
+- **Purpose:** shorten the path from the landing page to a first result (W-62) and put the slide 3 demo on `/app` as one-click links (W-30).
+- **Key prompt(s), with a link to the transcript:** "implement W-62 (#300) and W-30 (#135): try landing variants A current, B hero action to analyze with sample, C two hero actions, compare at 1440 px and 375 px and keep one with a reason; add the demo path card with seven links that only preselect inputs". Transcript kept locally.
+- **What it produced or changed:** the hero action in `web/app/page.tsx`; `web/lib/demo-path.ts`, `web/lib/demo-path.test.ts`, `web/lib/store/demo-path.ts`, `web/components/app/demo-path.tsx` and the card in `web/components/app/platform-overview-client.tsx`; the U1 count in `docs/DESIGN-BRIEF.md`; the variant comparison in the pull request.
+- **How I verified it, and who verified it:** the tool ran the dev server and clicked through in the browser with the Mock provider and bundled samples only: the click count for each landing variant at 1440×900 and 375×812, all seven demo links (each opened with its input selected), Hide surviving a reload, the card height at 1280×720, light and dark. Then `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` in `web/`. Tair still has to look at it and get the timings from two people and from Roma.
+- **What I rejected or corrected:** variant C (two module buttons in the hero); a first card layout that was 362 px tall at 1280×720 (now 295 px), because its notes ran to three lines; step notes with numbers in them (they would go stale when the rules change).
