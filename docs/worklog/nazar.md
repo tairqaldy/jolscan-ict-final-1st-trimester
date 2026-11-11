@@ -15,6 +15,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 · C-20 (#201), C-21 (#202), R-25 (#234), C-8 (#18), C-23 (#204) · Restroom issues
+- **Status:** done locally, not merged. C-8 waits for Alizhan's review; R-24 and R-25 wait for me to confirm the slides in the chat.
+- **What I did:** exact intervals and paired tests; the pipeline one query at a time; slide 8's interval and per-query lines; the pipeline in the API's Match; the step-by-step ablation table.
+- **Result:** 30/30 → 95 % interval 0.884–1.000; the pipeline beats the zero-shot baseline (p 0.016) but not provably R3 (p 0.25). One query at a time: 0.929 on training episodes, 10/10 validation, 30/30 test. The API now finds the pair: 10/10 on validation, 12/12 on the app's real signs, about 0.4 s per request.
+- **Decisions and why:** the own-original threshold 0.95 was chosen on the training crops only, never on validation or test. The API serves the per-query variant, because it answers one query at a time.
+- **What I learned / can explain at the defense:** why 30/30 is not proof (interval, paired test, the benchmark's structure); why the global assignment is transductive; why the old gender filter failed (one wrong gender breaks the match).
+- **AI use:** Claude Code (Claude Opus 5.5); entry in `docs/AI-USAGE-LOG.md`.
+- **Open questions / next:** Alizhan reviews `api/`; Tair reviews the web copy; I confirm slides 7 and 8 in the chat and practise the study card.
+
 ### 2026-11-11 00:15 · IOAI pairs page on the website
 - **Status:** done locally (lint, type check, tests and a production build pass); not merged.
 - **What I did:** Added the page `/app/restrooms/ioai` to the web app: pick a sign from the IOAI validation or test set and see the crop's original, the pair our pipeline found, the IOAI answer, what zero-shot CLIP alone picks, and the step-2 ranking. `ml/restroom/export_pairs.py` stores the pipeline's answers and resized images for it.
