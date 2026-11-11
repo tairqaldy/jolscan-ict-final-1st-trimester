@@ -37,6 +37,10 @@ jobs:
           python-version: "3.12"
       - name: Syntax check of every Python file in ml/ and api/
         run: python -m compileall -q ml api
+      - name: Install lightweight API test dependencies
+        run: python -m pip install fastapi==0.162.3 python-multipart==0.0.33 pillow==12.3.0 numpy==2.5.4 pytest==9.2.0 httpx==0.28.1
+      - name: Run API tests without model weights
+        run: python -m pytest api/ -q
 
   # Team rule (CONTRIBUTING.md): rebase on the latest main before merging, so nobody's work is
   # overwritten. Making this a required check would also reject the claim commits that go straight to
