@@ -1,4 +1,5 @@
-import type { ComponentProps } from "react";
+import { Eye } from "lucide-react";
+import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import { SEVERITY_CLASSES, SEVERITY_META } from "@/lib/severity";
 import type { Severity } from "@/lib/types";
@@ -48,6 +49,24 @@ export function SeverityBadge({
     >
       <Icon aria-hidden />
       {meta.label}
+    </span>
+  );
+}
+
+/**
+ * "Needs review" status (G-47): its own violet-grey colour, an eye icon and the
+ * word, so it never reads as low severity (blue) or medium (amber, circle icon).
+ */
+export function ReviewBadge({ children = "Review", className }: { children?: ReactNode; className?: string }) {
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center gap-1 rounded-sm bg-review-soft px-1.5 py-0.5 text-xs font-medium whitespace-nowrap text-review-ink [&_svg]:size-3.5",
+        className,
+      )}
+    >
+      <Eye aria-hidden />
+      {children}
     </span>
   );
 }
