@@ -24,6 +24,7 @@ Every document has an owner who keeps it true, and a moment when it gets updated
 | [ML-EXPERIMENT-RESTROOM.md](ML-EXPERIMENT-RESTROOM.md) | Restroom data, runs, pipeline, results | Nazar | after every restroom run |
 | [RULES.md](RULES.md) | Both rule sets, thresholds and the evidence for them | Amina (part 1), Nazar (part 2) | a threshold changes |
 | [DESIGN-BRIEF.md](DESIGN-BRIEF.md) | Pages, usability requirements, design direction, checks | Dameli, Tair | the direction or a page changes |
+| [design/](design/) | Design rules: [principles and voice](design/PRINCIPLES.md), [screenshot frame](design/screenshots.md), [backup video look](design/video.md), [imagery](design/imagery.md), [chart style](design/chart-style.md), [anti-slop checklist](design/ANTI-SLOP.md), the slide template | Dameli | a rule or a token changes |
 | [PRESENTATION.md](PRESENTATION.md) | Slides, timings, demo script, study cards | Roma | the deck changes |
 | [COURSE-GROUNDING.md](COURSE-GROUNDING.md) | Which lecture backs which decision | Roma (checks), everyone (adds) | you cite a lecture |
 | [AI-USAGE-LOG.md](AI-USAGE-LOG.md) | Prompt log, required by the syllabus | everyone | you use an AI tool |
