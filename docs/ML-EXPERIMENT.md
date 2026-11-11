@@ -96,6 +96,7 @@ MLflow 3 stores tracking data in a local SQLite file, which cannot be merged acr
 - Each run's best checkpoint and the E8 choice are both selected on validation, so validation numbers are optimistic. Test is the only unbiased number.
 - 40 epochs is a small budget. A longer schedule could change the ranking, most of all for E2.
 - The dataset is not from Kazakhstan. Performance on local roads, snow and night scenes is unknown.
+- The 100 test photos were looked at once in the D-2 quality review, before the split existed, because both used seed 42 on the same list ([data/README.md](../data/README.md), D-20). No test label was changed and nothing was chosen on them.
 
 ## Stretch, only after E8 and the deck exist
 
