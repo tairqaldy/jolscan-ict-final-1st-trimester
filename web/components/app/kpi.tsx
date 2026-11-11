@@ -32,7 +32,10 @@ export function Kpi({
     <div className={cn("relative h-full overflow-hidden rounded-lg border border-border bg-surface p-(--card-pad)", !nested && "shadow-sm", className)}>
       {accentClass && <span aria-hidden className={cn("absolute inset-x-0 top-0 h-1", accentClass)} />}
       <p className="text-sm font-medium text-muted">{label}</p>
-      <p className="tabular mt-2 font-display text-4xl font-bold whitespace-nowrap xl:text-5xl">
+      {/* The number steps down where tiles get narrow: phones (two or three tiles a row) and
+          lg, where the sidebar appears and the row goes to four tiles. Checked at 320, 375,
+          1024 and 1440 px that no number overflows its tile (G-9, docs/design/dashboard-review.md). */}
+      <p className="tabular mt-2 font-display text-3xl font-bold whitespace-nowrap sm:text-4xl lg:text-3xl xl:text-5xl">
         <CountUp value={value} suffix={suffix} decimals={decimals} />
       </p>
       <p className="mt-1 text-xs text-subtle">{note}</p>
