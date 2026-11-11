@@ -58,12 +58,12 @@ Working snapshot copied from `docs/deck/SLIDES.md` at commit `1c28a49`. The fina
 ### 5. Roads: data and experiment
 **Speaker and budget:** Amina · **budget** 1:00 · **script** 127 words, about 0:59
 
-> Our road data is the Annotated Potholes Image Dataset from Kaggle, under ODbL and DbCL, and Kaggle is a source the syllabus allows. It has 665 photos with 1,739 boxes and one class. Before splitting, we checked for exact and near-duplicate photos, because a copy in both train and test would inflate the test score. We found none. Then we split by photo with seed 42: 465 for training, 100 for validation and 100 for test. This is Option A. Data, seed and budget stay fixed, and each run changes one thing against the baseline E0, such as model width, pretraining or the optimizer. We choose on validation mAP50, and recall at our threshold of 0.40 breaks ties. Test is read once. Here is what came out.
+> I prepared and reviewed our pothole data, checked duplicates and XML annotations, corrected one invalid box, and exported the frozen YOLO split. The Kaggle dataset has 665 photos and 1,739 boxes; its metadata lists ODbL and DbCL, but rights to individual watermarked photos remain unresolved and require separate verification. We found no exact or near duplicates before splitting by photo: 465 for training, 100 for validation and 100 for test, with seed 42. My smoke run checked the training pipeline using validation only; Tair performed all full experiment runs. Our comparison changes model settings against baseline E0, keeping frozen data and training budget fixed across runs. Validation chooses settings; test reports performance. The notes explain prior test-photo review and separate evaluation passes. Here is what came out.
 
 ### 6. Roads: results
 **Speaker and budget:** Amina · **budget** 0:45 · **script** 90 words, about 0:42
 
-> E4 has the highest validation mAP50, 0.828. Four other runs are within 0.01 of it, so the tie-break decides: E1, the small model, has the highest validation recall at 0.40, 0.738. On test, at the app's threshold, E1 finds 176 of 236 potholes, recall 0.746, with 30 false alarms. E4 is 0.016 higher on test mAP50, but we do not claim differences below 0.02, and test never chooses. The rules then turn boxes into a priority: in our example, a highway photo scores 15, critical. Nazar takes the second module.
+> Tair trained the full experiments. E4 leads validation mAP50, but our 0.01 tie band includes E1. E1 wins because its validation recall at 0.40 is highest, 0.738. At the test operating point, E1 finds 176 of 236 potholes, with 30 false alarms and 60 misses. Test never chooses the model. My training-only clustering supplies image-relative size bands; the worked highway example scores 15, critical. Our project policy withholds test-gain claims below 0.02, without claiming statistical equivalence. These are project rules, not an official repair standard. Nazar takes the second module.
 
 ### 7. Restrooms: data and experiment
 **Speaker and budget:** Nazar · **budget** 0:50 · **script** 99 words, about 0:46
@@ -83,7 +83,7 @@ Working snapshot copied from `docs/deck/SLIDES.md` at commit `1c28a49`. The fina
 ### 10. AI use and its limits
 **Speaker and budget:** Roma · **budget** 0:35 · **script** 80 words, about 0:37
 
-> We used AI tools, mainly Claude Code, Codex and Copilot, to write and review code and tests, to draft documents, and to check text against our result files. Every use is logged with its prompt: 109 entries. Whoever used a tool checked its output, with tests and CI, and every number on these slides is traced to a committed file. We planned an audit of two vision-language models; it is not finished, so we show no numbers. Next, the limits.
+> We used AI tools, mainly Claude Code, Codex and Copilot, to write and review code and tests, to draft documents, and to check text against our result files. Every use is logged with its prompt: 110 entries. Whoever used a tool checked its output, with tests and CI, and every number on these slides is traced to a committed file. We planned an audit of two vision-language models; it is not finished, so we show no numbers. Next, the limits.
 
 ### 11. Limitations and next steps
 **Speaker and budget:** Roma · **budget** 0:25 · **script** 50 words, about 0:23

@@ -1245,3 +1245,12 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** slide 11's script and its copy in `docs/PRESENTATION.md` now name accessible and all-gender signs as the next step, as the slide card does; the "Known gap" note there says it is fixed; the deck is rebuilt (slide 10's log count updated).
 - **How I verified it, and who verified it:** `api/restroom.py` returns `bestMatchId` from `restroom_pipeline.find_pair` (C-8); slide 8's notes already say Match runs the pipeline one query at a time. No other line in `make_deck.py` claims the pipeline is not served. The build checks 191 numbers, with one open gap (R-6).
 - **What I rejected or corrected:** deleting "next step" from the script without a replacement (the slide card already names the restroom next step).
+
+### 12 November 2026, Tair (deck build keeps the PRESENTATION.md script copy in sync)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** after my build in #467, slide 10's AI-log count was 108 in the deck but 105 in the script copy in `docs/PRESENTATION.md`, and that copy also still had the old slide 5 and 6 scripts. The builder never wrote that file.
+- **Key prompt(s), with a link to the transcript:** "u need to keep merging improving and making decisions on your own". Transcript kept locally.
+- **What it produced or changed:** `make_deck.py` rewrites each `### N.` section's quoted script, its word count and time, and the total estimate in `docs/PRESENTATION.md` on every full build; the rest of that file is left alone. One test in `docs/deck/test_make_deck.py`. The deck is rebuilt.
+- **How I verified it, and who verified it:** the 6 deck tests pass, including the new one on a stale copy. Before the change, slides 5 and 6 in PRESENTATION.md differed from SLIDES.md and the other 10 matched; after the build all 12 match.
+- **What I rejected or corrected:** fixing the numbers by hand again (they drift with every merge); generating all of PRESENTATION.md (it holds hand-written rehearsal notes).
