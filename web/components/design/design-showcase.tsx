@@ -28,17 +28,67 @@ import { SEVERITIES, VERDICTS } from "@/lib/types";
 import { GenderTag, ThresholdBar, VerdictBadge } from "@/components/restrooms/signage-bits";
 import { VerdictBars } from "@/components/restrooms/verdict-bars";
 
-/** Token groups shown as swatches. Names match app/tokens.css. */
-const COLOR_GROUPS: { title: string; tokens: string[] }[] = [
-  { title: "Surfaces", tokens: ["bg", "surface", "surface-2", "surface-3", "inverse"] },
-  { title: "Lines and text", tokens: ["border", "border-strong", "fg", "muted", "subtle"] },
-  { title: "Accent and state", tokens: ["accent", "accent-ink", "accent-soft", "focus", "danger", "success"] },
-  { title: "Severity (solid)", tokens: SEVERITIES.map((s) => `sev-${s}`) },
-  { title: "Severity (ink on soft)", tokens: SEVERITIES.map((s) => `sev-${s}-ink`) },
-  { title: "Charts and boxes", tokens: ["chart-1", "chart-2", "chart-3", "chart-4", "box", "box-review"] },
-  { title: "Roads: needs review", tokens: ["review", "review-ink", "review-soft", "box-review"] },
-  { title: "Restrooms: verdicts (solid)", tokens: ["verdict-clear", "verdict-review", "verdict-confusing"] },
-  { title: "Restrooms: predicted gender", tokens: ["gender-male", "gender-male-soft", "gender-female", "gender-female-soft"] },
+/**
+ * Token groups shown as swatches. Names match app/tokens.css.
+ * `use` and `never` are the usage rules shown under each group (G-20). They
+ * follow the comments in tokens.css and how the code uses the tokens today;
+ * a new group needs both lines.
+ */
+const COLOR_GROUPS: { title: string; tokens: string[]; use: string; never: string }[] = [
+  {
+    title: "Surfaces",
+    tokens: ["bg", "surface", "surface-2", "surface-3", "inverse"],
+    use: "bg for the page; surface for cards, popovers and map popups; surface-2 for hover rows and inset panels; surface-3 for tracks, skeletons and photo frames; inverse with inverse-fg for tooltips and number chips.",
+    never: "to show a status. A surface says where something sits, not how serious it is.",
+  },
+  {
+    title: "Lines and text",
+    tokens: ["border", "border-strong", "fg", "muted", "subtle"],
+    use: "fg for headings and body text; muted for secondary text; subtle for hints, sources and timestamps; border for card edges and dividers; border-strong for inputs, switches and dashed empty states.",
+    never: "subtle for text a user needs to act on (it has the lowest contrast); border colours for text.",
+  },
+  {
+    title: "Accent and state",
+    tokens: ["accent", "accent-ink", "accent-soft", "focus", "danger", "success"],
+    use: "accent as a fill (primary button, checked switch, active mark) with accent-fg text; accent-ink for links and amber text; accent-soft for selected or highlighted rows and tiles; focus for the keyboard focus ring; danger for errors and destructive buttons; success for a passed check.",
+    never: "accent as a text colour (3.46:1 on white, use accent-ink); focus for anything but focus; danger for a severity (use sev-critical).",
+  },
+  {
+    title: "Severity (solid)",
+    tokens: SEVERITIES.map((s) => `sev-${s}`),
+    use: "marks: bars, legend dots, map markers, KPI stripes and selected chip borders, always next to the severity word or icon.",
+    never: "for text (use the ink), or for series that are not severity, such as providers or model runs.",
+  },
+  {
+    title: "Severity (ink on soft)",
+    tokens: SEVERITIES.map((s) => `sev-${s}-ink`),
+    use: "severity text and badge labels: ink on its own soft fill (sev-high-ink on sev-high-soft) or on surface.",
+    never: "the ink of one level on the soft fill of another; a soft fill as a mark (too pale to see on a chart or map).",
+  },
+  {
+    title: "Charts and boxes",
+    tokens: ["chart-1", "chart-2", "chart-3", "chart-4", "box", "box-review"],
+    use: "chart-1 to chart-4 for series that are not severity (providers, model runs); box and box-review only for detection boxes drawn on photos, the same in both themes.",
+    never: "severity colours for providers or runs; box colours on app surfaces, they are tuned for photos.",
+  },
+  {
+    title: "Roads: needs review",
+    tokens: ["review", "review-ink", "review-soft", "box-review"],
+    use: "a road detection that needs a human look: review-ink on review-soft for the review badge with the eye icon and the word, review for the 'To review' KPI stripe, box-review for the dashed box on photos.",
+    never: "for focus or low severity (the reason it is not blue), or for the restroom verdict 'review' (use verdict-review).",
+  },
+  {
+    title: "Restrooms: verdicts (solid)",
+    tokens: ["verdict-clear", "verdict-review", "verdict-confusing"],
+    use: "the restroom verdict (clear, review, confusing) in badges and bars, with its icon and word. By default they reuse sev-clear, sev-medium and sev-critical.",
+    never: "for road severity (use sev-*), or without the verdict word.",
+  },
+  {
+    title: "Restrooms: predicted gender",
+    tokens: ["gender-male", "gender-male-soft", "gender-female", "gender-female-soft"],
+    use: "a sign's predicted gender in tags and bars, always with the Mars or Venus icon and the word.",
+    never: "pink and blue stereotypes, colour alone, or any other meaning in the app.",
+  },
 ];
 
 const TYPE_SCALE = [
@@ -131,6 +181,12 @@ export function ThemedShowcase() {
         {COLOR_GROUPS.map((g) => (
           <div key={g.title} className="grid gap-2">
             <p className="text-xs font-semibold tracking-wide text-muted uppercase">{g.title}</p>
+            <dl className="grid gap-x-3 gap-y-0.5 text-xs text-muted sm:grid-cols-[4.5rem_1fr]">
+              <dt className="font-semibold text-fg">Use for</dt>
+              <dd>{g.use}</dd>
+              <dt className="font-semibold text-fg">Never</dt>
+              <dd>{g.never}</dd>
+            </dl>
             <ul className="grid grid-cols-3 gap-2 sm:grid-cols-6">
               {g.tokens.map((t) => (
                 <li key={t} className="grid gap-1">
