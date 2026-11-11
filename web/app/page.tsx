@@ -177,6 +177,31 @@ export default function LandingPage() {
           </div>
         </div>
 
+        {/* Problem */}
+        <section id="problem" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="problem-h">
+          <SectionTitle id="problem-h" eyebrow="The problem" title="Most inspection is still done by eye" />
+          <Stagger className="mt-8 grid gap-4 md:grid-cols-2">
+            <StaggerItem as="article" className="rounded-lg border border-border bg-surface p-6">
+              <h3 className="text-xl font-bold">Potholes are found late</h3>
+              <p className="mt-2 text-muted">
+                Most are reported by drivers after they damage a car. An inspector cannot drive every street every week, and a
+                list of complaints does not say which hole to fix first.
+              </p>
+            </StaggerItem>
+            <StaggerItem as="article" className="rounded-lg border border-border bg-surface p-6">
+              <h3 className="text-xl font-bold">Door signs confuse visitors</h3>
+              <p className="mt-2 text-muted">
+                Signs are installed once and rarely checked. When the two doors of a restroom carry signs from different sets, or
+                two signs that look alike, people hesitate or walk into the wrong room. Nobody audits signage across a campus.
+              </p>
+            </StaggerItem>
+          </Stagger>
+          <p className="mt-6 max-w-3xl text-lg">
+            Both are the same job: look at a photo, find the problem, decide what to do. {BRAND.name} makes that job faster and
+            more consistent, and shows how every decision was made.
+          </p>
+        </section>
+
         {/* Modules */}
         <section id="modules" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="modules-h">
           <SectionTitle id="modules-h" eyebrow="The tools" title="One approach, two inspection tasks" />
