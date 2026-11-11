@@ -11,8 +11,11 @@ export const ease = {
   exit: [0.4, 0, 1, 1],
 } as const satisfies Record<string, [number, number, number, number]>;
 
-/** Delay between items in a staggered list. */
-export const stagger = 0.06;
+/**
+ * Delay between items in a staggered list (tokens.css --stagger-step). Short
+ * enough that a list ends within reveal.budget: see staggerDelay.
+ */
+export const stagger = 0.045;
 
 /**
  * Single-purpose timings (seconds), named so that no animation in
@@ -57,3 +60,4 @@ export const reveal = {
   lastStart: 0.36,
   budget: 0.6,
 } as const;
+
