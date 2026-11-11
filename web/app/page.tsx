@@ -119,7 +119,7 @@ export default function LandingPage() {
               </p>
             </StaggerItem>
             <StaggerItem>
-              <h1 className="max-w-3xl text-4xl leading-[1.04] font-bold sm:text-5xl lg:text-[3.75rem]">
+              <h1 className="max-w-3xl text-4xl leading-[1.04] font-bold sm:text-5xl">
                 Inspect roads and signs <span className="text-muted">with clarity.</span>
               </h1>
             </StaggerItem>
