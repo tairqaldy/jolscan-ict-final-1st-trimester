@@ -19,7 +19,7 @@ import { RESTROOM_MOCK_MODEL, RESTROOM_SAMPLES, mockSimilarity, type RestroomSam
 export const RESTROOM_MOCK_COUNT = 30;
 const SEED = 20261111;
 
-/** Model name shown on seeded local/cloud checks. Placeholder until the restroom champion is chosen. */
+/** Invented model name shown on seeded local/cloud checks (demo data, not the served model). */
 export const RESTROOM_DEMO_MODEL_NAME = "clip-vitb32-ft6";
 
 const PLACES = [

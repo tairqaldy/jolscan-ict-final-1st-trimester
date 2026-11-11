@@ -274,7 +274,7 @@ export default function LandingPage() {
           <SectionTitle id="results-h" eyebrow="Results" title="What the models score" />
           <p className="mt-3 max-w-3xl text-muted">
             Both modules follow the same protocol: one change per run against a fixed baseline, chosen on validation, test read
-            once. Placeholders are labelled until training finishes.
+            once. Invented numbers carry a demo badge.
           </p>
           <div className="mt-8 grid gap-4 lg:grid-cols-2">
             <ResultsCard module="roads" badge={<DemoBadge show={IS_DEMO_DATA} label="Placeholder numbers" />}>

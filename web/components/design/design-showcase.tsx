@@ -48,7 +48,7 @@ const TYPE_SCALE = [
   { cls: "text-lg", label: "lg body", sample: "Qarau inspects public infrastructure from a photo." },
   { cls: "text-base", label: "base body", sample: "Detections below the threshold go to the review queue." },
   { cls: "text-sm text-muted", label: "sm muted", sample: "Model time per photo on the laptop CPU." },
-  { cls: "text-xs text-subtle", label: "xs subtle", sample: "Placeholder numbers until training finishes." },
+  { cls: "text-xs text-subtle", label: "xs subtle", sample: "Invented numbers carry a demo badge." },
   { cls: "font-mono text-sm", label: "mono", sample: "score = 15 · clip-vitb32-ft6 · 41 ms" },
 ];
 

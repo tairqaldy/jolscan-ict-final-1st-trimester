@@ -4,12 +4,13 @@
  * The shipped file is a PLACEHOLDER (isMock true). ml/export_results.py
  * overwrites it with the real runs in the ExperimentsFile shape from
  * ARCHITECTURE.md section 2 (`run`, `map50_95`, `sizeMb`, nullable
- * `latencyMs`, no dataset block). This loader accepts both shapes and fills
+ * `latencyMs`, plus a dataset block). This loader accepts both shapes and fills
  * anything missing with clearly labelled defaults, so the model page keeps
  * working whichever file is committed. Its `isMock` flag drives the
  * "Demo data" badges on the pothole results only (components/app/demo-badge.tsx).
  */
 import raw from "@/data/experiments.json";
+import { DATA_CREDITS } from "@/lib/credits";
 
 export type ExperimentRun = {
   id: string;
@@ -77,12 +78,12 @@ function normalise(input: unknown): Experiments {
     championModelName: str(r.championModelName, `yolo-${(champion?.id ?? championId).toLowerCase()}`),
     runs,
     dataset: {
-      name: str(d.name, "Pothole detection dataset (name and version to be filled in)"),
-      source: str(d.source, "To be added"),
-      licence: str(d.licence, "To be confirmed from the dataset page"),
+      name: str(d.name, DATA_CREDITS.pothole.name),
+      source: str(d.source, DATA_CREDITS.pothole.url),
+      licence: str(d.licence, DATA_CREDITS.pothole.licence),
       classes: Array.isArray(d.classes) ? (d.classes as string[]) : ["pothole"],
       images: { train: num(images.train), val: num(images.val), test: num(images.test) },
-      split: str(d.split, "To be filled in"),
+      split: str(d.split, "Not in the results file"),
       notes: str(d.notes, ""),
     },
   };

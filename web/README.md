@@ -81,7 +81,7 @@ lib/
   mock/                 seeded demo analyses and sign checks, sample manifests, experiments loaders
   store/                localStorage stores: settings, rules (both), history (both), theme, last module
 data/experiments.json             pothole experiment results (placeholder until ml/export_results.py runs)
-data/restroom-experiments.json    restroom experiment results (placeholder rows R0–R6)
+data/restroom-experiments.json    restroom experiment results (real runs, from ml/restroom/export_results.py)
 public/samples/                   six SVG road scenes + samples.json
 public/samples/restrooms/         twelve SVG sign icons + samples.json
 ```

@@ -194,7 +194,7 @@ export default function ModelPage() {
                 <CardTitle className="flex items-center gap-2">
                   <Database className="size-5" aria-hidden /> Pothole dataset card
                 </CardTitle>
-                <CardDescription>Placeholders until the Data lane exports the final version.</CardDescription>
+                <CardDescription>From the dataset card in data/README.md. Every pothole run uses this frozen version.</CardDescription>
               </div>
             </CardHeader>
             <CardBody>
@@ -209,7 +209,7 @@ export default function ModelPage() {
                 <dd className="font-mono">{dataset.classes.join(", ")}</dd>
                 <dt className="text-muted">Images</dt>
                 <dd className="tabular">
-                  train {dataset.images.train ?? "TBD"} · val {dataset.images.val ?? "TBD"} · test {dataset.images.test ?? "TBD"}
+                  train {dataset.images.train ?? "–"} · val {dataset.images.val ?? "–"} · test {dataset.images.test ?? "–"}
                 </dd>
                 <dt className="text-muted">Split</dt>
                 <dd>{dataset.split}</dd>
