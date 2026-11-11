@@ -178,7 +178,7 @@ Every example below was checked in the running app on 11 November, and every lec
 1. **Three heuristics, each with a page to open** (Nielsen's ten are HCI p13; one slide each on p14–23).
    - *Visibility of system status* (HCI p14). The sidebar always shows the provider (Mock, Local or Cloud). While a photo runs, the button says "Analysing…" and a line scans the photo. Settings → Model provider → **Check connection** says "Connected" or why not. Open: `/app/settings`.
    - *Help users recognise, diagnose and recover from errors* (HCI p22). With Local chosen and the model service off, Compare says "The local model service is not running or cannot be reached", how to start it, and offers **Try again** or **Use the mock provider**. One click on the second gives a result. Open: `/app/restrooms/compare`.
-   - *Recognition rather than recall* (HCI p19). Analyze shows six labelled sample photos ("Highway, three potholes", "Faint damage, needs review"…), and the accepted formats sit next to the upload box, so nobody has to remember what to upload. Open: `/app/roads/analyze`.
+   - *Recognition rather than recall* (HCI p19). Analyze shows six labelled sample images ("Highway, three potholes", "Faint damage, needs review"…), and the accepted formats sit next to the upload box, so nobody has to remember what to upload. Open: `/app/roads/analyze`.
    - Spare: *Error prevention* (HCI p18). The file is checked before upload: JPEG, PNG or WebP, at most 10 MB (`web/lib/upload.ts`).
 2. **Contrast and accessibility.**
    - **Contrast:** I measured the contrast of every text colour from the tokens with the WCAG formula, in both themes. WCAG asks for 4.5:1 for text (HCI p37). Our weakest text colour, `subtle`, is 4.98:1 in light and 5.36:1 in dark, and main text is at least 14.4:1. The table is in DESIGN-BRIEF.md.
@@ -207,7 +207,7 @@ Every example below was checked in the running app on 11 November, and every lec
 - **Three screenshots**, one frame each (570×405 px, light theme, kept outside the repository and sent to the deck folder), each with one line:
   1. `09-heuristic-1-status.png`: "Visibility of system status: the provider and its connection are always shown."
   2. `09-heuristic-2-recover.png`: "Error recovery: the cause in plain words and a one-click switch to Mock."
-  3. `09-heuristic-3-recognition.png`: "Recognition over recall: six labelled sample photos next to the upload box."
+  3. `09-heuristic-3-recognition.png`: "Recognition over recall: six labelled sample images next to the upload box."
 - **Chart line:** "Bars from zero for counts, a histogram for confidence, severity colours only for severity."
 - **Accessibility line:** "Text contrast at least 4.98:1 in both themes (WCAG: 4.5:1); keyboard-only analysis with a visible focus ring; every status with a word and an icon."
 - **Speaker notes, sources:** HCI p14, p19 and p22 for the three heuristics; HCI p37 for WCAG; VizBasics p4, DMViz p28 and p31 for the charts.
