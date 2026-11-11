@@ -4,6 +4,22 @@ A slide-by-slide review of the defense deck against `docs/design/ANTI-SLOP.md` (
 
 This file only comments. The deck, `docs/deck/SLIDES.md` and `docs/deck/make_deck.py` are Tair's and stay unchanged here; every fix below is a suggestion to agree with Roma (deck lane) and Tair (deck script), then make in `make_deck.py` or in the plot scripts.
 
+## Summary
+
+**18 must-fix, 36 nice-to-have**, over 12 slides and 5 backups.
+
+- Must-fix by kind: 9 unreadable sizes (slides 4 to 10, text and charts), 5 placeholders or stale numbers (slides 2, 8, 9, 10), 3 walls of text (slides 6, 7, 8), 1 number that the figure next to it contradicts (slide 7). No demo number is shown as real, and no slide uses a third type family.
+- Numbers: about 200 number tokens on the slide faces and in the scripts were compared with their files. None is wrong. One is stale (the AI-log count on slide 10), and four slots are still empty placeholders.
+- Clean: no gradients, glass, shadows, animations, emoji, AI filler words or em dashes; every colour is a template token.
+
+**The three most important fixes**
+
+1. **No placeholder or stale number on screen (R5, R6).** Fill or delete "[NUMBER NEEDED: …]" on slides 2 (R-2, Roma), 8 (C-20, Nazar) and 10 (R-6, Roma) and "[SCREENSHOT NEEDED: …]" on slide 9 (G-11, Dameli), and rebuild after the 23:00 freeze so "50 entries" on slide 10 becomes the final count (53 at the deck's commit, 60 on `main` at 17:27). Findings 2.1, 8.1, 9.1, 10.1, 10.2.
+2. **Text the room can read.** Every main slide has body text under 18 pt; slides 4 to 10 have content at 10.5 to 13.5 pt, against the template's 18 pt body and 16 pt tables. Raise the sizes in `make_deck.py` and cut slides 6, 7 and 8 (111, 140 and 101 words of running text) so the larger text fits. Findings 4.1, 5.1, 6.1, 6.2, 7.1, 7.2, 8.2, 8.3, 9.2, 10.3.
+3. **Redraw the charts on slides 6, 7 and 8 at slide size with the chart-style block.** Today a 10 pt chart label lands at 4 to 6 pt, slide 6 still uses the old amber `#f2a900`, and slide 7 says "0.78 at the output" where the plot ends at 0.83. Amina (M-13, `ml/plots.py`) and Nazar (C-6). Findings 6.3, 6.4, 7.3, 8.4.
+
+**Not done yet:** the done-check of G-58 also needs these comments resolved with Roma and Tair. That is a conversation, so G-58 stays open until they have answered each must-fix here or in the pull request.
+
 **Who changes what.** All slide text comes from `docs/deck/make_deck.py` (Tair). The speaker of a slide owns what it says (`docs/PRESENTATION.md`, "Slides"). The charts come from `ml/plots.py` (Amina, M-13) and `ml/restroom/plots.py` and `ml/restroom/layers_report.py` (Nazar, C-6).
 
 **Severity.**
