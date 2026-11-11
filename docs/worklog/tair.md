@@ -12,6 +12,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 13:20 · W-60 (#298) · Fit each demo result on one projector screen
+- **Status:** done
+- **What I did:** ran s01 on Analyze, the s01 report and all four Compare presets at 1280×720 and 1440×900 (Mock provider, bundled samples) and measured where the photo, badge, score and action land. Tried three variants: A current, B smaller photo column, C meta block collapsed into "Run details".
+- **Result:** pull request closing #298. Roads keeps layout A. Compare uses B: on desktop each sign is 20% of the window height wide and the gaps are tighter, so the result row is 692 px instead of 834 px and fits at 1280×720 (16–708 px). Both pages now jump to the top of the result instead of centring it.
+- **Decisions and why:** the real problem was the jump. `focus()` centres the whole result, rules table included, so on Compare the verdict and action ended above the screen. On roads, A already fits (photo 84–397 px, card ends at 551 px). B there only shrinks the photo, because the decision card sets the row height. C hides the "Mock result" badge and does not shorten Compare at all, because there the sign card sets the height. The sign size follows the window height, so the signs grow again on taller screens (180 px at 900 px high).
+- **What I learned / can explain at the defense:** Fitts's law (Lec3-HCI p.34): after pressing Analyze or Compare, the decision is where the eye lands, at the top of the screen. Why `focus()` scrolls and how `preventScroll` with `scrollIntoView({ block: "start" })` changes that. Why `scroll-mt` is larger on phones (the sticky top bar is 105 px).
+- **AI use:** Claude Code (Claude Opus 5.5) measured the variants in the browser and wrote the changes; entry in docs/AI-USAGE-LOG.md.
+- **Open questions / next:** with the browser's tab and address bars the window is about 1280×630; then everything still fits except the threshold note under the similarity bar. Present in full screen anyway. I did not open `/app/restrooms/checks/[id]` in the browser; it uses the same component. W-31 (presentation mode with larger type) will change these sizes, so check again after it lands.
+
 ### 11 November 2026 · X-16 (#97) · Defense-day runbook and a one-command demo start
 
 - **Status:** first version; to be tried in Rehearsal 2 with Wi-Fi off

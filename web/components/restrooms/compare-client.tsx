@@ -75,7 +75,12 @@ export function CompareClient() {
     const check = { ...res.body, inputs: { a: { ...res.body.inputs.a, imageUrl: infoA.imageUrl }, b: { ...res.body.inputs.b, imageUrl: infoB.imageUrl } } };
     addRestroomCheck(check);
     setStatus({ state: "done", check });
-    requestAnimationFrame(() => resultRef.current?.focus());
+    // Focus the result and line its top up with the top of the screen, so both signs and
+    // the verdict are in view. A plain focus() centres the whole result, rules table included.
+    requestAnimationFrame(() => {
+      resultRef.current?.focus({ preventScroll: true });
+      resultRef.current?.scrollIntoView({ block: "start" });
+    });
   };
 
   const swap = () => {
@@ -195,7 +200,8 @@ export function CompareClient() {
             </p>
           )}
         </div>
-        <div ref={resultRef} tabIndex={-1} className="outline-none">
+        {/* scroll-mt keeps a gap above the result (and clears the sticky top bar below lg). */}
+        <div ref={resultRef} tabIndex={-1} className="scroll-mt-32 outline-none lg:scroll-mt-4">
           {status.state === "done" ? (
             <CompareResultView check={status.check} />
           ) : status.state === "loading" ? (

@@ -130,7 +130,12 @@ export function AnalyzeClient() {
       if (thumbnail) analysis.photo.imageUrl = thumbnail;
       addToHistory(analysis);
       setStatus({ state: "done", analysis });
-      requestAnimationFrame(() => resultRef.current?.focus());
+      // Focus the result and line its top up with the top of the screen, so the photo and
+      // the priority are in view. A plain focus() centres the whole result, rules table included.
+      requestAnimationFrame(() => {
+        resultRef.current?.focus({ preventScroll: true });
+        resultRef.current?.scrollIntoView({ block: "start" });
+      });
     } catch {
       setStatus({
         state: "error",
@@ -150,7 +155,8 @@ export function AnalyzeClient() {
 
   if (status.state === "done") {
     return (
-      <div ref={resultRef} tabIndex={-1} className="grid gap-5 outline-none">
+      // scroll-mt keeps a gap above the result (and clears the sticky top bar below lg).
+      <div ref={resultRef} tabIndex={-1} className="grid scroll-mt-32 gap-5 outline-none lg:scroll-mt-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="text-sm text-muted" aria-live="polite">
             Analysis saved to this browser.{" "}
