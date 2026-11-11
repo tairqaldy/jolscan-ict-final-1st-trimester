@@ -168,3 +168,13 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How I verified it, and who verified it:** Compared the JSON's full-precision thresholds with the configured percentage units and ran the existing rules tests, including exact threshold-boundary tests. The supplied clustering results and PNG were not recomputed.
 - **What I rejected or corrected:** Kept normalized fraction versus percentage units explicit, used only the training split, and did not treat the size bands as physical measurements or calibrated repair severity. D-6 remains separate; no split change or model training was done.
 - **C-12 (Nazar's prompt: "do C-12"):** the tool extended `export_results.py` with row R7 (the two-step pipeline), the `pipeline` block and the `layers` table, and documented the two selection rules. **Corrected against the issue:** issue #37 asked for `served: "R7"`, but the tool read `api/restroom.py` and found that `/restroom/match` does not run the pipeline (it uses CLIP similarity and a gender filter), so it wrote `served: null` with a note instead of a claim that is not true yet. It also removed a lecture reference it had added without checking it against the course PDFs.
+
+### 11 November 2026, Tair (D-14 dataset rebuild script)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** commit code that rebuilds the frozen `potholes_yolo_v1` export, whose Colab cells were never committed.
+- **Key prompt(s), with a link to the transcript:** "work on completing tasks for ML for potholes"; the tool chose D-14 from the board. Transcript kept locally.
+- **What it produced or changed:** `data/make_potholes_yolo_v1.py` and the D-14 paragraph in `data/README.md`.
+- **How I verified it, and who verified it:** ran the script on the Kaggle download; it re-derived the split and matched every image's SHA-256, split and object count in the committed manifest (465/100/100 images, 1,198/305/236 boxes).
+- **What I rejected or corrected:** the label number format of the original Colab export is unknown, so the README says label files may differ in the last digits.
+
