@@ -18,17 +18,15 @@ const MapView = dynamic(() => import("./map-view"), {
 
 export function MapClient() {
   const analyses = useAnalyses();
-  // Clear analyses have nothing to repair, so they are neither listed nor drawn:
-  // the count in the heading equals the number of markers (G-27).
   const located = analyses.filter((a) => a.location && a.severity !== "clear");
 
   return (
     <div className="grid gap-4">
       <div className="h-[55vh] min-h-80 overflow-hidden rounded-lg border border-border bg-surface-2 shadow-sm">
-        <MapView analyses={located} />
+        <MapView analyses={analyses} />
       </div>
       <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted" aria-label="Legend">
-        {SEVERITIES.filter((s) => s !== "clear").map((s) => (
+        {SEVERITIES.map((s) => (
           <span key={s} className="inline-flex items-center gap-1.5">
             <SeverityDot severity={s} className="rounded-full" /> {SEVERITY_META[s].label}
           </span>
