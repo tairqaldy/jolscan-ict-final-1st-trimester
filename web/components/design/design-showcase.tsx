@@ -6,7 +6,7 @@ import { DemoBadge } from "@/components/app/demo-badge";
 import { DetectionOverlay } from "@/components/app/detection-overlay";
 import { SeverityBars } from "@/components/app/severity-bars";
 import { CountUp } from "@/components/motion/count-up";
-import { Badge, SeverityBadge, SeverityDot } from "@/components/ui/badge";
+import { Badge, ReviewBadge, SeverityBadge, SeverityDot } from "@/components/ui/badge";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { Callout } from "@/components/ui/callout";
 import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -35,6 +35,7 @@ const COLOR_GROUPS: { title: string; tokens: string[] }[] = [
   { title: "Severity (solid)", tokens: SEVERITIES.map((s) => `sev-${s}`) },
   { title: "Severity (ink on soft)", tokens: SEVERITIES.map((s) => `sev-${s}-ink`) },
   { title: "Charts and boxes", tokens: ["chart-1", "chart-2", "chart-3", "chart-4", "box", "box-review"] },
+  { title: "Roads: needs review", tokens: ["review", "review-ink", "review-soft", "box-review"] },
   { title: "Restrooms: verdicts (solid)", tokens: ["verdict-clear", "verdict-review", "verdict-confusing"] },
   { title: "Restrooms: predicted gender", tokens: ["gender-male", "gender-male-soft", "gender-female", "gender-female-soft"] },
 ];
@@ -193,6 +194,7 @@ export function ThemedShowcase() {
           <Badge tone="accent">Accent</Badge>
           <Badge tone="outline">Outline</Badge>
           <Badge tone="inverse">Inverse</Badge>
+          <ReviewBadge />
           <DemoBadge show />
         </div>
       </section>
