@@ -1,7 +1,7 @@
 # Slide numbers: source inventory
 
-Generated (UTC): 2026-11-11T15:23:56+00:00
-Git HEAD at generation: `63e2edf` (working-tree changes, if any, are not captured by the hash).
+Generated (UTC): 2026-11-11T16:31:31+00:00
+Git HEAD at generation: `4bfee14` (working-tree changes, if any, are not captured by the hash).
 
 Values are read from files, not necessarily used in the final slides. Missing values are marked explicitly. Re-run after updates and verify the final deck.
 
@@ -180,4 +180,225 @@ Values are read from files, not necessarily used in the final slides. Missing va
 | Pipeline champion train episodes top-1 mean | 0.9597 | 0.960 | `ml/results/restroom/pipeline.json → train_episodes.<champion>.top1.mean` |
 | Pairwise male-door ranking accuracy (original images) | 0.9024 | 0.902 | `ml/results/restroom/pair_separation.json → zero_shot.orig.pairwise.accuracy_men_door_has_higher_p_male` |
 | Original pairs passing margin 0.20 | 0.622 | 0.622 | `ml/results/restroom/pair_separation.json → zero_shot.orig.pairwise.sweep[margin=0.20].real_pairs_pass` |
-| Restroom confidence intervals | not available yet | not available yet | `ml/results/restroom/intervals.json` |
+| Restroom confidence intervals protocol | Exact (Clopper-Pearson) 95 % intervals of stored predictions against the IOAI answers; exact McNemar tests on the test queries where exactly one method is right. No method was re-run. | Exact (Clopper-Pearson) 95 % intervals of stored predictions against the IOAI answers; exact McNemar tests on the test queries where exactly one method is right. No method was re-run. | `ml/results/restroom/intervals.json.protocol` |
+| Restroom confidence intervals scores R0 val k | 8 | 8.000 | `ml/results/restroom/intervals.json.scores.R0.val.k` |
+| Restroom confidence intervals scores R0 val n | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.R0.val.n` |
+| Restroom confidence intervals scores R0 val accuracy | 0.8 | 0.800 | `ml/results/restroom/intervals.json.scores.R0.val.accuracy` |
+| Restroom confidence intervals scores R0 val ci95 [0] | 0.4439 | 0.444 | `ml/results/restroom/intervals.json.scores.R0.val.ci95[0]` |
+| Restroom confidence intervals scores R0 val ci95 [1] | 0.9748 | 0.975 | `ml/results/restroom/intervals.json.scores.R0.val.ci95[1]` |
+| Restroom confidence intervals scores R0 test k | 23 | 23.000 | `ml/results/restroom/intervals.json.scores.R0.test.k` |
+| Restroom confidence intervals scores R0 test n | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.R0.test.n` |
+| Restroom confidence intervals scores R0 test accuracy | 0.7667 | 0.767 | `ml/results/restroom/intervals.json.scores.R0.test.accuracy` |
+| Restroom confidence intervals scores R0 test ci95 [0] | 0.5772 | 0.577 | `ml/results/restroom/intervals.json.scores.R0.test.ci95[0]` |
+| Restroom confidence intervals scores R0 test ci95 [1] | 0.9007 | 0.901 | `ml/results/restroom/intervals.json.scores.R0.test.ci95[1]` |
+| Restroom confidence intervals scores R1 val k | 8 | 8.000 | `ml/results/restroom/intervals.json.scores.R1.val.k` |
+| Restroom confidence intervals scores R1 val n | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.R1.val.n` |
+| Restroom confidence intervals scores R1 val accuracy | 0.8 | 0.800 | `ml/results/restroom/intervals.json.scores.R1.val.accuracy` |
+| Restroom confidence intervals scores R1 val ci95 [0] | 0.4439 | 0.444 | `ml/results/restroom/intervals.json.scores.R1.val.ci95[0]` |
+| Restroom confidence intervals scores R1 val ci95 [1] | 0.9748 | 0.975 | `ml/results/restroom/intervals.json.scores.R1.val.ci95[1]` |
+| Restroom confidence intervals scores R1 test k | 23 | 23.000 | `ml/results/restroom/intervals.json.scores.R1.test.k` |
+| Restroom confidence intervals scores R1 test n | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.R1.test.n` |
+| Restroom confidence intervals scores R1 test accuracy | 0.7667 | 0.767 | `ml/results/restroom/intervals.json.scores.R1.test.accuracy` |
+| Restroom confidence intervals scores R1 test ci95 [0] | 0.5772 | 0.577 | `ml/results/restroom/intervals.json.scores.R1.test.ci95[0]` |
+| Restroom confidence intervals scores R1 test ci95 [1] | 0.9007 | 0.901 | `ml/results/restroom/intervals.json.scores.R1.test.ci95[1]` |
+| Restroom confidence intervals scores R2 val k | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.R2.val.k` |
+| Restroom confidence intervals scores R2 val n | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.R2.val.n` |
+| Restroom confidence intervals scores R2 val accuracy | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.R2.val.accuracy` |
+| Restroom confidence intervals scores R2 val ci95 [0] | 0.6915 | 0.692 | `ml/results/restroom/intervals.json.scores.R2.val.ci95[0]` |
+| Restroom confidence intervals scores R2 val ci95 [1] | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.R2.val.ci95[1]` |
+| Restroom confidence intervals scores R2 test k | 26 | 26.000 | `ml/results/restroom/intervals.json.scores.R2.test.k` |
+| Restroom confidence intervals scores R2 test n | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.R2.test.n` |
+| Restroom confidence intervals scores R2 test accuracy | 0.8667 | 0.867 | `ml/results/restroom/intervals.json.scores.R2.test.accuracy` |
+| Restroom confidence intervals scores R2 test ci95 [0] | 0.6928 | 0.693 | `ml/results/restroom/intervals.json.scores.R2.test.ci95[0]` |
+| Restroom confidence intervals scores R2 test ci95 [1] | 0.9624 | 0.962 | `ml/results/restroom/intervals.json.scores.R2.test.ci95[1]` |
+| Restroom confidence intervals scores R3 val k | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.R3.val.k` |
+| Restroom confidence intervals scores R3 val n | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.R3.val.n` |
+| Restroom confidence intervals scores R3 val accuracy | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.R3.val.accuracy` |
+| Restroom confidence intervals scores R3 val ci95 [0] | 0.6915 | 0.692 | `ml/results/restroom/intervals.json.scores.R3.val.ci95[0]` |
+| Restroom confidence intervals scores R3 val ci95 [1] | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.R3.val.ci95[1]` |
+| Restroom confidence intervals scores R3 test k | 27 | 27.000 | `ml/results/restroom/intervals.json.scores.R3.test.k` |
+| Restroom confidence intervals scores R3 test n | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.R3.test.n` |
+| Restroom confidence intervals scores R3 test accuracy | 0.9 | 0.900 | `ml/results/restroom/intervals.json.scores.R3.test.accuracy` |
+| Restroom confidence intervals scores R3 test ci95 [0] | 0.7347 | 0.735 | `ml/results/restroom/intervals.json.scores.R3.test.ci95[0]` |
+| Restroom confidence intervals scores R3 test ci95 [1] | 0.9789 | 0.979 | `ml/results/restroom/intervals.json.scores.R3.test.ci95[1]` |
+| Restroom confidence intervals scores R4 val k | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.R4.val.k` |
+| Restroom confidence intervals scores R4 val n | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.R4.val.n` |
+| Restroom confidence intervals scores R4 val accuracy | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.R4.val.accuracy` |
+| Restroom confidence intervals scores R4 val ci95 [0] | 0.6915 | 0.692 | `ml/results/restroom/intervals.json.scores.R4.val.ci95[0]` |
+| Restroom confidence intervals scores R4 val ci95 [1] | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.R4.val.ci95[1]` |
+| Restroom confidence intervals scores R4 test k | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.R4.test.k` |
+| Restroom confidence intervals scores R4 test n | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.R4.test.n` |
+| Restroom confidence intervals scores R4 test accuracy | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.R4.test.accuracy` |
+| Restroom confidence intervals scores R4 test ci95 [0] | 0.8843 | 0.884 | `ml/results/restroom/intervals.json.scores.R4.test.ci95[0]` |
+| Restroom confidence intervals scores R4 test ci95 [1] | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.R4.test.ci95[1]` |
+| Restroom confidence intervals scores R6 val k | 5 | 5.000 | `ml/results/restroom/intervals.json.scores.R6.val.k` |
+| Restroom confidence intervals scores R6 val n | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.R6.val.n` |
+| Restroom confidence intervals scores R6 val accuracy | 0.5 | 0.500 | `ml/results/restroom/intervals.json.scores.R6.val.accuracy` |
+| Restroom confidence intervals scores R6 val ci95 [0] | 0.1871 | 0.187 | `ml/results/restroom/intervals.json.scores.R6.val.ci95[0]` |
+| Restroom confidence intervals scores R6 val ci95 [1] | 0.8129 | 0.813 | `ml/results/restroom/intervals.json.scores.R6.val.ci95[1]` |
+| Restroom confidence intervals scores R6 test k | 9 | 9.000 | `ml/results/restroom/intervals.json.scores.R6.test.k` |
+| Restroom confidence intervals scores R6 test n | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.R6.test.n` |
+| Restroom confidence intervals scores R6 test accuracy | 0.3 | 0.300 | `ml/results/restroom/intervals.json.scores.R6.test.accuracy` |
+| Restroom confidence intervals scores R6 test ci95 [0] | 0.1473 | 0.147 | `ml/results/restroom/intervals.json.scores.R6.test.ci95[0]` |
+| Restroom confidence intervals scores R6 test ci95 [1] | 0.494 | 0.494 | `ml/results/restroom/intervals.json.scores.R6.test.ci95[1]` |
+| Restroom confidence intervals scores pipeline:ioai_baseline_clip val k | 8 | 8.000 | `ml/results/restroom/intervals.json.scores.pipeline:ioai_baseline_clip.val.k` |
+| Restroom confidence intervals scores pipeline:ioai_baseline_clip val n | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.pipeline:ioai_baseline_clip.val.n` |
+| Restroom confidence intervals scores pipeline:ioai_baseline_clip val accuracy | 0.8 | 0.800 | `ml/results/restroom/intervals.json.scores.pipeline:ioai_baseline_clip.val.accuracy` |
+| Restroom confidence intervals scores pipeline:ioai_baseline_clip val ci95 [0] | 0.4439 | 0.444 | `ml/results/restroom/intervals.json.scores.pipeline:ioai_baseline_clip.val.ci95[0]` |
+| Restroom confidence intervals scores pipeline:ioai_baseline_clip val ci95 [1] | 0.9748 | 0.975 | `ml/results/restroom/intervals.json.scores.pipeline:ioai_baseline_clip.val.ci95[1]` |
+| Restroom confidence intervals scores pipeline:ioai_baseline_clip test k | 23 | 23.000 | `ml/results/restroom/intervals.json.scores.pipeline:ioai_baseline_clip.test.k` |
+| Restroom confidence intervals scores pipeline:ioai_baseline_clip test n | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.pipeline:ioai_baseline_clip.test.n` |
+| Restroom confidence intervals scores pipeline:ioai_baseline_clip test accuracy | 0.7667 | 0.767 | `ml/results/restroom/intervals.json.scores.pipeline:ioai_baseline_clip.test.accuracy` |
+| Restroom confidence intervals scores pipeline:ioai_baseline_clip test ci95 [0] | 0.5772 | 0.577 | `ml/results/restroom/intervals.json.scores.pipeline:ioai_baseline_clip.test.ci95[0]` |
+| Restroom confidence intervals scores pipeline:ioai_baseline_clip test ci95 [1] | 0.9007 | 0.901 | `ml/results/restroom/intervals.json.scores.pipeline:ioai_baseline_clip.test.ci95[1]` |
+| Restroom confidence intervals scores pipeline:singapore_hist_top2_sift val k | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.pipeline:singapore_hist_top2_sift.val.k` |
+| Restroom confidence intervals scores pipeline:singapore_hist_top2_sift val n | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.pipeline:singapore_hist_top2_sift.val.n` |
+| Restroom confidence intervals scores pipeline:singapore_hist_top2_sift val accuracy | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:singapore_hist_top2_sift.val.accuracy` |
+| Restroom confidence intervals scores pipeline:singapore_hist_top2_sift val ci95 [0] | 0.6915 | 0.692 | `ml/results/restroom/intervals.json.scores.pipeline:singapore_hist_top2_sift.val.ci95[0]` |
+| Restroom confidence intervals scores pipeline:singapore_hist_top2_sift val ci95 [1] | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:singapore_hist_top2_sift.val.ci95[1]` |
+| Restroom confidence intervals scores pipeline:singapore_hist_top2_sift test k | 25 | 25.000 | `ml/results/restroom/intervals.json.scores.pipeline:singapore_hist_top2_sift.test.k` |
+| Restroom confidence intervals scores pipeline:singapore_hist_top2_sift test n | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.pipeline:singapore_hist_top2_sift.test.n` |
+| Restroom confidence intervals scores pipeline:singapore_hist_top2_sift test accuracy | 0.8333 | 0.833 | `ml/results/restroom/intervals.json.scores.pipeline:singapore_hist_top2_sift.test.accuracy` |
+| Restroom confidence intervals scores pipeline:singapore_hist_top2_sift test ci95 [0] | 0.6528 | 0.653 | `ml/results/restroom/intervals.json.scores.pipeline:singapore_hist_top2_sift.test.ci95[0]` |
+| Restroom confidence intervals scores pipeline:singapore_hist_top2_sift test ci95 [1] | 0.9436 | 0.944 | `ml/results/restroom/intervals.json.scores.pipeline:singapore_hist_top2_sift.test.ci95[1]` |
+| Restroom confidence intervals scores pipeline:clip_clip_greedy val k | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.pipeline:clip_clip_greedy.val.k` |
+| Restroom confidence intervals scores pipeline:clip_clip_greedy val n | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.pipeline:clip_clip_greedy.val.n` |
+| Restroom confidence intervals scores pipeline:clip_clip_greedy val accuracy | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:clip_clip_greedy.val.accuracy` |
+| Restroom confidence intervals scores pipeline:clip_clip_greedy val ci95 [0] | 0.6915 | 0.692 | `ml/results/restroom/intervals.json.scores.pipeline:clip_clip_greedy.val.ci95[0]` |
+| Restroom confidence intervals scores pipeline:clip_clip_greedy val ci95 [1] | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:clip_clip_greedy.val.ci95[1]` |
+| Restroom confidence intervals scores pipeline:clip_clip_greedy test k | 26 | 26.000 | `ml/results/restroom/intervals.json.scores.pipeline:clip_clip_greedy.test.k` |
+| Restroom confidence intervals scores pipeline:clip_clip_greedy test n | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.pipeline:clip_clip_greedy.test.n` |
+| Restroom confidence intervals scores pipeline:clip_clip_greedy test accuracy | 0.8667 | 0.867 | `ml/results/restroom/intervals.json.scores.pipeline:clip_clip_greedy.test.accuracy` |
+| Restroom confidence intervals scores pipeline:clip_clip_greedy test ci95 [0] | 0.6928 | 0.693 | `ml/results/restroom/intervals.json.scores.pipeline:clip_clip_greedy.test.ci95[0]` |
+| Restroom confidence intervals scores pipeline:clip_clip_greedy test ci95 [1] | 0.9624 | 0.962 | `ml/results/restroom/intervals.json.scores.pipeline:clip_clip_greedy.test.ci95[1]` |
+| Restroom confidence intervals scores pipeline:siftinl_clip_greedy val k | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.pipeline:siftinl_clip_greedy.val.k` |
+| Restroom confidence intervals scores pipeline:siftinl_clip_greedy val n | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.pipeline:siftinl_clip_greedy.val.n` |
+| Restroom confidence intervals scores pipeline:siftinl_clip_greedy val accuracy | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:siftinl_clip_greedy.val.accuracy` |
+| Restroom confidence intervals scores pipeline:siftinl_clip_greedy val ci95 [0] | 0.6915 | 0.692 | `ml/results/restroom/intervals.json.scores.pipeline:siftinl_clip_greedy.val.ci95[0]` |
+| Restroom confidence intervals scores pipeline:siftinl_clip_greedy val ci95 [1] | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:siftinl_clip_greedy.val.ci95[1]` |
+| Restroom confidence intervals scores pipeline:siftinl_clip_greedy test k | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.pipeline:siftinl_clip_greedy.test.k` |
+| Restroom confidence intervals scores pipeline:siftinl_clip_greedy test n | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.pipeline:siftinl_clip_greedy.test.n` |
+| Restroom confidence intervals scores pipeline:siftinl_clip_greedy test accuracy | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:siftinl_clip_greedy.test.accuracy` |
+| Restroom confidence intervals scores pipeline:siftinl_clip_greedy test ci95 [0] | 0.8843 | 0.884 | `ml/results/restroom/intervals.json.scores.pipeline:siftinl_clip_greedy.test.ci95[0]` |
+| Restroom confidence intervals scores pipeline:siftinl_clip_greedy test ci95 [1] | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:siftinl_clip_greedy.test.ci95[1]` |
+| Restroom confidence intervals scores pipeline:sift_clip_greedy val k | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_clip_greedy.val.k` |
+| Restroom confidence intervals scores pipeline:sift_clip_greedy val n | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_clip_greedy.val.n` |
+| Restroom confidence intervals scores pipeline:sift_clip_greedy val accuracy | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_clip_greedy.val.accuracy` |
+| Restroom confidence intervals scores pipeline:sift_clip_greedy val ci95 [0] | 0.6915 | 0.692 | `ml/results/restroom/intervals.json.scores.pipeline:sift_clip_greedy.val.ci95[0]` |
+| Restroom confidence intervals scores pipeline:sift_clip_greedy val ci95 [1] | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_clip_greedy.val.ci95[1]` |
+| Restroom confidence intervals scores pipeline:sift_clip_greedy test k | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_clip_greedy.test.k` |
+| Restroom confidence intervals scores pipeline:sift_clip_greedy test n | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_clip_greedy.test.n` |
+| Restroom confidence intervals scores pipeline:sift_clip_greedy test accuracy | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_clip_greedy.test.accuracy` |
+| Restroom confidence intervals scores pipeline:sift_clip_greedy test ci95 [0] | 0.8843 | 0.884 | `ml/results/restroom/intervals.json.scores.pipeline:sift_clip_greedy.test.ci95[0]` |
+| Restroom confidence intervals scores pipeline:sift_clip_greedy test ci95 [1] | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_clip_greedy.test.ci95[1]` |
+| Restroom confidence intervals scores pipeline:sift_hist_greedy val k | 9 | 9.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_hist_greedy.val.k` |
+| Restroom confidence intervals scores pipeline:sift_hist_greedy val n | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_hist_greedy.val.n` |
+| Restroom confidence intervals scores pipeline:sift_hist_greedy val accuracy | 0.9 | 0.900 | `ml/results/restroom/intervals.json.scores.pipeline:sift_hist_greedy.val.accuracy` |
+| Restroom confidence intervals scores pipeline:sift_hist_greedy val ci95 [0] | 0.555 | 0.555 | `ml/results/restroom/intervals.json.scores.pipeline:sift_hist_greedy.val.ci95[0]` |
+| Restroom confidence intervals scores pipeline:sift_hist_greedy val ci95 [1] | 0.9975 | 0.998 | `ml/results/restroom/intervals.json.scores.pipeline:sift_hist_greedy.val.ci95[1]` |
+| Restroom confidence intervals scores pipeline:sift_hist_greedy test k | 25 | 25.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_hist_greedy.test.k` |
+| Restroom confidence intervals scores pipeline:sift_hist_greedy test n | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_hist_greedy.test.n` |
+| Restroom confidence intervals scores pipeline:sift_hist_greedy test accuracy | 0.8333 | 0.833 | `ml/results/restroom/intervals.json.scores.pipeline:sift_hist_greedy.test.accuracy` |
+| Restroom confidence intervals scores pipeline:sift_hist_greedy test ci95 [0] | 0.6528 | 0.653 | `ml/results/restroom/intervals.json.scores.pipeline:sift_hist_greedy.test.ci95[0]` |
+| Restroom confidence intervals scores pipeline:sift_hist_greedy test ci95 [1] | 0.9436 | 0.944 | `ml/results/restroom/intervals.json.scores.pipeline:sift_hist_greedy.test.ci95[1]` |
+| Restroom confidence intervals scores pipeline:sift_combo_greedy val k | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_combo_greedy.val.k` |
+| Restroom confidence intervals scores pipeline:sift_combo_greedy val n | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_combo_greedy.val.n` |
+| Restroom confidence intervals scores pipeline:sift_combo_greedy val accuracy | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_combo_greedy.val.accuracy` |
+| Restroom confidence intervals scores pipeline:sift_combo_greedy val ci95 [0] | 0.6915 | 0.692 | `ml/results/restroom/intervals.json.scores.pipeline:sift_combo_greedy.val.ci95[0]` |
+| Restroom confidence intervals scores pipeline:sift_combo_greedy val ci95 [1] | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_combo_greedy.val.ci95[1]` |
+| Restroom confidence intervals scores pipeline:sift_combo_greedy test k | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_combo_greedy.test.k` |
+| Restroom confidence intervals scores pipeline:sift_combo_greedy test n | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_combo_greedy.test.n` |
+| Restroom confidence intervals scores pipeline:sift_combo_greedy test accuracy | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_combo_greedy.test.accuracy` |
+| Restroom confidence intervals scores pipeline:sift_combo_greedy test ci95 [0] | 0.8843 | 0.884 | `ml/results/restroom/intervals.json.scores.pipeline:sift_combo_greedy.test.ci95[0]` |
+| Restroom confidence intervals scores pipeline:sift_combo_greedy test ci95 [1] | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_combo_greedy.test.ci95[1]` |
+| Restroom confidence intervals scores pipeline:sift_clip_hungarian val k | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_clip_hungarian.val.k` |
+| Restroom confidence intervals scores pipeline:sift_clip_hungarian val n | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_clip_hungarian.val.n` |
+| Restroom confidence intervals scores pipeline:sift_clip_hungarian val accuracy | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_clip_hungarian.val.accuracy` |
+| Restroom confidence intervals scores pipeline:sift_clip_hungarian val ci95 [0] | 0.6915 | 0.692 | `ml/results/restroom/intervals.json.scores.pipeline:sift_clip_hungarian.val.ci95[0]` |
+| Restroom confidence intervals scores pipeline:sift_clip_hungarian val ci95 [1] | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_clip_hungarian.val.ci95[1]` |
+| Restroom confidence intervals scores pipeline:sift_clip_hungarian test k | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_clip_hungarian.test.k` |
+| Restroom confidence intervals scores pipeline:sift_clip_hungarian test n | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_clip_hungarian.test.n` |
+| Restroom confidence intervals scores pipeline:sift_clip_hungarian test accuracy | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_clip_hungarian.test.accuracy` |
+| Restroom confidence intervals scores pipeline:sift_clip_hungarian test ci95 [0] | 0.8843 | 0.884 | `ml/results/restroom/intervals.json.scores.pipeline:sift_clip_hungarian.test.ci95[0]` |
+| Restroom confidence intervals scores pipeline:sift_clip_hungarian test ci95 [1] | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_clip_hungarian.test.ci95[1]` |
+| Restroom confidence intervals scores pipeline:sift_hist_hungarian val k | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_hist_hungarian.val.k` |
+| Restroom confidence intervals scores pipeline:sift_hist_hungarian val n | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_hist_hungarian.val.n` |
+| Restroom confidence intervals scores pipeline:sift_hist_hungarian val accuracy | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_hist_hungarian.val.accuracy` |
+| Restroom confidence intervals scores pipeline:sift_hist_hungarian val ci95 [0] | 0.6915 | 0.692 | `ml/results/restroom/intervals.json.scores.pipeline:sift_hist_hungarian.val.ci95[0]` |
+| Restroom confidence intervals scores pipeline:sift_hist_hungarian val ci95 [1] | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_hist_hungarian.val.ci95[1]` |
+| Restroom confidence intervals scores pipeline:sift_hist_hungarian test k | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_hist_hungarian.test.k` |
+| Restroom confidence intervals scores pipeline:sift_hist_hungarian test n | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_hist_hungarian.test.n` |
+| Restroom confidence intervals scores pipeline:sift_hist_hungarian test accuracy | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_hist_hungarian.test.accuracy` |
+| Restroom confidence intervals scores pipeline:sift_hist_hungarian test ci95 [0] | 0.8843 | 0.884 | `ml/results/restroom/intervals.json.scores.pipeline:sift_hist_hungarian.test.ci95[0]` |
+| Restroom confidence intervals scores pipeline:sift_hist_hungarian test ci95 [1] | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_hist_hungarian.test.ci95[1]` |
+| Restroom confidence intervals scores pipeline:sift_combo_hungarian val k | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_combo_hungarian.val.k` |
+| Restroom confidence intervals scores pipeline:sift_combo_hungarian val n | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_combo_hungarian.val.n` |
+| Restroom confidence intervals scores pipeline:sift_combo_hungarian val accuracy | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_combo_hungarian.val.accuracy` |
+| Restroom confidence intervals scores pipeline:sift_combo_hungarian val ci95 [0] | 0.6915 | 0.692 | `ml/results/restroom/intervals.json.scores.pipeline:sift_combo_hungarian.val.ci95[0]` |
+| Restroom confidence intervals scores pipeline:sift_combo_hungarian val ci95 [1] | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_combo_hungarian.val.ci95[1]` |
+| Restroom confidence intervals scores pipeline:sift_combo_hungarian test k | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_combo_hungarian.test.k` |
+| Restroom confidence intervals scores pipeline:sift_combo_hungarian test n | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_combo_hungarian.test.n` |
+| Restroom confidence intervals scores pipeline:sift_combo_hungarian test accuracy | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_combo_hungarian.test.accuracy` |
+| Restroom confidence intervals scores pipeline:sift_combo_hungarian test ci95 [0] | 0.8843 | 0.884 | `ml/results/restroom/intervals.json.scores.pipeline:sift_combo_hungarian.test.ci95[0]` |
+| Restroom confidence intervals scores pipeline:sift_combo_hungarian test ci95 [1] | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.pipeline:sift_combo_hungarian.test.ci95[1]` |
+| Restroom confidence intervals scores per_query:sift_combo_hungarian val k | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.per_query:sift_combo_hungarian.val.k` |
+| Restroom confidence intervals scores per_query:sift_combo_hungarian val n | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.per_query:sift_combo_hungarian.val.n` |
+| Restroom confidence intervals scores per_query:sift_combo_hungarian val accuracy | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.per_query:sift_combo_hungarian.val.accuracy` |
+| Restroom confidence intervals scores per_query:sift_combo_hungarian val ci95 [0] | 0.6915 | 0.692 | `ml/results/restroom/intervals.json.scores.per_query:sift_combo_hungarian.val.ci95[0]` |
+| Restroom confidence intervals scores per_query:sift_combo_hungarian val ci95 [1] | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.per_query:sift_combo_hungarian.val.ci95[1]` |
+| Restroom confidence intervals scores per_query:sift_combo_greedy val k | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.per_query:sift_combo_greedy.val.k` |
+| Restroom confidence intervals scores per_query:sift_combo_greedy val n | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.per_query:sift_combo_greedy.val.n` |
+| Restroom confidence intervals scores per_query:sift_combo_greedy val accuracy | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.per_query:sift_combo_greedy.val.accuracy` |
+| Restroom confidence intervals scores per_query:sift_combo_greedy val ci95 [0] | 0.6915 | 0.692 | `ml/results/restroom/intervals.json.scores.per_query:sift_combo_greedy.val.ci95[0]` |
+| Restroom confidence intervals scores per_query:sift_combo_greedy val ci95 [1] | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.per_query:sift_combo_greedy.val.ci95[1]` |
+| Restroom confidence intervals scores per_query:sift_combo_per_query val k | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.per_query:sift_combo_per_query.val.k` |
+| Restroom confidence intervals scores per_query:sift_combo_per_query val n | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.per_query:sift_combo_per_query.val.n` |
+| Restroom confidence intervals scores per_query:sift_combo_per_query val accuracy | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.per_query:sift_combo_per_query.val.accuracy` |
+| Restroom confidence intervals scores per_query:sift_combo_per_query val ci95 [0] | 0.6915 | 0.692 | `ml/results/restroom/intervals.json.scores.per_query:sift_combo_per_query.val.ci95[0]` |
+| Restroom confidence intervals scores per_query:sift_combo_per_query val ci95 [1] | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.per_query:sift_combo_per_query.val.ci95[1]` |
+| Restroom confidence intervals scores per_query:sift_combo_per_query test k | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.per_query:sift_combo_per_query.test.k` |
+| Restroom confidence intervals scores per_query:sift_combo_per_query test n | 30 | 30.000 | `ml/results/restroom/intervals.json.scores.per_query:sift_combo_per_query.test.n` |
+| Restroom confidence intervals scores per_query:sift_combo_per_query test accuracy | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.per_query:sift_combo_per_query.test.accuracy` |
+| Restroom confidence intervals scores per_query:sift_combo_per_query test ci95 [0] | 0.8843 | 0.884 | `ml/results/restroom/intervals.json.scores.per_query:sift_combo_per_query.test.ci95[0]` |
+| Restroom confidence intervals scores per_query:sift_combo_per_query test ci95 [1] | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.per_query:sift_combo_per_query.test.ci95[1]` |
+| Restroom confidence intervals scores per_query:clip_clip_per_query val k | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.per_query:clip_clip_per_query.val.k` |
+| Restroom confidence intervals scores per_query:clip_clip_per_query val n | 10 | 10.000 | `ml/results/restroom/intervals.json.scores.per_query:clip_clip_per_query.val.n` |
+| Restroom confidence intervals scores per_query:clip_clip_per_query val accuracy | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.per_query:clip_clip_per_query.val.accuracy` |
+| Restroom confidence intervals scores per_query:clip_clip_per_query val ci95 [0] | 0.6915 | 0.692 | `ml/results/restroom/intervals.json.scores.per_query:clip_clip_per_query.val.ci95[0]` |
+| Restroom confidence intervals scores per_query:clip_clip_per_query val ci95 [1] | 1.0 | 1.000 | `ml/results/restroom/intervals.json.scores.per_query:clip_clip_per_query.val.ci95[1]` |
+| Restroom confidence intervals paired_test [0] first | pipeline:sift_combo_hungarian | pipeline:sift_combo_hungarian | `ml/results/restroom/intervals.json.paired_test[0].first` |
+| Restroom confidence intervals paired_test [0] second | R0 | R0 | `ml/results/restroom/intervals.json.paired_test[0].second` |
+| Restroom confidence intervals paired_test [0] split | test | test | `ml/results/restroom/intervals.json.paired_test[0].split` |
+| Restroom confidence intervals paired_test [0] only_first_right | 7 | 7.000 | `ml/results/restroom/intervals.json.paired_test[0].only_first_right` |
+| Restroom confidence intervals paired_test [0] only_second_right | 0 | 0.000 | `ml/results/restroom/intervals.json.paired_test[0].only_second_right` |
+| Restroom confidence intervals paired_test [0] p_exact_mcnemar | 0.0156 | 0.016 | `ml/results/restroom/intervals.json.paired_test[0].p_exact_mcnemar` |
+| Restroom confidence intervals paired_test [1] first | pipeline:sift_combo_hungarian | pipeline:sift_combo_hungarian | `ml/results/restroom/intervals.json.paired_test[1].first` |
+| Restroom confidence intervals paired_test [1] second | R3 | R3 | `ml/results/restroom/intervals.json.paired_test[1].second` |
+| Restroom confidence intervals paired_test [1] split | test | test | `ml/results/restroom/intervals.json.paired_test[1].split` |
+| Restroom confidence intervals paired_test [1] only_first_right | 3 | 3.000 | `ml/results/restroom/intervals.json.paired_test[1].only_first_right` |
+| Restroom confidence intervals paired_test [1] only_second_right | 0 | 0.000 | `ml/results/restroom/intervals.json.paired_test[1].only_second_right` |
+| Restroom confidence intervals paired_test [1] p_exact_mcnemar | 0.25 | 0.250 | `ml/results/restroom/intervals.json.paired_test[1].p_exact_mcnemar` |
+| Restroom confidence intervals paired_test [2] first | pipeline:sift_combo_hungarian | pipeline:sift_combo_hungarian | `ml/results/restroom/intervals.json.paired_test[2].first` |
+| Restroom confidence intervals paired_test [2] second | pipeline:ioai_baseline_clip | pipeline:ioai_baseline_clip | `ml/results/restroom/intervals.json.paired_test[2].second` |
+| Restroom confidence intervals paired_test [2] split | test | test | `ml/results/restroom/intervals.json.paired_test[2].split` |
+| Restroom confidence intervals paired_test [2] only_first_right | 7 | 7.000 | `ml/results/restroom/intervals.json.paired_test[2].only_first_right` |
+| Restroom confidence intervals paired_test [2] only_second_right | 0 | 0.000 | `ml/results/restroom/intervals.json.paired_test[2].only_second_right` |
+| Restroom confidence intervals paired_test [2] p_exact_mcnemar | 0.0156 | 0.016 | `ml/results/restroom/intervals.json.paired_test[2].p_exact_mcnemar` |
+| Restroom confidence intervals paired_test [3] first | per_query:sift_combo_per_query | per_query:sift_combo_per_query | `ml/results/restroom/intervals.json.paired_test[3].first` |
+| Restroom confidence intervals paired_test [3] second | R0 | R0 | `ml/results/restroom/intervals.json.paired_test[3].second` |
+| Restroom confidence intervals paired_test [3] split | test | test | `ml/results/restroom/intervals.json.paired_test[3].split` |
+| Restroom confidence intervals paired_test [3] only_first_right | 7 | 7.000 | `ml/results/restroom/intervals.json.paired_test[3].only_first_right` |
+| Restroom confidence intervals paired_test [3] only_second_right | 0 | 0.000 | `ml/results/restroom/intervals.json.paired_test[3].only_second_right` |
+| Restroom confidence intervals paired_test [3] p_exact_mcnemar | 0.0156 | 0.016 | `ml/results/restroom/intervals.json.paired_test[3].p_exact_mcnemar` |
+| Restroom confidence intervals paired_test [4] first | per_query:sift_combo_per_query | per_query:sift_combo_per_query | `ml/results/restroom/intervals.json.paired_test[4].first` |
+| Restroom confidence intervals paired_test [4] second | R3 | R3 | `ml/results/restroom/intervals.json.paired_test[4].second` |
+| Restroom confidence intervals paired_test [4] split | test | test | `ml/results/restroom/intervals.json.paired_test[4].split` |
+| Restroom confidence intervals paired_test [4] only_first_right | 3 | 3.000 | `ml/results/restroom/intervals.json.paired_test[4].only_first_right` |
+| Restroom confidence intervals paired_test [4] only_second_right | 0 | 0.000 | `ml/results/restroom/intervals.json.paired_test[4].only_second_right` |
+| Restroom confidence intervals paired_test [4] p_exact_mcnemar | 0.25 | 0.250 | `ml/results/restroom/intervals.json.paired_test[4].p_exact_mcnemar` |
+| Restroom confidence intervals paired_test [5] first | per_query:sift_combo_per_query | per_query:sift_combo_per_query | `ml/results/restroom/intervals.json.paired_test[5].first` |
+| Restroom confidence intervals paired_test [5] second | pipeline:ioai_baseline_clip | pipeline:ioai_baseline_clip | `ml/results/restroom/intervals.json.paired_test[5].second` |
+| Restroom confidence intervals paired_test [5] split | test | test | `ml/results/restroom/intervals.json.paired_test[5].split` |
+| Restroom confidence intervals paired_test [5] only_first_right | 7 | 7.000 | `ml/results/restroom/intervals.json.paired_test[5].only_first_right` |
+| Restroom confidence intervals paired_test [5] only_second_right | 0 | 0.000 | `ml/results/restroom/intervals.json.paired_test[5].only_second_right` |
+| Restroom confidence intervals paired_test [5] p_exact_mcnemar | 0.0156 | 0.016 | `ml/results/restroom/intervals.json.paired_test[5].p_exact_mcnemar` |

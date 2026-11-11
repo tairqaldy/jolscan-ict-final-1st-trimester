@@ -1133,3 +1133,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - Removing the hover lift on the team cards: a teammate's design; only `transition: all` was replaced.
   - The first probe waited for text that was already on the page before the result, so its "moved under Reduce motion" hits were the loading state; the wait was fixed for round 2.
   - The dev server kept serving the old landing car CSS until `.next/dev` was deleted.
+
+### 11 November 2026, Tair (deck rebuilt from main; slide 2 statistic, R-2)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app; LibreOffice and PyMuPDF to render the slides for checking.
+- **Purpose:** rebuild the deck after the evening's merges (#426, #451, #450, #442, #436, #443) and fill the slide 2 gap with the source Alizhan found in #443.
+- **Key prompt(s), with a link to the transcript:** "u need to keep merging improving and making decisions on your own". Transcript kept locally.
+- **What it produced or changed:** slide 2 shows "60% of local roads in normative condition", with "West Kazakhstan Region, 1 January 2026" and a source line, plus one script sentence. `make_deck.py` reads the 60 from the Kazakh quote in `docs/research/deck-sources.md` and stops if they differ. The deck, SLIDES.md, deck-sources.md and `ml/results/SLIDE-NUMBERS.md` are regenerated from `main`.
+- **How I verified it, and who verified it:**
+  - Fetched the gov.kz page (article 2284, bko-kolik) on 11 November 2026; it says that on 1 January 2026 the share of local roads in normative condition was 60%, and 98% for roads of republican significance. Only the local-roads figure is used.
+  - The build checks 191 numbers against their files, with 1 open gap (R-6) and no slide text under 14 pt. The estimated talk is 8:02, with slide 2 at 0:30.
+  - Rendered slides 2 and 8 to PNG and looked at them. The first slide 2 layout overflowed the card, so I rebuilt it.
+- **What I rejected or corrected:** a bold one-line statistic (it wrapped into the source line); "only 60 percent" in the script (adds a judgement the source does not make); combining the 60% and 98% figures.
