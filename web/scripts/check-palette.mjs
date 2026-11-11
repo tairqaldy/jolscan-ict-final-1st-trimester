@@ -105,7 +105,7 @@ const deltaE = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
 function themeTokens(css, theme) {
   const light = declarations(block(css, '[data-theme="light"] {'));
   if (theme === "light") return light;
-  return { ...light, ...declarations(block(css, '[data-theme="dark"] {')) };
+  return { ...light, ...declarations(block(css, `[data-theme="${theme}"] {`)) };
 }
 
 const css = readFileSync(TOKENS, "utf8");
@@ -114,7 +114,7 @@ let flagged = 0;
 console.log(`# Colour-blind check of web/app/tokens.css\n`);
 console.log(`CIE76 ΔE between every pair in a set. **Bold** = below ${THRESHOLD}, a rule of thumb chosen for this project, not a standard.`);
 console.log(`Simulation: Machado, Oliveira and Fernandes (2009), severity 1.0, on linear RGB.\n`);
-for (const theme of ["light", "dark"]) {
+for (const theme of ["light", "dark", "contrast"]) {
   const vars = themeTokens(css, theme);
   console.log(`## ${theme[0].toUpperCase()}${theme.slice(1)} theme\n`);
   console.log("| Set | Pair | Normal | Protan | Deutan | Tritan |");
