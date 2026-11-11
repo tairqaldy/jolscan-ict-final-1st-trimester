@@ -23,8 +23,6 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **AI use:** Claude Code drew the SVGs from the code and `docs/ARCHITECTURE.md`, and checked every label (entry in docs/AI-USAGE-LOG.md).
 - **Open questions / next:** upload the PNGs to Drive `slides/`, ask Alizhan which version he talks over, send the backup PNG to Roma (R-26).
 
-### 2026-11-11 18:20 · G-42 (#276) · Anti-slop checklist
-
 ### 2026-11-11 16:50 · G-52 (#286) · One chart style for the app and the deck
 - **Status:** in progress. The style and the matplotlib block are written; Amina and Nazar still have to confirm in the chat and apply it to their plots.
 - **What I did:** Wrote down the app's light-theme chart values and seven chart rules, gave the model lanes a matplotlib block, and drew one sample from the real pothole runs to show it works.
