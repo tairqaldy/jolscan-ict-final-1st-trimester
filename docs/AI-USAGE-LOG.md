@@ -58,6 +58,16 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **Verification:** 36 API tests passed with fake backends in an isolated lightweight environment. Compile check passed. Alizhan has not yet personally reviewed this draft.
 - **Limits:** No team weights were available; model initialization with real weights and end-to-end inference remain to be checked on the presentation laptop.
 
+### 11 November 2026, Amina (M-0, timing acceptance pending)
+
+- **Tool and version:** Codex, GPT-6 family; exact model version not exposed.
+- **Purpose:** Confirm the existing selection rule and document the accepted E8 combination policy for #49.
+- **Key prompts:** "Complete it according to the current issue and CONTRIBUTING.md." "Continue preparing and committing the rule now; do not wait to write it. Keep the timing criterion unverified and M-0 unchecked until we receive evidence." "Document the E0 override; report exporter mismatch without changing code". Full chat export is not available in the repository; transcript archival remains outstanding under X-13.
+- **What it produced or changed:** Claim-only main commit, focused rule commit, task status, worklog, contribution row and decision 0009. Prepared a PR with timing and implementation limitations.
+- **How I verified it, and who verified it:** The assistant read live issue #49 (assigned to omodotori), experiment issues and open PRs; compared `TIE = 0.01`, validation-only champion inputs and `RULES_CONF = 0.40` with the documentation; reviewed the diff and passed `git diff --check`. Amina confirmed the E0 override and that chat start evidence is still being requested. No new training or model tests were run.
+- **What I rejected or corrected:** Preserved the unrelated notebook change and existing branches using an isolated worktree. Did not backdate, infer that E1-E7 had not started, tick M-0, change selection code, use test metrics for selection, or claim that the exporter implements the new fallback.
+
+
 ### 11 November 2026, Alizhan (S-3, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6 family.
