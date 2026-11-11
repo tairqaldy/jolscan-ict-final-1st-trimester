@@ -46,7 +46,7 @@ If asked, open in this order: `ml/train.py` (the run table at the top is the exp
 
 ## Study cards
 
-Each person prepares short spoken answers for their lane. The course digest for modules 6–9 has 15 model answers in section 4.
+Each person prepares short spoken answers for their lane. The course digest for modules 6–9 (team Drive, `course-digests/`, not in the public repository) has 15 model answers in section 4.
 
 **Nazar (restroom model)**
 1. What are CLIP and a Vision Transformer, in two sentences each?

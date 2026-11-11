@@ -1,9 +1,8 @@
 # Course grounding
 
-Every decision in this project should be explainable with something taught in ICT1103. This page is the short map. The full digests, with a page reference for every concept, are:
+Every decision in this project should be explainable with something taught in ICT1103. This page is the short map, with page references.
 
-- [research/course-digest-modules-1-5.md](research/course-digest-modules-1-5.md): syllabus, ML introduction, architecture, HCI, databases, data analysis and visualisation, networks, cybersecurity, Kazakhstan law.
-- [research/course-digest-modules-6-9.md](research/course-digest-modules-6-9.md): supervised and unsupervised ML, NLP and LLMs, computer vision, cloud and MLOps, the labs, and 15 likely questions with answers.
+The two full course digests (modules 1–5: syllabus, ML introduction, architecture, HCI, databases, data analysis, networks, cybersecurity, Kazakhstan law; modules 6–9: supervised and unsupervised ML, NLP and LLMs, computer vision, cloud and MLOps, the labs, and 15 likely questions with answers) paraphrase QAIRU lecture slides page by page. Since the repository is public, they are kept out of it (decision 0006, task X-18): ask Tair, or find them in the team's shared Drive folder `course-digests/`.
 
 The digests were produced by an AI model reading the lecture files. Before you quote a page number on a slide, open the lecture and check it.
 
