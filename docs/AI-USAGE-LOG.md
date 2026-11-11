@@ -22,7 +22,6 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
-### 11 November 2026, Amina (M-1, completed)
 ### 11 November 2026, Alizhan (S-29, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.
@@ -86,7 +85,7 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **Verification:** A fresh Windows Python 3.12 environment and a clean Linux Python 3.12 Actions job installed the pins and passed 30 API tests. Windows Uvicorn `/health` returned 200; Linux used TestClient. Alizhan has not yet personally reviewed this entry.
 - **Limits:** The Docker image was not built, real models were not tested in the new environment, and Tair and Nazar have not yet approved the version choice.
 
-### 11 November 2026, Amina (M-1, in progress)
+### 11 November 2026, Amina (M-1, completed)
 
 - **Tool and version:** Copilot SDK in VS Code; the version was not exposed in this session.
 - **Purpose:** Prepare the M-1 trainer and a reproducible Colab one-epoch smoke workflow.
