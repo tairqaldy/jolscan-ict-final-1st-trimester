@@ -22,6 +22,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Alizhan (S-4, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Verify the local website-to-FastAPI road analysis flow.
+- **Key prompt:** "хорошо, выпонли s4"; the user later asked "продолжай работу". The full session transcript is not exported here.
+- **What it produced or changed:** Ran the local app and service and recorded partial S-4 verification in `docs/worklog/alizhan.md` and `api/README.md`.
+- **Verification:** Browser observed Local health up; a test-set road photo returned HTTP 200 via the real stock YOLO, with zero detections; an intentionally fake one-box API response checked rendering and rules; the page showed an error when the API was stopped. Alizhan has not yet reviewed these observations.
+- **Limits:** COCO YOLO is not a pothole detector and the fixture is not a model result. Final verification using the team-trained E0 remains outstanding. No model weights or images were committed.
+
 ### 11 November 2026, Alizhan (S-13, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6 family.
