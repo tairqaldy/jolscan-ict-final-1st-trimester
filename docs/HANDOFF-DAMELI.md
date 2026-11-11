@@ -27,18 +27,18 @@ Key documents: [DESIGN-BRIEF.md](DESIGN-BRIEF.md) (the design direction), [ARCHI
 
 **Done and on `main`:**
 
-- The pothole model **E0 is trained and real**: test mAP50 0.799, mAP50-95 0.517, precision 0.867, recall 0.678; at the app's confidence 0.40, precision 0.874 and recall 0.678 (`ml/results/runs/E0.json`). The model page on the live site shows these numbers, not demo data.
+- **All nine pothole runs E0–E8 are trained and real** (Tair's MacBook, Apple M5 GPU, same split and seed). The champion by the selection rule is **E1** (YOLO26s): validation mAP50 0.824, within 0.01 of the best (E4, 0.828), and the highest validation recall at 0.40 (0.738). On test, read once per run: mAP50 0.8155; at confidence 0.40 it finds 178 of 236 potholes with 34 false alarms. E8 used the E0 settings because no change beat E0 by more than 0.01, and reproduced E0 exactly. Numbers: `ml/results/experiments.csv`; the model page shows the same export.
 - The dataset is rebuilt exactly from Kaggle and checked against the manifest (`data/make_potholes_yolo_v1.py`), and the dataset card and licence are filled in (`data/README.md`).
 - The model page follows the real selection rule (validation mAP50, recall at 0.40 as tie-break).
 - "Demo data" badges follow the data on screen. Pages with the seeded sample history say "Includes demo data", and invented rows say "Demo" in the provider column once PR #366 merges.
-- The real-model demo works on Tair's laptop: API with the E0 weights, then the web app on the **Local** provider. A test photo gave 4 potholes (4 labelled), Critical 17, in about 40 ms.
+- The real-model demo works on Tair's laptop: `scripts/demo-local.sh` serves the champion `jolscan-e1.pt`, then the web app on the **Local** provider. A test photo gave 4 potholes (4 labelled); the model takes 51–71 ms per photo on CPU once warm (`api/README.md`, S-2).
 - Restroom results are real exports from Nazar's runs (R0–R7).
 - Alizhan's API work is merged: pinned versions (S-23), API tests in CI (S-16), readiness and warm-up (S-20), one inference at a time (S-30), upload limits (S-31), response schemas (S-29).
 
 **In flight (do not duplicate):**
 
-- Tair: W-60 (fit each demo result on a 1280×720 projector; an agent is building it now), X-16 (runbook, PR #368), honest demo rows (PR #366), M-12 and M-13 (re-export and plots after more runs).
-- Amina: M-0 and E8 policy (PR #369), more runs E1–E8 in Colab, D-29 (commit the k-means script).
+- Tair: M-19 (operating point of the champion at 0.40), then the Drive upload of the weights and the Wi-Fi-off rehearsal (W-20). W-60, X-16, M-11, M-12 and M-13 are merged.
+- Amina: D-29 (commit the k-means script), M-18 study card. Her E8 policy (PR #369) is merged and was applied as written; all runs E1–E8 are done.
 - Alizhan: S-10 Lighthouse (PR #358), S-4 (PR #350) and the S-13 study card (PR #354), all being merged by Tair's session.
 - Roma: the deck (R-1, R-3, R-4) and QA.
 

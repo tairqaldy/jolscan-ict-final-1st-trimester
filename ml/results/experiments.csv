@@ -7,3 +7,4 @@ E4,optimizer: AdamW,0.8746,0.7389,0.8313,0.5629,0.8744,0.7373,,5.44,0.8276,0.727
 E5,standard augmentations off,0.8594,0.6568,0.7299,0.4667,0.8708,0.6568,,5.44,0.7119,0.6098,potholes_yolo_v1,Apple M5 GPU (mps)
 E6,input resolution 960,0.887,0.6737,0.7887,0.5383,0.887,0.6737,,5.49,0.8204,0.7016,potholes_yolo_v1,Apple M5 GPU (mps)
 E7,architecture: extra P2 small-object scale,0.8224,0.7161,0.7949,0.4493,0.8511,0.678,,5.6,0.789,0.6295,potholes_yolo_v1,Apple M5 GPU (mps)
+E8,"best combination: no change qualified, E0 settings",0.8667,0.678,0.7992,0.5173,0.8743,0.678,,5.44,0.8235,0.6951,potholes_yolo_v1,Apple M5 GPU (mps)

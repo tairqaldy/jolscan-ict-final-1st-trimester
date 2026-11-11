@@ -10,6 +10,16 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 ## Entries
 
+### 11 November 2026 · M-4, M-9, M-11, M-12, M-13 (#53, #66, #59, #60, #62) · All pothole runs E0–E8 and the final champion
+
+- **Status:** done. The Drive upload of `jolscan-e1.pt` and `jolscan-e8.pt` is still my step.
+- **What I did:** trained E1 (YOLO26s) and E6 (960 px) after E2–E7, all on the Apple M5 GPU with the same split, seed and trainer commit. Applied decision 0009: no single change beat E0 by more than 0.01 (best: E4, +0.004), so E8 got the E0 settings (PR #388), and I trained it from that `main` commit. Re-exported after each batch. With E1 the champion changed from E4 to E1, so I switched the champion figures, the demo script's default weights and the runbook, and repeated the S-2 check with E1 (PR #389).
+- **Result:** champion **E1** by the rule: validation mAP50 0.824 (tied with E4's 0.828 within 0.01), highest validation recall at 0.40 (0.738). Test, read once: mAP50 0.8155; at 0.40 it finds 178 of 236 potholes, misses 58, raises 34 false alarms. E8 equals E0 in every loss and metric of every epoch.
+- **Decisions and why:** the rule was fixed before E1 ran, so I follow it even though E4 has the higher test mAP50 (0.831). Choosing on test would make the test number optimistic. The model page states both facts. I found that `ml/export_results.py` joined CSV fields with commas, so E8's description ("no change qualified, E0 settings") shifted its columns and the bar chart showed wrong numbers for E8. The exporter now uses `csv.writer`, and a regression test fails without the fix.
+- **What I learned / can explain at the defense:** a validation-only selection rule with a tie band; why recall breaks the tie (a missed pothole never reaches a crew); why a deterministic re-run (E8 = E0) proves the pipeline is reproducible but says nothing about seed-to-seed spread (M-16).
+- **AI use:** Claude Code (Claude Opus 5.5) ran the training queue, the exports and the checks and wrote the changes; entry in docs/AI-USAGE-LOG.md.
+- **Open questions / next:** M-19 operating point for E1; upload the weights to the Drive.
+
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
 ### 11 November 2026 · X-18 (#227) · Public repository safety

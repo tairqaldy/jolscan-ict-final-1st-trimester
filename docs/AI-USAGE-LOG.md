@@ -476,3 +476,13 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - The colour values were copied from `web/app/tokens.css`.
   - The import into Canva and the font check on Roma's device are still for me to do.
 - **What I rejected or corrected:** did not use the Canva connector (its tools are switched off in my settings), and did not put any real number into the template.
+
+### 11 November 2026, Tair (pothole runs E1, E6, E8, final champion)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** train the remaining pothole runs on my laptop, apply the E8 policy and the selection rule, and make the repository serve the champion.
+- **Key prompt(s), with a link to the transcript:** "work on completing tasks for ML for potholes", "in case someone blocks u, work further". Transcript kept locally.
+- **What it produced or changed:** the E8 entry in `ml/train.py`, the run files E1, E6, E8 (written by `ml/train.py`), the re-export, the champion figures, the demo default weights, the S-2 re-check, the CSV quoting fix in `ml/export_results.py` with its test.
+- **How I verified it, and who verified it:** every number comes from the run JSON files through the exporter; the confusion matrix counts were compared with `E1.json`; `/predict` was compared with `yolo predict` on three test photos; the E8 and E0 training CSVs were compared column by column.
+- **What I rejected or corrected:** the first E8 export drew wrong bars for E8 because of the unquoted comma; caught by looking at the chart, fixed in the exporter, not by editing the CSV.
+
