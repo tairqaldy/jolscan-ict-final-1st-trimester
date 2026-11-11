@@ -1,0 +1,62 @@
+{
+  "experiment": "Match in the app's setting: one whole door sign, its partner and K - 1 other restrooms in the gallery",
+  "data": "IOAI 2025 training originals only (82 restrooms); nothing tuned on validation or test",
+  "episodes_per_K": 500,
+  "seed": 42,
+  "histogram_weight": 0.3,
+  "gender_head": "zero-shot text prompts on CLIP ViT-B/32 (the API's default)",
+  "rules": {
+    "gender_filter": "most CLIP-similar candidate of the opposite predicted gender (the API before C-8)",
+    "clip": "most CLIP-similar candidate",
+    "histogram": "most colour-histogram-similar candidate",
+    "pipeline_step2": "0.3 z(histogram) + 0.7 z(CLIP) on query + gallery (the API since C-8)"
+  },
+  "results": {
+    "K6": {
+      "restrooms": 6,
+      "gallery_size": 11,
+      "chance": 0.0909,
+      "top1": {
+        "gender_filter": {
+          "mean": 0.594,
+          "std": 0.4911
+        },
+        "clip": {
+          "mean": 0.934,
+          "std": 0.2483
+        },
+        "histogram": {
+          "mean": 0.93,
+          "std": 0.2551
+        },
+        "pipeline_step2": {
+          "mean": 0.976,
+          "std": 0.153
+        }
+      }
+    },
+    "K30": {
+      "restrooms": 30,
+      "gallery_size": 59,
+      "chance": 0.0169,
+      "top1": {
+        "gender_filter": {
+          "mean": 0.56,
+          "std": 0.4964
+        },
+        "clip": {
+          "mean": 0.84,
+          "std": 0.3666
+        },
+        "histogram": {
+          "mean": 0.828,
+          "std": 0.3774
+        },
+        "pipeline_step2": {
+          "mean": 0.95,
+          "std": 0.2179
+        }
+      }
+    }
+  }
+}

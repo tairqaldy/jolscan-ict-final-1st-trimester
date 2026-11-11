@@ -4,6 +4,7 @@ import { Brain, Clock, EqualApproximately, MapPin, Timer, VenusAndMars, type Luc
 import { useMemo, type ReactNode } from "react";
 import { ResultProvenanceBadge } from "@/components/app/demo-badge";
 import { PROVIDER_META } from "@/components/app/provider-badge";
+import { rowDelay, stage, useStagedReveal } from "@/components/motion/stage";
 import { isSeededDemo, SEEDED_MODEL_LABEL } from "@/lib/mock/seeded";
 import { Badge } from "@/components/ui/badge";
 import { Callout } from "@/components/ui/callout";
@@ -12,6 +13,7 @@ import { Table, TD, TH, THead, TR } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/cn";
 import { formatDateTime } from "@/lib/format";
+import { reveal as revealAt } from "@/lib/motion";
 import { getRestroomSample } from "@/lib/mock/restroom-samples";
 import { assignDoors, doorGender, rejudge } from "@/lib/signage";
 import { VERDICT_CLASSES, VERDICT_META } from "@/lib/signage-ui";
@@ -27,16 +29,21 @@ export function signTitle(info: SignInputInfo, fallback: string): string {
  * Full result of a compare check, shared by Compare and the check detail page:
  * both signs side by side with gender and confidence, the similarity, the
  * verdict, the rule hits and the raw JSON.
+ * reveal (Compare, right after a run): the signs, then the verdict card, then
+ * the verdict, then the rule rows rise in, within 600 ms (G-75). The check
+ * detail page opens without it.
  */
-export function CompareResultView({ check }: { check: StoredSignageCheck }) {
+export function CompareResultView({ check, reveal = false }: { check: StoredSignageCheck; reveal?: boolean }) {
   const rules = signageRulesStore.useStore();
+  const staged = useStagedReveal(reveal);
+  const signsStage = stage(staged, 0);
+  const cardStage = stage(staged, revealAt.card);
+  const verdictStage = stage(staged, revealAt.key);
   const current = useMemo(() => rejudge(check, rules), [check, rules]);
   const rulesChanged = current.verdict !== check.verdict;
-  const t1 = rules.s1.minMargin;
   const t2 = rules.s2.minMargin;
   const t3 = rules.s3.minSimilarity;
   const doors = assignDoors(check.a, check.b);
-  const meta = VERDICT_META[check.verdict];
 
   const raw = useMemo(() => {
     const strip = (i: SignInputInfo) => ({
@@ -51,7 +58,7 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
   return (
     <div className="grid gap-6">
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
-        <Card>
+        <Card className={signsStage.className} style={signsStage.style}>
           {/* lg: tighter gaps and smaller signs (see SignColumn), so on a 1280×720 projector
               both signs, the two bars and the verdict card fit on one screen (W-60). */}
           <CardBody className="grid gap-6 lg:gap-4">
@@ -61,14 +68,14 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
             </div>
             <div className="grid gap-2 border-t border-border pt-5 lg:pt-4">
               <p className="inline-flex items-center gap-2 font-display text-lg font-semibold">
-                <VenusAndMars className="size-4.5 text-muted" aria-hidden /> How clearly do the two doors differ?
+                <VenusAndMars className="size-4.5 text-muted" aria-hidden /> Do the two doors read as different genders?
               </p>
               <ThresholdBar
                 value={doors.margin}
-                threshold={t1}
+                threshold={t2}
                 label="Gap in P(male) between the doors (0 the same, 1 opposite)"
                 valueText={doors.margin.toFixed(2)}
-                thresholdLabel={`the S1 threshold ${t1.toFixed(2)}. Below ${t2.toFixed(2)} (S2) the doors cannot be told apart`}
+                thresholdLabel={`the S2 threshold ${t2.toFixed(2)}: below it both signs read as the same gender`}
               />
               <p className="text-xs text-subtle">
                 The doors are compared with each other: the sign with the higher P(male) is read as the men&apos;s room. On the IOAI
@@ -77,7 +84,7 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
             </div>
             <div className="grid gap-2 border-t border-border pt-5 lg:pt-4">
               <p className="inline-flex items-center gap-2 font-display text-lg font-semibold">
-                <EqualApproximately className="size-4.5 text-muted" aria-hidden /> How alike are the two designs?
+                <EqualApproximately className="size-4.5 text-muted" aria-hidden /> Are the two designs one set?
               </p>
               <ThresholdBar
                 value={check.similarity}
@@ -90,22 +97,18 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
           </CardBody>
         </Card>
 
-        <Card className={cn("border-t-4", VERDICT_CLASSES[check.verdict].border)}>
+        <Card className={cn("border-t-4", VERDICT_CLASSES[check.verdict].border, cardStage.className)} style={cardStage.style}>
           <CardBody className="grid content-start gap-5">
             <div>
-              <p className="eyebrow text-muted">Signage verdict</p>
-              <div className="mt-2">
+              <p className="eyebrow text-muted">Verdict</p>
+              <div className={cn("mt-2", verdictStage.className)} style={verdictStage.style}>
                 <VerdictBadge verdict={check.verdict} size="lg" />
               </div>
-              <p className="mt-2 text-sm text-muted">{meta.description}.</p>
-            </div>
-            <div className="grid gap-0.5 text-sm">
-              <p className="text-xs text-muted">Recommended action</p>
-              <p className="font-semibold">{check.recommendedAction}</p>
+              <p className="mt-2 text-sm text-muted">{check.reason}.</p>
             </div>
             {rulesChanged && (
               <Callout tone="info" title="Your rules have changed since this check">
-                With the current thresholds this pair would be {VERDICT_META[current.verdict].label.toLowerCase()}.
+                With the current thresholds the verdict would be: {VERDICT_META[current.verdict].label}.
               </Callout>
             )}
             <dl className="grid grid-cols-2 gap-x-4 gap-y-3 border-t border-border pt-4 text-sm">
@@ -154,8 +157,8 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
                   </tr>
                 </THead>
                 <tbody>
-                  {check.ruleHits.map((h) => (
-                    <TR key={h.ruleId}>
+                  {check.ruleHits.map((h, i) => (
+                    <TR key={h.ruleId} {...stage(staged, rowDelay(i))}>
                       <TD className="whitespace-nowrap">
                         <span className="font-mono text-xs text-muted">{h.ruleId}</span>{" "}
                         <span className="font-medium">{h.title}</span>
@@ -169,7 +172,7 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
                 </tbody>
               </Table>
               <p className="mt-3 text-sm text-muted">
-                Clear when all three pass. Review when S2 passes but S1 or S3 fails. Confusing when S2 fails, whatever the others say.
+                Pair when both rules pass. Not a pair when either fails.
               </p>
             </TabsContent>
             <TabsContent value="json">

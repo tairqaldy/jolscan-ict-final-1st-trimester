@@ -12,11 +12,13 @@ Run:
 
 from __future__ import annotations
 
+import csv
 import logging
 import os
 import threading
 import time
 import uuid
+from datetime import datetime, timezone
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -67,6 +69,25 @@ app.include_router(restroom.router)
 _yolo = None
 _yolo_lock = threading.Lock()
 _yolo_inference_lock = threading.Lock()
+_predict_log_lock = threading.Lock()
+
+
+def _log_prediction(latency_ms: int, detections: list[dict]) -> None:
+    """Append aggregate prediction metadata; never record uploaded images or names."""
+    path = Path(os.environ["PREDICT_LOG_PATH"])
+    confidences = [item["confidence"] for item in detections]
+    with _predict_log_lock:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        needs_header = not path.exists() or path.stat().st_size == 0
+        with path.open("a", newline="", encoding="utf-8") as output:
+            writer = csv.writer(output)
+            if needs_header:
+                writer.writerow(["timeUtc", "latencyMs", "detectionCount", "meanConfidence", "model", "provider"])
+            writer.writerow([
+                datetime.now(timezone.utc).isoformat(), latency_ms, len(detections),
+                round(sum(confidences) / len(confidences), 4) if confidences else "",
+                MODEL_NAME, PROVIDER,
+            ])
 
 
 def get_yolo():
@@ -153,6 +174,12 @@ async def predict(file: UploadFile = File(...), conf: float = Form(0.25)) -> dic
             "confidence": round(float(box.conf[0]), 4),
             "box": {"x": round(x1, 5), "y": round(y1, 5), "w": round(x2 - x1, 5), "h": round(y2 - y1, 5)},
         })
+
+    if os.getenv("PREDICT_LOG_PATH"):
+        try:
+            await run_in_threadpool(_log_prediction, latency_ms, detections)
+        except OSError:
+            log.warning("Could not write prediction log", exc_info=True)
 
     return {
         "provider": PROVIDER,

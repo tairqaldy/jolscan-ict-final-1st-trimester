@@ -1,0 +1,68 @@
+{
+  "data": "164 IOAI training originals, zero-shot CLIP ViT-B/32 embeddings and the API's gender prompts",
+  "k_rule": "k = 2..8, KMeans(n_init=10, random_state=42); best cosine silhouette, or the smallest k within 0.01",
+  "sweep": {
+    "2": {
+      "inertia": 48.1496,
+      "silhouette_cosine": 0.133
+    },
+    "3": {
+      "inertia": 45.7185,
+      "silhouette_cosine": 0.1314
+    },
+    "4": {
+      "inertia": 44.1826,
+      "silhouette_cosine": 0.1199
+    },
+    "5": {
+      "inertia": 42.824,
+      "silhouette_cosine": 0.1419
+    },
+    "6": {
+      "inertia": 41.9211,
+      "silhouette_cosine": 0.1031
+    },
+    "7": {
+      "inertia": 41.0253,
+      "silhouette_cosine": 0.056
+    },
+    "8": {
+      "inertia": 40.165,
+      "silhouette_cosine": 0.1147
+    }
+  },
+  "k": 2,
+  "overall": {
+    "correct": 126,
+    "n": 164,
+    "accuracy": 0.7683,
+    "ci95": [
+      0.6961,
+      0.8305
+    ]
+  },
+  "clusters": [
+    {
+      "cluster": 0,
+      "size": 113,
+      "share_male": 0.5133,
+      "gender_accuracy": 0.7611,
+      "correct": 86,
+      "ci95": [
+        0.6717,
+        0.8363
+      ]
+    },
+    {
+      "cluster": 1,
+      "size": 51,
+      "share_male": 0.4706,
+      "gender_accuracy": 0.7843,
+      "correct": 40,
+      "ci95": [
+        0.6468,
+        0.8871
+      ]
+    }
+  ]
+}

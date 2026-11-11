@@ -236,7 +236,7 @@ Each page needs four states: loading, empty, error, and filled.
 | Where | What | Duration |
 |---|---|---|
 | Landing sections | Fade and rise on entry, staggered | 400–600 ms |
-| Detection demo and result | Boxes draw in one by one, then labels | 300 ms each |
+| Detection demo and result | Boxes draw in one by one, then labels; the last label is in by 600 ms (`boxTiming` in `detection-overlay.tsx`) | 300 ms each (`--duration-draw`) |
 | KPI tiles | Numbers count up once | 800 ms |
 | Page changes | Short cross-fade | 150–200 ms |
 | Hover and press | Small scale or tint | 100–150 ms |
@@ -317,7 +317,7 @@ One icon per concept, one size per context. Checked on the road and restroom res
 | Concept | Icon | Defined in or used on |
 |---|---|---|
 | Severity: clear, low, medium, high, critical | CircleCheck, CircleDot, CircleExclamationPoint, TriangleExclamationPoint, OctagonExclamationPoint | `web/lib/severity.ts` |
-| Verdict: clear, review, confusing | CircleCheck, TriangleExclamationPoint, OctagonX | `web/lib/signage-ui.ts` |
+| Verdict: pair, not a pair | CircleCheck, CircleX | `web/lib/signage-ui.ts` |
 | Gender: male, female | Mars, Venus | `web/lib/signage-ui.ts` |
 | Gap in P(male) between the doors (S1, S2) | VenusAndMars | Compare result |
 | Similarity of the two designs (S3) | EqualApproximately | Compare result |
@@ -503,3 +503,23 @@ Before, 15 labels wrote the spacing by hand: 11 with 0.14em, 4 with 0.18em (land
 **Removed.** The overview KPI tiles passed `className="p-3 sm:p-4"`, which never applied (the tile's own `p-4 sm:p-5` came later in the CSS); they render as before.
 
 **Found, not fixed here.** At 320 px the three-across overview tiles clip two-digit numbers (needs 59 px, has 45 px), and "63 ms" on `/app/roads` is clipped at 320 and 375 px. Both were clipped before this change; the fix is a smaller KPI number size on phones, which is a type decision.
+
+## Component states (G-6)
+
+Every primitive in `web/components/ui/` has the states below; `/design` shows them in a "States" grid per component, in light, dark and high contrast. Hover, focus and pressed are drawn there with each component's `forceState` prop, which uses the same classes as the real `hover:` / `active:` variants (`web/lib/ui-states.test.ts` fails if they drift apart).
+
+| Component | Hover | Pressed or selected | Focus | Disabled | Loading or error |
+|---|---|---|---|---|---|
+| Button | darker fill | scales to 98 % | ring eases in | 50 % | `aria-busy` + spinner |
+| Switch | thumb lifts, checked track darkens | thumb stretches 4 px, then slides | ring | 50 %, not-allowed cursor | |
+| Slider | thumb lifts | thumb grows to 110 % while held | ring | 60 % | |
+| Tabs | grey underline grows | amber underline grows from the centre | ring inside the tab | 50 % | |
+| Text field, select | border to `--muted` | select: accent border, chevron turns | ring | `surface-2` fill | field: red border and message (`error`) |
+| Segmented | text to `fg` | raised white segment | ring | 50 %, no hover | |
+| Table row | `surface-2` on clickable rows only | `data-state="selected"`: `accent-soft` | | | |
+| Dialog | | overlay fades, panel grows from 96 % (200 ms), leaves in 120 ms; the phone sheet slides up | trapped | | |
+
+- Card, badge and empty state are not interactive, so they have no hover or focus: a card that opens nothing must not look clickable.
+- Timings: 120 ms for feedback, 200 ms for a dialog entering, the tokens `--duration-fast` and `--duration-base`. The reference site (dope.security) uses 100 to 150 ms on its links and buttons. All of it is cut to the end state by Reduce motion (OS or Settings).
+- Tap targets (U6): below 640 px every button is 48 px tall, segmented options too; the switch and the slider thumb get a 48 px hit area from an invisible `::before` box, so the layout does not move.
+- **Toasts are not used.** Feedback stays next to the control that caused it (`Callout`, a line with `role="status"` or `role="alert"`). A toast appears far from the action and disappears on a timer, often before it is read, and it needs its own focus and pause rules (WCAG 2.2.1). No page needs one.

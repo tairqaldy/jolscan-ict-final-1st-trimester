@@ -30,6 +30,7 @@ venv/
 # JSON files are the committed results.
 /runs/
 api/runs/
+api/logs/
 mlruns/
 mlflow.db
 api/weights/

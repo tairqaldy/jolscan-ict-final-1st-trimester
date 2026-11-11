@@ -50,11 +50,11 @@ const roadSample = getSample("s01")!;
 const roadResult = scoreDetections(roadSample.detections, roadSample.meta);
 const roadHit = roadResult.ruleHits.find((h) => h.ruleId === "R3")!;
 
-const faint = RESTROOM_PRESETS.find((p) => p.id === "faint")!;
-const faintA = getRestroomSample(faint.a)!;
-const faintB = getRestroomSample(faint.b)!;
-const faintSimilarity = mockSimilarity(faintA.id, faintB.id);
-const signResult = evaluateSignage({ a: faintA.mock, b: faintB.mock, similarity: faintSimilarity });
+const twoSets = RESTROOM_PRESETS.find((p) => p.id === "mismatched")!;
+const twoSetsA = getRestroomSample(twoSets.a)!;
+const twoSetsB = getRestroomSample(twoSets.b)!;
+const twoSetsSimilarity = mockSimilarity(twoSetsA.id, twoSetsB.id);
+const signResult = evaluateSignage({ a: twoSetsA.mock, b: twoSetsB.mock, similarity: twoSetsSimilarity });
 const signHit = signResult.ruleHits.find((h) => !h.passed)!;
 
 const STEPS = [
@@ -76,7 +76,7 @@ const STEPS = [
   {
     icon: ListChecks,
     title: "Action",
-    text: "A repair priority with a target time, or a signage verdict with what to do next. Uncertain cases go to a review queue instead of being hidden.",
+    text: "A repair priority with a target time for a road, a pair or not a pair for two door signs. Uncertain road photos go to a review queue instead of being hidden.",
   },
 ];
 
@@ -120,12 +120,13 @@ export default function LandingPage() {
             </StaggerItem>
             <StaggerItem>
               <h1 className="max-w-3xl text-4xl leading-[1.04] font-bold sm:text-5xl">
-                Inspect roads and signs <span className="text-muted">with clarity.</span>
+                Inspect roads and signs <span className="text-muted">from a photo.</span>
               </h1>
             </StaggerItem>
             <StaggerItem>
               <p className="max-w-xl text-lg text-muted">
-                Inspect road damage and compare door signs with computer vision. Qarau shows the evidence behind each result.
+                {BRAND.name} uses computer vision to find potholes in road photos and to compare restroom door signs. Each result
+                shows what the model found and which rules decided it.
               </p>
             </StaggerItem>
             <StaggerItem className="flex flex-wrap gap-3">
@@ -153,7 +154,7 @@ export default function LandingPage() {
             <div className="grid gap-4 p-(--card-pad)">
               <HeroDemo />
               <div className="border-t border-border pt-4 text-sm">
-                <p className="font-medium">Why this priority?</p>
+                <p className="font-medium">Why this priority</p>
                 <p className="mt-1 text-muted">{roadHit.title}: {roadHit.detail} (+{roadHit.points} points).</p>
               </div>
               <Link href="/app/roads/analyze?sample=s01" className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-accent-ink underline underline-offset-4">
@@ -207,8 +208,8 @@ export default function LandingPage() {
 
         {/* Modules */}
         <section id="modules" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="modules-h">
-          <SectionTitle id="modules-h" eyebrow="The tools" title="One approach, two inspection tasks" />
-          <p className="mt-3 max-w-2xl text-muted">Choose a task to see how an image becomes an explainable result.</p>
+          <SectionTitle id="modules-h" eyebrow="The tools" title="Two inspection tasks" />
+          <p className="mt-3 max-w-2xl text-muted">Choose a task to see the steps from photo to result.</p>
           <div className="mt-8 grid gap-6 lg:grid-cols-2">
             <ModuleCard
               id="roads"
@@ -220,7 +221,7 @@ export default function LandingPage() {
             <ModuleCard
               id="restrooms"
               demo={<p className="rounded-md bg-surface-2 p-4 font-mono text-sm text-muted">Photos → comparison → signage verdict</p>}
-              text="A CLIP image encoder reads each door sign: which gender it shows, and how alike two designs are. Three rules turn a pair into clear, review or confusing."
+              text="A CLIP image encoder reads each door sign: which gender it shows, and how alike two designs are. Two rules decide: one design set and different genders is a pair, anything else is not a pair."
               output="Verdict and recommended action"
               cta={{
                 href: `/app/restrooms/compare?a=${RESTROOM_PRESETS[0].a}&b=${RESTROOM_PRESETS[0].b}`,
@@ -264,7 +265,8 @@ export default function LandingPage() {
         <section id="rules" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="rules-h">
           <SectionTitle id="rules-h" eyebrow="Explainable by design" title="Rules you can read" />
           <p className="mt-3 max-w-3xl text-muted">
-            The model produces predictions; the team’s rules turn those predictions into an outcome. These examples use mock predictions and show rule hits computed by the app:
+            The model makes predictions; rules the team wrote turn them into a decision. Both examples are rule hits the app
+            computed from mock predictions:
           </p>
           <div className="mt-8 grid gap-4 lg:grid-cols-2">
             <RuleHitCard
@@ -284,15 +286,15 @@ export default function LandingPage() {
             />
             <RuleHitCard
               module="restrooms"
-              context={`${faint.title} sample pair`}
+              context={`${twoSets.title} sample pair`}
               ruleId={signHit.ruleId}
               title={signHit.title}
               detail={signHit.detail}
-              marks={signHitMarks(signHit, signResult.doors, faintSimilarity)}
+              marks={signHitMarks(signHit, signResult.doors, twoSetsSimilarity)}
               effect="Failed"
               outcome={
                 <>
-                  <VerdictBadge verdict={signResult.verdict} /> {signResult.recommendedAction}
+                  <VerdictBadge verdict={signResult.verdict} /> {signResult.reason}
                 </>
               }
               href="/app/restrooms/rules"
@@ -375,7 +377,7 @@ export default function LandingPage() {
         {/* Course */}
         <section id="course" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="course-h">
           <details>
-            <summary className="cursor-pointer text-sm font-semibold text-accent-ink">Explore the course foundations</summary>
+            <summary className="cursor-pointer text-sm font-semibold text-accent-ink">Show the course topics behind the project</summary>
             <div className="mt-6"><SectionTitle id="course-h" eyebrow={`Built on ${COURSE.code}`} title="What the course taught, applied" /></div>
           <Stagger className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {COURSE_TOPICS.map((t) => (

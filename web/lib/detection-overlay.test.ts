@@ -6,7 +6,10 @@
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import { DetectionOverlay, HALO_SCALE, MIN_TAG_PX, placeTag, placeTags, tagFontSize } from "@/components/app/detection-overlay";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { boxTiming, DetectionOverlay, HALO_SCALE, MIN_TAG_PX, placeTag, placeTags, tagFontSize } from "@/components/app/detection-overlay";
+import { duration, reveal } from "@/lib/motion";
 import { getSample } from "@/lib/mock/samples";
 import { deriveDetections } from "@/lib/rules";
 
@@ -130,5 +133,25 @@ describe("box halo (G-48)", () => {
     const stroke = 1280 / 320; // box stroke in viewBox units, as in the overlay
     const rim = ((stroke * HALO_SCALE - stroke) / 2) * scale;
     expect(rim).toBeGreaterThanOrEqual(1.5);
+  });
+});
+
+describe("box draw-in timing (motion grill)", () => {
+  it("draws every box and tag within the 600 ms budget, one after another", () => {
+    expect(duration.draw).toBeLessThanOrEqual(reveal.budget);
+    for (let i = 0; i < 12; i++) {
+      const { box, tag } = boxTiming(i);
+      expect(box + duration.draw).toBeLessThanOrEqual(reveal.budget + 1e-9);
+      expect(tag + duration.base).toBeLessThanOrEqual(reveal.budget + 1e-9);
+      expect(tag).toBeGreaterThan(box);
+      if (i > 0) expect(box).toBeGreaterThanOrEqual(boxTiming(i - 1).box);
+    }
+    expect(boxTiming(1).box).toBeGreaterThan(boxTiming(0).box);
+  });
+
+  it("matches the box duration written in DESIGN-BRIEF.md", () => {
+    const brief = readFileSync(fileURLToPath(new URL("../../docs/DESIGN-BRIEF.md", import.meta.url)), "utf8");
+    const row = brief.split("\n").find((l) => l.startsWith("| Detection demo and result"));
+    expect(row).toContain(`${Math.round(duration.draw * 1000)} ms`);
   });
 });

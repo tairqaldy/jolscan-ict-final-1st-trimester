@@ -6,6 +6,12 @@ Both models are loaded on the first request that needs them, not at start-up. Th
 
 The FastAPI service was run with real stock YOLO weights on Windows for S-1; see the verification record below. Gradio and Docker still need their own runtime checks (S-5, S-8).
 
+## Prediction call log
+
+Prediction logging is opt-in: set `PREDICT_LOG_PATH` to a writable CSV file, for example `logs/predict-calls.csv` when starting in `api/`. With the variable unset or empty, no file is written. Each successful road prediction appends UTC time, model latency in milliseconds, detection count, mean detection confidence, model and provider. If there are no detections, mean confidence is blank. The log does not contain images or uploaded filenames, and `api/logs/` is ignored by Git. Restrict access to and manage retention of any configured log file as appropriate for the deployment.
+
+Writes are serialized within one server process. Separate worker processes or replicas need separate log files or an external coordinated log collector. If the log cannot be written, the server records a warning and still returns the prediction. The log is not yet connected to the analytics page.
+
 ## Run locally
 
 Use Python 3.12 in a virtual environment (S-1 was verified with Python 3.12.10). The install is large because it includes PyTorch. Direct dependencies are pinned; NumPy 2.5.4 requires Python 3.12 or newer. See [decision 0008](../docs/decisions/0008-api-python-312.md) for the version choice and its verification limits.
@@ -90,7 +96,9 @@ $env:WARMUP = "1"
 
 ## Restroom endpoints
 
-Code in `restroom.py`, shared upload checks in `imaging.py`. The model is OpenAI CLIP through `open_clip_torch` (ViT-B/32 by default, about 600 MB, downloaded on first use into the Hugging Face cache). The first restroom request takes a few seconds longer while it loads.
+Model card: [ml/restroom/MODEL_CARD.md](../ml/restroom/MODEL_CARD.md) (components, data, results with sources, limits).
+
+Code in `restroom.py` and `restroom_pipeline.py` (the two-step pipeline of `/restroom/match`), shared upload checks in `imaging.py`. The pipeline needs OpenCV (`cv2`), which comes with Ultralytics (`opencv-python`) through `requirements.txt`; do not also install `opencv-python-headless` here, the two packages both provide `cv2` and conflict. The CI job installs only the headless one, because it does not install Ultralytics. OpenCV is imported on the first `/restroom/match`, so the service and `/health` start without it. The model is OpenAI CLIP through `open_clip_torch` (ViT-B/32 by default, about 600 MB, downloaded on first use into the Hugging Face cache). The first restroom request takes a few seconds longer while it loads.
 
 ```bash
 curl -F "a=@men.png" -F "b=@women.png" http://localhost:8000/restroom/compare
@@ -101,7 +109,7 @@ curl -F "query=@query.png" -F "gallery=@g1.png" -F "gallery=@g2.png" -F "gallery
 ```
 
 - `compare` returns the predicted gender and its confidence for both signs, and their similarity, `(cos + 1) / 2` of the CLIP embeddings.
-- `match` returns the query's prediction and every gallery image as a candidate with id `"0"`, `"1"`, ... in upload order, sorted by similarity. `bestMatchId` is the most similar candidate whose predicted gender is the opposite of the query's, or `null`.
+- `match` returns the query's prediction and every gallery image as a candidate with id `"0"`, `"1"`, ... in upload order, sorted by similarity. `bestMatchId` is chosen by the two-step pipeline in `restroom_pipeline.py` (task C-8), one query at a time: step 1 checks whether the query is a crop of one gallery image (SIFT keypoints, affine RANSAC, pixel correlation after alignment at least 0.95, chosen on the training crops); step 2 takes the image most like that original, or like the query itself when there is none, by 0.3 × colour histogram + 0.7 × CLIP similarity (z-scored). The predicted genders are not used for it. `ownId` is the original found in step 1, or `null`. `bestMatchId` is `null` only when no candidate is left.
 - Validation is the same as `/predict`: JPEG, PNG or WebP, at most 10 MB and 40 megapixels per file, at most 60 gallery files. A missing field gives FastAPI's 422.
 
 Configuration:
@@ -113,7 +121,7 @@ Configuration:
 | `RESTROOM_PROBE` | none | Gender probe from `run.py --run R6`, e.g. `weights/restroom-probe-vit-b-32.npz`. Without it, zero-shot text prompts decide the gender. The probe must have been fitted on the same model and weights, or the model refuses to load |
 | `RESTROOM_MODEL_NAME` | derived | Name echoed in responses, e.g. `clip-vitb32-zs` or `clip-vitb32-ft6` |
 
-Measured on the IOAI data (ml/restroom/README.md): gender predictions from one sign are right about three times in four, so `bestMatchId` from the gender filter is often wrong. Treat it as a hint. The similarity score is the stronger signal.
+Measured on the IOAI data: gender predictions from one sign are right about three times in four, so the old rule (most similar sign of the opposite predicted gender) scored 9/30 on test. The pipeline scores 10/10 on the IOAI validation set through this endpoint, and 12/12 on the twelve real sample signs of the web app, where the query is a whole sign that is not in the gallery (11 November 2026). 1 query and 20 gallery images take about 0.4 s on a laptop CPU (Apple M4, median of 10 after a warm-up).
 
 ## Tests
 

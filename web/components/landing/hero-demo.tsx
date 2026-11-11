@@ -34,7 +34,7 @@ export function HeroDemo() {
   }, [reduce, paused]);
 
   return (
-    <div className="grid gap-3 rounded-lg border border-border bg-surface-2 p-(--card-pad) shadow-sm transition-all duration-[var(--duration-base)] hover:border-border-strong">
+    <div className="grid gap-3 rounded-lg border border-border bg-surface-2 p-(--card-pad) shadow-sm transition-colors duration-[var(--duration-base)] hover:border-border-strong">
       <div className="overflow-hidden rounded-lg border border-border bg-surface">
         <DetectionOverlay
           imageUrl={sample.file}

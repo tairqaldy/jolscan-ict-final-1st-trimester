@@ -26,6 +26,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tooltip } from "@/components/ui/tooltip";
 import { RESTROOM_SAMPLES } from "@/lib/mock/restroom-samples";
 import { SAMPLES, getSample } from "@/lib/mock/samples";
+import { StatesGrid } from "@/components/design/states-grid";
 import { deriveDetections } from "@/lib/rules";
 import { SEVERITIES, VERDICTS } from "@/lib/types";
 import { GenderTag, SignImage, ThresholdBar, VerdictBadge } from "@/components/restrooms/signage-bits";
@@ -83,7 +84,7 @@ const COLOR_GROUPS: { title: string; tokens: string[]; use: string; never: strin
   {
     title: "Restrooms: verdicts (solid)",
     tokens: ["verdict-clear", "verdict-review", "verdict-confusing"],
-    use: "the restroom verdict (clear, review, confusing) in badges and bars, with its icon and word. By default they reuse sev-clear, sev-medium and sev-critical.",
+    use: "the restroom verdict (pair: verdict-clear, not a pair: verdict-confusing) in badges and bars, with its icon and word. verdict-review is no longer used. By default they reuse sev-clear, sev-medium and sev-critical.",
     never: "for road severity (use sev-*), or without the verdict word.",
   },
   {
@@ -182,7 +183,7 @@ export function TokenReference() {
             </div>
             <h3 className="text-lg font-semibold">Motion</h3>
             <p className="text-sm text-muted">
-              <span className="font-mono">--duration-fast 120ms · base 200ms · slow 420ms · draw 700ms</span>. Easing{" "}
+              <span className="font-mono">--duration-fast 120ms · ui 160ms · base 200ms · slow 420ms · draw 300ms · --stagger-step 45ms</span>; a staged reveal ends within 600ms. Easing{" "}
               <span className="font-mono">--ease-standard</span>, <span className="font-mono">--ease-emphasized</span>. All
               animation stops under prefers-reduced-motion.
             </p>
@@ -279,14 +280,14 @@ export function ThemedShowcase() {
           {VERDICTS.map((v) => (
             <VerdictBadge key={v} verdict={v} />
           ))}
-          <VerdictBadge verdict="confusing" size="lg" />
+          <VerdictBadge verdict="not_pair" size="lg" />
         </div>
         <div className="flex flex-wrap gap-2">
           <GenderTag gender="male" confidence={0.97} />
           <GenderTag gender="female" confidence={0.62} />
         </div>
-        <ThresholdBar value={0.15} threshold={0.2} label="Gap in P(male) between the doors" valueText="0.15" thresholdLabel="S1 0.20" />
-        <VerdictBars verdicts={["clear", "clear", "clear", "review", "review", "confusing"]} />
+        <ThresholdBar value={0.03} threshold={0.05} label="Gap in P(male) between the doors" valueText="0.03" thresholdLabel="S2 0.05" />
+        <VerdictBars verdicts={["pair", "pair", "pair", "pair", "not_pair", "not_pair"]} />
       </section>
 
       <section className="grid gap-4">
@@ -343,6 +344,8 @@ export function ThemedShowcase() {
           <Field label="Text field" placeholder="Kabanbay Batyr Ave" hint="With a hint below." />
         </div>
       </section>
+
+      <StatesGrid />
 
       <section className="grid gap-4">
         <h3 className="text-xl font-bold">Selectable tiles</h3>

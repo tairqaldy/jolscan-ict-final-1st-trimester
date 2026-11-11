@@ -4,7 +4,7 @@ import { ImageOff } from "lucide-react";
 import { motion, useReducedMotionConfig } from "motion/react";
 import { useEffect, useId, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
-import { duration, ease } from "@/lib/motion";
+import { duration, ease, staggerDelay } from "@/lib/motion";
 import { useHydrated } from "@/lib/store/local-store";
 import type { DerivedDetection } from "@/lib/rules";
 import type { Detection } from "@/lib/types";
@@ -100,6 +100,22 @@ export function placeTags(
     placed.push({ ...best, ...tag });
     return best;
   });
+}
+
+/** A box's tag starts to fade in once the box outline is this far drawn. */
+export const TAG_AT = 0.7;
+
+/**
+ * Draw-in timing of box i, seconds from the moment the overlay mounts: the
+ * outline draws for --duration-draw (300 ms), its tag fades in for
+ * --duration-base from TAG_AT of the way through, and each box starts one
+ * stagger step after the previous. The start is capped so the last tag is in
+ * by reveal.budget (600 ms) however many boxes there are.
+ */
+export function boxTiming(i: number): { box: number; tag: number } {
+  const tagIn = duration.draw * TAG_AT;
+  const box = staggerDelay(i, tagIn + duration.base);
+  return { box, tag: box + tagIn };
 }
 
 /**
@@ -219,11 +235,11 @@ export function DetectionOverlay({
           const colour = active ? "var(--box-active)" : review ? "var(--box-review)" : "var(--box)";
           const { text: tag, w: tagW, h: tagH } = tags[i];
           const { x: tagX, y: tagY } = tagSpots[i];
-          const delay = animate ? 0.25 + i * 0.18 : 0;
+          const at = animate ? boxTiming(i) : { box: 0, tag: 0 };
           const fill = active ? "var(--box-fill-active)" : "transparent";
           const strokeWidth = active ? stroke * 1.6 : stroke;
           const dash = review || ignored ? `${stroke * 4} ${stroke * 2.5}` : undefined;
-          const draw = { duration: duration.draw, delay, ease: ease.emphasized };
+          const draw = { duration: duration.draw, delay: at.box, ease: ease.emphasized };
           const maskId = `${maskPrefix}-draw-${i}`;
           return (
             <g
@@ -287,7 +303,7 @@ export function DetectionOverlay({
               <motion.g
                 initial={animate ? { opacity: 0 } : false}
                 animate={{ opacity: 1 }}
-                transition={{ duration: duration.base, delay: delay + duration.draw * 0.7 }}
+                transition={{ duration: duration.base, delay: at.tag }}
               >
                 <rect x={tagX} y={tagY} width={tagW} height={tagH} rx={stroke} fill={colour} />
                 <text

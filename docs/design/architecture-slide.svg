@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" role="img" aria-labelledby="t d">
   <title id="t">Qarau architecture, slide 4</title>
-  <desc id="d">A photo goes from the browser to the Next.js server, which sends it to the chosen provider (mock, the local FastAPI service with YOLO and CLIP, or the opt-in cloud copy), applies the rules R1 to R6 or S1 to S3 to the returned JSON, and sends the result with a severity or verdict back to the browser.</desc>
+  <desc id="d">A photo goes from the browser to the Next.js server, which sends it to the chosen provider (mock, the local FastAPI service with YOLO and CLIP, or the opt-in cloud copy), applies the rules R1 to R6 or S2 and S3 to the returned JSON, and sends the result with a severity or verdict back to the browser.</desc>
   <!-- Source: docs/ARCHITECTURE.md section 1; labels checked against web/app/api, api/main.py and api/restroom.py. Colours: light theme of web/app/tokens.css. G-66. -->
   <defs>
     <marker id="ah-accent" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" orient="auto-start-reverse">
@@ -39,7 +39,7 @@
   <text class="t b" x="670" y="580" font-size="32">Rules applied here</text>
   <circle class="badge" cx="1066" cy="570" r="20"/><text class="badge-n" x="1066" y="579">4</text>
   <text class="t" x="670" y="630" font-size="28">Roads R1–R6</text>
-  <text class="t" x="670" y="672" font-size="28">Restrooms S1–S3</text>
+  <text class="t" x="670" y="672" font-size="28">Restrooms S2, S3</text>
   <text class="t muted" x="670" y="730" font-size="26">→ severity or verdict</text>
 
   <!-- Provider column -->
