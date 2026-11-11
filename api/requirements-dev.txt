@@ -1,6 +1,6 @@
 # Extras for the Gradio demo and the tests. Not needed in the Docker image.
 -r requirements.txt
-gradio
-pandas
-pytest
-httpx
+gradio==6.31.0
+pandas==3.1.1
+pytest==9.2.0
+httpx==0.28.1
