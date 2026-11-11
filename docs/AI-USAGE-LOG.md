@@ -856,3 +856,19 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - The first "before" run hit the new code because the dev server had already picked up the commits; I put the two old files back, ran it again, checked the zone count was 0, and restored them.
   - Playwright could not read the multipart body, so the upload check now records the `FormData` the page sends.
   - Did not move the error messages into the zone or change their copy: that would change both pages on the demo path.
+
+### 11 November 2026, Dameli (G-67 backup video poster)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) and Pillow in a throwaway environment, and a static ffmpeg 7.1 (pip package `imageio-ffmpeg`, outside the repository) for the tests.
+- **Purpose:** draw the poster frame for the backup video from a real result screen, pick one, and write the step that puts it in front of `qarau-demo.mp4` for one second.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-67 among them). Transcript kept locally.
+- **What it produced or changed:** `docs/design/video/make_poster.py` (three 1920 × 1080 variants and a 320 px / 1280 × 720 comparison sheet, written outside git), the "Poster frame" section and one table row in `docs/design/video.md`, the G-67 claim line in `docs/TASKS.md`.
+- **How I verified it, and who verified it:**
+  - Opened the three posters at full size and at 320 px wide; A keeps the boxes, "Critical" and 15 readable as a preview.
+  - The script's checks: every crop keeps the whole "Mock result" badge and leaves out the latency and time row; a crop moved onto either one makes it stop (tried both).
+  - Ran the ffmpeg block on three 5 s test clips (1920 × 1080 at 30 fps without and with sound, 1440 × 720 at 60 fps): 6.00 s, 180, 180 and 360 frames, poster for exactly the first second, then the clip. The `ffprobe` lines were not run (no ffprobe here); the real video does not exist yet.
+- **What I rejected or corrected:**
+  - The first ffmpeg version lost one poster frame (179 instead of 180): the `fps` filter drops the last frame of a 1 s loop. Now it loops 2 s and trims to 1 s after the `fps` filter.
+  - A duration check that passed two files to one `ffprobe` call (it takes one input); now a loop.
+  - Labels "Road result" and "Sign verdict" under variant B: those words are not in the recording, so they were removed.
+  - Crops that showed "Analysed 11 Nov, 18:09": that time would not match the recording.
