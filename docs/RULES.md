@@ -114,11 +114,13 @@ From the model, for signs `a` and `b`: predicted gender and its confidence, and 
 
 | ID | Rule | Default | Fails when | Evidence (82 IOAI training restrooms) |
 |---|---|---|---|---|
-| S1 | Which door is which is clear | gap ≥ 0.20 | The reading is too close to trust without a person checking | 62% of real pairs pass, and every one of them is read the right way round |
-| S2 | The two doors can be told apart | gap ≥ 0.05 | The two signs look almost the same to the model | Below 0.05 the reading is close to a coin toss; 15% of real pairs fall there |
-| S3 | The signs belong to one set | similarity ≥ 0.88 | The two designs look unrelated, so visitors may not read them as a pair | 95% of same-restroom pairs pass; 89% of pairs from two different restrooms fail. The first default, 0.75, flagged only 1% of them |
+| S1 | Which door is which is clear | gap ≥ 0.20 | The reading is too close to trust without a person checking | 62% of real pairs pass (95 % interval 0.51–0.73), and every one of them is read the right way round ([curves](../ml/results/restroom/figs/signage_thresholds.png)) |
+| S2 | The two doors can be told apart | gap ≥ 0.05 | The two signs look almost the same to the model | Below 0.05 the reading is close to a coin toss; 15% of real pairs fall there ([curves](../ml/results/restroom/figs/signage_thresholds.png)) |
+| S3 | The signs belong to one set | similarity ≥ 0.88 | The two designs look unrelated, so visitors may not read them as a pair | 95% of same-restroom pairs pass; 89% of pairs from two different restrooms fail. The first default, 0.75, flagged only 1% of them ([curves](../ml/results/restroom/figs/signage_thresholds.png)) |
 
 S2 is never stricter than S1.
+
+The trade-off behind each default is drawn in [`figs/signage_thresholds.png`](../ml/results/restroom/figs/signage_thresholds.png) (`python ml/restroom/signage_plots.py`, task C-27). S1 = 0.20 is the smallest margin at which every passing training pair is read the right way round. That is an in-sample choice, made on the same 82 restrooms it is measured on, which is why task C-26 checks the rules on the 10 validation restrooms.
 
 ## Verdict
 
