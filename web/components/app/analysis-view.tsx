@@ -261,7 +261,7 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
 
 function Meta({ icon: Icon, label, children, wide }: { icon: LucideIcon; label: string; children: ReactNode; wide?: boolean }) {
   return (
-    <div className={cn("grid gap-0.5", wide && "col-span-2")}>
+    <div className={cn("grid content-start gap-0.5", wide && "col-span-2")}>
       <dt className="inline-flex items-center gap-1.5 text-xs text-muted">
         <Icon className="size-3.5" aria-hidden />
         {label}
