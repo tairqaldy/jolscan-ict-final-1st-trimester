@@ -61,3 +61,11 @@ export const reveal = {
   budget: 0.6,
 } as const;
 
+/**
+ * Start of item i in a staggered entry whose items each take itemDuration
+ * seconds: one stagger step per item, capped so the last item still ends
+ * within reveal.budget (600 ms). Items past the cap start together.
+ */
+export function staggerDelay(i: number, itemDuration: number): number {
+  return Math.min(i * stagger, Math.max(0, reveal.budget - itemDuration));
+}

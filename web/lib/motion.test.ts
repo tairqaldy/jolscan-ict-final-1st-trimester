@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { duration, ease, reveal, stagger, timing } from "./motion";
+import { duration, ease, reveal, stagger, staggerDelay, timing } from "./motion";
 
 const css = readFileSync(fileURLToPath(new URL("../app/tokens.css", import.meta.url)), "utf8");
 
@@ -75,5 +75,13 @@ describe("staggered entries end within the 600 ms budget (motion grill)", () => 
     for (const n of steps) expect(Number.isFinite(n)).toBe(true);
     expect(duration.slow + Math.max(...steps) * stagger).toBeLessThanOrEqual(reveal.budget + 1e-9);
     expect(globals).toMatch(/\.stagger > :nth-child\(n \+ \d+\)/);
+  });
+
+  it("staggerDelay steps by stagger and caps at the budget", () => {
+    expect(staggerDelay(0, duration.slow)).toBe(0);
+    expect(staggerDelay(1, duration.slow)).toBeCloseTo(stagger, 5);
+    for (const d of [duration.base, duration.slow]) {
+      for (let i = 0; i < 20; i++) expect(staggerDelay(i, d) + d).toBeLessThanOrEqual(reveal.budget + 1e-9);
+    }
   });
 });
