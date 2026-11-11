@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardBody } from "@/components/ui/card";
+import { EmptySearch } from "@/components/illustrations";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Field } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
@@ -108,6 +109,7 @@ export function ReportsClient() {
       {filtered.length === 0 ? (
         <EmptyState
           icon={SearchX}
+          illustration={<EmptySearch />}
           title="No analyses match these filters"
           action={
             <Button variant="secondary" size="sm" onClick={clear}>
