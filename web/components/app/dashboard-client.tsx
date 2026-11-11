@@ -11,6 +11,7 @@ import { ClearQueue } from "@/components/illustrations";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageHeader } from "@/components/ui/page-header";
 import { MODULES } from "@/lib/brand";
+import { cn } from "@/lib/cn";
 import { formatDate, formatDateTime, median } from "@/lib/format";
 import { MOCK_ANCHOR } from "@/lib/mock/analyses";
 import { SEVERITY_META } from "@/lib/severity";
@@ -20,6 +21,7 @@ import { SEVERITIES } from "@/lib/types";
 import { AnalysesTable } from "./analyses-table";
 import { DemoBadge } from "./demo-badge";
 import { Kpi } from "./kpi";
+import { LINK_ROW } from "./link-row";
 import { SeverityBars } from "./severity-bars";
 
 export function DashboardClient() {
@@ -140,7 +142,7 @@ export function DashboardClient() {
                     <li key={a.id}>
                       <Link
                         href={`/app/roads/reports/${a.id}`}
-                        className="flex items-center justify-between gap-3 rounded-md border border-border px-3 py-2.5 hover:bg-surface-2"
+                        className={cn("flex items-center justify-between gap-3 rounded-md border border-border px-3 py-2.5", LINK_ROW)}
                       >
                         <span className="min-w-0">
                           <span className="block truncate font-medium">{a.location?.label ?? a.photo.fileName ?? "Uploaded photo"}</span>
@@ -179,9 +181,10 @@ export function DashboardClient() {
               </ButtonLink>
             </CardHeader>
             <CardBody>
-              <ol className="grid gap-2">
+              {/* A ranked list, not links: no boxed rows, so it does not look like the review queue next to it (G-9). */}
+              <ol className="grid divide-y divide-border">
                 {hotspots.map((h, i) => (
-                  <li key={h.label} className="flex items-center gap-3 rounded-md border border-border px-3 py-2.5">
+                  <li key={h.label} className="flex items-center gap-3 px-1 py-2.5">
                     <span className="tabular w-5 font-display text-lg font-bold text-subtle">{i + 1}</span>
                     <MapPin className="size-4 shrink-0 text-muted" aria-hidden />
                     <span className="min-w-0 flex-1">
