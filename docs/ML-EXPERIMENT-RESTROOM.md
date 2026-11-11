@@ -167,6 +167,19 @@ The 30/30 uses a **global assignment**: every query gets a different own origina
 
 The per-query variant loses about 3 points on training episodes against the global assignment and is a little better than the greedy one. Its test score was read once, after the numbers above were written: **30/30** (interval and paired tests in `intervals.json`: the same as the global assignment, 0.884–1.000). The 30/30 in the tables is labelled 'global assignment over the 30 test queries'; the method the app serves is the per-query one.
 
+### In the app's setting (task C-22, `ml/restroom/app_setting.py`)
+
+In the app the query is a whole door sign that is not in the gallery, so step 1 finds no own original and only step 2 matters. Built from the 82 **training** restrooms (500 episodes per size, seed 42, one query each, so the table shows the share of the 500 queries answered right): the query is one door sign, the gallery is its partner plus both signs of K − 1 other restrooms.
+
+| Rule | K = 6 (gallery 11, like the app's 12 real samples; chance 0.091) | K = 30 (gallery 59; chance 0.017) |
+|---|---|---|
+| Gender filter: most similar of the opposite predicted gender (the API before C-8, R6's rule) | 0.594 | 0.560 |
+| CLIP similarity alone | 0.934 | 0.840 |
+| Colour histogram alone | 0.930 | 0.828 |
+| **0.3 z(histogram) + 0.7 z(CLIP), the API since C-8** | 0.976 | 0.950 |
+
+The Match page uses the last rule (since C-8) and may quote **0.976 on 6 training restrooms**. The old gender filter loses about 40 points: one wrong gender, on the query or the partner, breaks the match. These are training restrooms, whose designs the step-2 weight was chosen on, so the number is optimistic for new designs; the 12/12 on the app's real validation signs (C-8) is the out-of-sample check, on only 12 signs.
+
 ## The layer experiment (`ml/restroom/layers.py`, Kaggle Tesla T4)
 
 The pipeline leaves one learned part, the step-2 similarity: how alike the two doors of one restroom look. That similarity is fine-tuned with the IOAI reference recipe: InfoNCE on male ↔ female originals, Adam at lr 1e-4, a cosine schedule, 50 epochs, batch 32, keeping the epoch with the lowest loss. **Only one thing changes: how many of the last layers are trained.**
