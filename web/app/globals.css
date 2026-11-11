@@ -327,3 +327,13 @@
 .recharts-tooltip-wrapper {
   font-variant-numeric: tabular-nums;
 }
+
+/*
+ * G-54: Pause/Play of the landing demos (components/landing/demo-pause-button.tsx).
+ * The demos do not loop under reduced motion, so the control is hidden then.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .demo-loop-control {
+    display: none;
+  }
+}
