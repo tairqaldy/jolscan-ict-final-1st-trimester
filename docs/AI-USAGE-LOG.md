@@ -888,3 +888,17 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - The stopped session's draft set the current radii inline on every column; removed, so column A reads the live tokens and survives a change to the radius count.
   - Its type outcome said all three pairs render the nine Kazakh letters; the per-letter check showed JetBrains Mono misses six, so the text now says so and G-43 stays open.
   - The first diff compared the whole columns and was thrown off by the list of overrides; it now compares only the specimen.
+
+### 11 November 2026, Dameli (G-28, G-47, G-48 follow-up: dashed review boxes, tag spacing)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment for the checks.
+- **Purpose:** make review boxes dashed like the legend swatch, and stop box tags from covering each other at 375 px.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (overlay follow-ups among them). Transcript kept locally.
+- **What it produced or changed:** in `web/components/app/detection-overlay.tsx`, dashed boxes as a plain dashed rect drawn in through a mask, and `placeTags`, which moves a tag that would cover an earlier one; five tests in `web/lib/detection-overlay.test.ts`; a note in DESIGN-BRIEF.md.
+- **How I verified it, and who verified it:**
+  - Playwright on my own dev server, `/app/roads/analyze?sample=s01` to `s06`, 1440 and 375 px, light and dark, plus reduced motion from the OS and from the Settings switch (48 page loads). Before: tags 1 and 3 on s05 at 375 px shared 87.4 px², review boxes computed `stroke-dasharray: 1px, 1px` (solid). After: no tag pair shares any area, review boxes compute `16px, 10px`, counted boxes stay solid, tags stay inside the photo at 11.00 px (375) and 12.98 px (1440).
+  - Screenshots of s05 before and after, during the draw-in and on hover.
+  - `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` pass.
+- **What I rejected or corrected:**
+  - Swapping the solid box for a dashed one when the animation ends (a visible jump).
+  - The first fallback put tag 3 inside its own box, which hid the 17 × 8 px box on a phone; below the box now comes first.
