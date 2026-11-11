@@ -267,6 +267,18 @@ We are at MLOps Level 0, manual (Lec9 p32): training is started by hand and depl
 
 Lifecycle mapping (Lec9 p31): Collect and validate data (`data/`, Roboflow dataset version) → Train and evaluate (`ml/`, MLflow) → Deploy (`api/`, Docker, Spaces) → Monitor (`web/` analytics page) → back to data (review queue of low-confidence photos).
 
+**A future Level 1 pipeline would automate these steps:**
+
+1. Validate the dataset (`data/dataset_stats.py`, planned in D-22; not yet present).
+2. Train a candidate (`ml/train.py`).
+3. Evaluate the candidate on validation data (`ml/train.py` and the run's JSON).
+4. Apply the validation-only gate (`ml/promote.py --candidate ... --champion ...`); inspect warnings about declared resolution changes and compare costs before deployment.
+5. Register the approved model and update the champion alias (MLflow registry, planned in S-27).
+6. Build the service container (`api/Dockerfile`, S-8).
+7. Deploy the approved container and monitor it.
+
+These steps are a plan, not a claim that Level 1 is already operational: starting Colab and moving weights via Drive remain manual, and the registry and deployment integrations must be verified separately. The gate prints a recommendation; it does not modify a registry or deploy a model. It never uses held-out test metrics to select a champion.
+
 ## 6. Environment variables
 
 | Variable | Used by | Meaning |

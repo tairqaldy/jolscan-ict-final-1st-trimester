@@ -12,6 +12,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 · S-28 (#222) · Validation-only promotion gate
+- **Status:** implemented; Amina's review pending.
+- **What I did:** Added a standard-library CLI that validates comparability and applies the existing champion selection rule using validation metrics only; described a future Level 1 pipeline without claiming it is automated.
+- **Result:** Tests cover promotion, ties, incompatible datasets and parameters, smoke runs, missing metrics and declared resolution changes. E6 versus E1 returns KEEP E1 with a resolution warning.
+- **Decisions and why:** Reject missing or invalid metadata and undeclared image-size changes; warn for declared resolution changes because cost still needs review.
+- **What I learned / can explain at the defense:** A promotion gate should compare like-for-like runs and never use the held-out test set to choose a model.
+- **AI use:** Codex desktop, GPT-6; personal review pending.
+- **Open questions / next:** Amina reviews the gate and declared-change warning policy; registry and deployment remain separate.
+
 ### 2026-11-11 · S-25 (#219) · Test model selection and export
 - **Status:** implemented; Amina's review pending.
 - **What I did:** Corrected floating-point comparison at the inclusive tie boundary, switched the existing CSV writer to `DictWriter`, and added four CI regression tests.
