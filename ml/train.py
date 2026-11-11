@@ -58,8 +58,9 @@ RUNS: dict[str, dict] = {
     "E7": dict(weights="yolo26n-p2.yaml", changed="architecture: extra P2 small-object scale", pretrained="yolo26n.pt"),
     # Only meaningful if the dataset version was exported without resizing to 640.
     "E6": dict(weights="yolo26n.pt", changed="input resolution 960", imgsz=960),
-    # E8: fill in after choosing the best settings with the selection rule. Then train it.
-    "E8": dict(weights=None, changed="best combination: FILL IN"),
+    # E8 policy (decision 0009): combine every change from E1, E3, E4 and E7 whose validation mAP50
+    # beats E0 by more than 0.01. None did (best: E4, +0.004), so E8 uses the E0 settings.
+    "E8": dict(weights="yolo26n.pt", changed="best combination: no change qualified, E0 settings"),
 }
 
 
