@@ -69,6 +69,8 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ### 11 November 2026, Amina (R-22 and R-23, presentation drafts)
 
+- **Generator/PPTX follow-up:** User explicitly requested generator-source changes and regeneration after detecting direct edits to generated Markdown. Preserved the old PPTX and latest scripts, moved the scripts/cues into generator source, added five regression tests including actual saved-PPTX round-trip and scoped preservation/refusal checks, and rebuilt with `--roads-only`. Exact ZIP comparison shows only Slides 5/6 and their notes changed; no other slide or audit row was overwritten. PowerPoint exported both updated slides for visual inspection; no visible clipping. Current PPTX contains the latest scripts and unresolved-rights/reporting-policy caveats. No rehearsal or Rules-page check is claimed.
+
 - **Review correction:** User asked to distinguish the project's 0.02 reporting convention from statistical equivalence/significance and dataset-level licence metadata from unresolved individual-photo rights. Verified protocol history (`6bc6c07`), `docs/ML-EXPERIMENT.md`, the source index and `data/README.md`; revised the spoken scripts and notes accordingly. Personal rehearsal and live Rules-page checks remain pending.
 
 - **Tool and version:** Codex, GPT-6 family.
@@ -76,7 +78,7 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **Key prompt:** "Update only Slides 5 and 6 in docs/deck/SLIDES.md." "Clearly distinguish my dataset, clustering, selection-policy and smoke work from Tair's full E0-E8 training." "Do not claim a timed rehearsal occurred." Full transcript archival remains outstanding under X-13.
 - **What it produced or changed:** Separate Slide 5 and Slide 6 commits plus supporting worklog/AI notes. Assigned the available issues to omodotori and pushed the claim-only main commit before preparing the slides.
 - **How verified:** Successfully fetched and fast-forwarded main; compared all numerical claims with the manifest, run JSONs/CSV, operating-point JSON, clustering JSON, rule configuration and unchanged deck-source index. Verified other slide sections are unchanged, script word counts 127/90, repository-result/hygiene checks and five checker tests passed; git diff --check passed.
-- **What rejected or corrected:** Removed misleading single-test-read wording; retained prior review overlap and multiple evaluation-pass limitations. No attribution of Tair's full training to Amina, invented uncertainty/latency, course-page verification or rehearsal evidence. No QA, application code, generated results, generator/PPTX, unrelated slides or Alizhan's source-audit file were changed. Manual edits to the generated Markdown are explicitly requested scope and need separate coordination before future regeneration.
+- **What rejected or corrected:** Removed misleading single-test-read wording; retained prior review overlap and multiple evaluation-pass limitations. No attribution of Tair's full training to Amina, invented uncertainty/latency, course-page verification or rehearsal evidence. No QA, application code, model results or unrelated slides were changed. The later user-authorized generator/PPTX follow-up updates generated output and only Roads source-index rows while preserving the rest of the audit; the latest scripts are now generator-owned.
 
 ### 11 November 2026, Alizhan (X-20, AI-assisted; personal review pending)
 
