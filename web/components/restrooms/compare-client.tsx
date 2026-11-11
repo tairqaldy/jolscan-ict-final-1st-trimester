@@ -111,7 +111,8 @@ export function CompareClient() {
                     setB({ kind: "sample", sample: pb });
                     setStatus({ state: "idle" });
                   }}
-                  className="flex h-full w-full items-center gap-3 p-2.5 pr-9"
+                  title={p.ref}
+                  className="flex h-full w-full items-center gap-3 p-2.5 pr-9 lg:flex-col lg:items-start lg:gap-2 lg:pr-2.5"
                 >
                   <span className="flex shrink-0 gap-1" aria-hidden>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
