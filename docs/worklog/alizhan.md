@@ -12,6 +12,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 · X-13 (#77) · AI prompt-log excerpts
+- **Status:** in progress; full transcripts and other members' records still need collection and review.
+- **What I did:** Collected selected exact prompts and evidence-backed summaries for the serving work in `docs/ai-logs/alizhan/2026-11-11-serving-codex-excerpts.md`, avoiding personal paths and recording the lack of a full export.
+- **Result:** A partial, sanitized record with links to task-specific PRs and the worklog, not a substitute for the full conversation.
+- **Decisions and why:** Did not invent missing transcripts or claim that other members used no AI.
+- **What I learned / can explain at the defense:** State how AI was used, what was verified and what remains uncertain; the defense answers are personal.
+- **AI use:** Codex desktop, GPT-6, to assemble and check the excerpts.
+- **Open questions / next:** Alizhan reviews the excerpts; each member contributes their own export or explains why it is unavailable, then the team audits the complete log.
+
 ### 2026-11-11 · R-21 (#230) · Architecture slide practice
 - **Status:** done; three recorded attempts are within the duration target and Alizhan confirmed the required handover.
 - **What I did:** Checked slide 4 and its speaker notes in the current PowerPoint against the deck source, API routes and the restroom latency CSV; prepared `docs/R21-ALIZHAN-PRACTICE.md`.

@@ -22,6 +22,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Alizhan (X-13, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Preserve selected prompts and verification context for Alizhan's project work.
+- **Key prompt:** "ладно начни выполнять все задание в code freeze". Additional exact prompts and task-specific outcomes are in [the selected session excerpts](ai-logs/alizhan/2026-11-11-serving-codex-excerpts.md).
+- **What it produced or changed:** A sanitized, partial prompt and outcome record with links to the existing worklog and PRs.
+- **How it was verified:** Checked the quoted prompts against the conversation context and linked work to recorded PRs; searched the new file for common secret and personal-contact patterns. Alizhan has not yet personally reviewed the record.
+- **What was rejected or corrected:** Did not present excerpts as a complete transcript or create fictitious transcripts for other members. X-13 remains open pending the remaining team material and review.
+
 ### 11 November 2026, Alizhan (R-21, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.
