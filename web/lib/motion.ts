@@ -3,7 +3,8 @@
  * app/tokens.css (--duration-*, --ease-*). Keep the two in sync when re-skinning.
  * Seconds, because that is what motion expects.
  */
-export const duration = { fast: 0.12, base: 0.2, slow: 0.42, draw: 0.7 } as const;
+/** draw: one detection box outline drawing in, and the landing similarity bar (DESIGN-BRIEF.md, Motion). */
+export const duration = { fast: 0.12, base: 0.2, slow: 0.42, draw: 0.3 } as const;
 
 export const ease = {
   standard: [0.2, 0, 0, 1],
