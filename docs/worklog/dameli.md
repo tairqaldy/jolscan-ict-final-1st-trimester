@@ -12,6 +12,20 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 17:20 · G-56 (#290), G-11 (#127), G-57 (#291), G-63 (#297), G-69 (#334) · Screenshot frame, deck screenshots, video look, imagery, principles
+- **Status:** G-63 done. G-56, G-11, G-57 and G-69 in progress: the parts that need Roma, the Drive upload or a native speaker are open.
+- **What I did:** Fixed one screenshot frame and added it to the slide template; took 20 deck screenshots (10 shots, light and dark) with a script that applies the frame; wrote the backup video look and drew its title card, end card and caption layout; wrote the imagery rules and the design principles with the voice.
+- **Result:** `docs/design/screenshots.md`, `docs/design/screenshots/take_screenshots.py`, slide 5 "Large screenshot" in `docs/design/slide-template/qarau-slide-template.pptx`, `docs/design/video.md` with `docs/design/video/` (SVG and PNG), `docs/design/imagery.md`, `docs/design/PRINCIPLES.md`. Screenshots in `deck-screenshots/` next to the repository, not in git.
+- **Decisions and why:**
+  - Frame: no browser chrome, `--radius-lg`, 1 px `--border`, `--shadow-md`. Without the line a light shot vanishes on the slide, because the app background and the slide background are the same `#f3f2ee`. A browser bar adds chrome and the risk of personal tabs.
+  - 1440 × 900 at 2x, full viewport only: a full-page capture shrinks the text on a 16:9 slide.
+  - Video captions sit in their own 120 px bar under the recording, so they can never cover a result or a Demo badge.
+  - Screenshots on Mock: the API was not running. Every shot shows its Mock or demo badge; the two result shots should be retaken on Local if the deck claims real model output.
+  - Principles: five, each with a route and file lines. Copy changes (generic 500 errors, US/British mix) are listed, not made.
+- **What I learned / can explain at the defense:** every screenshot uses one frame and scale; imagery follows the privacy rules (no faces, plates or restroom interiors, EXIF stripped, Syl p.9); the principles come from the brief and each points to a screen, for example "decision first, evidence one click away" is the result card above the "Why this priority" tab.
+- **AI use:** Claude Code wrote the drafts, the screenshot script and the SVG cards from my rules and the tokens (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** upload `deck-screenshots/` to Drive `screenshots/` and copy it to the presenting laptop (G-11); Roma confirms the frame (G-56) and takes the cards (G-57); Russian and Kazakh terms with Tair and a native speaker, and the copy-change issue for W-21 / R-12 (G-69).
+
 ### 2026-11-11 17:15 · G-45 (#279), G-28 (#172) · Numbers line up, box tags readable on phones
 - **Status:** done
 - **What I did:**
@@ -74,6 +88,7 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **Open questions / next:** upload the PNGs to Drive `slides/`, ask Alizhan which version he talks over, send the backup PNG to Roma (R-26).
 
 ### 2026-11-11 16:50 · G-52 (#286) · One chart style for the app and the deck
+
 - **Status:** in progress. The style and the matplotlib block are written; Amina and Nazar still have to confirm in the chat and apply it to their plots.
 - **What I did:** Wrote down the app's light-theme chart values and seven chart rules, gave the model lanes a matplotlib block, and drew one sample from the real pothole runs to show it works.
 - **Result:** `docs/design/chart-style.md`, `docs/design/chart_style_sample.py`, `docs/design/chart-style-sample.png`, and `docs/design/chart-style-compare.png` with the Model page chart next to the sample.
