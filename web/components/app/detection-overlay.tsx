@@ -13,6 +13,14 @@ import type { Detection } from "@/lib/types";
 export const MIN_TAG_PX = 11;
 
 /**
+ * Width of the dark halo under each box, as a multiple of the box stroke
+ * (G-48; was 2.4). On a 343 px phone photo it leaves a dark rim of about
+ * 1.6 px on each side of the stroke, so a box stays outlined where it
+ * crosses a white or yellow road marking. The halo colour is --box-halo.
+ */
+export const HALO_SCALE = 4;
+
+/**
  * Box tag font size in viewBox units. `scale` is screen pixels per viewBox
  * unit. Until the figure has been measured (server render and first client
  * render) it is null and the tag keeps the fixed size from before G-28, so the
@@ -156,7 +164,7 @@ export function DetectionOverlay({
               style={{ cursor: onActiveChange ? "pointer" : undefined, opacity: ignored ? 0.55 : 1 }}
             >
               {/* Dark under-stroke keeps boxes visible on light and dark photos. */}
-              <rect x={x} y={y} width={w} height={h} fill="none" stroke="var(--box-halo)" strokeWidth={stroke * 2.4} rx={stroke} />
+              <rect x={x} y={y} width={w} height={h} fill="none" stroke="var(--box-halo)" strokeWidth={stroke * HALO_SCALE} rx={stroke} />
               <motion.rect
                 x={x}
                 y={y}
