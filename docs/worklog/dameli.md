@@ -15,7 +15,7 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 ### 2026-11-11 18:40 · G-52 (#286) · One chart style for the app and the deck
 - **Status:** in progress. The style and the matplotlib block are written; Amina and Nazar still have to confirm in the chat and apply it to their plots.
 - **What I did:** Wrote down the app's light-theme chart values and seven chart rules, gave the model lanes a matplotlib block, and drew one sample from the real pothole runs to show it works.
-- **Result:** `docs/design/chart-style.md`, `docs/design/chart_style_sample.py`, `docs/design/chart-style-sample.png`.
+- **Result:** `docs/design/chart-style.md`, `docs/design/chart_style_sample.py`, `docs/design/chart-style-sample.png`, and `docs/design/chart-style-compare.png` with the Model page chart next to the sample.
 - **Decisions and why:**
   - The highlight is `#b87f00`, not `#f2a900`, because the old amber fails 3:1 on white.
   - The sample highlights E1 because `web/data/experiments.json` records it as the champion. Its title says the choice was made on validation, so E4's slightly higher test score is not hidden.
