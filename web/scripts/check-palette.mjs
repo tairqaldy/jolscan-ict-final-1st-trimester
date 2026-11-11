@@ -28,6 +28,8 @@ const SETS = {
   gender: ["gender-male", "gender-female"],
   chart: ["chart-1", "chart-2", "chart-3", "chart-4"],
   boxes: ["box", "box-review"],
+  // G-47: the three things that used to be blue must not share a colour.
+  review: ["focus", "sev-low", "review"],
 };
 
 const MACHADO = {
