@@ -32,13 +32,13 @@ The tagline promises it: "Computer vision inspection of public infrastructure fr
 
 - **So we** keep the app to graphite and stone surfaces, one amber accent for actions, severity colours only for severity, and page titles that say what the page is for.
 - **So we never** use gradients, glass, emoji icons, fake proof or marketing words (ANTI-SLOP R1–R4 and R11: all 0 on 11 November).
-- **Screens:** `/`, the one page that sells: "Inspect roads and signs with clarity." and one primary action, "Analyze a road photo" (`web/app/page.tsx` lines 120 and 130). Against it, `/app/analytics`: the title "Monitoring" and "What to watch after deployment: volume, decisions, confidence drift, latency, and how the trained models compare." (`web/app/app/analytics/page.tsx` line 33).
+- **Screens:** `/`, the one page that sells: "Inspect roads and signs from a photo." and one primary action, "Analyze a road photo" (`web/app/page.tsx` lines 123 and 134). Against it, `/app/analytics`: the title "Monitoring" and "What to watch after deployment: volume, decisions, confidence drift, latency, and how the trained models compare." (`web/app/app/analytics/page.tsx` line 33).
 
 ## 5. Photos stay private by default
 
 - **So we** start on the Mock provider, make the cloud provider a choice, strip GPS by default, and keep history in the user's browser.
 - **So we never** send a photo to a hosted model unless the user picks Cloud, or show a photo with a face or a licence plate (`imagery.md`).
-- **Screen:** `/app/settings`, the Privacy card: "Road photos can show people, number plates and where they were taken. Restroom images must show signs only, never people." (`web/components/app/settings-client.tsx` line 187), with "Keep photos on this device only" (blocks Cloud) and "Strip GPS from photo metadata" (on by default: `web/lib/store/settings.ts` lines 18–20, provider `mock`, `stripGps: true`). After an analysis the page says "Analysis saved to this browser." (`web/components/app/analyze-client.tsx` line 163).
+- **Screen:** `/app/settings`, the Privacy card: "Road photos can show people, number plates and where they were taken. Restroom images must show signs only, never people." (`web/components/app/settings-client.tsx` line 188), with "Keep photos on this device only" (blocks Cloud) and "Strip GPS from photo metadata" (on by default: `web/lib/store/settings.ts` lines 18–21, provider `mock`, `stripGps: true`). After an analysis the page says "Analysis saved to this browser." (`web/components/app/analyze-client.tsx` line 153).
 
 ## Voice
 
@@ -57,8 +57,8 @@ Three words, and what they mean in practice:
 | "Needs a human look" | `web/components/app/analysis-view.tsx` line 95 | Names the next step for a person, not the model state |
 | "The local model service is not running or cannot be reached." then "Start it from the api/ folder (uvicorn on port 8000) … You can switch to the mock provider in Settings meanwhile." | `web/lib/providers/http.ts` lines 71–75 | Cause, fix and a way to carry on |
 | "The image is 12.3 MB. The limit is 10 MB." | `web/lib/upload.ts` line 10 | The number and the limit, no blame |
-| "Samples are drawings, not real photos. Their boxes are fixed in samples.json." | `web/components/app/analyze-client.tsx` line 265 | Says what is not real, where it is chosen |
-| "Optional. The rules use them to weigh risk." | `web/components/app/analyze-client.tsx` line 275 | Says why we ask |
+| "Samples are drawings, not real photos. Their boxes are fixed in samples.json." | `web/components/app/analyze-client.tsx` line 236 | Says what is not real, where it is chosen |
+| "Optional. The rules use them to weigh risk." | `web/components/app/analyze-client.tsx` line 246 | Says why we ask |
 | "Thresholds are team-defined starting values, not an official standard." | `web/app/app/roads/rules/page.tsx` line 13 | Claims no more than we know |
 | "A prototype, not a city or campus service: anything with a demo or mock badge is invented for the demo." | `web/components/landing/site-footer.tsx` lines 17–18 | The honesty rule in one sentence |
 
@@ -68,7 +68,7 @@ Three words, and what they mean in practice:
 |---|---|---|---|
 | "Something went wrong while analysing the photo." | `web/app/api/analyze/route.ts` line 104 | No cause, no next step (heuristic 9, HCI p22) | "The photo could not be analysed. Try again, or switch to the mock provider in Settings." |
 | "Something went wrong while comparing the signs." | `web/app/api/restroom/route.ts` line 119 | Same | Same pattern |
-| "Analysing…" on the "Analyze photo" button | `web/components/app/analyze-client.tsx` lines 312 and 316 | British and US spelling on one button; also "Analyze" in the nav (`web/components/app/nav.ts` line 39) and "Analysed" in the result (`analysis-view.tsx` line 122) | One spelling for the interface; routes such as `/app/roads/analyze` stay as they are |
+| "Analysing…" on the "Analyze photo" button | `web/components/app/analyze-client.tsx` lines 283 and 287 | British and US spelling on one button; also "Analyze" in the nav (`web/components/app/nav.ts` line 39) and "Analysed" in the result (`analysis-view.tsx` line 122) | One spelling for the interface; routes such as `/app/roads/analyze` stay as they are |
 
 These are not changed here; they go to the copy owners (W-21, R-12) as one list.
 
