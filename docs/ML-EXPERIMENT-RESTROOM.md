@@ -300,7 +300,7 @@ The signage rules (RULES.md, part 2) use the gender confidence and the similarit
 
 ## Limits to state
 
-- **Changed crops (task C-24, `ml/restroom/robustness.py`, `figs/robustness.png`).** Step 1 with SIFT and the pixel check stays at 0.93 or more under a 10° turn, blur, 60 % brightness, JPEG quality 30 and half size, but drops to 0.82 for a 30° turn, the most damaging change for the chosen scorer (clean 0.98). CLIP alone suffers most from blur (0.41) and the 30° turn (0.47), and the colour histogram collapses on darker images (0.14), which is why it is only 30 % of step 2 and plays no part in step 1. Measured on the 164 training crops against clean originals; real photos combine these changes.
+- **Changed crops (task C-24, `ml/restroom/robustness.py`, `figs/robustness.png`).** Step 1 with SIFT and the pixel check stays at 0.93 or more under a 10° turn, blur, 60 % brightness, JPEG quality 30 and half size, but drops to 0.82 for a 30° turn, the most damaging change for the chosen scorer (clean 0.98). CLIP alone suffers most from blur (0.41) and the 30° turn (0.47), and the colour histogram collapses on darker images (0.14): colour is not safe on its own; step 1 does not use it, and in step 2 it has a weight of 0.3 (chosen on training episodes, not for this reason). Measured on the 164 training crops against clean originals; real photos combine these changes.
 - Very small data: 82 training restrooms, 10 validation and 30 test queries.
 - Most icons come from stock photos; some carry watermarks. Unusual or local designs may be misread.
 - Two classes only. Accessible and all-gender restrooms are not in the data.
