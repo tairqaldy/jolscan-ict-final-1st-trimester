@@ -13,7 +13,7 @@ import { deriveDetections, rescore } from "@/lib/rules";
 import { SEVERITY_CLASSES } from "@/lib/severity";
 import { rulesStore } from "@/lib/store/settings";
 import type { StoredAnalysis } from "@/lib/types";
-import { DemoBadge } from "./demo-badge";
+import { ResultProvenanceBadge } from "./demo-badge";
 import { DetectionOverlay } from "./detection-overlay";
 import { isSeededDemo, SEEDED_MODEL_LABEL } from "@/lib/mock/seeded";
 import { PROVIDER_META } from "./provider-badge";
@@ -104,13 +104,10 @@ export function AnalysisView({ analysis, title }: { analysis: StoredAnalysis; ti
             )}
 
             <dl className="grid grid-cols-2 gap-x-4 gap-y-3 border-t border-border pt-4 text-sm">
-              <Meta icon={Cpu} label="Provider">
-                <span className="inline-flex flex-wrap items-center gap-1.5">
+              <Meta icon={Cpu} label="Provider" wide>
+                <span className="inline-flex max-w-full flex-wrap items-center gap-1.5">
                   {PROVIDER_META[analysis.provider].label}
-                  <DemoBadge
-                    show={analysis.provider === "mock" || isSeededDemo(analysis.id)}
-                    label={isSeededDemo(analysis.id) ? "Invented demo record" : "Mock result"}
-                  />
+                  <ResultProvenanceBadge result={analysis} />
                 </span>
               </Meta>
               <Meta icon={Cpu} label="Model">
