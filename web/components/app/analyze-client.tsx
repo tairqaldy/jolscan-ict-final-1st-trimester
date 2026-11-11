@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowRight, ImageUp, LoaderCircle, RotateCcw, ScanSearch } from "lucide-react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotionConfig } from "motion/react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState, type DragEvent } from "react";
@@ -37,7 +37,7 @@ type Status =
 export function AnalyzeClient() {
   const params = useSearchParams();
   const settings = settingsStore.useStore();
-  const reduce = useReducedMotion();
+  const reduce = useReducedMotionConfig();
   const initialSample = getSample(params.get("sample"));
   const [source, setSource] = useState<Source | null>(initialSample ? { kind: "sample", sample: initialSample } : null);
   const [roadClass, setRoadClass] = useState<RoadClass | "unknown">(initialSample?.meta.roadClass ?? "unknown");

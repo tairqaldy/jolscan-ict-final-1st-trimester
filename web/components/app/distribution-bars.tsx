@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotionConfig } from "motion/react";
 import type { LucideIcon } from "lucide-react";
 import { duration, ease, stagger } from "@/lib/motion";
 import { useHydrated } from "@/lib/store/local-store";
@@ -22,7 +22,7 @@ export type DistributionItem = {
  * plays for bars mounted later in the browser (never a blank chart).
  */
 export function DistributionBars({ items, unit = "items" }: { items: DistributionItem[]; unit?: string }) {
-  const reduce = useReducedMotion();
+  const reduce = useReducedMotionConfig();
   const hydrated = useHydrated();
   const total = items.reduce((s, c) => s + c.count, 0) || 1;
   const max = Math.max(...items.map((c) => c.count), 1);
