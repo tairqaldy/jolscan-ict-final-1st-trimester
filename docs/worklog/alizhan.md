@@ -12,6 +12,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 · R-15 (#99) · Post-23:00 source recheck
+- **Status:** in progress; no confirmed final tag and R-6 is open.
+- **What I did:** Rebuilt the deck from `b985171` in an isolated copy after 23:00 UTC+05:00, checked the generator's source audit and compared all slide text, notes and media hashes with the committed PowerPoint.
+- **Result:** 191 registered numbers checked, one R-6 gap; 17 slides' text and notes and all seven embedded media hashes matched. The source and slide 10 both had 105 AI-log entries at that snapshot.
+- **Decisions and why:** Did not call the snapshot final or tick R-15; this entry itself changes the AI-log count and the live page and spoken claims were not exhaustively checked.
+- **What I learned / can explain at the defense:** A reproducibility check proves a deck matches its sources at one commit, not that a later version or every claim has been independently verified.
+- **AI use:** Codex desktop, GPT-6; personal review pending.
+- **Open questions / next:** Rebuild after AI-log updates and repeat the audit on the confirmed final deck; resolve R-6 and check the remaining live-page and spoken values.
+
 ### 2026-11-11 · X-13 (#77) · Prompt-log gap audit
 - **Status:** in progress; participant-provided records and personal review remain.
 - **What I did:** Checked which member folders have tracked files, counted explicit draft and unidentified headings, and ran the issue's pattern-only secret/contact scan on tracked prompt-log text files without printing matched content.
