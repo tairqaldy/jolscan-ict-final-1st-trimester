@@ -146,3 +146,34 @@ These have no single slide. The size and chart findings that repeat on many slid
 - **8.6 · Nice-to-have · CS7.** No source line under the plot. **Fix:** "Source: ml/results/restroom/experiments.csv and pipeline.json."
 - **8.7 · Nice-to-have · which model.** The gender numbers 0.756 and 0.741 are R1 (ViT-B/32, the served model), but the table's zero-shot row is R0 (ViT-B/16, whose prompts give 0.771 and probe 0.774), and slide 7 says 0.77. **Fix:** "Gender of one sign, ViT-B/32 (the served model): prompts 0.756, probe 0.741".
 - **8.8 · Nice-to-have · title.** "Restrooms on 30 test queries: zero-shot 23, fine-tuned R3 27, two-step pipeline 30" leaves out R4, a fine-tuned run that also gets 30/30, so it reads as if fine-tuning tops out at 27. **Fix:** once the headline is decided, "Restrooms, 30 test queries: zero-shot 23, fine-tuned 27 (R3) to 30 (R4), pipeline 30".
+
+## Slide 9 · Design decisions (Dameli, 0:35)
+
+**Passes:** 4.98:1, 5.36:1 and 4.5:1 match the contrast audit in `docs/DESIGN-BRIEF.md` (the lowest text token, `subtle`, in each theme) and U4; the keyboard claim matches the check recorded in `docs/PRESENTATION.md` ("checked on 11 November"); the chart line matches the deck's own chart rules; the cue reminds that a seeded screenshot needs its Demo badge (R13). The running text is 107 words only because 36 of them are placeholders.
+
+- **9.1 · Must-fix · R5 · placeholders.** Three boxes "[SCREENSHOT NEEDED: 09-heuristic-1-status.png from G-11, put it in docs/deck/screenshots/]" (and `-2-recover`, `-3-recognition`); `docs/deck/screenshots/` does not exist on `main`. `docs/PRESENTATION.md` says the screenshots are "kept outside the repository and sent to the deck folder", while `make_deck.py` looks in `docs/deck/screenshots/`. **Fix:** Dameli takes the three 570×405 px light-theme screenshots (G-11; they show drawn samples, no people), and either commits them to `docs/deck/screenshots/` so Tair can rebuild, or places them in Canva; agree which with Tair.
+- **9.2 · Must-fix · Size.** The three captions ("Visibility of system status: the provider and its connection are always shown.", ...) are 13.5 pt. **Fix:** 18 pt, cut to the heuristic name and one short clause ("Visibility of system status: provider and connection always shown").
+- **9.3 · Nice-to-have · wrong word.** "Recognition over recall: six labelled sample photos next to the upload box." The six samples (`web/public/samples/s01-…svg` to `s06-…svg`) are drawn illustrations, not photos (`data/README.md`: "the app's public sample images are drawn illustrations"). **Fix:** "six labelled sample images", here and in `docs/PRESENTATION.md`, "Slide 9".
+- **9.4 · Nice-to-have · scope of a number.** "text contrast at least 4.98:1 (light) and 5.36:1 (dark)": the audit is titled "preliminary" and covers text tokens on `--bg` and `--surface` only. **Fix:** "text on page and card backgrounds: at least 4.98:1 (light) and 5.36:1 (dark)".
+- **9.5 · Nice-to-have · time.** The script is 94 words, 0:43 at 130 words per minute, for a 0:35 slot; `docs/PRESENTATION.md` calls the same text "about 35 seconds". **Fix:** cut about 18 words: drop "using three of Nielsen's heuristics" (the slide shows them) and end with "Charts start at zero, and every text colour passes WCAG AA in both themes."
+
+## Slide 10 · AI use and its limits (Roma, 0:35)
+
+**Passes:** the tools named, "Claude Code, Codex, GitHub Copilot", are exactly the tools in the entries of `docs/AI-USAGE-LOG.md`; `docs/research/deck-sources.md` exists; the cue gives a fallback if R-6 does not land and forbids audit numbers that are not in a file (R6).
+
+- **10.1 · Must-fix · R6 · stale number.** "Whoever used a tool checks the output and logs how: 50 entries in docs/AI-USAGE-LOG.md", and "50 entries" in the script. Counted the same way as `make_deck.py` (`### ` headings under "Entries"), the log had 53 entries at the deck's own commit `82f2da3` and 60 on `origin/main` at 17:27 Almaty, and it grows with every pull request today. **Fix:** rebuild the deck after the 23:00 freeze so the count is final, or drop the count: "every use is logged with its prompt and how it was checked".
+- **10.2 · Must-fix · R5, R6 · placeholder.** "Audit of two vision-language models: [NUMBER NEEDED: R-6 (#85) audit: count error of two vision-language models on screened test photos, docs/research/vlm-evaluation.md is not on main]" (13 pt), also in the script; the file is still not on `main`. **Fix:** fill it from R-6, or follow the cue: remove the block and say "We planned an audit of two vision-language models; it is not finished, so we show no numbers."
+- **10.3 · Must-fix · Size.** "Tools named in the log: Claude Code, Codex, GitHub Copilot." is 13 pt; the six bullets are 15 pt. **Fix:** bullets at 18 pt; the tools line becomes the head of the "What for" card.
+- **10.4 · Nice-to-have · claim wider than its source.** "Every number on these slides traced to a committed result file": slide 9's numbers come from `DESIGN-BRIEF.md`, this slide's count from the AI log, and slide 2's will come from an outside source. All are traced in `deck-sources.md`, but not all to result files. **Fix:** "traced to a committed file (docs/research/deck-sources.md)".
+
+## Slide 11 · Limitations and next steps (Roma, 0:25)
+
+**Passes:** "82 training restrooms" matches the restroom card; the three limits match `docs/RULES.md` ("Known limits"), `docs/ML-EXPERIMENT.md` ("Limits to state": "The dataset is not from Kazakhstan. Performance on local roads, snow and night scenes is unknown.") and `docs/ML-EXPERIMENT-RESTROOM.md`; numbered list, no image; next steps name their task (C-8).
+
+- **11.1 · Nice-to-have · Size.** Body text is 15 pt ("A far pothole looks small and a close-up fills the frame. Real size needs camera calibration or depth.", ...). **Fix:** 18 pt; to make room, drop "a close-up fills the frame" and "snow and night scenes are untested" (both are said aloud).
+
+## Slide 12 · Closing (Tair, 0:10)
+
+**Passes:** every path on the slide exists on `main` (`ml/results/experiments.csv`, `ml/results/restroom/experiments.csv`, `docs/AI-USAGE-LOG.md`, `docs/CONTRIBUTION-LOG.md`); "qarau.vercel.app (real model page; analyses there run on demo data)" and the real/demo line repeat slide 3 (R13); no number.
+
+- **12.1 · Nice-to-have · Size.** The labels are 17 pt, the links 15.5 pt and "Real: both analyze flows on this laptop and the model page. Demo data: the overview tiles and charts, marked with a badge." 15 pt. The slide stays up through the questions. **Fix:** links and labels at 18 to 20 pt.
