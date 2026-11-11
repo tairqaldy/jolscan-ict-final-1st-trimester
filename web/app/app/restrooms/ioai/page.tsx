@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
-import { IoaiPairsClient } from "@/components/restrooms/ioai-pairs-client";
+import { IoaiTaskClient } from "@/components/restrooms/ioai-task-client";
 import { PageHeader } from "@/components/ui/page-header";
 import { MODULES } from "@/lib/brand";
 
-export const metadata: Metadata = { title: "IOAI pairs" };
+export const metadata: Metadata = { title: "IOAI task" };
 
-export default function IoaiPairsPage() {
+export default function IoaiTaskPage() {
   return (
     <div className="grid gap-8">
       <PageHeader
-        eyebrow={`${MODULES.restrooms.name} · IOAI pairs`}
-        title="Find the pair on the IOAI data"
-        description="Pick a door sign from the IOAI 2025 validation or test set and see how our two-step pipeline finds the sign of the other gender from the same restroom, step by step, next to the zero-shot CLIP baseline."
+        eyebrow={`${MODULES.restrooms.name} · IOAI task`}
+        title="The IOAI task we started from"
+        description="Restroom Icon Matching from the IOAI 2025 individual contest: what it asks, the data that came with it, and the baseline pipeline given with the task."
       />
-      <IoaiPairsClient />
+      <IoaiTaskClient />
     </div>
   );
 }

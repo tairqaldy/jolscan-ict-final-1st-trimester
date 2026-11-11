@@ -1,10 +1,9 @@
 /**
- * The restroom pipeline's answers on the IOAI 2025 validation and test sets
- * (data/restroom-ioai-pairs.json), written by ml/restroom/export_pairs.py with
- * the code of ml/restroom/pipeline.py, plus the training set (one query at a time).
- * Real results computed offline, not mock
- * data: the site has no Python server, so the "IOAI pairs" page shows them.
- * Gallery numbers are the 1-based IOAI file numbers.
+ * The IOAI 2025 validation, test and training sets (data/restroom-ioai-pairs.json),
+ * written by ml/restroom/export_pairs.py: per query the IOAI answer, the IOAI baseline
+ * notebook's pick (run R0) and what our pipeline (ml/restroom/pipeline.py) did.
+ * Real results computed offline, not mock data: the site has no Python server, so the
+ * "IOAI task" page shows them. Gallery numbers are the 1-based IOAI file numbers.
  */
 import raw from "@/data/restroom-ioai-pairs.json";
 
@@ -20,8 +19,10 @@ export type IoaiRow = {
   pair: number;
   /** The IOAI answer. */
   answer: number;
-  /** The IOAI zero-shot CLIP baseline's pick. */
+  /** The IOAI baseline rule (second most similar original) on zero-shot CLIP ViT-B/32. */
   baseline: number;
+  /** The IOAI baseline notebook itself (run R0, ViT-B/16); null on the training set. */
+  ioaiBaseline: number | null;
   /** Pixel correlation after alignment between the crop and its original, -1..1. */
   ncc: number;
   inliers: number;
@@ -37,9 +38,13 @@ export type IoaiSplit = {
   method: string;
   /** Per gallery image, e.g. "restroom 12, male" (training only), or null. */
   galleryLabels: string[] | null;
+  /** Per query, the same labels (training only), or null. */
+  queryLabels: string[] | null;
   /** Over all queries, including any hidden from the page. */
   pipelineCorrect: number;
   baselineCorrect: number;
+  /** The IOAI baseline notebook (R0) over all queries; null on the training set. */
+  ioaiBaselineCorrect: number | null;
   /** Gallery images not shown (offensive wording); they stay in the counts above. */
   hiddenGallery: number[];
   /** Queries not shown because one of their images is hidden. */
@@ -53,6 +58,7 @@ export type IoaiPairsFile = {
   histogramWeight: number;
   imageBase: string;
   credit: string;
+  ioaiBaseline: string;
   splits: Record<IoaiSplitId, IoaiSplit>;
 };
 

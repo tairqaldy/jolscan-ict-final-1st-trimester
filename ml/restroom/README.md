@@ -70,7 +70,7 @@ python ml/restroom/failures.py        # about 20 s: test queries the zero-shot b
 python ml/restroom/plots.py           # a few seconds: figs/runs_matching.png, gender_heads.png, failures_r3.png
 ```
 
-**On the website:** the **IOAI pairs** page (`/app/restrooms/ioai`) shows the same thing on qarau.vercel.app, from results stored by `python ml/restroom/export_pairs.py` (the site has no Python server). Re-run that script whenever `pipeline.py` changes.
+**On the website:** the **IOAI task** page (`/app/restrooms/ioai`) shows the task, the dataset (every crop with its answer) and the baseline that came with the task (its code, its picks from run R0 and its misses), from data stored by `python ml/restroom/export_pairs.py` (the site has no Python server). Re-run that script whenever `pipeline.py` or R0 changes. The step-by-step view of the pipeline is in the Gradio demo below.
 
 **Try it yourself:** `python ml/restroom/demo.py`, then open http://127.0.0.1:7861. Pick the validation or test set, click any query crop from the IOAI data, and the final two-step pipeline finds its pair live: the crop's original (step 1), the pair (step 2), the IOAI answer, what zero-shot CLIP alone picks, and the step-2 ranking. It needs `gradio` (in `requirements.txt`) and about 20 s to score both sets at start-up.
 
@@ -158,7 +158,7 @@ If MLflow is installed (it is in `ml/requirements.txt`), every run is also logge
 - `demo.py`: a local Gradio page: pick a sign from the IOAI validation or test set and watch the pipeline find its pair.
 - `export_match.py`: for every catalogue sign, its Match gallery (true partner plus up to 58 signs of its set) and the pick of each model (R1, R6, R4, colour, R7), for the Match page's model comparison and the mock provider (`web/data/restroom-ioai-match.json`, `restroom-ioai-galleries.json`).
 - `export_catalogue.py`: every IOAI sign the pages may show (238) as pickable samples for Compare and Match, with real zero-shot CLIP gender, confidence and int8 embeddings for the mock provider (`web/data/restroom-ioai-catalogue.json`, `restroom-ioai-embeddings.json`). Validation and test genders come from the hand labels in `ml/results/restroom/{val,test}_gallery_labels.csv`.
-- `export_pairs.py`: the pipeline's answers on validation and test (global assignment) and on the training set (one query at a time), with resized IOAI images, for the web app's IOAI pairs page (`web/data/restroom-ioai-pairs.json`, `web/public/samples/restrooms/ioai/`). It stops if its answers differ from `pipeline.json`.
+- `export_pairs.py`: the IOAI answers, the IOAI baseline's picks (run R0) and the pipeline's answers on validation and test (global assignment) and on the training set (one query at a time), with resized IOAI images, for the web app's IOAI task page (`web/data/restroom-ioai-pairs.json`, `web/public/samples/restrooms/ioai/`). It stops if its answers differ from `pipeline.json` or R0's picks do not give R0's score.
 - `STUDY-CARD.md`: Nazar's answers for the defense questions on this lane.
 - `MODEL_CARD.md`: the model card of the served restroom service: components, data, results with sources, limits.
 
