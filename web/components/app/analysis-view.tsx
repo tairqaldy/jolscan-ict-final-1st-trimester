@@ -104,11 +104,14 @@ export function AnalysisView({ analysis, title }: { analysis: StoredAnalysis; ti
             )}
 
             <dl className="grid grid-cols-2 gap-x-4 gap-y-3 border-t border-border pt-4 text-sm">
-              <Meta icon={PROVIDER_META[analysis.provider].icon} label="Provider" wide>
-                <span className="inline-flex max-w-full flex-wrap items-center gap-1.5">
-                  {PROVIDER_META[analysis.provider].label}
+              <div className="col-span-2">
+                <dt className="sr-only">Source of this result</dt>
+                <dd>
                   <ResultProvenanceBadge result={analysis} />
-                </span>
+                </dd>
+              </div>
+              <Meta icon={PROVIDER_META[analysis.provider].icon} label="Provider">
+                {PROVIDER_META[analysis.provider].label}
               </Meta>
               <Meta icon={Brain} label="Model">
                 <span className="font-mono text-xs">{isSeededDemo(analysis.id) ? SEEDED_MODEL_LABEL : analysis.model}</span>
