@@ -120,7 +120,7 @@ export default function AboutPage() {
                 <strong>Road photos can show faces, number plates and location data.</strong> The local provider keeps photos on
                 the device; the cloud provider is opt-in and can be blocked in Settings.
               </li>
-              <li>The app strips EXIF metadata (including GPS) in the browser before upload.</li>
+              <li>By default the app strips EXIF metadata (including GPS) in the browser before upload; Settings can turn this off.</li>
               <li>There are no accounts and no server database: history lives in the browser and can be cleared in Settings.</li>
               <li>Low-confidence results go to a review queue for a person, never silently dropped.</li>
               <li>

@@ -1,85 +1,70 @@
-# Privacy, Legal Compliance, and External AI Data Policy
+# Privacy, the law, and what may go to external AI services
 
 Task: [R-45](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/254) · Owner: Roma · Unblocks: [R-11](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/95), [R-31](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/240).
 
-This document establishes the data classification, privacy policy, and legal compliance rules for the Qarau platform. It governs which data assets may be transmitted to external generative AI services or cloud providers, grounds our architecture in Kazakhstan legislation and course learning outcomes (CLO 7, Syllabus p.3/p.9), and ensures consistent statements across Slide 11, the defense study cards, and repository documentation.
+This page says which of our data may be sent to external AI services or cloud providers, and which laws and course rules that rests on. Slide 11, the study cards and the other documents should say the same thing.
 
 ---
 
-## 1. Kazakhstan Legal Framework Verification
+## 1. Kazakhstan laws we cite
 
-In accordance with the project verification rule (*"Quote no article you have not read; check every citation on adilet.zan.kz before quoting"*), all statutory references cited in project documentation and the course syllabus were verified directly against the **«Әділет» (Adilet) Information and Legal System of the Ministry of Justice of the Republic of Kazakhstan**.
+The project rule is to quote no article we have not read, and to check every citation on adilet.zan.kz first. The four acts below were opened on Adilet on 12 November 2026. The checks cover the title, number, date and the article titles named here, not a legal reading of each article.
 
-| Law / Regulatory Act | Statutory Number & Date | Official URL (adilet.zan.kz) | Status & Applicability to Qarau |
+| Act | Number and date | Adilet | What was checked, and why it matters to Qarau |
 |---|---|---|---|
-| **Law on Personal Data and their Protection** *(Закон РК «О персональных данных и их защите»)* | **No. 94-V**<br>21 May 2013 | [https://adilet.zan.kz/rus/docs/Z1300000094](https://adilet.zan.kz/rus/docs/Z1300000094) | **Verified in force.** Primary governing statute. Unredacted road imagery containing recognizable pedestrian faces or readable vehicle license plates constitutes personal data under Article 1. Cross-border transfer to external cloud APIs is governed by Article 16. |
-| **Digital Code of the Republic of Kazakhstan** *(Цифровой кодекс РК)* | **No. 255-VIII**<br>09 January 2026 | [https://adilet.zan.kz/rus/docs/Z2600000255](https://adilet.zan.kz/rus/docs/Z2600000255) | **Legislative draft / codification initiative.** Comprehensive regulatory framework referenced in Syllabus p.9 to unify platform governance, digital infrastructure, and algorithmic oversight. Consulted as a future normative standard. |
-| **Law on Artificial Intelligence** *(Закон РК «Об искусственном интеллекте»)* | **No. 230-VIII**<br>17 November 2025 | [https://adilet.zan.kz/rus/docs/Z2500000230](https://adilet.zan.kz/rus/docs/Z2500000230) | **Legislative concept / bill under consideration.** Dedicated legislation defining AI system safety, algorithmic transparency, human-in-the-loop oversight, and developer liability. Consulted as an emerging governance standard. |
-| **Information Security & Digital Asset Amendments** | **No. 256-VIII**<br>23 December 2024 | [https://adilet.zan.kz/rus/docs/Z2400000256](https://adilet.zan.kz/rus/docs/Z2400000256) | **Verified in force.** Legislative amendments strengthening data breach notifications, information security mandates for public services, and cryptographic digital asset controls. |
+| Law "On Personal Data and Their Protection" (Закон РК «О персональных данных и их защите») | No. 94-V, 21 May 2013 | [Z1300000094](https://adilet.zan.kz/rus/docs/Z1300000094) | Opens. Art. 7 is titled "conditions of collection and processing of personal data", Art. 16 "cross-border transfer of personal data". A road photo with a recognisable face or a readable licence plate holds personal data. |
+| Digital Code of the Republic of Kazakhstan (Цифровой кодекс РК) | No. 255-VIII, 9 January 2026 | [K2600000255](https://adilet.zan.kz/rus/docs/K2600000255) | Opens; an adopted code, not a draft. The syllabus names it in its data security rule (Syl p.9). Codes use the `K` prefix: the `Z2600000255` link does not open. |
+| Law "On Artificial Intelligence" (Закон РК «Об искусственном интеллекте») | No. 230-VIII, 17 November 2025 | [Z2500000230](https://adilet.zan.kz/rus/docs/Z2500000230) | Opens; an adopted law, not a bill. Its commencement is set in Art. 31. The syllabus names it next to the Digital Code (Syl p.9). |
+| Law No. 256-VIII (amendment on cybersecurity, as cited in the course) | 9 January 2026 according to Lec5 p4 | not found | Lec5 p4 cites it as an amendment to the cybersecurity rules and says to verify it. The link `Z2400000256` does not open, and we did not find the act on Adilet, so we do not rely on it. |
 
-### Statutory Constraints Applied to Qarau
+What this means for Qarau:
 
-1. **Definition of Personal Data (Law No. 94-V, Art. 1, subclause 2):** Personal data encompasses information relating directly or indirectly to an identified or identifiable natural person. Casual pedestrians captured in municipal roadway photos and registered motor vehicle license plates are identifiable data subjects.
-2. **Lawful Collection and Purpose Limitation (Law No. 94-V, Art. 7):** Road maintenance computer vision must collect only visual features strictly necessary for pothole detection and road hazard assessment. Capturing biometric facial features or vehicle tracking metadata exceeds maintenance purpose boundaries.
-3. **Cross-Border Transfer Restrictions (Law No. 94-V, Art. 16):** Transmitting personal data to third-party generative AI services whose data centers reside outside Kazakhstan (e.g. OpenAI, Anthropic, or Google US endpoints) is prohibited unless explicit subject consent or statutory bilateral data transfer safeguards exist.
+1. A road photo can hold personal data: people and licence plates are in the pothole dataset (`img-193.jpg` shows people, `img-448.jpg` a plate; `data/README.md`). EXIF can also hold GPS.
+2. Collect and keep only what the task needs (Law No. 94-V, Art. 7). We need the road surface, not people, cars or locations.
+3. Sending personal data to a service abroad is a cross-border transfer (Law No. 94-V, Art. 16). Most AI services run abroad. The course rule is stricter and simpler: "Personal, medical, biometric, financial or confidential data must never be uploaded to external AI services or public repositories" (Syl p.9).
 
 ---
 
-## 2. Data Classification and External AI Policy
+## 2. What may go to external AI services
 
-The table below governs all data assets processed, stored, or utilized across the Qarau system lifecycle.
-
-| Data Asset | What it can contain | May it go to external AI services? | Legal & Course Basis | How Qarau enforces it |
+| Data | What it can contain | May it go to external AI services? | Basis | How Qarau enforces it |
 |---|---|:---:|---|---|
-| **1. Pothole Dataset Photos** *(Chitholian Kaggle archive)* | Asphalt road defects, pedestrian faces (`img-193.jpg`), vehicle license plates (`img-448.jpg`), commercial stock watermarks (`img-409`, `img-448`, `img-565`). | **Screened subset only** | Law No. 94-V Art. 1 (PII protection); Syllabus p.9 (embargo on unredacted public road photos to third-party AI). | Screening checklist ([`data/README.md`](../data/README.md), D-12); watermarked photos quarantined from public display; training runs restricted to local execution and private Colab instances. |
-| **2. IOAI Restroom Sign Icons** *(IOAI 2025 benchmark)* | Abstract pictograms, geometric door icons, cropped signage silhouettes. Zero faces, zero human subjects, zero GPS metadata. | **Yes, with attribution** | CC-BY-4.0 open license; zero personal or biometric data under Law No. 94-V; Syllabus p.9 compliant. | Safe for external model benchmarking; evaluated against Google Gemini Auto and Anthropic Claude in task R-6; contest attribution maintained in `ml/restroom/README.md`. |
-| **3. User-Uploaded Photos in Web App** *(Live site users)* | Street-level imagery containing bystander faces, moving vehicles, license plates, and precision geolocation coordinates in EXIF tags. | **No, not by default** | Law No. 94-V Art. 16 (cross-border transfer); Lec4-DataMgmt p14 (restricted data classification). | Local inference default (`http://localhost:8000`) or client-side mock provider; cloud processing is strictly opt-in; EXIF metadata stripped in browser by default setting. **Notice:** face/plate blurring is not implemented. |
-| **4. Team Chat Logs & AI Transcripts** *(Engineering workflows)* | Real student names, university emails, student IDs, GitHub handles, project communications. | **No** | Law No. 94-V Art. 1; Syllabus p.9 (AI Level 3 mandatory prompt log with strict privacy protection). | Systematic sanitization: personal emails, tokens, and credentials redacted before committing transcripts to `docs/ai-logs/` (task X-13). |
-| **5. Repository Code & Artifacts** *(Public GitHub repo)* | Source code, configuration files, model weights, evaluation plots, synthetic test metrics, markdown docs. | **No personal data at all** | Decision 0006 (repository is public); Law No. 94-V; public exposure risk. | Tracked-file hygiene script (`python ml/check_results.py`); `.gitignore` bars raw dataset directories (`data/raw/`) and unredacted transcript archives. |
+| **1. Pothole dataset photos** (Chitholian, Kaggle) | Road surface; people (`img-193.jpg`), a licence plate (`img-448.jpg`), stock-photo watermarks (`img-409.jpg`, `img-448.jpg`, `img-565.jpg`) | **Screened photos only** | Law No. 94-V; Syl p.9 | The D-12 screening checklist ([`data/README.md`](../../data/README.md)); a photo that fails it is never shown publicly and is only analysed with the local model ([`docs/design/imagery.md`](../design/imagery.md)). Training ran on a team laptop (Apple M5, `ml/results/experiments.csv`). |
+| **2. IOAI restroom sign icons** (IOAI 2025) | Pictograms and door icons; no people, no GPS | **Yes, with attribution** | CC-BY-4.0 ([`ml/restroom/README.md`](../../ml/restroom/README.md)); no personal data | Used in the R-6 audit with Gemini and Claude ([`vlm-evaluation.md`](vlm-evaluation.md)). |
+| **3. Photos uploaded in the web app** | Faces, cars, licence plates, GPS in EXIF | **No** | Law No. 94-V, Art. 16; Syl p.9 | The default provider is the mock (canned results, no model). `local` sends the photo to our API on the same laptop. `cloud` is opt-in and sends it to a hosted model service (our API on a Hugging Face Space, or Roboflow's hosted API; `web/lib/providers/cloud.ts`), which is a transfer abroad, so it is only for screened dataset photos ([`api/README.md`](../../api/README.md): "Public Spaces only ever receive images from the public dataset, screened in task D-12"). The browser re-encodes each upload, which drops EXIF and GPS; this is on by default and can be switched off in Settings (`web/lib/store/settings.ts`, `web/lib/image.ts`). The API keeps no image (`api/main.py`, `_log_prediction`). **Face and plate blurring is not built.** |
+| **4. Team chats and AI transcripts** | Names, emails, student IDs, GitHub handles | **No** | Law No. 94-V; Syl p.9 | Personal data, tokens and passwords are removed before a transcript is committed to `docs/ai-logs/` (task X-13, still open). One early session did get the team's Telegram chat export; that entry in [`docs/AI-USAGE-LOG.md`](../AI-USAGE-LOG.md) says so and says not to repeat it. |
+| **5. The public repository** | Code, docs, result files, plots | **Holds no personal data** | Decision 0006 (the repository is public) | No weights, datasets or `.env` files in git (`.gitignore`: `api/weights/`, `datasets/`, `data/raw/`); `python ml/check_results.py` checks the result files and tracked-file hygiene in CI. |
 
 ---
 
-## 3. Course Grounding and Risk Analysis
+## 3. What the course says
 
-The external data transmission policy directly reflects two core principles taught in the ICT1103 curriculum:
-
-1. **Public Demonstration Safeguards (Lec9 p50):**
-   > *"A public demonstration or presentation must never expose sensitive or personal data."*
-   - During live defense presentations, demonstrations run exclusively on pre-screened synthetic sample assets (`data/samples/`) or canned mock responses.
-   - Live demonstrations never query unvetted internet cameras or live public feeds where accidental pedestrian identification could occur.
-
-2. **Data Sensitivity Classification (Lec4-DataMgmt p14):**
-   > *"Data classification: uploads that may hold personal or location data belong in the restricted class."*
-   - User roadway uploads are classified into the **Restricted Sensitivity Tier** because road photographs inherently capture ambient personal data (faces, vehicle registrations, private driveway geometries, and EXIF coordinates).
-   - Restricted assets mandate:
-     - On-device local execution by default.
-     - Ephemeral memory processing (no server-side persistence of raw uploaded pixel buffers).
-     - Prohibition of automated transmission to multi-tenant commercial LLM APIs.
+1. "Do not expose sensitive data through a public demo" (Lec9 p50, on Gradio share links). The defense demo uses the mock provider or our local API with the screened sample photos.
+2. EXIF holds geolocation and camera settings (Lec4-DataMgmt p12–14, as cited in [`docs/COURSE-GROUNDING.md`](../COURSE-GROUNDING.md); not re-checked here, the deck is not in our course folder). We treat uploads as restricted data: processed on our own machine, not stored as images, and never sent to an external AI service.
+3. "Verify important claims" (Lec7 p64). This is why every law above was opened on Adilet before it was cited.
 
 ---
 
-## 4. Defense Alignment (Slide 11 & D-7 Synchronization)
+## 4. What we say at the defense (slide 11, D-7)
 
-To ensure honesty and scientific rigor under CLO 6 and CLO 7 (Syllabus p.3), the defense presentation, study cards, and documentation state the exact same limitations:
+What Qarau does:
 
-- **What Qarau does:**
-  - Runs model inference locally on localhost by default so no pixels leave the operator's machine.
-  - Strips EXIF geolocation and camera metadata in the client browser by default setting before processing (`api/imaging.py`, `web/app/api/analyze/route.ts`).
-  - Quarantines commercial watermarked images and images containing pedestrian faces from public slides and web demo cards ([`data/README.md`](../data/README.md), D-12).
-  - Maintains a complete audit log of all AI tool usage without leaking student PII ([`docs/AI-USAGE-LOG.md`](../AI-USAGE-LOG.md)).
+- Sends no uploaded photo to an external AI service. Real analysis at the defense runs on our API on the presenting laptop; the hosted `cloud` provider is opt-in and only for screened dataset photos.
+- Drops EXIF and GPS in the browser before upload, on by default (a Settings switch).
+- Keeps photos with people, plates or watermarks off slides and public pages (D-12, `docs/design/imagery.md`).
+- Logs every AI use with its check ([`docs/AI-USAGE-LOG.md`](../AI-USAGE-LOG.md)).
 
-- **What Qarau does NOT do (Honest Defense Acknowledgement):**
-  - **Qarau does not blur pedestrian faces or vehicle license plates.** The vision pipeline detects potholes only; automated redaction and blurring filters are an acknowledged future engineering milestone ([`docs/PLAN.md`](../PLAN.md) Section 2; task D-7).
-  - **Qarau does not transmit unvetted roadway photos to external Vision-Language Models.** Cloud multimodal APIs are used exclusively in offline benchmark evaluations on anonymous door icon pictograms ([`docs/research/vlm-evaluation.md`](vlm-evaluation.md)).
+What Qarau does not do:
+
+- **It does not blur faces or licence plates.** The detector finds potholes only; blurring is future work ([`docs/PLAN.md`](../PLAN.md); task D-7).
+- **External AI services saw only IOAI door icons**, in the R-6 audit ([`vlm-evaluation.md`](vlm-evaluation.md)).
 
 ---
 
-## 5. Sources and References
+## 5. Sources
 
-1. **Law of the Republic of Kazakhstan No. 94-V:** *On Personal Data and their Protection*, 21 May 2013, [https://adilet.zan.kz/rus/docs/Z1300000094](https://adilet.zan.kz/rus/docs/Z1300000094).
-2. **Digital Code of the Republic of Kazakhstan:** Draft Law No. 255-VIII, [https://adilet.zan.kz/rus/docs/Z2600000255](https://adilet.zan.kz/rus/docs/Z2600000255).
-3. **Law on Artificial Intelligence:** Draft Law No. 230-VIII, [https://adilet.zan.kz/rus/docs/Z2500000230](https://adilet.zan.kz/rus/docs/Z2500000230).
-4. **Law No. 256-VIII:** *On Amendments to Certain Legislative Acts on Information Security*, 23 December 2024, [https://adilet.zan.kz/rus/docs/Z2400000256](https://adilet.zan.kz/rus/docs/Z2400000256).
-5. **ICT1103 Course Syllabus:** Fall 2026, p.3 (CLO 6, CLO 7 criteria) and p.9 (AI level 3 mandatory prompt log and privacy rules).
-6. **ICT1103 Lecture 4:** *Data Management & Classification*, slide 14 (restricted data handling).
-7. **ICT1103 Lecture 9:** *Deployment, MLOps & Production Systems*, slide 50 (public demo security).
+1. Law of the Republic of Kazakhstan No. 94-V of 21 May 2013 "On Personal Data and Their Protection", <https://adilet.zan.kz/rus/docs/Z1300000094>.
+2. Digital Code of the Republic of Kazakhstan No. 255-VIII of 9 January 2026, <https://adilet.zan.kz/rus/docs/K2600000255>.
+3. Law of the Republic of Kazakhstan No. 230-VIII of 17 November 2025 "On Artificial Intelligence", <https://adilet.zan.kz/rus/docs/Z2500000230>.
+4. ICT1103 syllabus, p.3 (CLO 7) and p.9 (data security rule, AI level 3).
+5. ICT1103 Lec5 p4 (Law No. 256-VIII, "verify scope and publication date"); Lec7 p64; Lec9 p50.

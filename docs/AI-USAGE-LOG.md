@@ -8,6 +8,21 @@ Everyone adds their own entries. If you used no AI tool for a task, you do not n
 
 Never paste into an AI tool: photos with faces or licence plates, other people's personal data, passwords or API keys (Syl p.9).
 
+## What the AI tools got wrong, and what caught it
+
+Task R-41 (CLO 7: evaluate generative AI tools, their limits and risks, Syl p.3). Each case below is recorded in an entry of this log, a result file or a pull request, together with the check that caught it. The first version of this section (commit `c0030a6`) listed eight cases. Three of them (wrong lecture page numbers, digest answers about a medical NLP system, an About page sentence) have no record in the repository and were removed; the others were reworded to match their sources.
+
+| # | What the tool produced | What was wrong | What caught it | Where it is recorded |
+|---|---|---|---|---|
+| 1 | The first plan and starter code for training and rules | A wrong output path that would have crashed every training run, a results merge that could not work across Colab accounts, and draft rules that let ten small false alarms outscore one large pothole | A second AI model reviewed the plan and code against the Ultralytics, MLflow, Gradio and FastAPI documentation and the syllabus. The serious problems were fixed before the first commit | Entry "10 November 2026, Tair (draft written by the tool, …)"; the small-detection cap in `docs/RULES.md` |
+| 2 | The restroom module, as the tool first understood the request | It read the request as "classify restroom photos as male or female". The IOAI task is to find, for each cropped icon, the original icon of the opposite gender from the same restroom | Reading the IOAI repository (task, data layout, scoring rule, baseline) before designing anything | Entry "10 November 2026 (afternoon), Tair"; `docs/research/datasets.md` |
+| 3 | The first signage rules (`docs/RULES.md` part 2) | They judged each sign alone. On the 82 IOAI training restrooms, both signs were read correctly in 57 % of restrooms, the old S2 passed 61 % of real pairs, and only 32 % of signs reached S1's 0.80 | Measuring the rules on the training restrooms | `ml/results/restroom/pair_separation.json`, decision 0003, commit `9caf612`. Comparing the two doors is right for 90 % of restrooms |
+| 4 | A public pothole dataset (EDK Global Potholes on Hugging Face) | It has no bounding boxes, and its labels were made by the provider's AI models | Reading the dataset card and the CSV | `docs/research/datasets.md`. We trained on Chitholian's Kaggle dataset instead: 665 images, 1,739 boxes (`data/README.md`) |
+| 5 | A sub-agent that read the R-6 audit screenshots | It flipped men and women in Gemini's answers for A01 and A02 | Roma checked every raw screenshot himself | Entry "12 November 2026, Roma (R-6: VLM audit on restroom signs)" |
+| 6 | The first R-6 report, `docs/research/vlm-evaluation.md` (made with Antigravity, per Roma's entry) | It compared the VLMs' gender accuracy with our partner matching (30/30) and quoted R4, a run picked on the test split | Review against `ml/results/restroom/experiments.csv` and `runs/R1.json` | PR #473 (gender compared with gender, matching reported separately) and PR #474 (0.741 is the logistic probe; the served zero-shot head gets 0.756) |
+
+What we take from it. Fluent output can contain false facts (Lec7 p64: "Verify important claims"). Every case was caught by a check outside the tool: a primary source (cases 2 and 4), a measurement (case 3), or a second reviewer, a person or another model (cases 1, 5 and 6). So no number or fact from an AI tool goes on a slide until it is traced to a committed file or a primary source (Lec7 p70: "Choose evidence over fluency").
+
 ## Template
 
 ```
@@ -1274,84 +1289,11 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How I verified it, and who verified it:** R1.json: `zero_shot_prompts.accuracy` 0.7561, confusion matrix 143+21+59+105 = 328; `probe_lr.accuracy` 0.7409 = `genderAccCv` in experiments.csv. The 6 deck tests pass; the build reports no open gaps; slide 10 rendered and checked.
 - **What I rejected or corrected:** putting partner matching (R7 30/30) on the same line as the VLMs' gender accuracy (different tasks; it stays in the notes); Roma's 45-second script (slide 10's budget is 0:35 for AI use and the audit together); quoting the report's model versions on the slide.
 
-## What the AI tools got wrong, and what caught it
+### 12 November 2026, Tair (fact check of Roma's R-26, R-41 and R-45 pushes)
 
-In compliance with Course Learning Outcome 7 (CLO 7), which requires evaluating the limitations, errors, and legal/ethical risks of generative AI tools based on the rigour of verification procedures and the strength of conclusions (Syllabus p.3), this section documents real instances where AI assistance generated erroneous, hallucinated, or dysfunctional artifacts across the project lifecycle.
-
-Every case below is grounded in a verifiable repository file, commit hash, or pull request, alongside the specific verification mechanism that detected the error.
-
-### Summary of verified AI error cases
-
-| ID | Domain / Task | What the AI tool produced | What was wrong | How it was caught (Check) | Resolution & Evidence file |
-|---|---|---|---|---|---|
-| **E-01** | Architecture / Plan | Initial training directory paths & scoring formula | Invalid output path would crash multi-environment training; formula allowed small false alarms to outscore large potholes | Peer code review & manual edge-case testing | Small detection score cap in [`docs/RULES.md`](RULES.md) line 38; path fixes in `data/make_potholes_yolo_v1.py` |
-| **E-02** | Problem Specification | Restroom vision pipeline task formulation | Framed problem as binary single-image classification ("male vs female door sign") | Reading the primary source (IOAI contest specification on GitHub) | Architectural redesign to two-stage image matching in [`api/restroom_pipeline.py`](../api/restroom_pipeline.py) and [`docs/ARCHITECTURE.md`](ARCHITECTURE.md) section 2b |
-| **E-03** | Rule Calibration | Restroom signage compliance rules | Scored door signs individually in complete isolation | Empirical measurement on 82 training restroom pairs | Replaced with pairwise differential rules in [`docs/RULES.md`](RULES.md) Part 2 and decision [`docs/decisions/0003-pairwise-signage-rules.md`](decisions/0003-pairwise-signage-rules.md) (commit `9caf612`) |
-| **E-04** | Data Curation | Candidate pothole dataset recommendation | Recommended an unvetted public road damage dataset claiming it had bounding boxes | Archive file inspection showed only image-level tags and synthetic pseudo-labels without box coordinates | Rejected dataset in [`docs/research/datasets.md`](research/datasets.md) lines 14–22; adopted Chitholian dataset with 1,739 verified boxes |
-| **E-05** | Course Grounding | Lecture page citations in course digests | Hallucinated slide numbers shifted by 5–15 pages or citing non-existent lecture topics | Cross-lane verification against instructor PDF lecture decks | Verified and corrected all citations in [`docs/COURSE-GROUNDING.md`](COURSE-GROUNDING.md) line 8 (tasks R-14, R-36) |
-| **E-06** | Exam Preparation | Model answers in course digest section 4 | Generated answers describing an alien medical NLP diagnosis system rather than Qarau | Cross-lane review during defense rehearsal preparation | Annotated all mismatched questions with explicit "Qarau:" corrections ([`docs/TASKS.md`](TASKS.md) task R-37) |
-| **E-07** | UI & Copywriting | Website About page text | Asserted EXIF metadata is always stripped automatically and described an abandoned matching rule | Review against API code and privacy contracts | Corrected copy in `web/app/about` to truthfully reflect client toggles and served weights (tasks D-7, W-14) |
-| **E-08** | Multimodal Audit | Gemini Vision API inference responses (R-6) | Reflected client-side filenames (`A07.png`, `A17.png`) directly in classification reasoning text | Strict protocol verification during zero-contamination audit | Implemented randomized opaque ID hashing for all benchmark test assets in [`docs/research/vlm-evaluation.md`](research/vlm-evaluation.md) |
-
----
-
-### Detailed Case Analyses
-
-#### Case E-01 · Pothole scoring formula and training script crash (Plan & Architecture)
-- **What the tool produced:** In the initial scaffold draft, the assistant generated starter YOLO training commands and a linear additive pothole severity scoring formula.
-- **What was wrong:** The training paths assumed a shared local disk structure that failed on distributed Google Colab runtimes, and the severity scoring formula summed all detected bounding boxes without regard to size. Under this logic, ten small false alarms (e.g. shadow patches, camera noise, or manhole rings) generated a score of 10 ("critical emergency"), outranking a massive 30 cm deep crater in the primary driving lane.
-- **How it was caught:** Second review by team members during rule verification and dry-run execution (`docs/AI-USAGE-LOG.md` line 38).
-- **What changed:** In [`docs/RULES.md`](RULES.md) line 38, an explicit mathematical cap was introduced: `smallPoints = min(Σ small detections, 2)`. Training paths were refactored to use dynamic path resolution relative to repository roots.
-
-#### Case E-02 · Misinterpreting the IOAI contest task (Task Specification)
-- **What the tool produced:** When prompted to design the restroom module from the IOAI 2025 contest description, the AI assistant framed the problem as a standard binary image classifier: predict whether a photographed door sign depicts "male" or "female".
-- **What was wrong:** The actual IOAI Individual Contest task was an open-set retrieval problem: given a cropped query icon, find its matching counterpart within an unseen gallery of door signs across diverse international styling variations. Binary classification completely failed the competition benchmark.
-- **How it was caught:** Primary source verification: reading the official IOAI contest repository specifications and benchmark evaluations on GitHub (`docs/AI-USAGE-LOG.md` line 51).
-- **What changed:** Pivoted the architecture to a two-step retrieval pipeline combining SIFT feature matching, pixel difference checks, color histograms, and CLIP embeddings ([`api/restroom_pipeline.py`](../api/restroom_pipeline.py); [`docs/ARCHITECTURE.md`](ARCHITECTURE.md) section 2b).
-
-#### Case E-03 · Independent single-sign evaluation failure (Signage Rules)
-- **What the tool produced:** The AI assistant drafted signage clarity evaluation rules that evaluated each restroom sign in isolation using static visual heuristic thresholds.
-- **What was wrong:** In real public buildings, door signs vary widely in design language, abstract geometry, and artistic styling. Evaluating signs independently achieved poor accuracies of 57%, 61%, and 32% on real door pairs because a sign cannot be judged as ambiguous without contrasting it against its partner door sign.
-- **How it was caught:** Empirical measurement: testing the rule engine directly on the 82 training restroom pairs in [`ml/results/restroom/pair_separation.json`](../ml/results/restroom/pair_separation.json).
-- **What changed:** Completely replaced single-sign rules with pairwise and gallery comparative rules in [`docs/RULES.md`](RULES.md) Part 2, documented in decision record [`docs/decisions/0003-pairwise-signage-rules.md`](decisions/0003-pairwise-signage-rules.md) (commit `9caf612`).
-
-#### Case E-04 · Recommending an unannotated road dataset (Data Curation)
-- **What the tool produced:** When queried for public road damage datasets, the assistant recommended an external open-source collection, asserting that it was pre-split and contained verified bounding boxes ready for YOLO training.
-- **What was wrong:** Direct inspection of the download archive revealed that the dataset contained only image-level tags ("damage present") without spatial bounding box coordinates, alongside machine-generated pseudo-labels containing significant label noise.
-- **How it was caught:** Manual file inspection of dataset archives and annotation files prior to training ingestion ([`docs/research/datasets.md`](research/datasets.md) lines 14–22; `docs/AI-USAGE-LOG.md` line 41).
-- **What changed:** The unannotated candidate was rejected; the team instead adopted the Chitholian Annotated Potholes Image Dataset with 1,739 verified Pascal VOC bounding boxes ([`data/README.md`](../data/README.md), D-1).
-
-#### Case E-05 · Hallucinated lecture slide page citations (Course Grounding)
-- **What the tool produced:** To fulfill course grounding requirements, the AI assistant generated tabular references mapping project decisions to specific slides in the ICT1103 lecture decks.
-- **What was wrong:** Multiple cited page numbers were completely hallucinated (e.g. citing slides 45–50 in decks that ended at slide 38, or attributing computer vision CNN inductive bias definitions to a lecture on relational databases).
-- **How it was caught:** Primary document cross-check: a line-by-line manual audit across original PDF lecture presentations conducted during tasks R-14 and R-36 ([`docs/COURSE-GROUNDING.md`](COURSE-GROUNDING.md) line 8).
-- **What changed:** Every invalid citation was systematically flagged, checked against primary lecture slides, and corrected to verified page numbers.
-
-#### Case E-06 · Course digest model answers describing an alien system (Exam Prep)
-- **What the tool produced:** In section 4 of the course study digest, the assistant drafted sample oral exam answers to demonstrate how project decisions satisfy syllabus learning outcomes.
-- **What was wrong:** Rather than reflecting Qarau's dual computer vision architecture (YOLO detection + CLIP matching + deterministic expert rules), several generated answers described an unrelated NLP clinical sentiment analysis pipeline with transformer attention heads over patient notes.
-- **How it was caught:** Team review during oral exam preparation drills and study card collation.
-- **What changed:** Added explicit project-specific "Qarau:" corrections to every incongruent question in section 4 ([`docs/TASKS.md`](TASKS.md) task R-37).
-
-#### Case E-07 · About page asserting unverified privacy invariants (UI & Copywriting)
-- **What the tool produced:** The assistant generated marketing and explanatory copy for the web frontend About page.
-- **What was wrong:** The copy made absolute claims that "all EXIF and geolocation metadata is always automatically stripped before any image touches our servers," and asserted that restroom matching used an early experimental rule that had failed test evaluation with a score of 0.30.
-- **How it was caught:** Code review comparing public marketing claims against actual API route handlers in `web/app/api/analyze/route.ts` and `api/imaging.py` (tasks D-7, W-14).
-- **What changed:** Rewrote frontend copy to truthfully describe privacy controls (EXIF stripping as a user-configurable setting) and updated matching documentation to reflect the production two-step pipeline.
-
-#### Case E-08 · Vision-Language Model interface metadata leakage (Multimodal Audit)
-- **What the tool produced:** During the task R-6 vision-language model audit, Google Gemini Auto was queried to classify door sign iconography across benchmark images.
-- **What was wrong:** In 2 of 20 query responses (`A07.png` and `A17.png`), Gemini explicitly echoed the client file name in its natural language output, demonstrating that client-side file system identifiers leak into model prompt context and bias inference.
-- **How it was caught:** Protocol verification: reviewing full raw audit transcripts and screenshots during zero-contamination verification ([`docs/research/vlm-evaluation.md`](research/vlm-evaluation.md)).
-- **What changed:** Enforced randomized SHA-256 hash naming conventions across all public and internal audit assets, ensuring vision models evaluate pure visual pixels without filename priors.
-
----
-
-### Conclusion on Generative AI Utility and Limits
-
-Across project development, generative AI errors fell into three recurring failure modes: **fluent hallucination** of ungrounded citations and data characteristics, **unverified architectural assumptions** that distorted problem specifications, and **sub-optimal mathematical heuristics** that collapsed on real-world edge cases.
-
-These failures were caught through three rigorous engineering mechanisms: **empirical measurement** against held-out validation benchmarks, **primary source verification** against instructor lecture decks and contest specifications, and **collaborative peer review** across team lanes.
-
-In accordance with course instruction, our team protocol maintains that generative AI outputs cannot be accepted on linguistic fluency alone; every critical architectural contract, safety rule, and quantitative metric must be grounded in committed code and primary evidence files (Lec7 p64, *"Verify important claims"*; Lec7 p70, *"Choose evidence over fluency"*).
-
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with one sub-agent that checked the R-41 cases; the app's built-in browser to open the laws on adilet.zan.kz; PyMuPDF to read the lecture PDFs.
+- **Purpose:** Roma pushed R-41, R-26 and R-45 straight to `main` overnight, without a pull request. Check every fact in them against the repository, the course files and Adilet before the defense.
+- **Key prompt(s), with a link to the transcript:** "merge review and improve everyones parts overnight if anything posted." Transcript kept locally.
+- **What it produced or changed:** the R-41 section above, rewritten with the six cases that have a record and moved above `## Entries` (the deck counts every `### ` heading after it); the backup notes B1–B11 and the slide 10 and 11 notes in `docs/PRESENTATION.md`; `docs/deck/SLIDES.md` restored to the builder's output; the law table and data rows in `docs/research/privacy-and-law.md`; answer Q10 in `docs/DEFENSE-QA.md`; the EXIF sentence on the About page.
+- **How I verified it, and who verified it:** each claim against the file, commit or issue it cites. On Adilet (12 November 2026): Law No. 94-V of 21 May 2013 (Art. 7 conditions of collection and processing, Art. 16 cross-border transfer); Law No. 230-VIII of 17 November 2025 on AI, an adopted law; the Digital Code No. 255-VIII of 9 January 2026, an adopted code at `K2600000255` (the `Z2600000255` link does not open); `Z2400000256` does not open. Lecture quotes against `Lec #7.pdf` p.64 and p.70 and Lec 9 p.50. Roma still has to read the corrected text before he presents it.
+- **What I rejected or corrected:** the three cases with no record and the SHA-256 renaming in the R-6 case (the IDs A01–A20 existed before the audit); "local inference by default" (the default provider is mock); a "Lec4-DataMgmt p14" quote that is in none of the module 4 files we have; `ml/results/fig_error_analysis.png` and `data/samples/` (neither exists); 50 training epochs (the run files have 40); the database entities (ARCHITECTURE.md section 4 has photos, analyses, detections, rules and rule_hits).
