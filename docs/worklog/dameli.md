@@ -28,14 +28,13 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
   - The switch has its own storage key, so the inline script reads it before first paint, and "Reset demo data" keeps it like the theme.
   - Switch over a System/Reduced segmented control: "System" can already mean reduced, so a switch with "On: animations stop. Off: follows your device setting." is clearer.
   - Charts follow the switch through Recharts' `AnimationControllerProvider` in one place, so the chart files (another task in progress) did not change.
-  - The count-up keeps its own `useReducedMotion()` because G-45 edits that file today; it follows the switch through `MotionGlobalConfig.skipAnimations`.
+  - The count-up got its hook swap only after G-45 (#406), which edits the same file, was merged, so there was no conflict. `MotionGlobalConfig.skipAnimations` also covers any other imperative `animate()` call.
 - **What I learned / can explain at the defense:**
   - Moving content that starts by itself and lasts more than 5 s needs a pause (WCAG 2.2.2; Lec3-HCI p.37).
   - The choice is applied before the first paint by the same inline script as the theme, so no animation starts and then stops.
   - Motion's `reducedMotion="user"` stops only transform animations; `skipAnimations` stops all of them, fades included.
 - **AI use:** Claude Code wrote the code and the Playwright checks from my task list (entry in docs/AI-USAGE-LOG.md).
 - **Open questions / next:**
-  - After G-45 lands: swap `useReducedMotion()` in `count-up.tsx` for `useReducedMotionConfig()`, so the issue's grep is empty.
   - The example chips in the sign demo are still 32 px on phones (G-54 step 3, left for G-30, which restyles them).
   - The detection box delays in `detection-overlay.tsx` and the keyframe timings in `globals.css` are still numbers; the grep does not cover them.
   - G-64 references (Mobbin, macOS) and Drive screenshots still to collect.
