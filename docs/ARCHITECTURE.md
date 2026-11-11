@@ -37,6 +37,8 @@ Three folders, three lanes, one JSON contract:
 
 ## 2. The contract
 
+`python ml/check_results.py` checks the published road and restroom results against their contracts and checks tracked-file hygiene; CI also runs regression tests for these checks.
+
 The API implements the prediction response contracts in `api/schemas.py`; FastAPI validates responses and publishes the schemas at `/docs`. The checked-in `api/openapi.json` is a snapshot for the web lane and should be regenerated when the routes or schemas change. The API's `PROVIDER_NAME` must be `mock`, `local`, or `cloud`.
 
 All boxes are normalised to the image size (0..1). `x`,`y` are the top-left corner.

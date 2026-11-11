@@ -63,6 +63,7 @@ Checks before you push:
 
 - `web/`: `cd web && pnpm lint && pnpm typecheck && pnpm exec vitest run --maxWorkers=2`
 - `ml/`, `api/`: `python3 -m compileall -q ml api`, plus `pytest api/` if you changed the API
+- Results or repository contents: `python3 ml/check_results.py` and `python3 -m unittest discover -s ml -p test_check_results.py`.
 
 ### 4. Merge it yourself when CI is green
 
