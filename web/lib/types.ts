@@ -67,7 +67,7 @@ export type MatchResult = {
   latencyMs: number;
   query: SignPrediction;
   candidates: MatchCandidate[]; // sorted, most similar first
-  bestMatchId: string | null; // most similar candidate of the opposite gender
+  bestMatchId: string | null; // mock: most similar of the opposite gender; local/cloud: the two-step pipeline's pick
 };
 
 export type SignageVerdict = "clear" | "review" | "confusing";

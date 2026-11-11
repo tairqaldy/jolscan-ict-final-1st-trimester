@@ -1076,20 +1076,36 @@ def slide_restroom_results(prs) -> SlideDoc:
     gender_line = f"Gender of one sign, {SERVED_ARCH} (served): prompts {gz}, probe {gp}."
     caveat = ("The pipeline uses two facts of this benchmark: each query is cut from a gallery original, and the gallery "
               "holds exactly the queries' partners. A real building gives neither.")
-    interval_fallback = R.gap("95 % intervals for 30/30 and 27/30 and the paired test, ml/results/restroom/intervals.json",
-                              "C-20, #201, Nazar", "Thirty test queries cannot separate these runs well.",
-                              watch="ml/results/restroom/intervals.json")
+    # C-20: exact intervals and paired tests; C-21: the pipeline one query at a time (what the API serves)
+    ij, qj = "ml/results/restroom/intervals.json", "ml/results/restroom/pipeline_per_query.json"
+    iv, pq_file = read_json(ij), read_json(qj)
+    ci_p, ci_r = iv["scores"][f"pipeline:{best}"]["test"]["ci95"], iv["scores"][champ]["test"]["ci95"]
+    lo_p = R(d(ci_p[0]), ij, f"scores.pipeline:{best}.test.ci95 (low)", ci_p[0])
+    hi_p = R(d(ci_p[1]), ij, f"scores.pipeline:{best}.test.ci95 (high)", ci_p[1])
+    lo_r = R(d(ci_r[0]), ij, f"scores.{champ}.test.ci95 (low)", ci_r[0])
+    hi_r = R(d(ci_r[1]), ij, f"scores.{champ}.test.ci95 (high)", ci_r[1])
+    paired = {(p["first"], p["second"]): p["p_exact_mcnemar"] for p in iv["paired_test"]}
+    p_r0 = R(d(paired[(f"pipeline:{best}", "R0")]), ij, f"paired_test pipeline:{best} vs R0, p_exact_mcnemar",
+             paired[(f"pipeline:{best}", "R0")])
+    p_r3 = R(d(paired[(f"pipeline:{best}", champ)], 2), ij, f"paired_test pipeline:{best} vs {champ}, p_exact_mcnemar",
+             paired[(f"pipeline:{best}", champ)])
+    served = pq_file["served"]
+    pq = R(pq_file["test_correct"][served], qj, f"test_correct.{served}", pq_file["test_correct"][served])
+    interval_line = (f"95 % interval: {pt} → {lo_p}–{hi_p}, {r3t} → {lo_r}–{hi_r}. Pipeline against zero-shot CLIP "
+                     f"p = {p_r0}; against {champ} p = {p_r3}, not separable. One query at a time, as the app answers: {pq}.")
     rich(s, MARGIN, Inches(4.95), CONTENT_W, Inches(1.95),
          [[(f"One test query is worth {one_q}. ", {"bold": True}), (gender_line, {})],
-          {"runs": [(caveat, {"color": "muted"})], "space_before": 6}], size=BODY, line=1.08)
+          {"runs": [(interval_line, {})], "space_before": 4},
+          {"runs": [(caveat, {"color": "muted"})], "space_before": 4}], size=BODY, line=1.05)
     numbered_footer(s, "08")
     r0n, r3n = r0t.split("/")[0], r3t.split("/")[0]
     script = (f"Zero-shot CLIP matches {r0n} of {nt} test queries, the same as IOAI's published baseline of {base}. "
-              f"Fine-tuning the last three blocks, run {champ}, gives {r3n} of {nt}; {champ} is the run our rule picks on "
-              f"validation. The two-step pipeline gets all {pt.split('/')[0]}. IOAI's published best is {best_ioai}; those "
-              f"are their numbers, not a contest we took part in. One query is worth {one_q}. {interval_fallback} The "
-              f"pipeline also uses two facts of this benchmark that a real building does not give. Gender from one sign "
-              f"is hard: prompts reach {gz}, a trained probe {gp}. Dameli will show how the interface makes this usable.")
+              f"Fine-tuning the last three blocks, run {champ}, gives {r3n}; {champ} is the run our rule picks on "
+              f"validation. The two-step pipeline gets all {pt.split('/')[0]}, also one query at a time, as the app will "
+              f"answer. IOAI's best, {best_ioai}, is their number, not a contest we entered. Thirty queries are few: for "
+              f"{pt} the 95 % interval starts at {lo_p}. The pipeline beats zero-shot CLIP, p {p_r0}, but not provably "
+              f"{champ}, p {p_r3}. It also uses two facts of this benchmark that a real building does not give. Dameli will "
+              f"show how the interface makes this usable.")
     g_r1 = ("R1's zero-shot ViT-B/32, the model the API serves; R0's ViT-B/16 gives other gender numbers, see "
             "runs/R0.json")
     cues = (f"Highlighted rows: {champ}, chosen among the runs on validation (R2–R4 tie at 10/10; gender breaks the tie), "
@@ -1097,12 +1113,14 @@ def slide_restroom_results(prs) -> SlideDoc:
             "Open team decision (R-3 step 4): which one is the headline; Nazar confirms in the chat. "
             f"R4's 30/30 does not change the run choice: the rule never looks at test. Never say 'we beat the IOAI best'. "
             f"Gender numbers: {g_r1}; 5-fold cross-validation grouped by restroom. "
-            f"What the app serves today is neither {champ} nor R7: `served` is null; Match ranks by zero-shot CLIP "
-            f"{SERVED_ARCH} and the opposite predicted gender (servedNote in {wr}; task C-8). "
-            "If C-21 (#202) lands, add its one-query-at-a-time number next to 30/30.")
+            f"What the app serves: `served` = {WEB_REST.get('served')} in {wr}: since C-8 Match runs the two-step "
+            f"pipeline one query at a time ({served}), not the opposite-gender rule. "
+            f"The interval and p values are exact (Clopper-Pearson, McNemar) from stored predictions ({ij}); p {p_r3} "
+            f"means 3 queries to 0 is too few to tell R7 from {champ}. 'One query at a time' is {served} ({qj}): no "
+            "assignment across queries, the variant the API serves after C-8; its test score was read once.")
     return SlideDoc("8", "Restrooms: results", "Nazar", "0:50", title_words,
                     ["Table: " + "; ".join(f"{r[0]}: validation {r[1] or '–'}, test {r[2]}" for r in rows[1:]),
-                     f"One test query is worth {one_q}. {gender_line}", caveat],
+                     f"One test query is worth {one_q}. {gender_line}", interval_line, caveat],
                     "Chart drawn by make_deck.py from ml/results/restroom/experiments.csv and pipeline.json at its placed "
                     "size: the four table rows, validation and test, IOAI's published lines dashed", script, cues=cues,
                     extra_sources=["ml/restroom/pipeline.py (docstring: the benchmark guarantee behind the caveat)",
@@ -1220,8 +1238,8 @@ def slide_limits(prs) -> SlideDoc:
         T.text(s, MARGIN, y, Inches(0.6), Inches(0.5), f"{i + 1}", size=28, color="accent_ink", font=MONO, bold=True)
         rich(s, MARGIN + Inches(0.65), y, Inches(11.2), Inches(0.95),
              [[(head, {"bold": True, "size": 22})], [(line, {"color": "muted"})]], size=BODY, line=1.1)
-    nxt = ("Next: an external test set of screened local photos, the two-step pipeline served in the app (C-8), "
-           "and repeat runs with other seeds.")
+    nxt = ("Next: an external test set of screened local photos, accessible and all-gender signs for the restroom "
+           "model, and repeat runs with other seeds.")
     card(s, MARGIN, Inches(5.0), CONTENT_W, Inches(1.15), fill="surface2", line=None)
     T.text(s, MARGIN + Inches(0.3), Inches(5.0), CONTENT_W - Inches(0.6), Inches(1.15), nxt, size=BODY,
            anchor=MSO_ANCHOR.MIDDLE, line=1.12)

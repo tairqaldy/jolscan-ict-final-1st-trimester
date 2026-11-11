@@ -114,11 +114,29 @@ From the model, for signs `a` and `b`: predicted gender and its confidence, and 
 
 | ID | Rule | Default | Fails when | Evidence (82 IOAI training restrooms) |
 |---|---|---|---|---|
-| S1 | Which door is which is clear | gap ≥ 0.20 | The reading is too close to trust without a person checking | 62% of real pairs pass, and every one of them is read the right way round |
-| S2 | The two doors can be told apart | gap ≥ 0.05 | The two signs look almost the same to the model | Below 0.05 the reading is close to a coin toss; 15% of real pairs fall there |
-| S3 | The signs belong to one set | similarity ≥ 0.88 | The two designs look unrelated, so visitors may not read them as a pair | 95% of same-restroom pairs pass; 89% of pairs from two different restrooms fail. The first default, 0.75, flagged only 1% of them |
+| S1 | Which door is which is clear | gap ≥ 0.20 | The reading is too close to trust without a person checking | 62% of real pairs pass (95 % interval 0.51–0.73), and every one of them is read the right way round ([curves](../ml/results/restroom/figs/signage_thresholds.png)) |
+| S2 | The two doors can be told apart | gap ≥ 0.05 | The two signs look almost the same to the model | Below 0.05 the reading is close to a coin toss; 15% of real pairs fall there ([curves](../ml/results/restroom/figs/signage_thresholds.png)) |
+| S3 | The signs belong to one set | similarity ≥ 0.88 | The two designs look unrelated, so visitors may not read them as a pair | 95% of same-restroom pairs pass; 89% of pairs from two different restrooms fail. The first default, 0.75, flagged only 1% of them ([curves](../ml/results/restroom/figs/signage_thresholds.png)) |
 
 S2 is never stricter than S1.
+
+The trade-off behind each default is drawn in [`figs/signage_thresholds.png`](../ml/results/restroom/figs/signage_thresholds.png) (`python ml/restroom/signage_plots.py`, task C-27). S1 = 0.20 is the smallest margin at which every passing training pair is read the right way round. That is an in-sample choice, made on the same 82 restrooms it is measured on, which is why task C-26 checks the rules on the 10 validation restrooms.
+
+### Out-of-sample check (task C-26)
+
+The thresholds were chosen on the 82 training restrooms. On the 10 validation restrooms they never saw (genders labelled by eye in `ml/results/restroom/val_gallery_labels.csv`, pairs from the IOAI answer file; zero-shot CLIP ViT-B/32 as served; `python ml/restroom/signage_val.py` → `ml/results/restroom/signage_val.json`):
+
+| | Training (82 restrooms) | Validation (10 restrooms, exact 95 % interval) |
+|---|---|---|
+| Both doors read the right way round | 0.90 | 9/10 = 0.90 (0.56–1.00) |
+| S1 passes (gap ≥ 0.20) | 0.62 | 7/10 = 0.70 (0.35–0.93) |
+| Of those, read the right way round | 1.00 | 7/7 = 1.00 (0.59–1.00) |
+| S2 passes (gap ≥ 0.05) | 0.85 | 9/10 = 0.90 (0.56–1.00) |
+| S3 passes (similarity ≥ 0.88) | 0.95 | 9/10 = 0.90 (0.56–1.00) |
+| S2 flags same-gender pairs of two restrooms | 0.16 | 18/90 = 0.20 (0.12–0.30) |
+| S3 flags same-gender pairs of two restrooms | 0.89 (all different-restroom pairs) | 79/90 = 0.88 (0.79–0.94) |
+
+Validation agrees with training on every rule: 9 of 10 restrooms read the right way round, and the 7 that pass S1 are all read correctly. Ten restrooms give wide intervals, so this shows the training numbers are in the right range, not that they are exact. The thresholds are unchanged; nothing was tuned on these 10 restrooms.
 
 ## Verdict
 
