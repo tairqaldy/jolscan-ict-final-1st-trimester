@@ -158,7 +158,7 @@ export function TokenReference() {
             {[1, 2, 3, 4, 6, 8, 12, 16].map((n) => (
               <div key={n} className="flex items-center gap-3 text-xs">
                 <span className="w-10 font-mono text-subtle">{n}</span>
-                <span className="h-3 rounded-xs bg-accent" style={{ width: `calc(var(--spacing) * ${n})` }} />
+                <span className="h-3 rounded-sm bg-accent" style={{ width: `calc(var(--spacing) * ${n})` }} />
                 <span className="font-mono text-muted">{n * 4}px</span>
               </div>
             ))}
@@ -166,7 +166,7 @@ export function TokenReference() {
           <div className="grid content-start gap-4">
             <h3 className="text-lg font-semibold">Radii and shadows</h3>
             <div className="flex flex-wrap gap-3">
-              {["xs", "sm", "md", "lg", "xl"].map((r) => (
+              {["sm", "md", "lg", "full"].map((r) => (
                 <div key={r} className="grid size-16 place-items-center border border-border-strong bg-surface-2 font-mono text-xs" style={{ borderRadius: `var(--radius-${r})` }}>
                   {r}
                 </div>
@@ -207,7 +207,7 @@ export function TokenReference() {
               <TR key={c.need}>
                 <TD>
                   <span className="inline-flex items-center gap-2">
-                    <span aria-hidden className="size-3 shrink-0 rounded-xs border border-border" style={{ background: `var(--${c.swatch})` }} />
+                    <span aria-hidden className="size-3 shrink-0 rounded-sm border border-border" style={{ background: `var(--${c.swatch})` }} />
                     {c.need}
                   </span>
                 </TD>
