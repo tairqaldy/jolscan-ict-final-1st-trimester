@@ -525,3 +525,12 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** `docs/design/ANTI-SLOP.md` and one line in `.github/pull_request_template.md`.
 - **How I verified it, and who verified it:** every check was run on `main` on 11 November; both percentages were traced to their source lines; the looping components were opened to confirm the intervals.
 - **What I rejected or corrected:** did not count the Demo badge as slop (it is the honesty rule); did not change any component here; the fixes belong to G-23, G-49 and G-54.
+
+### 11 November 2026, Dameli (G-52 chart style)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with matplotlib 3.9.4 in a throwaway environment.
+- **Purpose:** one chart style for app screenshots and deck plots.
+- **Key prompt(s), with a link to the transcript:** "do all of these, deadline is too close". Transcript kept locally.
+- **What it produced or changed:** `docs/design/chart-style.md`, `docs/design/chart_style_sample.py` and its PNG.
+- **How I verified it, and who verified it:** hex values copied from `web/app/tokens.css`; the sample reads its numbers and the champion from the committed results files, and I opened the image; bars start at zero.
+- **What I rejected or corrected:** did not restyle `ml/plots.py` or `ml/restroom/layers_report.py` myself (the model lanes own them); did not pick a champion by eye.
