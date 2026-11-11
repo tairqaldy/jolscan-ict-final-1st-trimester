@@ -95,29 +95,32 @@
     transition: none !important;
   }
 
-  /* White paper, not the stone page colour. */
-  html,
-  body,
-  :has(> #main) {
+  /*
+   * 3. On a report or check page: white paper and no app chrome, i.e.
+   *    everything beside <main> (skip link, sidebar, top bar, bottom tabs).
+   *    Other pages print as they are.
+   */
+  html:has(.print-sheet),
+  body:has(.print-sheet),
+  :has(> #main .print-sheet) {
     background: var(--surface) !important;
   }
-
-  /* 3. No app chrome: everything beside <main> (skip link, sidebar, top bar, bottom tabs). */
-  :has(> #main) > :not(#main) {
+  :has(> #main .print-sheet) > :not(#main) {
     display: none !important;
   }
-  #main,
-  #main > div {
+  #main:has(.print-sheet),
+  #main:has(.print-sheet) > div {
     max-width: none !important;
     padding: 0 !important;
     margin: 0 !important;
   }
 
   /*
-   * 4. The report or check page (report-detail-client.tsx, check-detail-client.tsx).
-   *    The tabs card is replaced by the print-only rule table (print-bits.tsx).
+   * 4. The sheet itself (report-detail-client.tsx, check-detail-client.tsx),
+   *    scaled to 80% so the header, both cards, the rule table and the footer
+   *    fit one A4 page. The tabs card is replaced by the print-only rule table
+   *    (print-bits.tsx).
    */
-  /* Scaled to 80% so the header, both cards, the rule table and the footer fit one A4 page. */
   .print-sheet {
     zoom: 0.8;
     gap: 0.75rem !important;
