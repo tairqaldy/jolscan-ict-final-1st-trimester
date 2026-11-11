@@ -707,3 +707,13 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - Did not hide the pause button with conditional markup (hydration mismatch); CSS hides it instead.
   - Did not touch the chart files or the count-up rendering, which other tasks edit today.
   - A first test of the sign demo failed because it sits in a closed `<details>`; the test now opens it first.
+
+### 11 November 2026, Tair (deck: answer to Dameli's G-58 critique)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, the same sub-agent that built the deck draft.
+- **Purpose:** fix the must-fix items of `docs/design/deck-critique.md`: text sizes, charts at slide size, colours from the tokens, gaps off the slide faces.
+- **Key prompt(s), with a link to the transcript:** "fix every must-fix item that can be fixed from the repository; keep every honesty check". Transcript kept locally.
+- **What it produced or changed:** `docs/deck/make_deck.py`, the rebuilt deck, `docs/deck/CRITIQUE-RESPONSE.md`; I changed the champion colour and the figure title in `ml/plots.py` and "sample photos" to "sample images" in PRESENTATION.md.
+- **How I verified it, and who verified it:** rendered every slide and looked at it; the build still stops on any number that differs from its file and on text under 14 pt; `ml/check_results.py` passes. Dameli checks the response table.
+- **What I rejected or corrected:** the highlight on slide 8 stays partial, because highlighting one restroom run would decide the headline that Nazar has not confirmed.
+

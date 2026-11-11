@@ -25,7 +25,7 @@ import matplotlib.pyplot as plt
 
 RESULTS = Path("ml/results")
 RUN_COLOUR = "#3d4f63"  # --chart-1
-CHAMPION_COLOUR = "#f2a900"  # --accent
+CHAMPION_COLOUR = "#b87f00"  # chart highlight (chart-style.md): the brand amber #f2a900 is 2.01:1 on white
 CURVE_RUNS = ("E0", "E2", "E5")
 
 plt.rcParams.update({"font.size": 13, "axes.spines.top": False, "axes.spines.right": False})
@@ -55,8 +55,18 @@ def runs_figure() -> None:
     if champion in ids:
         legend.append(Patch(color=CHAMPION_COLOUR, label=f"Champion ({champion})"))
     ax.legend(handles=legend, frameon=False, loc="upper center", bbox_to_anchor=(0.5, -0.22), ncol=1)
-    title = f"{ids[0]} is the only run so far" if len(ids) == 1 else f"Pothole runs; {champion} chosen on validation"
+    # Title states the takeaway and never contradicts the bars: name the best test run when it is not the champion.
+    best = ids[max(range(len(ids)), key=lambda i: map50[i])]
+    if len(ids) == 1:
+        title = f"{ids[0]} is the only run so far"
+    elif best == champion:
+        title = f"{champion}, chosen on validation, also has the highest test mAP50"
+    else:
+        gap = map50[ids.index(best)] - map50[ids.index(champion)]
+        title = f"On test, {champion} and {best} are {gap:.3f} apart; {champion} was chosen on validation"
     ax.set_title(title, loc="left")
+    fig.text(0.01, 0.01, "Source: ml/results/experiments.csv, test split. Recall: Ultralytics' pass with boxes at confidence 0.40 or more.",
+             fontsize=9, color="#555555")
     fig.tight_layout()
     fig.savefig(RESULTS / "fig_runs_map50_recall.png", dpi=200)
     plt.close(fig)
