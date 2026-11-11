@@ -80,7 +80,7 @@ describe("staggered entries end within the 600 ms budget (motion grill)", () => 
   it("staggerDelay steps by stagger and caps at the budget", () => {
     expect(staggerDelay(0, duration.slow)).toBe(0);
     expect(staggerDelay(1, duration.slow)).toBeCloseTo(stagger, 5);
-    for (const d of [duration.base, duration.slow]) {
+    for (const d of [duration.base, duration.draw, duration.slow]) {
       for (let i = 0; i < 20; i++) expect(staggerDelay(i, d) + d).toBeLessThanOrEqual(reveal.budget + 1e-9);
     }
   });
