@@ -6,6 +6,12 @@ Both models are loaded on the first request that needs them, not at start-up. Th
 
 The FastAPI service was run with real stock YOLO weights on Windows for S-1; see the verification record below. Gradio and Docker still need their own runtime checks (S-5, S-8).
 
+## Prediction call log
+
+Each successful road prediction appends UTC time, model latency in milliseconds, detection count, mean detection confidence, model and provider to `api/logs/predict-calls.csv`. If there are no detections, mean confidence is blank. Set `PREDICT_LOG_PATH` to select a writable file elsewhere. The log does not contain images or uploaded filenames, and the default log directory is ignored by Git. Restrict access to and manage retention of any configured log file as appropriate for the deployment.
+
+Writes are serialized within one server process. Separate worker processes or replicas need separate log files or an external coordinated log collector. An unwritable log causes `/predict` to return 503 after inference, rather than silently report a successful logged request. The log is not yet connected to the analytics page.
+
 ## Run locally
 
 Use Python 3.12 in a virtual environment (S-1 was verified with Python 3.12.10). The install is large because it includes PyTorch. Direct dependencies are pinned; NumPy 2.5.4 requires Python 3.12 or newer. See [decision 0008](../docs/decisions/0008-api-python-312.md) for the version choice and its verification limits.
