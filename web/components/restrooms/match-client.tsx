@@ -3,6 +3,7 @@
 import { CircleCheck, CircleX, LoaderCircle, Search, Trophy } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
+import { ResultProvenanceBadge } from "@/components/app/demo-badge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Callout } from "@/components/ui/callout";
@@ -167,6 +168,7 @@ function MatchResultView({
 
   return (
     <div className="grid gap-6">
+      <ResultProvenanceBadge result={result} className="justify-self-start" />
       <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         <Card>
           <CardBody className="flex gap-4">
