@@ -1264,3 +1264,12 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** `make_deck.py` rewrites each `### N.` section's quoted script, its word count and time, and the total estimate in `docs/PRESENTATION.md` on every full build; the rest of that file is left alone. One test in `docs/deck/test_make_deck.py`. The deck is rebuilt.
 - **How I verified it, and who verified it:** the 6 deck tests pass, including the new one on a stale copy. Before the change, slides 5 and 6 in PRESENTATION.md differed from SLIDES.md and the other 10 matched; after the build all 12 match.
 - **What I rejected or corrected:** fixing the numbers by hand again (they drift with every merge); generating all of PRESENTATION.md (it holds hand-written rehearsal notes).
+
+### 12 November 2026, Tair (slide 10 shows Roma's R-6 audit; CLIP gender number corrected)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app; LibreOffice and PyMuPDF to render the slide.
+- **Purpose:** R-6 (#472, #473) filled the deck's last gap. Put its result on slide 10, next to the right number of ours.
+- **Key prompt(s), with a link to the transcript:** "u need to keep merging improving and making decisions on your own". Transcript kept locally.
+- **What it produced or changed:** slide 10 gets one audit line, and its script one sentence: Gemini 17/20 and Claude 17/20 on the gender of 20 IOAI signs, against our served CLIP's 0.756 on all 328 training signs, with "20 signs are too few to rank them". The builder reads all of these from `docs/research/vlm-evaluation.md` and `ml/results/restroom/runs/R1.json`. In the report, "0.741 (R1 zero-shot, 5-fold CV)" is corrected: 0.741 is a logistic probe in cross-validation, while the gender head the app serves is the zero-shot prompts (0.756).
+- **How I verified it, and who verified it:** R1.json: `zero_shot_prompts.accuracy` 0.7561, confusion matrix 143+21+59+105 = 328; `probe_lr.accuracy` 0.7409 = `genderAccCv` in experiments.csv. The 6 deck tests pass; the build reports no open gaps; slide 10 rendered and checked.
+- **What I rejected or corrected:** putting partner matching (R7 30/30) on the same line as the VLMs' gender accuracy (different tasks; it stays in the notes); Roma's 45-second script (slide 10's budget is 0:35 for AI use and the audit together); quoting the report's model versions on the slide.

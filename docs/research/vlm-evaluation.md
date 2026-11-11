@@ -17,7 +17,7 @@ Both models achieved identical overall accuracy (**85.0%**, 17/20), but exhibite
 3. Both models failed simultaneously on **A17** (`male/14.png`), an abstract Lego/block-like robotic figure with a torso that both models hallucinated as wearing an apron or dress.
 4. **Leakage & Grounding:** Gemini explicitly echoed image filenames in 2 of 20 responses (`men A07.png`, `women A17.png`), demonstrating that multi-modal interfaces can parse client metadata into reasoning contexts. Because our protocol pre-anonymized all filenames to opaque IDs (`A01`–`A20`), this did not leak ground truth, proving the necessity of the pre-audit renaming step.
 
-For comparison on the same question (the gender of one sign), our zero-shot CLIP ViT-B/32 (**R1**, the backbone the app serves) reaches **0.741** gender accuracy in 5-fold cross-validation on the 82 training restrooms (`ml/results/restroom/experiments.csv`), below both hosted models here. The samples differ (20 hand-picked signs against cross-validation), so this is indicative only. Our app does not rely on gender: the served two-step pipeline (**R7**) finds the partner on **30/30** test queries without predicting gender, and it runs locally, so no image leaves the laptop.
+For comparison on the same question (the gender of one sign), our CLIP ViT-B/32 (**R1**, the model the app serves) gets **0.756** with the zero-shot prompts the app uses, on all 328 training signs (`ml/results/restroom/runs/R1.json`), and 0.741 with a logistic probe on the same features in 5-fold cross-validation (`ml/results/restroom/experiments.csv`); both are below the hosted models here. The samples differ (20 hand-picked signs against cross-validation), so this is indicative only. Our app does not rely on gender: the served two-step pipeline (**R7**) finds the partner on **30/30** test queries without predicting gender, and it runs locally, so no image leaves the laptop.
 
 ---
 
@@ -110,7 +110,7 @@ Word-for-word answers recorded across both models against ground truth:
 
 | Metric | Google Gemini | Anthropic Claude | Qarau, local (`ml/results/restroom/experiments.csv`) |
 |---|:---:|:---:|:---:|
-| **Gender of one sign (same question)** | **17/20 (85.0%)** | **17/20 (85.0%)** | 0.741 (R1 zero-shot, 5-fold CV on training restrooms; not the same 20 images) |
+| **Gender of one sign (same question)** | **17/20 (85.0%)** | **17/20 (85.0%)** | 0.756 (R1 zero-shot prompts, the app's gender head, all 328 training signs; a logistic probe gets 0.741 in 5-fold CV; not the same 20 images) |
 | **Partner matching (the IOAI task)** | not tested | not tested | 30/30 test (R7, served); 27/30 (R3, the fine-tune chosen on validation) |
 | **Men's Sign Accuracy** | 7/10 (70.0%) | 8/10 (80.0%) | — |
 | **Women's Sign Accuracy** | 10/10 (100.0%) | 9/10 (90.0%) | — |
@@ -157,7 +157,7 @@ Word-for-word answers recorded across both models against ground truth:
 - **Core Table:**
   - Gemini: 85.0% (17/20) — Fails on abstract geometry (A03, A11, A17)
   - Claude: 85.0% (17/20) — Fails on ambiguous silhouettes (A12, A13, A17)
-  - Qarau, local: gender 0.74 (R1, cross-validated), lower than both; partner matching 30/30 on test (R7) without predicting gender; no image leaves the laptop
+  - Qarau, local: gender 0.756 (R1 zero-shot prompts, all 328 training signs), lower than both; partner matching 30/30 on test (R7) without predicting gender; no image leaves the laptop
 - **Visual Highlight:** Side-by-side display of `A17.png` (the robot figure both models missed) with bounding analysis.
 - **Key Takeaway:** Commercial foundation models are powerful generalists but brittle on metaphoric edge cases, upload unredacted imagery to remote cloud servers, and exhibit non-deterministic metadata leakage.
 
@@ -168,10 +168,12 @@ Word-for-word answers recorded across both models against ground truth:
 >
 > *Crucially, Gemini echoed back our internal filename in its response, demonstrating that hosted web interfaces pass metadata directly into the context window. Because our protocol pre-anonymized every file to 'A01' through 'A20', ground truth was protected.*
 >
-> *On the same question our own zero-shot CLIP is weaker, 0.74 in cross-validation, so we do not rely on gender at all: our pipeline finds the partner directly, 30 of 30 on test, and no image leaves the laptop."*
+> *On the same question our own zero-shot CLIP is weaker, 0.76 on all our training signs, so we do not rely on gender at all: our pipeline finds the partner directly, 30 of 30 on test, and no image leaves the laptop."*
 
 ---
 
 ## Correction, 12 November 2026
 
 The first version compared the hosted models' gender accuracy on 20 signs with run R4's partner-matching score on the 30 test queries (100%, 24.7 ms). Those are two different tasks, and R4 was cited because it scored best on test, while the team's rule is that test never chooses a run (the validation rule picks R3). The comparison now puts gender next to gender (R1, 0.741, cross-validated) and states partner matching separately (R7, the served pipeline, 30/30; R3, 27/30). The audit itself, its 20 answers per model and its findings are unchanged.
+
+Later on 12 November: R1's 0.741 is a logistic probe on CLIP features in cross-validation, not the zero-shot prompts. The app's gender head is the zero-shot prompts, which score 0.756 on all 328 training signs (`ml/results/restroom/runs/R1.json`, `gender.zero_shot_prompts`), so that is the number set next to the hosted models here and on slide 10. Both numbers are below 17/20.

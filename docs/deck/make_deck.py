@@ -62,6 +62,7 @@ SLIDES_MD = ROOT / "docs/deck/SLIDES.md"
 SOURCES_MD = ROOT / "docs/research/deck-sources.md"
 SOURCES_REL = "docs/research/deck-sources.md"
 PRESENTATION_MD = ROOT / "docs/PRESENTATION.md"
+VLM_REL = "docs/research/vlm-evaluation.md"
 WPM = 130  # speaking rate used for every time estimate (docs/PRESENTATION.md, R-20 step 3)
 
 # Type scale (template G-10: body 18, tables 16; deck-critique.md: nothing the room needs below 14)
@@ -1281,7 +1282,7 @@ def slide_ai(prs) -> SlideDoc:
     header(s, "AI use and its limits", title_words)
     n_entries = ai_log_entries()
     n_s = R(str(n_entries), "docs/AI-USAGE-LOG.md", "number of '### ' entries under 'Entries' at build time", n_entries)
-    top, cw, ch = Inches(1.95), Inches(5.8), Inches(3.3)
+    top, cw, ch = Inches(1.95), Inches(5.8), Inches(3.0)
     cols = [("Claude Code, Codex, GitHub Copilot", ["Writing and reviewing code and tests",
                                                     "Drafting documents, study cards and slide text",
                                                     "Checking text against the result files"]),
@@ -1294,20 +1295,38 @@ def slide_ai(prs) -> SlideDoc:
         rich(s, x + Inches(0.3), top + Inches(0.25), cw - Inches(0.55), ch - Inches(0.35),
              [[(head, {"bold": True, "size": 21})]] +
              [{"runs": [(ln, {})], "bullet": True, "space_before": 9} for ln in lines], size=BODY, line=1.1)
-    audit = R.gap("R-6 (#85) audit of two vision-language models: count error on screened test photos, "
-                  "docs/research/vlm-evaluation.md is not on main", "R-6, #85, Roma",
-                  "We planned an audit of two vision-language models; it is not finished, so we show no numbers.",
-                  watch="docs/research/vlm-evaluation.md")
+    # R-6 (Roma): two hosted VLMs asked the gender of 20 IOAI training signs, one fresh chat per sign. Set next to the
+    # gender head the app serves (zero-shot prompts, R1), not next to partner matching: that is a different task.
+    vm = grab(r"\*\*Gender of one sign \(same question\)\*\* \| \*\*(\d+)/(\d+) \([\d.]+%\)\*\* \| "
+              r"\*\*(\d+)/(\d+) \([\d.]+%\)\*\*", VLM_REL)
+    gem = R(f"{vm[1]}/{vm[2]}", VLM_REL, "section 5, Google Gemini, gender of one sign", f"{vm[1]}/{vm[2]}")
+    cla = R(f"{vm[3]}/{vm[4]}", VLM_REL, "section 5, Anthropic Claude, gender of one sign", f"{vm[3]}/{vm[4]}")
+    n_audit = R(vm[2], VLM_REL, "section 3, audit sample size", vm[2])
+    zs = REST_RUN["R1"]["gender"]["zero_shot_prompts"]
+    zs_acc = R(d(zs["accuracy"]), "ml/results/restroom/runs/R1.json", "gender.zero_shot_prompts.accuracy", zs["accuracy"])
+    zs_n_val = sum(sum(row) for row in zs["confusion_matrix_rows_true_male_female"])
+    zs_n = R(str(zs_n_val), "ml/results/restroom/runs/R1.json", "gender.zero_shot_prompts confusion matrix, sum", zs_n_val)
+    audit_line = (f"Gemini {gem} and Claude {cla} on the gender of {n_audit} IOAI signs; our served CLIP: "
+                  f"{zs_acc} on all {zs_n} training signs. {n_audit} signs are too few to rank them.")
+    each_right = (f"each named the gender correctly on {vm[1]}" if vm[1] == vm[3]
+                  else f"Gemini named the gender correctly on {vm[1]}, Claude on {vm[3]}")
+    rich(s, MARGIN, top + ch + Inches(0.2), CONTENT_W, Inches(1.0),
+         [[("Audit of two vision-language models (R-6): ", {"bold": True}), (audit_line, {})]], size=18, line=1.12)
     numbered_footer(s, "10")
-    script = (f"We used AI tools, mainly Claude Code, Codex and Copilot, to write and review code and tests, to draft "
-              f"documents, and to check text against our result files. Every use is logged with its prompt: {n_s} "
-              f"entries. Whoever used a tool checked its output, with tests and CI, and every number on these slides is "
-              f"traced to a committed file. {audit} Next, the limits.")
-    cues = ("The entry count is read when the deck is built; rebuild after the 23:00 freeze so it is final. Never quote "
-            "audit numbers that are not in docs/research/vlm-evaluation.md.")
+    script = (f"We used Claude Code, Codex and Copilot to write and review code, draft documents and check text against "
+              f"our results. Every use is logged with its prompt and check: {n_s} entries, and every number here is "
+              f"traced to a committed file. We also audited Gemini "
+              f"and Claude on {n_audit} IOAI signs: {each_right}. Our CLIP gets {zs_acc} "
+              f"on all {zs_n} training signs; {n_audit} signs are too few to rank them. Next, the limits.")
+    cues = ("The entry count is read when the deck is built; rebuild after the last merge so it is final. Audit "
+            "(docs/research/vlm-evaluation.md, Roma): one fresh chat per sign, the same one-word prompt, files renamed "
+            "A01–A20 first; Gemini still echoed the filename in 2 of 20 answers. Both models missed A17, the robot "
+            f"figure. The app's Compare uses zero-shot CLIP for gender ({zs_acc}); Match does not need gender: the "
+            "served pipeline R7 finds the partner on 30/30 test queries. Never quote R4's 100%: it was picked on test.")
     return SlideDoc("10", "AI use and its limits", "Roma", "0:35", title_words,
-                    [f"{cols[0][0]}: {'; '.join(cols[0][1])}", f"{cols[1][0]}: {'; '.join(cols[1][1])}"],
-                    "Two cards, no image", script, cues=cues,
+                    [f"{cols[0][0]}: {'; '.join(cols[0][1])}", f"{cols[1][0]}: {'; '.join(cols[1][1])}",
+                     "Audit of two vision-language models (R-6): " + audit_line],
+                    "Two cards and one audit line, no image", script, cues=cues,
                     extra_sources=["docs/AI-USAGE-LOG.md (entries: tool, purpose, verification)"])
 
 
