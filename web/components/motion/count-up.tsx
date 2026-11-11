@@ -2,6 +2,7 @@
 
 import { animate, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+import { ease, timing } from "@/lib/motion";
 
 /**
  * A number that is always rendered at its real value (server render, first
@@ -28,7 +29,7 @@ export function CountUp({
     const start = from.current;
     from.current = value;
     if (start === value || reduce) return;
-    const controls = animate(start, value, { duration: 0.8, ease: [0.2, 0, 0, 1], onUpdate: setShown });
+    const controls = animate(start, value, { duration: timing.countUp, ease: ease.standard, onUpdate: setShown });
     return () => controls.stop();
   }, [value, reduce]);
 
