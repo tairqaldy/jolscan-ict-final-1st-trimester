@@ -12,6 +12,19 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 18:21 · G-72 (#337) · Annotated road and sign result slides
+- **Status:** partial. The annotated slides exist as PNGs; Roma still has to place them in the deck (Canva), so G-72 stays open.
+- **What I did:** Marked four things on the road result and four on the sign result from the 18:09 Mock retake (G-11): road, the boxes with confidence, "Critical" with score 15, the R2 row (+7) and the action with its 24 h target; sign, the two signs read as Male and Female, the gap 0.84 against S1, the similarity 0.81 against S3, and the Review verdict with its action. Checked every value against the sample manifests, `web/lib/rules`, `web/lib/signage` and `docs/RULES.md`. `docs/design/screenshots/annotate.py` draws the SVG overlay over the raw shot and renders it to 1920 × 1080 PNGs in the template's "Large screenshot" layout, light and dark.
+- **Result:** four PNGs and their SVGs in `deck-screenshots/annotated/` (outside git, ready for Drive `screenshots/`); `docs/design/annotations.md` with each marker's label, speaker line and the source of every value; marker rules added to `docs/design/screenshots.md`.
+- **Decisions and why:**
+  - The four markers follow the issue (evidence, decision, rule, action), not the Mock badge: a marker on the badge would cover it, and the eyebrow and a legend note already say "Mock result".
+  - Labels at 36 px (18 pt on the slide), the size the deck critique asks for; the shot itself stays at the template's 8.0 in, so the speaker reads from the legend, not from the screen.
+  - Nothing dimmed, so the demo badges stay readable; the script stops if a marker touches a badge, a label is too wide or a slide has more than four markers.
+  - The sign rule table is below the fold, so markers 2 and 3 point at the bars, which name S1, S2 and S3.
+- **What I learned / can explain at the defense:** if the live demo fails, the two slides show the same four steps: the evidence, the decision, the rule that fired and the action, and why the road scores 15 (4 + 2 + 1 = 7, +3 for the lane, +5 for the highway).
+- **AI use:** Claude Code checked the values, wrote the script and drafted the notes; I checked the labels against the screens (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** Roma places the two light PNGs on slide 3's fallback and in the backup section; the issue's three-variant comparison and three-metre check with Roma and Tair were not done; redraw after any UI change before the freeze.
+
 ### 2026-11-11 18:19 · G-48 (#282) · Detection box colours checked on the samples
 - **Status:** partial. The six bundled samples are still drawings; D-5 (#43, real test photos) is not merged, so the check on real photos is still to do.
 - **What I did:**
