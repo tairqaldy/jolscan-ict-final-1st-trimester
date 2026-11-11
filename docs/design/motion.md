@@ -61,3 +61,59 @@ These start from the rules in the swarm notes of 11 November. Where a source ask
 6. **CSS first, no new dependency.** CSS transitions and keyframes first; motion/react (already installed) and `web/components/motion/` only where CSS cannot do it: exit animations, SVG path drawing, a number counting. Vercel's order is CSS, then the Web Animations API, then a JavaScript library [Vercel].
 7. **Never make people wait for motion.** Animations can be interrupted: a hover that ends half way reverses from where it is (CSS transitions do this), a button works during its own animation, the next step never waits for an animation to finish. Vercel: "Animations are cancelable by user input." [Vercel]; Apple: let people cancel motion [Apple]. Changed: new rule, the swarm notes did not cover it.
 8. **The same information without motion and without sight; motion changes no content.** The focus ring appears at once (`globals.css` `:focus-visible`, 2 px, 3 px in high contrast). A new status or result is announced with `role="status"` or `aria-live="polite"` (WCAG 4.1.3). Motion is never the only signal [Apple]. Adding motion never changes a value, a label, an honesty badge ("Mock result", "Demo") or the demo Pause button.
+
+## 4. Map to Qarau
+
+What exists is described as on `main` at the time of writing; G-6, G-74 and G-75 were still open then.
+
+| Kept or adapted interaction (catalogue #) | Qarau component or screen | Today | Issue |
+|---|---|---|---|
+| Link and nav hover colour (1) | Site header links `web/components/landing/site-header.tsx` (`.jelly-nav__link` in `globals.css`); app rail and module switch `web/components/app/app-shell.tsx` | Rail: `transition-colors`, 160 ms. Header: padding grows in 320 ms with overshoot (breaks rules 1 and 5) | G-74 (#433) |
+| Button hover tint and press (4, 5) | `web/components/ui/button.tsx` | `transition-colors` at `--duration-fast`; no separate press colour | G-6 (#124) |
+| Focus ring at once (6) | `web/app/globals.css` `:focus-visible` | Done | G-6 (#124) checks primitives keep it |
+| Segmented control and tabs (7) | `web/components/ui/segmented.tsx`, `web/components/ui/tabs.tsx`, `web/components/ui/switch.tsx` | `transition-colors`; switch thumb moves at `--duration-fast` | G-6 (#124) |
+| Card hover, tint only (8) | Overview link cards on `/app`, `/app/roads`, `/app/restrooms` (`web/components/app/platform-overview-client.tsx`, `dashboard-client.tsx`, `web/components/restrooms/restroom-overview-client.tsx`) | Varies by card | G-9 (#126) |
+| Menu open and close (9, 10) | Mobile menu in `site-header.tsx` (`.public-menu__toggle`) | No open animation | G-74 (#433) |
+| Tooltip and dialog enter (11, 21) | `web/components/ui/tooltip.tsx`, `web/components/ui/dialog.tsx` | No enter animation | G-6 (#124) |
+| Result stages and status message (12, 13) | Road result `web/components/app/analysis-view.tsx` (with `detection-overlay.tsx`), restroom result in `web/components/restrooms/compare-client.tsx` and `match-client.tsx` | Boxes draw in; no staged reveal of the verdict, no toast component | G-75 (#434) |
+| Spinner and skeleton while waiting (20) | `LoaderCircle` with `animate-spin` in `analyze-client.tsx`, `compare-client.tsx`, `match-client.tsx`; `web/components/ui/skeleton.tsx` (`animate-pulse`) | Done | G-6 (#124) for the skeleton |
+| Scan line while analysing | `analyze-client.tsx` | Loops while loading (kept in ANTI-SLOP R7 as a progress sign), animates `top` | Later: move it to `transform` |
+| Result photo fade when loaded (20) | Analyze and Compare photos | None | Later |
+| Line drawn by scroll (14) | Landing "How it works", `app/page.tsx` `.how-steps` | Done | G-60 (done) |
+| Number change | KPI tiles `web/components/app/kpi.tsx` via `components/motion/count-up.tsx` | Done | G-9 (#126) keeps it |
+| Page change (24) | `web/components/motion/page-transition.tsx` via `app/template.tsx`, `app/app/template.tsx` | Done, 200 ms fade (and 8 px lift in the app) | G-74 (#433) |
+| Reduced motion (25) | `globals.css`, `lib/theme-script.ts`, `components/motion/motion-preference.tsx` | Done | G-64 (done) |
+
+## 5. Durations: our tokens against the measurements
+
+| Token | Value | Measured on the reference | Use it for |
+|---|---|---|---|
+| `--duration-fast` / `duration.fast` | 120 ms | 100 ms: dope.security menu links, card opacity, menu close | Press, switch thumb, closing a menu or tooltip |
+| `--duration-ui` / `timing.ui` (default for every `transition-*`) | 160 ms | 150 ms: Refero links, buttons and segments; dope.security buttons; menu open | Hover, segment and tab state, opening a menu |
+| `--duration-base` / `duration.base` | 200 ms | 200 ms: Refero card tint and primary button; dope.security hero buttons, info chip, panel switch | Card hover, tooltip and dialog enter, page fade, one result stage |
+| (none) | 250 to 300 ms | Refero card scale; dope.security tooltips, large menu links, tab button shadow | Nothing yet. If G-75 needs one, add a named token in both files (rule 1), no bare number |
+| `--duration-slow` / `duration.slow` | 420 ms | Nothing in the reference's UI feedback; NN/g calls 400 ms very slow | Entry of landing and dashboard sections only (`.stagger`) |
+| `--duration-draw` / `duration.draw` | 700 ms | Nothing comparable | Detection boxes drawing in, the similarity bar: content, not feedback |
+| `timing.countUp` | 800 ms | Nothing comparable | A KPI that changes after load; the real value renders first |
+| `timing.scanSweep` | 2.2 s loop | Refero shimmer 2 s loop | The scan line while an analysis runs, nothing else |
+
+Easing: `--ease-standard`, `cubic-bezier(0.2, 0, 0, 1)`, is exactly Material 3's standard curve, and `--ease-exit`, `cubic-bezier(0.4, 0, 1, 1)`, is M3's legacy accelerate curve. `--ease-emphasized`, `cubic-bezier(0.3, 0, 0, 1)`, is our own and not an M3 token. The reference uses Tailwind's `cubic-bezier(0.4, 0, 0.2, 1)`, `ease`, and the ease-out curves `cubic-bezier(0.165, 0.84, 0.44, 1)`, `cubic-bezier(0.19, 1, 0.22, 1)` and `cubic-bezier(0.23, 1, 0.32, 1)`. All of them end slowly, as ours do, so no new easing is needed.
+
+Where we break our own rules today (for the issues above, not changed here):
+
+- `.stagger` (`globals.css`): each item rises for 420 ms after a delay of 60 ms per position, so the 5th item ends at 660 ms and the 7th and later at 780 ms, past the 600 ms of rule 4. The landing hero has 5 items; the overviews have more.
+- `distribution-bars.tsx`: bars grow for 630 ms (`duration.slow * 1.5`) plus 60 ms per bar.
+- `detection-overlay.tsx`: each box draws for 700 ms (`duration.draw`); the Motion table in `DESIGN-BRIEF.md` still says 300 ms.
+- `.jelly-nav__link`: bare 320 ms, overshoot curve, animates padding (rules 1 and 5).
+
+## Sources
+
+Read on 11 November 2026. One short quote per source; the rest is summarised.
+
+- [WCAG] W3C, WCAG 2.2 Success Criterion 2.3.3 Animation from Interactions (AAA), https://www.w3.org/TR/WCAG22/#animation-from-interactions, and Understanding 2.3.3, https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html. Also SC 2.2.2 Pause, Stop, Hide and SC 4.1.3 Status Messages.
+- [MDN] MDN, `prefers-reduced-motion`, https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion.
+- [M3] Material Design 3 motion tokens. m3.material.io renders only with JavaScript, so the values come from Google's sources: material-web `tokens/versions/v0_192/_md-sys-motion.scss` (https://github.com/material-components/material-web) and Material Components Android `docs/theming/Motion.md` (https://github.com/material-components/material-components-android), which says "duration should increase as the area/traversal of an animation increases". Durations: short 50 to 200 ms, medium 250 to 400 ms, long 450 to 600 ms, extra long 700 to 1000 ms.
+- [Apple] Apple Human Interface Guidelines, Motion, https://developer.apple.com/design/human-interface-guidelines/motion.
+- [Vercel] Vercel, Web Interface Guidelines, Animations, https://vercel.com/design/guidelines.
+- [NNg-micro] NN/g, "Microinteractions in User Experience" (Kendrick, 2018), https://www.nngroup.com/articles/microinteractions/.
+- [NNg-dur] NN/g, "Executing UX Animations: Duration and Motion Characteristics" (Laubheimer, 2020), https://www.nngroup.com/articles/animation-duration/.
