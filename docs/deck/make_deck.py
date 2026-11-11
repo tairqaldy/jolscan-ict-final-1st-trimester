@@ -192,6 +192,8 @@ REST = read_csv("ml/results/restroom/experiments.csv")
 REST_RUN = {r: read_json(f"ml/results/restroom/runs/{r}.json") for r in ("R0", "R1", "R2", "R3", "R4")}
 PIPE = read_json("ml/results/restroom/pipeline.json")
 PROBE = read_json("ml/results/restroom/layer_probe.json")
+LAYERS_CSV = "ml/results/restroom/layers.csv"
+LAYER_ROWS = sorted((r for r in read_rows(LAYERS_CSV) if r["backbone"] == "clip"), key=lambda r: int(r["n_trained"]))
 WEB_REST = read_json("web/data/restroom-experiments.json")
 
 BRAND_TS = grab(r"export const BRAND = \{(.*?)\} as const;", "web/lib/brand.ts").group(1)
@@ -967,40 +969,43 @@ def tie_s() -> str:
 
 # 7 · Restrooms: data and experiment ---------------------------------------------------------
 
-def probe_chart(w_in: float, h_in: float):
-    """Frozen CLIP ViT-B/32, read out after each block and after the projection (replaces layer_probe.png)."""
+def sweep_chart(w_in: float, h_in: float):
+    """The layer experiment (C-11): CLIP ViT-B/32 with its last N blocks fine-tuned, mean of 3 seeds (layers.csv)."""
     fig, (a1, a2) = new_chart(w_in, h_in, ncols=2)
-    clip = PROBE["results"]["clip"]
-    blocks = sorted((int(k) for k in clip if k.isdigit()))
-    out_x = blocks[-1] + 1.4
-    for ax, key, sub in ((a1, "pair_top1", "Finding the other door"), (a2, "gender_acc_cv", "Gender of one sign")):
-        ys = [clip[str(b)][key] for b in blocks]
-        ax.plot(blocks, ys, color=SERIES[0], linewidth=2.5, marker="o", markersize=5)
-        ax.plot([blocks[-1], out_x], [ys[-1], clip["final"][key]], color=SERIES[0], linewidth=1.5, linestyle=":")
-        ax.plot([out_x], [clip["final"][key]], marker="s", markersize=7, color=SERIES[0])
-        ax.set_xticks([1, 4, 7, 10, 12, out_x], ["1", "4", "7", "10", "12", "out"])
-        ax.set_xlim(0.4, out_x + 0.6)
-        ax.set_ylim(0, 1.05)
-        ax.set_yticks([0, 0.5, 1.0], ["0", "0.5", "1"])
+    ns = [int(r["n_trained"]) for r in LAYER_ROWS]
+    held = [float(r["pair_top1_heldout_vs_all164"]) for r in LAYER_ROWS]
+    train = [float(r["pair_top1_train"]) for r in LAYER_ROWS]
+    gender = [float(r["gender_acc_heldout"]) for r in LAYER_ROWS]
+    raw = {int(r["n_trained"]): r for r in LAYER_ROWS}
+    best = next(int(r["n_trained"]) for r in LAYER_ROWS if r["best"].strip().lower() == "true")
+    top = ns[-1]
+    for ax, sub in ((a1, "Finding the other door"), (a2, "Gender of one sign, new restrooms")):
+        ax.set_xticks(ns, [str(n) for n in ns])
+        ax.set_xlim(-0.6, top + 0.6)
+        ax.set_ylim(0.45, 1.06)
+        ax.set_yticks([0.5, 0.75, 1.0], ["0.5", "0.75", "1"])
         ax.set_title(sub, fontsize=15)
-        ax.set_xlabel("block of 12, then the output embedding")
-    pair = [clip[str(b)]["pair_top1"] for b in blocks]
-    peak = max(pair)
-    for b in blocks:
-        if clip[str(b)]["pair_top1"] == peak:
-            a1.plot([b], [peak], marker="o", markersize=9, color=HIGHLIGHT)
-    a1.annotate(label(peak, 2), (blocks[pair.index(peak)], peak), xytext=(0, -26), textcoords="offset points", ha="center",
-                color=TOK["fg"], fontsize=14, fontweight="bold")
-    a1.annotate(label(clip["final"]["pair_top1"], 2), (out_x, clip["final"]["pair_top1"]), xytext=(0, -26),
-                textcoords="offset points", ha="center", color=TOK["fg"], fontsize=14)
-    last = clip[str(blocks[-1])]["gender_acc_cv"]
-    a2.plot([blocks[-1]], [last], marker="o", markersize=9, color=HIGHLIGHT)
-    a2.annotate(label(last, 2), (blocks[-1], last), xytext=(-8, 8), textcoords="offset points", ha="right",
-                color=TOK["fg"], fontsize=14, fontweight="bold")
+        ax.set_xlabel(f"last blocks fine-tuned, of {top}")
+    a1.plot(ns, train, color=TOK["subtle"], linewidth=2, linestyle="--", marker="o", markersize=4)
+    a1.plot(ns, held, color=SERIES[0], linewidth=2.5, marker="o", markersize=5)
+    a1.text(top - 0.2, 1.0, "training restrooms", ha="right", va="bottom", color=TOK["muted"], fontsize=13)
+    a1.text(6.3, float(raw[6]["pair_top1_heldout_vs_all164"]) - 0.035, "new restrooms", ha="left", va="top",
+            color=TOK["fg"], fontsize=13)
+    a1.plot([best], [float(raw[best]["pair_top1_heldout_vs_all164"])], marker="o", markersize=10, color=HIGHLIGHT)
+    for n, places, dy, bold in ((best, 3, -30, True), (0, 2, -24, False), (top, 2, -24, False)):
+        v = raw[n]["pair_top1_heldout_vs_all164"]
+        a1.annotate(label(v, places), (n, float(v)), xytext=(0, dy), textcoords="offset points", ha="center",
+                    color=TOK["fg"], fontsize=14, fontweight="bold" if bold else "normal")
+    a2.plot(ns, gender, color=SERIES[0], linewidth=2.5, marker="o", markersize=5)
+    for n, dy in ((0, 10), (top, 10)):
+        v = raw[n]["gender_acc_heldout"]
+        a2.annotate(label(v, 2), (n, float(v)), xytext=(0, dy), textcoords="offset points", ha="center",
+                    color=TOK["fg"], fontsize=14, fontweight="bold" if n == top else "normal")
     a2.axhline(0.5, color=TOK["subtle"], linewidth=1, linestyle="--")
-    a2.text(1, 0.44, "chance", color=TOK["subtle"], fontsize=14, va="top")
-    chart_title(fig, "Frozen CLIP ViT-B/32: the middle blocks find the partner; gender rises only at the end")
-    source_line(fig, "Source: ml/results/restroom/layer_probe.json (82 training restrooms, no training)")
+    a2.text(top - 0.2, 0.52, "chance", color=TOK["subtle"], fontsize=13, ha="right", va="bottom")
+    chart_title(fig, f"Fine-tuning CLIP's last blocks: {best} find the partner best; all {top} memorise and lose gender")
+    source_line(fig, f"Source: {LAYERS_CSV} (new restrooms: 5-fold CV grouped by restroom, 3 seeds; "
+                     "partner ranked first among all 164 originals)")
     return fig
 
 
@@ -1031,14 +1036,25 @@ def slide_restroom_data(prs) -> SlideDoc:
         rich(s, x + Inches(0.15), Inches(2.75), gw - Inches(0.25), Inches(0.85),
              [[(n + "  ", {"bold": True, "color": "accent_ink", "font": MONO}), (label, {"bold": True})]],
              size=17, anchor=MSO_ANCHOR.MIDDLE, line=1.0)
-    place_chart(s, probe_chart(11.93, 3.1), MARGIN, Inches(3.8), Inches(11.93), Inches(3.1))
+    place_chart(s, sweep_chart(11.93, 3.1), MARGIN, Inches(3.8), Inches(11.93), Inches(3.1))
+    raw = {int(r["n_trained"]): r for r in LAYER_ROWS}
+    best_n = next(int(r["n_trained"]) for r in LAYER_ROWS if r["best"].strip().lower() == "true")
+    top_n = max(raw)
+    key, gkey, tkey = "pair_top1_heldout_vs_all164", "gender_acc_heldout", "pair_top1_train"
+    best_nr = R(str(best_n), LAYERS_CSV, "clip row with best = True, n_trained", best_n)
+    best_s = R(d(raw[best_n][key], 3), LAYERS_CSV, f"clip, n_trained {best_n}, {key}", raw[best_n][key])
+    zs_s = R(d(raw[0][key], 2), LAYERS_CSV, f"clip, n_trained 0, {key}", raw[0][key])
+    all_s = R(d(raw[top_n][key], 2), LAYERS_CSV, f"clip, n_trained {top_n}, {key}", raw[top_n][key])
+    train_s = R(d(raw[1][tkey], 1), LAYERS_CSV, f"clip, n_trained 1, {tkey}", raw[1][tkey])
+    g0_s = R(d(raw[0][gkey], 2), LAYERS_CSV, f"clip, n_trained 0, {gkey}", raw[0][gkey])
+    gtop_s = R(d(raw[top_n][gkey], 2), LAYERS_CSV, f"clip, n_trained {top_n}, {gkey}", raw[top_n][gkey])
+    one_orig = R(d(1 / 164, 3), LAYERS_CSV, "computed: 1 / 164 originals (the sweep's gallery)", 1 / 164)
     clip = PROBE["results"]["clip"]
     blocks = {k: v for k, v in clip.items() if k.isdigit()}
     peak = max(v["pair_top1"] for v in blocks.values())
     at = [k for k, v in blocks.items() if v["pair_top1"] == peak]
     pf = "ml/results/restroom/layer_probe.json"
     peak_s = R(d(peak, 2), pf, f"results.clip[{', '.join(at)}].pair_top1 (highest)", peak)
-    final_s = R(d(clip["final"]["pair_top1"], 2), pf, "results.clip.final.pair_top1", clip["final"]["pair_top1"])
     gender_s = R(d(clip["12"]["gender_acc_cv"], 2), pf, "results.clip.12.gender_acc_cv", clip["12"]["gender_acc_cv"])
     ep = re.match(r"(\d+) episodes of (\d+)", PIPE["protocol"]["train_episodes"])
     n_ep = R(ep.group(1), "ml/results/restroom/pipeline.json", "protocol.train_episodes", ep.group(1))
@@ -1047,20 +1063,28 @@ def slide_restroom_data(prs) -> SlideDoc:
     script = (f"The restroom task comes from the IOAI 2025 olympiad. Given a cropped door sign, the model must find the "
               f"other door of the same restroom, the opposite gender, in a gallery. The data is small: {n_rest} training "
               f"restrooms, {vq} validation and {tq} test queries. We ran three groups. Zero-shot CLIP, which is IOAI's "
-              f"baseline. Our Option A change: fine-tuning the last one, three or six transformer blocks. And a two-step "
-              f"pipeline with no training. The figure shows why depth matters: the middle blocks find the partner best, "
-              f"and gender rises only at the end. Here is what came out.")
-    cues = (f"Figure values (layer_probe.json): partner found {peak_s} at blocks {at_words}, {final_s} at the output "
-            f"embedding; gender rises to {gender_s} only in the last block. The pipeline: SIFT and a pixel check find the "
+              f"baseline. Fine-tuning CLIP's last transformer blocks, our Option A change. And a two-step pipeline with "
+              f"no training. The chart is our layer experiment, on restrooms the model never saw: {best_nr} trained "
+              f"blocks find the partner best, {best_s}. All {top_n} memorise the training restrooms and lose gender. "
+              f"Here is what came out.")
+    cues = (f"Chart values ({LAYERS_CSV}, CLIP rows, mean of 3 seeds): partner ranked first among all 164 originals on "
+            f"held-out restrooms {zs_s} with no training, {best_s} with {best_nr} blocks, {all_s} with all {top_n}; on the "
+            f"training restrooms {train_s} from 1 block on, which is memorising. Gender on held-out restrooms falls from "
+            f"{g0_s} to {gtop_s}. One original is {one_orig}, so 2 to 8 blocks are a plateau within noise; the clear "
+            f"differences are none against any, and {best_nr} against {top_n} (ML-EXPERIMENT-RESTROOM.md, 'The layer "
+            "experiment'). R2–R4 are the same idea measured on the 30 test queries (slide 8). Why it happens "
+            f"(layer_probe.json, frozen CLIP, no training): the partner is found best after blocks {at_words} ({peak_s}), "
+            f"gender is readable only in the last block ({gender_s}), so training the last blocks helps matching and "
+            "overwrites gender. The pipeline: SIFT and a pixel check find the "
             f"crop's original, colour histogram and CLIP find its partner; chosen on {n_ep} training episodes "
             "(pipeline.json). R2–R4 use fine-tuned CLIP in both steps; the pipeline (R7) uses SIFT in step 1 and trains "
-            "nothing. Do not call both 'two-step' without saying which. ResNet50, also in the probe file, is left off the "
-            "figure: the slide is about CLIP.")
+            "nothing. Do not call both 'two-step' without saying which. ResNet50, also in layers.csv, is left off the "
+            "chart: the slide is about CLIP.")
     return SlideDoc("7", "Restrooms: data and experiment", "Nazar", "0:50", title_words,
                     [task, data] + [f"{n}. {l}" for n, l in groups],
-                    "Chart drawn by make_deck.py from ml/results/restroom/layer_probe.json at its placed size (CLIP only, "
-                    "blocks 1–12 and the output embedding)", script, cues=cues,
-                    extra_sources=["docs/ML-EXPERIMENT-RESTROOM.md ('Task and data', 'Runs')"])
+                    f"Chart drawn by make_deck.py from {LAYERS_CSV} at its placed size (CLIP ViT-B/32, 0–{top_n} last "
+                    "blocks fine-tuned: new and training restrooms, and gender)", script, cues=cues,
+                    extra_sources=["docs/ML-EXPERIMENT-RESTROOM.md ('Task and data', 'Runs', 'The layer experiment')"])
 
 
 # 8 · Restrooms: results ---------------------------------------------------------------------
@@ -1167,8 +1191,8 @@ def slide_restroom_results(prs) -> SlideDoc:
     r0n, r3n = r0t.split("/")[0], r3t.split("/")[0]
     script = (f"Zero-shot CLIP matches {r0n} of {nt} test queries, the same as IOAI's published baseline of {base}. "
               f"Fine-tuning the last three blocks, run {champ}, gives {r3n}; {champ} is the run our rule picks on "
-              f"validation. The two-step pipeline gets all {pt.split('/')[0]}, also one query at a time, as the app will "
-              f"answer. IOAI's best, {best_ioai}, is their number, not a contest we entered. Thirty queries are few: for "
+              f"validation. The two-step pipeline gets all {pt.split('/')[0]}, also one query at a time, as the app "
+              f"answers. IOAI's best, {best_ioai}, is their number, not a contest we entered. Thirty queries are few: for "
               f"{pt} the 95 % interval starts at {lo_p}. The pipeline beats zero-shot CLIP, p {p_r0}, but not provably "
               f"{champ}, p {p_r3}. It also uses two facts of this benchmark that a real building does not give. Dameli will "
               f"show how the interface makes this usable.")

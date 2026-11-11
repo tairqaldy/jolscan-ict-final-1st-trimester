@@ -89,8 +89,15 @@ One row per number on the deck, written by `docs/deck/make_deck.py`, which reads
 | 7 | 1 | `ml/results/restroom/experiments.csv` | R2 row, `changed` (blocks fine-tuned) | 1 | yes |
 | 7 | 3 | `ml/results/restroom/experiments.csv` | R3 row, `changed` (blocks fine-tuned) | 3 | yes |
 | 7 | 6 | `ml/results/restroom/experiments.csv` | R4 row, `changed` (blocks fine-tuned) | 6 | yes |
+| 7 | 4 | `ml/results/restroom/layers.csv` | clip row with best = True, n_trained | 4 | yes |
+| 7 | 0.965 | `ml/results/restroom/layers.csv` | clip, n_trained 4, pair_top1_heldout_vs_all164 | 0.9654 | yes |
+| 7 | 0.78 | `ml/results/restroom/layers.csv` | clip, n_trained 0, pair_top1_heldout_vs_all164 | 0.7805 | yes |
+| 7 | 0.91 | `ml/results/restroom/layers.csv` | clip, n_trained 12, pair_top1_heldout_vs_all164 | 0.9105 | yes |
+| 7 | 1.0 | `ml/results/restroom/layers.csv` | clip, n_trained 1, pair_top1_train | 1.0 | yes |
+| 7 | 0.74 | `ml/results/restroom/layers.csv` | clip, n_trained 0, gender_acc_heldout | 0.7409 | yes |
+| 7 | 0.60 | `ml/results/restroom/layers.csv` | clip, n_trained 12, gender_acc_heldout | 0.5996 | yes |
+| 7 | 0.006 | `ml/results/restroom/layers.csv` | computed: 1 / 164 originals (the sweep's gallery) | 0.006097560975609756 | yes |
 | 7 | 0.95 | `ml/results/restroom/layer_probe.json` | results.clip[7, 8, 10].pair_top1 (highest) | 0.9512 | yes |
-| 7 | 0.78 | `ml/results/restroom/layer_probe.json` | results.clip.final.pair_top1 | 0.7805 | yes |
 | 7 | 0.77 | `ml/results/restroom/layer_probe.json` | results.clip.12.gender_acc_cv | 0.7683 | yes |
 | 7 | 200 | `ml/results/restroom/pipeline.json` | protocol.train_episodes | 200 | yes |
 | 8 | 10/10 | `ml/results/restroom/pipeline.json` | val.sift_combo_hungarian × 10 queries | 10/10 | yes |

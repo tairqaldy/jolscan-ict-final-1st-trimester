@@ -33,7 +33,7 @@ Working snapshot copied from `docs/deck/SLIDES.md` at commit `1c28a49`. The fina
 
 **Slide 11, fixed 11 November evening:** the script no longer calls the two-step pipeline a next step. Since C-8 (#426) the app's Match page runs it (`api/restroom.py`, `bestMatchId`); Compare still runs zero-shot CLIP. The next step it names now is accessible and all-gender signs, as on the slide. Deck source: `docs/deck/make_deck.py`.
 
-**Full timed read-through:** not yet recorded. The deck estimates 8:01 with the 1:30 live demo; a real timed rehearsal is still required.
+**Full timed read-through:** not yet recorded. The deck estimates 8:03 with the 1:30 live demo; a real timed rehearsal is still required.
 
 ### 1. Title
 **Speaker and budget:** Tair · **budget** 0:15 · **script** 32 words, about 0:15
@@ -66,14 +66,14 @@ Working snapshot copied from `docs/deck/SLIDES.md` at commit `1c28a49`. The fina
 > Tair trained the full experiments. E4 leads validation mAP50, but our 0.01 tie band includes E1. E1 wins because its validation recall at 0.40 is highest, 0.738. At the test operating point, E1 finds 176 of 236 potholes, with 30 false alarms and 60 misses. Test never chooses the model. My training-only clustering supplies image-relative size bands; the worked highway example scores 15, critical. Our project policy withholds test-gain claims below 0.02, without claiming statistical equivalence. These are project rules, not an official repair standard. Nazar takes the second module.
 
 ### 7. Restrooms: data and experiment
-**Speaker and budget:** Nazar · **budget** 0:50 · **script** 99 words, about 0:46
+**Speaker and budget:** Nazar · **budget** 0:50 · **script** 104 words, about 0:48
 
-> The restroom task comes from the IOAI 2025 olympiad. Given a cropped door sign, the model must find the other door of the same restroom, the opposite gender, in a gallery. The data is small: 82 training restrooms, 10 validation and 30 test queries. We ran three groups. Zero-shot CLIP, which is IOAI's baseline. Our Option A change: fine-tuning the last one, three or six transformer blocks. And a two-step pipeline with no training. The figure shows why depth matters: the middle blocks find the partner best, and gender rises only at the end. Here is what came out.
+> The restroom task comes from the IOAI 2025 olympiad. Given a cropped door sign, the model must find the other door of the same restroom, the opposite gender, in a gallery. The data is small: 82 training restrooms, 10 validation and 30 test queries. We ran three groups. Zero-shot CLIP, which is IOAI's baseline. Fine-tuning CLIP's last transformer blocks, our Option A change. And a two-step pipeline with no training. The chart is our layer experiment, on restrooms the model never saw: 4 trained blocks find the partner best, 0.965. All 12 memorise the training restrooms and lose gender. Here is what came out.
 
 ### 8. Restrooms: results
-**Speaker and budget:** Nazar · **budget** 0:50 · **script** 111 words, about 0:51
+**Speaker and budget:** Nazar · **budget** 0:50 · **script** 110 words, about 0:51
 
-> Zero-shot CLIP matches 23 of 30 test queries, the same as IOAI's published baseline of 0.77. Fine-tuning the last three blocks, run R3, gives 27; R3 is the run our rule picks on validation. The two-step pipeline gets all 30, also one query at a time, as the app will answer. IOAI's best, 0.90, is their number, not a contest we entered. Thirty queries are few: for 30/30 the 95 % interval starts at 0.884. The pipeline beats zero-shot CLIP, p 0.016, but not provably R3, p 0.25. It also uses two facts of this benchmark that a real building does not give. Dameli will show how the interface makes this usable.
+> Zero-shot CLIP matches 23 of 30 test queries, the same as IOAI's published baseline of 0.77. Fine-tuning the last three blocks, run R3, gives 27; R3 is the run our rule picks on validation. The two-step pipeline gets all 30, also one query at a time, as the app answers. IOAI's best, 0.90, is their number, not a contest we entered. Thirty queries are few: for 30/30 the 95 % interval starts at 0.884. The pipeline beats zero-shot CLIP, p 0.016, but not provably R3, p 0.25. It also uses two facts of this benchmark that a real building does not give. Dameli will show how the interface makes this usable.
 
 ### 9. Design decisions
 **Speaker and budget:** Dameli · **budget** 0:35 · **script** 77 words, about 0:36
