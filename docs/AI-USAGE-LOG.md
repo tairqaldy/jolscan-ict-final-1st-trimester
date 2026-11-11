@@ -94,14 +94,14 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **Verification:** A fresh Windows Python 3.12 environment and a clean Linux Python 3.12 Actions job installed the pins and passed 30 API tests. Windows Uvicorn `/health` returned 200; Linux used TestClient. Alizhan has not yet personally reviewed this entry.
 - **Limits:** The Docker image was not built, real models were not tested in the new environment, and Tair and Nazar have not yet approved the version choice.
 
-### 11 November 2026, Amina (M-1, in progress)
+### 11 November 2026, Amina (M-1, completed)
 
 - **Tool and version:** Copilot SDK in VS Code; the version was not exposed in this session.
 - **Purpose:** Prepare the M-1 trainer and a reproducible Colab one-epoch smoke workflow.
 - **Key prompt(s), with a link to the transcript:** "Work on M-1 (#50): make train.py run end to end with a one-epoch smoke test" and "Назначила #50 на omodotori, перепроверь и продолжай M-1 по правилам проекта." A later clarification chose `validation_only` when asked how to resolve the test-split conflict. No transcript link is available.
-- **What it produced or changed:** Updated `ml/train.py`, added isolated tests and `ml/colab_runner.ipynb`, documented the validation-only policy, and corrected the notebook to use the repository's explicit `mlflow.db` tracking URI with safe handling for a missing experiment or empty results.
+- **What it produced or changed:** Updated `ml/train.py`, added isolated tests and `ml/colab_runner.ipynb`, documented the validation-only policy, and corrected the notebook to use the repository's explicit `mlflow.db` tracking URI with safe handling for a missing experiment or empty results. After Tair accepted validation-only smoke for M-1, updated the task and experiment status records to reflect completion without conflating smoke with the full E0 baseline.
 - **How I verified it, and who verified it:** Three `python -m unittest ml.test_train` tests and `python -m compileall -q ml api` passed; notebook JSON and code cells were validated locally. Amina supplied the completed Colab smoke evidence. The tool verified the ZIP integrity and inspected the actual JSON/CSV; the JSON records one epoch, Tesla T4, the expected trainer commit and validation-only metrics. The reported MLflow run ID/status came from Amina's execution report; the tool did not independently access the Colab tracking database.
-- **What I rejected or corrected:** Did not evaluate test in smoke, add a fabricated `test_map50`, rerun training, claim the full E0 baseline complete, or commit a dataset archive or weights. The issue's current test-metric acceptance check remains unresolved.
+- **What I rejected or corrected:** Did not evaluate test in smoke, add a fabricated `test_map50`, rerun training, claim the full E0 baseline complete, or commit a dataset archive or weights. Tair's acceptance is recorded in [issue #50](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/50#issuecomment-6789955660); the full E0 baseline remains M-3.
 
 ### 10 November 2026, Alizhan (S-1, AI-assisted; personal review pending)
 
