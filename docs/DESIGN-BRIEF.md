@@ -269,3 +269,11 @@ Before: blue meant three things, the focus ring (`--focus`), low severity (`--se
 | Both | box / box-review | 108.5 | 106.5 | 104.8 | 34.2 |
 
 Review is at least ΔE 12 from focus and low severity in every simulation. The same run flags focus / low severity in the dark theme (10.9 normal; 8.4, 9.1, 8.4 simulated). **Keep:** focus is only ever a 2 px outline around the element that has keyboard focus, never a fill, a word or a status, and low severity always carries its icon and word. Changing the focus ring would touch every page, so it is not part of this task.
+
+## Selected, hover and focus states (G-30)
+
+- Pick-one tiles (sample photos on Analyze, sample signs, example pairs on Compare) use `SelectableTile` (`web/components/ui/selectable-tile.tsx`). Selected: amber border, `accent-soft` fill and a check mark in a filled circle in the corner (`SelectedMark`), so the state reads in a greyscale screenshot. `aria-pressed` stays.
+- The selected model provider in Settings shows the same check mark next to its checked radio.
+- Severity filter chips on Reports add a check mark after the word when on.
+- Hover is the same everywhere: unselected tiles get `border-border-strong` and `bg-surface-2`; row links and jump-link chips get `bg-surface-2`.
+- Focus is the global ring in `web/app/globals.css` (2 px outline, 2 px offset). A scroll box around tiles needs at least 4 px padding or the ring is clipped; the sample sign picker had 2 px and now has 4 px.
