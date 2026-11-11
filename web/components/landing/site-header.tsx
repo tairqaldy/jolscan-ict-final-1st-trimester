@@ -9,7 +9,9 @@ import { ButtonLink } from "@/components/ui/button";
 const LINKS = [
   { href: "/#modules", label: "Tools" },
   { href: "/#how", label: "How it works" },
+  { href: "/#rules", label: "Rules" },
   { href: "/#results", label: "Results" },
+  { href: "/#team", label: "Team" },
   { href: "/about", label: "About" },
 ];
 
