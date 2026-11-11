@@ -73,3 +73,31 @@ These have no single slide. The size and chart findings that repeat on many slid
 - **D1 · Nice-to-have · fonts on the presenting laptop.** Overpass and JetBrains Mono are not installed on this Mac (`~/Library/Fonts`, `/Library/Fonts` and matplotlib's font list have neither), and the deck's theme font is Calibri. Opened in Keynote or PowerPoint here, every line would reflow in a substitute font. **Fix:** present from Canva (both are Google Fonts there) or from a PDF exported from Canva, and check one slide on the presenting laptop (DESIGN-BRIEF.md, "After import").
 - **D2 · Nice-to-have · total time.** `SLIDES.md` estimates 8:14 against the 8:00 target, inside a 10-minute slot that also holds 2 to 3 minutes of questions (`docs/PRESENTATION.md`). Over budget: slide 4 (0:42 for 0:40), 7 (0:53 for 0:50), 9 (0:43 for 0:35), 10 (0:37 for 0:35), 11 (0:27 for 0:25). **Fix:** cut 15 s, starting with slide 9 (finding 9.5).
 - **D3 · Nice-to-have · backup list.** `docs/PRESENTATION.md` lists "architecture diagram in detail" first among the backups; it is ready as `docs/design/architecture-detail.svg` (G-66) but is not in the deck. **Fix:** add it as B6 from the PNG export (`docs/design/render_svg.py`), with the alt text in `docs/design/architecture-diagram.md`.
+
+## Slide 1 · Title (Tair, 0:15)
+
+**Passes:** the name, "Kazakh for “to inspect”" and the tagline match `web/lib/brand.ts`; the six names and roles match `web/lib/team.ts`; no number to check; the mark is drawn from shapes, no decorative image (R4, R5).
+
+- **1.1 · Nice-to-have · Size.** The six roles ("Web app and coordination", "Design system and visuals", ...) are 12.5 pt and the course line "ICT1103 · QAIRU · Assignment #2 · Computer Vision · 12 November 2026" is 13 pt. Nobody needs to read them for the point, so this is not must-fix. **Fix:** roles and course line at 16 pt.
+
+## Slide 2 · Problem (Roma, 0:35)
+
+**Passes:** the title states the point; two cards, no image (R1 to R4); the cue says "Until then, say no number aloud", so the script does not invent one (R6).
+
+- **2.1 · Must-fix · R5, R6 · placeholder for the one number.** The Roads card shows the box "[NUMBER NEEDED: one sourced statistic on road damage, with unit, year, country and source (R-2, #84)]" (13 pt), and the script reads the same text. `docs/research/deck-sources.md`, section "Slide 2", still says "not chosen yet". **Fix:** Roma fills it from R-2 with the quote and source in deck-sources.md, or the box and the script sentence are deleted before export.
+- **2.2 · Nice-to-have · R6 · unsourced claim.** "Restrooms: Confusing door signs are not tracked anywhere, so nobody reports them." is a claim about the world with no source. **Fix:** "We found no place where confusing door signs are reported."
+
+## Slide 3 · Live demo (Tair, 1:30)
+
+**Passes:** the line "Real, on this laptop: both analyses and the model page. Demo data: the overview tiles and charts, marked with a badge." is the honesty rule on the slide itself (R13), and it matches `docs/PRESENTATION.md` (demo script, step 5); the champion name in the cues, `jolscan-e1`, matches `championModelName` in `web/data/experiments.json`.
+
+- **3.1 · Nice-to-have · Size.** "A road photo → boxes, a severity and the rules that fired" and "Two door signs → their genders, how alike they are, and a verdict" are 17 pt, the real/demo line 16 pt. **Fix:** both at 18 pt or more; the dark slide has room.
+- **3.2 · Nice-to-have · typo.** Two spaces in "the model page.  Demo data". **Fix:** one space.
+
+## Slide 4 · How it works (Alizhan, 0:40)
+
+**Passes:** "25.7 ms per image" matches the R1 row of `ml/results/restroom/experiments.csv` (latencyMs 25.7, Apple M5 CPU), which is the model `api/restroom.py` serves; the cloud chip says "opt-in, not used today", which is true while S-7 is open; no pothole latency is shown because `ml/results/latency.json` does not exist (R6).
+
+- **4.1 · Must-fix · Size.** The diagram labels are 10.5 to 13 pt: the arrow labels "photo or sign pair", "picks a provider", "detections as JSON", "result: severity or verdict, rules fired" (10.5), the provider notes "demo data, offline", "this laptop", "opt-in, not used today" (10.5), the endpoints "/api/analyze", "/restroom/compare", "/restroom/match" (11.5) and "R1–R6  web/lib/rules" (11); the latency line is 13 pt. The box with "result: severity or verdict, rules fired" may also overflow (about 0.88 in of text in a 0.70 in box, estimated). **Fix:** replace the drawn diagram with `docs/design/architecture-slide.svg` (G-66), placed at the full slide width with the title written into its empty top-left corner (x below 1240, y below 290). Even then its 22 to 26 px labels land at 11 to 13 pt, so Dameli enlarges them to 30 px first (G-66 follow-up).
+- **4.2 · Nice-to-have · one point per slide.** The line "mock: offline demo data · local: the model on this laptop, photos stay here · cloud: designed and opt-in, photos would leave the device; not used in this demo" (14.5 pt) repeats the three provider chips, and the script says it too. **Fix:** delete the line; keep it in the notes.
+- **4.3 · Nice-to-have · R6 · context of the one number.** "Restroom model as served (zero-shot CLIP ViT-B/32): 25.7 ms per image, batch 1, laptop CPU (Apple M5 CPU)." sits on a slide whose script follows a road photo, so it can be heard as the road latency. **Fix:** "Restroom model (CLIP ViT-B/32) on the laptop CPU: 25.7 ms per image. Pothole latency is not measured yet."
