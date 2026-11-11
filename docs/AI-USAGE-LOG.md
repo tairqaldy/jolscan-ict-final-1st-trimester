@@ -631,7 +631,7 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How I verified it, and who verified it:**
   - Each "never" rule was searched for a counter-example in `web/`.
   - On the dev server, every one of the 9 colour groups showed both lines in both theme panels, at 1440 and 375 px, with no sideways scroll.
-  - Screenshots of the map in both themes and widths: dark tiles, five distinct marker fills, 37 markers for "Findings on the map (37)".
+  - Screenshots of the map in both themes and widths: dark tiles and five distinct marker fills. A change that hid clear analyses from the map was reverted before merging, because it changes Tair's page.
   - With the tile host blocked, the offline notice still shows on a dark background.
   - `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` (127 tests after the last rebase) pass.
 - **What I rejected or corrected:**
