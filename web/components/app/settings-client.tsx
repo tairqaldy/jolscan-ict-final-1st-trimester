@@ -9,6 +9,7 @@ import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/compon
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Segmented } from "@/components/ui/segmented";
 import { Select } from "@/components/ui/select";
+import { SelectedMark } from "@/components/ui/selectable-tile";
 import { SliderField } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/cn";
@@ -108,11 +109,14 @@ export function SettingsClient() {
                   <div
                     key={p}
                     className={cn(
-                      "grid content-between gap-4 rounded-lg border-2 p-4 transition-colors",
-                      selected ? "border-accent bg-accent-soft" : "border-border",
+                      "relative grid content-between gap-4 rounded-lg border-2 p-4 transition-colors",
+                      selected
+                        ? "border-accent bg-accent-soft"
+                        : "border-border has-[label:hover]:border-border-strong has-[label:hover]:bg-surface-2",
                     )}
                   >
-                    <label className="flex cursor-pointer items-start gap-3">
+                    {selected && <SelectedMark className="absolute top-3 right-3" />}
+                    <label className="flex cursor-pointer items-start gap-3 pr-8">
                       <input
                         type="radio"
                         name="provider"
