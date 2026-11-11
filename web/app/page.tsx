@@ -142,7 +142,7 @@ export default function LandingPage() {
               </p>
             </StaggerItem>
           </Stagger>
-          <aside aria-label="Example road inspection" className="inspection-preview w-full overflow-hidden rounded-xl border border-border bg-surface shadow-sm lg:max-w-[36rem] lg:justify-self-end">
+          <aside aria-label="Example road inspection" className="inspection-preview w-full overflow-hidden rounded-lg border border-border bg-surface shadow-sm lg:max-w-[36rem] lg:justify-self-end">
             <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-5 py-4 sm:px-6">
               <div>
                 <p className="font-mono text-xs text-muted">INSPECTION 01 / ROADS</p>
@@ -229,7 +229,7 @@ export default function LandingPage() {
               }}
             />
           </div>
-          <details className="mt-6 rounded-xl border border-border bg-surface">
+          <details className="mt-6 rounded-lg border border-border bg-surface">
             <summary className="cursor-pointer px-5 py-4 font-medium sm:px-6">Preview a sign comparison</summary>
             <div className="grid gap-3 border-t border-border p-5 sm:p-6">
               <div><DemoBadge show label="Sample result" /></div>
@@ -423,7 +423,7 @@ function ModuleCard({
   const m = MODULES[id];
   const Icon = MODULE_ICONS[id];
   return (
-    <article className="flex h-full flex-col gap-5 rounded-xl border border-border bg-surface p-5 sm:p-6" aria-labelledby={`card-${id}`}>
+    <article className="flex h-full flex-col gap-5 rounded-lg border border-border bg-surface p-5 sm:p-6" aria-labelledby={`card-${id}`}>
       <div className="flex items-start gap-3">
         <span className="grid size-10 shrink-0 place-items-center rounded-md bg-inverse text-inverse-fg">
           <Icon className="size-5" aria-hidden />
