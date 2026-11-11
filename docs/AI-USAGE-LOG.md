@@ -58,6 +58,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **Verification:** 36 API tests passed with fake backends in an isolated lightweight environment. Compile check passed. Alizhan has not yet personally reviewed this draft.
 - **Limits:** No team weights were available; model initialization with real weights and end-to-end inference remain to be checked on the presentation laptop.
 
+### 11 November 2026, Amina (M-0, final pre-run revision)
+
+- **Tool and version:** Codex, GPT-6 family; exact model version not exposed.
+- **Purpose:** Finalize selection and E8 construction before E1-E7 start; complete PR #369 on green CI.
+- **Key prompts:** "Remove the special override that automatically makes E0 champion." "Champion selection always follows the general validation-only rule across eligible completed runs, including E2/E5." "Smoke runs must not participate in champion selection." Amina confirms E1-E7 have not started based on current team information and authorizes the final revision and merge. Full chat export remains outstanding under X-13.
+- **What it produced or changed:** Separate rule revision, exporter smoke-flag exclusion and three offline regression tests, consistent task/worklog/contribution/decision records, and updated PR #369.
+- **How I verified it, and who verified it:** The assistant compared the documentation to `TIE = 0.01`, validation-only champion inputs and `RULES_CONF = 0.40`; three `python -m unittest ml.test_export_results` tests, compilation of ml/api and `git diff --check` passed. Amina supplied the pre-run team confirmation and final policy decision. Fresh required CI is checked before merge.
+- **What I rejected or corrected:** Superseded the earlier E0-champion override rather than implementing it. Preserved the notebook change and previous branches in an isolated worktree. No training, test-metric selection, backdating, dataset changes or claim of independent chat/run verification.
+
 ### 11 November 2026, Alizhan (S-3, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6 family.

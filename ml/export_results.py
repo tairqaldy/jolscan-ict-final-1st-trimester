@@ -55,6 +55,8 @@ def main() -> None:
     rows = []
     for path in files:
         r = json.loads(path.read_text())
+        if r.get("smoke", False):
+            continue
         m = r["metrics"]
         rows.append({
             "run": r["run"],
@@ -72,6 +74,9 @@ def main() -> None:
             "datasetVersion": r["dataset_version"],
             "device": r.get("device"),
         })
+
+    if not rows:
+        raise SystemExit(f"No completed non-smoke run files in {RUNS_DIR}. Train at least E0 first.")
 
     versions = {row["datasetVersion"] for row in rows}
     if len(versions) > 1:
