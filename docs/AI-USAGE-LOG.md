@@ -787,3 +787,20 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What I rejected or corrected:**
   - The Mock result badge was suggested as a marker; it stays unmarked so nothing covers it.
   - The first outlines on the sign bars cut through the threshold lines under them and were enlarged; the dot in the eyebrow got a thin space after it.
+
+### 11 November 2026, Dameli (G-44 type scale, G-65 320 px reflow and 200 % zoom)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment for the checks.
+- **Purpose:** remove the stray and inverted font sizes, then check every listed route at 320 px and at 200 % zoom and fix what broke.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-44 and G-65 among them). Transcript kept locally.
+- **What it produced or changed:** `--text-*: initial` in `web/app/tokens.css`; class changes in `web/app/page.tsx`, `design-showcase.tsx`, `site-header.tsx`, `sign-slot.tsx`, `select.tsx`, `settings-client.tsx`, `compare-client.tsx`, `analyze-client.tsx`, `app-shell.tsx` and the Analytics and Model pages; a scroll-padding block in `web/app/globals.css`; one line in DESIGN-BRIEF.md.
+- **How I verified it, and who verified it:**
+  - `grep -rn "text-\[" web/app web/components` prints nothing.
+  - Playwright on my own dev server: at 320×640 the scroll check printed `true` on 6 of 18 routes before and `false` on all 18 after; at 640×360 CSS px (1280×720 at 200 %) all 18 print `false`, and Tab plus Shift+Tab on analyze, compare and match leave no control fully under the bars (5, 6 and 12 hidden stops before).
+  - Screenshots at 320, 375 and 1024 px of the changed parts; the analyze result still scrolls to 128 px from the top.
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` (139 tests) and `pnpm build` pass.
+- **What I rejected or corrected:**
+  - The first focus run counted the fixed "Skip to content" link as hidden; it sits above the header, so the check now skips fixed elements.
+  - The scroll padding first did nothing because the dev server served old CSS; after clearing `.next/dev` it applied.
+  - Scroll padding alone would have pushed the analyze and compare results and the section anchors lower; their scroll margins were reduced so they land where they did.
+  - Did not use `overflow-x: hidden` on `body`, and did not hide the Demo badge or any control.
