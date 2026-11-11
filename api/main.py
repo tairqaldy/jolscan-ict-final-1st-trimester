@@ -12,8 +12,8 @@ Run:
 
 from __future__ import annotations
 
-import logging
 import csv
+import logging
 import os
 import threading
 import time
@@ -74,7 +74,7 @@ _predict_log_lock = threading.Lock()
 
 def _log_prediction(latency_ms: int, detections: list[dict]) -> None:
     """Append aggregate prediction metadata; never record uploaded images or names."""
-    path = Path(os.getenv("PREDICT_LOG_PATH", str(Path(__file__).parent / "logs" / "predict-calls.csv")))
+    path = Path(os.environ["PREDICT_LOG_PATH"])
     confidences = [item["confidence"] for item in detections]
     with _predict_log_lock:
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -175,11 +175,11 @@ async def predict(file: UploadFile = File(...), conf: float = Form(0.25)) -> dic
             "box": {"x": round(x1, 5), "y": round(y1, 5), "w": round(x2 - x1, 5), "h": round(y2 - y1, 5)},
         })
 
-    try:
-        await run_in_threadpool(_log_prediction, latency_ms, detections)
-    except OSError:
-        log.exception("Could not write prediction log")
-        raise HTTPException(status_code=503, detail="Could not write the prediction log; check server logs.") from None
+    if os.getenv("PREDICT_LOG_PATH"):
+        try:
+            await run_in_threadpool(_log_prediction, latency_ms, detections)
+        except OSError:
+            log.warning("Could not write prediction log", exc_info=True)
 
     return {
         "provider": PROVIDER,

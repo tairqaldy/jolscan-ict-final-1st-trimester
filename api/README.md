@@ -8,9 +8,9 @@ The FastAPI service was run with real stock YOLO weights on Windows for S-1; see
 
 ## Prediction call log
 
-Each successful road prediction appends UTC time, model latency in milliseconds, detection count, mean detection confidence, model and provider to `api/logs/predict-calls.csv`. If there are no detections, mean confidence is blank. Set `PREDICT_LOG_PATH` to select a writable file elsewhere. The log does not contain images or uploaded filenames, and the default log directory is ignored by Git. Restrict access to and manage retention of any configured log file as appropriate for the deployment.
+Prediction logging is opt-in: set `PREDICT_LOG_PATH` to a writable CSV file, for example `logs/predict-calls.csv` when starting in `api/`. With the variable unset or empty, no file is written. Each successful road prediction appends UTC time, model latency in milliseconds, detection count, mean detection confidence, model and provider. If there are no detections, mean confidence is blank. The log does not contain images or uploaded filenames, and `api/logs/` is ignored by Git. Restrict access to and manage retention of any configured log file as appropriate for the deployment.
 
-Writes are serialized within one server process. Separate worker processes or replicas need separate log files or an external coordinated log collector. An unwritable log causes `/predict` to return 503 after inference, rather than silently report a successful logged request. The log is not yet connected to the analytics page.
+Writes are serialized within one server process. Separate worker processes or replicas need separate log files or an external coordinated log collector. If the log cannot be written, the server records a warning and still returns the prediction. The log is not yet connected to the analytics page.
 
 ## Run locally
 

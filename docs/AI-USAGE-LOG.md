@@ -47,7 +47,7 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **Key prompt:** "сделай таски, которые находятся в issues, by wed 11 nov 23:00(code freeze) и отмечай. делай перепроверку, rebase". This is an excerpt; no full transcript is available in the repository.
 - **What it produced or changed:** Configurable aggregate CSV log, process-local serialization, Git ignore, tests and API documentation.
 - **How it was verified:** API tests with fake models, concurrent writes, privacy and write-error tests, compileall, results check and Git ignore check. Alizhan has not yet personally reviewed the result.
-- **What was rejected or corrected:** No images or uploaded filenames are logged; no claim that confidence alone diagnoses drift or that the log feeds analytics.
+- **What was rejected or corrected:** After Tair's review, made logging opt-in and kept predictions available on log-write errors. No images or uploaded filenames are logged; no claim that confidence alone diagnoses drift or that the log feeds analytics.
 
 ### 11 November 2026, Alizhan (S-25, AI-assisted; personal review pending)
 

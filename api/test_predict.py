@@ -54,13 +54,23 @@ def test_predict_writes_private_aggregate_log(client, monkeypatch, tmp_path):
     assert "private-name" not in path.read_text(encoding="utf-8")
 
 
-def test_prediction_log_write_error_returns_503(client, monkeypatch, tmp_path):
+def test_prediction_log_write_error_keeps_prediction(client, monkeypatch, tmp_path, caplog):
     path = tmp_path / "not-a-directory"
     path.write_text("x")
     monkeypatch.setenv("PREDICT_LOG_PATH", str(path / "calls.csv"))
     response = client.post("/predict", files={"file": ("image.png", png())})
-    assert response.status_code == 503
-    assert "prediction log" in response.json()["detail"]
+    assert response.status_code == 200
+    assert len(response.json()["detections"]) == 1
+    assert "Could not write prediction log" in caplog.text
+
+
+def test_prediction_log_is_disabled_by_default(client, monkeypatch):
+    monkeypatch.delenv("PREDICT_LOG_PATH", raising=False)
+    def must_not_write(*args):
+        pytest.fail("Logging is disabled without PREDICT_LOG_PATH")
+    monkeypatch.setattr(main, "_log_prediction", must_not_write)
+    response = client.post("/predict", files={"file": ("image.png", png())})
+    assert response.status_code == 200
 
 
 def test_concurrent_log_writes_preserve_every_row(monkeypatch, tmp_path):
