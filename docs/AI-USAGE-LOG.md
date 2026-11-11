@@ -914,7 +914,7 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - Playwright on my own dev server: screenshots of five routes at 1440 and 375 px, light and dark, before and after each task, compared pixel by pixel; computed styles of the eyebrow and the card padding; the 320 px scroll check printed `false` on all five routes after each task; KPI number clipping measured at 320, 375 and 1440 px before and after.
   - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` (191 tests) and `pnpm build` pass.
 - **What I rejected or corrected:**
-  - A shell replace first also matched the comment in `tokens.css`; it was rerun without that file.
+  - The file list for the radius replace also picked up `tokens.css`, whose new comment names `rounded-xl`; that file was left out so the comment stayed.
   - The new token comment contained the text `tracking-[`, which made the G-23 grep fail; reworded.
   - `p-5` on phones for every card (the count winner) was dropped: it would clip KPI numbers at 375 px.
   - `p-4 sm:p-5` on `Card` was dropped: without class merging, `sm:p-5` would override `CardBody className="px-0"` on desktop and break the edge-to-edge tables.
