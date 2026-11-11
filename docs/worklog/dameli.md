@@ -12,6 +12,24 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 20:33 · G-75 (#434) · Staged result reveal and save confirmation
+- **Status:** done
+- **What I did:**
+  - Added `reveal` timings to `web/lib/motion.ts` (card 60 ms, key value 120 ms, rule rows from 180 ms in 40 ms steps, last start 360 ms) and a test that the reveal ends within 600 ms.
+  - Added `.result-stage` and `.saved-tick` to `web/app/globals.css` (opacity and transform only, `--duration-base`, `--ease-emphasized`), with `animation: none` under the OS setting and the Settings switch, and a small helper `web/components/motion/stage.ts`.
+  - Road result (`analysis-view.tsx`, only when opened from Analyze): the priority card, then the score, then the rule rows. Compare result (`compare-result.tsx`): the signs, the verdict card, the verdict, then S1 to S3. Reports and check pages open without it.
+  - "Analysis saved to this browser" is now announced by a `role="status"` region that stays mounted; Compare's existing live region now also says "Saved to this browser". A tick pops once next to both save lines.
+  - Gave the Analyze form and result their own elements (`key`), which removed a 4 px shift when the result appears.
+- **Result:** Playwright on my dev server: road reveal 559 ms, Compare 467 ms (measured from mount to the last animation end), CLS 0 from mount at 1440 px; with Reduce motion (OS or Settings) 0 animations and every staged element at opacity 1 on the first frame. Lint, typecheck and all tests pass.
+- **Decisions and why:**
+  - CSS animation, not motion/react: no client cost, and the existing reduced-motion blocks cover it.
+  - No count-up on the score: it would show values that are not the result, and `timing.countUp` is 800 ms.
+  - The reveal stops once it has played, so switching tabs does not replay the rows.
+  - Did not touch `detection-overlay.tsx` (another task) or Match (Nazar's PR #426).
+- **What I learned / can explain at the defense:** a live region that mounts together with its text is often not read; it has to exist first and then change. With reduced motion the global `transition-duration: 0.01ms` still animates a property change on a reused element for one frame, which shows up as a layout shift.
+- **AI use:** Claude Code wrote the code and the Playwright checks; I set the order and timing and checked the numbers.
+- **Open questions / next:** the box draw-in on the photo (detection-overlay.tsx) runs on its own timing, longer than 600 ms. At 375 px on Compare the "Saved to this browser" line wraps under the heading and moves the result down (CLS 0.031, also before this change). No copy actions exist in the app, so none needed a confirmation.
+
 ### 2026-11-11 20:33 · G-6 (#124) · States and micro-interactions for the UI primitives
 - **Status:** done
 - **What I did:**
