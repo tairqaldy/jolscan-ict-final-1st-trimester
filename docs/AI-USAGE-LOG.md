@@ -633,7 +633,7 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - On the dev server, every one of the 9 colour groups showed both lines in both theme panels, at 1440 and 375 px, with no sideways scroll.
   - Screenshots of the map in both themes and widths: dark tiles, five distinct marker fills, 37 markers for "Findings on the map (37)".
   - With the tile host blocked, the offline notice still shows on a dark background.
-  - `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` (114 tests) pass.
+  - `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` (127 tests after the last rebase) pass.
 - **What I rejected or corrected:**
   - Switched from CARTO tiles back to OpenStreetMap, because CARTO's tiles now say "API KEY REQUIRED".
   - Dropped a draft rule ("never a soft fill with plain text") because the success callout does exactly that.
