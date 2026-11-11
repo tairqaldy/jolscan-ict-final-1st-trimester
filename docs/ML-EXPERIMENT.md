@@ -59,7 +59,7 @@ Fixed for every run unless the row says otherwise: `epochs=40`, `imgsz=640`, `ba
 | E4 | Optimizer | `AdamW`, `lr0=0.001`, `warmup_bias_lr=0` | Does the optimizer change the result at equal budget? | A2 p1, Sup p14 |
 | E5 | Standard augmentations off | `mosaic, mixup, fliplr, hsv_h, hsv_s, hsv_v, translate, scale = 0` | Does augmentation reduce overfitting here? | Lec8 p38, Sup p26 |
 | E7 | Architecture: extra detection scale | `yolo26n-p2.yaml`, initialised from `yolo26n.pt` where layer shapes match | Does a layer change aimed at small objects help? | A2 p1, Lec8 p40 |
-| E8 | Best combination | Chosen with the selection rule from E1–E7 | Final model, the one the app serves | Lec9 p38 |
+| E8 | Best combination | Every change from E1, E3, E4, E7 that beats E0 by more than 0.01 (decision 0009); none did, so the E0 settings | Does combining the winning changes help? The app serves the champion of the general rule, E1 | Lec9 p38 |
 | E6 | Input resolution (optional) | `imgsz=960` | Do small, distant potholes need more pixels? | Lec8 p5 |
 
 Run order: E0, then E1, E2, E3, E4, E5 and E7 in parallel across accounts, then E8. E0–E5 and E7 are the minimum. E6 only if there is GPU time left, and only because the dataset version is exported without resizing. If YOLO26 fails to load, switch every run to YOLO11 (`yolo11n.pt`, `yolo11s.pt`, `yolo11n.yaml`, `yolo11n-p2.yaml`) and note it.

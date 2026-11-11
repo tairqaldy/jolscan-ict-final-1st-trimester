@@ -133,7 +133,7 @@ Browser (Next.js pages; history in localStorage)
 Next.js route handlers on the server: /api/analyze, /api/restroom, /api/health
    │  chooses the provider from Settings
    ├─ mock  : canned results inside the web server (default, works offline, used on Vercel)
-   ├─ local : FastAPI on localhost:8000 (/predict = YOLO E0, /restroom/* = CLIP), photos stay on the laptop
+   ├─ local : FastAPI on localhost:8000 (/predict = YOLO, the champion E1; /restroom/* = CLIP), photos stay on the laptop
    └─ cloud : the same API hosted (CLOUD_MODEL_API_URL), opt-in because photos leave the device
    ▼
 Rules in the web server: web/lib/rules (roads, R1–R6) and web/lib/signage (restrooms, S1–S3)
