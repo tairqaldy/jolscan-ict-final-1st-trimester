@@ -30,7 +30,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-bg">
       <div className="container-page public-container flex h-16 items-center gap-4 lg:gap-8">
-        <Logo />
+        <Logo className="max-[22.5rem]:[&>span]:sr-only" />
         <nav aria-label="Main" className="mx-auto hidden min-w-0 md:block">
           <ul className="jelly-nav flex items-center gap-2 lg:gap-4">
             {LINKS.map((l) => (
