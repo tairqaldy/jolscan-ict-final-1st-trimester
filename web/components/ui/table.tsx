@@ -1,11 +1,14 @@
 import type { ComponentProps } from "react";
 import { cn } from "@/lib/cn";
 
-/** Plain semantic table. Wraps in a scroll container so narrow screens never scroll the page sideways. */
+/**
+ * Plain semantic table. Wraps in a scroll container so narrow screens never scroll the page sideways.
+ * Tabular figures make numbers line up down a column (G-45).
+ */
 export function Table({ className, caption, children, ...props }: ComponentProps<"table"> & { caption?: string }) {
   return (
     <div className="relative w-full overflow-x-auto">
-      <table className={cn("w-full border-collapse text-left text-sm", className)} {...props}>
+      <table className={cn("tabular w-full border-collapse text-left text-sm", className)} {...props}>
         {caption && <caption className="sr-only">{caption}</caption>}
         {children}
       </table>
