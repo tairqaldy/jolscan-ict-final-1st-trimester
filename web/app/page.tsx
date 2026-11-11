@@ -154,7 +154,7 @@ export default function LandingPage() {
             <div className="grid gap-4 p-(--card-pad)">
               <HeroDemo />
               <div className="border-t border-border pt-4 text-sm">
-                <p className="font-medium">Why this priority?</p>
+                <p className="font-medium">Why this priority</p>
                 <p className="mt-1 text-muted">{roadHit.title}: {roadHit.detail} (+{roadHit.points} points).</p>
               </div>
               <Link href="/app/roads/analyze?sample=s01" className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-accent-ink underline underline-offset-4">
