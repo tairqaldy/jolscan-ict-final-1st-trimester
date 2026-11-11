@@ -621,3 +621,20 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - Every quoted string, file and line in PRINCIPLES.md and imagery.md was looked up in the code; the footer credits were compared with `web/lib/credits.ts`.
   - The new template slide was checked by reading the shape positions back from the .pptx; it was not opened in Canva yet.
 - **What I rejected or corrected:** a draft said the IOAI callout on the Model page is labelled "Not our runs" in the page code; that sentence comes from the results file, so the doc now says so. A draft gave the Model page no pothole credit; it has one, read from the results file. No copy in `web/` was changed; the copy fixes are listed for W-21 and R-12.
+
+### 11 November 2026, Dameli (G-20, G-26, G-27 token rules, empty-state drawings, dark map)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright and Chromium for screenshots.
+- **Purpose:** usage rules for every colour group on `/design`, four token-only empty-state drawings, and a dark map with markers that match the list.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков". Transcript kept locally.
+- **What it produced or changed:** the rules and the token table in `web/components/design/design-showcase.tsx`; `web/components/illustrations/` and `web/lib/illustrations.test.ts`; an optional `illustration` prop in `web/components/ui/empty-state.tsx` and its use in 8 empty states; the Leaflet block in `web/app/globals.css`; `web/components/app/map-view.tsx` and `map-client.tsx`.
+- **How I verified it, and who verified it:**
+  - Each "never" rule was searched for a counter-example in `web/`.
+  - On the dev server, every one of the 8 colour groups showed both lines in both theme panels, at 1440 and 375 px, with no sideways scroll.
+  - Screenshots of the map in both themes and widths: dark tiles, five distinct marker fills, 37 markers for "Findings on the map (37)".
+  - With the tile host blocked, the offline notice still shows on a dark background.
+  - `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` (114 tests) pass.
+- **What I rejected or corrected:**
+  - Switched from CARTO tiles back to OpenStreetMap, because CARTO's tiles now say "API KEY REQUIRED".
+  - Dropped a draft rule ("never a soft fill with plain text") because the success callout does exactly that.
+  - Did not edit `tokens.css`.
