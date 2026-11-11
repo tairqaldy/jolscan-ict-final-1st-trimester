@@ -10,6 +10,16 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 ## Entries
 
+### 12 November 2026 · R-26 (#235) · CLO backup slides B6–B8 in the deck
+
+- **Status:** done
+- **What I did:** built Roma's backup notes for CLO 5, 6 and 7 into `docs/deck/make_deck.py`: B6 (methods and why each metric), B7 (prototype, documentation, checks), B8 (how we checked the AI tools). Each quotes what the syllabus assesses and reads its numbers from the result files.
+- **Result:** the deck has 20 slides; the build checks every number against its file and reports no open gaps.
+- **Decisions and why:** tables, not charts: these slides answer "show me where the evidence is", so each row names a file. The glossary heading said 38 terms while its table has 43; I corrected the count where it is quoted.
+- **What I learned / can explain:** which metric fits which task (mAP50 and recall for detection, accuracy on balanced classes, top-1 for matching, and why the k-means bands have no accuracy).
+- **AI use:** Claude Code wrote the slide code and the test; see docs/AI-USAGE-LOG.md.
+- **Open questions / next:** Roma, Amina and Nazar should read B6–B8 before the defense.
+
 ### 11 November 2026 · R-20, R-21 and the deck (#229, #230) · First version of all slides
 
 - **Status:** draft done; reading aloud, Canva import and the marked gaps are open.

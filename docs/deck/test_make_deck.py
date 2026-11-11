@@ -53,6 +53,15 @@ class RoadsDeckGenerationTests(unittest.TestCase):
         self.assertNotIn("9:99", out)
         self.assertTrue(out.endswith("## Demo script\n\nkept\n"))
 
+    def test_clo_backups_quote_the_syllabus_and_name_evidence(self):
+        by_number = {doc.number: doc for doc in self.docs}
+        for number, clo in (("B6", 5), ("B7", 6), ("B8", 7)):
+            doc = by_number[number]
+            self.assertIn(f"CLO {clo}", doc.title)
+            self.assertIn(self.deck.clo_quote(clo), doc.on_slide[0])
+            files = {n.file for n in self.deck.R.rows if n.slide == number} | set(doc.extra_sources)
+            self.assertGreaterEqual(len(files), 2, number)
+
     def test_markdown_and_saved_pptx_have_the_same_scripts(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

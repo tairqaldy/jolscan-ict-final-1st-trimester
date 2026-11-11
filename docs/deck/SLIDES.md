@@ -244,14 +244,14 @@ Times are estimates at 130 words per minute; read each script aloud with a timer
 **On the slide:**
 
 - Claude Code, Codex, GitHub Copilot: Writing and reviewing code and tests; Drafting documents, study cards and slide text; Checking text against the result files
-- How we checked: Unit tests and CI on every pull request; Every number traced to a committed file (docs/research/deck-sources.md); Each use logged with its prompt and check: 112 entries in docs/AI-USAGE-LOG.md
+- How we checked: Unit tests and CI on every pull request; Every number traced to a committed file (docs/research/deck-sources.md); Each use logged with its prompt and check: 114 entries in docs/AI-USAGE-LOG.md
 - Audit of two vision-language models (R-6): Gemini 17/20 and Claude 17/20 on the gender of 20 IOAI signs; our served CLIP: 0.756 on all 328 training signs. 20 signs are too few to rank them.
 
 **Visual:** Two cards and one audit line, no image
 
 **Script:**
 
-> We used Claude Code, Codex and Copilot to write and review code, draft documents and check text against our results. Every use is logged with its prompt and check: 112 entries, and every number here is traced to a committed file. We also audited Gemini and Claude on 20 IOAI signs: each named the gender correctly on 17. Our CLIP gets 0.756 on all 328 training signs; 20 signs are too few to rank them. Next, the limits.
+> We used Claude Code, Codex and Copilot to write and review code, draft documents and check text against our results. Every use is logged with its prompt and check: 114 entries, and every number here is traced to a committed file. We also audited Gemini and Claude on 20 IOAI signs: each named the gender correctly on 17. Our CLIP gets 0.756 on all 328 training signs; 20 signs are too few to rank them. Next, the limits.
 
 **Cues:** The entry count is read when the deck is built; rebuild after the last merge so it is final. Audit (docs/research/vlm-evaluation.md, Roma): one fresh chat per sign, the same one-word prompt, files renamed A01–A20 first; Gemini still echoed the filename in 2 of 20 answers. Both models missed A17, the robot figure. The app's Compare uses zero-shot CLIP for gender (0.756); Match does not need gender: the served pipeline R7 finds the partner on 30/30 test queries. Never quote R4's 100%: it was picked on test.
 
@@ -387,3 +387,65 @@ Times are estimates at 130 words per minute; read each script aloud with a timer
 **Visual:** Chart drawn by make_deck.py from ml/results/restroom/pipeline.json
 
 **Sources:** ml/results/restroom/pipeline.json (histogram_weight; computed: 1 − histogram_weight; train_episodes.sift_combo_hungarian.top1.mean; train_episodes.sift_combo_hungarian.top1.std) · docs/ML-EXPERIMENT-RESTROOM.md ('The final pipeline')
+
+## Backup B6 · Backup: CLO 5, methods and metrics
+
+**Speaker (notes only):** Amina, Nazar · **budget** on request
+
+**Title:** CLO 5: the methods we chose, and why each metric
+
+**On the slide:**
+
+- Assessed on “the correctness of the method chosen and the justification of the quality metric” (Syllabus p.2).
+- Find potholes (detection) · YOLO, 9 runs (E0–E8) · Validation mAP50 picks the model; near-ties go to recall at 0.40: a missed pothole costs more than a false alarm · E1 on test (not used to choose): precision 0.854, recall 0.746
+- Gender of a sign (classification) · Zero-shot CLIP ViT-B/32, 5 prompts per gender · Accuracy: the training signs are 164 men and 164 women, so one class cannot inflate it · 0.756 (served); a logistic probe gets 0.741 in 5-fold CV grouped by restroom
+- Find the partner sign (matching) · SIFT and a pixel check, then colour histogram + CLIP, one global assignment · Top-1 accuracy: the IOAI contest's own metric, so it compares with its published scores · 30/30 on test, read once
+- Size bands (clustering) · k-means, k = 3, on log box area of 1,198 training boxes · No size labels exist: three groups give rule R2 its small, medium and large · Small below 1.15 %, large from 7.27 % of the image
+
+**Visual:** Table, no image
+
+**Cues:** Box areas are shares of the image, not physical size (pothole_area_clusters.json, limitation). Never quote R4's 100%: it was picked on test.
+
+**Sources:** ml/results/experiments.csv (number of rows (runs)) · ml/results/operating_point.json (conf; precision; recall) · ml/results/restroom/runs/R1.json (gender.zero_shot_prompts confusion matrix, row men, sum; gender.zero_shot_prompts confusion matrix, row women, sum; gender.prompts.male, length; gender.zero_shot_prompts.accuracy; gender.probe_lr.accuracy; gender.probe_lr.fold_accuracy, length) · ml/results/restroom/pipeline.json (test.sift_combo_hungarian × 30 queries) · ml/results/pothole_area_clusters.json (k; boxes; area_thresholds[0] × 100 (% of image); area_thresholds[1] × 100 (% of image)) · docs/COURSE-GROUNDING.md (CLO 5 wording, Syllabus p.2) · docs/ML-EXPERIMENT.md ('Selection rule') · ml/restroom/common.py (grouped_folds)
+
+## Backup B7 · Backup: CLO 6, prototype and documentation
+
+**Speaker (notes only):** Tair · **budget** on request
+
+**Title:** CLO 6: a working prototype, documented and checked
+
+**On the slide:**
+
+- Assessed on “the working state of the prototype, completeness of documentation and quality of the defence” (Syllabus p.2).
+- Working prototype · A web app (Next.js) and a model service (FastAPI) on this laptop: E1 (YOLO) for potholes, CLIP ViT-B/32 and the two-step pipeline for restroom signs. Shown live on slide 3.
+- Documentation · Document map docs/README.md; JSON contracts in docs/ARCHITECTURE.md; rules in docs/RULES.md; two experiment reports; 11 decision records in docs/decisions/
+- Automated checks · CI on every pull request, 3 jobs: web (lint, types, unit tests, build); python (result files and hygiene, slide-number sources, API tests); up-to-date (the branch has the latest main)
+- Manual checks · 14 test scripts in docs/QA-SCRIPTS.md; scripts/demo_check.py runs 6 checks on the real models before the defence
+- Defence · 18 prepared answers (docs/DEFENSE-QA.md), a runbook (docs/DEFENSE-RUNBOOK.md), and every number on the slides checked against its file when the deck is built
+
+**Visual:** Table, no image
+
+**Cues:** If asked to prove it works: run the morning check live (docs/DEFENSE-RUNBOOK.md, T−30).
+
+**Sources:** .github/workflows/ci.yml (number of jobs) · docs/decisions/ (number of decision records (0001–)) · docs/QA-SCRIPTS.md (number of '## TS-NN' sections) · docs/DEFENSE-QA.md (number of '### QN.' answers) · scripts/demo_check.py (number of check(...) steps) · docs/COURSE-GROUNDING.md (CLO 6 wording, Syllabus p.2) · docs/README.md · docs/ARCHITECTURE.md
+
+## Backup B8 · Backup: CLO 7, evaluating AI tools
+
+**Speaker (notes only):** Roma · **budget** on request
+
+**Title:** CLO 7: how we checked the AI tools
+
+**On the slide:**
+
+- Assessed on “the rigour of the verification procedure and the strength of the conclusion” (Syllabus p.3).
+- Audit of two VLMs (R-6) · Gemini and Claude, one new chat per sign, files renamed A01–A20: 17/20 and 17/20 on gender. Both missed A17; Gemini echoed the file name in 2 of 20. 20 signs are too few to rank them.
+- Errors we recorded · 6 cases where an AI tool was wrong, each caught outside the tool: a primary source, a measurement, or a second reviewer (a person or another model)
+- Our rule · No number from an AI tool goes on a slide until it is traced to a committed file; this deck stops building when a slide and its file disagree (Lec7 p70: “Choose evidence over fluency”)
+- Privacy and law · No personal or biometric data to external AI services (Syllabus p.9); the audit sent only IOAI icons. What may go out, per type of data: docs/research/privacy-and-law.md
+- Prompt log · 114 entries in docs/AI-USAGE-LOG.md, each with the tool, the prompt and how it was checked
+
+**Visual:** Table, no image
+
+**Cues:** The six cases are in docs/AI-USAGE-LOG.md ('What the AI tools got wrong'). Model versions: say what the free web apps showed on the day; the report does not prove a version.
+
+**Sources:** docs/research/vlm-evaluation.md (section 5, Google Gemini, gender of one sign; section 5, Anthropic Claude, gender of one sign; section 3, audit sample size; findings 4, responses that echoed the filename) · docs/AI-USAGE-LOG.md ('What the AI tools got wrong': table rows; number of '### ' entries under 'Entries' at build time) · docs/COURSE-GROUNDING.md (CLO 7 wording, Syllabus p.3) · docs/research/privacy-and-law.md
