@@ -13,6 +13,7 @@ import { deriveDetections, rescore } from "@/lib/rules";
 import { SEVERITY_CLASSES } from "@/lib/severity";
 import { rulesStore } from "@/lib/store/settings";
 import type { StoredAnalysis } from "@/lib/types";
+import { DemoBadge } from "./demo-badge";
 import { DetectionOverlay } from "./detection-overlay";
 import { PROVIDER_META } from "./provider-badge";
 
@@ -103,7 +104,10 @@ export function AnalysisView({ analysis, title }: { analysis: StoredAnalysis; ti
 
             <dl className="grid grid-cols-2 gap-x-4 gap-y-3 border-t border-border pt-4 text-sm">
               <Meta icon={Cpu} label="Provider">
-                {PROVIDER_META[analysis.provider].label}
+                <span className="inline-flex flex-wrap items-center gap-1.5">
+                  {PROVIDER_META[analysis.provider].label}
+                  <DemoBadge show={analysis.provider === "mock"} label="Mock result" />
+                </span>
               </Meta>
               <Meta icon={Cpu} label="Model">
                 <span className="font-mono text-xs">{analysis.model}</span>
