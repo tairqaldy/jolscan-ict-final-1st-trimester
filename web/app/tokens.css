@@ -2,7 +2,7 @@
  * Design tokens. THE ONE FILE TO EDIT TO RE-SKIN THE APP. (Brand name and
  * module names live in lib/brand.ts.)
  *
- * Direction (placeholder until the lead's references arrive): asphalt and
+ * Direction (decided in docs/decisions/0011-visual-direction.md): asphalt and
  * road markings. Graphite/stone surfaces, one road-sign amber accent, and a
  * five-step severity scale. Components never use hex values; they use the
  * Tailwind utilities generated from the @theme block below (bg-surface,

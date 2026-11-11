@@ -8,6 +8,8 @@ For Tair and Dameli. The scaffold in `web/` gives working pages on a neutral sta
 
 Starting point until then: asphalt and road markings. Graphite and stone neutrals, one signal accent in road-sign amber, five severity colours. Calm, technical, readable. The product is a work tool for a road-maintenance dispatcher, and the landing page is the only place that sells.
 
+Decided on 11 November in [decision 0011](decisions/0011-visual-direction.md), after the side-by-side comparisons on `/design/lab` (G-41, G-43, G-46).
+
 ### References for the proposed direction (G-2)
 
 Dameli selected a **calm technical** direction with graphite, warm neutrals and amber on 10 November. This is a proposal for Tair to review in W-3; it is not a completed team sign-off. Use one text family for both headings and body text (Overpass since G-4, see below) with JetBrains Mono for technical detail; retain the two themes and the road-sign amber. Reduce the number of competing visual emphases: let the most urgent decision and the next action lead; reserve the strong accent for actions and meaningful marks. Give both modules equal prominence, and pair every status with a word or icon.

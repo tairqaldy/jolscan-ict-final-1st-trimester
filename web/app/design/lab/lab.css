@@ -1,0 +1,37 @@
+/*
+ * Design lab only (G-41). Loaded by app/design/lab/page.tsx and scoped to
+ * [data-lab-variant], so no other page or global token changes.
+ *
+ * tokens.css declares the radii in `@theme inline`, so Tailwind writes the
+ * literal value into each utility (rounded-md becomes 6px, not
+ * var(--radius-md)) and an inline override alone would not reach them. Inside
+ * a lab column the radius utilities read the variables again, so column A gets
+ * the live values from :root and a variant's inline override reaches them.
+ */
+[data-lab-variant] .rounded-xs {
+  border-radius: var(--radius-xs);
+}
+[data-lab-variant] .rounded-sm {
+  border-radius: var(--radius-sm);
+}
+[data-lab-variant] .rounded-md {
+  border-radius: var(--radius-md);
+}
+[data-lab-variant] .rounded-lg {
+  border-radius: var(--radius-lg);
+}
+[data-lab-variant] .rounded-xl {
+  border-radius: var(--radius-xl);
+}
+
+/*
+ * Fonts: --font-sans, --font-display and --font-mono are resolved once on the
+ * page root, so a column that points --font-body or --font-code at another
+ * font re-derives them here, with the same formula as tokens.css.
+ */
+[data-lab-variant] {
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-code), ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-family: var(--font-sans);
+}
