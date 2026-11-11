@@ -50,7 +50,7 @@ export function RestroomAnalytics() {
         <ChartCard
           title={`${clearPct}% of checked sign pairs are clear`}
           description="Pairs per signage verdict, from zero. Clear: all rules pass. Review: S1 or S3 failed. Confusing: the two doors look almost the same to the model."
-          badge={<DemoBadge module="restrooms" />}
+          badge={<DemoBadge show label="Includes demo data" />}
           legend={VERDICTS.map((v) => (
             <LegendSwatch key={v} color={VERDICT_META[v].cssVar} label={VERDICT_META[v].label} />
           ))}
@@ -80,7 +80,7 @@ export function RestroomAnalytics() {
         <ChartCard
           title={`${belowS3} of ${checks.length} pairs fall below the S3 similarity line`}
           description={`Similarity of compared sign pairs. The dashed line is rule S3 (${t3.toFixed(2)}); pairs to its left look like two different design sets.`}
-          badge={<DemoBadge module="restrooms" />}
+          badge={<DemoBadge show label="Includes demo data" />}
           legend={
             <>
               <LegendSwatch color="var(--chart-1)" label={`≥ ${t3.toFixed(2)} one set`} />
@@ -114,7 +114,7 @@ export function RestroomAnalytics() {
         <ChartCard
           title={`${belowS1} of ${checks.length} pairs had a gap below ${t1.toFixed(2)} between the doors`}
           description={`Gap in P(male) between the two doors of each pair, from zero. The dashed line is rule S1 (${t1.toFixed(2)}); pairs to its left need a person to check which door is which.`}
-          badge={<DemoBadge module="restrooms" />}
+          badge={<DemoBadge show label="Includes demo data" />}
           legend={
             <>
               <LegendSwatch color="var(--chart-1)" label={`≥ ${t1.toFixed(2)} clear which door is which`} />

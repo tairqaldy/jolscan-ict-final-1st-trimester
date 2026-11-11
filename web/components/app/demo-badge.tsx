@@ -12,10 +12,18 @@ export function isDemo(module: ModuleId | "any"): boolean {
 }
 
 /**
- * "Demo data" marker. Driven by the `isMock` flag of the module's results
- * file: data/experiments.json for roads, data/restroom-experiments.json for
- * restrooms. Set it to false once real results are in. `show` overrides the
- * flag for a single item (e.g. a placeholder row in a table of real rows).
+ * "Demo data" marker (requirement U8: demo numbers are never shown as real).
+ * The badge follows the data on screen:
+ *
+ * - Results-file places leave `show` out: Pothole runs and Sign runs on
+ *   /app/model, the results cards on the landing page and the two run charts.
+ *   There the badge follows the `isMock` flag of the module's results file
+ *   (data/experiments.json for roads, data/restroom-experiments.json for
+ *   restrooms) through `isDemo(module)`.
+ * - Every other place passes `show` itself: `show` where the seeded demo
+ *   histories are on screen (they are always merged in, so the badge stays
+ *   after the results files turn real), `show={provider === "mock"}` on a
+ *   single result, `show={!row.isReal}` on a placeholder row.
  */
 export function DemoBadge({
   className,
@@ -30,7 +38,7 @@ export function DemoBadge({
 }) {
   if (!(show ?? isDemo(module))) return null;
   return (
-    <Badge tone="accent" className={className} title="Numbers are invented placeholders until real results replace them">
+    <Badge tone="accent" className={className} title="Invented for the demo, not a measured result">
       <FlaskConical aria-hidden />
       {label}
     </Badge>

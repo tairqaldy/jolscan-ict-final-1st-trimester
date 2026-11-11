@@ -117,6 +117,7 @@ class ClipBackend:
 
 _backend = None
 _lock = threading.Lock()
+_inference_lock = threading.Lock()
 
 
 def get_backend():
@@ -153,8 +154,9 @@ def _similarity(a: np.ndarray, b: np.ndarray) -> np.ndarray:
 
 def _infer(backend, images: list) -> tuple[np.ndarray, list[dict], int]:
     start = time.perf_counter()
-    emb = backend.encode(images)
-    preds = _predictions(backend.gender_proba(emb))
+    with _inference_lock:
+        emb = backend.encode(images)
+        preds = _predictions(backend.gender_proba(emb))
     return emb, preds, round((time.perf_counter() - start) * 1000)
 
 

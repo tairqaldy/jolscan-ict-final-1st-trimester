@@ -156,6 +156,14 @@ def test_match_requires_a_gallery(client):
 
 def test_health_and_predict_without_yolo_weights(monkeypatch):
     """The service imports and answers /health with no weights file; /predict then says 503."""
+    import sys
+    from types import SimpleNamespace
+
+    def missing_weights(_path):
+        raise FileNotFoundError("test weights missing")
+
+    # Never let a local Ultralytics installation attempt a weight download.
+    monkeypatch.setitem(sys.modules, "ultralytics", SimpleNamespace(YOLO=missing_weights))
     monkeypatch.setattr(main, "WEIGHTS", "weights/does-not-exist.pt")
     monkeypatch.setattr(main, "_yolo", None)
     monkeypatch.setattr(restroom, "_backend", None)
