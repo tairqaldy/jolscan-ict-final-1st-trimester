@@ -15,24 +15,24 @@ One row per number on the deck, written by `docs/deck/make_deck.py`, which reads
 | Slide | Number as shown | File | Field / row | Value in file | Match |
 |---|---|---|---|---|---|
 | 4 | 25.7 | `ml/results/restroom/experiments.csv` | R1 row, latencyMs (zero-shot CLIP ViT-B/32, the model the API serves) | 25.7 | yes |
-| 5 | 9 | `ml/results/experiments.csv` | number of rows (runs E0–E8) | 9 | yes |
+| 5 | 7 | `ml/results/experiments.csv` | rows whose `changed` is one change: E1, E2, E3, E4, E5, E6, E7 | 7 | yes |
 | 5 | 665 | `data/exports/potholes_yolo_v1/split_manifest.json` | image_counts, sum of train + val + test | 665 | yes |
 | 5 | 1,739 | `data/exports/potholes_yolo_v1/split_manifest.json` | object_counts, sum of train + val + test | 1739 | yes |
 | 5 | 1 | `data/exports/potholes_yolo_v1/data.yaml` | names (one entry: pothole) | 1 | yes |
 | 5 | 465 | `data/exports/potholes_yolo_v1/split_manifest.json` | image_counts.train | 465 | yes |
 | 5 | 100 | `data/exports/potholes_yolo_v1/split_manifest.json` | image_counts.val | 100 | yes |
 | 5 | 100 | `data/exports/potholes_yolo_v1/split_manifest.json` | image_counts.test | 100 | yes |
-| 5 | 1,198 | `data/exports/potholes_yolo_v1/split_manifest.json` | object_counts.train | 1198 | yes |
-| 5 | 305 | `data/exports/potholes_yolo_v1/split_manifest.json` | object_counts.val | 305 | yes |
-| 5 | 236 | `data/exports/potholes_yolo_v1/split_manifest.json` | object_counts.test | 236 | yes |
 | 5 | 42 | `data/exports/potholes_yolo_v1/split_manifest.json` | seed | 42 | yes |
 | 5 | 40 | `ml/results/runs/E0.json` | params.epochs | 40 | yes |
 | 5 | 640 | `ml/results/runs/E0.json` | params.imgsz | 640 | yes |
-| 5 | 16 | `ml/results/runs/E0.json` | params.batch | 16 | yes |
 | 5 | 42 | `ml/results/runs/E0.json` | params.seed | 42 | yes |
-| 5 | 0.01 | `ml/results/runs/E0.json` | params.lr0 | 0.01 | yes |
 | 5 | 0.01 | `ml/export_results.py` | TIE (selection rule) | 0.01 | yes |
 | 5 | 0.40 | `ml/results/operating_point.json` | conf | 0.4 | yes |
+| 5 | 1,198 | `data/exports/potholes_yolo_v1/split_manifest.json` | object_counts.train | 1198 | yes |
+| 5 | 305 | `data/exports/potholes_yolo_v1/split_manifest.json` | object_counts.val | 305 | yes |
+| 5 | 236 | `data/exports/potholes_yolo_v1/split_manifest.json` | object_counts.test | 236 | yes |
+| 5 | 16 | `ml/results/runs/E0.json` | params.batch | 16 | yes |
+| 5 | 0.01 | `ml/results/runs/E0.json` | params.lr0 | 0.01 | yes |
 | 6 | 176 | `ml/results/operating_point.json` | tp | 176 | yes |
 | 6 | 236 | `ml/results/operating_point.json` | testBoxes | 236 | yes |
 | 6 | 0.8235 | `ml/results/experiments.csv` | E0 row, valMap50 | 0.8235 | yes |
@@ -60,37 +60,28 @@ One row per number on the deck, written by `docs/deck/make_deck.py`, which reads
 | 6 | 0.40 | `ml/results/operating_point.json` | conf | 0.4 | yes |
 | 6 | 0.016 | `ml/results/experiments.csv` | E4 map50 − E1 map50 = 0.8313 − 0.8155 | 0.0158 | yes |
 | 6 | 0.02 | `docs/ML-EXPERIMENT.md` | 'Selection rule': differences below 0.02 on test are not claimed | 0.02 | yes |
-| 6 | 1,198 | `ml/results/pothole_area_clusters.json` | boxes | 1198 | yes |
-| 6 | 1.15 | `ml/results/pothole_area_clusters.json` | area_thresholds[0] × 100 (% of image) | 1.1479263698068862 | yes |
-| 6 | 7.27 | `ml/results/pothole_area_clusters.json` | area_thresholds[1] × 100 (% of image) | 7.269630165893015 | yes |
-| 6 | 1.5 | `web/lib/rules/config.ts` | DEFAULT_RULES.r3.multiplier | 1.5 | yes |
-| 6 | 1.5 | `web/lib/rules/config.ts` | DEFAULT_RULES.r5.highway | 1.5 | yes |
-| 6 | 4 | `web/lib/rules/config.ts` | DEFAULT_RULES.r2.large | 4.0 | yes |
-| 6 | 2 | `web/lib/rules/config.ts` | DEFAULT_RULES.r2.medium | 2.0 | yes |
-| 6 | 1 | `web/lib/rules/config.ts` | DEFAULT_RULES.r2.small | 1.0 | yes |
-| 6 | 3 | `web/lib/rules/config.ts` | DEFAULT_RULES.r4.minCount | 3.0 | yes |
-| 6 | 10 | `web/lib/rules/config.ts` | computed: 4 × 1.5 + 2 × 1.5 + 1 | 10.0 | yes |
-| 6 | 15 | `web/lib/rules/config.ts` | computed: (points + 0) × r5.highway | 15.0 | yes |
+| 6 | 15 | `web/lib/rules/config.ts` | worked example A, computed: (4 × 1.5 + 2 × 1.5 + 1) × r5.highway | 15.0 | yes |
 | 6 | 24 | `web/lib/rules/config.ts` | SEVERITY_BANDS.critical.slaHours | 24 | yes |
 | 6 | 0.828 | `ml/results/experiments.csv` | E4 row, valMap50 (highest) | 0.8276 | yes |
-| 6 | 5 | `ml/results/experiments.csv` | runs within 0.01 of the best valMap50: E0, E1, E4, E6, E8 | 5 | yes |
+| 6 | 4 | `ml/results/experiments.csv` | other runs within 0.01 of the best valMap50: E0, E1, E6, E8 | 4 | yes |
 | 6 | 0.738 | `ml/results/experiments.csv` | E1 row, valRecallAtRulesConf | 0.7377 | yes |
 | 6 | 0.01 | `ml/export_results.py` | TIE (selection rule) | 0.01 | yes |
 | 7 | 82 | `data/README.md` | restroom card, 'Training set' (restrooms) | 82 | yes |
-| 7 | 4 | `data/README.md` | restroom card, 'Training set' (icons per restroom) | 4 | yes |
-| 7 | 328 | `data/README.md` | restroom card, 'Training set' (images) | 328 | yes |
 | 7 | 10 | `data/README.md` | restroom card, 'Validation set' (queries) | 10 | yes |
-| 7 | 20 | `data/README.md` | restroom card, 'Validation set' (gallery) | 20 | yes |
 | 7 | 30 | `data/README.md` | restroom card, 'Test set' (queries) | 30 | yes |
-| 7 | 60 | `data/README.md` | restroom card, 'Test set' (gallery) | 60 | yes |
-| 7 | 200 | `ml/results/restroom/pipeline.json` | protocol.train_episodes | 200 | yes |
+| 7 | 1 | `ml/results/restroom/experiments.csv` | R2 row, `changed` (blocks fine-tuned) | 1 | yes |
+| 7 | 3 | `ml/results/restroom/experiments.csv` | R3 row, `changed` (blocks fine-tuned) | 3 | yes |
+| 7 | 6 | `ml/results/restroom/experiments.csv` | R4 row, `changed` (blocks fine-tuned) | 6 | yes |
 | 7 | 0.95 | `ml/results/restroom/layer_probe.json` | results.clip[7, 8, 10].pair_top1 (highest) | 0.9512 | yes |
 | 7 | 0.78 | `ml/results/restroom/layer_probe.json` | results.clip.final.pair_top1 | 0.7805 | yes |
 | 7 | 0.77 | `ml/results/restroom/layer_probe.json` | results.clip.12.gender_acc_cv | 0.7683 | yes |
+| 7 | 200 | `ml/results/restroom/pipeline.json` | protocol.train_episodes | 200 | yes |
 | 8 | 10/10 | `ml/results/restroom/pipeline.json` | val.sift_combo_hungarian × 10 queries | 10/10 | yes |
 | 8 | 30/30 | `ml/results/restroom/pipeline.json` | test.sift_combo_hungarian × 30 queries | 30/30 | yes |
 | 8 | 23/30 | `ml/results/restroom/runs/R0.json` | metrics.test_correct | 23/30 | yes |
 | 8 | 27/30 | `ml/results/restroom/runs/R3.json` | metrics.test_correct | 27/30 | yes |
+| 8 | 30/30 | `ml/results/restroom/runs/R4.json` | metrics.test_correct | 30/30 | yes |
+| 8 | 30 | `ml/results/restroom/pipeline.json` | length of predictions.test.sift_combo_hungarian | 30 | yes |
 | 8 | 0.77 | `web/data/restroom-experiments.json` | reference.ioaiBaseline (IOAI published) | 0.77 | yes |
 | 8 | 0.90 | `web/data/restroom-experiments.json` | reference.ioaiBest (IOAI published) | 0.9 | yes |
 | 8 | 0.767 | `ml/results/restroom/experiments.csv` | R0 row, matchTop1Test | 0.7667 | yes |
@@ -99,16 +90,14 @@ One row per number on the deck, written by `docs/deck/make_deck.py`, which reads
 | 8 | 10/10 | `ml/results/restroom/runs/R3.json` | metrics.val_correct | 10/10 | yes |
 | 8 | 1.000 | `ml/results/restroom/experiments.csv` | R4 row, matchTop1Test | 1.0 | yes |
 | 8 | 10/10 | `ml/results/restroom/runs/R4.json` | metrics.val_correct | 10/10 | yes |
-| 8 | 30/30 | `ml/results/restroom/runs/R4.json` | metrics.test_correct | 30/30 | yes |
 | 8 | 1.000 | `ml/results/restroom/pipeline.json` | test.sift_combo_hungarian | 1.0 | yes |
 | 8 | 0.033 | `ml/results/restroom/pipeline.json` | computed: 1 / 30 test queries (length of predictions.test.sift_combo_hungarian) | 0.03333333333333333 | yes |
 | 8 | 0.756 | `ml/results/restroom/runs/R1.json` | gender.zero_shot_prompts.accuracy | 0.7561 | yes |
 | 8 | 0.741 | `ml/results/restroom/runs/R1.json` | gender.probe_lr.accuracy | 0.7409 | yes |
-| 8 | 328 | `ml/results/restroom/runs/R1.json` | sum of gender.zero_shot_prompts.confusion_matrix | 328 | yes |
 | 9 | 4.98 | `docs/DESIGN-BRIEF.md` | 'Contrast audit (G-3)', lowest light-theme text ratio (`subtle`) | 4.98 | yes |
 | 9 | 5.36 | `docs/DESIGN-BRIEF.md` | 'Contrast audit (G-3)', lowest dark-theme text ratio (`subtle`) | 5.36 | yes |
 | 9 | 4.5 | `docs/DESIGN-BRIEF.md` | U4 (WCAG text contrast target) | 4.5 | yes |
-| 10 | 50 | `docs/AI-USAGE-LOG.md` | number of '### ' entries under 'Entries' | 50 | yes |
+| 10 | 65 | `docs/AI-USAGE-LOG.md` | number of '### ' entries under 'Entries' at build time | 65 | yes |
 | 11 | 82 | `data/README.md` | restroom card, 'Training set' (restrooms) | 82 | yes |
 | B1 | 9 | `ml/results/experiments.csv` | number of rows (runs) | 9 | yes |
 | B1 | 0.8235 | `ml/results/experiments.csv` | E0 row, valMap50 | 0.8235 | yes |
@@ -184,18 +173,29 @@ One row per number on the deck, written by `docs/deck/make_deck.py`, which reads
 | B2 | 0.796 | `ml/results/operating_point.json` | f1 | 0.7964 | yes |
 | B2 | 0.40 | `ml/results/operating_point.json` | conf | 0.4 | yes |
 | B2 | 0.5 | `ml/results/operating_point.json` | iou | 0.5 | yes |
+| B2 | 0.8155 | `ml/results/experiments.csv` | E1 row, map50 (test) | 0.8155 | yes |
 | B4 | 3 | `ml/results/pothole_area_clusters.json` | k | 3 | yes |
-| B4 | 465 | `ml/results/pothole_area_clusters.json` | images | 465 | yes |
 | B4 | 1,198 | `ml/results/pothole_area_clusters.json` | boxes | 1198 | yes |
+| B4 | 1.15 | `ml/results/pothole_area_clusters.json` | area_thresholds[0] × 100 (% of image) | 1.1479263698068862 | yes |
+| B4 | 7.27 | `ml/results/pothole_area_clusters.json` | area_thresholds[1] × 100 (% of image) | 7.269630165893015 | yes |
 | B4 | 429 | `ml/results/pothole_area_clusters.json` | group_counts.small | 429 | yes |
 | B4 | 499 | `ml/results/pothole_area_clusters.json` | group_counts.medium | 499 | yes |
 | B4 | 270 | `ml/results/pothole_area_clusters.json` | group_counts.large | 270 | yes |
+| B4 | 1.5 | `web/lib/rules/config.ts` | DEFAULT_RULES.r3.multiplier | 1.5 | yes |
+| B4 | 1.5 | `web/lib/rules/config.ts` | DEFAULT_RULES.r5.highway | 1.5 | yes |
+| B4 | 4 | `web/lib/rules/config.ts` | DEFAULT_RULES.r2.large | 4.0 | yes |
+| B4 | 2 | `web/lib/rules/config.ts` | DEFAULT_RULES.r2.medium | 2.0 | yes |
+| B4 | 1 | `web/lib/rules/config.ts` | DEFAULT_RULES.r2.small | 1.0 | yes |
+| B4 | 3 | `web/lib/rules/config.ts` | DEFAULT_RULES.r4.minCount | 3.0 | yes |
+| B4 | 10 | `web/lib/rules/config.ts` | computed: 4 × 1.5 + 2 × 1.5 + 1 | 10.0 | yes |
+| B4 | 15 | `web/lib/rules/config.ts` | computed: (points + 0) × r5.highway | 15.0 | yes |
+| B4 | 24 | `web/lib/rules/config.ts` | SEVERITY_BANDS.critical.slaHours | 24 | yes |
 | B5 | 0.3 | `ml/results/restroom/pipeline.json` | histogram_weight | 0.3 | yes |
 | B5 | 0.7 | `ml/results/restroom/pipeline.json` | computed: 1 − histogram_weight | 0.7 | yes |
 | B5 | 0.960 | `ml/results/restroom/pipeline.json` | train_episodes.sift_combo_hungarian.top1.mean | 0.9597 | yes |
 | B5 | 0.041 | `ml/results/restroom/pipeline.json` | train_episodes.sift_combo_hungarian.top1.std | 0.0408 | yes |
-| 2 | (not shown) | | one sourced statistic on road damage, with unit, year, country and source (R-2, #84) | | gap |
-| 8 | (not shown) | | 95 % intervals for 30/30 and 27/30 and the paired test, ml/results/restroom/intervals.json (C-20, #201) | | gap |
-| 10 | (not shown) | | R-6 (#85) audit: count error of two vision-language models on screened test photos, docs/research/vlm-evaluation.md is not on main | | gap |
+| 2 | (not shown) | | one sourced statistic on road damage, with unit, year, country and source (R-2, #84, Roma) | | gap |
+| 8 | (not shown) | | 95 % intervals for 30/30 and 27/30 and the paired test, ml/results/restroom/intervals.json (C-20, #201, Nazar) | | gap |
+| 10 | (not shown) | | R-6 (#85) audit of two vision-language models: count error on screened test photos, docs/research/vlm-evaluation.md is not on main (R-6, #85, Roma) | | gap |
 
 <!-- generated by docs/deck/make_deck.py: end -->
