@@ -31,6 +31,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How it was verified:** Read slide 4 and its speaker notes from the PowerPoint and checked the deck source, API configuration and CSV. Alizhan supplied three audio recordings; their file durations were measured, but the spoken content was not independently checked.
 - **What was rejected or corrected:** Distinguished recorded file durations from verified spoken content, and R1's 25.7 ms from R3's 26.9 ms.
 
+### 11 November 2026, Alizhan (X-7, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Update contribution evidence and prepare outstanding individual speaking topics.
+- **Key prompt:** "x-7, d-29 r-21 выполни эти три таска". This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** Evidence-based contributions in Alizhan's row and proposed topics for Dameli and Roma.
+- **How it was verified:** Compared entries with merged PR metadata and the study cards. Participants have not yet personally confirmed these entries.
+- **What was rejected or corrected:** Did not invent contributions or claim that other people can explain material without their confirmation.
+
 ### 11 November 2026, Alizhan (S-28, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.

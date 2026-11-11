@@ -21,6 +21,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **AI use:** Codex desktop, GPT-6; personal review pending.
 - **Open questions / next:** Recheck deployment before the talk; the recording content was not independently transcribed.
 
+### 2026-11-11 · X-7 (#78) · Contribution log
+- **Status:** in progress; personal confirmation by team members remains.
+- **What I did:** Updated my contribution row using merged PRs and added proposed practice topics to Dameli's and Roma's rows from their study cards.
+- **Result:** The log links work to commits and PRs without claiming that anyone has personally reviewed or mastered the listed material.
+- **Decisions and why:** Only attributed verifiable work and explicitly marked proposed speaking topics for each person to confirm.
+- **What I learned / can explain at the defense:** A contribution log needs evidence for the work and honest individual preparation.
+- **AI use:** Codex desktop, GPT-6; personal review pending.
+- **Open questions / next:** Each participant checks their own row and topics; Tair confirms any remaining shared decisions.
+
 ### 2026-11-11 · S-28 (#222) · Validation-only promotion gate
 - **Status:** implemented; Amina's review pending.
 - **What I did:** Added a standard-library CLI that validates comparability and applies the existing champion selection rule using validation metrics only; described a future Level 1 pipeline without claiming it is automated.
