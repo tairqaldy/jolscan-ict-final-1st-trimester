@@ -128,7 +128,7 @@ export default function LandingPage() {
             </StaggerItem>
             <StaggerItem>
               <p className="inline-flex flex-wrap items-center gap-2 text-sm text-muted">
-                {COURSE.code} course prototype. Runs on demo data until the trained models are connected. <DemoBadge module="any" />
+                {COURSE.code} course prototype. Runs on demo data until the trained models are connected. <DemoBadge show />
               </p>
             </StaggerItem>
           </Stagger>

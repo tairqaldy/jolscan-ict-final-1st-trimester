@@ -7,7 +7,7 @@
  * `latencyMs`, no dataset block). This loader accepts both shapes and fills
  * anything missing with clearly labelled defaults, so the model page keeps
  * working whichever file is committed. Its `isMock` flag drives the
- * "Demo data" badges of the roads module.
+ * "Demo data" badges on the pothole results only (components/app/demo-badge.tsx).
  */
 import raw from "@/data/experiments.json";
 
@@ -90,7 +90,7 @@ function normalise(input: unknown): Experiments {
 
 export const EXPERIMENTS = normalise(raw);
 
-/** Drives the "Demo data" badges of the roads module (and the seeded demo analyses). */
+/** True while data/experiments.json is the placeholder. Drives the badges on the pothole results only. */
 export const IS_DEMO_DATA = EXPERIMENTS.isMock;
 
 const EMPTY_RUN: ExperimentRun = { id: "–", name: "none", changed: "No runs yet", precision: 0, recall: 0, map50: 0, map5095: 0, latencyMs: null, sizeMB: null };

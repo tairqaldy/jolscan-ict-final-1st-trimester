@@ -2,8 +2,9 @@
  * PLACEHOLDER VALUES. About 30 invented restroom sign checks so the restroom
  * overview, the platform overview and the analytics charts have something to
  * show before real comparisons are made. Places, dates, confidences and
- * similarities are generated; nothing here is a measurement. Replace (or
- * delete) once the model is connected.
+ * similarities are generated; nothing here is a measurement. They stay demo
+ * data: every page that shows them carries a "Demo data" badge with `show`
+ * (components/app/demo-badge.tsx).
  *
  * Deterministic: fixed seed and the same anchor date as the pothole demo set
  * (MOCK_ANCHOR, 10 Nov 2026), computed once at module load. Never

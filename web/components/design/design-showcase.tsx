@@ -193,7 +193,7 @@ export function ThemedShowcase() {
           <Badge tone="accent">Accent</Badge>
           <Badge tone="outline">Outline</Badge>
           <Badge tone="inverse">Inverse</Badge>
-          <DemoBadge />
+          <DemoBadge show />
         </div>
       </section>
 
