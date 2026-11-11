@@ -15,7 +15,7 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 ### 2026-11-11 17:19 · G-20 (#164), G-26 (#170), G-27 (#171) · Token rules, empty-state drawings, dark map
 - **Status:** done
 - **What I did:**
-  - G-20: wrote a "use for" and a "never" line for each of the 8 colour groups on `/design` and added a "Which colour token do I use?" table.
+  - G-20: wrote a "use for" and a "never" line for each of the 9 colour groups on `/design` (8, plus "Roads: needs review" from G-47 after the rebase) and added a "Which colour token do I use?" table.
   - G-26: drew four small empty-state drawings (empty road, two blank door signs, magnifier over an empty table, clipboard with a check) from tokens only. They are on `/design` and in 8 empty states.
   - G-27: darkened the map tiles in the dark theme, themed the popups and zoom buttons, and drew only the findings the list names.
 - **Result:** `web/components/design/design-showcase.tsx`, `web/components/illustrations/`, `web/lib/illustrations.test.ts`, `web/components/ui/empty-state.tsx` (optional `illustration`), `web/app/globals.css` (Leaflet block), `web/components/app/map-view.tsx`, `web/components/app/map-client.tsx`.
