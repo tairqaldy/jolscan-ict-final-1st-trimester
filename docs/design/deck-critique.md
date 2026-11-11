@@ -177,3 +177,35 @@ These have no single slide. The size and chart findings that repeat on many slid
 **Passes:** every path on the slide exists on `main` (`ml/results/experiments.csv`, `ml/results/restroom/experiments.csv`, `docs/AI-USAGE-LOG.md`, `docs/CONTRIBUTION-LOG.md`); "qarau.vercel.app (real model page; analyses there run on demo data)" and the real/demo line repeat slide 3 (R13); no number.
 
 - **12.1 · Nice-to-have · Size.** The labels are 17 pt, the links 15.5 pt and "Real: both analyze flows on this laptop and the model page. Demo data: the overview tiles and charts, marked with a badge." 15 pt. The slide stays up through the questions. **Fix:** links and labels at 18 to 20 pt.
+
+## B1 · Full pothole metrics table (Amina, on request)
+
+**Passes:** all 72 numbers match `ml/results/experiments.csv` (sizes rounded to one decimal, 5.44 → 5.4, 5.49 → 5.5); the note "Precision and recall at 0.40 here are Ultralytics' own pass (IoU 0.45). The operating point on slide 6 is ml/operating_point.py (IoU 0.5). Latency: not measured yet (S-15)." explains the one place two files disagree and does not invent a latency.
+
+- **B1.1 · Nice-to-have · Size.** Nine columns at 11.5 pt with a 10.5 pt header. **Fix:** drop the "What changes" column (slide 5 has it) and set the numbers at 14 pt.
+- **B1.2 · Nice-to-have · `SLIDES.md` wording.** `SLIDES.md` says "Every column of ml/results/experiments.csv except latency (empty) and device", but the table also leaves out `precision`, `recall` (Ultralytics' own threshold) and `datasetVersion`. **Fix:** in `make_deck.py`, "All 9 runs; the columns used in the talk".
+
+## B2 · Operating point (Amina, on request)
+
+**Passes:** 100, 236, 176, 30, 60, 0.854, 0.746 and 0.796 match `operating_point.json`; the caption says why the figures count differently.
+
+- **B2.1 · Nice-to-have · two answers on one slide.** The confusion matrix shows 178 / 34 / 58 next to the table's 176 / 30 / 60. The caption explains it, but a reader sees two sets of counts first. **Fix:** drop the confusion matrix (the table is the operating point) or give it its own backup.
+- **B2.2 · Nice-to-have · chart style and size.** Both figures are Ultralytics' default plots: pure blue `#0000ff` and the Blues colormap, titles "Precision-Recall Curve" and "Confusion Matrix" (CS1), no source line (CS7), Arial. Placed 4.56 in and 4.05 in wide, their labels land at about 5 pt and 3 pt. **Fix:** redraw the PR curve from the saved predictions with the chart-style block (M-13), or accept it as a backup that is zoomed when asked.
+
+## B3 · Training curves (Amina, on request)
+
+**Passes:** the claim on the slide ("In E5 the training loss keeps falling while the validation loss stays flat") can be seen in the plot; y axis from 0; train and validation are named in a legend.
+
+- **B3.1 · Nice-to-have · chart style.** The figure has panel labels but no takeaway title (CS1), draws validation in the old amber `#f2a900`, and has no source line (CS7). **Fix:** chart-style block, title "Without augmentation (E5), training loss keeps falling and validation does not", "Source: ml/results/runs/E0-, E2-, E5-results.csv".
+
+## B4 · k-means size bands (Amina, on request)
+
+**Passes:** k = 3, 465 photos, 1,198 boxes and 429 / 499 / 270 match `pothole_area_clusters.json`; "Bands are shares of the image, not physical size." states the limit.
+
+- **B4.1 · Nice-to-have · default chart.** `pothole_area_clusters.png` is matplotlib's default style (`#1f77b4`, a box on all four sides, centred title): the one chart in the deck that looks unchosen. Its cut lines are labelled "0.01148" and "0.07270" while slides 6 and B4 say 1.15 % and 7.27 %, and the bars are not split by group although the text gives the group counts. The script that drew it is not in the repository (D-29). **Fix:** redraw with the chart-style block, label the cuts "1.15 %" and "7.27 %", colour the three groups, add "Source: ml/results/pothole_area_clusters.json".
+
+## B5 · Restroom approaches (Nazar, on request)
+
+**Passes:** 0.3, 0.7, 0.960 and 0.041 match `pipeline.json` (`histogram_weight`, `train_episodes.sift_combo_hungarian.top1`); error bars are ±1 standard deviation and say so; the footnote states how the champion was chosen.
+
+- **B5.1 · Nice-to-have · chart style.** The champion bar is dark blue `#2a78d6` and the others light blue, instead of `#b87f00` on the champion and `--chart-1` for the rest (CS3); the footnote names no file (CS7). **Fix:** chart-style block and "Source: ml/results/restroom/pipeline.json".
