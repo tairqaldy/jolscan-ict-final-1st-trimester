@@ -44,7 +44,7 @@ export function PrintRuleTable({
   note?: string;
 }) {
   return (
-    <section className="hidden rounded-lg border border-border print:block">
+    <section className="hidden overflow-hidden rounded-lg border border-border print:block">
       <h2 className="px-5 pt-3 text-base font-semibold">{title}</h2>
       {rows.length === 0 ? (
         <p className="px-5 pt-1 pb-3 text-sm text-muted">{empty}</p>
@@ -110,7 +110,12 @@ export function PrintFooter({ demoNote }: { demoNote?: string }) {
   return (
     <p className="hidden border-t border-border pt-2 text-xs text-muted print:block">
       Printed {formatDate(at)} from {url}
-      {demoNote && <strong className="font-semibold text-fg"> · {demoNote}</strong>}
+      {demoNote && (
+        <>
+          {" · "}
+          <strong className="font-semibold text-fg">{demoNote}</strong>
+        </>
+      )}
     </p>
   );
 }
