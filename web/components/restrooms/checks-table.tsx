@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { PROVIDER_META } from "@/components/app/provider-badge";
 import { isSeededDemo } from "@/lib/mock/seeded";
+import { RowThumb } from "@/components/ui/row-thumb";
 import { Table, TD, TH, THead, TR } from "@/components/ui/table";
 import { formatDateTime } from "@/lib/format";
 import type { CheckWithSource } from "@/lib/store/restroom-history";
@@ -40,14 +41,8 @@ export function ChecksTable({ checks, caption }: { checks: CheckWithSource[]; ca
             </TD>
             <TD>
               <span className="flex gap-1">
-                {[c.inputs.a, c.inputs.b].map((i, k) =>
-                  i.imageUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img key={k} src={i.imageUrl} alt="" className="h-9 w-7.5 rounded-xs bg-surface-2 object-contain" loading="lazy" />
-                  ) : (
-                    <span key={k} className="h-9 w-7.5 rounded-xs bg-surface-2" />
-                  ),
-                )}
+                <RowThumb ratio="sign" src={c.inputs.a.imageUrl} alt={`Sign a: ${signTitle(c.inputs.a, "uploaded sign")}`} />
+                <RowThumb ratio="sign" src={c.inputs.b.imageUrl} alt={`Sign b: ${signTitle(c.inputs.b, "uploaded sign")}`} />
               </span>
             </TD>
             <TD>
