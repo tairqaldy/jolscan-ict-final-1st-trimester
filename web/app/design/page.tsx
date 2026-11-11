@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { TokenReference, ThemedShowcase } from "@/components/design/design-showcase";
 import { SiteFooter } from "@/components/landing/site-footer";
 import { SiteHeader } from "@/components/landing/site-header";
@@ -21,7 +22,12 @@ export default function DesignPage() {
         <p className="mt-3 max-w-2xl text-lg text-muted">
           Qarau&apos;s shared colours, typography and controls, shown in each theme. To refine the system, edit{" "}
           <code className="font-mono text-base">app/tokens.css</code> (and the fonts in{" "}
-          <code className="font-mono text-base">app/layout.tsx</code>); components use tokens only.
+          <code className="font-mono text-base">app/layout.tsx</code>); components use tokens only. To compare token
+          variants side by side, open the{" "}
+          <Link href="/design/lab" className="text-accent-ink underline underline-offset-4">
+            design lab
+          </Link>
+          .
         </p>
 
         <div className="mt-12">
