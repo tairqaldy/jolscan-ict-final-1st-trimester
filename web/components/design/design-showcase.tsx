@@ -183,7 +183,7 @@ export function TokenReference() {
             </div>
             <h3 className="text-lg font-semibold">Motion</h3>
             <p className="text-sm text-muted">
-              <span className="font-mono">--duration-fast 120ms · base 200ms · slow 420ms · draw 700ms</span>. Easing{" "}
+              <span className="font-mono">--duration-fast 120ms · ui 160ms · base 200ms · slow 420ms · draw 300ms · --stagger-step 45ms</span>; a staged reveal ends within 600ms. Easing{" "}
               <span className="font-mono">--ease-standard</span>, <span className="font-mono">--ease-emphasized</span>. All
               animation stops under prefers-reduced-motion.
             </p>

@@ -207,12 +207,17 @@ export function AnalyzeClient() {
                   exit={{ opacity: 0 }}
                 >
                   {!reduce && (
+                    // The scan line sits at the top of a photo-sized layer that moves by
+                    // transform (100 % of its own height = the photo), not by `top`, so the
+                    // sweep looks the same and causes no layout work (motion grill).
                     <motion.div
-                      className="absolute inset-x-0 h-1 bg-accent shadow-lg"
-                      initial={{ top: "0%" }}
-                      animate={{ top: ["0%", "100%", "0%"] }}
+                      className="absolute inset-0"
+                      initial={{ y: "0%" }}
+                      animate={{ y: ["0%", "100%", "0%"] }}
                       transition={{ duration: timing.scanSweep, repeat: Infinity, ease: "easeInOut" }}
-                    />
+                    >
+                      <div className="h-1 bg-accent shadow-lg" />
+                    </motion.div>
                   )}
                 </motion.div>
               )}

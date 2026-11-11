@@ -12,6 +12,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 · S-26 (#220) · Slide-number source inventory
+- **Status:** in progress; Roma's use in R-15 and final deck comparison remain to be confirmed.
+- **What I did:** Added a standard-library command that reads road and restroom result files, writes a source-labelled inventory, and marks missing or mock values unavailable; added a no-write CI mode and tests.
+- **Result:** `ml/results/SLIDE-NUMBERS.md` lists currently available model results and sources. Missing latency and interval files are explicit, not estimated.
+- **Decisions and why:** Kept the inventory separate from the actual deck audit and included the generation time and Git HEAD; the list alone does not prove every slide number is current.
+- **What I learned / can explain at the defense:** Trace experiment figures to committed files and regenerate the inventory when results change.
+- **AI use:** Codex desktop, GPT-6; personal review pending.
+- **Open questions / next:** Roma checks the final deck against the page; regenerate after results change and review the feature-freeze policy before merging.
+
 ### 2026-11-11 · R-21 (#230) · Architecture slide practice
 - **Status:** done; three recorded attempts are within the duration target and Alizhan confirmed the required handover.
 - **What I did:** Checked slide 4 and its speaker notes in the current PowerPoint against the deck source, API routes and the restroom latency CSV; prepared `docs/R21-ALIZHAN-PRACTICE.md`.
@@ -20,6 +29,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **What I learned / can explain at the defense:** Trace the image through browser, Next.js, provider, FastAPI, returned JSON and web rules.
 - **AI use:** Codex desktop, GPT-6; personal review pending.
 - **Open questions / next:** Recheck deployment before the talk; the recording content was not independently transcribed.
+
+### 2026-11-11 · M-2 (#51) · Full-run handoff
+- **Status:** in progress; actual shared Drive access and Colab handoff remain unverified.
+- **What I did:** Added an opt-in final Colab cell for copying a full run's best weights to a shared folder and downloading its result JSON and CSV; documented the laptop-to-PR handoff.
+- **Result:** Local temporary-file simulation passed, including normal copy/download, skipping the smoke default, rejecting smoke metadata and refusing to overwrite existing weights. No actual weights or dataset were used.
+- **Decisions and why:** The notebook runs an M-1 smoke test by default; full-run copying must be explicitly configured and checked so smoke weights cannot be mistaken for a trained model.
+- **What I learned / can explain at the defense:** Keep model weights outside Git and preserve the actual per-run results and curves alongside the source code.
+- **AI use:** Codex desktop, GPT-6; personal review pending.
+- **Open questions / next:** Verify the shared folder exists and all runners can edit it, then run the handoff for an actual full run in Colab.
 
 ### 2026-11-11 · S-28 (#222) · Validation-only promotion gate
 - **Status:** implemented; Amina's review pending.

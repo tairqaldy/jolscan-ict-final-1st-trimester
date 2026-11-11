@@ -193,13 +193,20 @@ export function CompareClient() {
           <h2 id="result-h" className="text-2xl font-bold">
             Result
           </h2>
-          {status.state === "done" && (
+          {status.state === "done" ? (
             <p className="text-sm text-muted">
               <CircleCheck className="saved-tick mr-1.5 inline size-4 align-middle text-accent-ink" aria-hidden />
               Saved to this browser.{" "}
               <Link href={`/app/restrooms/checks/${status.check.id}`} className="font-medium text-accent-ink underline underline-offset-2">
                 Open as a page
               </Link>
+            </p>
+          ) : (
+            // Holds the line's place, so on a phone (where it wraps under the
+            // heading) the result does not jump down when it appears (motion grill).
+            <p className="invisible text-sm" aria-hidden>
+              <span className="mr-1.5 inline-block size-4 align-middle" />
+              Saved to this browser. Open as a page
             </p>
           )}
         </div>

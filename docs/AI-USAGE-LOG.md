@@ -22,6 +22,19 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Amina (R-22 and R-23, presentation drafts)
+
+- **Review correction:** User asked to distinguish the project's 0.02 reporting convention from statistical equivalence/significance and dataset-level licence metadata from unresolved individual-photo rights. Verified protocol history (`6bc6c07`), `docs/ML-EXPERIMENT.md`, the source index and `data/README.md`; revised the spoken scripts and notes accordingly. Personal rehearsal and live Rules-page checks remain pending.
+
+- **Tool and version:** Codex, GPT-6 family.
+- **Purpose:** Prepare Amina's existing Roads slides as GitHub documents, preserving correct attribution and numerical evidence.
+- **Key prompt:** "Update only Slides 5 and 6 in docs/deck/SLIDES.md." "Clearly distinguish my dataset, clustering, selection-policy and smoke work from Tair's full E0-E8 training." "Do not claim a timed rehearsal occurred." Full transcript archival remains outstanding under X-13.
+- **What it produced or changed:** Separate Slide 5 and Slide 6 commits plus supporting worklog/AI notes. Assigned the available issues to omodotori and pushed the claim-only main commit before preparing the slides.
+- **How verified:** Successfully fetched and fast-forwarded main; compared all numerical claims with the manifest, run JSONs/CSV, operating-point JSON, clustering JSON, rule configuration and unchanged deck-source index. Verified other slide sections are unchanged, script word counts 127/90, repository-result/hygiene checks and five checker tests passed; git diff --check passed.
+- **What rejected or corrected:** Removed misleading single-test-read wording; retained prior review overlap and multiple evaluation-pass limitations. No attribution of Tair's full training to Amina, invented uncertainty/latency, course-page verification or rehearsal evidence. No QA, application code, generated results, generator/PPTX, unrelated slides or Alizhan's source-audit file were changed. Manual edits to the generated Markdown are explicitly requested scope and need separate coordination before future regeneration.
+
+
+
 ### 11 November 2026, Amina (M-37)
 
 - **Tool and version:** Codex, GPT-6 family.
@@ -31,7 +44,14 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How verified:** Read current issue and CONTRIBUTING.md after successful fetch/ff-only pull. Checked all 665 manifest entries: train/val/test 465/100/100, zero empty photos; R1 gender row sums 164/164. Repository result/hygiene checks and five existing checker tests passed; git diff --check passed.
 - **What rejected or corrected:** Distinguished presence answers from localized detections and undefined background counting; no invented negative examples, course-page verification, teammate rehearsal, training or attribution of Tair's results to Amina. E1 preparation remains on its existing separate branch.
 
+### 11 November 2026, Alizhan (S-26, AI-assisted; personal review pending)
 
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Prepare a reproducible inventory of experiment numbers and their source fields.
+- **Key prompt:** "начни выполнять таски, которые не связаны с дизайном и которые ты можешь выполнить сейчас". This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** Standard-library inventory generator, generated page, CI check, synthetic tests and documentation.
+- **How it was verified:** Tests exercise actual source reading, missing and corrupt data, mock placeholders and the no-write mode; the command was run against the current results. Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** Kept unavailable results explicitly missing and did not claim the inventory by itself verifies every number in the final deck.
 
 ### 11 November 2026, Alizhan (R-21, AI-assisted; personal review pending)
 
@@ -41,6 +61,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** A rehearsal sheet explaining the diagram, script, time estimate and source of the slide's latency.
 - **How it was verified:** Read slide 4 and its speaker notes from the PowerPoint and checked the deck source, API configuration and CSV. Alizhan supplied three audio recordings; their file durations were measured, but the spoken content was not independently checked.
 - **What was rejected or corrected:** Distinguished recorded file durations from verified spoken content, and R1's 25.7 ms from R3's 26.9 ms.
+
+### 11 November 2026, Alizhan (M-2, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Prepare the full-training artifact handoff in the existing smoke-test notebook.
+- **Key prompt:** "выполняй вот эти таски, которые являются bare minimum ... смотри по таскам, которые ты можешь выполнить по возможности и отметь их галочкой". This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** Opt-in Colab handoff cell and after-run instructions.
+- **How it was verified:** Simulated full-run artifact copy and downloads with temporary files and a fake Colab interface; verified the default skip, smoke rejection and overwrite protection. No live Colab or shared Drive access was verified; Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** Kept M-2 open until actual shared folder access and a full-run handoff are checked; did not label smoke weights as a trained model.
 
 ### 11 November 2026, Alizhan (S-28, AI-assisted; personal review pending)
 
@@ -1048,3 +1077,19 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - Before the change, on Local with the model service running: `img-300.jpg` gave 4 potholes, Critical, score 17 with `jolscan-e1` (117 ms); two IOAI crops on Compare gave Clear with `clip-vitb32-zs` (101 ms). Both pages first showed "Mock provider" and an empty Road class until the page loaded.
   - `pnpm typecheck` and eslint on the four files pass; the CI checks on the pull request; the flow again after merging.
 - **What I rejected or corrected:** rendering the provider from a server cookie (a bigger change the night before the defense); hiding the whole card instead of only the line (the layout would jump).
+
+### 11 November 2026, Dameli (G-73, G-74, G-75, G-9 motion grill)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment for the checks.
+- **Purpose:** fix the motion rule breaks listed in `docs/design/motion.md`, then review the whole app twice as a strict reviewer and fix what was safe.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков", and "iterate and grill a couple of times". Transcript kept locally.
+- **What it produced or changed:** `staggerDelay()` and the 45 ms stagger in `web/lib/motion.ts` and `web/app/tokens.css`; `.stagger`, `.jelly-nav__link` and the landing car in `web/app/globals.css`; `distribution-bars.tsx`, `detection-overlay.tsx` (`boxTiming()`), `analyze-client.tsx` (scan line), `compare-client.tsx` (saved line), `page-header.tsx` (eyebrow dot), two landing cards and the `/design` motion line; tests in `motion.test.ts`, `detection-overlay.test.ts` and a new `page-header.test.ts`; the fixed list and "Known gaps (11 Nov)" in `docs/design/motion.md`; one row in `docs/DESIGN-BRIEF.md`.
+- **How I verified it, and who verified it:**
+  - Playwright on my own dev server: 10 pages at 1440 and 375 px, light, dark and high contrast, Reduce motion off and on, twice (before and after the round 1 fixes): animation timings, declared transitions, layout shifts, clipped text, focus after Tab, console errors, honesty badges, and the G-65 check at 320 px.
+  - Header links: the other links' positions are identical while each one is hovered. Eyebrow: the glyph was measured with canvas `measureText` (advance 0, ink 0.04 to 0.20 em).
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` and `pnpm build` pass.
+- **What I rejected or corrected:**
+  - Changing the bottom bar items for `/app/roads`: that is navigation structure (Tair), written up instead.
+  - Removing the hover lift on the team cards: a teammate's design; only `transition: all` was replaced.
+  - The first probe waited for text that was already on the page before the result, so its "moved under Reduce motion" hits were the loading state; the wait was fixed for round 2.
+  - The dev server kept serving the old landing car CSS until `.next/dev` was deleted.

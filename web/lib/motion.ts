@@ -3,7 +3,8 @@
  * app/tokens.css (--duration-*, --ease-*). Keep the two in sync when re-skinning.
  * Seconds, because that is what motion expects.
  */
-export const duration = { fast: 0.12, base: 0.2, slow: 0.42, draw: 0.7 } as const;
+/** draw: one detection box outline drawing in, and the landing similarity bar (DESIGN-BRIEF.md, Motion). */
+export const duration = { fast: 0.12, base: 0.2, slow: 0.42, draw: 0.3 } as const;
 
 export const ease = {
   standard: [0.2, 0, 0, 1],
@@ -11,8 +12,11 @@ export const ease = {
   exit: [0.4, 0, 1, 1],
 } as const satisfies Record<string, [number, number, number, number]>;
 
-/** Delay between items in a staggered list. */
-export const stagger = 0.06;
+/**
+ * Delay between items in a staggered list (tokens.css --stagger-step). Short
+ * enough that a list ends within reveal.budget: see staggerDelay.
+ */
+export const stagger = 0.045;
 
 /**
  * Single-purpose timings (seconds), named so that no animation in
@@ -33,8 +37,12 @@ export const demo = {
   heroReplay: 7,
   /** The sign demo moves to the next example pair this often. */
   pairCycle: 5,
-  /** The result line (priority or verdict) appears once the drawing is done. */
-  resultDelay: 1.4,
+  /**
+   * The result line (priority or verdict) appears once the drawing is done:
+   * the road boxes are in by 0.6 s, the similarity bar by
+   * similarityDelay + duration.draw = 1.0 s.
+   */
+  resultDelay: 1.0,
   /** The first door's gender tag appears; the second one follows a step later. */
   tagDelay: 0.35,
   tagStep: 0.15,
@@ -57,3 +65,12 @@ export const reveal = {
   lastStart: 0.36,
   budget: 0.6,
 } as const;
+
+/**
+ * Start of item i in a staggered entry whose items each take itemDuration
+ * seconds: one stagger step per item, capped so the last item still ends
+ * within reveal.budget (600 ms). Items past the cap start together.
+ */
+export function staggerDelay(i: number, itemDuration: number): number {
+  return Math.min(i * stagger, Math.max(0, reveal.budget - itemDuration));
+}

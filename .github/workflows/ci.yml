@@ -39,12 +39,14 @@ jobs:
         run: python -m compileall -q ml api
       - name: Results files and repository hygiene
         run: python ml/check_results.py
+      - name: Inspect slide number sources
+        run: python ml/slide_numbers.py --check
       - name: Test results checks
         run: python -m unittest discover -s ml -p test_check_results.py
       - name: Install lightweight API test dependencies
         run: python -m pip install fastapi==0.162.3 python-multipart==0.0.33 pillow==12.3.0 numpy==2.5.4 pytest==9.2.0 httpx==0.28.1 opencv-python-headless==5.0.0.93
       - name: Run API and export tests without model weights
-        run: python -m pytest api/ ml/test_export_results.py ml/test_promote.py -q
+        run: python -m pytest api/ ml/test_export_results.py ml/test_promote.py ml/test_slide_numbers.py -q
 
   # Team rule (CONTRIBUTING.md): rebase on the latest main before merging, so nobody's work is
   # overwritten. Making this a required check would also reject the claim commits that go straight to

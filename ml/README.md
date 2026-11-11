@@ -2,6 +2,10 @@
 
 Training and evaluation for the experiment in [docs/ML-EXPERIMENT.md](../docs/ML-EXPERIMENT.md).
 
+## Source inventory for slides (S-26)
+
+`python ml/slide_numbers.py` writes `ml/results/SLIDE-NUMBERS.md` from the currently available committed results. `python ml/slide_numbers.py --check` prints the inventory without writing. Missing files and values are marked `not available yet`, and mock or placeholder runs are not presented as real measurements. Each row names its source. Re-run after every export and compare with the actual final deck; the inventory is not proof that every number on every slide has been audited.
+
 ## M-1 one-epoch smoke test
 
 Open [colab_runner.ipynb](colab_runner.ipynb) in Colab and run its cells from top to bottom with a GPU runtime. It checks out the pinned M-1 trainer commit, installs `ml/requirements.txt`, finds the already-uploaded `potholes_yolo_v1.zip` in mounted Drive, and verifies the archive manifest before running:
@@ -19,6 +23,12 @@ The CSV records the training epoch and the validation pass performed during trai
 The notebook downloads a ZIP containing only the actual JSON and CSV for collection. Review those files before committing them. Never commit the dataset ZIP, model weights, tokens, or temporary Colab files.
 
 ## Full experiments
+
+### After every full run (M-2)
+
+In Colab, the final cell of `colab_runner.ipynb` is opt-in: set `RUN_TO_SAVE` (for example `E1`) and `SHARED_WEIGHTS_DIR` to the existing team Drive `weights/` folder after completing that full run in the checked-out `REPO`. It requires that run's JSON, training CSV and `runs/<run>/weights/best.pt`; it rejects smoke results and refuses to overwrite an existing Drive file. It copies the best weights as `jolscan-<run>.pt` and downloads the JSON and CSV. The notebook's default M-1 run is only a smoke test, so the handoff is skipped until explicitly configured for a full run. Check the shared folder is mounted and writable by every runner; this has not been verified from the local test.
+
+On your laptop, review the downloaded files, place `<run>.json` and `<run>-results.csv` under `ml/results/runs/`, create a branch such as `model/<task>-<run>` and open one PR per run. Rebase on current main, run the required checks, and merge only after review and green checks. Never commit weights or the dataset.
 
 Do not run full E0 as part of M-1. After the smoke path passes and the team authorizes the experiment, full runs use the same frozen split, seed and budget documented in [docs/ML-EXPERIMENT.md](../docs/ML-EXPERIMENT.md). For example:
 

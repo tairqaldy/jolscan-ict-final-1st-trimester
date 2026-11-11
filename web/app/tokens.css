@@ -427,7 +427,9 @@
   --duration-ui: 160ms;
   --duration-base: 200ms;
   --duration-slow: 420ms;
-  --duration-draw: 700ms;
+  --duration-draw: 300ms;
+  /* Delay between items of a staggered entry (lib/motion.ts stagger). */
+  --stagger-step: 45ms;
 
   /* Layout */
   --sidebar-width: 15.5rem;

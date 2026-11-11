@@ -236,7 +236,7 @@ Each page needs four states: loading, empty, error, and filled.
 | Where | What | Duration |
 |---|---|---|
 | Landing sections | Fade and rise on entry, staggered | 400–600 ms |
-| Detection demo and result | Boxes draw in one by one, then labels | 300 ms each |
+| Detection demo and result | Boxes draw in one by one, then labels; the last label is in by 600 ms (`boxTiming` in `detection-overlay.tsx`) | 300 ms each (`--duration-draw`) |
 | KPI tiles | Numbers count up once | 800 ms |
 | Page changes | Short cross-fade | 150–200 ms |
 | Hover and press | Small scale or tint | 100–150 ms |

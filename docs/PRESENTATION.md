@@ -144,7 +144,7 @@ Next.js route handlers on the server: /api/analyze, /api/restroom, /api/health
    ├─ local : FastAPI on localhost:8000 (/predict = YOLO, the champion E1; /restroom/* = CLIP), photos stay on the laptop
    └─ cloud : the same API hosted (CLOUD_MODEL_API_URL), opt-in because photos leave the device
    ▼
-Rules in the web server: web/lib/rules (roads, R1–R6) and web/lib/signage (restrooms, S1–S3)
+Rules in the web server: web/lib/rules (roads, R1–R6) and web/lib/signage (restrooms, S2–S3; S1 retired on 11 Nov)
    ▼
 JSON result back to the page: boxes or genders, score or verdict, which rules fired
 ```
