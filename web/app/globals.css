@@ -390,3 +390,55 @@ html[data-motion="reduce"] .demo-loop-control {
     outline-width: 3px;
   }
 }
+
+/*
+ * G-60: How it works (app/page.tsx, <ol class="how-steps">). A 2 px accent line
+ * on top of each step fills in step order (photo, model, rules, action) as the
+ * list scrolls into view, so the order of the pipeline is read once. CSS only,
+ * tied to scrolling: it never plays on its own and never loops. Without scroll
+ * timelines (Firefox) or with reduced motion the line is simply drawn.
+ * Easing is the motion token --ease-standard (lib/motion.ts ease.standard);
+ * there is no duration, the scroll position sets the progress.
+ * Ranges: one column below md; two columns from md; one row from xl.
+ * Reduced motion: both the OS setting and the Settings switch (G-64) remove it.
+ */
+.how-steps > li::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  inset-inline: calc(var(--spacing) * 6);
+  height: 2px;
+  background: var(--accent);
+  transform-origin: left center;
+  pointer-events: none;
+}
+@keyframes how-step-line {
+  from {
+    transform: scaleX(0);
+  }
+}
+@supports (animation-timeline: view()) {
+  .how-steps > li::before {
+    animation: how-step-line var(--ease-standard, cubic-bezier(0.2, 0, 0, 1)) both;
+    animation-timeline: view();
+    animation-range: cover 25% cover 42%;
+  }
+  @media (min-width: 48rem) {
+    .how-steps > li:nth-child(odd)::before { animation-range: cover 24% cover 36%; }
+    .how-steps > li:nth-child(even)::before { animation-range: cover 32% cover 46%; }
+  }
+  @media (min-width: 80rem) {
+    .how-steps > li:nth-child(1)::before { animation-range: cover 26% cover 36%; }
+    .how-steps > li:nth-child(2)::before { animation-range: cover 31% cover 41%; }
+    .how-steps > li:nth-child(3)::before { animation-range: cover 36% cover 46%; }
+    .how-steps > li:nth-child(4)::before { animation-range: cover 41% cover 51%; }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .how-steps > li::before {
+    animation: none !important;
+  }
+}
+html[data-motion="reduce"] .how-steps > li::before {
+  animation: none !important;
+}
