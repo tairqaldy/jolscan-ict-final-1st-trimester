@@ -8,8 +8,8 @@ import { Button, ButtonLink } from "@/components/ui/button";
 import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Field } from "@/components/ui/input";
+import { SelectableTile } from "@/components/ui/selectable-tile";
 import { Skeleton } from "@/components/ui/skeleton";
-import { cn } from "@/lib/cn";
 import { RESTROOM_PRESETS, getRestroomSample } from "@/lib/mock/restroom-samples";
 import { addRestroomCheck } from "@/lib/store/restroom-history";
 import { settingsStore, signageRulesStore } from "@/lib/store/settings";
@@ -102,18 +102,14 @@ export function CompareClient() {
             const on = activePreset?.id === p.id;
             return (
               <li key={p.id}>
-                <button
-                  type="button"
-                  aria-pressed={on}
+                <SelectableTile
+                  selected={on}
                   onClick={() => {
                     setA({ kind: "sample", sample: pa });
                     setB({ kind: "sample", sample: pb });
                     setStatus({ state: "idle" });
                   }}
-                  className={cn(
-                    "flex h-full w-full items-center gap-3 rounded-md border-2 bg-surface p-2.5 text-left transition-colors",
-                    on ? "border-accent" : "border-border hover:border-border-strong",
-                  )}
+                  className="flex h-full w-full items-center gap-3 p-2.5 pr-9"
                 >
                   <span className="flex shrink-0 gap-1" aria-hidden>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -125,7 +121,7 @@ export function CompareClient() {
                     <span className="block text-sm leading-snug font-semibold">{p.title}</span>
                     <span className="block text-xs leading-snug text-muted">{p.note}</span>
                   </span>
-                </button>
+                </SelectableTile>
               </li>
             );
           })}
