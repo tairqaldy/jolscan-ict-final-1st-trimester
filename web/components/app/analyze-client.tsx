@@ -158,8 +158,8 @@ export function AnalyzeClient() {
 
   if (status.state === "done") {
     return (
-      // scroll-mt keeps a gap above the result (and clears the sticky top bar below lg).
-      <div ref={resultRef} tabIndex={-1} className="grid scroll-mt-32 gap-5 outline-none lg:scroll-mt-6">
+      // scroll-mt keeps a gap above the result; below lg the html scroll-padding in globals.css clears the sticky top bar.
+      <div ref={resultRef} tabIndex={-1} className="grid scroll-mt-4 gap-5 outline-none lg:scroll-mt-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="text-sm text-muted" aria-live="polite">
             Analysis saved to this browser.{" "}
