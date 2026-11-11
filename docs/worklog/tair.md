@@ -10,6 +10,16 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 ## Entries
 
+### 11 November 2026 · M-19 (#61) · Operating point of the champion at confidence 0.40
+
+- **Status:** done
+- **What I did:** wrote `ml/operating_point.py` from the issue's spec (predict at exactly 0.40, greedy matching at IoU 0.5, each labelled box matched once) with tests for the matching, and ran it once on the test split with the champion E1.
+- **Result:** 176 found, 30 false alarms, 60 missed of 236 labelled potholes: precision 0.854, recall 0.746, F1 0.796 (`ml/results/operating_point.json`, table in `docs/ML-EXPERIMENT.md`).
+- **Decisions and why:** run for E1, the model the app serves, not E8, because the selection rule chose E1. Ultralytics' own 0.40 pass gives 178 / 34 / 58; I report both and explain the difference (IoU 0.45, F1-best threshold) instead of picking the nicer one.
+- **What I learned / can explain at the defense:** precision = TP / (TP + FP), recall = TP / (TP + FN), and why a box needs IoU ≥ 0.5 and can match only once.
+- **AI use:** Claude Code (Claude Opus 5.5) wrote the script and tests and ran them; entry in docs/AI-USAGE-LOG.md.
+- **Open questions / next:** send the table to Roma for the results slide (R-23).
+
 ### 11 November 2026 · M-4, M-9, M-11, M-12, M-13 (#53, #66, #59, #60, #62) · All pothole runs E0–E8 and the final champion
 
 - **Status:** done. The Drive upload of `jolscan-e1.pt` and `jolscan-e8.pt` is still my step.

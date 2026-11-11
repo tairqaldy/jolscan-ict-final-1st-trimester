@@ -82,6 +82,14 @@ For each full experiment run, on the **test** split, read once at the end (Sup p
 
 - mAP50 (primary), mAP50-95, precision and recall. Protocol: Ultralytics validation, IoU 0.5 for mAP50. Summary precision and recall are taken at the confidence that maximises F1.
 - Precision and recall at confidence 0.40, the app's operating point, with the true-positive, false-positive and false-negative counts for the final model (task M-19).
+
+**Operating point (final model E1, test split, confidence 0.40, IoU 0.5):** from `ml/operating_point.py`, which predicts at exactly 0.40 and matches each labelled box at most once, most confident prediction first. Output: [`ml/results/operating_point.json`](../ml/results/operating_point.json), with counts per photo.
+
+| Model | Test photos | Labelled potholes | Found (TP) | False alarms (FP) | Missed (FN) | Precision | Recall | F1 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| E1 (`jolscan-e1`) | 100 | 236 | 176 | 30 | 60 | 0.854 | 0.746 | 0.796 |
+
+Of the potholes the app counts, 85 % are real; it counts 3 out of 4 real potholes. Ultralytics' own pass at 0.40 (`E1.json`, the confusion-matrix figure) reports 178 found, 34 false alarms and 58 missed. It matches at IoU 0.45 instead of 0.5, and its precision and recall come from the F1-best threshold above 0.40, so its counts differ slightly. This table is the one for the slides. It was measured once and nothing was tuned on it.
 - Weight file size in MB.
 - Latency, measured separately so that runs are comparable (task S-15): batch size 1, 100 test images, median and 95th percentile, all models in one Colab session, and the final model also on the presenting laptop's CPU (Lec9 p34 lists inference latency as a tracked metric).
 - Training curves for E0, E2 and E5 side by side: train loss against validation loss, to show overfitting or its absence (Sup p24).
