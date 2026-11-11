@@ -51,12 +51,14 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
     <div className="grid gap-6">
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
         <Card>
-          <CardBody className="grid gap-6">
+          {/* lg: tighter gaps and smaller signs (see SignColumn), so on a 1280×720 projector
+              both signs, the two bars and the verdict card fit on one screen (W-60). */}
+          <CardBody className="grid gap-6 lg:gap-4">
             <div className="grid grid-cols-2 gap-4 sm:gap-6">
               <SignColumn door="Door A" info={check.inputs.a} pMale={doors.pMaleA} reads={doorGender(doors, "a")} />
               <SignColumn door="Door B" info={check.inputs.b} pMale={doors.pMaleB} reads={doorGender(doors, "b")} />
             </div>
-            <div className="grid gap-2 border-t border-border pt-5">
+            <div className="grid gap-2 border-t border-border pt-5 lg:pt-4">
               <p className="inline-flex items-center gap-2 font-display text-lg font-semibold">
                 <ArrowLeftRight className="size-4.5 text-muted" aria-hidden /> How clearly do the two doors differ?
               </p>
@@ -72,7 +74,7 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
                 training restrooms this pairwise reading is right 90% of the time; classifying each sign on its own gets both right only 57%.
               </p>
             </div>
-            <div className="grid gap-2 border-t border-border pt-5">
+            <div className="grid gap-2 border-t border-border pt-5 lg:pt-4">
               <p className="inline-flex items-center gap-2 font-display text-lg font-semibold">
                 <ArrowLeftRight className="size-4.5 text-muted" aria-hidden /> How alike are the two designs?
               </p>
@@ -181,9 +183,11 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
 function SignColumn({ door, info, pMale, reads }: { door: string; info: SignInputInfo; pMale: number; reads: Gender }) {
   const title = signTitle(info, door);
   return (
-    <div className="grid content-start gap-3">
+    <div className="grid content-start gap-3 lg:gap-2">
       <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">{door}</p>
-      <SignImage src={info.imageUrl} alt={`${door}: ${title}`} />
+      {/* lg: the sign is 20% of the window height wide (144 px at 720 px high, 180 px at 900),
+          never wider than its column. Its height follows from the 5:6 shape. */}
+      <SignImage src={info.imageUrl} alt={`${door}: ${title}`} className="lg:mx-auto lg:w-[20vh] lg:max-w-full" />
       <p className="truncate text-sm font-medium" title={title}>
         {title}
       </p>

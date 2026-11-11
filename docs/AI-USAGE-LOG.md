@@ -223,3 +223,11 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How I verified it, and who verified it:** opened every figure; checked that the confusion matrix at 0.40 reproduces recall 0.678 and precision 0.874 from `E0.json`.
 - **What I rejected or corrected:** the first version used Ultralytics' default confusion matrix (confidence 0.001, 2,374 false alarms) and had a legend over a bar label; both were replaced.
 
+### 11 November 2026, Tair (W-60 projector fit)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with its built-in browser.
+- **Purpose:** make each demo result (Analyze, report, Compare) fit on one 1280×720 projector screen.
+- **Key prompt(s), with a link to the transcript:** "implement W-60 (#298): try A current, B smaller photo column, C collapsed meta block, compare them at 1280×720 and 1440×900 and pick one with a reason". Transcript kept locally.
+- **What it produced or changed:** the jump to the top of the result in `web/components/app/analyze-client.tsx` and `web/components/restrooms/compare-client.tsx`; smaller signs and tighter gaps on desktop in `web/components/restrooms/compare-result.tsx`; the variant comparison in the pull request.
+- **How I verified it, and who verified it:** the tool ran the dev server and measured element positions in the browser at 1280×720, 1440×900 and 375×812 with the Mock provider and bundled samples only (s01, s04, the s01 report, all four Compare presets), then ran `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` in `web/`. Tair still has to look at it on the projector laptop.
+- **What I rejected or corrected:** a 4:3 box for the signs (it cropped the 5:6 drawings); variant C (it hides the "Mock result" badge and does not shorten Compare); variant B on roads (smaller photo, same height); the first scroll margin on phones, which left the result under the 105 px sticky top bar.
