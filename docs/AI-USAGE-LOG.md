@@ -259,3 +259,12 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How I verified it, and who verified it:** opened every figure; checked that the confusion matrix at 0.40 reproduces recall 0.678 and precision 0.874 from `E0.json`.
 - **What I rejected or corrected:** the first version used Ultralytics' default confusion matrix (confidence 0.001, 2,374 false alarms) and had a legend over a bar label; both were replaced.
 
+### 11 November 2026, Tair (X-16 runbook and demo starter)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** make the real-model demo repeatable on the presenting laptop.
+- **Key prompt(s), with a link to the transcript:** "making non-demo working example". Transcript kept locally.
+- **What it produced or changed:** `docs/DEFENSE-RUNBOOK.md`, `scripts/demo-local.sh`, the checklist link in `docs/TASKS.md`.
+- **How I verified it, and who verified it:** ran the script on this laptop; `/health`, the warm-up and a real photo through the web app worked; the servers were stopped afterwards.
+- **What I rejected or corrected:** the first version checked only that `web/.next` exists, which a dev server also creates; it now checks for the production build's `BUILD_ID`.
+
