@@ -478,3 +478,27 @@ Three radii plus pills, all in `web/app/tokens.css`. Every `rounded-*` class and
 The small uppercase label above a heading or a value ("Repair priority", "Signage verdict", section labels on the landing page) is one utility, `eyebrow`, in `web/app/globals.css`: 12 px (`--text-xs`), weight 600, uppercase, letter spacing `--tracking-eyebrow` (0.14em, in `web/app/tokens.css`). Colour stays on the element: `text-muted` in the app, `text-accent-ink` for page and section headers, `text-subtle` in the sidebar.
 
 Before, 15 labels wrote the spacing by hand: 11 with 0.14em, 4 with 0.18em (landing hero, landing section headers, `/about`, `/design`). All now use 0.14em, the common value; the four headers are about half a pixel tighter per letter, the other eleven did not change by a pixel. `/design` shows the style in the type scale. Check: `grep -rn 'tracking-\[' web/app web/components` finds nothing.
+
+## Spacing rhythm (G-62)
+
+**Steps.** Spacing uses the 4 px base (`--spacing`): 4, 8, 12, 16, 24, 32, 48 px (`1, 2, 3, 4, 6, 8, 12`). Counted on 11 November in `web/app` and `web/components` (`p`, `px`, `py`, `gap`, `mt`, `mb`): 8 px 141 times, 12 px 128, 16 px 108, 24 px 38, 32 px 26. Half steps (2 and 6 px) stay for tight parts inside controls.
+
+**Card inset: one value per breakpoint.** Every card uses `p-(--card-pad)` (token in `web/app/tokens.css`, next to `--gutter`): **16 px below 640 px, 20 px from 640 px up.** `Card` (`CardHeader` and `CardBody`), the KPI tile, the landing cards (problem, tools, steps, rule hits, team), the hero preview and the sign-comparison panel on the landing page, the hero and pair demos, the overview link tiles, the model glossary cards, the lifecycle diagram, the provider tiles in Settings, the details panel on Match and the theme panels on `/design`.
+
+| Card | Before (phone / 640 px up) | Now |
+|---|---|---|
+| `Card` (43 uses) | 20 / 20 | 16 / 20 |
+| KPI tile (14), hero and pair demo | 16 / 20 | 16 / 20 |
+| Landing cards (8) | 24 / 24, one 20 / 24 | 16 / 20 |
+| Team cards | 18 / 18 | 16 / 20 |
+| Overview links, glossary, Settings tiles, Match details | 16 / 16 | 16 / 20 |
+| Lifecycle diagram | 20 / 20 | 16 / 20 |
+| Theme panels on `/design` | 16 / 24 | 16 / 20 |
+
+**Why these two values.** From 640 px up, 20 px was already the most common inset (every `Card` and every KPI tile). On phones `Card` used 20 px too, but 20 px clips the KPI numbers: the overview shows three tiles across, and at 375 px the number "40" needs 59 px while a tile with 20 px padding leaves 55 px. 16 px is what the KPI tiles and the demos already used on phones, and it is the page gutter on phones. A token instead of `p-4 sm:p-5` keeps overrides working: `cn()` does not merge classes, so a responsive `sm:p-5` would beat an override such as `CardBody className="px-0"` from 640 px up.
+
+**Not cards** (they keep their own padding): dialogs and the bottom sheet (`p-5` plus the safe-area inset), empty states (`px-6 py-12`), small items inside a card with the control radius (lifecycle steps, the illustration list on `/design`: 12 px), image tiles in the Match results grid (10 px, the image is the content), the theme switch in the sidebar (4 px), and tables that run edge to edge inside a card (`CardBody className="px-0"`).
+
+**Removed.** The overview KPI tiles passed `className="p-3 sm:p-4"`, which never applied (the tile's own `p-4 sm:p-5` came later in the CSS); they render as before.
+
+**Found, not fixed here.** At 320 px the three-across overview tiles clip two-digit numbers (needs 59 px, has 45 px), and "63 ms" on `/app/roads` is clipped at 320 and 375 px. Both were clipped before this change; the fix is a smaller KPI number size on phones, which is a type decision.
