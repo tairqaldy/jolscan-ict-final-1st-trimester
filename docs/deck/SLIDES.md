@@ -120,28 +120,33 @@ Each gap is off the slide face. The script already says the fallback sentence; w
 
 ## Slide 5 · Roads: data and experiment
 
-**Speaker (notes only):** Amina · **budget** 1:00 · **script** 127 words, about 0:59
+**Speaker (notes only):** Amina · **budget** 1:00 · **script** 127 words, about 0:59 (estimate only; personal timed reading pending)
 
 **Title:** Roads: a baseline and 7 one-change runs
 
 **On the slide:**
 
-- Data: Kaggle “Annotated Potholes Image Dataset”; ODbL and DbCL licence
-- 665 photos, 1,739 boxes, 1 class
-- No duplicates found before the split; split by photo, seed 42: 465 / 100 / 100
-- Table: E0 baseline (nano, pretrained); E1 small model; E2 random weights; E3 frozen backbone; E4 AdamW; E5 no augmentation; E6 960 px input; E7 extra P2 scale; E8 = E0 settings
-- Chosen on validation mAP50; ties within 0.01 go to validation recall at 0.40; test read once.
-- Every run: 40 epochs and seed 42; 640 px input unless the row says 960.
+- Kaggle "Annotated Potholes Image Dataset"; "Database: Open Database, Contents: Database Contents" (ODbL / DbCL)
+- 665 photos, 1,739 boxes, 1 class; split by photo, seed 42: 465 / 100 / 100
+- Table: E0 baseline (nano, pretrained); E1 small model; E2 random weights; E3 frozen backbone; E4 AdamW; E5 standard augmentations off; E6 960 px input; E7 extra P2 scale; E8 = E0 settings
+- Every full run: 40 epochs and seed 42; 640 px input except E6
+- Selection: validation mAP50; ties within 0.01 use validation recall at 0.40; test does not choose
 
-**Visual:** Run table with short labels (full `changed` text on B1), no image
+**Visual:** Existing run table with short labels; full `changed` text on B1; no new image
 
 **Script:**
 
-> Our road data is the Annotated Potholes Image Dataset from Kaggle, under ODbL and DbCL, and Kaggle is a source the syllabus allows. It has 665 photos with 1,739 boxes and one class. Before splitting, we checked for exact and near-duplicate photos, because a copy in both train and test would inflate the test score. We found none. Then we split by photo with seed 42: 465 for training, 100 for validation and 100 for test. This is Option A. Data, seed and budget stay fixed, and each run changes one thing against the baseline E0, such as model width, pretraining or the optimizer. We choose on validation mAP50, and recall at our threshold of 0.40 breaks ties. Test is read once. Here is what came out.
+> I prepared and reviewed our pothole data, checked duplicates and XML annotations, corrected one invalid box, and exported the frozen YOLO split. The Kaggle dataset has 665 photos and 1,739 boxes, under ODbL and DbCL. We found no exact or near duplicates before splitting by photo: 465 for training, 100 for validation and 100 for test, with seed 42. My smoke run checked the training pipeline using validation only; Tair performed all full experiment runs. Our comparison changes model settings against baseline E0 while keeping the data and training budget fixed, except each run's stated change. We choose using validation scores; test results report performance rather than choose settings, with documented limitations. The notes explain prior test-photo review and later evaluation passes. Here is what came out.
 
-**Cues:** Not on the slide, for questions: author Atikur Rahman Chitholian; version potholes_yolo_v1; boxes per split 1,198 / 305 / 236; batch 16, SGD with lr 0.01, COCO-pretrained (runs/E0.json). The duplicate check is exact and perceptual hash (data/README.md, D-4). Do not say '70/15/15 stratified': the split is random by photo with seed 42; with one class nothing is stratified. Do not name Roboflow as the source: the frozen version is the Colab export (docs/decisions/0002-colab-export-dataset.md). Three photos carry stock watermarks and are never shown (D-12). E8 is E0's settings: no change beat E0 by more than 0.01 on validation, and E8 reproduced E0 exactly (docs/ML-EXPERIMENT.md, 'E8 as applied'). The full `changed` text of each run is on backup B1.
+**Cues:**
 
-**Sources:** ml/results/experiments.csv (rows whose `changed` is one change: E1, E2, E3, E4, E5, E6, E7) · data/exports/potholes_yolo_v1/split_manifest.json (image_counts, sum of train + val + test; object_counts, sum of train + val + test; image_counts.train; image_counts.val; image_counts.test; seed; object_counts.train; object_counts.val; object_counts.test) · data/exports/potholes_yolo_v1/data.yaml (names (one entry: pothole)) · ml/results/runs/E0.json (params.epochs; params.imgsz; params.seed; params.batch; params.lr0) · ml/export_results.py (TIE (selection rule)) · ml/results/operating_point.json (conf) · data/README.md (dataset card D-1, 'Duplicate check' D-4) · docs/ML-EXPERIMENT.md ('Selection rule')
+- **My contribution:** D-2 visual review/preparation; D-4 exact/near-duplicate and XML completeness/validity checks; removal of the zero-width object in `img-415.xml` in a separate corrected archive, preserving the image, its other annotations and the original archive; D-3 XML-to-YOLO export and frozen split; D-11 training-only k-means size bands; M-0 selection/E8 policy; successful M-1 validation-only smoke. Evidence: `data/README.md`, `ml/results/pothole_area_clusters.json`, decision 0009, `ml/results/runs/E0-smoke.json` and its CSV, `docs/worklog/amina.md`. Do not present Tair's full E0-E8 training as my work.
+- **Dataset and controls:** author Atikur Rahman Chitholian; version `potholes_yolo_v1`; boxes per split 1,198 / 305 / 236. Batch 16, SGD with lr 0.01 and COCO-pretrained weights describe baseline E0, not every variant: E2 removes pretraining, E4 uses AdamW with its specified learning-rate settings, E5 disables standard augmentation, E6 changes input size. Full runs were performed by Tair on the same laptop; source revisions are recorded per run, not claimed identical.
+- **Honest limits:** no exact/near-duplicate candidates were found under the documented methods; that is not proof of no possible leakage. The D-2 review sample later proved identical to test (D-20); no test label was changed and the review must not guide model or threshold selection. The full trainer performs separate default-confidence and confidence-0.40 validation/test evaluations after training, and the champion has an additional fixed-threshold operating-point evaluation; do not say the test set was never seen or evaluated only once overall. Smoke excludes test entirely.
+- **Licence and provenance:** the displayed licence wording is copied from the D-1 card. Dataset licensing does not establish rights to every photo; stock-watermarked photos are not for public display. No local Kazakhstan dataset was used. K-means bands describe image-relative box area, not physical pothole dimensions or validated severity.
+- **Handover:** "Here is what came out." Script time is an estimate; R-22's 0:55-1:05 personal reading criterion is still pending.
+
+**Sources:** ml/results/experiments.csv (rows whose `changed` is one change: E1, E2, E3, E4, E5, E6, E7) · data/exports/potholes_yolo_v1/split_manifest.json (image_counts, sum of train + val + test; object_counts, sum of train + val + test; image_counts.train; image_counts.val; image_counts.test; seed; object_counts.train; object_counts.val; object_counts.test) · data/exports/potholes_yolo_v1/data.yaml (names (one entry: pothole)) · ml/results/runs/E0.json (params.epochs; params.imgsz; params.seed; params.batch; params.lr0) · ml/export_results.py (TIE (selection rule)) · ml/results/operating_point.json (conf) · data/README.md (dataset card D-1, 'Duplicate check' D-4) · docs/ML-EXPERIMENT.md ('Selection rule') · data/README.md ('XML completeness and validity check'; 'Annotation correction'; 'YOLO dataset preparation'; D-20; 'Box-size clustering for R2') · ml/results/pothole_area_clusters.json (method; split; boxes; area_thresholds) · ml/results/runs/E0-smoke.json (smoke; evaluation_splits; test_evaluated; params) and E0-smoke-results.csv · docs/decisions/0009-m0-e8-policy.md · ml/train.py (evaluate; smoke_dataset_yaml) · ml/operating_point.py (fixed-threshold evaluation) · docs/worklog/amina.md (personal contribution); docs/research/deck-sources.md (existing slide 5 numerical index; unchanged)
 
 ## Slide 6 · Roads: results
 
