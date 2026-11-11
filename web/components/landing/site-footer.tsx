@@ -42,7 +42,7 @@ export function SiteFooter() {
             <a href={DATA_CREDITS.restroom.url} className="text-accent-ink underline underline-offset-2">
               {DATA_CREDITS.restroom.name}
             </a>
-            , {DATA_CREDITS.restroom.licence}. The sample icons in this app are original drawings.
+            , {DATA_CREDITS.restroom.licence}. The drawn sample icons are original; the real sample signs are IOAI images.
           </p>
         </div>
       </div>

@@ -83,7 +83,7 @@ lib/
 data/experiments.json             pothole experiment results (placeholder until ml/export_results.py runs)
 data/restroom-experiments.json    restroom experiment results (real runs, from ml/restroom/export_results.py)
 public/samples/                   six SVG road scenes + samples.json
-public/samples/restrooms/         twelve SVG sign icons + samples.json
+public/samples/restrooms/         twelve SVG sign icons, twelve real IOAI signs (WebP) + samples.json
 ```
 
 ## Re-skinning (for the lead designer)
@@ -141,13 +141,18 @@ ships those image folders with the route functions.
 `file`, `set` (the design set, i.e. the restroom), `trueGender`, and under `mock` the real model's `gender` and
 `confidence`. Real pair similarities can go in `similarity.pairs` (`"idA|idB"`, ids in alphabetical order);
 otherwise the deterministic mock similarity is used (high within a set, lower across sets). The `presets` list the
-example pairs shown on Compare. The twelve shipped icons are original drawings; their predictions and similarities
-are invented placeholders.
+example pairs shown on Compare. Twelve of the shipped signs are original SVG drawings; their predictions and
+similarities are invented placeholders. The other twelve (`ioai-v<n>.webp`, n = gallery file number) are real signs
+from the IOAI validation set; their predictions and pair similarities are real outputs of the model service (see the
+manifest's `_comment`). Local and cloud Match send only the real signs as the gallery, because a real model cannot read
+SVG.
 
 **If you use real IOAI images:** the IOAI 2025 Restroom data is licensed **CC-BY-4.0**. Keep the attribution
 (task name, "IOAI 2025 committee", licence and a link to
 https://github.com/IOAI-official/IOAI-2025/tree/main/Individual-Contest/Restroom) on the About page and in the
 footer (`lib/credits.ts`), and say that the images were not changed, or how they were. Never add images with people.
+The real sample signs are images from the IOAI 2025 validation set, CC-BY-4.0, resized to at most 256 px and saved as
+WebP, otherwise unchanged (`DATA_CREDITS.restroomSamples`).
 
 ## Pasting in real experiment results
 

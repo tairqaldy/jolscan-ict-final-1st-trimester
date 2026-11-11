@@ -5,8 +5,10 @@ import {
   getRestroomSample,
   mockSimilarity,
   truePartner,
+  type RestroomSample,
 } from "@/lib/mock/restroom-samples";
 import type { CompareResult, Gender, MatchCandidate } from "@/lib/types";
+import manifest from "@/public/samples/restrooms/samples.json";
 import {
   DEFAULT_SIGNAGE,
   VERDICT_ACTIONS,
@@ -21,6 +23,8 @@ import {
   sortCandidates,
   type SignageConfig,
 } from "./index";
+
+const isDrawing = (s: RestroomSample) => s.file.endsWith(".svg");
 
 const pair = (a: [Gender, number], b: [Gender, number], similarity: number) => ({
   a: { gender: a[0], confidence: a[1] },
@@ -215,7 +219,17 @@ describe("restroom sample manifest (mock data)", () => {
         return [p.id, evaluateSignage({ a: a.mock, b: b.mock, similarity: mockSimilarity(a.id, b.id) }).verdict];
       }),
     );
-    expect(verdicts).toEqual({ matching: "clear", faint: "review", mismatched: "review", same: "confusing" });
+    expect(verdicts).toEqual({
+      matching: "clear",
+      faint: "review",
+      mismatched: "review",
+      same: "confusing",
+      // Real IOAI signs: the verdicts that follow from the real model outputs in the manifest.
+      "ioai-matching": "clear",
+      "ioai-faint": "review",
+      "ioai-swapped": "review",
+      "ioai-mismatched": "review",
+    });
   });
 
   it("the presets reproduce worked examples A, B and C exactly", () => {
@@ -226,14 +240,28 @@ describe("restroom sample manifest (mock data)", () => {
     expect(getRestroomSample("twins-f")!.mock).toEqual({ gender: "male", confidence: 0.69 });
   });
 
-  it("similarity is deterministic, symmetric, 1 for the same sign, and below S3 across sets", () => {
+  it("similarity is deterministic, symmetric, 1 for the same sign, and (for the drawings) below S3 across sets", () => {
     for (const a of RESTROOM_SAMPLES) {
       for (const b of RESTROOM_SAMPLES) {
         const s = mockSimilarity(a.id, b.id);
         expect(s).toBe(mockSimilarity(b.id, a.id));
-        if (a.id === b.id) expect(s).toBe(1);
-        else if (a.set === b.set) expect(s).toBeGreaterThanOrEqual(DEFAULT_SIGNAGE.s3.minSimilarity);
-        else expect(s).toBeLessThan(DEFAULT_SIGNAGE.s3.minSimilarity);
+        if (a.id === b.id) {
+          expect(s).toBe(1);
+        } else if (isDrawing(a) && isDrawing(b)) {
+          // Only the drawings' invented values are chosen to respect S3; real outputs are what they are.
+          if (a.set === b.set) expect(s).toBeGreaterThanOrEqual(DEFAULT_SIGNAGE.s3.minSimilarity);
+          else expect(s).toBeLessThan(DEFAULT_SIGNAGE.s3.minSimilarity);
+        }
+      }
+    }
+  });
+
+  it("every pair of real signs has a recorded model similarity, not an invented one", () => {
+    const real = RESTROOM_SAMPLES.filter((s) => !isDrawing(s));
+    expect(real).toHaveLength(12);
+    for (const a of real) {
+      for (const b of real) {
+        if (a.id < b.id) expect(manifest.similarity.pairs).toHaveProperty([`${a.id}|${b.id}`]);
       }
     }
   });

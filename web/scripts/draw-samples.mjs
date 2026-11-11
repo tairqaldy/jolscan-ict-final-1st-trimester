@@ -144,6 +144,11 @@ function scene(sample) {
 }
 
 for (const sample of manifest.samples) {
+  // Only drawings are (re)drawn. A real photo in the manifest (.jpg, .png, .webp) must never be overwritten.
+  if (!sample.file.toLowerCase().endsWith(".svg")) {
+    console.log("skipped", sample.file, "(not an SVG drawing)");
+    continue;
+  }
   const out = path.join(dir, path.basename(sample.file));
   fs.writeFileSync(out, scene(sample));
   console.log("wrote", path.relative(process.cwd(), out));

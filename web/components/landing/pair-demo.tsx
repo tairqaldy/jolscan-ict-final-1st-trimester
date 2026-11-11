@@ -9,7 +9,10 @@ import { RESTROOM_PRESETS, getRestroomSample, mockSimilarity } from "@/lib/mock/
 import { DEFAULT_SIGNAGE, doorGender, evaluateSignage } from "@/lib/signage";
 import { useHydrated } from "@/lib/store/local-store";
 
-const EXAMPLES = RESTROOM_PRESETS.map((p) => {
+// The landing page keeps the four drawn example pairs; the real IOAI pairs are on the Compare page.
+const LANDING_PRESETS = ["matching", "faint", "mismatched", "same"];
+
+const EXAMPLES = RESTROOM_PRESETS.filter((p) => LANDING_PRESETS.includes(p.id)).map((p) => {
   const a = getRestroomSample(p.a)!;
   const b = getRestroomSample(p.b)!;
   const similarity = mockSimilarity(a.id, b.id);
