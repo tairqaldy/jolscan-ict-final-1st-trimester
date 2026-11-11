@@ -64,11 +64,11 @@ These start from the rules in the swarm notes of 11 November. Where a source ask
 
 ## 4. Map to Qarau
 
-What exists is described as on `main` at the time of writing; G-6, G-74 and G-75 were still open then.
+"Today" is `main` at 20:35 on 11 November: G-74 had merged, G-6 and G-75 were still open.
 
 | Kept or adapted interaction (catalogue #) | Qarau component or screen | Today | Issue |
 |---|---|---|---|
-| Link and nav hover colour (1) | Site header links `web/components/landing/site-header.tsx` (`.jelly-nav__link` in `globals.css`); app rail and module switch `web/components/app/app-shell.tsx` | Rail: `transition-colors`, 160 ms. Header: padding grows in 320 ms with overshoot (breaks rules 1 and 5) | G-74 (#433) |
+| Link and nav hover colour (1) | Site header links `web/components/landing/site-header.tsx` (`.jelly-nav__link` in `globals.css`); app rail and module switch `web/components/app/app-shell.tsx` | G-74 merged while this was written: the rail's active bar and the Roads / Restrooms thumb slide (transform, `--duration-base`, `--ease-emphasized`), text links get an underline that grows (`background-size`, `--duration-base`). Header: padding still grows in 320 ms with overshoot (breaks rules 1 and 5) | G-74 (#433) |
 | Button hover tint and press (4, 5) | `web/components/ui/button.tsx` | `transition-colors` at `--duration-fast`; no separate press colour | G-6 (#124) |
 | Focus ring at once (6) | `web/app/globals.css` `:focus-visible` | Done | G-6 (#124) checks primitives keep it |
 | Segmented control and tabs (7) | `web/components/ui/segmented.tsx`, `web/components/ui/tabs.tsx`, `web/components/ui/switch.tsx` | `transition-colors`; switch thumb moves at `--duration-fast` | G-6 (#124) |
