@@ -69,10 +69,10 @@ function sharedArea(
 /**
  * Top-left corners of all box tags, placed in box order so a later tag never
  * covers an earlier one. Each tag first takes the placeTag spot. If that is
- * within `gap` of an earlier tag, it tries just below the box's top edge, then
- * below the box, then inside the box at its bottom, and takes the first free
- * spot (or, if none is free, the one that covers the least). Every spot stays
- * inside the photo.
+ * within `gap` of an earlier tag, it tries below the box (so a small box stays
+ * visible), then inside the box at its top, then inside the box at its bottom,
+ * and takes the first free spot (or, if none is free, the one that covers the
+ * least). Every spot stays inside the photo.
  */
 export function placeTags(
   items: { box: { x: number; y: number; h: number }; tag: { w: number; h: number } }[],
@@ -83,8 +83,8 @@ export function placeTags(
   return items.map(({ box, tag }) => {
     const spots = [
       placeTag(box, tag, frame),
-      insidePhoto(box.x, box.y, tag, frame),
       insidePhoto(box.x, box.y + box.h, tag, frame),
+      insidePhoto(box.x, box.y, tag, frame),
       insidePhoto(box.x, box.y + box.h - tag.h, tag, frame),
     ];
     let best = spots[0];
