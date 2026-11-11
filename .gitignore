@@ -44,3 +44,6 @@ ml/results/restroom/weights/
 ml/results/restroom/layers-smoke/
 ml/results/restroom/layers-smoke.csv
 ml/results/restroom/figs/smoke/
+
+# Local scratch copies (git worktrees, verification builds) never belong in the repository.
+.worktrees/

@@ -1,5 +1,16 @@
 # Qarau
 
+## For the instructor (five minutes)
+
+Qarau analyses infrastructure photos with computer vision and human-readable rules. Its two modules inspect road potholes and compare restroom door signs.
+
+- **What is real:** the [road results](ml/results/experiments.csv), [restroom results](ml/results/restroom/experiments.csv), and analyses produced by the locally configured model service use real runs. The [live demo](https://qarau.vercel.app) uses mock analysis results; overview screens also include demo data. Local inference requires the model dependencies and weights described in [api/README.md](api/README.md).
+- **Evidence and methods:** [requirements and open gaps](docs/PLAN.md#1-what-is-graded), [road experiment](docs/ML-EXPERIMENT.md), [restroom experiment](docs/ML-EXPERIMENT-RESTROOM.md), [rules](docs/RULES.md), [AI-use log](docs/AI-USAGE-LOG.md), [contributions](docs/CONTRIBUTION-LOG.md), and [documentation map](docs/README.md). The comparative VLM audit remains [open](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/85).
+- **Run locally:** with Node 22, Python 3.12 and the prerequisites below, start the site with `cd web && pnpm install && pnpm dev` and the API in a second terminal with `cd api && pip install -r requirements-dev.txt && uvicorn main:app --port 8000`. See [API setup](api/README.md) for weights and [restroom reproduction](ml/restroom/README.md) for model results.
+- **Freeze and defense:** the planned code freeze is Wednesday 11 November, 23:00 (UTC+05:00), with the defense on 12 November 2026; see the [plan](docs/PLAN.md) and [runbook](docs/DEFENSE-RUNBOOK.md) for current gaps and rehearsal checks.
+
+## Overview
+
 Computer vision inspection of public infrastructure from photos, with rules you can read. Qarau (қарау) is Kazakh for "to inspect".
 
 Two modules, one app:

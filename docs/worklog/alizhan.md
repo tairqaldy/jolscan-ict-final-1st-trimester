@@ -21,6 +21,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **AI use:** Codex desktop, GPT-6; Alizhan's personal review pending.
 - **Open questions / next:** Each participant supplies and reviews their own sanitized records; recheck the final deck's AI-log count.
 
+### 2026-11-11 · X-21 (#262) · Instructor's project tour
+- **Status:** in progress; independent two-minute navigation check remains.
+- **What I did:** Added a short README tour linking the evidence table, experiments, rules, logs, setup and defense runbook, with the mock/local distinction and open VLM audit.
+- **Result:** A compact entry point with existing file links and commands sourced from the repository; no claim that all defense requirements are complete.
+- **Decisions and why:** Linked the outstanding VLM issue rather than a nonexistent audit file and kept model weights and real local inference prerequisites explicit.
+- **What I learned / can explain at the defense:** An instructor should be able to distinguish deployed mock analyses from locally served model results and find evidence for the reported numbers.
+- **AI use:** Codex desktop, GPT-6; personal review pending.
+- **Open questions / next:** Have a teammate locate the requested items in under two minutes, review the status at freeze and verify the proposed commands on the intended laptop.
+
 ### 2026-11-11 · R-4 (#87) · Defense script snapshot
 - **Status:** in progress; speaker review and a timed group read-through remain.
 - **What I did:** Copied all 12 existing slide scripts and their estimated timings into `docs/PRESENTATION.md` without changing slide design or claiming a completed rehearsal.
