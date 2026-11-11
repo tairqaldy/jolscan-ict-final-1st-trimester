@@ -37,6 +37,22 @@ class RoadsDeckGenerationTests(unittest.TestCase):
         self.assertIn("Browser verification", results.cues)
         self.assertEqual([self.deck.words(d.script) for d in (data, results)], [127, 90])
 
+    def test_presentation_copy_is_synced_from_the_build(self):
+        stale = ("# Talk\n\n**Full timed read-through:** The deck estimates 9:99 with the demo.\n\n"
+                 "### 10. AI\n**Speaker and budget:** Roma · **budget** 0:35 · **script** 1 words, about 0:01\n\n"
+                 "> old text\n\n### 11. Limits\n**script** 2 words, about 0:02\n\n> old limits\n\n## Demo script\n\nkept\n")
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "PRESENTATION.md"
+            path.write_text(stale, encoding="utf-8")
+            self.assertEqual(self.deck.sync_presentation_scripts(self.docs, path), 2)
+            out = path.read_text(encoding="utf-8")
+        ten, eleven = self.docs[9], self.docs[10]
+        self.assertIn("> " + ten.script, out)
+        self.assertIn("> " + eleven.script, out)
+        self.assertIn(f"**script** {self.deck.words(ten.script)} words", out)
+        self.assertNotIn("9:99", out)
+        self.assertTrue(out.endswith("## Demo script\n\nkept\n"))
+
     def test_markdown_and_saved_pptx_have_the_same_scripts(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

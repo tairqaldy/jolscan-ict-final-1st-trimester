@@ -121,7 +121,7 @@ One row per number on the deck, written by `docs/deck/make_deck.py`, which reads
 | 9 | 4.98 | `docs/DESIGN-BRIEF.md` | 'Contrast audit (G-3)', lowest light-theme text ratio (`subtle`) | 4.98 | yes |
 | 9 | 5.36 | `docs/DESIGN-BRIEF.md` | 'Contrast audit (G-3)', lowest dark-theme text ratio (`subtle`) | 5.36 | yes |
 | 9 | 4.5 | `docs/DESIGN-BRIEF.md` | U4 (WCAG text contrast target) | 4.5 | yes |
-| 10 | 109 | `docs/AI-USAGE-LOG.md` | number of '### ' entries under 'Entries' at build time | 109 | yes |
+| 10 | 110 | `docs/AI-USAGE-LOG.md` | number of '### ' entries under 'Entries' at build time | 110 | yes |
 | 11 | 82 | `data/README.md` | restroom card, 'Training set' (restrooms) | 82 | yes |
 | B1 | 9 | `ml/results/experiments.csv` | number of rows (runs) | 9 | yes |
 | B1 | 0.8235 | `ml/results/experiments.csv` | E0 row, valMap50 | 0.8235 | yes |
