@@ -67,3 +67,9 @@ Every changed line and this file, read again against the same checklist.
 Checked and fine: D1 and D4 headings are noun labels; D6 still says "mock predictions"; D8 alt text names everything on the card except the decorative road line; the PRINCIPLES line numbers match the rebased files (each quoted string checked with `grep -n`).
 
 ## Round 3: re-read as a critic
+
+The full diff against `main` (`git diff origin/main -- web/ docs/design/`) and this file, read once more.
+
+Nothing new on Dameli's surfaces. Checked: the hero heading and lead read as one claim each and name only potholes and door signs; "Why this priority" now matches the result tab; the two section labels and the toggle say what they hold; the Rules intro still says "mock predictions"; every honesty label and number in `web/app/page.tsx` is the same as on `main`; the PRINCIPLES quotes and line numbers match the files. `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` (223 tests) pass; no test asserts the changed strings.
+
+Open for the owners: T1 to T13 (Tair, and R-12 for the spelling) and L1, L2 (the lab branch).
