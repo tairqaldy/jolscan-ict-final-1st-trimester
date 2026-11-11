@@ -12,6 +12,20 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 17:17 · G-29 (#173), G-24 (#168) · Provenance badges and the icon audit
+- **Status:** done
+- **What I did:** Made one badge set for where a result comes from: "Demo data", "Mock result" and "Model result: <name>". Every road, compare and match result now shows exactly one of them. Then I audited the icons on the result cards and wrote the icon map into the design brief.
+- **Result:** `web/components/app/demo-badge.tsx` (`ProvenanceBadge`, `ResultProvenanceBadge`; `DemoBadge` stays as a thin wrapper), the rule `resultProvenance` in `web/lib/mock/seeded.ts`, tests in `web/lib/demo-badges.test.ts`, the new icons in `analysis-view.tsx` and `compare-result.tsx`, and DESIGN-BRIEF.md "Provenance badges and icons (G-29, G-24)".
+- **Decisions and why:**
+  - Amber means "not made by our model": filled for invented demo data, outlined for the mock provider. Slate (`--chart-1`, already the measured-data colour of the charts) means our model made it. No new token, so nothing clashes with the review colour work in G-47.
+  - Mock, Local and Cloud badges use the provider's own icon, so the same picture means the same provider in the sidebar, the result details and the badge.
+  - A seeded record keeps "Invented demo record" and never shows a model name, as W-28 decided.
+  - Provider and Model both used a chip icon; Model is now Brain, the same icon as the "Model" step on the landing page. The two compare measures shared one arrow that also means Swap.
+  - The "Needs a human look" callout used the same triangle as High severity, so it got its own icon.
+- **What I learned / can explain at the defense:** the provenance badge answers "is this real?" on every result and screenshot (U8), with icon and word as well as colour (U3). One icon per concept is Nielsen's consistency and standards (Lec3-HCI).
+- **AI use:** Claude Code wrote the components and the test from my brief and took the screenshots (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** four icon clashes outside the result cards are listed in the design brief for Tair: the flask for both the Model page and Demo data, the triangle for both High and Review, ServerCog for Mock on the landing page, and Cpu in the landing privacy list. The `/design` page does not show the three badges yet.
+
 ### 2026-11-11 17:13 · G-30 (#174), G-47 (#281) · Selected states that read in greyscale, and a colour of its own for review
 - **Status:** done
 - **What I did:**
