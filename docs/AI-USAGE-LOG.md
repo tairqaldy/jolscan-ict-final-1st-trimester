@@ -30,6 +30,7 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** Reduced preloaded font subsets and fixed the accessible representation of animated numbers.
 - **How it was verified:** Lighthouse on the local production build before and after, lint, typecheck, 63 Vitest tests, and production build. Alizhan has not yet personally reviewed the result.
 - **What was rejected or corrected:** Did not claim that a single Lighthouse run proves a speed improvement; S-10 remains in progress until a third improvement is investigated.
+
 ### 11 November 2026, Alizhan (S-29, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.

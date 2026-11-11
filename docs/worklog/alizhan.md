@@ -20,6 +20,7 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **What I learned / can explain at the defense:** Preloading font subsets consumes network bandwidth even if a page does not use those glyphs; accessible text should be exposed once without unsupported ARIA attributes.
 - **AI use:** Codex desktop, GPT-6, for measurement and changes; personal review pending.
 - **Open questions / next:** Identify and validate a third meaningful improvement and repeat measurements on the deployed site after review and deployment.
+
 ### 2026-11-11 · S-29 (#223) · API response schemas
 - **Status:** implemented; review pending.
 - **What I did:** Declared Pydantic response models for road detection and restroom compare/match, attached them to the routes, and included them in the Docker build. Exported the OpenAPI specification from the running local service.
