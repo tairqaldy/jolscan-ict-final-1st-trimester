@@ -3,6 +3,16 @@
 import * as RadixSlider from "@radix-ui/react-slider";
 import { useId, useState } from "react";
 import { cn } from "@/lib/cn";
+import { FORCED_FOCUS, type InteractionState } from "./states";
+
+/*
+ * G-6 thumb states. Hover: it lifts (shadow-md). Press and drag: it grows to
+ * 110 %, so the finger sees what it holds. Focus: the ring eases in. The
+ * ::before box makes the thumb's tap target 48 px (U6). Disabled: the whole
+ * field is at 60 % (unchanged) with a not-allowed cursor.
+ */
+export const SLIDER_HOVER = "shadow-md!";
+export const SLIDER_PRESSED = "scale-110!";
 
 /** Always "0.4", never "0,4": numbers in inputs are formatted the same in every browser locale. */
 function formatNumber(v: number, step: number) {
@@ -30,6 +40,7 @@ export function SliderField({
   unit,
   disabled,
   format,
+  forceState,
   className,
 }: {
   label: string;
@@ -41,6 +52,8 @@ export function SliderField({
   unit?: string;
   disabled?: boolean;
   format?: (v: number) => string;
+  /** Draws a hover, focus or pressed thumb without the pointer. Only for /design. */
+  forceState?: InteractionState;
   className?: string;
 }) {
   const id = useId();
@@ -92,7 +105,7 @@ export function SliderField({
                 setDraft(null);
               }
             }}
-            className="tabular h-8 w-20 rounded-sm border border-border-strong bg-surface px-2 text-right font-mono text-sm"
+            className="tabular h-8 w-20 rounded-sm border border-border-strong bg-surface px-2 text-right font-mono text-sm transition-colors duration-[var(--duration-fast)] ease-standard hover:border-muted disabled:cursor-not-allowed"
           />
           {unit && <span className="text-sm text-muted">{unit}</span>}
           <span id={`${id}-range`} className="sr-only">
@@ -110,7 +123,7 @@ export function SliderField({
           setDraft(null);
           onChange(v);
         }}
-        className="relative flex h-5 touch-none items-center select-none"
+        className="relative flex h-5 touch-none items-center select-none data-[disabled]:cursor-not-allowed"
       >
         <RadixSlider.Track className="relative h-1.5 grow overflow-hidden rounded-full bg-surface-3">
           <RadixSlider.Range className="absolute h-full bg-accent" />
@@ -118,7 +131,12 @@ export function SliderField({
         <RadixSlider.Thumb
           aria-label={label}
           aria-valuetext={format ? format(value) : shown}
-          className="block size-4.5 rounded-full border-2 border-accent bg-surface shadow-sm"
+          className={cn(
+            "relative block size-4.5 rounded-full border-2 border-accent bg-surface shadow-sm transition-[scale,box-shadow] duration-[var(--duration-fast)] ease-standard focus-ring-in before:absolute before:-inset-[15px] hover:shadow-md active:scale-110 data-[disabled]:shadow-sm data-[disabled]:active:scale-100",
+            forceState === "hover" && SLIDER_HOVER,
+            forceState === "focus" && FORCED_FOCUS,
+            forceState === "pressed" && SLIDER_PRESSED,
+          )}
         />
       </RadixSlider.Root>
     </div>

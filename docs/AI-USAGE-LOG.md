@@ -51,6 +51,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How it was verified:** Tests for comparable and incomparable synthetic runs, refusal of smoke and missing metadata, test-metric independence and a real E6/E1 comparison. Alizhan has not yet personally reviewed the result.
 - **What was rejected or corrected:** No test metrics used for selection; no claim that the registry, deployment or Level 1 pipeline already operates automatically.
 
+### 11 November 2026, Alizhan (S-12, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Add a privacy-conscious prediction monitoring log.
+- **Key prompt:** "сделай таски, которые находятся в issues, by wed 11 nov 23:00(code freeze) и отмечай. делай перепроверку, rebase". This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** Configurable aggregate CSV log, process-local serialization, Git ignore, tests and API documentation.
+- **How it was verified:** API tests with fake models, concurrent writes, privacy and write-error tests, compileall, results check and Git ignore check. Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** After Tair's review, made logging opt-in and kept predictions available on log-write errors. No images or uploaded filenames are logged; no claim that confidence alone diagnoses drift or that the log feeds analytics.
+
 ### 11 November 2026, Alizhan (S-25, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.
@@ -937,6 +946,14 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - `p-4 sm:p-5` on `Card` was dropped: without class merging, `sm:p-5` would override `CardBody className="px-0"` on desktop and break the edge-to-edge tables.
   - A 2.5 % pixel change on `/app/analytics` at 1440 px after G-62 was checked: card and chart widths are identical with and without the change (measured), only the chart's tick placement differed.
 
+### 11 November 2026, Dameli (G-76 brand and copy pass)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** check the copy on my surfaces and in the app against `docs/design/ANTI-SLOP.md` and the voice in `docs/design/PRINCIPLES.md`, in three rounds, and fix only the text I wrote.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков"; transcript kept locally.
+- **What it produced or changed:** the ownership trace (`git log -S`, `git blame -w`), the greps and first drafts of the rewrites in `web/app/page.tsx` and `web/app/opengraph-image.alt.txt`, the updated quotes, line numbers and voice table in `docs/design/PRINCIPLES.md`, and `docs/design/copy-review.md` (25 findings).
+- **How I verified it, and who verified it:** every changed string compared with `main` in `git diff origin/main`; honesty labels and numbers unchanged; each PRINCIPLES line number checked with `grep -n`; `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` (223 tests) pass.
+- **What I rejected or corrected:** the first hero lead put "with computer vision" after the sign task only, so it read as if roads did not use it; reworded in round 2. A first draft of the review named a writing tool and called the parallel branches agents; replaced with the patterns and branch names. Changing "Change the thresholds and watch the result move" was dropped: the wording is Tair's, so it is a proposal.
 ### 11 November 2026, Dameli (G-74 navigation motion)
 
 - **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment.
@@ -950,3 +967,68 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - The first rail bar read a ref on the parent nav, which is not attached on first mount, so the bar was missing until the first navigation; it now uses its parent element.
   - The bar was drawn under the active link's background; it now has a z-index.
   - An underline inside the site header's pill links was rejected (two effects for one hover).
+
+### 11 November 2026, Dameli (G-73 motion spec)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment, and web search and fetch for the sources.
+- **Purpose:** measure the micro-interactions of the reference site, read the motion guidance, and write `docs/design/motion.md`.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-73 among them). Transcript kept locally.
+- **What it produced or changed:** `docs/design/motion.md` (catalogue, rules, map, durations, sources), the G-73 line in `docs/TASKS.md`, my worklog entry.
+- **How I verified it, and who verified it:**
+  - Every duration and easing in the catalogue comes from the probe output (computed styles or style mutations), not from memory; rows read only from a class are marked "class".
+  - Each Qarau file path in the map was checked to exist on `main`; the four rule breaks were read in the code (`globals.css`, `distribution-bars.tsx`, `detection-overlay.tsx`).
+  - Quotes kept to one short phrase per source; the M3 site does not render without JavaScript, so its values come from Google's token files, and the document says so.
+- **What I rejected or corrected:**
+  - The first scroll probe sampled the same sticky headings at every step and showed nothing; replaced it with a MutationObserver on inline styles.
+  - Two Vercel quotes in one rule (one source, one quote); the second became a summary.
+  - "Text types in for about 2 s": I only watched 2 s, so it now says "at least".
+### 11 November 2026, Dameli (G-21 token sync tests)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** turn the "keep in sync" comments around `web/app/tokens.css` into tests that fail when a theme, the Tailwind mapping or a component drifts from it.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-21 among them). Transcript kept locally.
+- **What it produced or changed:** `web/lib/tokens.test.ts`, the shared readers in `web/lib/css-tokens.ts`, two checks added to `web/lib/motion.test.ts`, and `web/lib/print-tokens.test.ts` importing the shared parser instead of its own copy. The new test found that `web/app/design/lab/lab.css` still used the radius tokens G-49 removed; the two dead rules are gone.
+- **How I verified it, and who verified it:**
+  - Broke `tokens.css` and a component on purpose (a dark-only token, an alias to a missing token, a wrong colour mapping, `bg-(--chart-9)`, a changed dark `--bg`, `"#abc"`, `--duration-draw: 650ms`, an extra duration token). Each made a test fail and name the file and line; all restored with git.
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` (19 files, 239 tests) and `pnpm build` pass.
+- **What I rejected or corrected:**
+  - The first version read a fixed list of three stylesheets; the design lab added `lab.css` the same afternoon, so it now reads every stylesheet under `app/` and `components/`.
+  - A trailing `// #fff` comment was reported as a hex colour; comments after a space are now skipped.
+  - Did not copy the existing motion check into `tokens.test.ts`; extended `motion.test.ts` instead.
+### 11 November 2026, Dameli (G-9 dashboard review)
+- **Tool and version:** Claude Code, Claude Opus 5.5, in the Claude desktop app.
+- **Purpose:** review the overview dashboards against Nielsen's ten heuristics and fix the layout and feedback problems in my design layer.
+- **Key prompt(s):** "мне просто нужно сейчас сделать просто максимальное колво тасков"; transcript kept locally.
+- **What it produced or changed:** `docs/design/dashboard-review.md` and its screenshots; `web/components/app/link-row.ts`; class changes in the three overview clients, `kpi.tsx`, `demo-path.tsx`, `analyses-table.tsx` and `checks-table.tsx`.
+- **How I verified it:** Playwright on a dev server: screenshots at 1440 and 375 px in both themes, element positions against the fold, computed transition values with Reduce motion on and off, and a script that measures every KPI number against its tile at 320 to 1440 px (4 overflowing pages before, 0 after). `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` pass.
+- **What I rejected or corrected:** a first try passed `shadow-none` through `className`, which did nothing because `cn()` does not merge classes; replaced by a `nested` prop. Moving the review queues was left to W-7 because the page order is Tair's.
+
+### 11 November 2026, Dameli (G-6 component states)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment for the checks.
+- **Purpose:** clear hover, pressed, focus, disabled, loading and error states with small motion for the UI primitives, and a states grid on `/design`.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-6 among them). Transcript kept locally.
+- **What it produced or changed:** class changes and a `forceState` prop in `button.tsx`, `switch.tsx`, `slider.tsx`, `tabs.tsx`, `select.tsx`; states in `input.tsx` (with an `error` prop), `segmented.tsx`, `table.tsx`, `dialog.tsx`; `web/components/ui/states.ts`; a G-6 motion block in `web/app/globals.css`; `web/components/design/states-grid.tsx`; `web/lib/ui-states.test.ts`; a section in `docs/DESIGN-BRIEF.md`.
+- **How I verified it, and who verified it:**
+  - Playwright on my own dev server: `/design` at 1440 and 375 px, light, dark and high contrast; button heights, dialog open and close animations, press scale, focus animation, and reduced motion from the OS and from the Settings attribute (0.01 ms).
+  - Computed transitions on the reference site (dope.security) for the timings: 100 to 150 ms on links and buttons.
+  - `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` (233 tests) pass.
+- **What I rejected or corrected:**
+  - Rows marked with `aria-selected` (not valid outside a grid); they use `data-state="selected"`.
+  - A focus ring outside the tab: the scrolling tab list clipped it. It is drawn inside now.
+  - A grey hover underline in `--border-strong`: about 2:1 on the dark background, not visible; it uses `--subtle`.
+  - Plain keyframe names like `fade-in`, which another branch could also define; they are prefixed `ui-`.
+
+### 11 November 2026, Dameli (G-75 result reveal)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment for the checks.
+- **Purpose:** stage the road and restroom Compare results within 600 ms and announce the save to screen readers.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-75 among them). Transcript kept locally.
+- **What it produced or changed:** `reveal` timings in `web/lib/motion.ts` with a test, `.result-stage` and `.saved-tick` in `web/app/globals.css`, `web/components/motion/stage.ts`, staging in `analysis-view.tsx` and `compare-result.tsx`, the status region and tick in `analyze-client.tsx` and `compare-client.tsx`.
+- **How I verified it, and who verified it:**
+  - Playwright on my own dev server, both result pages at 1440 and 375 px, light and dark, motion on, OS reduced motion and the Settings switch: reveal end 559 ms (road) and 467 ms (Compare), CLS 0 from mount at 1440 px, 0 animations and full opacity on the first frame with reduced motion, the status text present after the run.
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` pass.
+- **What I rejected or corrected:**
+  - The first timing ended at exactly 600 ms (617 ms measured); tightened to 540 ms planned.
+  - A 4 px shift when the result appeared turned out to come from React reusing the form's grid; fixed with keys rather than hidden.
+  - A count-up on the score: it would show numbers that are not the result.

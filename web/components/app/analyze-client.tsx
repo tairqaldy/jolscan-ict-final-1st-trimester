@@ -1,10 +1,10 @@
 "use client";
 
-import { ArrowRight, ImageUp, LoaderCircle, RotateCcw, ScanSearch } from "lucide-react";
+import { ArrowRight, CircleCheck, ImageUp, LoaderCircle, RotateCcw, ScanSearch } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotionConfig } from "motion/react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { Callout } from "@/components/ui/callout";
 import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -144,12 +144,25 @@ export function AnalyzeClient() {
   const previewImage = source?.kind === "sample" ? source.sample.file : source?.previewUrl;
   const providerMeta = PROVIDER_META[settings.provider];
 
+  // G-75: a live region that stays mounted while the view switches to the result,
+  // so screen readers announce the save (a region that mounts with its text is often skipped).
+  const withSavedStatus = (view: ReactNode) => (
+    <>
+      <p role="status" aria-live="polite" className="sr-only">
+        {status.state === "done" ? "Analysis saved to this browser." : ""}
+      </p>
+      {view}
+    </>
+  );
+
   if (status.state === "done") {
-    return (
+    return withSavedStatus(
       // scroll-mt keeps a gap above the result; below lg the html scroll-padding in globals.css clears the sticky top bar.
-      <div ref={resultRef} tabIndex={-1} className="grid scroll-mt-4 gap-5 outline-none lg:scroll-mt-6">
+      // key: the result gets its own element instead of reusing the form's grid, so nothing shifts as it appears (G-75).
+      <div key="result" ref={resultRef} tabIndex={-1} className="grid scroll-mt-4 gap-5 outline-none lg:scroll-mt-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="text-sm text-muted" aria-live="polite">
+          <p className="text-sm text-muted">
+            <CircleCheck className="saved-tick mr-1.5 inline size-4 align-middle text-accent-ink" aria-hidden />
             Analysis saved to this browser.{" "}
             <Link href={`/app/roads/reports/${status.analysis.id}`} className="font-medium text-accent-ink underline underline-offset-2">
               Open as report
@@ -162,13 +175,14 @@ export function AnalyzeClient() {
         <AnalysisView
           analysis={status.analysis}
           title={source?.kind === "sample" ? source.sample.title : source?.file.name}
+          reveal
         />
-      </div>
+      </div>,
     );
   }
 
-  return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
+  return withSavedStatus(
+    <div key="form" className="grid gap-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
       {/* Left: photo */}
       <div className="grid content-start gap-4">
         {previewImage ? (
@@ -327,6 +341,6 @@ export function AnalyzeClient() {
           How is the priority calculated? <ArrowRight aria-hidden />
         </ButtonLink>
       </div>
-    </div>
+    </div>,
   );
 }

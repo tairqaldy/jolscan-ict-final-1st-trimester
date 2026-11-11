@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { duration, ease, stagger, timing } from "./motion";
+import { duration, ease, reveal, stagger, timing } from "./motion";
 
 const css = readFileSync(fileURLToPath(new URL("../app/tokens.css", import.meta.url)), "utf8");
 
@@ -32,8 +32,31 @@ describe("motion tokens", () => {
     }
   });
 
+  it("every CSS --duration-* and --ease-* token has a JS twin (G-21)", () => {
+    const js: Record<string, number> = { ...duration, ui: timing.ui };
+    for (const [, name] of css.matchAll(/--duration-([\w-]+):/g)) expect(js[name], `--duration-${name}`).toBeDefined();
+    for (const [, name] of css.matchAll(/--ease-([\w-]+):/g)) expect(name in ease, `--ease-${name}`).toBe(true);
+  });
+
+  it("the default CSS timing function is --ease-standard (G-21)", () => {
+    expect(cssVar("default-transition-timing-function")).toBe(cssVar("ease-standard"));
+  });
+
   it("keeps the stagger step positive and short", () => {
     expect(stagger).toBeGreaterThan(0);
     expect(stagger).toBeLessThan(duration.base);
+  });
+});
+
+describe("staged result reveal (G-75)", () => {
+  it("runs card, then key value, then rows, in order", () => {
+    expect(reveal.card).toBeLessThan(reveal.key);
+    expect(reveal.key).toBeLessThan(reveal.rows);
+    expect(reveal.rows).toBeLessThanOrEqual(reveal.lastStart);
+  });
+
+  it("ends within the 600 ms budget", () => {
+    expect(reveal.lastStart + duration.base).toBeLessThanOrEqual(reveal.budget + 1e-9);
+    expect(reveal.budget).toBeLessThanOrEqual(0.6);
   });
 });

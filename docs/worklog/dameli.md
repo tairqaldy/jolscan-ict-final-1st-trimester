@@ -12,6 +12,85 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 20:33 · G-75 (#434) · Staged result reveal and save confirmation
+- **Status:** done
+- **What I did:**
+  - Added `reveal` timings to `web/lib/motion.ts` (card 60 ms, key value 120 ms, rule rows from 180 ms in 40 ms steps, last start 360 ms) and a test that the reveal ends within 600 ms.
+  - Added `.result-stage` and `.saved-tick` to `web/app/globals.css` (opacity and transform only, `--duration-base`, `--ease-emphasized`), with `animation: none` under the OS setting and the Settings switch, and a small helper `web/components/motion/stage.ts`.
+  - Road result (`analysis-view.tsx`, only when opened from Analyze): the priority card, then the score, then the rule rows. Compare result (`compare-result.tsx`): the signs, the verdict card, the verdict, then S1 to S3. Reports and check pages open without it.
+  - "Analysis saved to this browser" is now announced by a `role="status"` region that stays mounted; Compare's existing live region now also says "Saved to this browser". A tick pops once next to both save lines.
+  - Gave the Analyze form and result their own elements (`key`), which removed a 4 px shift when the result appears.
+- **Result:** Playwright on my dev server: road reveal 559 ms, Compare 467 ms (measured from mount to the last animation end), CLS 0 from mount at 1440 px; with Reduce motion (OS or Settings) 0 animations and every staged element at opacity 1 on the first frame. Lint, typecheck and all tests pass.
+- **Decisions and why:**
+  - CSS animation, not motion/react: no client cost, and the existing reduced-motion blocks cover it.
+  - No count-up on the score: it would show values that are not the result, and `timing.countUp` is 800 ms.
+  - The reveal stops once it has played, so switching tabs does not replay the rows.
+  - Did not touch `detection-overlay.tsx` (another task) or Match (Nazar's PR #426).
+- **What I learned / can explain at the defense:** a live region that mounts together with its text is often not read; it has to exist first and then change. With reduced motion the global `transition-duration: 0.01ms` still animates a property change on a reused element for one frame, which shows up as a layout shift.
+- **AI use:** Claude Code wrote the code and the Playwright checks; I set the order and timing and checked the numbers.
+- **Open questions / next:** the box draw-in on the photo (detection-overlay.tsx) runs on its own timing, longer than 600 ms. At 375 px on Compare the "Saved to this browser" line wraps under the heading and moves the result down (CLS 0.031, also before this change). No copy actions exist in the app, so none needed a confirmation.
+
+### 2026-11-11 20:33 · G-6 (#124) · States and micro-interactions for the UI primitives
+- **Status:** done
+- **What I did:**
+  - Gave every interactive primitive in `web/components/ui/` a clear hover, pressed or selected, focus and disabled state, plus loading (button) and error (text field): button press scale to 98 %, switch thumb stretch on press, slider thumb lift and hold, tabs underline that grows from the centre, select chevron turn, dialog and phone sheet enter and exit.
+  - A focus ring that eases in (`.focus-ring-in`) and the dialog keyframes in one G-6 block at the end of `web/app/globals.css`, on the duration and easing tokens only.
+  - Buttons and segmented options 48 px tall below 640 px; the switch and slider thumb get a 48 px hit area from an invisible `::before` box.
+  - A "States" grid per component on `/design` (`web/components/design/states-grid.tsx`), shown in light, dark and high contrast; each component takes `forceState` to draw hover, focus and pressed.
+  - Wrote the states table, tap targets and the no-toast decision in `docs/DESIGN-BRIEF.md`.
+- **Result:** Playwright on my dev server: 97 Button primitives on `/design` at 375 px are 48 px tall (the forced "pressed" ones measure 47 because of the 98 % scale), `/app/analyze` and `/app/settings` 48 px; no sideways scroll at 375 px; no console errors. Dialog opens with `ui-panel-in`, closes with `ui-panel-out` and is removed; a press gives `scale: 0.98`; Tab focus runs `ui-focus-ring-in`. With reduced motion (OS and the Settings attribute) transitions and animations are 0.01 ms. Lint, typecheck and 233 tests pass.
+- **Decisions and why:**
+  - Forced states use the same classes as the real variants, and a test fails if they drift. Otherwise `/design` could show a look the app never has.
+  - Card, badge and empty state get no hover: they are not clickable and must not look it.
+  - No toast: feedback stays next to the control (Callout, `role="status"`); a toast disappears before it is read.
+  - Tabs draw the focus ring inside the tab, because the scrolling tab list clipped a ring drawn outside.
+  - Timings 120 ms for feedback and 200 ms for a dialog entering, close to the reference site's 100 to 150 ms on links and buttons.
+- **What I learned / can explain at the defense:** every control shows what it is doing (visibility of system status) and the same state looks the same everywhere (consistency, Lec3-HCI); a keyboard user sees focus on every control; tap targets are 48 px on phones (U6, Fitts's Law); motion explains a change and is cut by Reduce motion (WCAG 2.3.3).
+- **AI use:** Claude Code wrote the class changes, the states grid and the tests; I checked them with Playwright screenshots and computed styles. See `docs/AI-USAGE-LOG.md`.
+- **Open questions / next:** the tabs underline grows in place instead of sliding from the old tab; a slide would need JS to measure the tabs.
+
+### 2026-11-11 20:35 · G-76 (#435) · Brand and copy pass, three rounds
+- **Status:** done
+- **What I did:**
+  - Traced every string on the landing page, `/design`, the empty states, the social card and `docs/design/*` to its author with `git log -S` and `git blame -w`, then audited the copy in `web/app` and `web/components` against `docs/design/ANTI-SLOP.md` and the voice in `docs/design/PRINCIPLES.md`.
+  - Rewrote my own text on the landing page: the hero heading ("with clarity" became "from a photo"), the hero lead (names potholes and door signs, and says each result shows what the model found and which rules decided it), "Why this priority" without the question mark, the section label "Two inspection tasks", the steps sentence, the Rules intro (keeps "mock predictions") and the course toggle. Rewrote the social card alt text so it describes the card.
+  - Updated `PRINCIPLES.md`: the new hero quote, seven line numbers that had moved, and a Do and a Don't from the app for each voice word.
+  - Wrote `docs/design/copy-review.md`: 25 findings with file, line, rule, fix, owner and decision, plus what rounds 2 and 3 found.
+- **Result:** 10 findings fixed on my surfaces; 13 proposals for Tair (and R-12 for the spelling) and 2 for the lab branch, with their code untouched. The third pass found nothing new. Lint, typecheck and 223 tests pass.
+- **Decisions and why:**
+  - Lines that blame gives to me only because G-8 re-indented them (the landing Problem, privacy and team text) stay Tair's, since `git log -S` shows he wrote them.
+  - "Change the thresholds and watch the result move" sits in my G-61 card but is Tair's wording, so it is a proposal, not a change.
+  - The lab findings stay proposals because an open lab branch edits those files today.
+  - The first-audit table in `ANTI-SLOP.md` keeps its old line number: it is a dated record.
+- **What I learned / can explain at the defense:** the portability test: if a heading would fit any product ("with clarity", "One approach, two inspection tasks"), it says nothing; a label that names the content does. And honesty labels and numbers are the one thing a copy pass must never touch.
+- **AI use:** Claude Code (Claude Opus 5.5) for the ownership trace, the greps and first drafts of the rewrites; I chose the wording. Logged in `docs/AI-USAGE-LOG.md`.
+- **Open questions / next:** Tair to decide T1 to T13 in `copy-review.md`; the team to pick one spelling (R-12); L1 needs a native speaker for the Kazakh and Russian lines.
+### 2026-11-11 20:32 · G-73 (#432) · Motion spec from the reference site
+- **Status:** done.
+- **What I did:**
+  - Opened the Refero board I picked and the dope.security site it comes from with Playwright at 1440 × 900: read every computed `transition` and `animation`, the `@keyframes` and `prefers-reduced-motion` rules, sampled hover, mouse down and Tab focus over one second, and watched inline style changes while opening the menu and scrolling.
+  - Read WCAG 2.3.3, MDN on `prefers-reduced-motion`, the Material 3 motion tokens, Apple HIG Motion, the Vercel Web Interface Guidelines and two NN/g articles.
+  - Wrote `docs/design/motion.md`: 25 interactions with timings and a keep, adapt or skip verdict, eight rules with sources, a map to our components and issues, and our tokens against the measurements.
+- **Result:** UI feedback on the reference is 100 to 200 ms and decelerates at the end, which our `--duration-fast`, `--duration-ui`, `--duration-base` and `--ease-standard` already cover. There is no token between 200 and 420 ms. Four places break our own rules: `.stagger` ends at 660 to 780 ms, the distribution bars at 630 ms plus 60 ms per bar, the detection boxes draw for 700 ms (the brief says 300), and the header links animate padding with a bare 320 ms.
+- **Decisions and why:** skipped everything on the reference that runs on its own (typed text, rotating words, floating logos, pulses), because it delays reading and has no reduced-motion rule there. Kept the stricter "nothing moves" under Reduce motion although WCAG would allow fades, because `globals.css` already does it. Added two rules the swarm notes lacked: leaving is faster than entering, and nobody waits for an animation.
+- **What I learned / can explain at the defense:** how to measure a site's motion from computed styles, why `transition: all` and animating padding or `top` are avoided, what WCAG 2.3.3 counts as motion, and why our standard easing is the Material 3 standard curve.
+- **AI use:** Claude Code ran the Playwright scripts, read the sources and drafted the document; I checked the numbers against the raw output (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** G-6, G-9, G-74 and G-75 apply the map; the four rule breaks above are listed for them, not changed here. The DESIGN-BRIEF Motion table (boxes 300 ms) needs one line updated by whoever owns it.
+### 2026-11-11 20:34 · G-9 (#126) · Dashboard review against the ten heuristics
+- **Status:** done
+- **What I did:**
+  - Reviewed `/app`, `/app/roads`, `/app/restrooms` and the top of `/app/analytics` at 1440 and 375 px, light and dark, heuristic by heuristic, and wrote a decision for each in `docs/design/dashboard-review.md` (pass, fixed, suggested to an owner, or n/a), with screenshots in `docs/design/dashboard-review-g9/`.
+  - Fixed what is in my layer: one feedback class for link rows and link cards (`web/components/app/link-row.ts`: hover border and background, press one step darker, 120 ms `--duration-fast`, `ease-standard`); an arrow on the "Shared by both modules" cards; flat KPI tiles inside the Home module cards (`Kpi nested`); hotspots as a plain ranked list so they no longer look like the clickable review queue; eased table-row hover; the KPI number steps down on phones and at `lg` so it never overflows its tile.
+  - Wrote the order changes (review queue above the fold, Home demo path under the modules, restroom explainer under the KPIs) as suggestions for W-7 (#108), and the naming and nav notes for Tair, G-74 and G-76.
+- **Result:** first review-queue item on `/app/roads` is at y = 1034 (below the fold at 1440 × 900 and 1366 × 768), so W-7 still has work. KPI fit script: 4 overflowing pages before (320, 375 and 1024 px), 0 after. Reduce motion (device and Settings switch) cuts the new transitions to 0.01 ms (measured). Lint, typecheck and 223 tests pass.
+- **Decisions and why:**
+  - Section order is Tair's page structure (W-7), so I wrote it down instead of moving cards.
+  - `nested` and the KPI size as props/classes inside `Kpi`, not `className` from the page: `cn()` does not merge classes, so `shadow-none` from outside never beat `shadow-sm` (measured).
+  - KPI step at `lg` back to 36 px: the sidebar appears there and the roads row becomes four tiles, which is where "63 ms" overflowed by 16 px.
+- **What I learned / can explain at the defense:** the dashboard was reviewed heuristic by heuristic and the review changed it: a static tile must not look like a button (consistency), and the urgent item has to be visible without scrolling (aesthetic and minimalist design). Three good examples for slide 9 are at the end of the review.
+- **AI use:** Claude Code (Claude Opus 5.5) took the screenshots and measurements with Playwright, drafted the review and made the class changes; I chose which notes are mine and which go to an owner. Logged in `docs/AI-USAGE-LOG.md`.
+- **Open questions / next:** Tair (W-7): move the roads review queue into the first row, put the Home demo path under the modules, put the restroom KPIs before the explainer. G-76: the middle-dot spacing. G-74: "More" lights up on `/app/roads` at 375 px.
+
 ### 2026-11-11 20:32 · G-74 (#433) · Rail bar, module switch and link underline that move
 - **Status:** done
 - **What I did:**
@@ -27,6 +106,22 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **What I learned / can explain at the defense:** a moving indicator shows where you went, not only where you are (NN/g microinteractions); WCAG 2.3.3 is met because both reduce-motion paths remove the transition. A parent ref is not attached yet when a child's layout effect runs on first mount, so the bar reads its parent element instead.
 - **AI use:** Claude Code wrote the CSS, the shell changes and the Playwright checks (entry in docs/AI-USAGE-LOG.md).
 - **Open questions / next:** the mobile bottom tab bar still switches its pill without motion. The About link underline also runs under its icon.
+
+### 2026-11-11 19:32 · G-21 (#165) · Tests that keep the tokens and the code in sync
+- **Status:** done.
+- **What I did:**
+  - `web/lib/tokens.test.ts` reads `tokens.css`, every stylesheet and the code in `app/`, `components/` and `lib/` as text and checks: every theme block (light, dark, contrast and any new one) declares the light tokens and no others, except the photo box tokens that dark takes from light; aliases such as `--verdict-clear: var(--sev-clear)` point to tokens of the same theme; the `@theme` mapping names only tokens that exist, and each `--color-x` maps to `var(--x)`; every `var(--x)` and `bg-(--x)` in the code is defined (Tailwind's `--tw-*` and Radix's `--radix-*` excepted); the two `themeColor` values in `app/layout.tsx` equal `--bg` of light and dark; no hex colour in `app/` or `components/` code except `layout.tsx`.
+  - `web/lib/css-tokens.ts`: the small readers the tests share. The print test (G-25) now imports its `declarations` parser from there instead of keeping its own copy.
+  - `web/lib/motion.test.ts` already compared the JS motion values with the CSS ones. I extended it in the other direction (every `--duration-*` and `--ease-*` needs a JS twin) and added a check that the default timing function equals `--ease-standard`.
+- **Result:** 14 new checks and 2 new motion checks pass on the branch rebased on `main`. After the last rebase the var() check found one real drift: G-49 removed `--radius-xs` and `--radius-xl`, but `web/app/design/lab/lab.css` (my G-41 file) still pointed `.rounded-xs` and `.rounded-xl` at them. No component uses those classes, so I removed the two rules. Each deliberate break made a test fail with the file and line, then I restored it: a dark-only token, an alias to a missing token, `--color-fg: var(--muted)`, `bg-(--chart-9)` in a component, a changed dark `--bg`, `"#abc"` in a component, `--duration-draw: 650ms` and an extra `--duration-extra`. `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` (19 files, 239 tests) and `pnpm build` pass.
+- **Decisions and why:**
+  - Parsed generically, so a token or theme added by another pull request is checked without editing the test. The only named exceptions are the `--box*` overlay tokens (tokens.css says they are the same in both themes) and the `--tw-` and `--radix-` prefixes.
+  - The motion check stays in `motion.test.ts`, extended rather than copied into `tokens.test.ts`, so one drift fails one test.
+  - `var(--shadow-${size})` in a template string counts as used when some token starts with `--shadow-`.
+  - The hex check skips comments and `href="#..."`, and needs a non-letter after the digits, so `#main` and `#roads` do not count.
+- **What I learned / can explain at the defense:** tokens.css is only "the one file to re-skin the app" if nothing else holds a colour or a timing. These tests turn the "keep in sync" comments into checks that fail in CI when a pull request changes one side only.
+- **AI use:** Claude Code wrote the tests and the helper; I checked them with deliberate breaks (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** the tests read CSS as text and assume plain `selector { --name: value; }` blocks. A nested rule inside a theme block would need a real CSS parser (postcss).
 
 ### 2026-11-11 19:24 · G-49 (#283), G-23 (#167), G-62 (#296) · Three radii, one eyebrow label, one card inset
 - **Status:** done

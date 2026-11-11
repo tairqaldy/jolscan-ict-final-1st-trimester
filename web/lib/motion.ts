@@ -41,3 +41,19 @@ export const demo = {
   /** The similarity bar starts to grow. */
   similarityDelay: 0.7,
 } as const;
+
+/**
+ * G-75: staged reveal of a fresh result (road analysis, restroom compare), seconds
+ * from the moment the result appears. Each step is one --duration-base rise
+ * (globals.css .result-stage): the priority or verdict card, then the score or
+ * verdict inside it, then the rule rows one after another. No step starts after
+ * lastStart, so the whole reveal ends by budget (600 ms, the swarm motion rule).
+ */
+export const reveal = {
+  card: 0.06,
+  key: 0.12,
+  rows: 0.18,
+  rowStep: 0.04,
+  lastStart: 0.36,
+  budget: 0.6,
+} as const;

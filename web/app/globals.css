@@ -532,3 +532,116 @@ html[data-motion="reduce"] .app-frame[data-nav-ready] .rail-indicator,
 html[data-motion="reduce"] .app-frame[data-nav-ready] .module-thumb {
   transition: none;
 }
+
+/*
+ * G-6: motion of the UI primitives (components/ui). Durations and easings are
+ * the tokens in tokens.css; each runs once, never loops. Both Reduce motion
+ * paths above (the OS setting and html[data-motion="reduce"]) cut every
+ * animation to 0.01 ms, so the end state shows at once.
+ *
+ * Focus ring: the outline grows out from the edge to its 2 px offset.
+ */
+@keyframes ui-focus-ring-in {
+  from {
+    outline-offset: 0;
+  }
+}
+.focus-ring-in:focus-visible {
+  animation: ui-focus-ring-in var(--duration-fast) var(--ease-standard);
+}
+
+/* Dialog: the overlay fades, the panel grows from 96 %, the bottom sheet slides up. Exit is shorter. */
+@keyframes ui-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes ui-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes ui-panel-in {
+  from {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+@keyframes ui-panel-out {
+  to {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+@keyframes ui-sheet-in {
+  from {
+    translate: 0 100%;
+  }
+}
+@keyframes ui-sheet-out {
+  to {
+    translate: 0 100%;
+  }
+}
+.dialog-overlay[data-state="open"] {
+  animation: ui-fade-in var(--duration-base) var(--ease-standard);
+}
+.dialog-overlay[data-state="closed"] {
+  animation: ui-fade-out var(--duration-fast) var(--ease-exit) forwards;
+}
+.dialog-panel[data-state="open"] {
+  animation: ui-panel-in var(--duration-base) var(--ease-emphasized);
+}
+.dialog-panel[data-state="closed"] {
+  animation: ui-panel-out var(--duration-fast) var(--ease-exit) forwards;
+}
+.dialog-sheet[data-state="open"] {
+  animation: ui-sheet-in var(--duration-base) var(--ease-emphasized);
+}
+.dialog-sheet[data-state="closed"] {
+  animation: ui-sheet-out var(--duration-fast) var(--ease-exit) forwards;
+}
+
+/* Select list: fades in next to its trigger. */
+.popover-in[data-state="open"] {
+  animation: ui-fade-in var(--duration-fast) var(--ease-standard);
+}
+
+/*
+ * G-75: staged reveal of a fresh result (components/motion/stage.ts). The
+ * priority or verdict card, then the score or verdict, then the rule rows rise
+ * in; delays come from lib/motion.ts (reveal) and the whole reveal ends within
+ * 600 ms. Opacity and transform only, so no text moves in the layout. The tick
+ * on "saved to this browser" pops once to confirm the save. Played once, never
+ * looped; with reduced motion (OS or the Settings switch, G-64) there is no
+ * animation and no delay: everything is there on the first frame.
+ */
+@keyframes result-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+@keyframes saved-tick {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+.result-stage {
+  animation: result-in var(--duration-base) var(--ease-emphasized, cubic-bezier(0.3, 0, 0, 1)) backwards;
+  animation-delay: var(--stage-delay, 0ms);
+}
+.saved-tick {
+  animation: saved-tick var(--duration-base) var(--ease-emphasized, cubic-bezier(0.3, 0, 0, 1)) backwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .result-stage,
+  .saved-tick {
+    animation: none !important;
+  }
+}
+html[data-motion="reduce"] .result-stage,
+html[data-motion="reduce"] .saved-tick {
+  animation: none !important;
+}
