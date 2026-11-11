@@ -62,7 +62,7 @@ export function PlatformOverviewClient() {
           <div className="grid grid-cols-3 gap-2 sm:gap-3">
             <Kpi label="Photos" value={roads.photos} note="analysed" className="p-3 sm:p-4" />
             <Kpi label="Urgent" value={roads.urgent} note="high or critical" accentClass="bg-sev-critical" className="p-3 sm:p-4" />
-            <Kpi label="To review" value={roads.review} note="low confidence" accentClass="bg-accent" className="p-3 sm:p-4" />
+            <Kpi label="To review" value={roads.review} note="low confidence" accentClass="bg-review" className="p-3 sm:p-4" />
           </div>
           <RecentList title="Latest road photos" moreHref="/app/roads/reports">
             {analyses.slice(0, 4).map((a) => (
