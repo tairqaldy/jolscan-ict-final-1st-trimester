@@ -208,8 +208,8 @@ export default function LandingPage() {
 
         {/* Modules */}
         <section id="modules" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="modules-h">
-          <SectionTitle id="modules-h" eyebrow="The tools" title="One approach, two inspection tasks" />
-          <p className="mt-3 max-w-2xl text-muted">Choose a task to see how an image becomes an explainable result.</p>
+          <SectionTitle id="modules-h" eyebrow="The tools" title="Two inspection tasks" />
+          <p className="mt-3 max-w-2xl text-muted">Choose a task to see the steps from photo to result.</p>
           <div className="mt-8 grid gap-6 lg:grid-cols-2">
             <ModuleCard
               id="roads"
