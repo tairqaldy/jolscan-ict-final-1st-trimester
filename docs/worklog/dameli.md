@@ -24,10 +24,10 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
   - Map: I tried CARTO's dark basemap first, but its tiles now show "API KEY REQUIRED". I kept OpenStreetMap and put a CSS filter on the tile pane only, so markers, popups and the credit keep their token colours. No new host and no key.
   - Marker ring in dark: `--fg` instead of `--surface`. On the dark tiles it separates overlapping markers and keeps yellow (medium) apart from the orange main roads (compared in two screenshots).
   - `leaflet.css` loads after `globals.css`, so the existing popup rules lost and popups were white in the dark theme. A `.leaflet-container` prefix fixes it without touching the old rules.
-  - Clear analyses are no longer drawn, as the issue recommends: "Findings on the map (37)" now matches 37 markers (it was 40). Tair can undo this with one commit if he wants clear roads back on the map.
+  - Today the heading says 37 and the map draws 40 markers, because clear analyses are drawn too. The issue suggests hiding them; I left them, because that changes what Tair's map page shows and waits for his OK.
 - **What I learned / can explain at the defense:** consistency and standards (Lec3-HCI p13–37): one severity scale for badges, bars and markers, written down as rules. Honest visualisation (Lec4-DMViz p31): the count shown equals what is drawn.
 - **AI use:** Claude Code wrote the code and the rule text from the issues, my brief and searches of the code; I reviewed the screenshots (entry in docs/AI-USAGE-LOG.md).
-- **Open questions / next:** Tair to confirm clear analyses stay off the map. The "Roads: needs review" group from G-47 got its lines during the rebase; a new colour group needs both lines (the type requires them).
+- **Open questions / next:** ask Tair whether clear analyses should leave the map (count 37, markers 40). The "Roads: needs review" group from G-47 got its lines during the rebase; a new colour group needs both lines (the type requires them).
 
 ### 2026-11-11 17:20 · G-56 (#290), G-11 (#127), G-57 (#291), G-63 (#297), G-69 (#334) · Screenshot frame, deck screenshots, video look, imagery, principles
 - **Status:** G-63 done. G-56, G-11, G-57 and G-69 in progress: the parts that need Roma, the Drive upload or a native speaker are open.
