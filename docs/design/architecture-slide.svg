@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" role="img" aria-labelledby="t d">
+  <title id="t">Qarau architecture, slide 4</title>
+  <desc id="d">A photo goes from the browser to the Next.js server, which sends it to the chosen provider (mock, the local FastAPI service with YOLO and CLIP, or the opt-in cloud copy), applies the rules R1 to R6 or S1 to S3 to the returned JSON, and sends the result with a severity or verdict back to the browser.</desc>
+  <!-- Source: docs/ARCHITECTURE.md section 1; labels checked against web/app/api, api/main.py and api/restroom.py. Colours: light theme of web/app/tokens.css. G-66. -->
+  <defs>
+    <marker id="ah-accent" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#b87f00"/>
+    </marker>
+    <marker id="ah-grey" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="16" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#66686d"/>
+    </marker>
+    <style>
+      .t { font-family: Overpass, "Helvetica Neue", Arial, sans-serif; fill: #1b1c1e; }
+      .m { font-family: "JetBrains Mono", Menlo, Consolas, monospace; fill: #1b1c1e; }
+      .muted { fill: #4f5156; }
+      .b { font-weight: 700; }
+      .box { fill: #ffffff; stroke: #b3afa4; stroke-width: 2; }
+      .row { fill: #f3f2ee; stroke: none; }
+      .badge { fill: #b87f00; }
+      .badge-n { font-family: Overpass, "Helvetica Neue", Arial, sans-serif; font-weight: 700; font-size: 24px; fill: #1b1c1e; text-anchor: middle; }
+    </style>
+  </defs>
+
+  <rect width="1920" height="1080" fill="#f3f2ee"/>
+
+  <!-- Browser -->
+  <rect class="box" x="80" y="390" width="340" height="300" rx="12"/>
+  <text class="t b" x="110" y="462" font-size="44">Browser</text>
+  <text class="t muted" x="110" y="510" font-size="28">Next.js pages</text>
+  <text class="t muted" x="110" y="610" font-size="26">history in</text>
+  <text class="m" x="110" y="650" font-size="26">localStorage</text>
+
+  <!-- Next.js server -->
+  <rect class="box" x="640" y="300" width="480" height="480" rx="12"/>
+  <text class="t b" x="670" y="372" font-size="44">Next.js server</text>
+  <text class="m" x="670" y="432" font-size="26">POST /api/analyze</text>
+  <text class="m" x="670" y="474" font-size="26">POST /api/restroom</text>
+  <line x1="670" y1="520" x2="1090" y2="520" stroke="#dad7cf" stroke-width="2"/>
+  <text class="t b" x="670" y="580" font-size="32">Rules applied here</text>
+  <circle class="badge" cx="1066" cy="570" r="20"/><text class="badge-n" x="1066" y="579">4</text>
+  <text class="t" x="670" y="630" font-size="28">Roads R1–R6</text>
+  <text class="t" x="670" y="672" font-size="28">Restrooms S1–S3</text>
+  <text class="t muted" x="670" y="730" font-size="26">→ severity or verdict</text>
+
+  <!-- Provider column -->
+  <text class="t muted" x="1280" y="70" font-size="26">Provider, chosen in Settings</text>
+
+  <rect class="box" x="1280" y="96" width="560" height="170" rx="12"/>
+  <text class="t b" x="1310" y="160" font-size="36">mock</text>
+  <text class="t muted" x="1310" y="212" font-size="28">canned results, works offline</text>
+
+  <rect class="box" x="1280" y="316" width="560" height="440" rx="12" style="stroke:#b87f00;stroke-width:4"/>
+  <text class="t b" x="1310" y="382" font-size="40">local</text>
+  <text class="m muted" x="1310" y="426" font-size="26">FastAPI · localhost:8000</text>
+  <rect class="row" x="1310" y="456" width="500" height="130" rx="8"/>
+  <text class="m" x="1334" y="502" font-size="26">POST /predict</text>
+  <text class="t b" x="1334" y="556" font-size="30">YOLO: pothole model</text>
+  <rect class="row" x="1310" y="602" width="500" height="130" rx="8"/>
+  <text class="m" x="1334" y="648" font-size="23">POST /restroom/compare, /match</text>
+  <text class="t b" x="1334" y="702" font-size="30">CLIP: restroom signs</text>
+
+  <rect class="box" x="1280" y="806" width="560" height="170" rx="12" style="stroke-dasharray:12 8"/>
+  <text class="t b" x="1310" y="870" font-size="36">cloud <tspan class="muted" font-weight="400" font-size="28">same service, hosted</tspan></text>
+  <text class="t muted" x="1310" y="922" font-size="28">opt-in, not used in this demo</text>
+
+  <!-- 1: photo up, 5: result back -->
+  <line x1="420" y1="500" x2="636" y2="500" stroke="#b87f00" stroke-width="4" marker-end="url(#ah-accent)"/>
+  <circle class="badge" cx="454" cy="462" r="20"/><text class="badge-n" x="454" y="471">1</text>
+  <text class="t" x="484" y="471" font-size="26">photo</text>
+  <line x1="640" y1="590" x2="424" y2="590" stroke="#b87f00" stroke-width="4" marker-end="url(#ah-accent)"/>
+  <circle class="badge" cx="454" cy="630" r="20"/><text class="badge-n" x="454" y="639">5</text>
+  <text class="t" x="484" y="639" font-size="26">result</text>
+  <text class="t muted" x="440" y="674" font-size="22">severity / verdict</text>
+
+  <!-- 2: photo to the model service, 3: JSON back -->
+  <line x1="1120" y1="470" x2="1276" y2="470" stroke="#b87f00" stroke-width="4" marker-end="url(#ah-accent)"/>
+  <circle class="badge" cx="1150" cy="432" r="20"/><text class="badge-n" x="1150" y="441">2</text>
+  <text class="t" x="1178" y="441" font-size="26">photo</text>
+  <line x1="1280" y1="560" x2="1124" y2="560" stroke="#b87f00" stroke-width="4" marker-end="url(#ah-accent)"/>
+  <circle class="badge" cx="1150" cy="598" r="20"/><text class="badge-n" x="1150" y="607">3</text>
+  <text class="t" x="1178" y="607" font-size="26">JSON</text>
+  <text class="t muted" x="1140" y="640" font-size="22">detections</text>
+
+  <!-- the other two providers -->
+  <path d="M1120 360 C 1200 360, 1200 200, 1276 200" fill="none" stroke="#66686d" stroke-width="2" marker-end="url(#ah-grey)"/>
+  <path d="M1120 720 C 1200 720, 1200 890, 1276 890" fill="none" stroke="#66686d" stroke-width="2" stroke-dasharray="10 8" marker-end="url(#ah-grey)"/>
+
+  <text class="t muted" x="80" y="1040" font-size="24">Numbers follow one photo in the live demo. No database: history stays in the browser.</text>
+</svg>
