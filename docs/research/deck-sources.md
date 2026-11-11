@@ -71,6 +71,8 @@ One row per number on the deck, written by `docs/deck/make_deck.py`, which reads
 | 6 | 0.854 | `ml/results/operating_point.json` | precision | 0.8544 | yes |
 | 6 | 0.746 | `ml/results/operating_point.json` | recall | 0.7458 | yes |
 | 6 | 30 | `ml/results/operating_point.json` | fp | 30 | yes |
+| 6 | 60 | `ml/results/operating_point.json` | fn | 60 | yes |
+| 6 | 0.5 | `ml/results/operating_point.json` | iou | 0.5 | yes |
 | 6 | 206 | `ml/results/operating_point.json` | tp + fp | 206 | yes |
 | 6 | 0.40 | `ml/results/operating_point.json` | conf | 0.4 | yes |
 | 6 | 0.016 | `ml/results/experiments.csv` | E4 map50 − E1 map50 = 0.8313 − 0.8155 | 0.0158 | yes |
