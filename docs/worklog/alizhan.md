@@ -85,13 +85,13 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **Open questions / next:** Verify the shared folder exists and all runners can edit it, then run the handoff for an actual full run in Colab.
 
 ### 2026-11-11 · D-29 (#345) · Reproduce pothole size bands
-- **Status:** in progress; frozen training labels are needed for the required comparison.
-- **What I did:** Wrote a training-only YOLO label reader, log-area KMeans script, histogram export and synthetic checks; documented the command and pinned scikit-learn.
-- **Result:** A reproducibility implementation is ready for review. The committed thresholds have not been recomputed by this tool because the actual training labels were unavailable in this session.
+- **Status:** implementation and numerical verification complete; Amina's review pending.
+- **What I did:** Wrote a training-only YOLO label reader, log-area KMeans script, histogram export and synthetic checks; documented the command, pinned scikit-learn, and ran it on a manifest-verified rebuild of the Kaggle dataset.
+- **Result:** Rebuilt train has 465 images and 1,198 boxes; counts 429/499/270 match. Both thresholds and all cluster centers agree with the committed JSON to six decimals. Non-float fields are identical. The supplied figure was not compared pixel by pixel.
 - **Decisions and why:** Restrict the input to a training directory and write to a temporary output before comparing; do not alter the rule thresholds.
 - **What I learned / can explain at the defense:** Clustering log area gives image-relative groups, not physical measurements; test data must not determine thresholds.
 - **AI use:** Codex desktop, GPT-6; personal review pending.
-- **Open questions / next:** Run on the frozen training labels, compare all counts and thresholds to six decimals, and stop if they differ.
+- **Open questions / next:** Amina should review the reproduced output and the remaining small floating-point differences; the original Drive archive was not directly inspected.
 
 ### 2026-11-11 · S-28 (#222) · Validation-only promotion gate
 - **Status:** implemented; Amina's review pending.

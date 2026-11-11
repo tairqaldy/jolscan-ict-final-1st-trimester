@@ -14,7 +14,7 @@ Run the following on the frozen training labels only, using scikit-learn 1.6.1. 
 python ml/size_bands.py --labels /path/to/potholes_yolo_v1/labels/train --out /tmp/size-bands
 ```
 
-Compare the resulting `pothole_area_clusters.json` (including image and box counts, group counts and thresholds to six decimals) against `ml/results/pothole_area_clusters.json`. The plot is in `figs/pothole_area_clusters.png`. If numbers differ, stop and report the difference; do not silently change the rules. The original results were supplied and have not yet been recomputed against the frozen training labels by this script. Box areas are fractions of the image, not physical sizes.
+Compare the resulting `pothole_area_clusters.json` (including image and box counts, group counts and thresholds to six decimals) against `ml/results/pothole_area_clusters.json`. The plot is in `figs/pothole_area_clusters.png`. If numbers differ, stop and report the difference; do not silently change the rules. On 11 November 2026 the script was run against training labels rebuilt from the public Kaggle version using `data/make_potholes_yolo_v1.py`: every image hash, split and object count matched the committed manifest; all non-float JSON fields matched and centers and thresholds agreed to six decimal places. The rebuilt labels came from the documented conversion, not a direct download of the original Drive export. The original supplied PNG was not checked for pixel equality. Box areas are fractions of the image, not physical sizes.
 
 ## M-1 one-epoch smoke test
 
