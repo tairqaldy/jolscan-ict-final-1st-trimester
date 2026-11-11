@@ -94,21 +94,31 @@ def smoke_dataset_yaml(data_yaml: Path) -> Iterator[Path]:
             temporary_path.unlink()
 
 
-def evaluate(model: YOLO, data: str, imgsz: int, *, include_test: bool) -> dict[str, float]:
+def evaluate(model: YOLO, data: str, imgsz: int, *, include_test: bool, device: str | None = None) -> dict[str, float]:
     """Use validation for smoke checks; only full runs evaluate the test split."""
     out: dict[str, float] = {}
     splits = ("val", "test") if include_test else ("val",)
     for split in splits:
-        m = model.val(data=data, split=split, imgsz=imgsz)
+        m = model.val(data=data, split=split, imgsz=imgsz, device=device)
         out[f"{split}_precision"] = float(m.box.mp)
         out[f"{split}_recall"] = float(m.box.mr)
         out[f"{split}_map50"] = float(m.box.map50)
         out[f"{split}_map50_95"] = float(m.box.map)
         # Precision and recall when only boxes above the app's counting threshold are kept.
-        op = model.val(data=data, split=split, imgsz=imgsz, conf=RULES_CONF)
+        op = model.val(data=data, split=split, imgsz=imgsz, conf=RULES_CONF, device=device)
         out[f"{split}_precision_at_rules_conf"] = float(op.box.mp)
         out[f"{split}_recall_at_rules_conf"] = float(op.box.mr)
     return out
+
+
+def device_name(device: str | None) -> str:
+    """The hardware the run trained on, as it goes into the result file."""
+    if device == "mps":
+        chip = subprocess.run(["sysctl", "-n", "machdep.cpu.brand_string"], capture_output=True, text=True).stdout.strip()
+        return f"{chip or 'Apple silicon'} GPU (mps)"
+    if torch.cuda.is_available() and device != "cpu":
+        return torch.cuda.get_device_name(0)
+    return "cpu"
 
 
 def main() -> None:
@@ -122,6 +132,11 @@ def main() -> None:
     )
     parser.add_argument("--smoke", action="store_true", help="1 epoch, to test the script. Not exported")
     parser.add_argument("--batch", type=int, default=None, help="only if the GPU runs out of memory")
+    parser.add_argument(
+        "--device",
+        default=None,
+        help="'mps' on an Apple-silicon Mac, '0' for the first CUDA GPU; default lets Ultralytics choose",
+    )
     args = parser.parse_args()
 
     cfg = dict(RUNS[args.run])
@@ -172,6 +187,7 @@ def main() -> None:
                 project=str(Path.cwd() / "runs"),
                 name=run_name,
                 exist_ok=True,
+                device=args.device,
                 **train_args,
             )
             best = Path(model.trainer.best)
@@ -180,6 +196,7 @@ def main() -> None:
                 str(run_data),
                 train_args["imgsz"],
                 include_test=not args.smoke,
+                device=args.device,
             )
 
         results_csv = Path(model.trainer.save_dir) / "results.csv"
@@ -207,7 +224,7 @@ def main() -> None:
             "weights_mb": round(weights_mb, 2),
             "ultralytics": ultralytics.__version__,
             "torch": torch.__version__,
-            "device": torch.cuda.get_device_name(0) if torch.cuda.is_available() else "cpu",
+            "device": device_name(args.device),
         }
         out_file = out_dir / f"{run_name}.json"
         out_file.write_text(json.dumps(result, indent=2, allow_nan=False) + "\n")

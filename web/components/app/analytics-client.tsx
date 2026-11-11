@@ -96,7 +96,7 @@ export function RoadsAnalytics() {
         <ChartCard
           title="Detections over time"
           description={`Pothole boxes per day, 30 days to ${formatDate(new Date(windowEnd).toISOString())}. Counted means confidence ≥ ${tau.toFixed(2)} (rule R1).`}
-          badge={<DemoBadge />}
+          badge={<DemoBadge show label="Includes demo data" />}
           legend={
             <>
               <LegendSwatch color="var(--chart-1)" label="Counted" />

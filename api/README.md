@@ -8,7 +8,7 @@ The FastAPI service was run with real stock YOLO weights on Windows for S-1; see
 
 ## Run locally
 
-Use Python 3.11 or newer in a virtual environment (S-1 was verified with Python 3.12.10). The install is large because it includes PyTorch.
+Use Python 3.12 in a virtual environment (S-1 was verified with Python 3.12.10). The install is large because it includes PyTorch. Direct dependencies are pinned; NumPy 2.5.4 requires Python 3.12 or newer. See [decision 0008](../docs/decisions/0008-api-python-312.md) for the version choice and its verification limits.
 
 ```bash
 cd api && python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements-dev.txt
@@ -144,3 +144,11 @@ python gradio_app.py
 - No endpoint implementation fix was needed for this smoke check. The changes add verification
   and Windows instructions. Team weights, real-road accuracy, web integration, Gradio and Docker
   remain separate tasks; S-1 does not establish that they work.
+
+
+### S-3 input validation checks
+
+`api/test_predict.py` checks a valid image and normalized box, class filtering, invalid
+images, oversized files and confidence values. Fake models are injected and restored by
+pytest's monkeypatch. The missing-weights test also injects a failing fake YOLO so tests do
+not attempt downloads even when Ultralytics is installed.

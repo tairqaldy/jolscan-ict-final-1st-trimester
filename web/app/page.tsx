@@ -128,7 +128,7 @@ export default function LandingPage() {
             </StaggerItem>
             <StaggerItem>
               <p className="inline-flex flex-wrap items-center gap-2 text-sm text-muted">
-                {COURSE.code} course prototype. Runs on demo data until the trained models are connected. <DemoBadge module="any" />
+                {COURSE.code} course prototype. Runs on demo data until the trained models are connected. <DemoBadge show />
               </p>
             </StaggerItem>
           </Stagger>
@@ -274,12 +274,12 @@ export default function LandingPage() {
           <SectionTitle id="results-h" eyebrow="Results" title="What the models score" />
           <p className="mt-3 max-w-3xl text-muted">
             Both modules follow the same protocol: one change per run against a fixed baseline, chosen on validation, test read
-            once. Placeholders are labelled until training finishes.
+            once. Invented numbers carry a demo badge.
           </p>
           <div className="mt-8 grid gap-4 lg:grid-cols-2">
             <ResultsCard module="roads" badge={<DemoBadge show={IS_DEMO_DATA} label="Placeholder numbers" />}>
-              <Metric label="mAP50-95" value={CHAMPION.map5095.toFixed(2)} note={`baseline ${BASELINE.map5095.toFixed(2)}`} />
-              <Metric label="Recall" value={CHAMPION.recall.toFixed(2)} note={`baseline ${BASELINE.recall.toFixed(2)}`} />
+              <Metric label="mAP50-95" value={CHAMPION.map5095?.toFixed(2) ?? "—"} note={`baseline ${BASELINE.map5095?.toFixed(2) ?? "—"}`} />
+              <Metric label="Recall" value={CHAMPION.recall?.toFixed(2) ?? "—"} note={`baseline ${BASELINE.recall?.toFixed(2) ?? "—"}`} />
               <p className="col-span-2 text-sm text-muted">
                 {EXPERIMENTS.runs.length} runs. Selected: <span className="font-mono">{CHAMPION.id}</span> ({CHAMPION.changed.toLowerCase()}).
               </p>
