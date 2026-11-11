@@ -113,7 +113,7 @@
   /* Detection overlay on photos (same in both themes: it sits on the photo) */
   --box: #f2a900;
   --box-active: #ffffff;
-  --box-review: #9ec1ff;
+  --box-review: #cfa2ea; /* light violet, the photo version of --review (G-47) */
   --box-ink: #141414;
   --box-halo: rgb(0 0 0 / 0.45);
   --box-fill-active: rgb(255 255 255 / 0.14);
