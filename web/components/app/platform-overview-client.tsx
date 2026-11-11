@@ -10,6 +10,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { Card, CardBody } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { BRAND, MODULES, type ModuleId } from "@/lib/brand";
+import { cn } from "@/lib/cn";
 import { formatDate, formatDateTime } from "@/lib/format";
 import { MOCK_ANCHOR } from "@/lib/mock/analyses";
 import { useAnalyses } from "@/lib/store/history";
@@ -17,6 +18,7 @@ import { useRestroomChecks } from "@/lib/store/restroom-history";
 import { DemoBadge } from "./demo-badge";
 import { DemoPath } from "./demo-path";
 import { Kpi } from "./kpi";
+import { LINK_ARROW, LINK_ROW } from "./link-row";
 import { MODULE_ICONS, MODULE_NAV } from "./nav";
 import { ProviderBadge } from "./provider-badge";
 
@@ -60,14 +62,14 @@ export function PlatformOverviewClient() {
       <div className="grid gap-6 xl:grid-cols-2">
         <ModulePanel id="roads">
           <div className="grid grid-cols-3 gap-2 sm:gap-3">
-            <Kpi label="Photos" value={roads.photos} note="analysed" />
-            <Kpi label="Urgent" value={roads.urgent} note="high or critical" accentClass="bg-sev-critical" />
-            <Kpi label="To review" value={roads.review} note="low confidence" accentClass="bg-review" />
+            <Kpi label="Photos" value={roads.photos} note="analysed" nested />
+            <Kpi label="Urgent" value={roads.urgent} note="high or critical" accentClass="bg-sev-critical" nested />
+            <Kpi label="To review" value={roads.review} note="low confidence" accentClass="bg-review" nested />
           </div>
           <RecentList title="Latest road photos" moreHref="/app/roads/reports">
             {analyses.slice(0, 4).map((a) => (
               <li key={a.id}>
-                <Link href={`/app/roads/reports/${a.id}`} className="flex items-center justify-between gap-3 rounded-md px-2 py-2 hover:bg-surface-2">
+                <Link href={`/app/roads/reports/${a.id}`} className={cn("flex items-center justify-between gap-3 rounded-md px-2 py-2", LINK_ROW)}>
                   <span className="min-w-0">
                     <span className="block truncate text-sm font-medium">{a.location?.label ?? a.photo.fileName ?? "Uploaded photo"}</span>
                     <span className="tabular block text-xs text-muted">{formatDateTime(a.createdAt)}</span>
@@ -81,14 +83,14 @@ export function PlatformOverviewClient() {
 
         <ModulePanel id="restrooms">
           <div className="grid grid-cols-3 gap-2 sm:gap-3">
-            <Kpi label="Checks" value={restrooms.checks} note="sign pairs" />
-            <Kpi label="Pair" value={restrooms.pair} note="one set, two genders" accentClass="bg-verdict-clear" />
-            <Kpi label="Not a pair" value={restrooms.notPair} note="S2 or S3 failed" accentClass="bg-verdict-confusing" />
+            <Kpi label="Checks" value={restrooms.checks} note="sign pairs" nested />
+            <Kpi label="Pair" value={restrooms.pair} note="one set, two genders" accentClass="bg-verdict-clear" nested />
+            <Kpi label="Not a pair" value={restrooms.notPair} note="S2 or S3 failed" accentClass="bg-verdict-confusing" nested />
           </div>
           <RecentList title="Latest sign checks">
             {checks.slice(0, 4).map((c) => (
               <li key={c.id}>
-                <Link href={checkHref(c.id)} className="flex items-center justify-between gap-3 rounded-md px-2 py-2 hover:bg-surface-2">
+                <Link href={checkHref(c.id)} className={cn("flex items-center justify-between gap-3 rounded-md px-2 py-2", LINK_ROW)}>
                   <span className="min-w-0">
                     <span className="block truncate text-sm font-medium">{checkLabel(c)}</span>
                     <span className="tabular block text-xs text-muted">{formatDateTime(c.createdAt)}</span>
@@ -117,12 +119,13 @@ export function PlatformOverviewClient() {
             { href: "/app/settings", icon: Settings, title: "Settings", text: "One provider switch for both modules, privacy options, export and reset." },
           ].map((l) => (
             <li key={l.href}>
-              <Link href={l.href} className="flex h-full gap-3 rounded-lg border border-border bg-surface p-(--card-pad) hover:bg-surface-2">
+              <Link href={l.href} className={cn("group flex h-full gap-3 rounded-lg border border-border bg-surface p-(--card-pad)", LINK_ROW)}>
                 <l.icon className="mt-0.5 size-5 shrink-0 text-accent-ink" aria-hidden />
-                <span>
+                <span className="min-w-0 flex-1">
                   <span className="block font-semibold">{l.title}</span>
                   <span className="block text-sm text-muted">{l.text}</span>
                 </span>
+                <ArrowRight className={cn("mt-1", LINK_ARROW)} aria-hidden />
               </Link>
             </li>
           ))}

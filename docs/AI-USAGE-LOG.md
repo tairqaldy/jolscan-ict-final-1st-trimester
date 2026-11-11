@@ -955,3 +955,38 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - The first rail bar read a ref on the parent nav, which is not attached on first mount, so the bar was missing until the first navigation; it now uses its parent element.
   - The bar was drawn under the active link's background; it now has a z-index.
   - An underline inside the site header's pill links was rejected (two effects for one hover).
+
+### 11 November 2026, Dameli (G-73 motion spec)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment, and web search and fetch for the sources.
+- **Purpose:** measure the micro-interactions of the reference site, read the motion guidance, and write `docs/design/motion.md`.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-73 among them). Transcript kept locally.
+- **What it produced or changed:** `docs/design/motion.md` (catalogue, rules, map, durations, sources), the G-73 line in `docs/TASKS.md`, my worklog entry.
+- **How I verified it, and who verified it:**
+  - Every duration and easing in the catalogue comes from the probe output (computed styles or style mutations), not from memory; rows read only from a class are marked "class".
+  - Each Qarau file path in the map was checked to exist on `main`; the four rule breaks were read in the code (`globals.css`, `distribution-bars.tsx`, `detection-overlay.tsx`).
+  - Quotes kept to one short phrase per source; the M3 site does not render without JavaScript, so its values come from Google's token files, and the document says so.
+- **What I rejected or corrected:**
+  - The first scroll probe sampled the same sticky headings at every step and showed nothing; replaced it with a MutationObserver on inline styles.
+  - Two Vercel quotes in one rule (one source, one quote); the second became a summary.
+  - "Text types in for about 2 s": I only watched 2 s, so it now says "at least".
+### 11 November 2026, Dameli (G-21 token sync tests)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** turn the "keep in sync" comments around `web/app/tokens.css` into tests that fail when a theme, the Tailwind mapping or a component drifts from it.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-21 among them). Transcript kept locally.
+- **What it produced or changed:** `web/lib/tokens.test.ts`, the shared readers in `web/lib/css-tokens.ts`, two checks added to `web/lib/motion.test.ts`, and `web/lib/print-tokens.test.ts` importing the shared parser instead of its own copy. The new test found that `web/app/design/lab/lab.css` still used the radius tokens G-49 removed; the two dead rules are gone.
+- **How I verified it, and who verified it:**
+  - Broke `tokens.css` and a component on purpose (a dark-only token, an alias to a missing token, a wrong colour mapping, `bg-(--chart-9)`, a changed dark `--bg`, `"#abc"`, `--duration-draw: 650ms`, an extra duration token). Each made a test fail and name the file and line; all restored with git.
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` (19 files, 239 tests) and `pnpm build` pass.
+- **What I rejected or corrected:**
+  - The first version read a fixed list of three stylesheets; the design lab added `lab.css` the same afternoon, so it now reads every stylesheet under `app/` and `components/`.
+  - A trailing `// #fff` comment was reported as a hex colour; comments after a space are now skipped.
+  - Did not copy the existing motion check into `tokens.test.ts`; extended `motion.test.ts` instead.
+### 11 November 2026, Dameli (G-9 dashboard review)
+- **Tool and version:** Claude Code, Claude Opus 5.5, in the Claude desktop app.
+- **Purpose:** review the overview dashboards against Nielsen's ten heuristics and fix the layout and feedback problems in my design layer.
+- **Key prompt(s):** "мне просто нужно сейчас сделать просто максимальное колво тасков"; transcript kept locally.
+- **What it produced or changed:** `docs/design/dashboard-review.md` and its screenshots; `web/components/app/link-row.ts`; class changes in the three overview clients, `kpi.tsx`, `demo-path.tsx`, `analyses-table.tsx` and `checks-table.tsx`.
+- **How I verified it:** Playwright on a dev server: screenshots at 1440 and 375 px in both themes, element positions against the fold, computed transition values with Reduce motion on and off, and a script that measures every KPI number against its tile at 320 to 1440 px (4 overflowing pages before, 0 after). `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` pass.
+- **What I rejected or corrected:** a first try passed `shadow-none` through `className`, which did nothing because `cn()` does not merge classes; replaced by a `nested` prop. Moving the review queues was left to W-7 because the page order is Tair's.

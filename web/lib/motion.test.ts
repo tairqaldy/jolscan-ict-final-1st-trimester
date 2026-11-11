@@ -32,6 +32,16 @@ describe("motion tokens", () => {
     }
   });
 
+  it("every CSS --duration-* and --ease-* token has a JS twin (G-21)", () => {
+    const js: Record<string, number> = { ...duration, ui: timing.ui };
+    for (const [, name] of css.matchAll(/--duration-([\w-]+):/g)) expect(js[name], `--duration-${name}`).toBeDefined();
+    for (const [, name] of css.matchAll(/--ease-([\w-]+):/g)) expect(name in ease, `--ease-${name}`).toBe(true);
+  });
+
+  it("the default CSS timing function is --ease-standard (G-21)", () => {
+    expect(cssVar("default-transition-timing-function")).toBe(cssVar("ease-standard"));
+  });
+
   it("keeps the stagger step positive and short", () => {
     expect(stagger).toBeGreaterThan(0);
     expect(stagger).toBeLessThan(duration.base);
