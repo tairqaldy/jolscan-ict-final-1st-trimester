@@ -95,6 +95,14 @@
   --gender-female-ink: #45378f;
   --gender-female-soft: #e7e3f6;
 
+  /* Roads module: "needs review" (G-47). Violet-grey, a hue that means nothing
+     else: blue is focus and low severity, amber is the accent and medium.
+     solid = marks (3:1 on surface), ink = text (4.5:1), soft = badge fill.
+     Always shown with the eye icon and the word "review". */
+  --review: #6b4a85;
+  --review-ink: #553a6b;
+  --review-soft: #efe8f4;
+
   /* Charts: series that are not severity (providers, runs) */
   --chart-1: #3d4f63;
   --chart-2: #b87f00;
@@ -176,6 +184,10 @@
   --gender-female-ink: #c7befa;
   --gender-female-soft: #241f3d;
 
+  --review: #9878b8;
+  --review-ink: #cdb4e3;
+  --review-soft: #2a2236;
+
   --chart-1: #9fb3c8;
   --chart-2: #ffb81c;
   --chart-3: #8fbf96;
@@ -248,6 +260,9 @@
   --color-gender-female: var(--gender-female);
   --color-gender-female-ink: var(--gender-female-ink);
   --color-gender-female-soft: var(--gender-female-soft);
+  --color-review: var(--review);
+  --color-review-ink: var(--review-ink);
+  --color-review-soft: var(--review-soft);
 
   --color-box: var(--box);
   --color-box-active: var(--box-active);
