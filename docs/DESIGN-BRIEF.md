@@ -8,6 +8,8 @@ For Tair and Dameli. The scaffold in `web/` gives working pages on a neutral sta
 
 Starting point until then: asphalt and road markings. Graphite and stone neutrals, one signal accent in road-sign amber, five severity colours. Calm, technical, readable. The product is a work tool for a road-maintenance dispatcher, and the landing page is the only place that sells.
 
+Decided on 11 November in [decision 0011](decisions/0011-visual-direction.md), after the side-by-side comparisons on `/design/lab` (G-41, G-43, G-46).
+
 ### References for the proposed direction (G-2)
 
 Dameli selected a **calm technical** direction with graphite, warm neutrals and amber on 10 November. This is a proposal for Tair to review in W-3; it is not a completed team sign-off. Use one text family for both headings and body text (Overpass since G-4, see below) with JetBrains Mono for technical detail; retain the two themes and the road-sign amber. Reduce the number of competing visual emphases: let the most urgent decision and the next action lead; reserve the strong accent for actions and meaningful marks. Give both modules equal prominence, and pair every status with a word or icon.
@@ -451,3 +453,5 @@ Every sample was screenshot at 1440 and 375 px wide, light and dark theme (Playw
 
 1. At 375 px on `s05`, the tag of box 3 covers the end of the tag of box 1 ("review" loses its last letter). `placeTag` keeps tags inside the photo but does not move them away from each other.
 2. Review and ignored boxes are meant to be dashed but draw solid: the draw-in animation sets `pathLength`, and motion then writes `stroke-dasharray="1 1"` over the dash pattern (seen in the page DOM). The legend under the photo still shows a dashed swatch for "needs review". The violet colour and the word "review" on the tag still mark these boxes.
+
+**Fixed in the overlay follow-up** (`web/components/app/detection-overlay.tsx`): 1. `placeTags` places tags in box order; a tag that would cover an earlier one moves below its box, then inside it, and stays in the photo. 2. A dashed box is a plain dashed rect, drawn in through a mask with the same motion tokens, so it stays dashed after the draw-in and with reduced motion. Playwright on s01 to s06 at 1440 and 375 px, light and dark, with and without reduced motion: no two tags share any area (s05 at 375 px was 87.4 px²), review boxes compute `stroke-dasharray: 16px, 10px`, tags stay at 11 px or more.

@@ -12,6 +12,44 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 19:23 · G-28 (#172), G-47 (#281), G-48 (#282) · Dashed review boxes and tags that do not cover each other
+- **Status:** done. Follow-up to the three merged tasks; the issues and TASKS.md rows stay as they are.
+- **What I did:**
+  - Review and ignored boxes were drawn solid. motion's `pathLength` (the draw-in) writes its own `stroke-dasharray` (one dash as long as the outline), so the dash pattern was overwritten, with and without reduced motion. In `web/components/app/detection-overlay.tsx` a dashed box is now a plain dashed `<rect>`; the draw-in runs on a mask that uncovers it along its outline, with the same `duration.draw` and `ease.emphasized` tokens. Counted boxes keep the old draw-in and stay solid.
+  - Tags: `placeTags` places them in box order. If a tag comes within one stroke width of an earlier tag, it tries below its box, then inside the box at the top, then inside at the bottom. Every spot stays inside the photo; the font size rule from G-28 is unchanged.
+  - Tests in `web/lib/detection-overlay.test.ts`: the s05 layout at 375 px, the order of the fallback spots, and a server render that checks the review boxes carry `stroke-dasharray="16 10"` and no `pathLength`.
+  - Added a "Fixed in the overlay follow-up" note under the G-48 "Found, not fixed here" list in DESIGN-BRIEF.md.
+- **Result:** Playwright on `/app/roads/analyze?sample=s01` to `s06`, 1440 and 375 px, light and dark, plus reduced motion from the OS and from the Settings switch (48 page loads): before, tags 1 and 3 on s05 at 375 px shared 87.4 px² and the review boxes computed `1px, 1px` (solid); after, no two tags share any area on any load, both review boxes compute `16px, 10px`, counted boxes stay solid, every tag is inside the photo, tags measure 11.00 px at 375 px and 12.98 px at 1440 px. Box colours, halo and detection data unchanged.
+- **Decisions and why:**
+  - A mask instead of swapping the solid box for a dashed one when the draw-in ends: no jump from solid to dashed, and the dashed box looks the same during and after the animation.
+  - Below the box before inside it: on s05 tag 3 placed inside its 17 × 8 px box hid the outline.
+  - Only tags are kept apart, not tags and other boxes: the issue was a tag covering a tag's text.
+- **What I learned / can explain at the defense:** the legend says dashed means "needs review", so the box has to be dashed in every state, not only before the animation; style plus label, not colour alone (WCAG 1.4.1). Labels on a chart must not cover each other; a simple ordered fallback is enough for a few boxes.
+- **AI use:** Claude Code found the cause, made the change and wrote the Playwright check (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** with many boxes in a small area every spot can be taken; the tag then takes the spot that covers the least. Real photos (D-5) may need another look.
+
+### 2026-11-11 19:22 · G-41 (#275), G-46 (#280), G-43 (#277), G-70 (#335) · Design lab, palette and font trials, and the visual-direction record
+- **Status:** G-41, G-46 and G-70 done. G-43 partial: the text fonts of all three pairs render the nine Kazakh letters, but JetBrains Mono, the mono of the chosen pair, does not (see Result).
+- **What I did:**
+  - G-41: `/design/lab?set=<id>` renders the same real components (buttons, severity badges, a KPI card with bars, a field, a switch, selectable tiles, a callout, a table) once per variant, in the light and the dark theme. Each column sets its overrides inline; column A sets nothing, so it is the live look. The sets live in `web/lib/design-lab.ts`, the page is `web/app/design/lab/page.tsx`, and `/design` links to it. It is not in the navigation and is marked `noindex`. First set: radii, B with `--radius-md` at 4 px.
+  - Radii are declared in `@theme inline`, so Tailwind writes `6px` into `rounded-md` instead of `var(--radius-md)`; `lab.css` points the radius utilities back at the variables inside a lab column only.
+  - G-46: palette set with A current warm stone and amber, B cool graphite with the same amber, C warm stone with a deep amber `#8a5a00` and a white label. Under each column a table of WCAG 2.x ratios computed from the token values (text, secondary text, hints, amber text, accent as a mark, button label). A test checks the copied live values against `web/app/tokens.css`.
+  - G-43: IBM Plex Sans with IBM Plex Mono and Golos Text with JetBrains Mono, loaded with `next/font` in `web/app/design/lab/fonts.ts`, which only the lab page imports. Type set with the hero line, "Qarau (қарау)" at 14, 16, 28 and 64 px, the nine Kazakh letters in text and mono, a Kazakh and a Russian sentence, a KPI "1 234" and a rule table.
+  - G-70: `docs/decisions/0011-visual-direction.md` from the template, the row in the decisions table, and the placeholder notes in `tokens.css` and DESIGN-BRIEF.md now point to it.
+- **Result:**
+  - Radii: a computed-style diff of A and B over 150 elements finds only `border-radius` different, on the 7 controls that use `rounded-md`, in both themes.
+  - Palette: every check passes in all three palettes and both themes. A's lowest are hints at 4.98:1 (light) and 5.36:1 (dark); B gains 0.08 to 0.31; C has 5.93:1 for the accent as a mark against A's 3.46:1.
+  - Type (Chrome DevTools Protocol, rendered fonts per letter): Overpass, IBM Plex Sans, Golos Text and IBM Plex Mono draw all nine Kazakh letters, upper and lower case. JetBrains Mono draws only ө ү і; ә ғ қ ң ұ һ fall back to Arial. At 64 px the hero line is 693 px wide in Overpass, 705 in Plex and 736 in Golos.
+  - The trial fonts are only in the lab route's CSS chunk; the shared stylesheet has none of them. No horizontal scroll at 375 px on any set.
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` (16 files, 201 tests) and `pnpm build` pass. Screenshots in `docs/design/lab/`.
+- **Decisions and why:**
+  - A stays in every set, the look on `main`. Palette: contrast does not separate the three; B loses the warm look and C reads brown, while the high-contrast theme already has a dark amber. Type: Overpass matches the logo and the slide template, and Plex would change every page the day before the defense. Radii: B makes the controls match the badges instead of standing apart.
+  - Column A gets no inline values, so it cannot drift from the live tokens; the copied colours are only for the contrast numbers, and a test fails if they differ from `tokens.css`.
+  - Did not set the five current radii inline (the stopped session's draft did): the radius count is about to change, and hard-coded values would make column A wrong.
+- **What I learned / can explain at the defense:** components use tokens only, so a variant is a handful of CSS variable overrides on one wrapper, and the comparison is honest because nothing else changes (the diff shows it). WCAG contrast is computed from relative luminance; text needs 4.5:1 and marks 3:1 (Lec3-HCI). A font can claim a Cyrillic subset and still miss Kazakh letters, so we checked the rendered font per letter.
+- **AI use:** Claude Code reviewed the stopped session's draft, wrote the page, the checks and the record; I chose A in each set (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** G-43: decide whether Kazakh text in `font-mono` matters (switch the mono to IBM Plex Mono) or accept that mono is for numbers and code, then tick it. Not done: the reference collections in Drive and `docs/design/references/` for G-43 and G-46.
+
 ### 2026-11-11 19:19 · G-67 (#332) · Poster frame for the backup video
 - **Status:** partial. The poster and the step that puts it in front of the video are ready; R-9's `qarau-demo.mp4` does not exist yet, so the poster is not in the file, in Drive `video/` or on the presenting laptop.
 - **What I did:**

@@ -877,3 +877,33 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - A duration check that passed two files to one `ffprobe` call (it takes one input); now a loop.
   - Labels "Road result" and "Sign verdict" under variant B: those words are not in the recording, so they were removed.
   - Crops that showed "Analysed 11 Nov, 18:09": that time would not match the recording.
+
+### 11 November 2026, Dameli (G-41 design lab, G-46 palette trial, G-43 font trial, G-70 visual-direction record)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment for the screenshots and checks.
+- **Purpose:** build `/design/lab` to compare token variants side by side, run the palette and font trials on it, and write the decision record for the visual direction.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-41, G-46, G-43 and G-70 among them). Transcript kept locally.
+- **What it produced or changed:** `web/app/design/lab/` (page, specimens, fonts, `lab.css`), `web/lib/design-lab.ts` and its test, a link on `/design`, screenshots in `docs/design/lab/`, `docs/decisions/0011-visual-direction.md` and its table row, and one-line pointers in `web/app/tokens.css` (a comment) and DESIGN-BRIEF.md.
+- **How I verified it, and who verified it:**
+  - A computed-style diff of columns A and B on `/design/lab?set=radii` over 150 elements: only `border-radius` differs, on the 7 `rounded-md` controls.
+  - The contrast numbers come from the WCAG formula in `web/lib/design-lab.ts`; the test reproduces the G-3 audit values (3.46, 15.22, 4.98) and fails if the copied colours drift from `tokens.css`.
+  - The rendered font of every Kazakh letter in every column, read with the Chrome DevTools Protocol; the lab fonts appear only in the lab route's CSS.
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` (201 tests) and `pnpm build` pass. I picked A in each set.
+- **What I rejected or corrected:**
+  - The stopped session's draft set the current radii inline on every column; removed, so column A reads the live tokens and survives a change to the radius count.
+  - Its type outcome said all three pairs render the nine Kazakh letters; the per-letter check showed JetBrains Mono misses six, so the text now says so and G-43 stays open.
+  - The first diff compared the whole columns and was thrown off by the list of overrides; it now compares only the specimen.
+
+### 11 November 2026, Dameli (G-28, G-47, G-48 follow-up: dashed review boxes, tag spacing)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment for the checks.
+- **Purpose:** make review boxes dashed like the legend swatch, and stop box tags from covering each other at 375 px.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (overlay follow-ups among them). Transcript kept locally.
+- **What it produced or changed:** in `web/components/app/detection-overlay.tsx`, dashed boxes as a plain dashed rect drawn in through a mask, and `placeTags`, which moves a tag that would cover an earlier one; five tests in `web/lib/detection-overlay.test.ts`; a note in DESIGN-BRIEF.md.
+- **How I verified it, and who verified it:**
+  - Playwright on my own dev server, `/app/roads/analyze?sample=s01` to `s06`, 1440 and 375 px, light and dark, plus reduced motion from the OS and from the Settings switch (48 page loads). Before: tags 1 and 3 on s05 at 375 px shared 87.4 px², review boxes computed `stroke-dasharray: 1px, 1px` (solid). After: no tag pair shares any area, review boxes compute `16px, 10px`, counted boxes stay solid, tags stay inside the photo at 11.00 px (375) and 12.98 px (1440).
+  - Screenshots of s05 before and after, during the draw-in and on hover.
+  - `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` pass.
+- **What I rejected or corrected:**
+  - Swapping the solid box for a dashed one when the animation ends (a visible jump).
+  - The first fallback put tag 3 inside its own box, which hid the 17 × 8 px box on a phone; below the box now comes first.
