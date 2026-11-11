@@ -114,6 +114,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How it was verified:** Simulated full-run artifact copy and downloads with temporary files and a fake Colab interface; verified the default skip, smoke rejection and overwrite protection. No live Colab or shared Drive access was verified; Alizhan has not yet personally reviewed the result.
 - **What was rejected or corrected:** Kept M-2 open until actual shared folder access and a full-run handoff are checked; did not label smoke weights as a trained model.
 
+### 11 November 2026, Alizhan (D-29, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Prepare a reproducible train-only size-band calculation.
+- **Key prompt:** "x-7, d-29 r-21 выполни эти три таска". This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** Size-band calculation, synthetic tests, dependency pin and reproduction instructions.
+- **How it was verified:** Synthetic tests, then a real training-label run on the public Kaggle dataset rebuilt with the documented D-14 script and checked against every image hash, split and object count in the committed manifest. Image/box/group counts and non-float fields matched; centers and thresholds agreed to six decimal places. The original Drive archive was not directly inspected, and the original PNG was not compared pixel by pixel. Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** Kept existing thresholds unchanged and distinguished the manifest-verified rebuild from the inaccessible Drive export.
+
 ### 11 November 2026, Alizhan (S-28, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.
@@ -431,7 +440,7 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **Purpose:** Integrate the supplied training-only KMeans thresholds into R2, document the method and limitations, and add boundary coverage.
 - **Key prompt(s), with a link to the transcript:** "Integrate the D-11 clustering results using the attached actual JSON and PNG files." The request included the training-only procedure, group counts, and verification requirements. No transcript link is available.
 - **What it produced or changed:** Copied the supplied JSON and histogram into `ml/results/`, updated `docs/RULES.md`, `data/README.md`, and the default R2 configuration/tests, and marked D-11 complete after validation.
-- **How I verified it, and who verified it:** Compared the JSON's full-precision thresholds with the configured percentage units and ran the existing rules tests, including exact threshold-boundary tests. The supplied clustering results and PNG were not recomputed.
+- **How I verified it, and who verified it:** Compared the JSON's full-precision thresholds with the configured percentage units and ran the existing rules tests, including exact threshold-boundary tests. At that time the supplied clustering results and PNG were not recomputed. **D-29 follow-up, 11 November:** Codex ran `ml/size_bands.py` on manifest-verified training labels rebuilt from the public Kaggle source; counts matched and centers and thresholds agreed with the supplied JSON to six decimal places. The original Drive archive and original PNG were not directly compared.
 - **What I rejected or corrected:** Kept normalized fraction versus percentage units explicit, used only the training split, and did not treat the size bands as physical measurements or calibrated repair severity. D-6 remains separate; no split change or model training was done.
 
 ### 11 November 2026, Tair (D-14 dataset rebuild script)

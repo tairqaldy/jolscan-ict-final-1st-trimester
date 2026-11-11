@@ -6,6 +6,16 @@ Training and evaluation for the experiment in [docs/ML-EXPERIMENT.md](../docs/ML
 
 `python ml/slide_numbers.py` writes `ml/results/SLIDE-NUMBERS.md` from the currently available committed results. `python ml/slide_numbers.py --check` prints the inventory without writing. Missing files and values are marked `not available yet`, and mock or placeholder runs are not presented as real measurements. Each row names its source. Re-run after every export and compare with the actual final deck; the inventory is not proof that every number on every slide has been audited.
 
+## Size bands (D-11 / D-29)
+
+Run the following on the frozen training labels only, using scikit-learn 1.6.1. Write to a temporary folder first so the existing published artifacts are not overwritten before comparison:
+
+```bash
+python ml/size_bands.py --labels /path/to/potholes_yolo_v1/labels/train --out /tmp/size-bands
+```
+
+Compare the resulting `pothole_area_clusters.json` (including image and box counts, group counts and thresholds to six decimals) against `ml/results/pothole_area_clusters.json`. The plot is in `figs/pothole_area_clusters.png`. If numbers differ, stop and report the difference; do not silently change the rules. On 11 November 2026 the script was run against training labels rebuilt from the public Kaggle version using `data/make_potholes_yolo_v1.py`: every image hash, split and object count matched the committed manifest; all non-float JSON fields matched and centers and thresholds agreed to six decimal places. The rebuilt labels came from the documented conversion, not a direct download of the original Drive export. The original supplied PNG was not checked for pixel equality. Box areas are fractions of the image, not physical sizes.
+
 ## M-1 one-epoch smoke test
 
 Open [colab_runner.ipynb](colab_runner.ipynb) in Colab and run its cells from top to bottom with a GPU runtime. It checks out the pinned M-1 trainer commit, installs `ml/requirements.txt`, finds the already-uploaded `potholes_yolo_v1.zip` in mounted Drive, and verifies the archive manifest before running:
