@@ -12,6 +12,19 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 18:20 · G-42 (#276) · Anti-slop checklist
+- **Status:** done
+- **What I did:** Turned the team's design rules into 13 checks, each one a search anyone can run. I ran them once on `main` and gave every finding a task id or a reason.
+- **Result:** `docs/design/ANTI-SLOP.md`; a new checkbox in the pull request template.
+- **Decisions and why:**
+  - The two looping landing demos go to G-54, the five radii to G-49 and the hand-written letter spacing to G-23.
+  - The two typed percentages stay because they are sourced (RULES.md, ML-EXPERIMENT-RESTROOM.md).
+  - The Analyze scan line stays because it only shows progress.
+  - The theme-colour hex values stay because browser metadata cannot read CSS variables.
+- **What I learned / can explain at the defense:** aesthetic and minimalist design (Lec3-HCI p21) and honest charts (Lec4-DMViz p31) become checkable when each rule is a search with a pass condition.
+- **AI use:** Claude Code ran the searches and drafted the document from my rules (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** G-54, G-49 and G-23 close the open findings.
+
 ### 2026-11-11 18:00 · G-22 (#166) · Colour-blind check of the palette
 - **Status:** done
 - **What I did:** Wrote a script that simulates the three colour-vision deficiencies on every colour set in our tokens and prints how far apart each pair of colours stays (CIE76 ΔE), for both themes.
