@@ -109,11 +109,14 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
               </Callout>
             )}
             <dl className="grid grid-cols-2 gap-x-4 gap-y-3 border-t border-border pt-4 text-sm">
-              <Meta icon={PROVIDER_META[check.provider].icon} label="Provider" wide>
-                <span className="inline-flex max-w-full flex-wrap items-center gap-1.5">
-                  {PROVIDER_META[check.provider].label}
+              <div className="col-span-2">
+                <dt className="sr-only">Source of this result</dt>
+                <dd>
                   <ResultProvenanceBadge result={check} />
-                </span>
+                </dd>
+              </div>
+              <Meta icon={PROVIDER_META[check.provider].icon} label="Provider">
+                {PROVIDER_META[check.provider].label}
               </Meta>
               <Meta icon={Brain} label="Model">
                 <span className="font-mono text-xs break-all">{isSeededDemo(check.id) ? SEEDED_MODEL_LABEL : check.model}</span>
