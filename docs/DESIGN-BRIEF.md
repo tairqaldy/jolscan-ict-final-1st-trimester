@@ -490,12 +490,13 @@ Before, 15 labels wrote the spacing by hand: 11 with 0.14em, 4 with 0.18em (land
 | `Card` (43 uses) | 20 / 20 | 16 / 20 |
 | KPI tile (14), hero and pair demo | 16 / 20 | 16 / 20 |
 | Landing cards (8) | 24 / 24, one 20 / 24 | 16 / 20 |
+| Hero preview and sign-comparison panel on the landing page | 20 / 24 | 16 / 20 |
 | Team cards | 18 / 18 | 16 / 20 |
 | Overview links, glossary, Settings tiles, Match details | 16 / 16 | 16 / 20 |
 | Lifecycle diagram | 20 / 20 | 16 / 20 |
 | Theme panels on `/design` | 16 / 24 | 16 / 20 |
 
-**Why these two values.** From 640 px up, 20 px was already the most common inset (every `Card` and every KPI tile). On phones `Card` used 20 px too, but 20 px clips the KPI numbers: the overview shows three tiles across, and at 375 px the number "40" needs 59 px while a tile with 20 px padding leaves 55 px. 16 px is what the KPI tiles and the demos already used on phones, and it is the page gutter on phones. A token instead of `p-4 sm:p-5` keeps overrides working: `cn()` does not merge classes, so a responsive `sm:p-5` would beat an override such as `CardBody className="px-0"` from 640 px up.
+**Why these two values.** From 640 px up, 20 px was already the most common inset (every `Card` and every KPI tile). On phones `Card` used 20 px too, but 20 px clips the KPI numbers: the overview shows three tiles across, and at 375 px the number "40" needs 59 px while a tile with 20 px padding leaves 56 px at most. 16 px is what the KPI tiles and the demos already used on phones, and it is the page gutter on phones. A token instead of `p-4 sm:p-5` keeps overrides working: `cn()` does not merge classes, so a responsive `sm:p-5` would beat an override such as `CardBody className="px-0"` from 640 px up.
 
 **Not cards** (they keep their own padding): dialogs and the bottom sheet (`p-5` plus the safe-area inset), empty states (`px-6 py-12`), small items inside a card with the control radius (lifecycle steps, the illustration list on `/design`: 12 px), image tiles in the Match results grid (10 px, the image is the content), the theme switch in the sidebar (4 px), and tables that run edge to edge inside a card (`CardBody className="px-0"`).
 
