@@ -931,3 +931,17 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - `p-5` on phones for every card (the count winner) was dropped: it would clip KPI numbers at 375 px.
   - `p-4 sm:p-5` on `Card` was dropped: without class merging, `sm:p-5` would override `CardBody className="px-0"` on desktop and break the edge-to-edge tables.
   - A 2.5 % pixel change on `/app/analytics` at 1440 px after G-62 was checked: card and chart widths are identical with and without the change (measured), only the chart's tick placement differed.
+
+### 11 November 2026, Dameli (G-74 navigation motion)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment.
+- **Purpose:** make the app rail, the Roads / Restrooms switch and text links move with the motion tokens and stop under Reduce motion.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-74 among them). Transcript kept locally.
+- **What it produced or changed:** the `link-underline` utility and the rail / module thumb rules in `web/app/globals.css`; the moving rail bar and module thumb in `web/components/app/app-shell.tsx`; class changes in `analyses-table.tsx`, `checks-table.tsx` and `site-footer.tsx`.
+- **How I verified it, and who verified it:**
+  - Playwright on my own dev server: computed transitions equal the tokens (0.2 s, 0.16 s, 0.12 s, ease tokens), sampled transforms move during the change, and with the OS setting or the Settings switch every element reports `transition-property: none`. Screenshots at 1440 and 375 px, light and dark.
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` (223 tests) pass.
+- **What I rejected or corrected:**
+  - The first rail bar read a ref on the parent nav, which is not attached on first mount, so the bar was missing until the first navigation; it now uses its parent element.
+  - The bar was drawn under the active link's background; it now has a z-index.
+  - An underline inside the site header's pill links was rejected (two effects for one hover).
