@@ -60,7 +60,14 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How verified:** Successfully fetched and fast-forwarded main; compared all numerical claims with the manifest, run JSONs/CSV, operating-point JSON, clustering JSON, rule configuration and unchanged deck-source index. Verified other slide sections are unchanged, script word counts 127/90, repository-result/hygiene checks and five checker tests passed; git diff --check passed.
 - **What rejected or corrected:** Removed misleading single-test-read wording; retained prior review overlap and multiple evaluation-pass limitations. No attribution of Tair's full training to Amina, invented uncertainty/latency, course-page verification or rehearsal evidence. No QA, application code, generated results, generator/PPTX, unrelated slides or Alizhan's source-audit file were changed. Manual edits to the generated Markdown are explicitly requested scope and need separate coordination before future regeneration.
 
+### 11 November 2026, Alizhan (X-20, AI-assisted; personal review pending)
 
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Map project requirements to observable evidence and unresolved tasks.
+- **Key prompt:** "продолжай работу" after a request to do available non-design tasks. This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** A timestamped evidence and status column for each requirement in `docs/PLAN.md`.
+- **How it was verified:** Checked referenced local files and current GitHub issue states; validated table shape and local links. Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** Did not claim that a draft, preparation material or file existence proves a completed rehearsal, personal understanding or a submission; original private course documents were not independently inspected.
 
 ### 11 November 2026, Amina (M-37)
 

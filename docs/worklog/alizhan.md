@@ -48,6 +48,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **AI use:** Codex desktop, GPT-6; personal review pending.
 - **Open questions / next:** Roma checks the final deck against the page; regenerate after results change and review the feature-freeze policy before merging.
 
+### 2026-11-11 · X-20 (#261) · Evidence and gaps for graded requirements
+- **Status:** in progress; update at code freeze and team review remain.
+- **What I did:** Added evidence and status columns to all 14 requirements in `docs/PLAN.md`, linking existing results, app files and outstanding issues.
+- **Result:** The table distinguishes observed artifacts from missing rehearsals, the comparative AI audit, complete prompt logs and submission confirmation.
+- **Decisions and why:** Used partial status when an artifact exists but real-world verification or personal participation is still missing; did not independently verify private course-page citations.
+- **What I learned / can explain at the defense:** Each claim should point to evidence, and a draft or a test is not proof that an end-to-end defense requirement is complete.
+- **AI use:** Codex desktop, GPT-6; personal review pending.
+- **Open questions / next:** Refresh the snapshot at the 23:00 freeze; team reviews course references and remaining gaps.
+
 ### 2026-11-11 · R-21 (#230) · Architecture slide practice
 - **Status:** done; three recorded attempts are within the duration target and Alizhan confirmed the required handover.
 - **What I did:** Checked slide 4 and its speaker notes in the current PowerPoint against the deck source, API routes and the restroom latency CSV; prepared `docs/R21-ALIZHAN-PRACTICE.md`.
