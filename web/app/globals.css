@@ -337,3 +337,36 @@
     display: none;
   }
 }
+
+/*
+ * G-64: the Settings switch "Reduce motion" does what the device setting does.
+ * <html data-motion="reduce"> is set before first paint (lib/theme-script.ts) and
+ * kept in sync by components/motion/motion-preference.tsx. Same rules as the
+ * @media (prefers-reduced-motion: reduce) block above.
+ */
+html[data-motion="reduce"] *,
+html[data-motion="reduce"] *::before,
+html[data-motion="reduce"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+html[data-motion="reduce"] {
+  scroll-behavior: auto !important;
+}
+html[data-motion="reduce"] .stagger > *,
+html[data-motion="reduce"] .page-enter {
+  animation: none !important;
+}
+html[data-motion="reduce"] .landing-road__car {
+  animation: none !important;
+  left: 50%;
+  transform: translateX(-50%);
+}
+html[data-motion="reduce"] .jelly-nav__link {
+  transition: none;
+}
+html[data-motion="reduce"] .demo-loop-control {
+  display: none;
+}
