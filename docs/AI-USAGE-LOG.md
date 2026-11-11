@@ -664,3 +664,19 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - The IOAI labels on `/app/model` were partly hidden behind bars; they now sit above their line with an outline in the card colour.
   - A histogram bin cut by a threshold was coloured by its lower edge, which disagreed with the chart title; the bin is now split.
   - No rule logic and no default value was changed.
+
+### 11 November 2026, Dameli (G-25 printable reports, G-68 row thumbnails)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment for the checks.
+- **Purpose:** print a road report or a sign check on one light page, and show each row's photo in the report and sign-check tables.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-25 and G-68 among them). Transcript kept locally.
+- **What it produced or changed:** `web/app/print.css`, `web/components/app/print-bits.tsx`, `web/components/ui/row-thumb.tsx`, `web/lib/print-tokens.test.ts`, and small changes in the two detail pages and the two tables.
+- **How I verified it, and who verified it:**
+  - Playwright `page.pdf()` on my own dev server: demo-001 and demo-rc-001 print on one page from the light and the dark theme, and I looked at each PDF; all 70 demo reports and checks print on one page; the rule table still prints with the Raw JSON tab open.
+  - Playwright measured every thumbnail at 64×36 on `/app/roads/reports` (41 rows) and in 'Recent analyses' (6 rows); a synthetic test upload (no people, no plates) showed its own photo; layout shift on `/app/roads/reports` was 0 on the production build.
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` (106 tests) and `pnpm build` pass.
+- **What I rejected or corrected:**
+  - A first layout printed on two pages; it now uses two columns and an 80% scale.
+  - The first alt text called the demo pictures photos; they are drawings, so it now says "Sample drawing".
+  - Hiding the navigation applied to every page in print; it now applies only to report and check pages.
+  - Did not edit `analysis-view.tsx`, `compare-result.tsx` or `app-shell.tsx`, which other open work changes.
