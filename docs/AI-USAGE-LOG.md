@@ -1043,3 +1043,19 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - Before the change, on Local with the model service running: `img-300.jpg` gave 4 potholes, Critical, score 17 with `jolscan-e1` (117 ms); two IOAI crops on Compare gave Clear with `clip-vitb32-zs` (101 ms). Both pages first showed "Mock provider" and an empty Road class until the page loaded.
   - `pnpm typecheck` and eslint on the four files pass; the CI checks on the pull request; the flow again after merging.
 - **What I rejected or corrected:** rendering the provider from a server cookie (a bigger change the night before the defense); hiding the whole card instead of only the line (the layout would jump).
+
+### 11 November 2026, Dameli (G-73, G-74, G-75, G-9 motion grill)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment for the checks.
+- **Purpose:** fix the motion rule breaks listed in `docs/design/motion.md`, then review the whole app twice as a strict reviewer and fix what was safe.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков", and "iterate and grill a couple of times". Transcript kept locally.
+- **What it produced or changed:** `staggerDelay()` and the 45 ms stagger in `web/lib/motion.ts` and `web/app/tokens.css`; `.stagger`, `.jelly-nav__link` and the landing car in `web/app/globals.css`; `distribution-bars.tsx`, `detection-overlay.tsx` (`boxTiming()`), `analyze-client.tsx` (scan line), `compare-client.tsx` (saved line), `page-header.tsx` (eyebrow dot), two landing cards and the `/design` motion line; tests in `motion.test.ts`, `detection-overlay.test.ts` and a new `page-header.test.ts`; the fixed list and "Known gaps (11 Nov)" in `docs/design/motion.md`; one row in `docs/DESIGN-BRIEF.md`.
+- **How I verified it, and who verified it:**
+  - Playwright on my own dev server: 10 pages at 1440 and 375 px, light, dark and high contrast, Reduce motion off and on, twice (before and after the round 1 fixes): animation timings, declared transitions, layout shifts, clipped text, focus after Tab, console errors, honesty badges, and the G-65 check at 320 px.
+  - Header links: the other links' positions are identical while each one is hovered. Eyebrow: the glyph was measured with canvas `measureText` (advance 0, ink 0.04 to 0.20 em).
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` and `pnpm build` pass.
+- **What I rejected or corrected:**
+  - Changing the bottom bar items for `/app/roads`: that is navigation structure (Tair), written up instead.
+  - Removing the hover lift on the team cards: a teammate's design; only `transition: all` was replaced.
+  - The first probe waited for text that was already on the page before the result, so its "moved under Reduce motion" hits were the loading state; the wait was fixed for round 2.
+  - The dev server kept serving the old landing car CSS until `.next/dev` was deleted.
