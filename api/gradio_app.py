@@ -16,7 +16,7 @@ import gradio as gr
 import pandas as pd
 from ultralytics import YOLO
 
-WEIGHTS = os.getenv("MODEL_WEIGHTS", "weights/jolscan-e8.pt")
+WEIGHTS = os.getenv("MODEL_WEIGHTS", "weights/jolscan-e1.pt")
 model = YOLO(WEIGHTS)
 
 

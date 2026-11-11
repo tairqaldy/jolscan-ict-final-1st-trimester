@@ -535,3 +535,11 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How I verified it, and who verified it:** every number was checked against `ml/results/experiments.csv`, `operating_point.json`, `pothole_area_clusters.json` and the run files; worked example A against `web/lib/rules/engine.test.ts` (score 15, critical). Amina and Roma still have to check and practise their answers.
 - **What I rejected or corrected:** facts not in the repository are left as `[check: …]` (the R-6 audit report does not exist yet), and "the app serves E8" lines in PRESENTATION.md and ML-EXPERIMENT.md now say E1.
 
+### 11 November 2026, Dameli (G-52 chart style)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with matplotlib 3.9.4 in a throwaway environment.
+- **Purpose:** one chart style for app screenshots and deck plots.
+- **Key prompt(s), with a link to the transcript:** "do all of these, deadline is too close". Transcript kept locally.
+- **What it produced or changed:** `docs/design/chart-style.md`, `docs/design/chart_style_sample.py` and its PNG.
+- **How I verified it, and who verified it:** hex values copied from `web/app/tokens.css`; the sample reads its numbers and the champion from the committed results files, and I opened the image; bars start at zero.
+- **What I rejected or corrected:** did not restyle `ml/plots.py` or `ml/restroom/layers_report.py` myself (the model lanes own them); did not pick a champion by eye.

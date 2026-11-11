@@ -152,5 +152,5 @@ const EMPTY_RUN: ExperimentRun = {
 export const BASELINE = EXPERIMENTS.runs[0] ?? EMPTY_RUN;
 export const CHAMPION = EXPERIMENTS.runs.find((r) => r.id === EXPERIMENTS.champion) ?? BASELINE;
 
-/** Model name as the API reports it, e.g. "jolscan-e8". */
+/** Model name as the API reports it, e.g. "jolscan-e1". */
 export const CHAMPION_MODEL_NAME = EXPERIMENTS.championModelName;

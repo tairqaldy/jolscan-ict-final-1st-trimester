@@ -29,7 +29,8 @@ import restroom
 from imaging import read_image
 from schemas import InferenceResult
 
-WEIGHTS = os.getenv("MODEL_WEIGHTS", "weights/jolscan-e8.pt")
+# Default: the champion by the selection rule (championModelName in web/data/experiments.json).
+WEIGHTS = os.getenv("MODEL_WEIGHTS", "weights/jolscan-e1.pt")
 MODEL_NAME = os.getenv("MODEL_NAME", Path(WEIGHTS).stem)
 PROVIDER = os.getenv("PROVIDER_NAME", "local")  # set to "cloud" on the hosted copy
 # Set ANY_CLASS=1 only to try the service with stock COCO weights before the team has its own.
