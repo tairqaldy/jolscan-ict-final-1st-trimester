@@ -2,6 +2,10 @@
 
 Training and evaluation for the experiment in [docs/ML-EXPERIMENT.md](../docs/ML-EXPERIMENT.md).
 
+## Source inventory for slides (S-26)
+
+`python ml/slide_numbers.py` writes `ml/results/SLIDE-NUMBERS.md` from the currently available committed results. `python ml/slide_numbers.py --check` prints the inventory without writing. Missing files and values are marked `not available yet`, and mock or placeholder runs are not presented as real measurements. Each row names its source. Re-run after every export and compare with the actual final deck; the inventory is not proof that every number on every slide has been audited.
+
 ## M-1 one-epoch smoke test
 
 Open [colab_runner.ipynb](colab_runner.ipynb) in Colab and run its cells from top to bottom with a GPU runtime. It checks out the pinned M-1 trainer commit, installs `ml/requirements.txt`, finds the already-uploaded `potholes_yolo_v1.zip` in mounted Drive, and verifies the archive manifest before running:
