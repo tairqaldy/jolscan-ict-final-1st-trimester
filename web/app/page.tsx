@@ -120,12 +120,13 @@ export default function LandingPage() {
             </StaggerItem>
             <StaggerItem>
               <h1 className="max-w-3xl text-4xl leading-[1.04] font-bold sm:text-5xl">
-                Inspect roads and signs <span className="text-muted">with clarity.</span>
+                Inspect roads and signs <span className="text-muted">from a photo.</span>
               </h1>
             </StaggerItem>
             <StaggerItem>
               <p className="max-w-xl text-lg text-muted">
-                Inspect road damage and compare door signs with computer vision. Qarau shows the evidence behind each result.
+                {BRAND.name} finds potholes in road photos and compares restroom door signs with computer vision. Each result shows
+                what the model found and which rules decided it.
               </p>
             </StaggerItem>
             <StaggerItem className="flex flex-wrap gap-3">
