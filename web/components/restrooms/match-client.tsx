@@ -260,7 +260,7 @@ function MatchResultView({
         itself only ranks; it has no threshold.
       </p>
 
-      <details className="rounded-lg border border-border bg-surface p-4 text-sm">
+      <details className="rounded-lg border border-border bg-surface p-(--card-pad) text-sm">
         <summary className="cursor-pointer font-medium">Raw JSON</summary>
         <pre className="mt-3 max-h-[24rem] overflow-auto rounded-md bg-surface-2 p-4 font-mono text-xs leading-relaxed">
           <code>{raw}</code>
