@@ -114,6 +114,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How it was verified:** Simulated full-run artifact copy and downloads with temporary files and a fake Colab interface; verified the default skip, smoke rejection and overwrite protection. No live Colab or shared Drive access was verified; Alizhan has not yet personally reviewed the result.
 - **What was rejected or corrected:** Kept M-2 open until actual shared folder access and a full-run handoff are checked; did not label smoke weights as a trained model.
 
+### 11 November 2026, Alizhan (D-29, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Prepare a reproducible train-only size-band calculation.
+- **Key prompt:** "x-7, d-29 r-21 выполни эти три таска". This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** Size-band calculation, synthetic tests, dependency pin and reproduction instructions.
+- **How it was verified:** Synthetic labels and training-directory guard; the frozen training labels were unavailable, so the published numbers were not independently recomputed. Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** Did not change existing thresholds or claim a match to real training data.
+
 ### 11 November 2026, Alizhan (S-28, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.

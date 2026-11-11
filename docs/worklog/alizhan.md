@@ -84,6 +84,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **AI use:** Codex desktop, GPT-6; personal review pending.
 - **Open questions / next:** Verify the shared folder exists and all runners can edit it, then run the handoff for an actual full run in Colab.
 
+### 2026-11-11 · D-29 (#345) · Reproduce pothole size bands
+- **Status:** in progress; frozen training labels are needed for the required comparison.
+- **What I did:** Wrote a training-only YOLO label reader, log-area KMeans script, histogram export and synthetic checks; documented the command and pinned scikit-learn.
+- **Result:** A reproducibility implementation is ready for review. The committed thresholds have not been recomputed by this tool because the actual training labels were unavailable in this session.
+- **Decisions and why:** Restrict the input to a training directory and write to a temporary output before comparing; do not alter the rule thresholds.
+- **What I learned / can explain at the defense:** Clustering log area gives image-relative groups, not physical measurements; test data must not determine thresholds.
+- **AI use:** Codex desktop, GPT-6; personal review pending.
+- **Open questions / next:** Run on the frozen training labels, compare all counts and thresholds to six decimals, and stop if they differ.
+
 ### 2026-11-11 · S-28 (#222) · Validation-only promotion gate
 - **Status:** implemented; Amina's review pending.
 - **What I did:** Added a standard-library CLI that validates comparability and applies the existing champion selection rule using validation metrics only; described a future Level 1 pipeline without claiming it is automated.
