@@ -63,7 +63,7 @@ export function DashboardClient() {
         title="Road condition overview"
         description={
           <span className="inline-flex flex-wrap items-center gap-2">
-            Photos analysed in the 30 days to {formatDate(MOCK_ANCHOR)} (demo set) and in this browser. <DemoBadge />
+            Photos analysed in the 30 days to {formatDate(MOCK_ANCHOR)} (demo set) and in this browser. <DemoBadge show label="Includes demo data" />
           </span>
         }
         actions={

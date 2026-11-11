@@ -4,7 +4,7 @@ Reads   ml/results/runs/E*.json   (one per run, committed by whoever trained it)
 Writes  ml/results/experiments.csv   for the slides
         web/data/experiments.json    for the web app's model page
 
-Starter script, not yet run. Usage, from the repository root:
+Usage, from the repository root:
     python ml/export_results.py
 
 Latency is not taken from training. It is measured separately with batch size 1 (task S-15)
@@ -14,12 +14,27 @@ and passed in through ml/results/latency.json: {"E0": 12.3, "E1": 18.9, ...} in 
 from __future__ import annotations
 
 import json
+from datetime import date
 from pathlib import Path
 
 RUNS_DIR = Path("ml/results/runs")
 LATENCY_FILE = Path("ml/results/latency.json")
 CSV_OUT = Path("ml/results/experiments.csv")
 JSON_OUT = Path("web/data/experiments.json")
+MANIFEST = Path("data/exports/potholes_yolo_v1/split_manifest.json")
+
+# Facts from the dataset card (data/README.md, task D-1). Image counts come from the manifest.
+DATASET_CARD = {
+    "name": "Annotated Potholes Image Dataset (version potholes_yolo_v1)",
+    "source": "Kaggle, https://www.kaggle.com/datasets/chitholian/annotated-potholes-dataset (Atikur Rahman Chitholian)",
+    "licence": "ODbL (database) and DbCL (contents), as shown on Kaggle, read 11 Nov 2026",
+    "classes": ["pothole"],
+    "split": "Random by image, seed 42, after a duplicate check",
+    "notes": "Rebuilt from Kaggle and checked against the split manifest by data/make_potholes_yolo_v1.py; images are not in git.",
+}
+PROTOCOL = ("Same frozen split (potholes_yolo_v1), seed 42 and 40 epochs for every run; one change per run against E0. "
+            "The test split is read once per run, after training.")
+CHAMPION_RULE = "Highest validation mAP50; within 0.01, higher validation recall at confidence 0.40."
 
 # Selection rule, fixed before E1 (docs/ML-EXPERIMENT.md). Validation metrics only.
 TIE = 0.01
@@ -55,6 +70,7 @@ def main() -> None:
             "valMap50": m["val_map50"],
             "valRecallAtRulesConf": m["val_recall_at_rules_conf"],
             "datasetVersion": r["dataset_version"],
+            "device": r.get("device"),
         })
 
     versions = {row["datasetVersion"] for row in rows}
@@ -69,7 +85,19 @@ def main() -> None:
     CSV_OUT.write_text("\n".join(lines) + "\n")
 
     JSON_OUT.parent.mkdir(parents=True, exist_ok=True)
-    payload = {"isMock": False, "champion": champion, "runs": rows}
+    manifest = json.loads(MANIFEST.read_text())
+    dataset = {**DATASET_CARD, "images": manifest["image_counts"]}
+    payload = {
+        "isMock": False,
+        "updatedAt": date.today().isoformat(),
+        "protocol": PROTOCOL,
+        "championRule": CHAMPION_RULE,
+        "champion": champion,
+        # Must equal what the API reports: MODEL_NAME defaults to the weights file stem (api/main.py).
+        "championModelName": f"jolscan-{champion.lower()}",
+        "dataset": dataset,
+        "runs": rows,
+    }
     JSON_OUT.write_text(json.dumps(payload, indent=2, allow_nan=False) + "\n")
     print(f"Wrote {CSV_OUT} and {JSON_OUT}. Champion by the selection rule: {champion}")
 

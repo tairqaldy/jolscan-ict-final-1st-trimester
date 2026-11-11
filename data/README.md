@@ -1,24 +1,28 @@
 # data/
 
-No datasets are stored in git. This folder holds the dataset card and notes. The dataset itself lives in Roboflow and in the shared Drive folder.
+No datasets are stored in git. This folder holds the dataset card, notes and the rebuild script. The pothole images come from Kaggle; the frozen export is also in the shared Drive folder.
 
-## Dataset card (task D-1, to be filled in by Amina)
+## Dataset card (task D-1)
 
 | Field | Value |
 |---|---|
-| Name on Roboflow Universe | |
-| Author | |
-| URL | |
-| Licence | |
-| Images | |
+| Name | Annotated Potholes Image Dataset ("Fully bounding-box annotated image dataset of potholes and damaged roads") |
+| Author | Atikur Rahman Chitholian (Kaggle user `chitholian`) |
+| URL | https://www.kaggle.com/datasets/chitholian/annotated-potholes-dataset (version 1, published 27 February 2020) |
+| Licence | As shown on Kaggle: "Database: Open Database, Contents: Database Contents", i.e. the Open Database License (ODbL) for the database and the Database Contents License (DbCL) for its contents. Read on 11 November 2026 from the Kaggle dataset page data (API). |
+| Images | 665 JPG, each with a Pascal VOC XML file |
+| Objects | 1,740 in the original; 1,739 after removing the zero-width box in `img-415.xml` |
 | Classes | `pothole` |
 | Annotation type | bounding boxes |
-| Our Roboflow project | `pothole-idtb2-pr1td` (Tair's workspace) |
-| Dataset version used for all runs | |
-| Same dataset on Kaggle, if it exists | |
-| Split | 70 / 15 / 15, train / validation / test |
-| Preprocessing in the version | auto-orient only, no resize |
-| Offline augmentation in the version | none (augmentation is applied during training only) |
+| Dataset version used for all runs | `potholes_yolo_v1` |
+| Split | 465 / 100 / 100 train / validation / test, by image, `random.Random(42)` shuffle of the sorted paths |
+| Preprocessing | none: no resize; every EXIF orientation was 1 |
+| Offline augmentation | none (augmentation is applied during training only) |
+| Rebuild | `python data/make_potholes_yolo_v1.py --source <unzipped Kaggle folder> --out data/raw/potholes_yolo_v1` (task D-14) |
+
+**Same files as the ones we trained on.** On 11 November 2026 the Kaggle download (48,139,872 bytes) was checked against `split_manifest.json`: all 665 images have the same SHA-256 (task D-14).
+
+**Licence judgement.** The dataset licence is open (ODbL / DbCL), and Kaggle Datasets is one of the sources the syllabus allows (Syl p.9). The Kaggle description does not say where the photos came from, and three photos carry stock-photo watermarks (`img-565.jpg`, `img-409.jpg`, `img-448.jpg`), so the rights to individual photos are not established by the dataset licence. Those three are never shown publicly (task D-12), and the app's public sample images are drawn illustrations, not dataset photos.
 
 ## Quality notes (task D-2)
 
@@ -119,6 +123,14 @@ ZIP integrity and exported YOLO values were checked. Six exported images (two pe
 The archive contains `images/{train,val,test}/`, `labels/{train,val,test}/`, `data.yaml`, `split_manifest.json`, and `README.txt`. Copies of the actual exported `data.yaml` and `split_manifest.json` are in `data/exports/potholes_yolo_v1/`; the ZIP is not committed.
 
 All model experiments must use this same frozen split. This export has not been privacy-screened as a public sample set. Provenance, usage rights, privacy screening, and ambiguous annotation concerns remain unresolved. This preparation does not complete D-1 or D-12. **Decision (Tair, 10 November 2026):** the Colab export `potholes_yolo_v1` is accepted in place of the planned Roboflow version and is the frozen dataset version for every pothole run. D-3 is complete. Committing the conversion and split code (suggested in the review of #4) would make the version reproducible from `potholes_corrected_v1.zip`.
+
+**Rebuild from the Kaggle source (task D-14, 11 November 2026).** `data/make_potholes_yolo_v1.py` repeats this procedure from the original Kaggle download and checks the result against the committed manifest:
+
+```bash
+python data/make_potholes_yolo_v1.py --source data/raw/potholes-kaggle/src --out data/raw/potholes_yolo_v1
+```
+
+It re-derives the split (sorted paths, `random.Random(42).shuffle`, first 465 train, next 100 val, last 100 test) instead of copying it from the manifest. It removes the one zero-width box in `img-415.xml`, converts the XML bounds as described above, and then compares every image's SHA-256, split and object count, plus the per-split totals, with `split_manifest.json`. It stops on the first difference. Run on 11 November 2026 against the Kaggle download (`chitholian/annotated-potholes-dataset`, 48,139,872 bytes): all 665 images and 1,739 boxes matched (train 465 / 1,198, val 100 / 305, test 100 / 236). The label text uses six decimals; the Colab export's number format was not recorded, so label files may differ in the last digits while describing the same boxes. The output goes to `data/raw/`, which is git-ignored.
 
 ## Box-size clustering for R2 (task D-11)
 

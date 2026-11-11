@@ -1,7 +1,7 @@
 /**
  * Team data, edit freely. Used by the landing page and /about.
- * Roles follow the lanes proposed in docs/PLAN.md section 3; change them here
- * if the team swaps lanes at kickoff.
+ * Roles follow the lanes confirmed at kickoff (task X-15), as recorded in the
+ * team table of README.md and in docs/CONTRIBUTION-LOG.md.
  */
 export type TeamMember = { name: string; role: string; focus: string };
 
