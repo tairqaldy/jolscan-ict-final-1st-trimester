@@ -12,6 +12,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 · X-13 (#77) · Prompt-log gap audit
+- **Status:** in progress; participant-provided records and personal review remain.
+- **What I did:** Checked which member folders have tracked files, counted explicit draft and unidentified headings, and ran the issue's pattern-only secret/contact scan on tracked prompt-log text files without printing matched content.
+- **Result:** `docs/ai-logs/X13-STATUS.md` records the snapshot and its limits. Only Alizhan's folder has tracked excerpts; no listed secret/contact patterns matched those two files.
+- **Decisions and why:** Did not infer that another person's transcript does not exist outside Git, or claim a pattern scan is a complete privacy review.
+- **What I learned / can explain at the defense:** A prompt-log audit needs personal evidence and review as well as automated scans.
+- **AI use:** Codex desktop, GPT-6; Alizhan's personal review pending.
+- **Open questions / next:** Each participant supplies and reviews their own sanitized records; recheck the final deck's AI-log count.
+
 ### 2026-11-11 · X-21 (#262) · Instructor's project tour
 - **Status:** in progress; independent two-minute navigation check remains.
 - **What I did:** Added a short README tour linking the evidence table, experiments, rules, logs, setup and defense runbook, with the mock/local distinction and open VLM audit.
