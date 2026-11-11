@@ -12,3 +12,4 @@ Write one when you pick a dataset, a model, a metric or a threshold, change a co
 | [0004](0004-claim-rebase-self-merge.md) | Team workflow: claim, rebase before merging, merge yourself | 2026-11-10 | Tair |
 | [0005](0005-vercel-deploys-from-tair-account.md) | Production deploys are created from Tair's Vercel account (replaced by 0006) | 2026-11-10 | Tair |
 | [0006](0006-public-repository.md) | The repository is public | 2026-11-10 | Tair and the team |
+| [0007](0007-validation-only-m1-smoke.md) | Keep the M-1 smoke run validation-only | 2026-11-11 | Amina |

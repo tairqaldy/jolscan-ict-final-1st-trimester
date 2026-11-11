@@ -79,7 +79,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <div className="grid gap-3 border-t border-border px-5 py-4">
           <div className="flex flex-wrap items-center gap-2">
             <ProviderBadge />
-            <DemoBadge module="any" />
+            <DemoBadge show label="Includes demo data" />
           </div>
           <div className="flex items-center justify-between">
             <Link href="/about" className="inline-flex items-center gap-1.5 text-xs text-muted hover:text-fg">
@@ -95,7 +95,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <div className="flex h-14 items-center justify-between gap-2 px-4">
           <Logo href="/" />
           <div className="flex items-center gap-1.5">
-            <DemoBadge module="any" label="Demo" />
+            <DemoBadge show label="Demo" />
             <ProviderBadge />
             <ThemeToggle />
           </div>
