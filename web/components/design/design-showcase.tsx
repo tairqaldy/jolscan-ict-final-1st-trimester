@@ -238,7 +238,7 @@ export function ThemedShowcase() {
         <h3 className="text-xl font-bold">Colour tokens</h3>
         {COLOR_GROUPS.map((g) => (
           <div key={g.title} className="grid gap-2">
-            <p className="text-xs font-semibold tracking-wide text-muted uppercase">{g.title}</p>
+            <p className="eyebrow text-muted">{g.title}</p>
             <dl className="grid gap-x-3 gap-y-0.5 text-xs text-muted sm:grid-cols-[4.5rem_1fr]">
               <dt className="font-semibold text-fg">Use for</dt>
               <dd>{g.use}</dd>
