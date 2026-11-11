@@ -404,3 +404,11 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How I verified it, and who verified it:** the searches in the X-18 issue were run on the full history and on all tracked files; secret scanning was checked through the GitHub API (disabled).
 - **What I rejected or corrected:** decision 0006 said secret scanning "now runs"; it does not, so the text now says so.
 
+### 11 November 2026, Dameli (G-1, G-2, G-3: references and colour tokens)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** set up Node and pnpm, bring my local design work onto the latest `main`, check the contrast table and prepare the pull request.
+- **Key prompt(s), with a link to the transcript:** "iterate on my project", then Tair's handoff (docs/HANDOFF-DAMELI.md). Transcript kept locally.
+- **What it produced or changed:** a script (kept outside the repository) that reads `web/app/tokens.css` and recomputes the WCAG ratios; the task ticks and this pull request. The references, the direction and the token values are mine.
+- **How I verified it, and who verified it:** all 23 rows of the contrast table match the recomputed ratios to two decimals in both themes; `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` pass; I looked at `/`, `/app` and `/design` at 1440 px and 375 px in light and dark.
+- **What I rejected or corrected:** did not claim colour-blind safety from contrast numbers alone (that check stays in G-22); did not change `ml/plots.py`, which belongs to the deck plots task G-52.

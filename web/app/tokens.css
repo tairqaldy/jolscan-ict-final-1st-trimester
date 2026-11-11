@@ -41,8 +41,8 @@
   --subtle: #66686d;
 
   /* Accent: road-sign amber. Use as a fill with --accent-fg text, or --accent-ink for text on light surfaces. */
-  --accent: #f2a900;
-  --accent-hover: #e09c00;
+  --accent: #b87f00;
+  --accent-hover: #c08a00;
   --accent-fg: #1b1c1e;
   --accent-ink: #855700;
   --accent-soft: #fbefd0;
@@ -61,7 +61,7 @@
   --sev-low: #3e7cb1;
   --sev-low-ink: #1f5582;
   --sev-low-soft: #e2ecf6;
-  --sev-medium: #c99a16;
+  --sev-medium: #b87f00;
   --sev-medium-ink: #7a4f0e;
   --sev-medium-soft: #f7ebd6;
   --sev-high: #d9601a;
@@ -97,7 +97,7 @@
 
   /* Charts: series that are not severity (providers, runs) */
   --chart-1: #3d4f63;
-  --chart-2: #f2a900;
+  --chart-2: #b87f00;
   --chart-3: #6b8f71;
   --chart-4: #9a6b9a;
   --chart-grid: #e1ded7;
