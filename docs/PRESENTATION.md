@@ -137,6 +137,49 @@ JSON result back to the page: boxes or genders, score or verdict, which rules fi
 4. How does the design tell a user that a result is uncertain?
 5. What would you test with real users first?
 
+**Dameli — short practice answers (G-12, draft for personal practice)**
+
+Every example below was checked in the running app on 11 November, and every lecture page was checked in the PDF (`Lec3-Part1-Human_Computer_Interaction_Presentation.pdf` = HCI, `data_mining_and_visualisation_presentation (2).pdf` = DMViz, `Data-visualisation-as-an-ICT-tool (1).pdf` = VizBasics, `Data_Visualization_as_an_ICT_Tool.pdf` = VizICT).
+
+1. **Three heuristics, each with a page to open** (Nielsen's ten are HCI p13; one slide each on p14–23).
+   - *Visibility of system status* (HCI p14). The sidebar always shows the provider (Mock, Local or Cloud). While a photo runs, the button says "Analysing…" and a line scans the photo. Settings → Model provider → **Check connection** says "Connected" or why not. Open: `/app/settings`.
+   - *Help users recognise, diagnose and recover from errors* (HCI p22). With Local chosen and the model service off, Compare says "The local model service is not running or cannot be reached", how to start it, and offers **Try again** or **Use the mock provider**. One click on the second gives a result. Open: `/app/restrooms/compare`.
+   - *Recognition rather than recall* (HCI p19). Analyze shows six labelled sample photos ("Highway, three potholes", "Faint damage, needs review"…), and the accepted formats sit next to the upload box, so nobody has to remember what to upload. Open: `/app/roads/analyze`.
+   - Spare: *Error prevention* (HCI p18). The file is checked before upload: JPEG, PNG or WebP, at most 10 MB (`web/lib/upload.ts`).
+2. **Contrast and accessibility.**
+   - **Contrast:** I measured the contrast of every text colour from the tokens with the WCAG formula, in both themes. WCAG asks for 4.5:1 for text (HCI p37). Our weakest text colour, `subtle`, is 4.98:1 in light and 5.36:1 in dark, and main text is at least 14.4:1. The table is in DESIGN-BRIEF.md.
+   - **Keyboard:** Analyze works with the keyboard alone (checked on 11 November). Tab reaches a sample, Enter selects it, and Enter on **Analyze photo** shows the result. Every stop has a visible 2 px focus ring.
+   - **Colour plus word:** each severity level has a word and its own icon.
+   - **Still open:** the main button is 48 px tall, the touch size on HCI p31, but some small controls are smaller (the school-zone switch is 24 px tall). W-17 covers that fix.
+3. **Why bars, and no line chart.** The chart type follows the data (VizBasics p4, DMViz p28). Every chart on `/app/analytics` is a bar chart, picked per data type:
+   - "Detections over time" counts photos per day. The counts are separate daily totals, and the stacked bars show counted against needs review. A line would suggest values between the days.
+   - The confidence histogram shows the shape of a distribution (DMViz p28).
+   - All bars start at zero, because a cut axis exaggerates differences (DMViz p31, VizICT p17).
+   - Severity colours appear only where they mean severity; other series use `--chart-1` and `--chart-2`. Each chart on that page has a legend with words, because colour alone fails colour-blind readers (VizICT p11).
+4. **Showing uncertainty.**
+   - **Roads:** a box under the confidence threshold is drawn dashed with "review" in its tag; counted boxes are solid. The photo is flagged "needs review", counted in the "To review" tile on Home, and Reports can filter to review only.
+   - **Restrooms:** the verdict is **Review** when the model can tell the doors apart but is not sure which is which (gap under 0.20, rule S1). A person then checks on site.
+5. **First test with real users.** I would give a real road dispatcher the deployed site and measure whether they reach a result in two screens and three clicks, which is our U1. I would also check that "Critical, repair within 24 h" matches how they talk about work. That is *match between system and the real world* (HCI p15). I would measure what they do rather than ask what they like.
+6. **Likely follow-up: Fitts and Hick.**
+   - *Fitts's law* (HCI p34): the time to hit a target grows with distance and shrinks with size. **Analyze photo** is 48 px tall and spans its panel, right under the photo details.
+   - *Hick's law* (HCI p35): more choices make the decision slower, and the fix is progressive disclosure. A result first shows the priority and why; the detections and the raw JSON are in tabs.
+
+**Practice:** have Tair or Roma pick three questions. Answer each in under 40 seconds with the page open, then without notes. Before quoting a page aloud, open the PDF once yourself.
+
+**Slide 9, design decisions (G-13, content for the shared deck)**
+
+- **Title:** Design decisions for a road dispatcher
+- **Three screenshots**, one frame each (570×405 px, light theme, kept outside the repository and sent to the deck folder), each with one line:
+  1. `09-heuristic-1-status.png`: "Visibility of system status: the provider and its connection are always shown."
+  2. `09-heuristic-2-recover.png`: "Error recovery: the cause in plain words and a one-click switch to Mock."
+  3. `09-heuristic-3-recognition.png`: "Recognition over recall: six labelled sample photos next to the upload box."
+- **Chart line:** "Bars from zero for counts, a histogram for confidence, severity colours only for severity."
+- **Accessibility line:** "Text contrast at least 4.98:1 in both themes (WCAG: 4.5:1); keyboard-only analysis with a visible focus ring; every status with a word and an icon."
+- **Speaker notes, sources:** HCI p14, p19 and p22 for the three heuristics; HCI p37 for WCAG; VizBasics p4, DMViz p28 and p31 for the charts.
+- **Script, about 35 seconds (94 words):**
+
+  > I designed Qarau for a road dispatcher, using three of Nielsen's heuristics. Visibility of system status: the app always shows which model answers and whether it is connected. Error recovery: if the model service is down, the message says why in plain words and offers one click to the mock provider. Recognition over recall: you pick a sample instead of guessing what to upload. The charts are bars that start at zero, and every text colour passes WCAG's four and a half to one in both themes. Roma now explains how we used AI.
+
 **Roma (research and AI evaluation)**
 1. Which AI tools did the team use, for what, and how did you verify the output?
 2. What did the vision-language model get wrong, and why?
