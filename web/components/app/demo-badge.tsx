@@ -35,7 +35,7 @@ export const PROVENANCE_ICONS: Record<"demo" | Provider, LucideIcon> = {
  * colour of the charts) means our model made it.
  */
 const KIND_CLASSES = {
-  demo: "border-accent/40 bg-accent-soft text-accent-ink",
+  demo: "border-transparent bg-accent-soft text-accent-ink",
   mock: "border-accent/60 bg-transparent text-accent-ink",
   model: "border-(--chart-1)/40 bg-(--chart-1)/10 text-(--chart-1)",
 } as const;
