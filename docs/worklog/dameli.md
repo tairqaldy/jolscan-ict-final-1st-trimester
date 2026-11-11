@@ -12,6 +12,32 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 18:18 · G-31 (#175) · High-contrast theme
+- **Status:** done
+- **What I did:**
+  - Added a third theme, `[data-theme="contrast"]`, in `web/app/tokens.css`, built from the light theme: black text on white cards, a light grey page, dark grey borders, the amber accent darkened so it carries white text, and darker severity, verdict, gender, review and chart colours in the same hues.
+  - Accepted `"contrast"` in the theme store and in the inline script that sets the theme before first paint; added "High contrast" to the Theme control in Settings and to the header toggle; added a third panel on `/design`.
+  - A 3 px focus ring in this theme; printing gives it the light values, like dark.
+  - `web/scripts/check-contrast.mjs` prints the ratio table; `web/lib/contrast-theme.test.ts` fails if a token is missing or a ratio drops; `check-palette.mjs` now checks this theme too.
+- **Result:**
+  - Every text token is 7.13:1 or more (lowest: white text on the accent button), every mark 3.29:1 or more (lowest: medium severity on bg). Table in `docs/DESIGN-BRIEF.md`, "High-contrast theme (G-31)".
+  - No colour pair in this theme is below ΔE 10 in the colour-blind simulations; medium / high is 17.4 at its lowest (2.0 in the light theme).
+  - Playwright: clicking High contrast in Settings sets `data-theme="contrast"`, and a reload keeps it, even with JavaScript files blocked. Screenshots of `/`, `/app/roads/analyze?sample=s01`, `/app/restrooms`, `/app/restrooms/compare`, `/app/analytics`, `/app/settings` and `/design` kept outside git. In print emulation the page gets the light values.
+  - Lint, typecheck and 186 tests pass.
+- **Decisions and why:**
+  - Built from light, not dark: light themes hold up better on a projector, and the issue asks for dark text on white.
+  - The system setting never picks it. "System" stays light or dark, and only a person chooses high contrast.
+  - The header toggle cycles System, Light, Dark, High contrast and then System, so one click always leads out of it.
+  - The block declares every token, including the verdict aliases: otherwise the nested panel on `/design` would take the page's values.
+  - Printing stays on the light values, so a report looks the same whoever prints it (G-25).
+  - Photo boxes keep their colours, because they sit on the photo; only their halo is darker.
+- **What I learned / can explain at the defense:**
+  - WCAG 4.5:1 (AA) is what light and dark meet; this theme targets 7:1 (AAA, 1.4.6) for text and 3:1 (1.4.11) for marks.
+  - How the ratio is computed: relative luminance of each sRGB colour, then (lighter + 0.05) / (darker + 0.05).
+  - Why the accent changed from a fill with dark text to a fill with white text: one amber cannot be 3:1 on white as a mark and 7:1 under black text at once.
+- **AI use:** Claude Code wrote the tokens, the code, the check script, the test and the Playwright checks from the issue (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** Tair could look at the theme on the projector before using it in the demo. The `theme-color` meta tag still follows only light and dark.
+
 ### 2026-11-11 18:17 · G-61 (#295) · Three ways to show a rule hit in 'Rules you can read'
 - **Status:** done
 - **What I did:**
