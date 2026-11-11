@@ -20,7 +20,7 @@ To try the service before the team has weights, use the stock model, which downl
 ANY_CLASS=1 MODEL_WEIGHTS=yolo26n.pt uvicorn main:app --port 8000
 ```
 
-With the team's weights at `api/weights/jolscan-e8.pt` (from the shared Drive, or any `jolscan-<run>.pt` through `MODEL_WEIGHTS`):
+With the team's weights at `api/weights/jolscan-e1.pt`, the champion by the selection rule (from the shared Drive, or any `jolscan-<run>.pt` through `MODEL_WEIGHTS`):
 
 ```bash
 uvicorn main:app --port 8000
@@ -192,8 +192,10 @@ not attempt downloads even when Ultralytics is installed.
   app drew one box, listed one detection, and showed R1/R2 rule hits. The result was labeled
   `S4-FIXTURE`; it is not a prediction. With FastAPI stopped the page showed the readable
   `unreachable` error and retry option.
-- **Outstanding:** run with the team-trained E0 weights, check real boxes and model name on
-  a screened test image, and complete the S-2 comparison before marking S-4 done.
+- **Done on 11 November 2026 (Tair):** with the team-trained champion `jolscan-e1.pt`, a
+  test-split photo showed 4 real boxes and the model name `jolscan-e1` in the web app, the
+  stopped API showed the readable error, and Settings showed the health check; the S-2
+  comparison is below. S-4 is ticked in TASKS.md.
 
 ### S-2: serving the team's weights, 11 November 2026
 
