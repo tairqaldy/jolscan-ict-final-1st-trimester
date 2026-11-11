@@ -463,3 +463,16 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - "48 px tap targets" is not claimed as done.
   - A first draft overstated dark-theme contrast (5.79 and above 15:1 instead of 5.36 and 14.4:1).
   - The script was cut from 106 to 94 words to fit 35 seconds.
+
+### 11 November 2026, Dameli (G-10 slide template)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with python-pptx 1.0.2.
+- **Purpose:** turn the design tokens into a slide template that Roma can use in Canva.
+- **Key prompt(s), with a link to the transcript:** "make pptx, I will then connect to the other Canva account and import it there". Transcript kept locally.
+- **What it produced or changed:** `docs/design/slide-template/make_slide_template.py` and the `.pptx` it writes; the G-10 section in DESIGN-BRIEF.md.
+- **How I verified it, and who verified it:**
+  - The file opens with python-pptx: 16:9, eight slides, speaker notes on every slide, and only Overpass and JetBrains Mono used.
+  - Every slide was drawn in a browser with the real Google fonts. Two layout problems were fixed: a repository link that wrapped, and a legend placed too low.
+  - The colour values were copied from `web/app/tokens.css`.
+  - The import into Canva and the font check on Roma's device are still for me to do.
+- **What I rejected or corrected:** did not use the Canva connector (its tools are switched off in my settings), and did not put any real number into the template.
