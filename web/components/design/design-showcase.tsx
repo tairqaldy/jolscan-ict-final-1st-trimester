@@ -209,7 +209,7 @@ export function TokenReference() {
                   </span>
                 </TD>
                 <TD className="font-mono text-xs whitespace-nowrap">{c.token}</TD>
-                <TD className="font-mono text-xs text-muted">{c.example}</TD>
+                <TD className="font-mono text-xs whitespace-nowrap text-muted">{c.example}</TD>
               </TR>
             ))}
           </tbody>
