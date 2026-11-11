@@ -196,6 +196,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How I verified it, and who verified it:** `pnpm lint`, typecheck and `vitest run` in `web/`; the loader test uses an object shaped like the ExperimentsFile type in ARCHITECTURE section 2. Tair to check the page in the browser after the real export (Part B).
 - **What I rejected or corrected:** the issue asked to move the dataset card into `web/lib/credits.ts`; since M-20 the export writes the dataset block, so the card keeps reading it from the results file. Placeholder latency and device are null instead of invented values.
 
+### 11 November 2026, Tair (M-3 E0 baseline, M-12 first export)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** train the late E0 baseline and put its real numbers on the model page.
+- **Key prompt(s), with a link to the transcript:** "work on completing tasks for ML for potholes ... and making non-demo working example". Transcript kept locally.
+- **What it produced or changed:** the `--device` option in `ml/train.py`, the run files `ml/results/runs/E0.json` and `E0-results.csv` (written by the script), and the export output `ml/results/experiments.csv` and `web/data/experiments.json` (written by the script).
+- **How I verified it, and who verified it:** the numbers are copied by the scripts from Ultralytics' own evaluation; the test split was evaluated once, after training; the export picked E0 by the selection rule.
+- **What I rejected or corrected:** the result file's device used to say "cpu" for any non-CUDA run, which would have been wrong for the M5 GPU; it now records the real device.
+
 ### 11 November 2026, Tair (W-28 demo badges, W-21 stale copy)
 
 - **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.

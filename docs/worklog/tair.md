@@ -12,6 +12,16 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 11 November 2026 · M-3 (#52) and M-12 (#60) · Train E0 and export the first real results
+
+- **Status:** M-3 done; M-12 first export done (final export after E8)
+- **What I did:** trained the E0 baseline (YOLO26n, 40 epochs, SGD, seed 42, frozen split `potholes_yolo_v1`) with Amina's M-1 trainer on this laptop's Apple M5 GPU, adding a `--device mps` option; ran `ml/export_results.py`.
+- **Result:** test mAP50 0.799, mAP50-95 0.517, precision 0.867, recall 0.678; at the app's confidence 0.40: precision 0.874, recall 0.678. Validation mAP50 0.824. Weights 5.4 MB. `web/data/experiments.json` now has `isMock: false`.
+- **Decisions and why:** trained locally instead of Colab because E0 was a day late and the M5 GPU finished 40 epochs in about 12 minutes; the run file records the device so the later Colab runs are compared honestly. Tagged the trainer commit `e0-trainer` because the squash merge would otherwise make the recorded commit unreachable.
+- **What I learned / can explain:** mAP50 versus mAP50-95; why the test split is read once, after training; why validation picks the champion.
+- **AI use:** Claude Code ran the training and the export and patched the device option; numbers come from the run file (docs/AI-USAGE-LOG.md).
+- **Open questions:** the batch-1 latency (S-15) is not measured yet, so the page says "not measured".
+
 ### 2026-11-11 12:55 · W-21 (#103) · Remove stale placeholders from the site copy
 - **Status:** done
 - **What I did:** ran the issue's grep over `web/` and sorted every hit. Fixed the stale copy: the pothole credit in `web/lib/credits.ts` (name, author, Kaggle link, ODbL/DbCL licence from the D-1 card), the footer and About lines that called demo badges "placeholders", the About dataset warning and the "to be completed" AI-use callout, the landing results sentence, and the disabled RU/KZ options in Settings. The model-page dataset card and the placeholder `experiments.json` dataset block were already fixed by W-11 Part A, which merged while I worked.
