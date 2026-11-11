@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock, Cpu, MapPin, Route, School, Timer } from "lucide-react";
+import { Brain, Clock, MapPin, Route, School, Timer, type LucideIcon } from "lucide-react";
 import { useMemo, useState, type ReactNode } from "react";
 import { Badge, ReviewBadge, SeverityBadge } from "@/components/ui/badge";
 import { Callout } from "@/components/ui/callout";
@@ -104,13 +104,13 @@ export function AnalysisView({ analysis, title }: { analysis: StoredAnalysis; ti
             )}
 
             <dl className="grid grid-cols-2 gap-x-4 gap-y-3 border-t border-border pt-4 text-sm">
-              <Meta icon={Cpu} label="Provider" wide>
+              <Meta icon={PROVIDER_META[analysis.provider].icon} label="Provider" wide>
                 <span className="inline-flex max-w-full flex-wrap items-center gap-1.5">
                   {PROVIDER_META[analysis.provider].label}
                   <ResultProvenanceBadge result={analysis} />
                 </span>
               </Meta>
-              <Meta icon={Cpu} label="Model">
+              <Meta icon={Brain} label="Model">
                 <span className="font-mono text-xs">{isSeededDemo(analysis.id) ? SEEDED_MODEL_LABEL : analysis.model}</span>
               </Meta>
               <Meta icon={Timer} label="Model latency">
@@ -256,7 +256,7 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
   );
 }
 
-function Meta({ icon: Icon, label, children, wide }: { icon: typeof Cpu; label: string; children: ReactNode; wide?: boolean }) {
+function Meta({ icon: Icon, label, children, wide }: { icon: LucideIcon; label: string; children: ReactNode; wide?: boolean }) {
   return (
     <div className={cn("grid gap-0.5", wide && "col-span-2")}>
       <dt className="inline-flex items-center gap-1.5 text-xs text-muted">
