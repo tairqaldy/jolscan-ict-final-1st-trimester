@@ -12,6 +12,24 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 17:20 · G-7 (#125), G-71 (#336), G-51 (#285) · One chart style, labelled thresholds, columns for detections per day
+- **Status:** done
+- **What I did:**
+  - Put one chart style into `web/components/charts/chart-kit.tsx`: series colours, axis titles, y-axis width, stacked-bar gaps, value labels, threshold and reference lines. All nine charts on `/app/analytics` and both on `/app/model` use it; none sets its own colours.
+  - Fixed the "Score (test)" y-axis title that overlapped the tick labels on `/app/model` (found in G-52): the axis is now wide enough for the ticks plus the title.
+  - Drew every rule threshold with its rule and current value above the plot: R1 and its review floor on the confidence histogram, S3 on the similarity chart, S1 and S2 on the gap chart. The label adds "(your setting)" when the value is not the default. The values come from the rule stores.
+  - Histogram ticks now sit on the bin edges, and a bin that a threshold cuts through is drawn in two parts, so the colours agree with the counts in the chart titles.
+  - Tried a line for detections over time next to the stacked columns, kept the columns, and made DESIGN-BRIEF.md and my G-12 study card say the same.
+- **Result:** `/app/analytics` and `/app/model` in light and dark at 1440 and 375 px. Moving S1 to 0.30 and R1 to 0.45 on the Rules pages moved the lines and the labels said "(your setting)". Helpers tested in `web/lib/charts/thresholds.test.ts`.
+- **Decisions and why:**
+  - Columns for detections per day: each day is a separate count, and the stack shows counted against review. The line dropped to zero on every day without photos and the review line was flat, so "are detections rising?" was harder to read.
+  - Threshold labels above the plot, not on it, so they never sit on a tall bar at 375 px. Two lines on one chart get two label rows.
+  - Our rules are ink lines; IOAI's published scores are muted lines, so the reader can tell our rule from someone else's number.
+  - A bin cut by the line was coloured by its lower edge before, so the S3 chart showed four "below" pairs while its title said two. Splitting the bin fixes that without changing any rule.
+- **What I learned / can explain at the defense:** never hide context that changes the comparison (Lec4-VizBasics p8): the threshold is drawn and named where the data is. Line for change over time, bars for comparing counts (Lec4-VizBasics p4). Bars from zero and severity colours only for severity (Lec4-DMViz p31).
+- **AI use:** Claude Code wrote the chart changes and the variant screenshots from my task list (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** the G-71 references in Drive and `docs/design/references/design-dataviz.md` are not collected. The severity bands 2, 5 and 9 on the Rules page are still text, because `score-ladder.tsx` (W-43) is not merged. The matplotlib threshold style goes into `docs/design/chart-style.md` once G-52 (#398) is merged.
+
 ### 2026-11-11 17:19 · G-20 (#164), G-26 (#170), G-27 (#171) · Token rules, empty-state drawings, dark map
 - **Status:** done
 - **What I did:**
