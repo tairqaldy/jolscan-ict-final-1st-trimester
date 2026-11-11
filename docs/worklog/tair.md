@@ -10,6 +10,16 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 ## Entries
 
+### 11 November 2026 · R-20, R-21 and the deck (#229, #230) · First version of all slides
+
+- **Status:** draft done; reading aloud, Canva import and the marked gaps are open.
+- **What I did:** a script, `docs/deck/make_deck.py`, builds the deck from Dameli's template and the result files: slides 1–12, backups B1–B5, the script in each slide's notes, and a Sources line per number. `docs/research/deck-sources.md` is generated for R-15.
+- **Result:** `docs/deck/qarau-defense-deck.pptx` (1.1 MB), about 8:17 with the 1:30 demo. Gaps shown on the slides: slide 2 statistic (R-2), restroom 95 % intervals (C-20), the R-6 audit, the design screenshots (G-11).
+- **Decisions and why:** the build stops if a number on a slide is not exactly the file's number, so nobody types a number by hand. The restroom headline shows R3 and the pipeline side by side until Nazar confirms.
+- **What I learned / can explain at the defense:** where every number on the slides comes from.
+- **AI use:** Claude Code built the script and the deck; entry in docs/AI-USAGE-LOG.md.
+- **Open questions / next:** each speaker times their slide; Roma imports into Canva and exports the PDF.
+
 ### 11 November 2026 · M-19 (#61) · Operating point of the champion at confidence 0.40
 
 - **Status:** done

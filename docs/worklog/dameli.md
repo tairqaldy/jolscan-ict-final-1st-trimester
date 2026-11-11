@@ -12,6 +12,17 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 17:07 · G-66 (#331) · Architecture diagrams for slide 4 and the backup slide
+- **Status:** drawn and on this branch; still needs the two PNGs in Drive `slides/` and Alizhan's OK in the chat.
+- **What I did:** Drew the slide 4 diagram (five boxes, one photo's path numbered 1 to 5) and a detailed version for the backup slide, both as SVG in the light tokens and the deck fonts, and exported 3840×2160 PNGs.
+- **Result:** `docs/design/architecture-slide.svg`, `docs/design/architecture-detail.svg`, `docs/design/architecture-diagram.md` (walk-through, alt text, checks), `docs/design/render_svg.py`.
+- **Decisions and why:**
+  - Left to right with the providers as a fork: fits 16:9 and follows the order of the script. The demo provider (local) is outlined in amber, cloud is dashed and says "not used in this demo" because S-7 is open.
+  - Left out the Gradio app (starter code, never run) and any database: drawing parts that do not exist costs trust.
+- **What I learned / can explain at the defense:** the browser is the client, FastAPI the model server; the rules run in the web server so one rule set scores every provider (Lec2-Arch p43); requests and results travel as JSON over HTTP.
+- **AI use:** Claude Code drew the SVGs from the code and `docs/ARCHITECTURE.md`, and checked every label (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** upload the PNGs to Drive `slides/`, ask Alizhan which version he talks over, send the backup PNG to Roma (R-26).
+
 ### 2026-11-11 16:50 · G-52 (#286) · One chart style for the app and the deck
 - **Status:** in progress. The style and the matplotlib block are written; Amina and Nazar still have to confirm in the chat and apply it to their plots.
 - **What I did:** Wrote down the app's light-theme chart values and seven chart rules, gave the model lanes a matplotlib block, and drew one sample from the real pothole runs to show it works.
@@ -25,6 +36,7 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **Open questions / next:** send the block to Amina (M-13) and Nazar (C-6), then tick G-52 when both confirm.
 
 ### 2026-11-11 16:47 · G-42 (#276) · Anti-slop checklist
+
 - **Status:** done
 - **What I did:** Turned the team's design rules into 13 checks, each one a search anyone can run. I ran them once on `main` and gave every finding a task id or a reason.
 - **Result:** `docs/design/ANTI-SLOP.md`; a new checkbox in the pull request template.
