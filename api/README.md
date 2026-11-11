@@ -90,6 +90,8 @@ $env:WARMUP = "1"
 
 ## Restroom endpoints
 
+Model card: [ml/restroom/MODEL_CARD.md](../ml/restroom/MODEL_CARD.md) (components, data, results with sources, limits).
+
 Code in `restroom.py`, shared upload checks in `imaging.py`. The model is OpenAI CLIP through `open_clip_torch` (ViT-B/32 by default, about 600 MB, downloaded on first use into the Hugging Face cache). The first restroom request takes a few seconds longer while it loads.
 
 ```bash

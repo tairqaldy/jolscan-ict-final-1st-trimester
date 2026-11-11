@@ -158,6 +158,7 @@ If MLflow is installed (it is in `ml/requirements.txt`), every run is also logge
 - `demo.py`: a local Gradio page: pick a sign from the IOAI validation or test set and watch the pipeline find its pair.
 - `export_pairs.py`: the pipeline's answers on validation and test, with resized IOAI images, for the web app's IOAI pairs page (`web/data/restroom-ioai-pairs.json`, `web/public/samples/restrooms/ioai/`). It stops if its answers differ from `pipeline.json`.
 - `STUDY-CARD.md`: Nazar's answers for the defense questions on this lane.
+- `MODEL_CARD.md`: the model card of the served restroom service: components, data, results with sources, limits.
 
 ## Attribution
 
