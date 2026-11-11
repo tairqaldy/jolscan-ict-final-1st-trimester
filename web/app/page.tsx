@@ -265,7 +265,8 @@ export default function LandingPage() {
         <section id="rules" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="rules-h">
           <SectionTitle id="rules-h" eyebrow="Explainable by design" title="Rules you can read" />
           <p className="mt-3 max-w-3xl text-muted">
-            The model produces predictions; the team’s rules turn those predictions into an outcome. These examples use mock predictions and show rule hits computed by the app:
+            The model makes predictions; rules the team wrote turn them into a decision. Both examples are rule hits the app
+            computed from mock predictions:
           </p>
           <div className="mt-8 grid gap-4 lg:grid-cols-2">
             <RuleHitCard
