@@ -12,6 +12,23 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 17:19 · G-20 (#164), G-26 (#170), G-27 (#171) · Token rules, empty-state drawings, dark map
+- **Status:** done
+- **What I did:**
+  - G-20: wrote a "use for" and a "never" line for each of the 8 colour groups on `/design` and added a "Which colour token do I use?" table.
+  - G-26: drew four small empty-state drawings (empty road, two blank door signs, magnifier over an empty table, clipboard with a check) from tokens only. They are on `/design` and in 8 empty states.
+  - G-27: darkened the map tiles in the dark theme, themed the popups and zoom buttons, and drew only the findings the list names.
+- **Result:** `web/components/design/design-showcase.tsx`, `web/components/illustrations/`, `web/lib/illustrations.test.ts`, `web/components/ui/empty-state.tsx` (optional `illustration`), `web/app/globals.css` (Leaflet block), `web/components/app/map-view.tsx`, `web/components/app/map-client.tsx`.
+- **Decisions and why:**
+  - Before writing a "never" rule I searched the code for a counter-example. The success callout puts plain text on `sev-clear-soft`, so I dropped a rule that banned exactly that.
+  - Map: I tried CARTO's dark basemap first, but its tiles now show "API KEY REQUIRED". I kept OpenStreetMap and put a CSS filter on the tile pane only, so markers, popups and the credit keep their token colours. No new host and no key.
+  - Marker ring in dark: `--fg` instead of `--surface`. On the dark tiles it separates overlapping markers and keeps yellow (medium) apart from the orange main roads (compared in two screenshots).
+  - `leaflet.css` loads after `globals.css`, so the existing popup rules lost and popups were white in the dark theme. A `.leaflet-container` prefix fixes it without touching the old rules.
+  - Clear analyses are no longer drawn, as the issue recommends: "Findings on the map (37)" now matches 37 markers (it was 40). Tair can undo this with one commit if he wants clear roads back on the map.
+- **What I learned / can explain at the defense:** consistency and standards (Lec3-HCI p13–37): one severity scale for badges, bars and markers, written down as rules. Honest visualisation (Lec4-DMViz p31): the count shown equals what is drawn.
+- **AI use:** Claude Code wrote the code and the rule text from the issues, my brief and searches of the code; I reviewed the screenshots (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** Tair to confirm clear analyses stay off the map. The "Roads: needs review" group from G-47 got its lines during the rebase; a new colour group needs both lines (the type requires them).
+
 ### 2026-11-11 17:20 · G-56 (#290), G-11 (#127), G-57 (#291), G-63 (#297), G-69 (#334) · Screenshot frame, deck screenshots, video look, imagery, principles
 - **Status:** G-63 done. G-56, G-11, G-57 and G-69 in progress: the parts that need Roma, the Drive upload or a native speaker are open.
 - **What I did:** Fixed one screenshot frame and added it to the slide template; took 20 deck screenshots (10 shots, light and dark) with a script that applies the frame; wrote the backup video look and drew its title card, end card and caption layout; wrote the imagery rules and the design principles with the voice.
