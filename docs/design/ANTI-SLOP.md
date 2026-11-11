@@ -19,3 +19,21 @@
 | R13 | The Demo badge is the honesty rule, not slop: pages with seeded or mock data must show it. | Open each page with seeded data and look for "Demo data" or "Includes demo data" |
 
 Design pull requests tick "ANTI-SLOP.md checked" in the pull request template.
+
+## First audit: `main`, 11 November 2026
+
+| # | Result | Decision |
+|---|---|---|
+| R1 gradients | 0 | Passes. |
+| R2 glass | 0 | Passes. The team cards were checked by eye: solid surfaces, no blur. |
+| R3 emoji | 0 | Passes. |
+| R4 fake proof | 0 | Passes. |
+| R5 lorem | 0 | Passes. |
+| R6 numbers | 2 typed percentages | **Keep, both sourced.** About page, "about 75%" per-sign gender: `docs/ML-EXPERIMENT-RESTROOM.md` line 81. Compare result, "90%" pairwise and "57%" per sign: `docs/RULES.md` line 99. Both belong to the restroom lane (Nazar); update them if the export changes. |
+| R7 motion | 3 | **Fix two in G-54 (#288):** the hero demo replays every 7 s (`web/components/landing/hero-demo.tsx` line 29) and the sign-pair demo cycles every 5 s (`web/components/landing/pair-demo.tsx` line 36); both need a pause button. **Keep one:** the scan line on Analyze (`web/components/app/analyze-client.tsx` line 206) only runs while an analysis is in progress, as a progress indicator, and is off under reduced motion. |
+| R8 families | 2 (Overpass, JetBrains Mono) | Passes, since G-4. |
+| R9 radii | 5 tokens (`xs`, `sm`, `md`, `lg`, `xl`) plus `full` | **Fix in G-49 (#283):** three values plus `full`. |
+| R10 raw colours | 2, in `web/app/layout.tsx` lines 28–29 | **Keep.** They set the browser's theme colour, and metadata cannot read CSS variables; the comment there says they mirror `--bg`. |
+| R11 AI copy | 0 | Passes. |
+| R12 letter spacing | 15 hand-written `tracking-[…]` values | **Fix in G-23 (#167):** one `stamp` label style. |
+| R13 Demo badge | 46 uses | Passes. Keep it: it is the honesty rule. |
