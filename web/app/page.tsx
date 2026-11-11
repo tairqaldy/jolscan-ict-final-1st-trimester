@@ -125,8 +125,8 @@ export default function LandingPage() {
             </StaggerItem>
             <StaggerItem>
               <p className="max-w-xl text-lg text-muted">
-                {BRAND.name} finds potholes in road photos and compares restroom door signs with computer vision. Each result shows
-                what the model found and which rules decided it.
+                {BRAND.name} uses computer vision to find potholes in road photos and to compare restroom door signs. Each result
+                shows what the model found and which rules decided it.
               </p>
             </StaggerItem>
             <StaggerItem className="flex flex-wrap gap-3">
