@@ -358,3 +358,12 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How I verified it, and who verified it:** ran the script on this laptop; `/health`, the warm-up and a real photo through the web app worked; the servers were stopped afterwards.
 - **What I rejected or corrected:** the first version checked only that `web/.next` exists, which a dev server also creates; it now checks for the production build's `BUILD_ID`.
 
+### 11 November 2026, Tair (W-22 study card draft)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** a first draft of my study card for the individual question.
+- **Key prompt(s), with a link to the transcript:** "complete some bare minimum tasks". Transcript kept locally.
+- **What it produced or changed:** the "Tair" practice answers and diagram in `docs/PRESENTATION.md`.
+- **How I verified it, and who verified it:** the facts were checked against the code (timeouts, error codes, file paths); I still have to answer from memory in Rehearsal 1.
+- **What I rejected or corrected:** left out lecture page numbers that were not checked against the PDFs.
+

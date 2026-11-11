@@ -12,6 +12,16 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 11 November 2026 · W-22 (#104) · Study card draft: architecture and web decisions
+
+- **Status:** draft; practise before Rehearsal 1
+- **What I did:** wrote the architecture sketch and seven short answers under "Tair" in `docs/PRESENTATION.md`, checked against the code (timeouts in `web/lib/providers/env.ts`, error codes in `web/lib/providers/http.ts`).
+- **Result:** a card I can learn; the done-check (draw it from memory, three random questions without notes) happens in the rehearsal.
+- **Decisions and why:** no lecture page numbers in the answers until I have opened the PDFs.
+- **What I learned / can explain:** why the rules sit after the model and outside it; what each provider is for.
+- **AI use:** Claude Code drafted the answers from the code and the issue; I have to practise them (docs/AI-USAGE-LOG.md).
+- **Open questions:** none.
+
 ### 2026-11-11 13:20 · W-60 (#298) · Fit each demo result on one projector screen
 - **Status:** done
 - **What I did:** ran s01 on Analyze, the s01 report and all four Compare presets at 1280×720 and 1440×900 (Mock provider, bundled samples) and measured where the photo, badge, score and action land. Tried three variants: A current, B smaller photo column, C meta block collapsed into "Run details".
