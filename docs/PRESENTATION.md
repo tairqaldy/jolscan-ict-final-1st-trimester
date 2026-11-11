@@ -33,7 +33,7 @@ Working snapshot copied from `docs/deck/SLIDES.md` at commit `1c28a49`. The fina
 
 **Slide 11, fixed 11 November evening:** the script no longer calls the two-step pipeline a next step. Since C-8 (#426) the app's Match page runs it (`api/restroom.py`, `bestMatchId`); Compare still runs zero-shot CLIP. The next step it names now is accessible and all-gender signs, as on the slide. Deck source: `docs/deck/make_deck.py`.
 
-**Full timed read-through:** not yet recorded. The deck estimates 8:03 with the 1:30 live demo; a real timed rehearsal is still required.
+**Full timed read-through:** not yet recorded. The deck estimates 8:02 with the 1:30 live demo; a real timed rehearsal is still required.
 
 ### 1. Title
 **Speaker and budget:** Tair · **budget** 0:15 · **script** 32 words, about 0:15
@@ -81,9 +81,9 @@ Working snapshot copied from `docs/deck/SLIDES.md` at commit `1c28a49`. The fina
 > I designed Qarau for a road dispatcher. Visibility of system status: the app always shows which model answers and whether it is connected. Error recovery: if the model service is down, the message says why and offers one click to the mock provider. Recognition over recall: you pick a sample instead of guessing what to upload. Charts start at zero, and every text colour passes WCAG AA in both themes. Roma now explains how we used AI.
 
 ### 10. AI use and its limits
-**Speaker and budget:** Roma · **budget** 0:35 · **script** 80 words, about 0:37
+**Speaker and budget:** Roma · **budget** 0:35 · **script** 78 words, about 0:36
 
-> We used AI tools, mainly Claude Code, Codex and Copilot, to write and review code and tests, to draft documents, and to check text against our result files. Every use is logged with its prompt: 110 entries. Whoever used a tool checked its output, with tests and CI, and every number on these slides is traced to a committed file. We planned an audit of two vision-language models; it is not finished, so we show no numbers. Next, the limits.
+> We used Claude Code, Codex and Copilot to write and review code, draft documents and check text against our results. Every use is logged with its prompt and check: 112 entries, and every number here is traced to a committed file. We also audited Gemini and Claude on 20 IOAI signs: each named the gender correctly on 17. Our CLIP gets 0.756 on all 328 training signs; 20 signs are too few to rank them. Next, the limits.
 
 ### 11. Limitations and next steps
 **Speaker and budget:** Roma · **budget** 0:25 · **script** 50 words, about 0:23
