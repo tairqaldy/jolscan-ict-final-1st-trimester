@@ -27,7 +27,7 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 ### 2026-11-11 19:30 · Restroom follow-ups · IOAI training set, every IOAI sign as a sample, Match comparison
 - **Status:** done, in the PR from `restroom/ioai-train-set`.
 - **What I did:** The IOAI pairs page shows the training set too (164 crops, one query at a time, 147/164). Compare and Match can pick any of the 238 IOAI signs (validation, test, training) with real zero-shot CLIP outputs (`export_catalogue.py`). Match gives each IOAI sign a gallery from its own set with its true partner (`export_match.py`), shows the best pair on the right, and compares what each of our models picks.
-- **Result:** The "best" sign on Match was wrong before because the gallery did not contain the true partner; with per-sign galleries the served pipeline finds it. Training restroom 30 (the deer) stays wrong for R7 and zero-shot CLIP; only R4, which trained on it, finds it.
+- **Result:** The "best" sign on Match was wrong before because the gallery did not contain the true partner; with per-sign galleries the served pipeline finds it. Training restroom 30 (the deer) stays wrong for R7 and zero-shot CLIP; only the fine-tuned models, which trained on it, find it.
 - **Decisions and why:** Restrooms 18 (photos of people with faces) and 59 (nude figures) are hidden, as the repository rules require. Validation and test genders were labelled by eye; four test signs are marked unsure.
 - **What I learned / can explain at the defense:** Why a gallery without the true partner makes any model look wrong, and why a model's score on the restrooms it trained on is not evidence.
 - **AI use:** Claude Code (Claude Opus 5.5); entries in `docs/AI-USAGE-LOG.md`.
