@@ -44,6 +44,16 @@ describe("THEME_INIT_SCRIPT", () => {
     expect(run({}).theme).toBe("light");
   });
 
+  it("sets the high-contrast theme when it is stored, whatever the system says (G-31)", () => {
+    expect(run({ [THEME_STORAGE_KEY]: '"contrast"' }).theme).toBe("contrast");
+    expect(run({ [THEME_STORAGE_KEY]: '"contrast"' }, { dark: true }).theme).toBe("contrast");
+  });
+
+  it("falls back to the system setting for an unknown stored theme", () => {
+    expect(run({ [THEME_STORAGE_KEY]: '"sepia"' }, { dark: true }).theme).toBe("dark");
+    expect(run({ [THEME_STORAGE_KEY]: '"sepia"' }).theme).toBe("light");
+  });
+
   it("sets both attributes together", () => {
     const d = run({ [MOTION_STORAGE_KEY]: "true", [THEME_STORAGE_KEY]: '"dark"' });
     expect(d).toEqual({ theme: "dark", motion: "reduce" });

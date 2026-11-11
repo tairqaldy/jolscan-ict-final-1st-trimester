@@ -2,14 +2,15 @@ import { useEffect } from "react";
 import { THEME_STORAGE_KEY } from "@/lib/theme-script";
 import { createLocalStore } from "./local-store";
 
-export type ThemePreference = "system" | "light" | "dark";
+/** "contrast" is the high-contrast theme (G-31): light-based, text at 7:1 or more. */
+export type ThemePreference = "system" | "light" | "dark" | "contrast";
 
 /** Stored as a JSON string, read before paint by the inline script in app/layout.tsx. */
 export const themeStore = createLocalStore<ThemePreference>(THEME_STORAGE_KEY, "system", (raw) =>
-  raw === "light" || raw === "dark" ? raw : "system",
+  raw === "light" || raw === "dark" || raw === "contrast" ? raw : "system",
 );
 
-function resolve(pref: ThemePreference): "light" | "dark" {
+function resolve(pref: ThemePreference): "light" | "dark" | "contrast" {
   if (pref !== "system") return pref;
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
