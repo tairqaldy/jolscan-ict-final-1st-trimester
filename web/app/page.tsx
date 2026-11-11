@@ -241,7 +241,7 @@ export default function LandingPage() {
         {/* How it works */}
         <section id="how" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="how-h">
           <SectionTitle id="how-h" eyebrow="How it works" title="Photo, model, rules, action" />
-          <Stagger as="ol" className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <Stagger as="ol" className="how-steps mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {STEPS.map((s, i) => {
               const Icon = s.icon;
               return (
