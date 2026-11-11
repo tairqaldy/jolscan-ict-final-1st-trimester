@@ -107,6 +107,23 @@
         }
       }
     },
+    "/ready": {
+      "get": {
+        "summary": "Ready",
+        "description": "Load both model backends and report whether each could be loaded.",
+        "operationId": "ready_ready_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
     "/predict": {
       "post": {
         "summary": "Predict",
