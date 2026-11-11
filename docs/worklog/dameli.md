@@ -12,6 +12,27 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 17:15 · G-45 (#279), G-28 (#172) · Numbers line up, box tags readable on phones
+- **Status:** done
+- **What I did:**
+  - G-45: KPI tiles and every `Table` now use tabular figures, and one CSS rule in `globals.css` gives the same to all Recharts text. `CountUp` keeps a hidden copy of the final value under the counting one, so the space for the number is fixed while it counts.
+  - G-28: the detection overlay measures the rendered photo with a `ResizeObserver` and sizes the box tags so they never show below 11 px. Tags are pushed back inside the photo at the right and bottom edges.
+- **Result:**
+  - Count-up on `/app/roads`, "Potholes found" 65 to 104: on `main` the width jumped from 78.86 to 118.28 px at 99 to 100. Now it stays 118.28 px on every frame of the count (1440 px; at 375 px 88.72 px on every frame).
+  - Box tags on `/app/roads/analyze?sample=s01` at 375 px: 6.79 px before, 11.00 px after. At 1440 px they stay 12.98 px, as before. All tags stay inside the photo, also the long "review" tags of s05.
+  - Test: `web/lib/detection-overlay.test.ts` (7 cases).
+- **Decisions and why:**
+  - Overpass with `tabular-nums`, not the mono font. Overpass has tabular figures (four digits are 118.28 px wide whatever the digits; without the setting "1111" is 75.08 px and "0000" 125.23 px), so the tiles keep the road-sign voice.
+  - The chart rule is CSS, not a change in the chart components, because another teammate is restyling the charts.
+  - The tag size is read in an effect, after the first render, so the server and the first client render match (no hydration mismatch). Box lines and box positions are unchanged; only the tags changed.
+- **What I learned / can explain at the defense:**
+  - Tabular figures give every digit the same width, so a dispatcher can compare scores down a column and a counting number does not shake.
+  - On a 375 px phone the photo is drawn at about a quarter of its pixel size, so a tag sized in photo pixels shrank to 7 px. Sizing it from the rendered width keeps it readable (Lec3-HCI, accessibility).
+- **AI use:** Claude Code made the changes and the Playwright measurements from my brief (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:**
+  - G-45 issue steps not done here: the five Mobbin/Refero references for the Drive folder, and a VoiceOver check that the KPI value is read once (the code already has one screen-reader text and hides the counting copy).
+  - A count that goes down by a digit (for example 10 to 9) still changes width once, at the end; all counts on our pages go up.
+
 ### 2026-11-11 17:17 · G-29 (#173), G-24 (#168) · Provenance badges and the icon audit
 - **Status:** done
 - **What I did:** Made one badge set for where a result comes from: "Demo data", "Mock result" and "Model result:" followed by the model name. Every road, compare and match result now shows exactly one of them. Then I audited the icons on the result cards and wrote the icon map into the design brief.

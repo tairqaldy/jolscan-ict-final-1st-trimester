@@ -595,3 +595,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - Screenshots in both themes, at 1440 px and 375 px, of a mock road result, a Local road result, a seeded road report, a mock compare result, a Cloud compare check, a seeded check and a mock match. Each result showed exactly one provenance badge; the Local and Cloud records were copies made in the test browser only, to see the look.
   - Checked in the lucide-react package that TriangleAlert is the same drawing as TriangleExclamationPoint, and that every new icon name exists in version 1.70.
 - **What I rejected or corrected:** a first layout put the badge inside the Provider row, which left a hole in the details grid; it now has its own row. A thin amber line on "Demo data" made it look like the outlined Mock badge in the dark theme, so Demo data is a fill without a line. The four icon clashes outside the result cards were written down, not changed, because those files belong to other tasks.
+
+### 11 November 2026, Dameli (G-45 tabular figures, G-28 readable box tags)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** make numbers keep their width in KPI tiles, tables, charts and count-ups, and keep the detection box tags at 11 px or more on a 375 px phone.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-45 and G-28 among them). Transcript kept locally.
+- **What it produced or changed:** `web/components/motion/count-up.tsx` (markup and classes only), `web/components/app/kpi.tsx`, `web/components/ui/table.tsx`, one rule at the end of `web/app/globals.css`, `web/components/app/detection-overlay.tsx` (tag size and placement), `web/lib/detection-overlay.test.ts`.
+- **How I verified it, and who verified it:**
+  - Playwright in Chromium on a local dev server: KPI widths read on every animation frame of a count-up (65 to 104: one width, 118.28 px, where `main` jumped at 99 to 100); tag font size computed as the SVG font size times the screen scale (375 px: 6.79 px before, 11.00 px after; 1440 px: 12.98 px before and after); every tag's right edge inside the photo.
+  - Digit widths of Overpass with and without `tabular-nums`, to confirm the font has tabular figures.
+  - `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` pass (110 tests).
+- **What I rejected or corrected:** the first tag size used only the photo's width and measured 10.95 px, because the bordered figure scales the photo by its height; it now uses the smaller of the two ratios and measures 11.00 px. The first chart check found the new CSS rule missing; that was a stale local dev cache, not the code, and the rule applied after clearing it. The thicker box lines the issue suggested were left out, so box drawing stays as it was.

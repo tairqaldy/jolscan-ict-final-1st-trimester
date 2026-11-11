@@ -37,8 +37,11 @@ export function CountUp({
   return (
     <span className={className}>
       <span className="sr-only">{`${value.toFixed(decimals)}${suffix}`}</span>
-      <span aria-hidden className="tabular">
-        {text}
+      {/* Tabular figures keep every digit the same width; the hidden final value under the
+          counting one reserves the end width, so counting up never changes the width (G-45). */}
+      <span aria-hidden className="tabular inline-grid">
+        <span className="invisible col-start-1 row-start-1">{`${value.toFixed(decimals)}${suffix}`}</span>
+        <span className="col-start-1 row-start-1">{text}</span>
       </span>
     </span>
   );

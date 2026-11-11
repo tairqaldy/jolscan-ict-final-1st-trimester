@@ -290,3 +290,10 @@
 .sev-marker--medium { fill: var(--sev-medium); }
 .sev-marker--high { fill: var(--sev-high); }
 .sev-marker--critical { fill: var(--sev-critical); }
+
+/* G-45: chart ticks, labels and tooltips use tabular figures, so values line up.
+   Set here, not in the chart components, so it covers every Recharts chart. */
+.recharts-wrapper text,
+.recharts-tooltip-wrapper {
+  font-variant-numeric: tabular-nums;
+}
