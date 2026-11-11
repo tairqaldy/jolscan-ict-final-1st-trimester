@@ -80,7 +80,7 @@ Then in the browser:
 - `scripts/demo-local.sh` itself, run on 11 Nov with the production build: health printed, model warmed, `next start` ready in 68 ms; a real photo through the web app then took 21 ms model time.
 - Test photo `img-300.jpg`: 4 potholes found (4 labelled), severity Critical, score 17. It is 300 px, so it looks blurred when enlarged.
 - Demo photo `img-18.jpg` (720 px, 5 labelled), through the web app with Strip GPS on: 6 boxes, 5 counted and 1 in the review band ("Needs a human look"), severity **Critical, score 12**; rules R1 (5 of 6 at or above 0.40), R2 (+8), R3 (+2) and R4 (+2) fire; 69 ms model time. Calling `/predict` directly gives the same 5 counted boxes; the sixth comes from the browser's re-encoding.
-- `scripts/demo_check.py` on 11 Nov, 21:5x, production build: 6/6 checks passed, 0 errors, 24 s. With the API stopped it fails (1/6, HTTP 503 from `/api/analyze` and `/api/restroom`).
+- `scripts/demo_check.py` on the evening of 11 Nov, production build: 6/6 checks passed, 0 errors, 24 s. With the API stopped it fails (1/6, HTTP 503 from `/api/analyze` and `/api/restroom`).
 - The champion E1 (YOLO26s, 20 MB, about four times the weights of the nano runs), measured through the API on CPU on 11 Nov: first photo 973 ms model time while the model loads, then 51–71 ms per photo (`api/README.md`, S-2). Still well under a second, so the demo does not change.
 
 - Cold start with E1 (11 Nov, 16:45, Wi-Fi on, production build already made): `scripts/demo-local.sh` printed `/health`, warmed the model and had `next start` ready **4 s** after launch. The first real photo through the web app then took 88 ms model time (4 boxes, Critical 17).
