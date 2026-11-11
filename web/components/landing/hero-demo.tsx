@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { DetectionOverlay } from "@/components/app/detection-overlay";
 import { SeverityBadge } from "@/components/ui/badge";
 import { formatSla } from "@/lib/format";
-import { duration, ease } from "@/lib/motion";
+import { demo, duration, ease } from "@/lib/motion";
 import { getSample } from "@/lib/mock/samples";
 import { deriveDetections, scoreDetections } from "@/lib/rules";
 import { useHydrated } from "@/lib/store/local-store";
@@ -26,12 +26,12 @@ export function HeroDemo() {
 
   useEffect(() => {
     if (reduce) return;
-    const t = setInterval(() => setRun((r) => r + 1), 7000);
+    const t = setInterval(() => setRun((r) => r + 1), demo.heroReplay * 1000);
     return () => clearInterval(t);
   }, [reduce]);
 
   return (
-    <div className="grid gap-3 rounded-xl border border-border bg-surface-2 p-4 sm:p-5 shadow-sm transition-all duration-200 hover:border-border-strong">
+    <div className="grid gap-3 rounded-xl border border-border bg-surface-2 p-4 sm:p-5 shadow-sm transition-all duration-[var(--duration-base)] hover:border-border-strong">
       <div className="overflow-hidden rounded-lg border border-border bg-surface">
         <DetectionOverlay
           imageUrl={sample.file}
@@ -47,7 +47,7 @@ export function HeroDemo() {
         key={run}
         initial={reduce || !hydrated || run === 0 ? false : { opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: duration.slow, delay: 1.4, ease: ease.emphasized }}
+        transition={{ duration: duration.slow, delay: demo.resultDelay, ease: ease.emphasized }}
         className="flex flex-wrap items-center gap-x-3 gap-y-2 rounded-lg bg-surface p-3 border border-border/60"
       >
         <SeverityBadge severity={result.severity} size="lg" />
