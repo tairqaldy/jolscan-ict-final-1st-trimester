@@ -135,7 +135,7 @@ export function SignSlot({
             </Button>
           </DialogTrigger>
           <DialogContent title={`${label}: choose a sample sign`} description="Six sets of original drawings and six sets of real IOAI signs." className="max-w-2xl">
-            <div className="max-h-[60vh] overflow-y-auto p-0.5">
+            <div className="max-h-[60vh] overflow-y-auto p-1">
               <SamplePicker
                 selectedId={value?.kind === "sample" ? value.sample.id : undefined}
                 onPick={(s) => {
