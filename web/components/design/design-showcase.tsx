@@ -113,6 +113,7 @@ const TOKEN_CHOICES: { need: string; token: string; example: string; swatch: str
   { need: "Status text", token: "*-ink", example: "text-sev-high-ink", swatch: "sev-high-ink" },
   { need: "Badge fill", token: "*-soft + *-ink", example: "bg-sev-high-soft text-sev-high-ink", swatch: "sev-high-soft" },
   { need: "Marks: bars, dots, map markers", token: "solid", example: "bg-sev-high", swatch: "sev-high" },
+  { need: "Needs review (roads)", token: "review-soft + review-ink", example: "bg-review-soft text-review-ink", swatch: "review" },
   { need: "Focus ring", token: "focus", example: "outline-focus", swatch: "focus" },
   { need: "Primary button", token: "accent + accent-fg", example: "bg-accent text-accent-fg", swatch: "accent" },
   { need: "Link text", token: "accent-ink", example: "text-accent-ink", swatch: "accent-ink" },
