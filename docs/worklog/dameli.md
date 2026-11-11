@@ -12,6 +12,25 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 20:33 · G-6 (#124) · States and micro-interactions for the UI primitives
+- **Status:** done
+- **What I did:**
+  - Gave every interactive primitive in `web/components/ui/` a clear hover, pressed or selected, focus and disabled state, plus loading (button) and error (text field): button press scale to 98 %, switch thumb stretch on press, slider thumb lift and hold, tabs underline that grows from the centre, select chevron turn, dialog and phone sheet enter and exit.
+  - A focus ring that eases in (`.focus-ring-in`) and the dialog keyframes in one G-6 block at the end of `web/app/globals.css`, on the duration and easing tokens only.
+  - Buttons and segmented options 48 px tall below 640 px; the switch and slider thumb get a 48 px hit area from an invisible `::before` box.
+  - A "States" grid per component on `/design` (`web/components/design/states-grid.tsx`), shown in light, dark and high contrast; each component takes `forceState` to draw hover, focus and pressed.
+  - Wrote the states table, tap targets and the no-toast decision in `docs/DESIGN-BRIEF.md`.
+- **Result:** Playwright on my dev server: 97 Button primitives on `/design` at 375 px are 48 px tall (the forced "pressed" ones measure 47 because of the 98 % scale), `/app/analyze` and `/app/settings` 48 px; no sideways scroll at 375 px; no console errors. Dialog opens with `ui-panel-in`, closes with `ui-panel-out` and is removed; a press gives `scale: 0.98`; Tab focus runs `ui-focus-ring-in`. With reduced motion (OS and the Settings attribute) transitions and animations are 0.01 ms. Lint, typecheck and 233 tests pass.
+- **Decisions and why:**
+  - Forced states use the same classes as the real variants, and a test fails if they drift. Otherwise `/design` could show a look the app never has.
+  - Card, badge and empty state get no hover: they are not clickable and must not look it.
+  - No toast: feedback stays next to the control (Callout, `role="status"`); a toast disappears before it is read.
+  - Tabs draw the focus ring inside the tab, because the scrolling tab list clipped a ring drawn outside.
+  - Timings 120 ms for feedback and 200 ms for a dialog entering, close to the reference site's 100 to 150 ms on links and buttons.
+- **What I learned / can explain at the defense:** every control shows what it is doing (visibility of system status) and the same state looks the same everywhere (consistency, Lec3-HCI); a keyboard user sees focus on every control; tap targets are 48 px on phones (U6, Fitts's Law); motion explains a change and is cut by Reduce motion (WCAG 2.3.3).
+- **AI use:** Claude Code wrote the class changes, the states grid and the tests; I checked them with Playwright screenshots and computed styles. See `docs/AI-USAGE-LOG.md`.
+- **Open questions / next:** the tabs underline grows in place instead of sliding from the old tab; a slide would need JS to measure the tabs.
+
 ### 2026-11-11 20:35 · G-76 (#435) · Brand and copy pass, three rounds
 - **Status:** done
 - **What I did:**
