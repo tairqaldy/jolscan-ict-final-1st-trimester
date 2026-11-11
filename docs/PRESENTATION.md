@@ -186,10 +186,11 @@ Every example below was checked in the running app on 11 November, and every lec
    - **Colour plus word:** each severity level has a word and its own icon.
    - **Still open:** the main button is 48 px tall, the touch size on HCI p31, but some small controls are smaller (the school-zone switch is 24 px tall). W-17 covers that fix.
 3. **Why bars, and no line chart.** The chart type follows the data (VizBasics p4, DMViz p28). Every chart on `/app/analytics` is a bar chart, picked per data type:
-   - "Detections over time" counts photos per day. The counts are separate daily totals, and the stacked bars show counted against needs review. A line would suggest values between the days.
+   - "Detections over time" counts pothole boxes per day. The counts are separate daily totals, and the stacked columns show counted against needs review. A line would suggest values between the days. I tried a line on 11 November (G-51): it drops to zero on every day without photos, so whether detections are rising is harder to see, and the review line is flat most days (VizBasics p4: line for change over time, bars for comparing counts).
    - The confidence histogram shows the shape of a distribution (DMViz p28).
    - All bars start at zero, because a cut axis exaggerates differences (DMViz p31, VizICT p17).
    - Severity colours appear only where they mean severity; other series use `--chart-1` and `--chart-2`. Each chart on that page has a legend with words, because colour alone fails colour-blind readers (VizICT p11).
+   - Every rule threshold is a labelled line on the chart, for example "R1 0.40" and "R1 floor 0.25" on the confidence histogram, and S1 and S2 on the gap chart. The line reads the same value as the rules engine, so it moves when I change a rule. Open: `/app/analytics`, then `/app/restrooms/rules`.
 4. **Showing uncertainty.**
    - **Roads:** a box under the confidence threshold is drawn dashed with "review" in its tag; counted boxes are solid. The photo is flagged "needs review", counted in the "To review" tile on Home, and Reports can filter to review only.
    - **Restrooms:** the verdict is **Review** when the model can tell the doors apart but is not sure which is which (gap under 0.20, rule S1). A person then checks on site.
