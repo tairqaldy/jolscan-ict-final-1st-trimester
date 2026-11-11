@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeftRight, Clock, Cpu, MapPin, Timer } from "lucide-react";
+import { ArrowLeftRight, Brain, Clock, MapPin, Timer, type LucideIcon } from "lucide-react";
 import { useMemo, type ReactNode } from "react";
 import { ResultProvenanceBadge } from "@/components/app/demo-badge";
 import { PROVIDER_META } from "@/components/app/provider-badge";
@@ -109,13 +109,13 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
               </Callout>
             )}
             <dl className="grid grid-cols-2 gap-x-4 gap-y-3 border-t border-border pt-4 text-sm">
-              <Meta icon={Cpu} label="Provider" wide>
+              <Meta icon={PROVIDER_META[check.provider].icon} label="Provider" wide>
                 <span className="inline-flex max-w-full flex-wrap items-center gap-1.5">
                   {PROVIDER_META[check.provider].label}
                   <ResultProvenanceBadge result={check} />
                 </span>
               </Meta>
-              <Meta icon={Cpu} label="Model">
+              <Meta icon={Brain} label="Model">
                 <span className="font-mono text-xs break-all">{isSeededDemo(check.id) ? SEEDED_MODEL_LABEL : check.model}</span>
               </Meta>
               <Meta icon={Timer} label="Model latency">
@@ -208,7 +208,7 @@ function SignColumn({ door, info, pMale, reads }: { door: string; info: SignInpu
   );
 }
 
-function Meta({ icon: Icon, label, children, wide }: { icon: typeof Cpu; label: string; children: ReactNode; wide?: boolean }) {
+function Meta({ icon: Icon, label, children, wide }: { icon: LucideIcon; label: string; children: ReactNode; wide?: boolean }) {
   return (
     <div className={cn("grid gap-0.5", wide && "col-span-2")}>
       <dt className="inline-flex items-center gap-1.5 text-xs text-muted">
