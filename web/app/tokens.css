@@ -10,7 +10,8 @@
  * font-display ...) or var(--token) directly.
  *
  * Themes: light values on :root / [data-theme="light"], dark values on
- * [data-theme="dark"]. A tiny script in app/layout.tsx sets data-theme on
+ * [data-theme="dark"], high-contrast values on [data-theme="contrast"] (G-31,
+ * chosen in Settings, never by the system). A tiny script in app/layout.tsx sets data-theme on
  * <html> before paint (system preference by default, user choice remembered
  * in localStorage "<storagePrefix>:theme", see lib/brand.ts). Nesting data-theme on any element
  * re-themes that subtree (used by /design to show both themes side by side).
@@ -193,6 +194,97 @@
   --chart-3: #8fbf96;
   --chart-4: #c79ac7;
   --chart-grid: #2a2c30;
+
+  --shadow-color: 0 0 0;
+}
+
+/* High contrast (G-31): built from the light theme for projectors and low vision.
+   Near-black text on white, every text token at 7:1 or more on bg and surface,
+   every mark (border, focus, severity, review, chart, box) at 3:1 or more.
+   Declares every token itself: a missing one would silently fall back to light,
+   and a nested data-theme="contrast" (on /design) would inherit the page's aliases.
+   Ratios: docs/DESIGN-BRIEF.md, "High-contrast theme (G-31)";
+   check with node web/scripts/check-contrast.mjs. */
+[data-theme="contrast"] {
+  color-scheme: light;
+
+  --bg: #f2f2f2;
+  --surface: #ffffff;
+  --surface-2: #e8e8e8;
+  --surface-3: #dadada;
+  --inverse: #000000;
+  --inverse-fg: #ffffff;
+
+  --border: #6e6e6e;
+  --border-strong: #3a3a3a;
+
+  --fg: #000000;
+  --muted: #2e2e2e;
+  --subtle: #474747;
+
+  /* Amber gets dark enough to carry white text; still the one accent hue. */
+  --accent: #7a4f00;
+  --accent-hover: #643f00;
+  --accent-fg: #ffffff;
+  --accent-ink: #6b4500;
+  --accent-soft: #fbefd0;
+
+  --focus: #0047c2;
+  --danger: #8f1710;
+  --danger-soft: #fbe3e0;
+  --success: #1a6a42;
+
+  /* Same hues as light; medium -> high -> critical still step down in lightness. */
+  --sev-clear: #1f7a4a;
+  --sev-clear-ink: #134d30;
+  --sev-clear-soft: #e1f1e7;
+  --sev-low: #2a68a0;
+  --sev-low-ink: #144372;
+  --sev-low-soft: #e2ecf6;
+  --sev-medium: #b37a00;
+  --sev-medium-ink: #5e3d00;
+  --sev-medium-soft: #f7ebd6;
+  --sev-high: #a8380a;
+  --sev-high-ink: #7f280a;
+  --sev-high-soft: #fbe5da;
+  --sev-critical: #7d1220;
+  --sev-critical-ink: #6e0e0e;
+  --sev-critical-soft: #f9dedb;
+
+  --verdict-clear: var(--sev-clear);
+  --verdict-clear-ink: var(--sev-clear-ink);
+  --verdict-clear-soft: var(--sev-clear-soft);
+  --verdict-review: var(--sev-medium);
+  --verdict-review-ink: var(--sev-medium-ink);
+  --verdict-review-soft: var(--sev-medium-soft);
+  --verdict-confusing: var(--sev-critical);
+  --verdict-confusing-ink: var(--sev-critical-ink);
+  --verdict-confusing-soft: var(--sev-critical-soft);
+
+  --gender-male: #0d6a63;
+  --gender-male-ink: #08433e;
+  --gender-male-soft: #dcefec;
+  --gender-female: #4a3aa0;
+  --gender-female-ink: #34277a;
+  --gender-female-soft: #e7e3f6;
+
+  --review: #5e3d7a;
+  --review-ink: #442b59;
+  --review-soft: #efe8f4;
+
+  --chart-1: #2c3b4c;
+  --chart-2: #8a5a00;
+  --chart-3: #3f6b47;
+  --chart-4: #7a4a7a;
+  --chart-grid: #c4c4c4;
+
+  /* Photo boxes keep the light values; a darker halo separates them from the photo. */
+  --box: #f2a900;
+  --box-active: #ffffff;
+  --box-review: #cfa2ea;
+  --box-ink: #141414;
+  --box-halo: rgb(0 0 0 / 0.6);
+  --box-fill-active: rgb(255 255 255 / 0.14);
 
   --shadow-color: 0 0 0;
 }
