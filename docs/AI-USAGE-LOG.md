@@ -1154,3 +1154,12 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** from 1024 px the two sign images sit above the title and note instead of beside them; phones keep the row layout. "RULES.md worked example A/B/C" moved from the card text to a `ref` field shown as the tile's tooltip.
 - **How I verified it, and who verified it:** looked at the page at 1024 × 768, 1280 × 800 and 375 × 812 (no sideways scroll on the phone), with a card selected so the check mark is visible. The three tooltips read from the DOM. `vitest run` on `lib/signage/engine.test.ts` and `lib/landing-rule-hits.test.ts` (30 passed), and eslint on the two changed files.
 - **What I rejected or corrected:** fewer columns at 1024 px (the text column stays narrow at 1280 too); removing the worked-example reference completely (the presenter uses it to tie a card to RULES.md).
+
+### 11 November 2026, Tair (morning check script and demo photo)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app; Playwright (Python) driving the installed Chrome, OpenCV for the video.
+- **Purpose:** check before the defense that every page and both modules work on the real models, record a click-through video, and choose a demo photo that is sharp on a projector.
+- **Key prompt(s), with a link to the transcript:** "can u give me a quick video with all functionallity working please ... не демо, а реальный функционал, если надо зафиксить ... чтобы потом ... на защите ничего не сломалось". Transcript kept locally.
+- **What it produced or changed:** `scripts/demo_check.py` (click-through with checks, optional `--video`), the runbook steps for it, and `img-18.jpg` as the demo photo with its expected result.
+- **How I verified it, and who verified it:** production build on my laptop with the API (`jolscan-e1`, CLIP ViT-B/32). The check gave 6/6 and 0 errors in 24 s. With the API stopped it failed as it should: 1/6, HTTP 503. The 2-minute video was watched frame by frame at each result: Critical 17 on `img-300`, Pair, Not a pair, Match rank 1 = the true partner (similarity 0.95). The demo photos were compared with their labels through `/predict`.
+- **What I rejected or corrected:** `img-172` (5 of 5 found, but a person's foot is in the frame); counting requests the browser cancels on navigation (ERR_ABORTED prefetches) as failures; Playwright's own video recorder (needs a separate ffmpeg download; Chrome's screencast and OpenCV need nothing new).
