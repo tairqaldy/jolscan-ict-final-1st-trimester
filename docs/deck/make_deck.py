@@ -1262,7 +1262,7 @@ def slide_limits(prs) -> SlideDoc:
     numbered_footer(s, "11")
     script = (f"Three limits. Box area is not physical size: a far pothole looks small. The restroom data has {n_rest} "
               f"training restrooms and two classes, so accessible and all-gender signs are missing. And none of our road "
-              f"photos are from Kazakhstan. Next: screened local photos and the two-step pipeline in the app. Tair closes.")
+              f"photos are from Kazakhstan. Next: screened local photos, and accessible and all-gender signs. Tair closes.")
     return SlideDoc("11", "Limitations and next steps", "Roma", "0:25", title_words,
                     [f"{i + 1}. {h}: {l}" for i, (h, l) in enumerate(limits)] + [nxt],
                     "Numbered list, no image", script,

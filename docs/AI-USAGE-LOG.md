@@ -1197,3 +1197,12 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** `scripts/demo_check.py` (click-through with checks, optional `--video`), the runbook steps for it, and `img-18.jpg` as the demo photo with its expected result.
 - **How I verified it, and who verified it:** production build on my laptop with the API (`jolscan-e1`, CLIP ViT-B/32). The check gave 6/6 and 0 errors in 24 s. With the API stopped it failed as it should: 1/6, HTTP 503. The 2-minute video was watched frame by frame at each result: Critical 17 on `img-300`, Pair, Not a pair, Match rank 1 = the true partner (similarity 0.95). The demo photos were compared with their labels through `/predict`.
 - **What I rejected or corrected:** `img-172` (5 of 5 found, but a person's foot is in the frame); counting requests the browser cancels on navigation (ERR_ABORTED prefetches) as failures; Playwright's own video recorder (needs a separate ffmpeg download; Chrome's screencast and OpenCV need nothing new).
+
+### 11 November 2026, Tair (slide 11: the pipeline is served, not a next step)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** fix the slide 11 script, which still called the two-step restroom pipeline a next step after C-8 (#426) put it in the app (found by Alizhan in #460), and rebuild the deck.
+- **Key prompt(s), with a link to the transcript:** "u need to keep merging improving and making decisions on your own". Transcript kept locally.
+- **What it produced or changed:** slide 11's script and its copy in `docs/PRESENTATION.md` now name accessible and all-gender signs as the next step, as the slide card does; the "Known gap" note there says it is fixed; the deck is rebuilt (slide 10's log count updated).
+- **How I verified it, and who verified it:** `api/restroom.py` returns `bestMatchId` from `restroom_pipeline.find_pair` (C-8); slide 8's notes already say Match runs the pipeline one query at a time. No other line in `make_deck.py` claims the pipeline is not served. The build checks 191 numbers, with one open gap (R-6).
+- **What I rejected or corrected:** deleting "next step" from the script without a replacement (the slide card already names the restroom next step).
