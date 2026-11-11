@@ -73,7 +73,7 @@ Merge with **Rebase and merge**, or **Squash and merge** if the branch has many 
 
 If `main` moved while you waited, GitHub shows **Update branch**: choose **Update with rebase**, wait for CI again, then merge.
 
-After merging a change to `web/`, open https://qarau.vercel.app after about two minutes and check that your page works.
+Merging does not deploy ([decision 0010](docs/decisions/0010-deploy-on-go-ahead.md)): check a change to `web/` locally with `pnpm dev` before you merge. https://qarau.vercel.app is updated from `main` when Tair asks for a deploy.
 
 ### 5. Finish the task and write it down
 
