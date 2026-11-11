@@ -27,7 +27,7 @@ export function Kpi({
     <div className={cn("relative h-full overflow-hidden rounded-lg border border-border bg-surface p-4 shadow-sm sm:p-5", className)}>
       {accentClass && <span aria-hidden className={cn("absolute inset-x-0 top-0 h-1", accentClass)} />}
       <p className="text-sm font-medium text-muted">{label}</p>
-      <p className="mt-2 font-display text-4xl font-bold whitespace-nowrap xl:text-5xl">
+      <p className="tabular mt-2 font-display text-4xl font-bold whitespace-nowrap xl:text-5xl">
         <CountUp value={value} suffix={suffix} decimals={decimals} />
       </p>
       <p className="mt-1 text-xs text-subtle">{note}</p>
