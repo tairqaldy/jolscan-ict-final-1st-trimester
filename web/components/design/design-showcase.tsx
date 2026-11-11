@@ -15,13 +15,14 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { Field } from "@/components/ui/input";
 import { Segmented } from "@/components/ui/segmented";
 import { Select } from "@/components/ui/select";
+import { SelectableTile } from "@/components/ui/selectable-tile";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SliderField } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Table, TD, TH, THead, TR } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tooltip } from "@/components/ui/tooltip";
-import { getSample } from "@/lib/mock/samples";
+import { SAMPLES, getSample } from "@/lib/mock/samples";
 import { deriveDetections } from "@/lib/rules";
 import { SEVERITIES, VERDICTS } from "@/lib/types";
 import { GenderTag, ThresholdBar, VerdictBadge } from "@/components/restrooms/signage-bits";
@@ -121,6 +122,7 @@ export function ThemedShowcase() {
   const [value, setValue] = useState(0.4);
   const [seg, setSeg] = useState<"system" | "light" | "dark">("system");
   const [select, setSelect] = useState("arterial");
+  const [tile, setTile] = useState(SAMPLES[0].id);
 
   return (
     <div className="grid gap-8">
@@ -225,6 +227,20 @@ export function ThemedShowcase() {
             ]}
           />
           <Field label="Text field" placeholder="Kabanbay Batyr Ave" hint="With a hint below." />
+        </div>
+      </section>
+
+      <section className="grid gap-4">
+        <h3 className="text-xl font-bold">Selectable tiles</h3>
+        <p className="text-sm text-muted">
+          Selected: amber border, tinted fill and a check mark, so it still reads in greyscale. Hover: darker border and grey fill.
+        </p>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+          {SAMPLES.slice(0, 3).map((s) => (
+            <SelectableTile key={s.id} selected={tile === s.id} onClick={() => setTile(s.id)} className="p-3 pr-9 text-sm font-medium">
+              {s.title}
+            </SelectableTile>
+          ))}
         </div>
       </section>
 
