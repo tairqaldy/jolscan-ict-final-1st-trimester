@@ -12,6 +12,16 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 11 November 2026 · X-16 (#97) · Defense-day runbook and a one-command demo start
+
+- **Status:** first version; to be tried in Rehearsal 2 with Wi-Fi off
+- **What I did:** wrote `docs/DEFENSE-RUNBOOK.md` and `scripts/demo-local.sh`, which checks the ports, the weights and the production build, starts the API with the E0 weights, warms the model and starts the web app.
+- **Result:** run once on this laptop: a real photo through the web app took 21 ms model time after the warm-up; the cold first request without warm-up took about 2.4 s.
+- **Decisions and why:** warm the model in the script, so the first photo in front of the examiners is fast; production build, not `next dev`, because dev compiles pages on first open.
+- **What I learned / can explain:** why the deployed site cannot run our model (its server cannot reach the laptop), and what is real and what is demo on each screen.
+- **AI use:** Claude Code wrote the runbook and the script and ran them (docs/AI-USAGE-LOG.md).
+- **Open questions:** confirm the presenting laptop in the chat; Restrooms Compare on Local still has to be checked in the rehearsal.
+
 ### 11 November 2026 · follow-up to W-28 (#132) · Invented rows no longer claim a provider or model
 
 - **Status:** done

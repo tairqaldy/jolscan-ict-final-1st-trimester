@@ -50,7 +50,7 @@ Never cut: E0–E5 with their result files, restroom R0, R1, R6 and one fine-tun
 | [ ] | [X-9](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/81) | P1 | Tag `defense` on `main` at code freeze | all | Tag pushed | 5 m |
 | [ ] | [X-10](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/82) | P1 | Confirm the name Qarau or pick another (one constant in `web/lib/brand.ts`), then freeze it | — | Decision in the chat | 10 m |
 | [x] | X-15 | P0 | **Already done:** The lanes are recorded and in use: commit 37f07ab "Record the restroom module as Nazar's lane" (CONTRIBUTING.md ownership table, README.md team table: Nazar restroom model, Amina pothole data, model and rules); Amina did D-2, D-4 and D-3 (pull requests #1, #3, #4, #10) and claimed D-11 (618d373); Alizhan claimed S-1 (1af7aa2) and issue #7 assigns the Colab runs for Amina to Alizhan. The chat confirmation itself is not visible in the repository; the two '(to confirm at kickoff)' notes in CONTRIBUTION-LOG.md lines 21–22 are updated in X-7. Confirm the new lanes at kickoff: Nazar on the restroom model, Amina on the pothole model with Alizhan's Colab help | — | Lanes confirmed in the chat | 10 m |
-| [ ] | [X-16](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/97) | P0 | Write and test the defense-day runbook for the presenting laptop. Owner: Tair **Claimed: Tair, 11 November 2026 13:04 Almaty, branch `docs/x16-runbook`.** | X-3, S-14, W-20 | `docs/DEFENSE-RUNBOOK.md` is on `main`, names the presenting laptop and its owner, and is linked from TASKS.md. | 45 m |
+| [ ] | [X-16](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/97) | P0 | Write and test the defense-day runbook for the presenting laptop. Owner: Tair **First version: Tair, 11 November 2026. [DEFENSE-RUNBOOK.md](DEFENSE-RUNBOOK.md) and `scripts/demo-local.sh` (tested with the real E0 model); tick after Rehearsal 2 with Wi-Fi off.** | X-3, S-14, W-20 | `docs/DEFENSE-RUNBOOK.md` is on `main`, names the presenting laptop and its owner, and is linked from TASKS.md. | 45 m |
 | [ ] | [X-17](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/98) | P1 | Remove stale statements from PLAN, TASKS, README and DESIGN-BRIEF. Owner: Tair | — | Every line listed in steps 1–5 is fixed on `main` or answered with a reason in the pull request description. | 45 m |
 | [ ] | [X-18](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/227) | P0 | Make the public repository safe: personal data, course material, secrets. Owner: Tair | — | Decision 0006 lists the email decision, the course-digest decision and the secret-scanning result. | 1 h |
 | [ ] | [X-20](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/261) | P1 | Map every graded requirement to its evidence and its gaps. Owner: Tair | — | docs/PLAN.md section 1 has 'Evidence today' and 'Status' for every row, and each 'missing' names a task. | 45 m |
@@ -394,9 +394,13 @@ The scaffold already gives working pages on demo data. P0 here means "works at t
 
 ## Defense-day checklist (everyone)
 
+Step by step, with commands and fallbacks: [DEFENSE-RUNBOOK.md](DEFENSE-RUNBOOK.md). Start everything with `scripts/demo-local.sh`.
+
 - [ ] Presenting laptop charged, charger packed, notifications off, display mirroring tested.
 - [ ] API started, `/ready` returns 200, and a real demo image has been checked before the talk begins.
 - [ ] Browser tabs open in order: deck, landing, analyze, dashboard, model page, MLflow UI, GitHub repo.
+- [ ] API started and `/health` green before the talk begins.
+- [ ] Browser tabs open in order: deck, landing, roads analyze, restrooms compare, overview, model page, GitHub repo.
 - [ ] Demo photo ready on the desktop, one that is not in the training set.
 - [ ] Wi-Fi off test done once that morning.
 - [ ] Video and screenshots on disk.
