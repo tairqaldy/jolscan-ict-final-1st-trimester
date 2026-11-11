@@ -18,6 +18,7 @@ Every document has an owner who keeps it true, and a moment when it gets updated
 |---|---|---|---|
 | [PLAN.md](PLAN.md) | What is graded, scope, lanes, timeline, risks | Tair | a scope or date changes |
 | [TASKS.md](TASKS.md) | Every task, claims, links to issues | everyone (claims), Tair (structure) | you claim or finish a task |
+| [HANDOFF-DAMELI.md](HANDOFF-DAMELI.md) | Current state, design priorities, how to work and merge, start prompt for a Claude session | Tair | the plan or the state changes |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | How the parts connect, the JSON contracts, why | Tair, Alizhan | a contract or a component changes |
 | [ML-EXPERIMENT.md](ML-EXPERIMENT.md) | Pothole data, runs, metrics, selection rule, results | Amina | after every pothole run batch |
 | [ML-EXPERIMENT-RESTROOM.md](ML-EXPERIMENT-RESTROOM.md) | Restroom data, runs, pipeline, results | Nazar | after every restroom run |
@@ -36,5 +37,3 @@ Every document has an owner who keeps it true, and a moment when it gets updated
 ## At the end
 
 By the code freeze, `python3 scripts/contribution_report.py` writes `docs/CONTRIBUTION-REPORT.md` from git, the merged pull requests, the closed task issues and the worklogs. Each person checks their section and finalises their row in `CONTRIBUTION-LOG.md`.
-
-- [HANDOFF-DAMELI.md](HANDOFF-DAMELI.md): current state on 11 November, design priorities, how to work and merge, and a start prompt for a Claude session.
