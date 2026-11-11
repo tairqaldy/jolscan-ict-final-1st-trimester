@@ -5,40 +5,80 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Dropzone } from "@/components/ui/dropzone";
+import { Segmented } from "@/components/ui/segmented";
 import { SelectableTile } from "@/components/ui/selectable-tile";
 import { cn } from "@/lib/cn";
-import { RESTROOM_SAMPLES, type RestroomSample } from "@/lib/mock/restroom-samples";
+import {
+  RESTROOM_IOAI_CATALOGUE,
+  RESTROOM_IOAI_CREDIT,
+  RESTROOM_IOAI_GROUPS,
+  RESTROOM_SAMPLES,
+  type IoaiGroupId,
+  type RestroomSample,
+} from "@/lib/mock/restroom-samples";
 import { SignImage } from "./signage-bits";
 
 export type SlotValue = { kind: "sample"; sample: RestroomSample } | { kind: "file"; file: File; previewUrl: string };
 
-/** Grid of the bundled sample signs; one click picks one. */
+type PickerGroup = "bundled" | IoaiGroupId;
+
+/** Grid of sample signs, one click picks one: the bundled samples or, with `withIoai`, every IOAI sign. */
 export function SamplePicker({
   selectedId,
   onPick,
   exclude,
   columns = "grid-cols-3 sm:grid-cols-4",
+  withIoai = false,
 }: {
   selectedId?: string;
   onPick: (sample: RestroomSample) => void;
   exclude?: string;
   columns?: string;
+  withIoai?: boolean;
 }) {
+  const [group, setGroup] = useState<PickerGroup>(() => {
+    const picked = RESTROOM_IOAI_CATALOGUE.find((s) => s.id === selectedId);
+    return picked ? picked.group : "bundled";
+  });
+  const list: RestroomSample[] =
+    group === "bundled" ? RESTROOM_SAMPLES : RESTROOM_IOAI_CATALOGUE.filter((s) => s.group === group);
   return (
-    <ul className={cn("grid gap-2", columns)}>
-      {RESTROOM_SAMPLES.filter((s) => s.id !== exclude).map((s) => {
-        const selected = s.id === selectedId;
-        return (
-          <li key={s.id}>
-            <SelectableTile selected={selected} onClick={() => onPick(s)} className="grid w-full gap-1 p-1.5">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={s.file} alt="" className="aspect-[5/6] w-full object-contain" loading="lazy" />
-              <span className="text-xs leading-snug font-medium">{s.title}</span>
-            </SelectableTile>
-          </li>
-        );
-      })}
-    </ul>
+    <div className="grid gap-3">
+      {withIoai && (
+        <div className="grid gap-1.5">
+          <Segmented
+            label="Signs"
+            hideLabel
+            value={group}
+            onChange={setGroup}
+            options={[
+              { value: "bundled", label: `Samples (${RESTROOM_SAMPLES.length})` },
+              ...RESTROOM_IOAI_GROUPS.map((g) => ({ value: g.id as PickerGroup, label: `${g.label} (${g.count})` })),
+            ]}
+          />
+          {group !== "bundled" && (
+            <p className="text-xs text-muted">
+              Real IOAI door signs. With the mock provider their gender, confidence and similarity are real zero-shot CLIP
+              outputs; validation and test genders were labelled by eye. {RESTROOM_IOAI_CREDIT}
+            </p>
+          )}
+        </div>
+      )}
+      <ul className={cn("grid gap-2", columns)}>
+        {list.filter((s) => s.id !== exclude).map((s) => {
+          const selected = s.id === selectedId;
+          return (
+            <li key={s.id}>
+              <SelectableTile selected={selected} onClick={() => onPick(s)} className="grid w-full gap-1 p-1.5">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={s.file} alt="" className="aspect-[5/6] w-full object-contain" loading="lazy" />
+                <span className="text-xs leading-snug font-medium">{s.title}</span>
+              </SelectableTile>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }
 
@@ -92,9 +132,10 @@ export function SignSlot({
               <LayoutGrid aria-hidden /> Choose a sample
             </Button>
           </DialogTrigger>
-          <DialogContent title={`${label}: choose a sample sign`} description="Six sets of original drawings and six sets of real IOAI signs." className="max-w-2xl">
+          <DialogContent title={`${label}: choose a sample sign`} description="The bundled samples, or any IOAI door sign from the validation, test or training set." className="max-w-3xl">
             <div className="max-h-[60vh] overflow-y-auto p-1">
               <SamplePicker
+                withIoai
                 selectedId={value?.kind === "sample" ? value.sample.id : undefined}
                 onPick={(s) => {
                   setError(null);

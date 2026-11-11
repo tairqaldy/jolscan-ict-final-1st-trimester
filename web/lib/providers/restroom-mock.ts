@@ -5,6 +5,7 @@ import {
   inventSimilarity,
   mockSimilarity,
 } from "@/lib/mock/restroom-samples";
+import { ioaiSimilarity } from "@/lib/mock/restroom-ioai-embeddings";
 import { pickBestMatch, sortCandidates } from "@/lib/signage/match";
 import type { CompareResult, MatchResult, SignPrediction } from "@/lib/types";
 import type { RestroomProvider, SignInput } from "./restroom-types";
@@ -13,6 +14,8 @@ import type { RestroomProvider, SignInput } from "./restroom-types";
  * Mock restroom provider: works offline, no model needed.
  * - Bundled samples: predictions and similarities from samples.json (invented for the
  *   drawings, recorded real model outputs for the IOAI signs).
+ * - The IOAI catalogue (every IOAI sign): real zero-shot CLIP predictions, and real
+ *   similarities between IOAI signs from stored embeddings.
  * - Uploads: invented values derived from a hash of the bytes, so the same
  *   image always gives the same answer. They are NOT model outputs.
  */
@@ -23,7 +26,8 @@ const predictionOf = (sign: SignInput): SignPrediction =>
   sign.sample ? sign.sample.mock : inventPrediction(sign.image?.bytes ?? new Uint8Array());
 
 function similarityOf(a: SignInput, b: SignInput): number {
-  if (a.sample && b.sample) return mockSimilarity(a.sample.id, b.sample.id);
+  // Two IOAI signs: the real CLIP similarity from the catalogue's embeddings; drawings: invented.
+  if (a.sample && b.sample) return ioaiSimilarity(a.sample.id, b.sample.id) ?? mockSimilarity(a.sample.id, b.sample.id);
   if (a.image && b.image) return inventSimilarity(a.image.bytes, b.image.bytes);
   const upload = (a.image ?? b.image)!.bytes;
   const sampleId = (a.sample ?? b.sample)!.id;
