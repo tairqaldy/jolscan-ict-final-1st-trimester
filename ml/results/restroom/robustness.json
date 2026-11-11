@@ -1,0 +1,71 @@
+{
+  "experiment": "step-1 accuracy (own original found among 164) for perturbed training crops",
+  "perturbations": {
+    "rot10": "rotated 10 degrees",
+    "rot30": "rotated 30 degrees",
+    "blur": "Gaussian blur sigma 2",
+    "dark": "60 % brightness",
+    "jpeg30": "JPEG quality 30",
+    "half": "resized to 50 %"
+  },
+  "scorers": {
+    "sift_ncc": "SIFT + pixel check",
+    "sift_inliers": "SIFT inliers",
+    "clip": "CLIP",
+    "hist": "colour histogram"
+  },
+  "accuracy": {
+    "clean": {
+      "sift_ncc": 0.9756,
+      "sift_inliers": 0.9329,
+      "clip": 0.7744,
+      "hist": 0.8171
+    },
+    "rot10": {
+      "sift_ncc": 0.9573,
+      "sift_inliers": 0.9024,
+      "clip": 0.7195,
+      "hist": 0.8537
+    },
+    "rot30": {
+      "sift_ncc": 0.8232,
+      "sift_inliers": 0.9024,
+      "clip": 0.4695,
+      "hist": 0.8293
+    },
+    "blur": {
+      "sift_ncc": 0.9268,
+      "sift_inliers": 0.9146,
+      "clip": 0.4085,
+      "hist": 0.8171
+    },
+    "dark": {
+      "sift_ncc": 0.9634,
+      "sift_inliers": 0.9207,
+      "clip": 0.7378,
+      "hist": 0.1402
+    },
+    "jpeg30": {
+      "sift_ncc": 0.9512,
+      "sift_inliers": 0.8537,
+      "clip": 0.6341,
+      "hist": 0.622
+    },
+    "half": {
+      "sift_ncc": 0.9695,
+      "sift_inliers": 0.9085,
+      "clip": 0.6951,
+      "hist": 0.811
+    }
+  },
+  "seconds": {
+    "clean": 20.7,
+    "rot10": 17.7,
+    "rot30": 16.7,
+    "blur": 7.6,
+    "dark": 17.9,
+    "jpeg30": 24.6,
+    "half": 13.9
+  },
+  "device": "Apple M4 CPU"
+}

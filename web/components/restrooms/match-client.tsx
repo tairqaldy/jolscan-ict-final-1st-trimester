@@ -112,9 +112,12 @@ export function MatchClient() {
           <p>
             “Restroom Icon Matching” from the International Olympiad in AI: given one sign, find the sign of the{" "}
             <strong className="text-fg">opposite gender</strong> from the <strong className="text-fg">same restroom</strong>.
-            The model turns every sign into an embedding, ranks the gallery by similarity, and the answer is the most similar
-            sign whose predicted gender is opposite to the query’s. Scored as top-1 accuracy: the share of queries whose
-            answer is the true partner.
+            The gallery is ranked by similarity of the embeddings. With the <strong className="text-fg">local or cloud</strong>{" "}
+            model service the answer comes from our two-step pipeline: SIFT and a pixel check find the original a cropped
+            query was cut from, then colour and CLIP similarity pick the other door; the predicted genders are shown but not
+            used. The <strong className="text-fg">mock</strong> provider keeps the simple rule: the most similar sign whose
+            predicted gender is opposite to the query’s. Scored as top-1 accuracy: the share of queries whose answer is the
+            true partner.
           </p>
           <p className="mt-2">
             Similarity is the cosine of two embeddings scaled to 0..1, <span className="font-mono">(cos + 1) / 2</span>. On
@@ -178,8 +181,10 @@ function MatchResultView({
               <p className="eyebrow text-muted">Query</p>
               <p className="font-medium">{querySample?.title ?? result.queryInput.fileName ?? "Uploaded sign"}</p>
               <p className="text-sm text-muted">
-                Read as <GenderTag gender={result.query.gender} confidence={result.query.confidence} />, so the answer must be{" "}
-                {want}.
+                Read as <GenderTag gender={result.query.gender} confidence={result.query.confidence} />
+                {result.provider === "mock"
+                  ? `, so the answer must be ${want}.`
+                  : ". The two-step pipeline picks the answer by design and colour, not by this gender."}
               </p>
             </div>
           </CardBody>
@@ -217,7 +222,8 @@ function MatchResultView({
         {result.candidates.map((c, i) => {
           const s = getRestroomSample(c.id);
           const isBest = c.id === result.bestMatchId;
-          const skipped = c.prediction.gender === result.query.gender;
+          // Only the mock rule filters by predicted gender; the model service's pipeline does not.
+          const skipped = result.provider === "mock" && c.prediction.gender === result.query.gender;
           return (
             <li
               key={c.id}

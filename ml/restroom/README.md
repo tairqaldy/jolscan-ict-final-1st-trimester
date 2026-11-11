@@ -48,7 +48,7 @@ Apple M5 CPU, 10 November 2026. Matching: correct / queries. Gender: grouped 5-f
 - **R4 gets all 30 test queries right but is not the champion.** The rule was fixed before the runs and does not look at test; R4 loses the tie-break on gender (0.643, the lowest of the fine-tuned runs). Training more blocks helps matching and hurts gender, the same pattern as the layer experiment. R4 ran on a different laptop (Apple M4) from the other runs (Apple M5), so its latency is not directly comparable. Its checkpoints (`weights/R4-*.pt`, 170 MB each) are on Nazar's laptop, not in Drive yet.
 - **Two-step matching helps even without training.** With zero-shot embeddings, the reference solution's two-step matching gets 1.00 on validation and 0.867 on test for both backbones (in the run files, `two_step`). Fine-tuning adds one more test query (R3).
 - **Gender from one sign is hard.** Zero-shot prompts reach 0.756 on ViT-B/32 and 0.771 on ViT-B/16; the logistic-regression probe is no better (0.741 and 0.774), a linear SVM 0.750, 5-nearest-neighbours 0.659. Many sets only make sense as a pair: an abstract pair of legs or a top hat is "male" only next to its partner. Fine-tuning the pair model makes this worse (0.68–0.75), because it learns to pull the two doors of a restroom together, which removes the difference between them.
-- **So the API's gender filter is a weak matcher.** Picking the most similar candidate of the opposite predicted gender (R6, and `bestMatchId` in `/restroom/match`) gets 0.30–0.47 on test: one wrong gender, on the query or the true partner, breaks the match. The similarity score is the stronger signal.
+- **So a gender filter is a weak matcher.** Picking the most similar candidate of the opposite predicted gender (R6, and `bestMatchId` in `/restroom/match` before task C-8) gets 0.30–0.47 on test: one wrong gender, on the query or the true partner, breaks the match. Since C-8 the API uses the two-step pipeline instead (`api/restroom_pipeline.py`).
 - **Latency** (batch 1, preprocessing plus image encoder, median of 60 images, all runs timed together round-robin with `run.py --latency`): 55 ms for ViT-B/16 and 26–27 ms for every ViT-B/32 run. Fine-tuning does not change the architecture, so it does not change the cost. The laptop was shared with other programs (load average about 7), so these are not best-case numbers; each run file records the 10th and 90th percentiles and the load.
 
 The web page reads these numbers from `web/data/restroom-experiments.json`; the table above was copied from the run files.
@@ -69,6 +69,10 @@ python ml/restroom/layers_report.py   # layers/*.json -> layers.csv and figs/*.p
 python ml/restroom/failures.py        # about 20 s: test queries the zero-shot baseline gets wrong -> failures.json, figs/failures.png
 python ml/restroom/plots.py           # a few seconds: figs/runs_matching.png, gender_heads.png, failures_r3.png
 ```
+
+**On the website:** the **IOAI pairs** page (`/app/restrooms/ioai`) shows the same thing on qarau.vercel.app, from results stored by `python ml/restroom/export_pairs.py` (the site has no Python server). Re-run that script whenever `pipeline.py` changes.
+
+**Try it yourself:** `python ml/restroom/demo.py`, then open http://127.0.0.1:7861. Pick the validation or test set, click any query crop from the IOAI data, and the final two-step pipeline finds its pair live: the crop's original (step 1), the pair (step 2), the IOAI answer, what zero-shot CLIP alone picks, and the step-2 ranking. It needs `gradio` (in `requirements.txt`) and about 20 s to score both sets at start-up.
 
 The full layer experiment (`layers.py`, CLIP N = 0–12 and ResNet50 N = 0–5, 3 seeds, 5 folds) ran on a Kaggle Tesla T4 in about 1.5 hours. On a laptop CPU, one seed of the CLIP sweep takes about 80 minutes. To run it on Kaggle:
 
@@ -151,7 +155,10 @@ If MLflow is installed (it is in `ml/requirements.txt`), every run is also logge
 - `kaggle_run_layers.py`: the Kaggle GPU runner for `layers.py`.
 - `failures.py`: the failure-case figure for the slides, from the stored test predictions.
 - `plots.py`: the R-run slide figures: matching per run against IOAI's numbers, gender heads, R3's misses.
+- `demo.py`: a local Gradio page: pick a sign from the IOAI validation or test set and watch the pipeline find its pair.
+- `export_pairs.py`: the pipeline's answers on validation and test, with resized IOAI images, for the web app's IOAI pairs page (`web/data/restroom-ioai-pairs.json`, `web/public/samples/restrooms/ioai/`). It stops if its answers differ from `pipeline.json`.
 - `STUDY-CARD.md`: Nazar's answers for the defense questions on this lane.
+- `MODEL_CARD.md`: the model card of the served restroom service: components, data, results with sources, limits.
 
 ## Attribution
 

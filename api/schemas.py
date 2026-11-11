@@ -56,4 +56,7 @@ class MatchResult(BaseModel):
     latencyMs: int
     query: SignPrediction
     candidates: list[MatchCandidate]
+    # The partner found by the two-step pipeline (api/restroom_pipeline.py), not by predicted gender.
     bestMatchId: str | None
+    # The gallery image the query was cropped from (step 1), or null when the query is not a crop of one.
+    ownId: str | None = None

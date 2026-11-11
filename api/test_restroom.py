@@ -107,30 +107,69 @@ def test_compare_missing_field(client):
     assert r.status_code == 422  # FastAPI's answer for a missing form field, as on /predict
 
 
-def test_match_shape_order_and_best_match(client):
-    # Query is navy (male). Gallery: 0 blue (male, very similar), 1 red (female), 2 pink (female).
+def test_match_shape_and_order(client):
+    # Query is navy. Gallery: 0 blue (very similar), 1 red, 2 pink.
     gallery = [("gallery", (f"{i}.png", image_bytes(c))) for i, c in enumerate([BLUE, RED, PINK])]
     r = client.post("/restroom/match", files=[("query", ("q.png", image_bytes(NAVY))), *gallery])
     assert r.status_code == 200, r.text
     body = r.json()
-    assert set(body) == {"provider", "model", "latencyMs", "query", "candidates", "bestMatchId"}
+    assert set(body) == {"provider", "model", "latencyMs", "query", "candidates", "bestMatchId", "ownId"}
     assert body["query"]["gender"] == "male"
     cands = body["candidates"]
     assert sorted(c["id"] for c in cands) == ["0", "1", "2"]
     sims = [c["similarity"] for c in cands]
     assert sims == sorted(sims, reverse=True)
-    assert cands[0]["id"] == "0"  # the blue sign is the most similar overall, but it is male
+    assert cands[0]["id"] == "0"
     for c in cands:
         assert set(c) == {"id", "similarity", "prediction"}
         assert set(c["prediction"]) == {"gender", "confidence"}
-    female = [c for c in cands if c["prediction"]["gender"] == "female"]
-    assert body["bestMatchId"] == female[0]["id"]
 
 
-def test_match_best_is_null_without_opposite_gender(client):
-    gallery = [("gallery", (f"{i}.png", image_bytes(BLUE))) for i in range(2)]
-    r = client.post("/restroom/match", files=[("query", ("q.png", image_bytes(NAVY))), *gallery])
-    assert r.status_code == 200
+def texture(seed: int, tint, size=(240, 200)) -> Image.Image:
+    """A smooth random texture in one colour family, so SIFT finds keypoints on it."""
+    import cv2
+
+    rng = np.random.default_rng(seed)
+    g = cv2.GaussianBlur(rng.random((size[1], size[0])).astype(np.float32), (0, 0), 1.0)
+    g = (g - g.min()) / (g.max() - g.min())
+    rgb = np.stack([g * c + (1 - g) * 0.5 * c for c in tint], axis=-1)
+    return Image.fromarray(np.clip(rgb, 0, 255).astype(np.uint8))
+
+
+def png(img: Image.Image) -> bytes:
+    buf = io.BytesIO()
+    img.save(buf, format="PNG")
+    return buf.getvalue()
+
+
+def test_match_crop_finds_its_original_then_the_partner(client):
+    own, partner = texture(1, (230, 80, 60)), texture(2, (225, 85, 65))   # one restroom: same colours
+    others = [texture(3, (40, 90, 220)), texture(4, (60, 200, 90))]
+    crop = own.crop((50, 40, 190, 170))
+    gallery = [("gallery", (f"{i}.png", png(im))) for i, im in enumerate([others[0], own, others[1], partner])]
+    r = client.post("/restroom/match", files=[("query", ("q.png", png(crop))), *gallery])
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body["ownId"] == "1"
+    assert body["bestMatchId"] == "3"
+
+
+def test_match_whole_sign_not_in_gallery_takes_the_closest_colours(client):
+    # A flat sign has no keypoints, so there is no own original; step 2 compares the query itself.
+    gallery = [("gallery", (f"{i}.png", image_bytes(c))) for i, c in enumerate([BLUE, (225, 45, 45), (40, 200, 80)])]
+    r = client.post("/restroom/match", files=[("query", ("q.png", image_bytes(RED))), *gallery])
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body["ownId"] is None
+    assert body["bestMatchId"] == "1"
+
+
+def test_match_best_is_null_when_only_the_own_original_is_left(client):
+    own = texture(5, (200, 120, 40))
+    crop = own.crop((40, 30, 200, 170))
+    r = client.post("/restroom/match", files=[("query", ("q.png", png(crop))), ("gallery", ("0.png", png(own)))])
+    assert r.status_code == 200, r.text
+    assert r.json()["ownId"] == "0"
     assert r.json()["bestMatchId"] is None
 
 

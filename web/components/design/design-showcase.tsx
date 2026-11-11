@@ -26,6 +26,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tooltip } from "@/components/ui/tooltip";
 import { RESTROOM_SAMPLES } from "@/lib/mock/restroom-samples";
 import { SAMPLES, getSample } from "@/lib/mock/samples";
+import { StatesGrid } from "@/components/design/states-grid";
 import { deriveDetections } from "@/lib/rules";
 import { SEVERITIES, VERDICTS } from "@/lib/types";
 import { GenderTag, SignImage, ThresholdBar, VerdictBadge } from "@/components/restrooms/signage-bits";
@@ -182,7 +183,7 @@ export function TokenReference() {
             </div>
             <h3 className="text-lg font-semibold">Motion</h3>
             <p className="text-sm text-muted">
-              <span className="font-mono">--duration-fast 120ms · base 200ms · slow 420ms · draw 700ms</span>. Easing{" "}
+              <span className="font-mono">--duration-fast 120ms · ui 160ms · base 200ms · slow 420ms · draw 300ms · --stagger-step 45ms</span>; a staged reveal ends within 600ms. Easing{" "}
               <span className="font-mono">--ease-standard</span>, <span className="font-mono">--ease-emphasized</span>. All
               animation stops under prefers-reduced-motion.
             </p>
@@ -343,6 +344,8 @@ export function ThemedShowcase() {
           <Field label="Text field" placeholder="Kabanbay Batyr Ave" hint="With a hint below." />
         </div>
       </section>
+
+      <StatesGrid />
 
       <section className="grid gap-4">
         <h3 className="text-xl font-bold">Selectable tiles</h3>

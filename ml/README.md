@@ -24,6 +24,12 @@ The notebook downloads a ZIP containing only the actual JSON and CSV for collect
 
 ## Full experiments
 
+### After every full run (M-2)
+
+In Colab, the final cell of `colab_runner.ipynb` is opt-in: set `RUN_TO_SAVE` (for example `E1`) and `SHARED_WEIGHTS_DIR` to the existing team Drive `weights/` folder after completing that full run in the checked-out `REPO`. It requires that run's JSON, training CSV and `runs/<run>/weights/best.pt`; it rejects smoke results and refuses to overwrite an existing Drive file. It copies the best weights as `jolscan-<run>.pt` and downloads the JSON and CSV. The notebook's default M-1 run is only a smoke test, so the handoff is skipped until explicitly configured for a full run. Check the shared folder is mounted and writable by every runner; this has not been verified from the local test.
+
+On your laptop, review the downloaded files, place `<run>.json` and `<run>-results.csv` under `ml/results/runs/`, create a branch such as `model/<task>-<run>` and open one PR per run. Rebase on current main, run the required checks, and merge only after review and green checks. Never commit weights or the dataset.
+
 Do not run full E0 as part of M-1. After the smoke path passes and the team authorizes the experiment, full runs use the same frozen split, seed and budget documented in [docs/ML-EXPERIMENT.md](../docs/ML-EXPERIMENT.md). For example:
 
 ```bash
