@@ -48,10 +48,11 @@ Files: `web/app/icon.svg` (favicon), `web/app/apple-icon.png` (180 px), `web/app
 
 The deck is made in Canva, which imports PowerPoint files as editable presentations. `docs/design/slide-template/qarau-slide-template.pptx` is built by `make_slide_template.py` in the same folder from the light-theme tokens, so a token change means running the script again.
 
-- **Size and slides:** 16:9, eight slides covering the seven layouts: title; a section divider per module (Roads, Restrooms); one point plus a screenshot; one point plus a chart; a results table; a two-option comparison; a closing slide with the links.
+- **Size and slides:** 16:9, nine slides covering the eight layouts: title; a section divider per module (Roads, Restrooms); one point plus a screenshot; a large screenshot (G-56); one point plus a chart; a results table; a two-option comparison; a closing slide with the links.
 - **Colours:** background `--bg`, text `--fg` and `--muted`. The accent is a fill only, with `--accent-fg` text; amber text uses `--accent-ink`. Section dividers use `--inverse`. The logo and the road stripe use the brand amber `#f2a900`. Every hex value is in the first slide's speaker notes.
 - **Type:** Overpass for titles and text, JetBrains Mono for numbers and the footer "Qarau · ICT1103 · QAIRU".
 - **Honesty:** a "Demo data" label in the app's badge colours for demo screens. Placeholders only: the table shows dashes, and the chart bars carry no values.
+- **Screenshots (G-56):** both screenshot slides use one frame: 16:10, `--radius-lg`, a 1 px `--border` line and `--shadow-md`, scaled from 1440 px to the frame's width. Rules and file names: `docs/design/screenshots.md`.
 - **After import:** check one slide on Roma's device. If Canva shows another font, set Overpass or JetBrains Mono on that text.
 
 ### Contrast audit (G-3, preliminary)
