@@ -1,24 +1,28 @@
 # data/
 
-No datasets are stored in git. This folder holds the dataset card and notes. The dataset itself lives in Roboflow and in the shared Drive folder.
+No datasets are stored in git. This folder holds the dataset card, notes and the rebuild script. The pothole images come from Kaggle; the frozen export is also in the shared Drive folder.
 
-## Dataset card (task D-1, to be filled in by Amina)
+## Dataset card (task D-1)
 
 | Field | Value |
 |---|---|
-| Name on Roboflow Universe | |
-| Author | |
-| URL | |
-| Licence | |
-| Images | |
+| Name | Annotated Potholes Image Dataset ("Fully bounding-box annotated image dataset of potholes and damaged roads") |
+| Author | Atikur Rahman Chitholian (Kaggle user `chitholian`) |
+| URL | https://www.kaggle.com/datasets/chitholian/annotated-potholes-dataset (version 1, published 27 February 2020) |
+| Licence | As shown on Kaggle: "Database: Open Database, Contents: Database Contents", i.e. the Open Database License (ODbL) for the database and the Database Contents License (DbCL) for its contents. Read on 11 November 2026 from the Kaggle dataset page data (API). |
+| Images | 665 JPG, each with a Pascal VOC XML file |
+| Objects | 1,740 in the original; 1,739 after removing the zero-width box in `img-415.xml` |
 | Classes | `pothole` |
 | Annotation type | bounding boxes |
-| Our Roboflow project | `pothole-idtb2-pr1td` (Tair's workspace) |
-| Dataset version used for all runs | |
-| Same dataset on Kaggle, if it exists | |
-| Split | 70 / 15 / 15, train / validation / test |
-| Preprocessing in the version | auto-orient only, no resize |
-| Offline augmentation in the version | none (augmentation is applied during training only) |
+| Dataset version used for all runs | `potholes_yolo_v1` |
+| Split | 465 / 100 / 100 train / validation / test, by image, `random.Random(42)` shuffle of the sorted paths |
+| Preprocessing | none: no resize; every EXIF orientation was 1 |
+| Offline augmentation | none (augmentation is applied during training only) |
+| Rebuild | `python data/make_potholes_yolo_v1.py --source <unzipped Kaggle folder> --out data/raw/potholes_yolo_v1` (task D-14) |
+
+**Same files as the ones we trained on.** On 11 November 2026 the Kaggle download (48,139,872 bytes) was checked against `split_manifest.json`: all 665 images have the same SHA-256 (task D-14).
+
+**Licence judgement.** The dataset licence is open (ODbL / DbCL), and Kaggle Datasets is one of the sources the syllabus allows (Syl p.9). The Kaggle description does not say where the photos came from, and three photos carry stock-photo watermarks (`img-565.jpg`, `img-409.jpg`, `img-448.jpg`), so the rights to individual photos are not established by the dataset licence. Those three are never shown publicly (task D-12), and the app's public sample images are drawn illustrations, not dataset photos.
 
 ## Quality notes (task D-2)
 

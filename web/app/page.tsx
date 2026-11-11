@@ -278,8 +278,8 @@ export default function LandingPage() {
           </p>
           <div className="mt-8 grid gap-4 lg:grid-cols-2">
             <ResultsCard module="roads" badge={<DemoBadge show={IS_DEMO_DATA} label="Placeholder numbers" />}>
-              <Metric label="mAP50-95" value={CHAMPION.map5095.toFixed(2)} note={`baseline ${BASELINE.map5095.toFixed(2)}`} />
-              <Metric label="Recall" value={CHAMPION.recall.toFixed(2)} note={`baseline ${BASELINE.recall.toFixed(2)}`} />
+              <Metric label="mAP50-95" value={CHAMPION.map5095?.toFixed(2) ?? "—"} note={`baseline ${BASELINE.map5095?.toFixed(2) ?? "—"}`} />
+              <Metric label="Recall" value={CHAMPION.recall?.toFixed(2) ?? "—"} note={`baseline ${BASELINE.recall?.toFixed(2) ?? "—"}`} />
               <p className="col-span-2 text-sm text-muted">
                 {EXPERIMENTS.runs.length} runs. Selected: <span className="font-mono">{CHAMPION.id}</span> ({CHAMPION.changed.toLowerCase()}).
               </p>
