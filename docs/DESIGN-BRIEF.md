@@ -277,3 +277,59 @@ Review is at least ΔE 12 from focus and low severity in every simulation. The s
 - Severity filter chips on Reports add a check mark after the word when on.
 - Hover is the same everywhere: unselected tiles get `border-border-strong` and `bg-surface-2`; row links and jump-link chips get `bg-surface-2`.
 - Focus is the global ring in `web/app/globals.css` (2 px outline, 2 px offset). A scroll box around tiles needs at least 4 px padding or the ring is clipped; the sample sign picker had 2 px and now has 4 px.
+
+## Provenance badges and icons (G-29, G-24)
+
+### Provenance badges (G-29)
+
+Every single result (road analysis, compare check, match) shows exactly one of these badges; pages that list seeded records show "Demo data" (U8). All three have the same shape and size (small radius, 20 px high, 1 px edge), a 14 px icon slot and always a word, so colour is never the only cue (U3).
+
+| Badge | Icon | Colour | Shown when |
+|---|---|---|---|
+| **Demo data** (also "Invented demo record", "Includes demo data", "Placeholder numbers") | FlaskConical | amber fill (`accent-soft`, `accent-ink`) | Seeded records and placeholder numbers. No model made them. |
+| **Mock result** (also "Mock predictions" in the page header) | Package, the Mock provider icon | amber outline (`accent`, `accent-ink`) | The mock provider answered: canned output, no model ran. |
+| **Model result: \<name\>** | Laptop or Cloud, the provider's icon | slate (`--chart-1`, the measured-data colour of the charts) | Our model made it, through Local or Cloud. |
+
+Rule to explain: amber means "not made by our model", slate means "our model made it". The rule is `resultProvenance` in `web/lib/mock/seeded.ts`, the badges are in `web/components/app/demo-badge.tsx`, and `web/lib/demo-badges.test.ts` checks one badge per result view and the provider icons.
+
+### Icon map (G-24)
+
+One icon per concept, one size per context. Checked on the road and restroom result cards on 11 November 2026.
+
+| Context | Size | Class |
+|---|---|---|
+| Inline with `text-xs`: badges, detail labels, stamps | 14 px | `size-3.5` |
+| Inline with `text-sm`, and inside buttons (forced by `button.tsx`) | 16 px | `size-4` |
+| Card section headings (`text-lg`) and the sidebar | 18 px | `size-4.5` |
+| Large badges (`text-base`) and callouts | 20 px | `size-5` |
+| Empty states and feature tiles | 24 px | `size-6` |
+
+| Concept | Icon | Defined in or used on |
+|---|---|---|
+| Severity: clear, low, medium, high, critical | CircleCheck, CircleDot, CircleExclamationPoint, TriangleExclamationPoint, OctagonExclamationPoint | `web/lib/severity.ts` |
+| Verdict: clear, review, confusing | CircleCheck, TriangleExclamationPoint, OctagonX | `web/lib/signage-ui.ts` |
+| Gender: male, female | Mars, Venus | `web/lib/signage-ui.ts` |
+| Gap in P(male) between the doors (S1, S2) | VenusAndMars | Compare result |
+| Similarity of the two designs (S3) | EqualApproximately | Compare result |
+| Provider: Mock, Local, Cloud | Package, Laptop, Cloud | `PROVIDER_META`; the Provider detail and the provenance badges use the same icon |
+| Model | Brain | Model detail on both result cards; "Model" step on the landing page |
+| Demo data | FlaskConical | Provenance badge |
+| Needs a human look (review) | UserRoundSearch | Road result callout |
+| Model latency | Timer | Result details |
+| When it was analysed or checked | Clock | Result details |
+| Location, place | MapPin | Result details |
+| Road class, school zone | Route, School | Road result details |
+| Best match; correct or wrong match | Trophy; CircleCheck or CircleX | Match result |
+| Callout: info, warning, danger, success | Info, TriangleAlert, TriangleAlert, CircleCheck | `web/components/ui/callout.tsx` |
+| Module: roads, restrooms | TrafficCone, DoorOpen | `MODULE_ICONS` in `web/components/app/nav.ts` |
+| Analyze, Compare, Match | ScanSearch, GitCompareArrows, Search | `web/components/app/nav.ts` |
+| Swap the two doors | ArrowLeftRight | Compare input |
+
+Fixed on the result cards: Provider and Model both used Cpu (now the provider's icon and Brain); both compare measures used ArrowLeftRight, which also means Swap (now VenusAndMars and EqualApproximately); the needs-review callout used the triangle of High severity (lucide's TriangleAlert is the same drawing as TriangleExclamationPoint; now UserRoundSearch).
+
+Still open outside the result cards, for Tair and the owners of those files:
+
+- FlaskConical is both the Model page in the sidebar and the Demo data badge, on the same screen. Proposal: Brain for the Model page, as on the landing page.
+- The triangle is High severity and also the restroom Review verdict; the reports table marks review with CircleExclamationPoint, the Medium icon. Proposal: UserRoundSearch for review everywhere, decided together with the review colour (G-47).
+- The landing page Deployment section draws Mock as ServerCog; everywhere else Mock is Package. Proposal: Package.
+- The landing page privacy list uses Cpu for "restroom images are door-sign icons only". Proposal: DoorOpen, the restroom module icon.
