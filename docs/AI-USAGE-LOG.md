@@ -22,6 +22,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Alizhan (X-21, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Prepare a short instructor-facing tour of project evidence and execution.
+- **Key prompt:** "продолжай выполнять таски" following a request to work on non-design tasks. This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** A short README section linking real results, limitations, setup and open requirements.
+- **How it was verified:** Checked local links and compared setup commands with the current README and API documentation. No teammate navigation test or real run on the presenting laptop was performed.
+- **What was rejected or corrected:** Did not claim that the VLM audit or local inference was complete where the evidence was unavailable.
+
 ### 11 November 2026, Alizhan (R-4, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.
