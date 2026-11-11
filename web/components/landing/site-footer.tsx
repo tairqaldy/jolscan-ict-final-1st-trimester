@@ -10,7 +10,7 @@ export function SiteFooter() {
   return (
     <footer className="mt-[var(--section-gap)] border-t border-border bg-surface">
       <div className="lane-stripe opacity-60" aria-hidden />
-      <div className="container-page grid gap-8 py-10 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)]">
+      <div className="container-page public-container grid gap-8 py-10 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)]">
         <div className="grid content-start gap-2">
           <Logo />
           <p className="max-w-sm text-sm text-muted">
@@ -46,7 +46,7 @@ export function SiteFooter() {
           </p>
         </div>
       </div>
-      <div className="container-page border-t border-border py-4 text-xs text-subtle">
+      <div className="container-page public-container border-t border-border py-4 text-xs text-subtle">
         {BRAND.name} · {COURSE.code} group project · {COURSE.school} · {DATA_CREDITS.map.name}
       </div>
     </footer>

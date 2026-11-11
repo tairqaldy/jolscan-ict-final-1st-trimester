@@ -97,7 +97,8 @@ Everything visual comes from `app/tokens.css`:
 - Restroom tokens: `--verdict-{clear,review,confusing}` (default to the severity scale) and
   `--gender-{male,female}` (teal and indigo: distinct for colour-blind readers, deliberately not pink/blue, and
   always paired with the Mars/Venus icon and the word).
-- Fonts are set in `app/layout.tsx` (Barlow, Barlow Condensed, JetBrains Mono); keep the variable names.
+- Fonts are set in `app/layout.tsx` (Overpass and JetBrains Mono, both with Cyrillic); keep the variable names.
+- The logo mark lives in `components/app/logo.tsx` (follows `--accent`), `app/icon.svg`, `app/apple-icon.png`, `app/opengraph-image.png` and `public/brand/` (fixed brand amber `#f2a900`). Change them together.
 - JS animation timings mirror the CSS motion tokens in `lib/motion.ts`.
 - Check the result on `/design`, which shows every token and primitive in both themes side by side.
 

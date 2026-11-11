@@ -255,7 +255,7 @@
 
   /* Type. Families come from next/font in app/layout.tsx. */
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-heading), var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-code), ui-monospace, "SFMono-Regular", Menlo, monospace;
 
   /* Type scale (rem / line-height). Display sizes are condensed caps-friendly. */
@@ -288,6 +288,7 @@
   --radius-lg: 10px;
   --radius-xl: 16px;
   --radius-full: 9999px;
+  --font-weight-bold: 600;
 
   /* Shadows: low, warm, never glowing */
   --shadow-xs: 0 1px 0 rgb(var(--shadow-color) / 0.06);

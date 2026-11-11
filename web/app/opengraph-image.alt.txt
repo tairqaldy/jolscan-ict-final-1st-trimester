@@ -1,0 +1,1 @@
+Qarau: Computer vision inspection of public infrastructure from photos, with rules you can read.

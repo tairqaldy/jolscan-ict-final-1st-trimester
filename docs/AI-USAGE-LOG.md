@@ -412,3 +412,24 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** a script (kept outside the repository) that reads `web/app/tokens.css` and recomputes the WCAG ratios; the task ticks and this pull request. The references, the direction and the token values are mine.
 - **How I verified it, and who verified it:** all 23 rows of the contrast table match the recomputed ratios to two decimals in both themes; `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` pass; I looked at `/`, `/app` and `/design` at 1440 px and 375 px in light and dark.
 - **What I rejected or corrected:** did not claim colour-blind safety from contrast numbers alone (that check stays in G-22); did not change `ml/plots.py`, which belongs to the deck plots task G-52.
+
+### 11 November 2026, Dameli (G-8, G-4, G-53, G-5: landing, type and logo)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** bring my local landing work onto the latest `main`, compare fonts and logo marks, and make the icon files.
+- **Key prompt(s), with a link to the transcript:** Tair's handoff (docs/HANDOFF-DAMELI.md) and "I need to do only the tasks that are for me". Transcript kept locally.
+- **What it produced or changed:**
+  - Two comparison sheets, one for fonts and one for marks, kept outside the repository. I chose Overpass and the viewfinder from them.
+  - The Overpass swap; the icon files, with the PNGs rendered once by Next.js `ImageResponse` from `web/lib/brand.ts` and committed as static files.
+  - Conflict resolution against Tair's W-62 hero.
+  - The road car changed to drive in once instead of looping.
+- **How I verified it, and who verified it:**
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` and `pnpm build` pass.
+  - On the dev server, the headings use Overpass, and the Cyrillic font files load for "ҚАРАУ" while only the Latin files are preloaded.
+  - The page head has `icon`, `apple-touch-icon` and `og:image` tags.
+  - `/` checked at 1440 px and 375 px in light and dark.
+- **What I rejected or corrected:**
+  - The first social image mixed weights in its uppercase line (the font subset had only lowercase letters).
+  - The first қ sketch had a hooked tail.
+  - My earlier two-button hero lost to Tair's measured W-62 path.
+  - Changes outside my tasks were removed from the pull request.

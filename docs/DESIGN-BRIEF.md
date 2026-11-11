@@ -10,15 +10,39 @@ Starting point until then: asphalt and road markings. Graphite and stone neutral
 
 ### References for the proposed direction (G-2)
 
-Dameli selected a **calm technical** direction with graphite, warm neutrals and amber on 10 November. This is a proposal for Tair to review in W-3; it is not a completed team sign-off. Use Barlow for both headings and body text with JetBrains Mono for technical detail; retain the two themes and the road-sign amber. Reduce the number of competing visual emphases: let the most urgent decision and the next action lead; reserve the strong accent for actions and meaningful marks. Give both modules equal prominence, and pair every status with a word or icon.
+Dameli selected a **calm technical** direction with graphite, warm neutrals and amber on 10 November. This is a proposal for Tair to review in W-3; it is not a completed team sign-off. Use one text family for both headings and body text (Overpass since G-4, see below) with JetBrains Mono for technical detail; retain the two themes and the road-sign amber. Reduce the number of competing visual emphases: let the most urgent decision and the next action lead; reserve the strong accent for actions and meaningful marks. Give both modules equal prominence, and pair every status with a word or icon.
 
 - [Linear](https://linear.app/) — landing: concise product statement and one clear first action; keep Qarau’s own content and voice.
 - [Grafana dashboards](https://grafana.com/grafana/dashboards/) — monitoring: modular panels and a clear hierarchy from overview to detailed evidence.
 - [Google Cloud Monitoring dashboards](https://docs.cloud.google.com/monitoring/dashboards) — operations: group related charts with inspectable tables and useful time context.
 - [Carbon data table](https://www.carbondesignsystem.com/building-blocks/core/components/data-table/guidelines) — dense reports: consistent columns and readable scanning, not decorative borders.
 - [Carbon charts](https://www.carbondesignsystem.com/building-blocks/data-visualization/overview) — analytics: use chart types appropriate to the data and pair them with accessible detail.
-- [Barlow](https://fonts.google.com/specimen/Barlow) and [JetBrains Mono](https://www.jetbrains.com/lp/mono/) — keep the readable Barlow text and tabular technical voice; do not introduce another font family without a need.
+- [Overpass](https://fonts.google.com/specimen/Overpass) and [JetBrains Mono](https://www.jetbrains.com/lp/mono/) — keep a readable road-sign text voice and a tabular technical voice; do not introduce another font family without a need.
 - [FHWA warning signs](https://mutcd.fhwa.dot.gov/HTM/2003/part2/part2c.htm) — historical wayfinding reference for dark-on-yellow contrast and shape; this is visual inspiration, not a claim about Kazakhstan road standards.
+
+### Type (G-4)
+
+Barlow, the first text font, has no Cyrillic, so "қарау" and any Kazakh or Russian text fell back to a system font. Dameli compared three replacements with Cyrillic and every Kazakh letter (ә ғ қ ң ө ұ ү һ і) on the real tokens and copy, on 11 November:
+
+| Variant | For | Against |
+|---|---|---|
+| **Overpass (chosen)** | Drawn after Highway Gothic, the same road-sign lineage as Barlow, so the look changes least | Slightly wider than Barlow |
+| Fira Sans | Very legible in small sizes and dense tables | Softer, reads as documentation more than signage |
+| Golos Text | Made for public-service interfaces in Cyrillic | Widest of the three; the hero headline wraps one line earlier |
+
+Two families in total: Overpass for text and headings, JetBrains Mono (also with Cyrillic) for numbers and code. Only the Latin subset is preloaded (S-10); the Cyrillic files load when a page shows Cyrillic text.
+
+### Logo (G-53, G-5)
+
+Three mark directions were drawn on the tokens and compared at 16, 32 and 128 px, in a browser tab and next to the name, in both themes, on 11 November:
+
+| Direction | For | Against |
+|---|---|---|
+| **A · Viewfinder around a pothole (chosen)** | Says "inspect" for both modules; the thick corners stay legible at 16 px; closest to the mark people have already seen | Generic shape on its own, so the name carries the identity |
+| B · Lane line (asphalt with an amber dashed centre line) | Strongest road story | Says nothing about signs; dark square almost disappears on the dark theme |
+| C · Letter қ | Distinctive and local, the first letter of қарау | Readers without Cyrillic see a K |
+
+Files: `web/app/icon.svg` (favicon), `web/app/apple-icon.png` (180 px), `web/app/opengraph-image.png` (1200 × 630, name, meaning and tagline from `web/lib/brand.ts`), `web/public/brand/logo-mark.svg` and `wordmark.svg` for the deck. Static brand files use the road-sign amber `#f2a900` with graphite `#1b1c1e`; inside the app the mark follows the theme's `--accent`.
 
 ### Contrast audit (G-3, preliminary)
 
