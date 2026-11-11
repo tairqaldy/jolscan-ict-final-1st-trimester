@@ -3,6 +3,7 @@
 import { ArrowLeft, FileQuestion } from "lucide-react";
 import { DemoBadge } from "@/components/app/demo-badge";
 import { ButtonLink } from "@/components/ui/button";
+import { EmptySearch } from "@/components/illustrations";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageHeader } from "@/components/ui/page-header";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -29,7 +30,7 @@ export function CheckDetailClient({ id }: { id: string }) {
     return (
       <div className="grid gap-6">
         {back}
-        <EmptyState icon={FileQuestion} title="Comparison not found">
+        <EmptyState icon={FileQuestion} illustration={<EmptySearch />} title="Comparison not found">
           There is no check with id <code className="font-mono">{id}</code> in the demo set or in this browser. It may have
           been cleared in Settings.
         </EmptyState>

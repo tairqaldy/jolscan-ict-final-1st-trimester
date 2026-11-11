@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Callout } from "@/components/ui/callout";
 import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { BlankSigns } from "@/components/illustrations";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/cn";
@@ -136,7 +137,7 @@ export function MatchClient() {
               ))}
             </div>
           ) : (
-            <EmptyState icon={Search} title="Nothing ranked yet">
+            <EmptyState icon={Search} illustration={<BlankSigns />} title="Nothing ranked yet">
               Choose a query sign and press Find the counterpart. Every gallery sign appears here, most similar first, with
               the best match highlighted.
             </EmptyState>
