@@ -22,6 +22,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Alizhan (S-31, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6 family.
+- **Purpose:** Improve API handling of oversized and rotated uploads.
+- **Key prompt:** "начни это все выполнять" in response to recommended optimization and reliability tasks. Full transcript is not exported here.
+- **What it produced:** Shared pixel limit and decompression-bomb handling, endpoint and EXIF tests, documentation and worklog.
+- **Verification:** 35 API tests passed in a lightweight environment; Python compilation passed. Alizhan has not personally reviewed this entry.
+- **Limits:** This improves upload robustness, not inference speed or detection accuracy.
+
 ### 11 November 2026, Alizhan (S-30, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6 family.

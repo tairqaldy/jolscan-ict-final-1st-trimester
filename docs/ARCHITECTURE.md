@@ -67,7 +67,7 @@ GET  /ready    → 200 { "ready": true, "models": { "pothole": { "ready": true }
                (loads both models; first call can be slow. Set WARMUP=1 to load them at start-up)
 POST /predict  multipart/form-data: file=<jpeg|png|webp>, conf=<float, optional, default 0.25>
                → 200 InferenceResult
-               → 400 { "detail": "..." } for a non-image or a file over 10 MB
+               → 400 { "detail": "..." } for a non-image, a file over 10 MB, or an image over 40 megapixels
 ```
 
 Web app (`web/app/api/analyze`): accepts `file` (or `sampleId`) and `provider`, calls the provider, then applies the rules and returns:
@@ -158,7 +158,7 @@ POST /restroom/compare  multipart: a=<image>, b=<image>                      →
 POST /restroom/match    multipart: query=<image>, gallery=<image> (repeated)  → 200 MatchResult (candidate ids are "0", "1", … in upload order)
 ```
 
-Same validation as `/predict`: JPEG, PNG or WebP, 10 MB per file, at most 60 gallery files.
+Same validation as `/predict`: JPEG, PNG or WebP, at most 10 MB and 40 megapixels per file, at most 60 gallery files.
 
 The web app applies the signage rules (RULES.md, part 2) to a `CompareResult` and returns:
 

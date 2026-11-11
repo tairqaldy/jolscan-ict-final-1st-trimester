@@ -102,7 +102,7 @@ curl -F "query=@query.png" -F "gallery=@g1.png" -F "gallery=@g2.png" -F "gallery
 
 - `compare` returns the predicted gender and its confidence for both signs, and their similarity, `(cos + 1) / 2` of the CLIP embeddings.
 - `match` returns the query's prediction and every gallery image as a candidate with id `"0"`, `"1"`, ... in upload order, sorted by similarity. `bestMatchId` is the most similar candidate whose predicted gender is the opposite of the query's, or `null`.
-- Validation is the same as `/predict`: JPEG, PNG or WebP, at most 10 MB per file, at most 60 gallery files. A missing field gives FastAPI's 422.
+- Validation is the same as `/predict`: JPEG, PNG or WebP, at most 10 MB and 40 megapixels per file, at most 60 gallery files. A missing field gives FastAPI's 422.
 
 Configuration:
 
