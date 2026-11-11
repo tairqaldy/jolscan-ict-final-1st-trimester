@@ -36,3 +36,5 @@ Every document has an owner who keeps it true, and a moment when it gets updated
 ## At the end
 
 By the code freeze, `python3 scripts/contribution_report.py` writes `docs/CONTRIBUTION-REPORT.md` from git, the merged pull requests, the closed task issues and the worklogs. Each person checks their section and finalises their row in `CONTRIBUTION-LOG.md`.
+
+- [HANDOFF-DAMELI.md](HANDOFF-DAMELI.md): current state on 11 November, design priorities, how to work and merge, and a start prompt for a Claude session.
