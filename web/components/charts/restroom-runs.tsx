@@ -1,9 +1,24 @@
 "use client";
 
-import { Bar, BarChart, CartesianGrid, Label, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { DemoBadge } from "@/components/app/demo-badge";
 import { RESTROOM_EXPERIMENTS, RESTROOM_IS_DEMO } from "@/lib/mock/restroom-experiments";
-import { axisProps, ChartCard, DataTable, gridProps, LegendSwatch, tooltipProps } from "./chart-kit";
+import {
+  axisProps,
+  barRadius,
+  ChartCard,
+  chartMargin,
+  DataTable,
+  gridProps,
+  LegendSwatch,
+  referenceLabel,
+  referenceLineProps,
+  SERIES,
+  tooltipProps,
+  xAxisTitle,
+  yAxisTitle,
+  yAxisWidth,
+} from "./chart-kit";
 
 const show = (v: number | null) => (v === null ? "not run yet" : v.toFixed(2));
 
@@ -29,9 +44,9 @@ export function RestroomRunsChart() {
       height={280}
       legend={
         <>
-          <LegendSwatch color="var(--chart-1)" label="Validation (10 queries)" />
-          <LegendSwatch color="var(--chart-2)" label="Test (30 queries)" />
-          <LegendSwatch color="var(--muted)" dashed label="IOAI reference" />
+          <LegendSwatch color={SERIES[0]} label="Validation (10 queries)" />
+          <LegendSwatch color={SERIES[1]} label="Test (30 queries)" />
+          <LegendSwatch color={referenceLineProps.stroke} dashed label="IOAI reference" />
         </>
       }
       table={
@@ -46,23 +61,23 @@ export function RestroomRunsChart() {
       }
     >
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data} margin={{ top: 8, right: 8, bottom: 16, left: -8 }} barGap={2}>
+        <BarChart data={data} margin={chartMargin({ xTitle: true })} barGap={2}>
           <CartesianGrid {...gridProps} />
           <XAxis dataKey="run" {...axisProps}>
-            <Label value="Run" position="insideBottom" offset={-10} fill="var(--muted)" fontSize={12} />
+            {xAxisTitle("Run")}
           </XAxis>
-          <YAxis domain={[0, 1]} ticks={[0, 0.25, 0.5, 0.75, 1]} width={44} {...axisProps}>
-            <Label value="Top-1 accuracy" angle={-90} position="insideLeft" offset={14} fill="var(--muted)" fontSize={12} style={{ textAnchor: "middle" }} />
+          <YAxis domain={[0, 1]} ticks={[0, 0.25, 0.5, 0.75, 1]} width={yAxisWidth(4)} {...axisProps}>
+            {yAxisTitle("Top-1 accuracy")}
           </YAxis>
           <Tooltip {...tooltipProps} formatter={(v) => (typeof v === "number" ? v.toFixed(2) : "not run yet")} />
-          <ReferenceLine y={reference.ioaiBaseline} stroke="var(--muted)" strokeDasharray="5 4">
-            <Label value={`IOAI baseline ${reference.ioaiBaseline.toFixed(2)}`} position="insideTopLeft" fill="var(--muted)" fontSize={11} />
+          <ReferenceLine y={reference.ioaiBaseline} {...referenceLineProps}>
+            {referenceLabel(`IOAI baseline ${reference.ioaiBaseline.toFixed(2)}`)}
           </ReferenceLine>
-          <ReferenceLine y={reference.ioaiBest} stroke="var(--muted)" strokeDasharray="5 4">
-            <Label value={`IOAI best ${reference.ioaiBest.toFixed(2)}`} position="insideTopLeft" fill="var(--muted)" fontSize={11} />
+          <ReferenceLine y={reference.ioaiBest} {...referenceLineProps}>
+            {referenceLabel(`IOAI best ${reference.ioaiBest.toFixed(2)}`)}
           </ReferenceLine>
-          <Bar dataKey="val" name="Validation" fill="var(--chart-1)" radius={[4, 4, 0, 0]} />
-          <Bar dataKey="test" name="Test" fill="var(--chart-2)" radius={[4, 4, 0, 0]} />
+          <Bar dataKey="val" name="Validation" fill={SERIES[0]} radius={barRadius} />
+          <Bar dataKey="test" name="Test" fill={SERIES[1]} radius={barRadius} />
         </BarChart>
       </ResponsiveContainer>
     </ChartCard>
