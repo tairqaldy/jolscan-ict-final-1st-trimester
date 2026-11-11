@@ -22,7 +22,15 @@ export default function MapView({ analyses }: { analyses: AnalysisWithSource[] }
 
   return (
     <div className="relative h-full">
-      <MapContainer center={[ASTANA.lat, ASTANA.lng]} zoom={12} scrollWheelZoom={false} className="size-full" attributionControl>
+      {/* Inline background: leaflet.css loads after globals.css and would paint #ddd, a light box in the dark theme while tiles load or when they fail (G-27). */}
+      <MapContainer
+        center={[ASTANA.lat, ASTANA.lng]}
+        zoom={12}
+        scrollWheelZoom={false}
+        className="size-full"
+        style={{ background: "var(--surface-2)" }}
+        attributionControl
+      >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -39,7 +47,7 @@ export default function MapView({ analyses }: { analyses: AnalysisWithSource[] }
             // className must be a constructor option; colours come from .sev-marker--* in globals.css
             className={`sev-marker sev-marker--${a.severity}`}
           >
-            <Popup>
+            <Popup minWidth={200}>
               <div className="grid gap-1.5 text-sm">
                 <strong className="font-display text-base">{a.location!.label}</strong>
                 <span className="flex items-center gap-2">
