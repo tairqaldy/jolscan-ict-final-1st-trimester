@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" role="img" aria-labelledby="t d">
+  <title id="t">Qarau architecture in detail, backup slide</title>
+  <desc id="d">Serving: the browser sends a photo to the Next.js server (/api/analyze, /api/restroom, /api/health), which picks a provider (mock, the local FastAPI service with /health, /ready, /predict on YOLO and /restroom/compare and /restroom/match on CLIP, or the opt-in cloud copy), applies rules R1 to R6 or S1 to S3 and returns the result. Training happens before the demo: ml/ on Colab with Ultralytics and MLflow produces the pothole weights, ml/restroom/ produces an optional restroom checkpoint and probe, and ml/export_results.py writes the results table the Model page shows. There is no database.</desc>
+  <!-- Source: docs/ARCHITECTURE.md section 1. Checked with: ls web/app/api; grep -nE "@app|@router" api/main.py api/restroom.py. Colours: light theme of web/app/tokens.css. G-66. -->
+  <defs>
+    <marker id="ah-accent" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#b87f00"/>
+    </marker>
+    <marker id="ah-grey" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#66686d"/>
+    </marker>
+    <style>
+      .t { font-family: Overpass, "Helvetica Neue", Arial, sans-serif; fill: #1b1c1e; }
+      .m { font-family: "JetBrains Mono", Menlo, Consolas, monospace; fill: #1b1c1e; }
+      .muted { fill: #4f5156; }
+      .b { font-weight: 700; }
+      .box { fill: #ffffff; stroke: #b3afa4; stroke-width: 2; }
+      .row { fill: #f3f2ee; stroke: none; }
+      .rule { stroke: #dad7cf; stroke-width: 2; }
+    </style>
+  </defs>
+
+  <rect width="1920" height="1080" fill="#f3f2ee"/>
+
+  <!-- Band 1: serving -->
+  <text class="t b muted" x="60" y="70" font-size="24">Serving: what runs during the demo</text>
+
+  <!-- Browser -->
+  <rect class="box" x="60" y="230" width="310" height="330" rx="12"/>
+  <text class="t b" x="88" y="282" font-size="34">Browser</text>
+  <text class="t muted" x="88" y="316" font-size="20">Next.js pages</text>
+  <text class="t" x="88" y="362" font-size="20">roads, restrooms,</text>
+  <text class="t" x="88" y="390" font-size="20">analytics, model,</text>
+  <text class="t" x="88" y="418" font-size="20">settings</text>
+  <text class="t muted" x="88" y="490" font-size="20">history in</text>
+  <text class="m" x="88" y="520" font-size="20">localStorage</text>
+
+  <!-- Next.js server -->
+  <rect class="box" x="490" y="110" width="520" height="550" rx="12"/>
+  <text class="t b" x="518" y="162" font-size="34">Next.js server <tspan class="m muted" font-weight="400" font-size="20">web/</tspan></text>
+  <text class="m" x="518" y="214" font-size="20">POST /api/analyze</text><text class="t muted" x="790" y="214" font-size="20">roads</text>
+  <text class="m" x="518" y="250" font-size="20">POST /api/restroom</text><text class="t muted" x="790" y="250" font-size="20">restrooms</text>
+  <text class="m" x="518" y="286" font-size="20">GET  /api/health</text><text class="t muted" x="790" y="286" font-size="20">status</text>
+  <line class="rule" x1="518" y1="312" x2="982" y2="312"/>
+  <text class="t b" x="518" y="352" font-size="24">Provider switch</text>
+  <text class="m muted" x="518" y="384" font-size="20">web/lib/providers</text>
+  <text class="t muted" x="518" y="414" font-size="20">mock, local or cloud, set in Settings</text>
+  <line class="rule" x1="518" y1="440" x2="982" y2="440"/>
+  <text class="t b" x="518" y="480" font-size="24">Rules applied here</text>
+  <text class="m" x="518" y="514" font-size="20">web/lib/rules</text><text class="t" x="740" y="514" font-size="20">R1–R6, roads</text>
+  <text class="m" x="518" y="546" font-size="20">web/lib/signage</text><text class="t" x="740" y="546" font-size="20">S1–S3, restrooms</text>
+  <line class="rule" x1="518" y1="572" x2="982" y2="572"/>
+  <text class="t b" x="518" y="610" font-size="22">Returns the analysis JSON</text>
+  <text class="t muted" x="518" y="640" font-size="20">with a severity (roads) or a verdict (signs)</text>
+
+  <!-- Providers -->
+  <text class="t muted" x="1110" y="92" font-size="22">Provider, chosen in Settings</text>
+
+  <rect class="box" x="1110" y="110" width="750" height="96" rx="12"/>
+  <text class="t b" x="1138" y="152" font-size="30">mock <tspan class="m muted" font-weight="400" font-size="20">web/lib/mock</tspan></text>
+  <text class="t muted" x="1138" y="186" font-size="21">canned results for the bundled samples, works offline</text>
+
+  <rect class="box" x="1110" y="226" width="750" height="100" rx="12" style="stroke-dasharray:12 8"/>
+  <text class="t b" x="1138" y="268" font-size="30">cloud <tspan class="muted" font-weight="400" font-size="21">the same api/ on a Hugging Face Docker Space</tspan></text>
+  <text class="t muted" x="1138" y="304" font-size="21">opt-in (<tspan class="m" font-size="19">CLOUD_MODEL_API_URL</tspan>), not used in this demo</text>
+
+  <rect class="box" x="1110" y="350" width="750" height="310" rx="12" style="stroke:#b87f00;stroke-width:4"/>
+  <text class="t b" x="1138" y="398" font-size="30">local: FastAPI model service</text>
+  <text class="m muted" x="1138" y="432" font-size="20">api/ on http://localhost:8000</text>
+  <rect class="row" x="1138" y="452" width="694" height="48" rx="8"/>
+  <text class="m" x="1158" y="483" font-size="20">GET /health, GET /ready</text><text class="t muted" x="1486" y="483" font-size="20">up? can both models load?</text>
+  <rect class="row" x="1138" y="508" width="694" height="48" rx="8"/>
+  <text class="m" x="1158" y="539" font-size="20">POST /predict</text><text class="t b" x="1486" y="539" font-size="21">YOLO, pothole model</text>
+  <rect class="row" x="1138" y="564" width="694" height="48" rx="8"/>
+  <text class="m" x="1158" y="595" font-size="20">POST /restroom/compare, /match</text><text class="t b" x="1574" y="595" font-size="21">CLIP ViT-B-32</text>
+  <text class="t muted" x="1138" y="642" font-size="20">CLIP loads on the first restroom request; the demo script warms it up first.</text>
+
+  <text class="t b" x="60" y="614" font-size="22">No database</text>
+  <text class="t muted" x="60" y="644" font-size="20">no accounts; history and settings</text>
+  <text class="t muted" x="60" y="672" font-size="20">stay in each browser</text>
+
+  <!-- serving arrows -->
+  <line x1="370" y1="330" x2="486" y2="330" stroke="#b87f00" stroke-width="4" marker-end="url(#ah-accent)"/>
+  <text class="t" x="384" y="318" font-size="20">photo</text>
+  <line x1="490" y1="410" x2="374" y2="410" stroke="#b87f00" stroke-width="4" marker-end="url(#ah-accent)"/>
+  <text class="t" x="384" y="440" font-size="20">result</text>
+
+  <line x1="1010" y1="480" x2="1106" y2="480" stroke="#b87f00" stroke-width="4" marker-end="url(#ah-accent)"/>
+  <text class="t" x="1026" y="468" font-size="20">photo</text>
+  <line x1="1110" y1="560" x2="1014" y2="560" stroke="#b87f00" stroke-width="4" marker-end="url(#ah-accent)"/>
+  <text class="t" x="1026" y="588" font-size="20">JSON</text>
+
+  <path d="M1010 200 C 1060 200, 1060 158, 1106 158" fill="none" stroke="#66686d" stroke-width="2" marker-end="url(#ah-grey)"/>
+  <path d="M1010 330 C 1060 330, 1060 276, 1106 276" fill="none" stroke="#66686d" stroke-width="2" stroke-dasharray="10 8" marker-end="url(#ah-grey)"/>
+
+  <!-- Band 2: training -->
+  <line x1="60" y1="700" x2="1860" y2="700" stroke="#b3afa4" stroke-width="2" stroke-dasharray="4 8"/>
+  <text class="t b muted" x="60" y="748" font-size="24">Training: before the demo, offline</text>
+
+  <rect class="box" x="490" y="790" width="520" height="190" rx="12"/>
+  <text class="t b" x="518" y="836" font-size="26">Results table</text>
+  <text class="m" x="518" y="872" font-size="19">ml/results/experiments.csv</text>
+  <text class="m" x="518" y="904" font-size="19">ml/export_results.py <tspan class="t muted" font-size="20">writes</tspan></text>
+  <text class="m" x="518" y="936" font-size="19">web/data/experiments.json</text>
+  <text class="t muted" x="518" y="966" font-size="20">shown on the Model page</text>
+
+  <rect class="box" x="1110" y="790" width="360" height="190" rx="12"/>
+  <text class="t b" x="1138" y="836" font-size="26">ml/ on Colab</text>
+  <text class="t muted" x="1138" y="874" font-size="20">Ultralytics YOLO,</text>
+  <text class="t muted" x="1138" y="902" font-size="20">runs logged in MLflow</text>
+  <text class="m" x="1138" y="938" font-size="19">ml/train.py</text>
+
+  <rect class="box" x="1500" y="790" width="360" height="190" rx="12"/>
+  <text class="t b" x="1528" y="836" font-size="26">ml/restroom/</text>
+  <text class="t muted" x="1528" y="874" font-size="20">CLIP runs on a laptop</text>
+  <text class="t muted" x="1528" y="902" font-size="20">CPU or on Colab</text>
+  <text class="m" x="1528" y="938" font-size="19">ml/restroom/run.py</text>
+
+  <!-- training arrows -->
+  <line x1="750" y1="790" x2="750" y2="666" stroke="#66686d" stroke-width="2" marker-end="url(#ah-grey)"/>
+  <text class="t muted" x="764" y="748" font-size="20">imported by the app</text>
+  <line x1="1290" y1="790" x2="1290" y2="666" stroke="#66686d" stroke-width="2" marker-end="url(#ah-grey)"/>
+  <text class="t muted" x="1304" y="748" font-size="20">pothole model weights</text>
+  <line x1="1680" y1="790" x2="1680" y2="666" stroke="#66686d" stroke-width="2" stroke-dasharray="8 6" marker-end="url(#ah-grey)"/>
+  <text class="t muted" x="1694" y="748" font-size="20">optional checkpoint</text>
+</svg>
