@@ -14,7 +14,7 @@ The validation-only smoke run completed on a Tesla T4 for one epoch using traine
 
 The CSV records the training epoch and the validation pass performed during training. The JSON's `metrics` are from a separate post-training validation pass (including the app's confidence-0.40 operating point); these values are not expected to match the CSV's training-loop metrics.
 
-**M-1 is still in progress:** the validation-only smoke execution succeeded, but issue #50 still requires 12 metrics including `test_map50`, conflicting with the chosen test-split policy in `docs/ML-EXPERIMENT.md`. Do not add a fabricated test metric or mark the full E0 baseline complete. The team must align the issue criteria before M-1 can be completed.
+**M-1 is complete:** Tair accepted the validation-only smoke criterion in [issue #50](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/50#issuecomment-6789955660), and the implementation was merged in [PR #349](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/pull/349). Do not add a fabricated test metric. The one-epoch smoke check does not complete the full E0 baseline; that is M-3.
 
 The notebook downloads a ZIP containing only the actual JSON and CSV for collection. Review those files before committing them. Never commit the dataset ZIP, model weights, tokens, or temporary Colab files.
 
