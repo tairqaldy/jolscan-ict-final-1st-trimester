@@ -22,6 +22,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Alizhan (X-13, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Preserve selected prompts and verification context for Alizhan's project work.
+- **Key prompt:** "ладно начни выполнять все задание в code freeze". Additional exact prompts and task-specific outcomes are in [the selected session excerpts](ai-logs/alizhan/2026-11-11-serving-codex-excerpts.md).
+- **What it produced or changed:** A sanitized, partial prompt and outcome record with links to the existing worklog and PRs.
+- **How it was verified:** Checked the quoted prompts against the conversation context and linked work to recorded PRs; searched the new file for common secret and personal-contact patterns. Alizhan has not yet personally reviewed the record.
+- **What was rejected or corrected:** Did not present excerpts as a complete transcript or create fictitious transcripts for other members. X-13 remains open pending the remaining team material and review.
+
 ### 11 November 2026, Amina (R-22 and R-23, presentation drafts)
 
 - **Review correction:** User asked to distinguish the project's 0.02 reporting convention from statistical equivalence/significance and dataset-level licence metadata from unresolved individual-photo rights. Verified protocol history (`6bc6c07`), `docs/ML-EXPERIMENT.md`, the source index and `data/README.md`; revised the spoken scripts and notes accordingly. Personal rehearsal and live Rules-page checks remain pending.
@@ -757,6 +766,7 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** `docs/design/deck-critique.md` (18 must-fix and 36 nice-to-have findings, measurements per slide); the G-58 claim line in `docs/TASKS.md`. The deck, `SLIDES.md` and `make_deck.py` were not changed.
 - **How I verified it, and who verified it:** fonts, sizes, word counts and pictures read from the .pptx with python-pptx; every number on the slide faces and in the scripts compared by hand with its source file; each chart opened and its placed size computed from its pixels and DPI; the AI-log count recounted on `origin/main`. Roma and Tair still have to go through the findings.
 - **What I rejected or corrected:** the first count for slide 9's script cut did not add up to the 18 words it promised and was corrected; a slide render was not faked: Quick Look gave no image, so the critique says no render was made and estimates overflow from box sizes instead.
+
 ### 11 November 2026, Dameli (G-59 motion tokens, G-54 demo pause, G-64 reduce-motion switch)
 
 - **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
@@ -988,6 +998,7 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** the ownership trace (`git log -S`, `git blame -w`), the greps and first drafts of the rewrites in `web/app/page.tsx` and `web/app/opengraph-image.alt.txt`, the updated quotes, line numbers and voice table in `docs/design/PRINCIPLES.md`, and `docs/design/copy-review.md` (25 findings).
 - **How I verified it, and who verified it:** every changed string compared with `main` in `git diff origin/main`; honesty labels and numbers unchanged; each PRINCIPLES line number checked with `grep -n`; `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` (223 tests) pass.
 - **What I rejected or corrected:** the first hero lead put "with computer vision" after the sign task only, so it read as if roads did not use it; reworded in round 2. A first draft of the review named a writing tool and called the parallel branches agents; replaced with the patterns and branch names. Changing "Change the thresholds and watch the result move" was dropped: the wording is Tair's, so it is a proposal.
+
 ### 11 November 2026, Dameli (G-74 navigation motion)
 
 - **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment.
@@ -1016,6 +1027,7 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - The first scroll probe sampled the same sticky headings at every step and showed nothing; replaced it with a MutationObserver on inline styles.
   - Two Vercel quotes in one rule (one source, one quote); the second became a summary.
   - "Text types in for about 2 s": I only watched 2 s, so it now says "at least".
+
 ### 11 November 2026, Dameli (G-21 token sync tests)
 
 - **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
@@ -1029,6 +1041,7 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - The first version read a fixed list of three stylesheets; the design lab added `lab.css` the same afternoon, so it now reads every stylesheet under `app/` and `components/`.
   - A trailing `// #fff` comment was reported as a hex colour; comments after a space are now skipped.
   - Did not copy the existing motion check into `tokens.test.ts`; extended `motion.test.ts` instead.
+
 ### 11 November 2026, Dameli (G-9 dashboard review)
 - **Tool and version:** Claude Code, Claude Opus 5.5, in the Claude desktop app.
 - **Purpose:** review the overview dashboards against Nielsen's ten heuristics and fix the layout and feedback problems in my design layer.
