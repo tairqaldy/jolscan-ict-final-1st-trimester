@@ -49,7 +49,7 @@ const round = (value: number, digits = 2) => {
 };
 
 export function areaPct(box: Detection["box"]): number {
-  // Rounded so float noise (0.1 * 0.05 * 100 = 0.5000000000000001) never moves a size boundary.
+  // Round the reported area; classification uses the unrounded value at full-precision thresholds.
   return round(box.w * box.h * 100, 6);
 }
 
@@ -79,8 +79,9 @@ export function deriveDetections(
 ): DerivedDetection[] {
   const { r1, r2, r3 } = config;
   return detections.map((d) => {
-    const pct = areaPct(d.box);
-    const size = sizeClass(pct, config);
+    const rawAreaPct = d.box.w * d.box.h * 100;
+    const pct = round(rawAreaPct, 6);
+    const size = sizeClass(rawAreaPct, config);
     const inLane = isInLane(d.box);
     const counted = r1.enabled ? d.confidence >= r1.threshold : true;
     const review = r1.enabled && !counted && d.confidence >= r1.reviewFloor;

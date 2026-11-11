@@ -34,6 +34,32 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-      - name: Syntax check of the starter scripts
-        run: python -m py_compile ml/train.py ml/export_results.py api/main.py api/gradio_app.py
+          python-version: "3.12"
+      - name: Syntax check of every Python file in ml/ and api/
+        run: python -m compileall -q ml api
+      - name: Install lightweight API test dependencies
+        run: python -m pip install fastapi==0.162.3 python-multipart==0.0.33 pillow==12.3.0 numpy==2.5.4 pytest==9.2.0 httpx==0.28.1
+      - name: Run API tests without model weights
+        run: python -m pytest api/ -q
+
+  # Team rule (CONTRIBUTING.md): rebase on the latest main before merging, so nobody's work is
+  # overwritten. Making this a required check would also reject the claim commits that go straight to
+  # main, so it stays advisory: it makes the PR
+  # red instead, and the rule is: never merge a red PR.
+  up-to-date:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - name: Branch contains the latest main
+        run: |
+          git fetch --quiet origin "${{ github.event.pull_request.base.ref }}"
+          if git merge-base --is-ancestor FETCH_HEAD HEAD; then
+            echo "Up to date with ${{ github.event.pull_request.base.ref }}."
+          else
+            echo "::error::This branch is behind ${{ github.event.pull_request.base.ref }}. Rebase it: git fetch origin && git rebase origin/${{ github.event.pull_request.base.ref }} && git push --force-with-lease"
+            exit 1
+          fi

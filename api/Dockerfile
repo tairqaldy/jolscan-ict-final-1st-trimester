@@ -1,6 +1,6 @@
 # Not yet built (task S-8). Follows the Dockerfile pattern from Lecture 9.
 # Build from the api/ folder, with the weights file present in api/weights/.
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 # OpenCV, which Ultralytics imports, needs these system libraries.
 RUN apt-get update && apt-get install -y --no-install-recommends libgl1 libglib2.0-0 && rm -rf /var/lib/apt/lists/*

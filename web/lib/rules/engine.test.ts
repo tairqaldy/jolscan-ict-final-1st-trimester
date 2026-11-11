@@ -3,6 +3,7 @@ import type { Detection } from "@/lib/types";
 import {
   DEFAULT_RULES,
   areaPct,
+  deriveDetections,
   isInLane,
   normaliseRules,
   scoreDetections,
@@ -21,8 +22,8 @@ const det = (box: Detection["box"], confidence = 0.9): Detection => ({
 });
 
 // Boxes used across tests. Centres are noted for the inLane check.
-const LARGE_IN_LANE = { x: 0.4, y: 0.66, w: 0.22, h: 0.16 }; // 3.52 %, centre (0.51, 0.74)
-const MEDIUM_IN_LANE = { x: 0.56, y: 0.52, w: 0.12, h: 0.08 }; // 0.96 %, centre (0.62, 0.56)
+const LARGE_IN_LANE = { x: 0.35, y: 0.615, w: 0.32, h: 0.25 }; // 8 %, centre (0.51, 0.74)
+const MEDIUM_IN_LANE = { x: 0.52, y: 0.51, w: 0.2, h: 0.1 }; // 2 %, centre (0.62, 0.56)
 const SMALL_OFF_LANE = { x: 0.82, y: 0.55, w: 0.06, h: 0.05 }; // 0.30 %, centre (0.85, 0.575)
 
 const withRules = (patch: (c: RulesConfig) => void) => {
@@ -127,18 +128,30 @@ describe("R2 size boundaries", () => {
     expect(areaPct({ x: 0, y: 0, w: 0.3, h: 0.1 })).toBe(3);
   });
 
-  it("small below 0.5, medium from 0.5, large from 3", () => {
-    expect(sizeClass(0.4999)).toBe("small");
-    expect(sizeClass(0.5)).toBe("medium");
-    expect(sizeClass(2.9999)).toBe("medium");
-    expect(sizeClass(3)).toBe("large");
+  it("uses the D-11 full-precision area-percent thresholds inclusively", () => {
+    const { smallBelowPct: t1, largeFromPct: t2 } = DEFAULT_RULES.r2;
+    expect(sizeClass(t1 - 1e-10)).toBe("small");
+    expect(sizeClass(t1)).toBe("medium");
+    expect(sizeClass(t2 - 1e-10)).toBe("medium");
+    expect(sizeClass(t2)).toBe("large");
+  });
+
+  it("classifies box areas at the D-11 thresholds without using rounded display area", () => {
+    const { smallBelowPct: t1, largeFromPct: t2 } = DEFAULT_RULES.r2;
+    const boxAtPct = (pct: number): Detection["box"] => ({ x: 0, y: 0, w: pct / 100, h: 1 });
+    const classify = (box: Detection["box"]) => deriveDetections([det(box)])[0].size;
+
+    expect(classify(boxAtPct(t1 - 1e-8))).toBe("small");
+    expect(classify(boxAtPct(t1))).toBe("medium");
+    expect(classify(boxAtPct(t2 - 1e-8))).toBe("medium");
+    expect(classify(boxAtPct(t2))).toBe("large");
   });
 
   it("gives 1 / 2 / 4 points off lane", () => {
     const pts = (box: Detection["box"]) => scoreDetections([det(box)]).score;
-    expect(pts({ x: 0.0, y: 0.1, w: 0.1, h: 0.0499 })).toBe(1); // 0.499 %
-    expect(pts({ x: 0.0, y: 0.1, w: 0.1, h: 0.05 })).toBe(2); // 0.5 %
-    expect(pts({ x: 0.0, y: 0.1, w: 0.3, h: 0.1 })).toBe(4); // 3 %
+    expect(pts({ x: 0.0, y: 0.1, w: 0.1, h: 0.1 })).toBe(1); // 1 %
+    expect(pts({ x: 0.0, y: 0.1, w: 0.1, h: 0.2 })).toBe(2); // 2 %
+    expect(pts({ x: 0.0, y: 0.1, w: 0.3, h: 0.3 })).toBe(4); // 9 %
   });
 });
 
@@ -165,8 +178,8 @@ describe("R3 driving lane boundaries", () => {
 describe("R4 cluster, R5 road class, R6 school zone", () => {
   const small = () => det(SMALL_OFF_LANE);
 
-  // A medium box off lane: 0.12 x 0.08 = 0.96 %, centre (0.88, 0.2).
-  const mediumOff = (confidence = 0.9) => det({ x: 0.82, y: 0.16, w: 0.12, h: 0.08 }, confidence);
+  // A medium box off lane: 0.2 x 0.1 = 2 %, centre (0.92, 0.21).
+  const mediumOff = (confidence = 0.9) => det({ x: 0.82, y: 0.16, w: 0.2, h: 0.1 }, confidence);
 
   it("adds +2 from exactly 3 counted medium or large detections, not at 2", () => {
     expect(scoreDetections([mediumOff(), mediumOff()]).score).toBe(4);

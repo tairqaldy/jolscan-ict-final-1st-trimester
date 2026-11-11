@@ -1,9 +1,8 @@
 /**
  * Default rule configuration. Source of truth: docs/RULES.md.
  *
- * These are team-defined starting values, not an official road-maintenance
- * standard. Calibrate them on the validation photos (task D-6), then update
- * both this file and RULES.md.
+ * These are not an official road-maintenance standard. R2 size bands come
+ * from D-11 training data; D-6 human calibration of severity remains separate.
  */
 import type { RoadClass, Severity } from "@/lib/types";
 
@@ -38,7 +37,15 @@ export type RuleId = keyof RulesConfig;
 
 export const DEFAULT_RULES: RulesConfig = {
   r1: { enabled: true, threshold: 0.4, reviewFloor: 0.25 },
-  r2: { enabled: true, small: 1, medium: 2, large: 4, smallBelowPct: 0.5, largeFromPct: 3, smallCap: 2 },
+  r2: {
+    enabled: true,
+    small: 1,
+    medium: 2,
+    large: 4,
+    smallBelowPct: 1.1479263698068863,
+    largeFromPct: 7.269630165893015,
+    smallCap: 2,
+  },
   r3: { enabled: true, multiplier: 1.5 },
   r4: { enabled: true, minCount: 3, bonus: 2 },
   r5: { enabled: true, residential: 1.0, arterial: 1.25, highway: 1.5 },

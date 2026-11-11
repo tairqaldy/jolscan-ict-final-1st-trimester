@@ -17,11 +17,11 @@ CLO 5 speaks of classification and clustering and asks for a justified quality m
 
 ## Dataset
 
-- Source: the pothole object-detection dataset already imported into Tair's Roboflow workspace (`pothole-idtb2-pr1td`). **Open item D-1:** record its original name, author, image count and licence in `data/README.md`.
-- The syllabus lists allowed sources: "Only open, licence-clean sources: data.egov.kz, stat.gov.kz, Kaggle Datasets, UCI Machine Learning Repository, OpenML" (Syl p.9). Roboflow Universe is not on that list. D-1 therefore also looks for the same dataset on Kaggle and cites that as the source. If there is none, the licence goes on the Data slide and the team asks the instructor before the defense.
+- Source: the Kaggle dataset "Annotated Potholes Image Dataset" by Atikur Rahman Chitholian, 665 images with Pascal VOC boxes, licence ODbL (database) and DbCL (contents), quality-checked in D-2 and D-4. Dataset card: [data/README.md](../data/README.md) (D-1).
+- The syllabus lists allowed sources: "Only open, licence-clean sources: data.egov.kz, stat.gov.kz, Kaggle Datasets, UCI Machine Learning Repository, OpenML" (Syl p.9). The source is Kaggle with an open licence. Three photos carry stock-photo watermarks, so they are never shown publicly (D-12).
 - One class: `pothole`.
-- Duplicates first, split second. Many Roboflow datasets contain baked-in augmented copies of one photo (files named `<stem>_jpg.rf.<hash>.jpg`). If copies of one photo land in train and in test, the test score is inflated. Task D-4 groups images by stem and by perceptual hash **before** the split, and keeps each group in one split (Sup p10, Lab 6: no test data in training).
-- Split: 70 / 15 / 15 train / validation / test, fixed once. One Roboflow dataset version, exported once, with auto-orient only: **no resize and no offline augmentation**. The zip goes to the shared Drive, and every run uses that zip.
+- Duplicates first, split second. If copies of one photo land in train and in test, the test score is inflated. Task D-4 checked exact and perceptual-hash duplicates **before** the split and found none (Sup p10, Lab 6: no test data in training).
+- Frozen version: **`potholes_yolo_v1`**, a Colab export (accepted on 10 November in place of a Roboflow version). 465 / 100 / 100 train / validation / test images (1,198 / 305 / 236 boxes), shuffled once with seed 42. The D-4 check found no exact or near-duplicate images, so a random split by image does not leak copies across splits. No resize and no offline augmentation. The zip is in the shared Drive; the split manifest with a SHA-256 per image is in `data/exports/potholes_yolo_v1/`. Every run passes `--dataset-version potholes_yolo_v1`.
 - The EDK Global Potholes dataset on Hugging Face is **not** used for training: it has no bounding boxes and its labels were produced by a model. Details in [research/datasets.md](research/datasets.md).
 - The YOLO26 Small model trained inside Roboflow on 3 November is **not** used anywhere: not in the results, not in the app. It was not produced by this experiment.
 
@@ -31,6 +31,14 @@ CLO 5 speaks of classification and clustering and asks for a justified quality m
 - Runs within 0.01 mAP50 of the best count as tied. Ties are broken by **validation recall at confidence 0.40**, the threshold the app counts at. A missed pothole never reaches a repair crew, while a false alarm costs a reviewer a few seconds, so recall matters more than precision (Sup p27).
 - Differences below 0.02 on the test split are not claimed as real.
 - The test split is not used for any choice. `ml/export_results.py` applies this rule from validation numbers only.
+
+### Smoke-test boundary
+
+The M-1 one-epoch smoke run is a pipeline check, not a reportable experiment. It trains on `train` and checks metrics on `val` only. Its temporary dataset YAML omits `test`, so neither training nor evaluation can read test images. The smoke JSON contains validation metrics only; it must not contain a placeholder or copied `test_map50`.
+
+The validation-only smoke run completed for one epoch on a Tesla T4 using trainer commit `3004fdfe8f59e7a261743ec01c390e40d811d791`; the reported MLflow `E0-smoke` run ID is `de59363e3bcd42389b608c2321690ca6` (FINISHED). The actual result JSON and training CSV are in `ml/results/runs/`. The JSON's post-training validation metrics are a separate evaluation from the epoch metrics in the CSV; they are both preserved as generated and should not be expected to match.
+
+Issue #50 currently asks for 12 smoke metrics including test metrics and `test_map50` in MLflow. That acceptance criterion conflicts with this protocol: test is held for the final evaluation, not an early one-epoch check. D-20 also verified that the 100-image D-2 visual-review sample is identical to the test split. Although the validation-only smoke execution succeeded, M-1 remains incomplete until the issue criterion is aligned. The full E0 baseline has not been run.
 
 ## Runs
 
@@ -64,7 +72,7 @@ Spread the runs over several accounts (Nazar, Amina, Alizhan on Colab, and Kaggl
 
 ## What to report
 
-For each run, on the **test** split, read once at the end (Sup p10, Lec8 p42):
+For each full experiment run, on the **test** split, read once at the end (Sup p10, Lec8 p42). The M-1 smoke check is excluded; see [Smoke-test boundary](#smoke-test-boundary).
 
 - mAP50 (primary), mAP50-95, precision and recall. Protocol: Ultralytics validation, IoU 0.5 for mAP50. Summary precision and recall are taken at the confidence that maximises F1.
 - Precision and recall at confidence 0.40, the app's operating point, with the true-positive, false-positive and false-negative counts for the final model (task M-19).
@@ -74,7 +82,7 @@ For each run, on the **test** split, read once at the end (Sup p10, Lec8 p42):
 
 ## Tracking
 
-Every run is an MLflow run (Lec9 p34–36, Lab 8): parameters, metrics, plots and weights as artifacts, the dataset version as a tag. Ultralytics has a built-in MLflow callback and `ml/train.py` adds the test metrics.
+Every run is an MLflow run (Lec9 p34–36, Lab 8): parameters, metrics, plots and weights as artifacts, the dataset version as a tag. Ultralytics has a built-in MLflow callback. Full runs include test metrics; an M-1 smoke run logs validation metrics only.
 
 MLflow 3 stores tracking data in a local SQLite file, which cannot be merged across Colab accounts. So `ml/train.py` also writes `ml/results/runs/<run>.json`, and that committed file is the source of truth. `ml/export_results.py` builds `ml/results/experiments.csv` and `web/data/experiments.json` (with `"isMock": false`) from those files. The model page and the slides show that table and nothing else.
 

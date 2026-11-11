@@ -14,7 +14,7 @@ import { Table, TD, TH, THead, TR } from "@/components/ui/table";
 import { MODULES, type ModuleId } from "@/lib/brand";
 import { cn } from "@/lib/cn";
 import { DATA_CREDITS } from "@/lib/credits";
-import { BASELINE, CHAMPION, EXPERIMENTS, IS_DEMO_DATA } from "@/lib/mock/experiments";
+import { BASELINE, CHAMPION, EXPERIMENTS, IS_DEMO_DATA, NOT_IN_FILE } from "@/lib/mock/experiments";
 import { RESTROOM_EXPERIMENTS, RESTROOM_IS_DEMO } from "@/lib/mock/restroom-experiments";
 
 export const metadata: Metadata = { title: "Model" };
@@ -35,6 +35,15 @@ const ROAD_METRICS: Term[] = [
   },
   { term: "mAP50", text: "Mean average precision with IoU 0.5: the area under the precision–recall curve, averaged over classes (we have one class)." },
   { term: "mAP50-95", text: "The same, averaged over IoU thresholds 0.50 to 0.95. Stricter: it also rewards boxes that fit tightly." },
+  {
+    term: "Recall at 0.40",
+    text: "Recall when only boxes with confidence 0.40 or more count, the threshold the app's rules use. This is the recall a road crew would actually get from the app.",
+  },
+  {
+    term: "Validation and test",
+    text: "The champion is chosen on the validation split. The test split is read once at the end and only reported, so it stays an honest estimate.",
+    source: "Sup p10",
+  },
   {
     term: "Latency and size",
     text: "Time per photo on the laptop CPU and the weights file size. A slightly less accurate model can be the better choice if it is much faster or smaller.",
@@ -79,15 +88,38 @@ const SIGN_METRICS: Term[] = [
   },
 ];
 
-const fmt = (v: number) => v.toFixed(2);
-const delta = (v: number, base: number) => {
+/** Change against the baseline, e.g. "+0.04". null when there is nothing to compare. */
+const delta = (v: number | null, base: number | null) => {
+  if (v === null || base === null) return null;
   const d = v - base;
   if (Math.abs(d) < 0.005) return null;
   return `${d > 0 ? "+" : "−"}${Math.abs(d).toFixed(2)}`;
 };
 
-function NotRun() {
-  return <span className="text-xs whitespace-nowrap text-subtle italic">not run yet</span>;
+function NotRun({ text = "not run yet" }: { text?: string }) {
+  return <span className="text-xs whitespace-nowrap text-subtle italic">{text}</span>;
+}
+
+/** A score with two decimals, or a dash when the results file has no number for it. */
+function Score({ value }: { value: number | null }) {
+  if (value === null) return <NotRun text="—" />;
+  return <>{value.toFixed(2)}</>;
+}
+
+/** Shows a text and turns the first web address in it into a link (the dataset source). */
+function TextWithLink({ text }: { text: string }) {
+  const url = text.match(/https?:\/\/[^\s)]+/)?.[0];
+  if (!url) return <>{text}</>;
+  const [before, after] = text.split(url);
+  return (
+    <>
+      {before}
+      <a href={url} className="break-all text-accent-ink underline underline-offset-2">
+        {url}
+      </a>
+      {after}
+    </>
+  );
 }
 
 export default function ModelPage() {
@@ -132,20 +164,22 @@ export default function ModelPage() {
                 <tr>
                   <TH>Run</TH>
                   <TH>What changed</TH>
-                  <TH className="text-right">Precision</TH>
-                  <TH className="text-right">Recall</TH>
+                  <TH className="text-right">Val mAP50</TH>
                   <TH className="text-right">mAP50</TH>
                   <TH className="text-right">mAP50-95</TH>
+                  <TH className="text-right">Precision</TH>
+                  <TH className="text-right">Recall</TH>
+                  <TH className="text-right">Recall at 0.40</TH>
                   <TH className="text-right">Latency ms</TH>
                   <TH className="text-right">Size MB</TH>
+                  <TH>Device</TH>
                 </tr>
               </THead>
               <tbody>
                 {EXPERIMENTS.runs.map((r) => {
                   const champion = r.id === CHAMPION.id;
                   const baseline = r.id === BASELINE.id;
-                  const d = baseline ? null : delta(r.map5095, BASELINE.map5095);
-                  const over = r.latencyMs !== null && r.latencyMs > EXPERIMENTS.latencyBudgetMs;
+                  const d = baseline ? null : delta(r.map50, BASELINE.map50);
                   return (
                     <TR key={r.id} className={cn(champion && "bg-accent-soft")}>
                       <TD className="whitespace-nowrap">
@@ -162,26 +196,39 @@ export default function ModelPage() {
                         )}
                       </TD>
                       <TD className="min-w-56 text-muted">{r.changed}</TD>
-                      <TD className="tabular text-right font-mono">{fmt(r.precision)}</TD>
-                      <TD className="tabular text-right font-mono">{fmt(r.recall)}</TD>
-                      <TD className="tabular text-right font-mono">{fmt(r.map50)}</TD>
+                      <TD className="tabular text-right font-mono">
+                        <Score value={r.valMap50} />
+                      </TD>
                       <TD className="tabular text-right font-mono whitespace-nowrap">
-                        {fmt(r.map5095)}
+                        <Score value={r.map50} />
                         {d && <span className="ml-1.5 text-xs text-subtle">{d}</span>}
                       </TD>
-                      <TD className={cn("tabular text-right font-mono", over && "text-sev-high-ink")}>
-                        {r.latencyMs ?? <NotRun />}
-                        {over && <span className="sr-only"> (over budget)</span>}
+                      <TD className="tabular text-right font-mono">
+                        <Score value={r.map5095} />
                       </TD>
-                      <TD className="tabular text-right font-mono">{r.sizeMB !== null ? r.sizeMB.toFixed(1) : <NotRun />}</TD>
+                      <TD className="tabular text-right font-mono">
+                        <Score value={r.precision} />
+                      </TD>
+                      <TD className="tabular text-right font-mono">
+                        <Score value={r.recall} />
+                      </TD>
+                      <TD className="tabular text-right font-mono">
+                        <Score value={r.recallAtRulesConf} />
+                      </TD>
+                      <TD className="tabular text-right font-mono">
+                        {r.latencyMs !== null ? Math.round(r.latencyMs) : <NotRun text="not measured" />}
+                      </TD>
+                      <TD className="tabular text-right font-mono">{r.sizeMB !== null ? r.sizeMB.toFixed(1) : <NotRun text="—" />}</TD>
+                      <TD className="whitespace-nowrap text-muted">{r.device ?? <NotRun text="not recorded" />}</TD>
                     </TR>
                   );
                 })}
               </tbody>
             </Table>
             <p className="px-5 pt-3 pb-2 text-sm text-muted">
-              <span className="font-medium text-fg">Champion rule:</span> {EXPERIMENTS.championRule} Latency in orange is over the{" "}
-              {EXPERIMENTS.latencyBudgetMs} ms budget. Small numbers next to mAP50-95 are the change against the baseline.
+              <span className="font-medium text-fg">Champion rule:</span> {EXPERIMENTS.championRule} Val mAP50 is the
+              validation number the rule uses; every other score is on the test split, read once. Small numbers next to the test mAP50
+              are the change against the baseline {BASELINE.id}; differences below 0.02 on test are not claimed as real.
             </p>
           </CardBody>
         </Card>
@@ -194,7 +241,9 @@ export default function ModelPage() {
                 <CardTitle className="flex items-center gap-2">
                   <Database className="size-5" aria-hidden /> Pothole dataset card
                 </CardTitle>
-                <CardDescription>Placeholders until the Data lane exports the final version.</CardDescription>
+                <CardDescription>
+                  From the dataset card (data/README.md) and the split manifest, through the results file.
+                </CardDescription>
               </div>
             </CardHeader>
             <CardBody>
@@ -202,14 +251,16 @@ export default function ModelPage() {
                 <dt className="text-muted">Name</dt>
                 <dd>{dataset.name}</dd>
                 <dt className="text-muted">Source</dt>
-                <dd>{dataset.source}</dd>
+                <dd>
+                  <TextWithLink text={dataset.source} />
+                </dd>
                 <dt className="text-muted">Licence</dt>
                 <dd>{dataset.licence}</dd>
                 <dt className="text-muted">Classes</dt>
-                <dd className="font-mono">{dataset.classes.join(", ")}</dd>
+                <dd className="font-mono">{dataset.classes.length > 0 ? dataset.classes.join(", ") : NOT_IN_FILE}</dd>
                 <dt className="text-muted">Images</dt>
                 <dd className="tabular">
-                  train {dataset.images.train ?? "TBD"} · val {dataset.images.val ?? "TBD"} · test {dataset.images.test ?? "TBD"}
+                  train {dataset.images.train ?? "—"} · validation {dataset.images.val ?? "—"} · test {dataset.images.test ?? "—"}
                 </dd>
                 <dt className="text-muted">Split</dt>
                 <dd>{dataset.split}</dd>

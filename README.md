@@ -34,6 +34,9 @@ Group project for ICT1103 (Information and Communication Technologies) at QAIRU,
 | [docs/COURSE-GROUNDING.md](docs/COURSE-GROUNDING.md) | Which lecture backs which decision |
 | [docs/AI-USAGE-LOG.md](docs/AI-USAGE-LOG.md) | Prompt log required by the syllabus |
 | [docs/CONTRIBUTION-LOG.md](docs/CONTRIBUTION-LOG.md) | Who did what |
+| [docs/README.md](docs/README.md) | Map of all documents: who owns each, where to write what you did |
+| [docs/worklog/](docs/worklog/README.md) | Each person's running record of their work |
+| [docs/decisions/](docs/decisions/README.md) | Why each important choice was made |
 
 ## Run the web app
 
@@ -51,7 +54,7 @@ Open http://localhost:3000. It works without any model: the default provider is 
 
 ## Run the model service
 
-Needs Python 3.11 or newer. See [api/README.md](api/README.md).
+Needs Python 3.12. See [api/README.md](api/README.md).
 
 ```bash
 cd api && pip install -r requirements-dev.txt && uvicorn main:app --port 8000

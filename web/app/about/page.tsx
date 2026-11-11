@@ -2,10 +2,8 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/landing/site-footer";
 import { SiteHeader } from "@/components/landing/site-header";
 import { TeamGrid } from "@/components/landing/team-grid";
-import { Callout } from "@/components/ui/callout";
 import { BRAND, MODULES } from "@/lib/brand";
 import { DATA_CREDITS } from "@/lib/credits";
-import { EXPERIMENTS } from "@/lib/mock/experiments";
 import { COURSE } from "@/lib/team";
 
 export const metadata: Metadata = { title: "About" };
@@ -48,7 +46,8 @@ export default function AboutPage() {
         <h1 className="mt-2 text-4xl font-bold sm:text-5xl">About {BRAND.name}</h1>
         <p className="mt-4 text-lg text-muted">
           {BRAND.tagline} The name, {BRAND.nativeName}, is {BRAND.meaning}. It is a study
-          project, not a city or campus service, and the numbers marked “Demo data” are placeholders.
+          project, not a city or campus service. Anything with a demo or mock badge is invented for the demo, not a result
+          of our models.
         </p>
 
         <div className="mt-10 grid gap-10">
@@ -133,13 +132,13 @@ export default function AboutPage() {
           </Section>
 
           <Section id="dataset" title="Data and licences">
-            <Callout tone="warning" title="To be completed before the defense">
-              The pothole dataset name, version, source link and licence are placeholders until the Data lane confirms them.
-            </Callout>
             <dl className="grid gap-2 text-sm sm:grid-cols-[9rem_1fr]">
               <dt>Pothole dataset</dt>
               <dd className="text-fg">
-                {EXPERIMENTS.dataset.name}. {EXPERIMENTS.dataset.licence}.
+                <a href={DATA_CREDITS.pothole.url} className="text-accent-ink underline underline-offset-2">
+                  {DATA_CREDITS.pothole.name}
+                </a>
+                , by {DATA_CREDITS.pothole.author}, on Kaggle. {DATA_CREDITS.pothole.licence}.
               </dd>
               <dt>Restroom task</dt>
               <dd className="text-fg">
@@ -162,10 +161,11 @@ export default function AboutPage() {
           </Section>
 
           <Section id="ai-use" title="Use of AI tools">
-            <Callout title="Statement to be completed by the team">
-              The course requires a declaration of AI use: tool and version, purpose, key prompts, what was produced or changed,
-              and how it was verified. The full prompt log is kept in the repository and summarised here before submission.
-            </Callout>
+            <p>
+              Team members used AI assistants for planning, code, data checks and writing. The course allows this and requires
+              a prompt log. Ours is <code className="font-mono text-sm">docs/AI-USAGE-LOG.md</code> in the project repository:
+              each entry names the tool and version, the purpose, the key prompts, what it produced and how it was checked.
+            </p>
           </Section>
 
           <Section id="team" title="Team">

@@ -3,8 +3,8 @@
 The request and response shapes are fixed by docs/ARCHITECTURE.md sections 2 and 2b.
 Both models are loaded on the first request that needs them, so the service starts even when
 the YOLO weights file is missing (then /predict answers 503 and /restroom/* still works).
-The /predict path was checked against the FastAPI and Ultralytics documentation but has not yet
-been run with real weights (task S-1). The restroom endpoints were run on 10 November 2026.
+The /predict path was verified with stock yolo26n weights on Windows on 10 November 2026
+(task S-1; see README.md). The restroom endpoints were run on 10 November 2026.
 
 Run:
     uvicorn main:app --port 8000

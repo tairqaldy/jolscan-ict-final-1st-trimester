@@ -7,12 +7,12 @@ export function TeamGrid() {
       {TEAM.map((m) => (
         <li
           key={m.name}
-          className="group relative flex flex-col justify-between rounded-xl border border-border bg-surface p-4.5 backdrop-blur-md transition-all duration-200 hover:-translate-y-1 hover:border-border-strong hover:bg-surface-2 hover:shadow-lg"
+          className="group relative flex flex-col justify-between rounded-xl border border-border bg-surface p-4.5 transition-all duration-200 motion-safe:hover:-translate-y-1 hover:border-border-strong hover:bg-surface-2 hover:shadow-lg"
         >
           <div>
             <span
               aria-hidden
-              className="grid size-11 place-items-center rounded-lg bg-inverse font-display text-lg font-bold text-inverse-fg shadow-sm transition-transform duration-200 group-hover:scale-105"
+              className="grid size-11 place-items-center rounded-lg bg-inverse font-display text-lg font-bold text-inverse-fg shadow-sm transition-transform duration-200 motion-safe:group-hover:scale-105"
             >
               {m.name.slice(0, 1)}
             </span>

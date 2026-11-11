@@ -6,7 +6,7 @@ There are two rule sets, one per module. Part 1 scores potholes. Part 2 checks r
 
 The model answers "where are the potholes". The rules answer "how urgent is this road segment". Rules are deterministic, editable on the Rules page, and every result lists which rules fired, so the decision can be explained.
 
-All thresholds below are team-defined starting values and are assumptions, not an official road-maintenance standard. The size bands are replaced by data-derived values in task D-11, and the severity bands are checked against human judgment in task D-6.
+The R2 size bands below are derived from training data in task D-11; they are image-relative bands, not measured physical dimensions or validated repair-severity thresholds. D-6 human calibration of the severity rules remains separate. Other thresholds and score weights are team-defined starting values, not an official road-maintenance standard.
 
 ## Inputs
 
@@ -15,7 +15,7 @@ For each detection: `confidence`, and a normalised box `x, y, w, h`. Optional ph
 Derived per detection:
 
 - `areaPct = w * h * 100`, the share of the image the pothole covers.
-- `size`: `small` if `areaPct < 0.5`, `medium` if `0.5 ≤ areaPct < 3`, `large` if `areaPct ≥ 3`. Provisional until D-11.
+- `size`: `small` if `areaPct < 1.1479263698068863`, `medium` if `1.1479263698068863 ≤ areaPct < 7.269630165893015`, `large` if `areaPct ≥ 7.269630165893015`. `areaPct` is measured in percent of the image.
 - `inLane`: box centre is in the middle half of the image width (`0.25 ≤ cx ≤ 0.75`) and in the lower half (`cy ≥ 0.5`). For a forward-facing photo this approximates "in the driving path, close to the camera".
 
 ## Rules
@@ -64,12 +64,25 @@ The cap on small detections exists because the detector's false alarms (shadows,
 
 **C.** A clean road in a school zone: no counted detections, so R6 does not apply. Score 0, `clear`.
 
+## D-11: training-data size bands
+
+K-means (`k=3`, `random_state=42`, `n_init=20`, scikit-learn 1.6.1) was fit to the natural logarithm of normalized bounding-box area using only the training split: 465 images and 1,198 boxes. The sorted log-space centers were `-5.413906222570803`, `-3.5205198333222225`, and `-1.722409700683948`. Boundaries are the geometric midpoints between adjacent clusters, transformed back to normalized area:
+
+| Boundary | Normalized image-area fraction | `areaPct` (% of image) |
+|---|---:|---:|
+| `t1` (small / medium) | `0.011479263698068863` | `1.1479263698068863` |
+| `t2` (medium / large) | `0.07269630165893015` | `7.269630165893015` |
+
+Use the full-precision boundaries with these inclusive rules: small if `areaPct < t1`; medium if `t1 ≤ areaPct < t2`; large if `areaPct ≥ t2`. Training-box group counts were small 429, medium 499, and large 270. The JSON result is [`ml/results/pothole_area_clusters.json`](../ml/results/pothole_area_clusters.json); the histogram is [`ml/results/figs/pothole_area_clusters.png`](../ml/results/figs/pothole_area_clusters.png).
+
+These are image-relative size bands, not physical measurements and not validated repair-severity thresholds. D-6 human calibration of repair severity is separate.
+
 ## Known limits (say these at the defense)
 
 - Box area in the image is not physical size. A pothole far from the camera looks small, and a close-up fills the frame. Fixing this needs camera calibration or a depth estimate.
 - R3 is meaningful only for forward-facing, roughly level photos such as dashcam frames. In a handheld close-up almost every box counts as in lane.
 - The rules never see road markings, so a pothole on the shoulder of a narrow road can be scored as in lane.
-- Thresholds were set by the team on a small validation set.
+- The R2 size boundaries were derived from training boxes; they are not physical dimensions or human-validated repair-severity cutoffs.
 
 # Part 2: Restroom signage
 

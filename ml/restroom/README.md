@@ -38,12 +38,14 @@ Apple M5 CPU, 10 November 2026. Matching: correct / queries. Gender: grouped 5-f
 | R1 zero-shot ViT-B/32 | 0.80 (8) | 0.767 (23) | 0.741 | 1.4 min |
 | R2 fine-tune 1 block | 1.00 (10) | 0.867 (26) | 0.680 | 2.9 min |
 | R3 fine-tune 3 blocks | 1.00 (10) | **0.900 (27)** | 0.753 | 7.8 min |
-| R4 fine-tune 6 blocks | not run yet | | | about 14 min on CPU (estimate) |
-| R5 R4 + augmentation | not run yet | | | longer: no caching with augmentation |
+| R4 fine-tune 6 blocks | 1.00 (10) | **1.000 (30)** | 0.643 | 15.3 min (Apple M4 CPU) |
+| R5 R4 + augmentation | cut (task C-4) | | | |
 | R6 gender probe, gender-filter matching | 0.50 (5) | 0.300 (9) | 0.741 | 0.2 min |
+| R7 two-step pipeline, no training (`pipeline.py`) | 1.00 (10) | **1.000 (30)** | none (no gender model) | 0.5 min (Apple M4 CPU) |
 
 - **R0 reproduces the IOAI baseline**: 23 of 30 test queries, 0.767, against the published 0.77.
-- **Champion by the selection rule: R3.** R2 and R3 tie on validation (10/10), and R3 has the higher gender accuracy. Its test score, read once, is 0.90, equal to the IOAI committee's best published score. With 30 test queries, one query is 0.033, so R2 and R3 differ by one query.
+- **Champion by the selection rule: R3.** R2, R3 and R4 tie on validation (10/10), and R3 has the highest gender accuracy. Its test score, read once, is 0.90, equal to the IOAI committee's best published score. With 30 test queries, one query is 0.033, so R2 and R3 differ by one query.
+- **R4 gets all 30 test queries right but is not the champion.** The rule was fixed before the runs and does not look at test; R4 loses the tie-break on gender (0.643, the lowest of the fine-tuned runs). Training more blocks helps matching and hurts gender, the same pattern as the layer experiment. R4 ran on a different laptop (Apple M4) from the other runs (Apple M5), so its latency is not directly comparable. Its checkpoints (`weights/R4-*.pt`, 170 MB each) are on Nazar's laptop, not in Drive yet.
 - **Two-step matching helps even without training.** With zero-shot embeddings, the reference solution's two-step matching gets 1.00 on validation and 0.867 on test for both backbones (in the run files, `two_step`). Fine-tuning adds one more test query (R3).
 - **Gender from one sign is hard.** Zero-shot prompts reach 0.756 on ViT-B/32 and 0.771 on ViT-B/16; the logistic-regression probe is no better (0.741 and 0.774), a linear SVM 0.750, 5-nearest-neighbours 0.659. Many sets only make sense as a pair: an abstract pair of legs or a top hat is "male" only next to its partner. Fine-tuning the pair model makes this worse (0.68–0.75), because it learns to pull the two doors of a restroom together, which removes the difference between them.
 - **So the API's gender filter is a weak matcher.** Picking the most similar candidate of the opposite predicted gender (R6, and `bestMatchId` in `/restroom/match`) gets 0.30–0.47 on test: one wrong gender, on the query or the true partner, breaks the match. The similarity score is the stronger signal.
@@ -54,6 +56,27 @@ The web page reads these numbers from `web/data/restroom-experiments.json`; the 
 ## Selection rule
 
 Fixed before the runs: the champion is the run with the highest validation matching accuracy; a tie goes to the higher gender accuracy, then to the earlier, simpler run. Test numbers are never used to choose. The test answers are read once per run, after the run is fixed, and stored with it. `export_results.py` applies the rule.
+
+## Pipeline, layer experiment, layer probe (10 November, evening)
+
+These three come after the R runs and are described, with all results, in [docs/ML-EXPERIMENT-RESTROOM.md](../../docs/ML-EXPERIMENT-RESTROOM.md).
+
+```bash
+python ml/restroom/pipeline.py        # about 30 s on CPU: SIFT + colour + CLIP, every approach -> ml/results/restroom/pipeline.json
+python ml/restroom/layer_probe.py     # about 1 min on CPU: what each frozen block/stage knows -> layer_probe.json, figs/layer_probe.png
+python ml/restroom/layers.py --backbone clip --n 1 --smoke    # 2 epochs, 2 folds, to check the script
+python ml/restroom/layers_report.py   # layers/*.json -> layers.csv and figs/*.png
+python ml/restroom/failures.py        # about 20 s: test queries the zero-shot baseline gets wrong -> failures.json, figs/failures.png
+python ml/restroom/plots.py           # a few seconds: figs/runs_matching.png, gender_heads.png, failures_r3.png
+```
+
+The full layer experiment (`layers.py`, CLIP N = 0–12 and ResNet50 N = 0–5, 3 seeds, 5 folds) ran on a Kaggle Tesla T4 in about 1.5 hours. On a laptop CPU, one seed of the CLIP sweep takes about 80 minutes. To run it on Kaggle:
+
+1. Upload `ml/restroom/` and `data/raw/ioai-restroom/training_set/` as a private Kaggle dataset, keeping that folder layout.
+2. Push `kaggle_run_layers.py` as a script kernel with GPU and internet on and the dataset attached.
+3. Download `layers/*.json` with `kaggle kernels output` into `ml/results/restroom/layers/`.
+
+Only the training set leaves the laptop.
 
 ## Run locally (CPU)
 
@@ -67,6 +90,7 @@ python ml/restroom/run.py --run R1
 python ml/restroom/run.py --run R6
 python ml/restroom/run.py --run R2       # 3 min
 python ml/restroom/run.py --run R3       # 8 min
+python ml/restroom/run.py --run R4       # 15 min
 python ml/restroom/export_results.py
 ```
 
@@ -78,7 +102,7 @@ python ml/restroom/export_results.py
 2. Clone and install. Keep Colab's own CUDA build of torch and torchvision:
 
    ```bash
-   git clone https://github.com/tairqaldy/jolscan-ict-final-1st-trimester.git jolscan && cd jolscan && pip install -q open_clip_torch==4.2.1 scikit-learn==1.9.1
+   git clone https://github.com/tairqaldy/qarau-ict-final-1st-trimester.git jolscan && cd jolscan && pip install -q open_clip_torch==4.2.1 scikit-learn==1.9.1
    ```
 
 3. Data, then the runs (a few minutes each on a T4):
@@ -116,8 +140,18 @@ If MLflow is installed (it is in `ml/requirements.txt`), every run is also logge
 - `get_data.py`: downloads the IOAI Restroom folder (only that folder, file by file through the GitHub API) and verifies it.
 - `common.py`: data loading, CLIP embeddings with a cache, the three matching strategies, the IOAI score, gender classifiers, fine-tuning.
 - `run.py`: one experiment per call, writes `ml/results/restroom/runs/<run>.json`.
-- `export_results.py`: run files to `ml/results/restroom/experiments.csv` and `web/data/restroom-experiments.json`, keeps placeholder rows for runs not done yet, picks the champion.
+- `export_results.py`: run files to `ml/results/restroom/experiments.csv` and `web/data/restroom-experiments.json`, keeps placeholder rows for runs not done yet, picks the champion. Also adds row R7 and the `pipeline` block from `pipeline.json`, the `layers` table from `layers.csv`, and `served` (null until the API runs the pipeline).
 - `requirements.txt`: pinned versions used for the runs above.
+- `classic.py`: SIFT with the RANSAC affine fit and pixel check (step 1), HSV colour histograms (step 2). No learning.
+- `pair_separation.py`: how well the doors of one restroom separate by gender, alone and compared with each other (the measurements behind RULES.md part 2, task C-7).
+- `pipeline.py`: the two-step pipeline with greedy or global assignment, every approach scored on training episodes, validation and test.
+- `layers.py`: the layer experiment, fine-tuning the last N CLIP blocks or ResNet50 stages, with grouped 5-fold cross-validation.
+- `layer_probe.py`: frozen features after every block or stage, no training.
+- `layers_report.py`: the table and slide figures from the layer experiment and the pipeline.
+- `kaggle_run_layers.py`: the Kaggle GPU runner for `layers.py`.
+- `failures.py`: the failure-case figure for the slides, from the stored test predictions.
+- `plots.py`: the R-run slide figures: matching per run against IOAI's numbers, gender heads, R3's misses.
+- `STUDY-CARD.md`: Nazar's answers for the defense questions on this lane.
 
 ## Attribution
 

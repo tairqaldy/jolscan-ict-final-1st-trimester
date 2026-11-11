@@ -1,24 +1,28 @@
 # data/
 
-No datasets are stored in git. This folder holds the dataset card and notes. The dataset itself lives in Roboflow and in the shared Drive folder.
+No datasets are stored in git. This folder holds the dataset card, notes and the rebuild script. The pothole images come from Kaggle; the frozen export is also in the shared Drive folder.
 
-## Dataset card (task D-1, to be filled in by Amina)
+## Dataset card (task D-1)
 
 | Field | Value |
 |---|---|
-| Name on Roboflow Universe | |
-| Author | |
-| URL | |
-| Licence | |
-| Images | |
+| Name | Annotated Potholes Image Dataset ("Fully bounding-box annotated image dataset of potholes and damaged roads") |
+| Author | Atikur Rahman Chitholian (Kaggle user `chitholian`) |
+| URL | https://www.kaggle.com/datasets/chitholian/annotated-potholes-dataset (version 1, published 27 February 2020) |
+| Licence | As shown on Kaggle: "Database: Open Database, Contents: Database Contents", i.e. the Open Database License (ODbL) for the database and the Database Contents License (DbCL) for its contents. Read on 11 November 2026 from the Kaggle dataset page data (API). |
+| Images | 665 JPG, each with a Pascal VOC XML file |
+| Objects | 1,740 in the original; 1,739 after removing the zero-width box in `img-415.xml` |
 | Classes | `pothole` |
 | Annotation type | bounding boxes |
-| Our Roboflow project | `pothole-idtb2-pr1td` (Tair's workspace) |
-| Dataset version used for all runs | |
-| Same dataset on Kaggle, if it exists | |
-| Split | 70 / 15 / 15, train / validation / test |
-| Preprocessing in the version | auto-orient only, no resize |
-| Offline augmentation in the version | none (augmentation is applied during training only) |
+| Dataset version used for all runs | `potholes_yolo_v1` |
+| Split | 465 / 100 / 100 train / validation / test, by image, `random.Random(42)` shuffle of the sorted paths |
+| Preprocessing | none: no resize; every EXIF orientation was 1 |
+| Offline augmentation | none (augmentation is applied during training only) |
+| Rebuild | `python data/make_potholes_yolo_v1.py --source <unzipped Kaggle folder> --out data/raw/potholes_yolo_v1` (task D-14) |
+
+**Same files as the ones we trained on.** On 11 November 2026 the Kaggle download (48,139,872 bytes) was checked against `split_manifest.json`: all 665 images have the same SHA-256 (task D-14).
+
+**Licence judgement.** The dataset licence is open (ODbL / DbCL), and Kaggle Datasets is one of the sources the syllabus allows (Syl p.9). The Kaggle description does not say where the photos came from, and three photos carry stock-photo watermarks (`img-565.jpg`, `img-409.jpg`, `img-448.jpg`), so the rights to individual photos are not established by the dataset licence. Those three are never shown publicly (task D-12), and the app's public sample images are drawn illustrations, not dataset photos.
 
 ## Quality notes (task D-2)
 
@@ -98,11 +102,11 @@ The exported corrected archive was reopened, and its total object count was veri
 
 This correction addresses only the identified zero-width annotation in the separate corrected archive. It does not make the dataset fully cleaned or training-ready. Licensing and provenance questions and ambiguous visual annotations remain unresolved. At the time of this correction, YOLO conversion and the final 70/15/15 split had not been performed; their subsequent preparation is documented below.
 
-## YOLO dataset preparation (task D-3, in progress)
+## YOLO dataset preparation (task D-3)
 
 **Version:** `potholes_yolo_v1.zip`, prepared in Colab from `potholes_corrected_v1.zip`. This is a Colab export, not the Roboflow version in the original plan. The ZIP is not stored in this repository.
 
-**Archive provided:** `potholes_yolo_v1.zip` was supplied as a chat attachment and inspected. **Drive folder:** [Shared project folder](https://drive.google.com/drive/folders/1IKaEi1NAAteP2zYYGZZDZRHt1wrC16GS?usp=sharing). This is a folder link; it does not by itself verify that `potholes_yolo_v1.zip` is present in the folder.
+**Archive provided:** `potholes_yolo_v1.zip` was supplied as a chat attachment and inspected. Amina confirmed that `potholes_yolo_v1.zip` has been uploaded to the shared project Drive folder (link in the team chat; not published here because the folder holds raw photos). This upload status is user-confirmed; it was not independently verified.
 
 The export contains 665 images and 1,739 pothole annotations, converted from Pascal VOC-style XML to YOLO detection TXT. XML bounds were converted directly without a +/-1 shift; box centers use `(min + max) / 2`, sizes use `max - min`, and values are normalized by image dimensions. It has one class: `0 = pothole`. The split was created by sorting image paths and applying `random.Random(42).shuffle`:
 
@@ -118,7 +122,30 @@ ZIP integrity and exported YOLO values were checked. Six exported images (two pe
 
 The archive contains `images/{train,val,test}/`, `labels/{train,val,test}/`, `data.yaml`, `split_manifest.json`, and `README.txt`. Copies of the actual exported `data.yaml` and `split_manifest.json` are in `data/exports/potholes_yolo_v1/`; the ZIP is not committed.
 
-All model experiments must use this same frozen split. This export has not been privacy-screened as a public sample set. Provenance, usage rights, privacy screening, and ambiguous annotation concerns remain unresolved. This preparation does not complete D-1 or D-12. D-3 remains in progress pending confirmation that the ZIP is in the linked Drive folder and Tair's explicit acceptance of the Colab export in place of the planned Roboflow version.
+All model experiments must use this same frozen split. This export has not been privacy-screened as a public sample set. Provenance, usage rights, privacy screening, and ambiguous annotation concerns remain unresolved. This preparation does not complete D-1 or D-12. **Decision (Tair, 10 November 2026):** the Colab export `potholes_yolo_v1` is accepted in place of the planned Roboflow version and is the frozen dataset version for every pothole run. D-3 is complete. Committing the conversion and split code (suggested in the review of #4) would make the version reproducible from `potholes_corrected_v1.zip`.
+
+**Rebuild from the Kaggle source (task D-14, 11 November 2026).** `data/make_potholes_yolo_v1.py` repeats this procedure from the original Kaggle download and checks the result against the committed manifest:
+
+```bash
+python data/make_potholes_yolo_v1.py --source data/raw/potholes-kaggle/src --out data/raw/potholes_yolo_v1
+```
+
+It re-derives the split (sorted paths, `random.Random(42).shuffle`, first 465 train, next 100 val, last 100 test) instead of copying it from the manifest. It removes the one zero-width box in `img-415.xml`, converts the XML bounds as described above, and then compares every image's SHA-256, split and object count, plus the per-split totals, with `split_manifest.json`. It stops on the first difference. Run on 11 November 2026 against the Kaggle download (`chitholian/annotated-potholes-dataset`, 48,139,872 bytes): all 665 images and 1,739 boxes matched (train 465 / 1,198, val 100 / 305, test 100 / 236). The label text uses six decimals; the Colab export's number format was not recorded, so label files may differ in the last digits while describing the same boxes. The output goes to `data/raw/`, which is git-ignored.
+
+## Box-size clustering for R2 (task D-11)
+
+K-means (`k=3`, `random_state=42`, `n_init=20`, scikit-learn 1.6.1) was fit to the natural logarithm of normalized bounding-box area using only the training split: 465 images and 1,198 boxes. The sorted log-space cluster centers were `-5.413906222570803`, `-3.5205198333222225`, and `-1.722409700683948`. Boundaries are the geometric midpoints between adjacent centers, transformed back to normalized area.
+
+The clustering JSON gives thresholds as fractions of image area. R2 computes `areaPct = w * h * 100`, so its equivalent percent-of-image thresholds are:
+
+| Boundary | Normalized image-area fraction | `areaPct` (% of image) |
+|---|---:|---:|
+| `t1` (small / medium) | `0.011479263698068863` | `1.1479263698068863` |
+| `t2` (medium / large) | `0.07269630165893015` | `7.269630165893015` |
+
+Classification uses the full-precision boundaries: small if `areaPct < t1`; medium if `t1 ≤ areaPct < t2`; large if `areaPct ≥ t2`. The 1,198 training boxes were grouped as small 429, medium 499, and large 270. The actual result files are [`pothole_area_clusters.json`](../ml/results/pothole_area_clusters.json) and [`pothole_area_clusters.png`](../ml/results/figs/pothole_area_clusters.png).
+
+These are image-relative size bands, not physical measurements and not validated repair-severity thresholds. D-6 human calibration of repair severity remains a separate task.
 
 ## Screening checklist (task D-12)
 
@@ -136,7 +163,7 @@ Road photos can show faces and licence plates, and EXIF data can hold GPS coordi
 
 - Only images from the public dataset go to Roboflow, Colab or any hosted model.
 - Photos we take ourselves are checked for faces and plates first (task D-12). Only photos that pass may be uploaded anywhere for annotation. Everything else is analysed with the local model only.
-- The repository stays private.
+- The repository is public (decision 0006). Nothing from the datasets is committed except small, screened sample images, and no photo with a person, face or licence plate.
 
 ## Restroom signs dataset card (second module)
 

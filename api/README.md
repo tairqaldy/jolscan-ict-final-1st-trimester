@@ -4,11 +4,11 @@ The model service. It turns a road photo into pothole detections, and restroom d
 
 Both models are loaded on the first request that needs them, not at start-up. The service starts even without the YOLO weights file: `/predict` then answers 503 with a message, and the restroom endpoints still work. `/health` shows which models are loaded.
 
-The code was checked against the FastAPI, Ultralytics and Gradio documentation but has not been run yet (tasks S-1, S-5, S-8). Whoever runs it first fixes what breaks and commits the fix.
+The FastAPI service was run with real stock YOLO weights on Windows for S-1; see the verification record below. Gradio and Docker still need their own runtime checks (S-5, S-8).
 
 ## Run locally
 
-Use Python 3.11 in a virtual environment. The install is large because it includes PyTorch.
+Use Python 3.12 in a virtual environment (S-1 was verified with Python 3.12.10). The install is large because it includes PyTorch. Direct dependencies are pinned; NumPy 2.5.4 requires Python 3.12 or newer. See [decision 0008](../docs/decisions/0008-api-python-312.md) for the version choice and its verification limits.
 
 ```bash
 cd api && python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements-dev.txt
@@ -37,6 +37,38 @@ curl -F "file=@photo.jpg" -F "conf=0.25" http://localhost:8000/predict
 ```
 
 Then pick the `local` provider in the web app's Settings.
+
+### Windows (PowerShell)
+
+From the repository root, create an isolated environment. Activation is optional; using the
+environment's Python directly also works when PowerShell blocks activation scripts:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r api/requirements-dev.txt
+cd api
+$env:ANY_CLASS = "1"
+$env:MODEL_WEIGHTS = "yolo26n.pt"
+..\.venv\Scripts\python.exe -m uvicorn main:app --host 127.0.0.1 --port 8000
+```
+
+In a second PowerShell window, from the repository root:
+
+```powershell
+.\.venv\Scripts\python.exe api/smoke.py
+.\.venv\Scripts\python.exe -m pytest api/ -q
+```
+
+`smoke.py` checks `/health`, sends a generated 320×240 PNG through `/predict`, checks the
+response contract, and confirms that YOLO is loaded afterwards. The first prediction downloads
+the stock weights and can take longer. A blank image normally produces no detections: this is
+a serving check, not an accuracy evaluation. The offline unit tests also exercise non-empty
+boxes, class filtering, invalid uploads and missing weights.
+
+Stock COCO weights do **not** detect potholes. `ANY_CLASS=1` is only for this serving check;
+the contract still labels these boxes as `pothole`. Before using team weights, stop the service,
+set `MODEL_WEIGHTS` to their file, remove `ANY_CLASS` (`Remove-Item Env:ANY_CLASS` in PowerShell),
+and restart. Do not present stock-model detections as project results.
 
 ## Restroom endpoints
 
@@ -95,3 +127,28 @@ python gradio_app.py
 - Weights are never committed. `api/weights/` is in `.gitignore`.
 - Stop the server with Ctrl+C when you are done. It holds a few hundred MB of memory, about 1 GB once CLIP is loaded.
 - If port 8000 is taken, pass another `--port` and set `MODEL_API_URL` in `web/.env.local` to match.
+
+
+### S-1 verification, 10 November 2026
+
+- Windows, Python 3.12.10, Ultralytics 8.4.208, PyTorch 2.15.0, CPU.
+- Installed `requirements-dev.txt` in an isolated `.venv`.
+- Started Uvicorn on `127.0.0.1:8000` with `ANY_CLASS=1 MODEL_WEIGHTS=yolo26n.pt`.
+- `GET /health`: HTTP 200 before inference, model not loaded.
+- `POST /predict`: HTTP 200 using `smoke.py`'s generated 320x240 PNG, model `yolo26n`,
+  provider `local`, empty detection list as expected for the blank image, `latencyMs: 9850`.
+  This was a cold first inference, not the controlled S-15 latency benchmark.
+- `GET /health` afterwards: HTTP 200, pothole model loaded on CPU; restroom model remains lazy.
+- `python -m pytest api/ -vv`: **30 passed** (14 road tests added here).
+- `python -m compileall -q ml api`: passed.
+- No endpoint implementation fix was needed for this smoke check. The changes add verification
+  and Windows instructions. Team weights, real-road accuracy, web integration, Gradio and Docker
+  remain separate tasks; S-1 does not establish that they work.
+
+
+### S-3 input validation checks
+
+`api/test_predict.py` checks a valid image and normalized box, class filtering, invalid
+images, oversized files and confidence values. Fake models are injected and restored by
+pytest's monkeypatch. The missing-weights test also injects a failing fake YOLO so tests do
+not attempt downloads even when Ultralytics is installed.
