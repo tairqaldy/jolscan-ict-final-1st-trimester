@@ -28,6 +28,7 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
   - Motion should explain, not loop.
 - **AI use:** Claude Code made the comparison sheets, merged my local work onto the new `main`, kept it to my tasks and rendered the PNGs (entry in docs/AI-USAGE-LOG.md).
 - **Open questions / next:** after merge, check `og:image` on the live site; slide template (G-10) and slide 9 (G-13); my study card (G-12).
+- **Correction (15:30):** #381 had dropped the landing "Problem" section and the Rules and Team header links, which my local draft had removed but which are not mine to remove. A follow-up PR puts them back unchanged.
 
 ### 2026-11-11 14:00 · G-1 (#118), G-2 (#120), G-3 (#121) · Setup, references, colour tokens
 - **Status:** done

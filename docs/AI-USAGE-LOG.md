@@ -433,3 +433,12 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - The first қ sketch had a hooked tail.
   - My earlier two-button hero lost to Tair's measured W-62 path.
   - Changes outside my tasks were removed from the pull request.
+
+### 11 November 2026, Dameli (G-8 correction: restore teammates' landing content)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** put back content that my G-8 pull request (#381) had removed although it was not mine.
+- **Key prompt(s), with a link to the transcript:** "please don't take away code and tasks that are not mine". Transcript kept locally.
+- **What it produced or changed:** the landing "Problem" section, copied unchanged from before #381 (only the shared page-edge class added), and the Rules and Team links in the public header.
+- **How I verified it, and who verified it:** the diff only adds lines; lint, typecheck and tests pass; the header fits at 768, 1024 and 1440 px with no overflow.
+- **What I rejected or corrected:** did not touch W-70 (Tair's landing story order).
