@@ -1,24 +1,18 @@
 "use client";
 
-import { ArrowRight, CircleCheck, GitCompareArrows, Search } from "lucide-react";
-import Link from "next/link";
+import { GitCompareArrows, Search } from "lucide-react";
 import { useMemo } from "react";
 import { DemoBadge } from "@/components/app/demo-badge";
 import { Kpi } from "@/components/app/kpi";
 import { RestroomLayersChart } from "@/components/charts/restroom-layers";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { ButtonLink } from "@/components/ui/button";
-import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ClearQueue } from "@/components/illustrations";
-import { EmptyState } from "@/components/ui/empty-state";
+import { Card, CardBody } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { MODULES } from "@/lib/brand";
-import { formatDate, formatDateTime } from "@/lib/format";
+import { formatDate } from "@/lib/format";
 import { MOCK_ANCHOR } from "@/lib/mock/analyses";
 import { useRestroomChecks } from "@/lib/store/restroom-history";
-import { ChecksTable, checkHref, checkLabel } from "./checks-table";
-import { VerdictBadge } from "./signage-bits";
-import { VerdictBars } from "./verdict-bars";
 
 export function RestroomOverviewClient() {
   const checks = useRestroomChecks();
@@ -31,12 +25,6 @@ export function RestroomOverviewClient() {
       notPairs: checks.length - pairs,
     };
   }, [checks]);
-
-  // Not a pair, newest first.
-  const queue = useMemo(
-    () => checks.filter((c) => c.verdict === "not_pair").sort((a, b) => b.createdAt.localeCompare(a.createdAt)),
-    [checks],
-  );
 
   return (
     <div className="grid gap-8">
@@ -93,71 +81,6 @@ export function RestroomOverviewClient() {
       </Stagger>
 
       <RestroomLayersChart />
-
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
-        <div className="grid content-start gap-4">
-          <Card>
-            <CardHeader>
-              <div>
-                <CardTitle>Verdicts</CardTitle>
-                <CardDescription>How many checks were a pair and how many were not.</CardDescription>
-              </div>
-            </CardHeader>
-            <CardBody>
-              <VerdictBars verdicts={checks.map((c) => c.verdict)} />
-            </CardBody>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <div>
-                <CardTitle>Not a pair</CardTitle>
-                <CardDescription>Checks where the two signs are not one pair, newest first.</CardDescription>
-              </div>
-            </CardHeader>
-            <CardBody>
-              {queue.length === 0 ? (
-                <EmptyState icon={CircleCheck} illustration={<ClearQueue />} title="Every check is a pair" />
-              ) : (
-                <ul className="grid gap-2">
-                  {queue.slice(0, 6).map((c) => (
-                    <li key={c.id}>
-                      <Link
-                        href={checkHref(c.id)}
-                        className="flex items-center justify-between gap-3 rounded-md border border-border px-3 py-2.5 hover:bg-surface-2"
-                      >
-                        <span className="min-w-0">
-                          <span className="block truncate font-medium">{checkLabel(c)}</span>
-                          <span className="block truncate text-xs text-muted">
-                            {formatDateTime(c.createdAt)} · {c.ruleHits.filter((h) => !h.passed).map((h) => h.ruleId).join(", ")} failed
-                          </span>
-                        </span>
-                        <VerdictBadge verdict={c.verdict} />
-                      </Link>
-                    </li>
-                  ))}
-                  {queue.length > 6 && <li className="text-sm text-muted">and {queue.length - 6} more in the table.</li>}
-                </ul>
-              )}
-            </CardBody>
-          </Card>
-        </div>
-
-        <Card>
-          <CardHeader>
-            <div>
-              <CardTitle>Recent comparisons</CardTitle>
-              <CardDescription>Newest first. Open a row for both signs, the rule checks and the raw JSON.</CardDescription>
-            </div>
-            <ButtonLink href="/app/restrooms/compare" variant="ghost" size="sm">
-              New comparison <ArrowRight aria-hidden />
-            </ButtonLink>
-          </CardHeader>
-          <CardBody className="px-0 pb-2">
-            <ChecksTable checks={checks.slice(0, 12)} caption="Recent restroom sign comparisons" />
-          </CardBody>
-        </Card>
-      </div>
     </div>
   );
 }

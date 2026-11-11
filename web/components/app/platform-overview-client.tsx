@@ -85,7 +85,7 @@ export function PlatformOverviewClient() {
             <Kpi label="Pair" value={restrooms.pair} note="one set, two genders" accentClass="bg-verdict-clear" className="p-3 sm:p-4" />
             <Kpi label="Not a pair" value={restrooms.notPair} note="S2 or S3 failed" accentClass="bg-verdict-confusing" className="p-3 sm:p-4" />
           </div>
-          <RecentList title="Latest sign checks" moreHref="/app/restrooms">
+          <RecentList title="Latest sign checks">
             {checks.slice(0, 4).map((c) => (
               <li key={c.id}>
                 <Link href={checkHref(c.id)} className="flex items-center justify-between gap-3 rounded-md px-2 py-2 hover:bg-surface-2">
@@ -168,14 +168,16 @@ function ModulePanel({ id, children }: { id: ModuleId; children: ReactNode }) {
   );
 }
 
-function RecentList({ title, moreHref, children }: { title: string; moreHref: string; children: ReactNode }) {
+function RecentList({ title, moreHref, children }: { title: string; moreHref?: string; children: ReactNode }) {
   return (
     <div className="grid gap-2">
       <div className="flex items-center justify-between gap-3">
         <h3 className="text-sm font-semibold">{title}</h3>
-        <Link href={moreHref} className="text-sm text-accent-ink underline underline-offset-2">
-          See all
-        </Link>
+        {moreHref && (
+          <Link href={moreHref} className="text-sm text-accent-ink underline underline-offset-2">
+            See all
+          </Link>
+        )}
       </div>
       <ul className="-mx-2 grid gap-0.5">{children}</ul>
     </div>
