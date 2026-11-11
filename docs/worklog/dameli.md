@@ -25,7 +25,7 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
   - I did not touch `analysis-view.tsx`, `compare-result.tsx` or `app-shell.tsx` (other open work); the print rules reach them through CSS selectors instead.
 - **What I learned / can explain at the defense:** recognition rather than recall (Lec3-HCI p.19): a row is recognised by its photo. Printing keeps the honesty label (U8): a demo or mock result says so on paper too. Browsers drop background colours in print unless `print-color-adjust: exact` is set.
 - **AI use:** Claude Code wrote the stylesheet, components and Playwright checks from the two issues (entry in docs/AI-USAGE-LOG.md).
-- **Open questions / next:** G-68 steps not done: the `/design` showcase entry and the A/B/C variant screenshots in Mobbin/Refero; the reference collection needs a person and the shared Drive.
+- **Open questions / next:** optional G-68 steps not done: five Mobbin/Refero references (needs a person and the shared Drive), side-by-side screenshots of variants A, B and C, and a `RowThumb` entry on `/design` (another branch edits `/design` today).
 
 ### 2026-11-11 17:20 · G-7 (#125), G-71 (#336), G-51 (#285) · One chart style, labelled thresholds, columns for detections per day
 - **Status:** done
