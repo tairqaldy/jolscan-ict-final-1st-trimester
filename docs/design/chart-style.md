@@ -58,3 +58,7 @@ mpl.rcParams.update({
 ```
 
 `docs/design/chart_style_sample.py` applies this block to the real pothole runs and writes `docs/design/chart-style-sample.png`.
+
+## App and deck side by side
+
+`docs/design/chart-style-compare.png` puts the Model page chart (light theme, 1440 px) next to the sample plot. Both use the same background, series slate, `#b87f00` highlight and zero baseline. One difference to fix in the app: the "Score (test)" axis label overlaps the tick labels.
