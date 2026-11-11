@@ -462,12 +462,12 @@ Three radii plus pills, all in `web/app/tokens.css`. Every `rounded-*` class and
 
 | Token | Value | Class | Used for |
 |---|---|---|---|
-| `--radius-sm` | 4 px | `rounded-sm` | Small marks inside other parts: badges, chips, tooltips, legend and severity swatches, distribution bars, row thumbnails, the slider track, the focus ring. Chart bar tops (`barRadius` in `web/components/charts/chart-kit.tsx`) are 4 px too. |
-| `--radius-md` | 6 px | `rounded-md` | Controls: buttons, inputs, selects, segmented controls, selectable tiles, callouts, skeletons, chart tooltips, the public menu toggle and links. |
+| `--radius-sm` | 4 px | `rounded-sm` | Small parts and parts inside a control: badges (provenance, demo, severity), tooltips, options inside the segmented control and the select list, the dialog close button, the slider's number field, legend and severity swatches, distribution bars, row thumbnails, the focus ring. Chart bar tops (`barRadius` in `web/components/charts/chart-kit.tsx`) are 4 px too. |
+| `--radius-md` | 6 px | `rounded-md` | Controls: buttons, inputs, the select trigger and list, the segmented control frame, selectable tiles, sidebar links, callouts, skeletons, chart tooltips, the public menu toggle and links. |
 | `--radius-lg` | 10 px | `rounded-lg` | Containers: `Card`, KPI tiles, landing cards and the hero preview, the team grid, dialogs and the bottom sheet (`rounded-t-lg`), the public menu panel, empty states, the photo frame on Analyze. |
-| `--radius-full` | 9999 px | `rounded-full` | Pills and dots: switches, slider thumbs, avatar dots, the nav links on the landing page. |
+| `--radius-full` | 9999 px | `rounded-full` | Pills and dots: switches, the slider track and thumb, the tab-bar pills on phones, the active-link marker, the empty-state icon circle, the nav links on the landing page. |
 
-**What changed.** `--radius-xs` (2 px) and `--radius-xl` (16 px) are gone. The nine `rounded-xs` uses became `rounded-sm` (the focus ring too), so a swatch has the same corner as a chart bar. The seven `rounded-xl` uses became `rounded-lg`, so the landing cards, the hero preview and the theme panels on `/design` have the same corner as every `Card`. The step from 4 to 6 to 10 px keeps the order small mark, control, container that the five values had, with the smallest visual change: 33 of 49 small-and-control uses did not move.
+**What changed.** `--radius-xs` (2 px) and `--radius-xl` (16 px) are gone. The nine `rounded-xs` uses became `rounded-sm` (the focus ring too), so a swatch has the same corner as a chart bar. The seven `rounded-xl` uses became `rounded-lg`, so the landing cards, the hero preview and the theme panels on `/design` have the same corner as every `Card`. The step from 4 to 6 to 10 px keeps the order small mark, control, container that the five values had, with the smallest visual change: 89 of the 105 `rounded-*` classes (not counting `full`) kept their value.
 
 **Not tokens.** The `rx` values inside SVG drawings (logo, app icon, empty-state illustrations, detection boxes) are drawing geometry and scale with the drawing, so they stay in the SVG.
 
