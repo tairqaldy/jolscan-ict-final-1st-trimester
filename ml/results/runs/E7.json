@@ -1,0 +1,41 @@
+{
+  "run": "E7",
+  "smoke": false,
+  "evaluation_splits": [
+    "val",
+    "test"
+  ],
+  "test_evaluated": true,
+  "changed": "architecture: extra P2 small-object scale",
+  "weights": "yolo26n-p2.yaml",
+  "dataset_version": "potholes_yolo_v1",
+  "commit": "3d0666ce3a1d6982c492faa072f404eafd89248a",
+  "params": {
+    "epochs": 40,
+    "imgsz": 640,
+    "batch": 16,
+    "seed": 42,
+    "optimizer": "SGD",
+    "lr0": 0.01,
+    "pretrained": "yolo26n.pt"
+  },
+  "metrics": {
+    "val_precision": 0.8108,
+    "val_recall": 0.6918,
+    "val_map50": 0.789,
+    "val_map50_95": 0.4599,
+    "val_precision_at_rules_conf": 0.8571,
+    "val_recall_at_rules_conf": 0.6295,
+    "test_precision": 0.8224,
+    "test_recall": 0.7161,
+    "test_map50": 0.7949,
+    "test_map50_95": 0.4493,
+    "test_precision_at_rules_conf": 0.8511,
+    "test_recall_at_rules_conf": 0.678
+  },
+  "training_results_csv": "ml/results/runs/E7-results.csv",
+  "weights_mb": 5.6,
+  "ultralytics": "8.4.208",
+  "torch": "2.15.0",
+  "device": "Apple M5 GPU (mps)"
+}
