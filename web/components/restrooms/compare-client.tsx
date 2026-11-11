@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useRef, useState } from "react";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { BlankSigns } from "@/components/illustrations";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Field } from "@/components/ui/input";
 import { SelectableTile } from "@/components/ui/selectable-tile";
@@ -206,7 +207,7 @@ export function CompareClient() {
               <Skeleton className="h-96" />
             </div>
           ) : (
-            <EmptyState icon={GitCompareArrows} title="No comparison yet">
+            <EmptyState icon={GitCompareArrows} illustration={<BlankSigns />} title="No comparison yet">
               Pick an example pair above, or choose two signs, then press Compare signs. The verdict, both predictions and
               the rule checks appear here.
             </EmptyState>

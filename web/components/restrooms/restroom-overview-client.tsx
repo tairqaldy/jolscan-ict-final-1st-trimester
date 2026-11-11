@@ -8,6 +8,7 @@ import { Kpi } from "@/components/app/kpi";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { ButtonLink } from "@/components/ui/button";
 import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ClearQueue } from "@/components/illustrations";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageHeader } from "@/components/ui/page-header";
 import { MODULES } from "@/lib/brand";
@@ -117,7 +118,7 @@ export function RestroomOverviewClient() {
             </CardHeader>
             <CardBody>
               {queue.length === 0 ? (
-                <EmptyState icon={CircleCheck} title="Nothing to review" />
+                <EmptyState icon={CircleCheck} illustration={<ClearQueue />} title="Nothing to review" />
               ) : (
                 <ul className="grid gap-2">
                   {queue.slice(0, 6).map((c) => (
