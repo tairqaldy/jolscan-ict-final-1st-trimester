@@ -680,3 +680,12 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - The first alt text called the demo pictures photos; they are drawings, so it now says "Sample drawing".
   - Hiding the navigation applied to every page in print; it now applies only to report and check pages.
   - Did not edit `analysis-view.tsx`, `compare-result.tsx` or `app-shell.tsx`, which other open work changes.
+
+### 11 November 2026, Dameli (G-58 deck critique)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with python-pptx and Pillow in a throwaway environment.
+- **Purpose:** check every slide of the defense deck draft against the anti-slop checklist, the chart rules and the result files before the freeze.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (I just need to do as many tasks as possible now). Transcript kept locally.
+- **What it produced or changed:** `docs/design/deck-critique.md` (18 must-fix and 36 nice-to-have findings, measurements per slide); the G-58 claim line in `docs/TASKS.md`. The deck, `SLIDES.md` and `make_deck.py` were not changed.
+- **How I verified it, and who verified it:** fonts, sizes, word counts and pictures read from the .pptx with python-pptx; every number on the slide faces and in the scripts compared by hand with its source file; each chart opened and its placed size computed from its pixels and DPI; the AI-log count recounted on `origin/main`. Roma and Tair still have to go through the findings.
+- **What I rejected or corrected:** the first count for slide 9's script cut did not add up to the 18 words it promised and was corrected; a slide render was not faked: Quick Look gave no image, so the critique says no render was made and estimates overflow from box sizes instead.
