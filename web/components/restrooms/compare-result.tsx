@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeftRight, Brain, Clock, MapPin, Timer, type LucideIcon } from "lucide-react";
+import { Brain, Clock, EqualApproximately, MapPin, Timer, VenusAndMars, type LucideIcon } from "lucide-react";
 import { useMemo, type ReactNode } from "react";
 import { ResultProvenanceBadge } from "@/components/app/demo-badge";
 import { PROVIDER_META } from "@/components/app/provider-badge";
@@ -61,7 +61,7 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
             </div>
             <div className="grid gap-2 border-t border-border pt-5 lg:pt-4">
               <p className="inline-flex items-center gap-2 font-display text-lg font-semibold">
-                <ArrowLeftRight className="size-4.5 text-muted" aria-hidden /> How clearly do the two doors differ?
+                <VenusAndMars className="size-4.5 text-muted" aria-hidden /> How clearly do the two doors differ?
               </p>
               <ThresholdBar
                 value={doors.margin}
@@ -77,7 +77,7 @@ export function CompareResultView({ check }: { check: StoredSignageCheck }) {
             </div>
             <div className="grid gap-2 border-t border-border pt-5 lg:pt-4">
               <p className="inline-flex items-center gap-2 font-display text-lg font-semibold">
-                <ArrowLeftRight className="size-4.5 text-muted" aria-hidden /> How alike are the two designs?
+                <EqualApproximately className="size-4.5 text-muted" aria-hidden /> How alike are the two designs?
               </p>
               <ThresholdBar
                 value={check.similarity}
