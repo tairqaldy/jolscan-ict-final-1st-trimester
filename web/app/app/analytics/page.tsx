@@ -33,10 +33,10 @@ export default function AnalyticsPage() {
         description="What to watch after deployment: volume, decisions, confidence drift, latency, and how the trained models compare. Every chart has a table view."
       />
       <nav aria-label="On this page" className="-mt-4 flex flex-wrap gap-2 text-sm">
-        <a href="#roads" className="rounded-full border border-border-strong px-3 py-1.5 text-muted hover:text-fg">
+        <a href="#roads" className="rounded-full border border-border-strong px-3 py-1.5 text-muted transition-colors hover:bg-surface-2 hover:text-fg">
           {MODULES.roads.name}
         </a>
-        <a href="#restrooms" className="rounded-full border border-border-strong px-3 py-1.5 text-muted hover:text-fg">
+        <a href="#restrooms" className="rounded-full border border-border-strong px-3 py-1.5 text-muted transition-colors hover:bg-surface-2 hover:text-fg">
           {MODULES.restrooms.name}
         </a>
       </nav>
