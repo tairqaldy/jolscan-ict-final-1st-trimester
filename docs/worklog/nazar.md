@@ -15,6 +15,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 · C-22 (#203), C-30 (#211) · App setting and model card
+- **Status:** done locally, not merged.
+- **What I did:** measured Match the way the app uses it (a whole sign, not in the gallery) on the training restrooms, and wrote the model card of the restroom service.
+- **Result:** the C-8 rule finds the partner 0.976 of the time among 6 restrooms and 0.950 among 30; the old gender filter 0.594 and 0.560 (`results/app_setting.json`). `ml/restroom/MODEL_CARD.md` with a source for every number.
+- **Decisions and why:** training restrooms only, so nothing is tuned on validation or test; the card states the 30/30 caveat first.
+- **What I learned / can explain at the defense:** why the app's Match is a different problem from the IOAI benchmark, and what a model card has to say (intended use, out of scope, limits).
+- **AI use:** Claude Code (Claude Opus 5.5); entry in `docs/AI-USAGE-LOG.md`.
+- **Open questions / next:** Tair may quote 0.976 on the Match page (W-25).
+
 ### 2026-11-11 · C-20 (#201), C-21 (#202), R-25 (#234), C-8 (#18), C-23 (#204) · Restroom issues
 - **Status:** done locally, not merged. C-8 waits for Alizhan's review; R-24 and R-25 wait for me to confirm the slides in the chat.
 - **What I did:** exact intervals and paired tests; the pipeline one query at a time; slide 8's interval and per-query lines; the pipeline in the API's Match; the step-by-step ablation table.
