@@ -95,6 +95,13 @@
     transition: none !important;
   }
 
+  /* White paper, not the stone page colour. */
+  html,
+  body,
+  :has(> #main) {
+    background: var(--surface) !important;
+  }
+
   /* 3. No app chrome: everything beside <main> (skip link, sidebar, top bar, bottom tabs). */
   :has(> #main) > :not(#main) {
     display: none !important;
@@ -110,8 +117,20 @@
    * 4. The report or check page (report-detail-client.tsx, check-detail-client.tsx).
    *    The tabs card is replaced by the print-only rule table (print-bits.tsx).
    */
+  /* Scaled to 80% so the header, both cards, the rule table and the footer fit one A4 page. */
   .print-sheet {
+    zoom: 0.8;
     gap: 0.75rem !important;
+  }
+  .print-sheet h1 {
+    font-size: var(--text-2xl);
+    line-height: var(--text-2xl--line-height);
+  }
+  /* Restroom signs at a fixed small size, as on a laptop screen (compare-result.tsx). */
+  .print-sheet [class*="aspect-[5/6]"] {
+    width: 8rem;
+    max-width: 100%;
+    margin-inline: auto;
   }
   .print-sheet section:has([role="tablist"]) {
     display: none !important;
@@ -121,8 +140,12 @@
   }
   /* Photo or signs on the left, verdict card on the right, as on a laptop screen. */
   .print-sheet [class*="lg:grid-cols-"] {
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) !important;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) !important;
     gap: 0.75rem !important;
+  }
+  /* The "Hover a box or a row" hint under the photo means nothing on paper (analysis-view.tsx). */
+  .print-sheet figure + div > span:not(:has(span)) {
+    display: none;
   }
   .print-sheet figure,
   .print-sheet section,
