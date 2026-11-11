@@ -840,3 +840,19 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - The stopped session's single unreviewed commit was undone and redone as small commits; its temporary comparison route is not in the pull request.
   - The first typecheck failed on route types the dev server had generated for the deleted temporary route; clearing them fixed it.
   - No Lighthouse run: it is not installed, and adding it would be a new dependency.
+
+### 11 November 2026, Dameli (G-50 one drop zone)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment for the checks.
+- **Purpose:** merge the two upload drop zones (roads Analyze and the restroom sign slot) into one `Dropzone` without changing what happens to the photo.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-50 among them). Transcript kept locally.
+- **What it produced or changed:** `web/components/ui/dropzone.tsx`, its use in `web/components/app/analyze-client.tsx` and `web/components/restrooms/sign-slot.tsx`, a states block in `web/components/design/design-showcase.tsx`, and `web/lib/dropzone.test.ts`.
+- **How I verified it, and who verified it:**
+  - One Playwright script ran before and after on my own dev server with real files (`ioai-v1.webp`, `ioai-v2.webp`, a text file, an 11 MB file): the result files differ only in the count of new drop zones; messages, accepted types, the re-encoded upload size (7716 bytes) and the Analyze, Compare and Match results are the same.
+  - Tab reaches the input on all three pages and Enter opens the file dialog.
+  - Screenshots at 1440 and 375 px, light and dark, and of the six states on `/design` in each theme.
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` (205 tests) and `pnpm build` pass.
+- **What I rejected or corrected:**
+  - The first "before" run hit the new code because the dev server had already picked up the commits; I put the two old files back, ran it again, checked the zone count was 0, and restored them.
+  - Playwright could not read the multipart body, so the upload check now records the `FormData` the page sends.
+  - Did not move the error messages into the zone or change their copy: that would change both pages on the demo path.
