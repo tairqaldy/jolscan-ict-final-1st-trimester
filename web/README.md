@@ -81,7 +81,7 @@ lib/
   mock/                 seeded demo analyses and sign checks, sample manifests, experiments loaders
   store/                localStorage stores: settings, rules (both), history (both), theme, last module
 data/experiments.json             pothole experiment results (placeholder until ml/export_results.py runs)
-data/restroom-experiments.json    restroom experiment results (placeholder rows R0–R6)
+data/restroom-experiments.json    restroom experiment results (real runs, from ml/restroom/export_results.py)
 public/samples/                   six SVG road scenes + samples.json
 public/samples/restrooms/         twelve SVG sign icons + samples.json
 ```
@@ -153,7 +153,8 @@ footer (`lib/credits.ts`), and say that the images were not changed, or how they
 
 - **Roads:** `ml/export_results.py` writes `data/experiments.json` in the ExperimentsFile shape (ARCHITECTURE.md 2).
   The loader (`lib/mock/experiments.ts`) accepts that shape and the placeholder shape, and fills missing metadata
-  (protocol, dataset card) with labelled defaults. `"isMock": false` removes the roads "Demo data" badges.
+  (protocol, dataset card) with labelled defaults. `"isMock": false` removes the "Demo data" badges on the pothole
+  results (Pothole runs on the model page, the chart, the landing results card).
 - **Restrooms:** `ml/restroom/export_results.py` writes `data/restroom-experiments.json` (RestroomExperimentsFile,
   ARCHITECTURE.md 2b). Rows with `isReal: true` show without a placeholder badge; `null` metrics read "not run yet";
   the IOAI reference points (0.77 / 0.90) are always labelled as published by IOAI, not ours.
@@ -161,7 +162,9 @@ footer (`lib/credits.ts`), and say that the images were not changed, or how they
 The seeded demo histories (`lib/mock/analyses.ts`, 40 road analyses; `lib/mock/restroom-checks.ts`, 30 sign checks)
 cover the 30 days before a fixed anchor date, 10 Nov 2026. They are deterministic (seeded PRNG, no
 `Math.random`/`Date.now` at render), so server and client render the same. Items made in the browser are stored in
-localStorage and merged with them.
+localStorage and merged with them. They stay demo data, so every page that shows them passes `show` to its
+`DemoBadge` and keeps the badge whatever the results files say (`components/app/demo-badge.tsx`, test in
+`lib/demo-badges.test.ts`). A single result made by the mock provider shows a "Mock result" badge.
 
 ## Rules
 

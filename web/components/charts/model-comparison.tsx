@@ -1,76 +1,82 @@
 "use client";
 
-import {
-  CartesianGrid,
-  LabelList,
-  ReferenceLine,
-  ResponsiveContainer,
-  Scatter,
-  ScatterChart,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { Bar, BarChart, CartesianGrid, Cell, Label, LabelList, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { DemoBadge } from "@/components/app/demo-badge";
-import { CHAMPION, EXPERIMENTS } from "@/lib/mock/experiments";
+import { CHAMPION, chartTakeaway, EXPERIMENTS } from "@/lib/mock/experiments";
 import { axisProps, ChartCard, DataTable, gridProps, LegendSwatch, tooltipProps } from "./chart-kit";
 
+const show = (v: number | null) => (v === null ? "no value" : v.toFixed(2));
+
+/** Recall bars use the same colour as the mAP50 bars, only lighter. */
+const RECALL_OPACITY = 0.5;
+
 /**
- * Roads: accuracy vs speed for every experiment run: mAP50-95 (up is better)
- * against CPU latency (left is faster). The dashed line is the latency budget.
- * Runs without a measured latency are listed in the table but not plotted.
+ * Roads: test mAP50 and test recall at confidence 0.40 per run, bars from
+ * zero (runs are categories). The champion's bars are amber, every other run
+ * is slate. The champion is picked on validation, so its test bar is not
+ * always the tallest. A run without a number keeps its slot on the axis.
  */
 export function ModelComparisonChart() {
-  const data = EXPERIMENTS.runs.map((r) => ({ ...r, champion: r.id === CHAMPION.id }));
-  const plotted = data.filter((r) => r.latencyMs !== null);
-  const missing = data.length - plotted.length;
+  const data = EXPERIMENTS.runs.map((r) => {
+    const champion = r.id === CHAMPION.id;
+    return {
+      id: r.id,
+      changed: r.changed,
+      champion,
+      map50: r.map50,
+      recall: r.recallAtRulesConf,
+      // Value labels only on the champion's bars, so the chart is not covered in numbers.
+      map50Label: champion ? r.map50 : null,
+      recallLabel: champion ? r.recallAtRulesConf : null,
+    };
+  });
+  const missing = data.filter((d) => d.map50 === null || d.recall === null).length;
+  const colour = (champion: boolean) => (champion ? "var(--accent)" : "var(--chart-1)");
   return (
     <ChartCard
-      title="Pothole model: accuracy against speed"
-      description={`mAP50-95 against latency per run. Up and left is better; the dashed line is the latency budget.${
-        missing ? ` ${missing} run${missing > 1 ? "s have" : " has"} no latency measured yet and ${missing > 1 ? "are" : "is"} not plotted.` : ""
+      title={chartTakeaway(EXPERIMENTS.runs, CHAMPION.id)}
+      description={`Test split, bars from zero. The champion is chosen on validation mAP50 (see the table), not on these test bars.${
+        missing ? ` ${missing} run${missing > 1 ? "s have" : " has"} a missing number and keep${missing > 1 ? "" : "s"} an empty slot.` : ""
       }`}
       badge={<DemoBadge />}
       height={300}
       legend={
         <>
-          <LegendSwatch color="var(--chart-1)" label="Run" />
+          <LegendSwatch color="var(--chart-1)" label="Test mAP50" />
+          <LegendSwatch color="color-mix(in srgb, var(--chart-1) 50%, transparent)" label="Test recall at 0.40" />
           <LegendSwatch color="var(--accent)" label={`Champion (${CHAMPION.id})`} />
-          <LegendSwatch color="var(--muted)" dashed label={`Budget ${EXPERIMENTS.latencyBudgetMs} ms`} />
         </>
       }
       table={
         <DataTable
-          head={["Run", "Changed", "mAP50-95", "Latency ms"]}
-          rows={data.map((r) => [r.id, r.changed, r.map5095.toFixed(2), r.latencyMs ?? "not measured"])}
+          head={["Run", "Changed", "Test mAP50", "Test recall at 0.40"]}
+          rows={data.map((d) => [d.champion ? `${d.id} (champion)` : d.id, d.changed, show(d.map50), show(d.recall)])}
         />
       }
     >
       <ResponsiveContainer width="100%" height="100%">
-        <ScatterChart margin={{ top: 16, right: 24, bottom: 8, left: 0 }}>
-          <CartesianGrid {...gridProps} vertical />
-          <XAxis type="number" dataKey="latencyMs" name="Latency" unit=" ms" domain={[0, "dataMax + 10"]} {...axisProps} />
-          <YAxis
-            type="number"
-            dataKey="map5095"
-            name="mAP50-95"
-            domain={[(min: number) => Math.max(0, Math.floor((min - 0.05) * 20) / 20), (max: number) => Math.min(1, Math.ceil((max + 0.05) * 20) / 20)]}
-            width={44}
-            {...axisProps}
-          />
-          <ReferenceLine x={EXPERIMENTS.latencyBudgetMs} stroke="var(--muted)" strokeDasharray="5 4" />
-          <Tooltip
-            {...tooltipProps}
-            cursor={{ stroke: "var(--border-strong)" }}
-            formatter={(value, name) => [name === "Latency" ? `${value} ms` : Number(value).toFixed(2), name]}
-          />
-          <Scatter data={plotted.filter((d) => !d.champion)} fill="var(--chart-1)" stroke="var(--surface)" strokeWidth={2} name="Run">
-            <LabelList dataKey="id" position="right" fill="var(--muted)" fontSize={11} />
-          </Scatter>
-          <Scatter data={plotted.filter((d) => d.champion)} fill="var(--accent)" stroke="var(--fg)" strokeWidth={1.5} name="Champion">
-            <LabelList dataKey="id" position="top" fill="var(--fg)" fontSize={12} fontWeight={600} />
-          </Scatter>
-        </ScatterChart>
+        <BarChart data={data} margin={{ top: 20, right: 8, bottom: 16, left: -8 }} barGap={2}>
+          <CartesianGrid {...gridProps} />
+          <XAxis dataKey="id" {...axisProps}>
+            <Label value="Run" position="insideBottom" offset={-10} fill="var(--muted)" fontSize={12} />
+          </XAxis>
+          <YAxis domain={[0, 1]} ticks={[0, 0.25, 0.5, 0.75, 1]} width={44} {...axisProps}>
+            <Label value="Score (test)" angle={-90} position="insideLeft" offset={14} fill="var(--muted)" fontSize={12} style={{ textAnchor: "middle" }} />
+          </YAxis>
+          <Tooltip {...tooltipProps} formatter={(v) => (typeof v === "number" ? v.toFixed(2) : "no value")} />
+          <Bar dataKey="map50" name="Test mAP50" radius={[4, 4, 0, 0]} maxBarSize={40}>
+            {data.map((d) => (
+              <Cell key={d.id} fill={colour(d.champion)} />
+            ))}
+            <LabelList dataKey="map50Label" position="top" fill="var(--fg)" fontSize={11} formatter={(v) => (typeof v === "number" ? v.toFixed(2) : "")} />
+          </Bar>
+          <Bar dataKey="recall" name="Test recall at 0.40" radius={[4, 4, 0, 0]} maxBarSize={40}>
+            {data.map((d) => (
+              <Cell key={d.id} fill={colour(d.champion)} fillOpacity={RECALL_OPACITY} />
+            ))}
+            <LabelList dataKey="recallLabel" position="top" fill="var(--fg)" fontSize={11} formatter={(v) => (typeof v === "number" ? v.toFixed(2) : "")} />
+          </Bar>
+        </BarChart>
       </ResponsiveContainer>
     </ChartCard>
   );
