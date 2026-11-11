@@ -4,6 +4,7 @@ import { ImageUp, LayoutGrid, X } from "lucide-react";
 import { useState, type DragEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { SelectableTile } from "@/components/ui/selectable-tile";
 import { cn } from "@/lib/cn";
 import { RESTROOM_SAMPLES, type RestroomSample } from "@/lib/mock/restroom-samples";
 import { ACCEPTED_IMAGE_TYPES, validateImageFile } from "@/lib/upload";
@@ -29,19 +30,11 @@ export function SamplePicker({
         const selected = s.id === selectedId;
         return (
           <li key={s.id}>
-            <button
-              type="button"
-              aria-pressed={selected}
-              onClick={() => onPick(s)}
-              className={cn(
-                "grid w-full gap-1 rounded-md border-2 bg-surface p-1.5 text-left transition-colors",
-                selected ? "border-accent" : "border-border hover:border-border-strong",
-              )}
-            >
+            <SelectableTile selected={selected} onClick={() => onPick(s)} className="grid w-full gap-1 p-1.5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={s.file} alt="" className="aspect-[5/6] w-full object-contain" loading="lazy" />
               <span className="text-xs leading-snug font-medium">{s.title}</span>
-            </button>
+            </SelectableTile>
           </li>
         );
       })}
