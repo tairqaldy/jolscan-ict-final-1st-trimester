@@ -1,0 +1,141 @@
+{
+  "experiment": "two-step pipeline, one query at a time (no assignment across queries)",
+  "protocol": {
+    "train_episodes": "200 episodes of 30 training restrooms, random query gender, gallery = their 60 originals",
+    "histogram_weight": 0.3,
+    "test": "read once, for sift_combo_per_query only, after the training-episode and validation numbers were written"
+  },
+  "approaches": {
+    "sift_combo_hungarian": "pipeline.py champion: global assignment over all queries (transductive)",
+    "sift_combo_greedy": "greedy: query order, no partner given out twice (still uses other queries)",
+    "sift_combo_per_query": "per query: step 1 argmax SIFT + pixel check, step 2 argmax 30% histogram + CLIP (served by the API)",
+    "clip_clip_per_query": "per query, CLIP for both steps (zero-shot, no SIFT, no colour)"
+  },
+  "train_episodes": {
+    "sift_combo_hungarian": {
+      "mean": 0.9597,
+      "std": 0.0408
+    },
+    "sift_combo_greedy": {
+      "mean": 0.917,
+      "std": 0.0511
+    },
+    "sift_combo_per_query": {
+      "mean": 0.9285,
+      "std": 0.0398
+    },
+    "clip_clip_per_query": {
+      "mean": 0.6753,
+      "std": 0.0765
+    }
+  },
+  "val": {
+    "sift_combo_hungarian": 1.0,
+    "sift_combo_greedy": 1.0,
+    "sift_combo_per_query": 1.0,
+    "clip_clip_per_query": 1.0
+  },
+  "predictions": {
+    "sift_combo_hungarian": {
+      "val": [
+        2,
+        18,
+        14,
+        19,
+        3,
+        5,
+        15,
+        11,
+        13,
+        20
+      ]
+    },
+    "sift_combo_greedy": {
+      "val": [
+        2,
+        18,
+        14,
+        19,
+        3,
+        5,
+        15,
+        11,
+        13,
+        20
+      ]
+    },
+    "sift_combo_per_query": {
+      "val": [
+        2,
+        18,
+        14,
+        19,
+        3,
+        5,
+        15,
+        11,
+        13,
+        20
+      ],
+      "test": [
+        37,
+        13,
+        45,
+        17,
+        58,
+        49,
+        14,
+        59,
+        39,
+        7,
+        18,
+        21,
+        44,
+        10,
+        22,
+        19,
+        57,
+        35,
+        27,
+        46,
+        50,
+        12,
+        16,
+        9,
+        54,
+        31,
+        20,
+        29,
+        15,
+        28
+      ]
+    },
+    "clip_clip_per_query": {
+      "val": [
+        2,
+        18,
+        14,
+        19,
+        3,
+        5,
+        15,
+        11,
+        13,
+        20
+      ]
+    }
+  },
+  "served": "sift_combo_per_query",
+  "versions": {
+    "python": "3.12.15",
+    "numpy": "2.5.4"
+  },
+  "device": "Apple M4 CPU",
+  "test": {
+    "sift_combo_per_query": 1.0
+  },
+  "test_correct": {
+    "sift_combo_per_query": "30/30"
+  },
+  "seconds": 7.7
+}

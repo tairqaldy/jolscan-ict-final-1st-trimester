@@ -116,6 +116,19 @@ The task splits into two steps, and the answer is the partner of the query's own
 
 The champion was chosen on the training episodes, then validation. The 30 test queries are easier than the training episodes, and several approaches reach 1.000 on them, so only the episodes tell those approaches apart. Test scores were printed during development, but every change was made from error analysis on the training set. Numbers: `ml/results/restroom/pipeline.json`.
 
+### One query at a time (task C-21, `ml/restroom/pipeline_per_query.py`)
+
+The 30/30 uses a **global assignment**: every query gets a different own original and every own original a different partner. That relies on a fact of the IOAI benchmark, that the queries come from different restrooms and the gallery holds exactly their pairs, so each answer depends on the other queries. The greedy variant also uses them (it skips partners already given out). A real door sign comes alone, and the API answers one query at a time, so the truly per-query variant (step 1 argmax, step 2 argmax) was scored too:
+
+| Variant | Training episodes (200 × 30 restrooms) | Validation |
+|---|---|---|
+| Global assignment (`sift_combo_hungarian`, the 30/30) | 0.960 ± 0.041 | 1.00 |
+| Greedy, query order (`sift_combo_greedy`) | 0.917 ± 0.051 | 1.00 |
+| **One query at a time** (`sift_combo_per_query`, what the API serves after C-8) | **0.928 ± 0.040** | 1.00 |
+| One query at a time, CLIP for both steps | 0.675 ± 0.076 | 1.00 |
+
+The per-query variant loses about 3 points on training episodes against the global assignment and is a little better than the greedy one. Its test score was read once, after the numbers above were written: **30/30** (interval and paired tests in `intervals.json`: the same as the global assignment, 0.884–1.000). The 30/30 in the tables is labelled 'global assignment over the 30 test queries'; the method the app serves is the per-query one.
+
 ## The layer experiment (`ml/restroom/layers.py`, Kaggle Tesla T4)
 
 The pipeline leaves one learned part, the step-2 similarity: how alike the two doors of one restroom look. That similarity is fine-tuned with the IOAI reference recipe: InfoNCE on male ↔ female originals, Adam at lr 1e-4, a cosine schedule, 50 epochs, batch 32, keeping the epoch with the lowest loss. **Only one thing changes: how many of the last layers are trained.**

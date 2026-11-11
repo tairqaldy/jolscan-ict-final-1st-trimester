@@ -79,7 +79,7 @@ def main() -> None:
     paired = []
     for h in headline:
         for o in against:
-            if h in correct and o in correct:
+            if "test" in correct.get(h, {}) and "test" in correct.get(o, {}):
                 paired.append({"first": h, "second": o, "split": "test", **mcnemar(correct[h]["test"], correct[o]["test"])})
 
     out = {
@@ -90,7 +90,7 @@ def main() -> None:
     }
     OUT.write_text(json.dumps(out, indent=2) + "\n")
     for h in headline:
-        print(h, scores[h]["test"])
+        print(h, scores[h].get("test"))
     for row in paired:
         print(row)
 

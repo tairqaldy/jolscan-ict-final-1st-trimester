@@ -320,6 +320,59 @@
           1.0
         ]
       }
+    },
+    "per_query:sift_combo_hungarian": {
+      "val": {
+        "k": 10,
+        "n": 10,
+        "accuracy": 1.0,
+        "ci95": [
+          0.6915,
+          1.0
+        ]
+      }
+    },
+    "per_query:sift_combo_greedy": {
+      "val": {
+        "k": 10,
+        "n": 10,
+        "accuracy": 1.0,
+        "ci95": [
+          0.6915,
+          1.0
+        ]
+      }
+    },
+    "per_query:sift_combo_per_query": {
+      "val": {
+        "k": 10,
+        "n": 10,
+        "accuracy": 1.0,
+        "ci95": [
+          0.6915,
+          1.0
+        ]
+      },
+      "test": {
+        "k": 30,
+        "n": 30,
+        "accuracy": 1.0,
+        "ci95": [
+          0.8843,
+          1.0
+        ]
+      }
+    },
+    "per_query:clip_clip_per_query": {
+      "val": {
+        "k": 10,
+        "n": 10,
+        "accuracy": 1.0,
+        "ci95": [
+          0.6915,
+          1.0
+        ]
+      }
     }
   },
   "paired_test": [
@@ -341,6 +394,30 @@
     },
     {
       "first": "pipeline:sift_combo_hungarian",
+      "second": "pipeline:ioai_baseline_clip",
+      "split": "test",
+      "only_first_right": 7,
+      "only_second_right": 0,
+      "p_exact_mcnemar": 0.0156
+    },
+    {
+      "first": "per_query:sift_combo_per_query",
+      "second": "R0",
+      "split": "test",
+      "only_first_right": 7,
+      "only_second_right": 0,
+      "p_exact_mcnemar": 0.0156
+    },
+    {
+      "first": "per_query:sift_combo_per_query",
+      "second": "R3",
+      "split": "test",
+      "only_first_right": 3,
+      "only_second_right": 0,
+      "p_exact_mcnemar": 0.25
+    },
+    {
+      "first": "per_query:sift_combo_per_query",
       "second": "pipeline:ioai_baseline_clip",
       "split": "test",
       "only_first_right": 7,
