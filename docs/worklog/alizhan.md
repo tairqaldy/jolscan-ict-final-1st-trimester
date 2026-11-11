@@ -20,6 +20,7 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **What I learned / can explain at the defense:** CI runs automated API tests on pull requests and blocks an unnoticed test failure before a merge.
 - **AI use:** Codex helped implement and verify; see AI-USAGE-LOG.md. Alizhan has not yet personally reviewed this draft.
 - **Open questions / next:** Tair reviews the workflow. If C-8 adds module-level OpenCV imports, revisit test dependencies.
+
 ### 2026-11-11 · S-23 (#217) · Pin API dependencies and align Python
 - **Status:** implementation tested; proposed Python version awaits Tair and Nazar's review.
 - **What I did:** Pinned direct API and dev dependencies from S-1, proposed Python 3.12 in the API Docker base and Python CI, and documented the choice in decision 0008.
