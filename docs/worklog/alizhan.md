@@ -12,6 +12,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 · R-15 (#99) · Independent recheck of deck and intervals
+- **Status:** in progress; the final freeze rebuild and outstanding R-6 audit remain.
+- **What I did:** Rebuilt the deck at `2d37b34` in an isolated copy, compared all slide and notes text and the embedded media hashes, and independently recomputed the stored restroom confidence intervals and paired p-values.
+- **Result:** The rebuild checked 191 registered values and reported R-6 as the remaining gap. Text, notes and seven embedded media hashes matched; all 37 stored intervals and six paired p-values matched to four decimals.
+- **Decisions and why:** Kept the task open: recomputing from stored counts is not verification of each prediction, and the deck must be checked again at the freeze.
+- **What I learned / can explain at the defense:** Exact confidence intervals reflect uncertainty in a small test set, and a paired test compares cases on which methods disagree.
+- **AI use:** Codex desktop, GPT-6; personal review pending.
+- **Open questions / next:** Complete R-6 and repeat the comparison on the final deck; review the slides, live values and spoken script.
+
 ### 2026-11-11 · R-2 (#84) · Primary road-condition source
 - **Status:** in progress; source selected for review, slide and timed delivery remain.
 - **What I did:** Located a West Kazakhstan Region road authority's primary report and documented its dated local-road condition figure and scope for the presentation.

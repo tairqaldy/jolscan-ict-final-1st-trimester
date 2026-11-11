@@ -22,6 +22,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Alizhan (R-15 independent recheck, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Recheck the updated deck and the arithmetic of the reported uncertainty intervals.
+- **Key prompt:** "можешь параллельно выполнять задания, которые отмечены, как bare minimum и никем не выполнены?" This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** A dated independent-check note in `docs/research/deck-sources.md` and worklog entry.
+- **How it was verified:** Rebuilt the deck at commit `2d37b34` in an isolated copy, compared slide/notes text and seven media hashes, and recomputed 37 exact intervals and six paired p-values with SciPy. Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** Kept R-15 open because this does not verify original image predictions or the final post-freeze deck, and R-6 remains open.
+
 ### 11 November 2026, Alizhan (R-2, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.
