@@ -1,9 +1,8 @@
 "use client";
 
-import { CircleExclamationPoint } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { SeverityBadge } from "@/components/ui/badge";
+import { ReviewBadge, SeverityBadge } from "@/components/ui/badge";
 import { Table, TD, TH, THead, TR } from "@/components/ui/table";
 import { formatDateTime, formatScore } from "@/lib/format";
 import type { AnalysisWithSource } from "@/lib/store/history";
@@ -41,11 +40,7 @@ export function AnalysesTable({ analyses, caption }: { analyses: AnalysisWithSou
               >
                 {a.location?.label ?? a.photo.fileName ?? "Uploaded photo"}
               </Link>
-              {a.needsReview && (
-                <span className="ml-2 inline-flex items-center gap-1 text-xs text-accent-ink">
-                  <CircleExclamationPoint className="size-3.5" aria-hidden /> review
-                </span>
-              )}
+              {a.needsReview && <ReviewBadge className="ml-2">review</ReviewBadge>}
               {a.source === "device" && <span className="ml-2 text-xs text-subtle">this device</span>}
             </TD>
             <TD>

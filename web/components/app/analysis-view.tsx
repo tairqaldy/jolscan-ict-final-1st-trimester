@@ -2,7 +2,7 @@
 
 import { Clock, Cpu, MapPin, Route, School, Timer } from "lucide-react";
 import { useMemo, useState, type ReactNode } from "react";
-import { Badge, SeverityBadge } from "@/components/ui/badge";
+import { Badge, ReviewBadge, SeverityBadge } from "@/components/ui/badge";
 import { Callout } from "@/components/ui/callout";
 import { Card, CardBody } from "@/components/ui/card";
 import { Table, TD, TH, THead, TR } from "@/components/ui/table";
@@ -224,7 +224,7 @@ export function AnalysisView({ analysis, title }: { analysis: StoredAnalysis; ti
                             {info.counted ? (
                               <Badge>Counted</Badge>
                             ) : info.review ? (
-                              <Badge tone="accent">Review</Badge>
+                              <ReviewBadge />
                             ) : (
                               <Badge tone="outline">Ignored</Badge>
                             )}
