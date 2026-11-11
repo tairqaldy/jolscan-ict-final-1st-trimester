@@ -770,3 +770,20 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - Raised the tested 60% halo to 65% so pure white also reaches 3:1.
   - The first run of the tests failed because the print copy of the tokens still had 0.45; updated it.
   - The samples are drawings, so G-48 stays open until it is checked on the D-5 photos; the two overlay problems found (overlapping tags on `s05` at 375 px, review boxes drawn solid) are reported, not fixed.
+
+### 11 November 2026, Dameli (G-72 annotated result slides)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** put four numbered markers on the road result and the sign result screenshots for the slide 3 fallback, and write down what each marker says.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков". Transcript kept locally.
+- **What it produced or changed:**
+  - `docs/design/screenshots/annotate.py`: SVG overlay on the raw shot, rendered to 1920 × 1080 PNGs (outside git).
+  - `docs/design/annotations.md`: label, speaker line and source per marker.
+  - The marker rules in `docs/design/screenshots.md`.
+- **How I verified it, and who verified it:**
+  - Every value on a label traced to `web/public/samples/samples.json`, `web/public/samples/restrooms/samples.json`, `web/lib/rules`, `web/lib/signage` and `docs/RULES.md` (for example 4 + 2 + 1 = 7, +3, +5, score 15).
+  - The script checks the label widths, the fonts, the 2880 × 1800 input and that no marker touches a Mock or demo badge; all four PNGs passed and were opened at full size.
+  - Roma still has to place the slides in the deck.
+- **What I rejected or corrected:**
+  - The Mock result badge was suggested as a marker; it stays unmarked so nothing covers it.
+  - The first outlines on the sign bars cut through the threshold lines under them and were enlarged; the dot in the eyebrow got a thin space after it.
