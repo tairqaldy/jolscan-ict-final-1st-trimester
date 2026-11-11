@@ -4,7 +4,7 @@
  * pure, so they are tested here with the other unit tests.
  */
 import { describe, expect, it } from "vitest";
-import { MIN_TAG_PX, placeTag, tagFontSize } from "@/components/app/detection-overlay";
+import { HALO_SCALE, MIN_TAG_PX, placeTag, tagFontSize } from "@/components/app/detection-overlay";
 
 describe("tagFontSize (G-28)", () => {
   it("keeps the old size before the figure is measured, so server and client match", () => {
@@ -43,5 +43,14 @@ describe("placeTag (G-28)", () => {
   it("never runs past the bottom edge of the photo", () => {
     const { y } = placeTag({ x: 100, y: 5, h: 700 }, tag, frame);
     expect(y + tag.h).toBeLessThanOrEqual(frame.h);
+  });
+});
+
+describe("box halo (G-48)", () => {
+  it("leaves at least 1.5 px of dark rim beside the stroke on a phone", () => {
+    const scale = 343 / 1280; // 375 px wide screen
+    const stroke = 1280 / 320; // box stroke in viewBox units, as in the overlay
+    const rim = ((stroke * HALO_SCALE - stroke) / 2) * scale;
+    expect(rim).toBeGreaterThanOrEqual(1.5);
   });
 });
