@@ -187,3 +187,11 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How I verified it, and who verified it:** the licence and author were read from Kaggle's dataset data on 11 November 2026; the 665 image hashes were compared with the manifest by `data/make_potholes_yolo_v1.py`; a test export with a temporary run file produced the expected JSON, and the temporary files were deleted.
 - **What I rejected or corrected:** did not call the photos licence-clean: three carry stock watermarks.
 
+### 11 November 2026, Tair (W-11 Part A, model page)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** make the model page follow the selection rule in docs/ML-EXPERIMENT.md and read every field `ml/export_results.py` writes.
+- **Key prompt(s), with a link to the transcript:** "Implement W-11 (#109) Part A" with the changes since the issue was written (M-20's dataset block and `device` field, a loader test, a chart that works with one run). Transcript kept locally.
+- **What it produced or changed:** `web/lib/mock/experiments.ts` (nullable fields, export fields, chart title), `web/lib/mock/experiments.test.ts`, `web/data/experiments.json` (placeholder, still `isMock: true`), `web/app/app/model/page.tsx`, `web/components/charts/model-comparison.tsx`, a null-safe fix in `web/app/page.tsx`.
+- **How I verified it, and who verified it:** `pnpm lint`, typecheck and `vitest run` in `web/`; the loader test uses an object shaped like the ExperimentsFile type in ARCHITECTURE section 2. Tair to check the page in the browser after the real export (Part B).
+- **What I rejected or corrected:** the issue asked to move the dataset card into `web/lib/credits.ts`; since M-20 the export writes the dataset block, so the card keeps reading it from the results file. Placeholder latency and device are null instead of invented values.
