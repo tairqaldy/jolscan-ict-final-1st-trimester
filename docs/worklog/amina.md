@@ -10,15 +10,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 ## Entries
 
-### 2026-11-11 13:13 +05:00 · M-0 (#49) · Confirm selection and E8 combination rule
-- **Status:** in progress; rule documented, pre-run timing unverified.
-- **What I did:** Compared the selection rule with `ml/export_results.py` and traced rules confidence to `RULES_CONF = 0.40` in `ml/train.py`. Recorded the accepted E8 policy without changing code, training, or the frozen dataset.
-- **Result:** [Rule commit d050b38](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/commit/d050b38f2510ba36be09794864126e831eb3a52a), authored 2026-11-11 13:13:01 +05:00; rebased/committed 2026-11-11 13:16:26 +05:00, changes only `docs/ML-EXPERIMENT.md`. Claim was pushed separately to main as `b243944`.
-- **Decisions and why:** Amina accepted the issue's E8 policy and explicitly confirmed that retaining E0 when no eligible change qualifies overrides the general champion rule. The exporter does not implement that override; the mismatch is documented, not silently changed. See [decision 0009](../decisions/0009-m0-e8-policy.md).
-- **What I learned / can explain at the defense:** E8 qualification uses a strict improvement above 0.01 against E0; champion ties use an inclusive 0.01 band from the best validation mAP50 and then validation recall at confidence 0.40. Test metrics never select changes or the champion.
-- **AI use:** Codex assisted with repository/issue inspection and documentation; see `docs/AI-USAGE-LOG.md`.
-- **Open questions / next:** Amina is asking the team for the earliest E1-E7 start time. The inspected main contains E0 and smoke results; no absence-of-start claim follows. Compare actual main commit/merge timing with that evidence before ticking M-0. Exporter fallback support remains unresolved; no training was started.
-
+### 2026-11-11 ? M-0 (#49) ? Final selection and E8 policy
+- **Status:** complete on merge of [PR #369](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/pull/369), subject to green checks and current main.
+- **What I did:** Confirmed the validation-only champion rule and documented E8 qualification. Revised the earlier E0-champion override before comparison runs, then added smoke-flag filtering to the exporter with three offline regression tests.
+- **Result:** The final rule is in `docs/ML-EXPERIMENT.md`; PR #369 records actual commit/merge timestamps. Claim-only main commit remains `b243944`. The exporter includes E2/E5 in champion selection and excludes smoke by filename and JSON flag.
+- **Decisions and why:** Amina's final authorization removes the earlier E0-champion exception: no qualifying change means E8 uses E0 settings, while champion selection still considers every eligible completed run. See [decision 0009](../decisions/0009-m0-e8-policy.md).
+- **What I learned / can explain at the defense:** E8 qualification requires a strict validation mAP50 gain above 0.01 against E0; champion ties use an inclusive 0.01 band from the best and validation recall at confidence 0.40. Ablations may win champion selection without being combined into E8; test metrics never select either.
+- **AI use:** Codex assisted with inspection, documentation, the smoke exclusion and tests; see `docs/AI-USAGE-LOG.md`.
+- **Timing evidence / next:** Amina confirms from current team information that E1-E7 have not started and authorizes this final revision and merge before starting them. This is team confirmation, not independent training-log evidence. E0 belongs to Tair. No training was started; keep E1-E7 stopped until the rule is on main.
+- **Checks:** Three `python -m unittest ml.test_export_results` tests passed; `python -m compileall -q ml api` and `git diff --check` passed. Tests export fixtures only into a temporary directory, without training or dataset changes.
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
