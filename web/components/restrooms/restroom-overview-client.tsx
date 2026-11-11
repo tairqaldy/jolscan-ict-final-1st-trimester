@@ -13,6 +13,7 @@ import { MODULES } from "@/lib/brand";
 import { formatDate } from "@/lib/format";
 import { MOCK_ANCHOR } from "@/lib/mock/analyses";
 import { useRestroomChecks } from "@/lib/store/restroom-history";
+import { LayerCode } from "./layer-code";
 
 export function RestroomOverviewClient() {
   const checks = useRestroomChecks();
@@ -81,6 +82,7 @@ export function RestroomOverviewClient() {
       </Stagger>
 
       <RestroomLayersChart />
+      <LayerCode />
     </div>
   );
 }
