@@ -21,7 +21,8 @@ export type RestroomSample = {
 };
 
 export type RestroomSet = { id: string; title: string; note: string };
-export type RestroomPreset = { id: string; title: string; a: string; b: string; note: string };
+/** `ref` names the RULES.md worked example a preset reproduces; shown as a tooltip, not on the card. */
+export type RestroomPreset = { id: string; title: string; a: string; b: string; note: string; ref?: string };
 
 type SimilarityConfig = {
   sameSet: Record<string, number>;

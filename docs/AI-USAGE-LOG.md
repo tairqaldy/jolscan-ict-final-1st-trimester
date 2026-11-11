@@ -1145,3 +1145,12 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - The build checks 191 numbers against their files, with 1 open gap (R-6) and no slide text under 14 pt. The estimated talk is 8:02, with slide 2 at 0:30.
   - Rendered slides 2 and 8 to PNG and looked at them. The first slide 2 layout overflowed the card, so I rebuilt it.
 - **What I rejected or corrected:** a bold one-line statistic (it wrapped into the source line); "only 60 percent" in the script (adds a judgement the source does not make); combining the 60% and 98% figures.
+
+### 11 November 2026, Tair (Compare example cards: text gets the card's width)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with its built-in browser on a dev server from this branch.
+- **Purpose:** fix the example-pair cards on Compare, whose text was squeezed to one word per line at 1024 px (found in the PR review of #451), and item 3 of my design list for Dameli (#8).
+- **Key prompt(s), with a link to the transcript:** "we need to iterate on design too ... polish and improve". Transcript kept locally.
+- **What it produced or changed:** from 1024 px the two sign images sit above the title and note instead of beside them; phones keep the row layout. "RULES.md worked example A/B/C" moved from the card text to a `ref` field shown as the tile's tooltip.
+- **How I verified it, and who verified it:** looked at the page at 1024 × 768, 1280 × 800 and 375 × 812 (no sideways scroll on the phone), with a card selected so the check mark is visible. The three tooltips read from the DOM. `vitest run` on `lib/signage/engine.test.ts` and `lib/landing-rule-hits.test.ts` (30 passed), and eslint on the two changed files.
+- **What I rejected or corrected:** fewer columns at 1024 px (the text column stays narrow at 1280 too); removing the worked-example reference completely (the presenter uses it to tie a card to RULES.md).

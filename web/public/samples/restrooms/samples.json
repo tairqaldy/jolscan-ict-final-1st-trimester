@@ -134,10 +134,10 @@
     { "id": "ioai-v20", "file": "/samples/restrooms/ioai-v20.webp", "set": "ioai-brush", "title": "IOAI brush strokes, women", "trueGender": "female", "mock": { "gender": "female", "confidence": 0.9012 } }
   ],
   "presets": [
-    { "id": "matching", "title": "Matching pair", "a": "classic-m", "b": "classic-f", "note": "Two doors from one classic set. RULES.md worked example A." },
-    { "id": "faint", "title": "Faint female sign", "a": "faint-m", "b": "faint-f", "note": "The two doors differ only a little. RULES.md worked example B." },
+    { "id": "matching", "title": "Matching pair", "a": "classic-m", "b": "classic-f", "note": "Two doors from one classic set.", "ref": "RULES.md worked example A" },
+    { "id": "faint", "title": "Faint female sign", "a": "faint-m", "b": "faint-f", "note": "The two doors differ only a little.", "ref": "RULES.md worked example B" },
     { "id": "mismatched", "title": "Signs from two sets", "a": "classic-m", "b": "line-f", "note": "One door kept an old sign, the other got a new one." },
-    { "id": "same", "title": "Both signs look male", "a": "twins-m", "b": "twins-f", "note": "Both figures wear trousers, so the doors look the same. RULES.md worked example C." },
+    { "id": "same", "title": "Both signs look male", "a": "twins-m", "b": "twins-f", "note": "Both figures wear trousers, so the doors look the same.", "ref": "RULES.md worked example C" },
     { "id": "ioai-matching", "title": "Real pair from one restroom", "a": "ioai-v9", "b": "ioai-v15", "note": "Two doors of one IOAI restroom. Real model outputs." },
     { "id": "ioai-faint", "title": "Real pair, both read as male", "a": "ioai-v5", "b": "ioai-v1", "note": "Painted doors of one restroom. The women's figure also reads as male, only less so." },
     { "id": "ioai-swapped", "title": "Real pair, doors swapped", "a": "ioai-v6", "b": "ioai-v13", "note": "King and queen of one restroom. The queen reads slightly more male, so the rules pick the wrong door." },
