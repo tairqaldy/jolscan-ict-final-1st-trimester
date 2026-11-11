@@ -616,3 +616,17 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - Digit widths of Overpass with and without `tabular-nums`, to confirm the font has tabular figures.
   - `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` pass (110 tests).
 - **What I rejected or corrected:** the first tag size used only the photo's width and measured 10.95 px, because the bordered figure scales the photo by its height; it now uses the smaller of the two ratios and measures 11.00 px. The first chart check found the new CSS rule missing; that was a stale local dev cache, not the code, and the rule applied after clearing it. The thicker box lines the issue suggested were left out, so box drawing stays as it was.
+
+### 11 November 2026, Dameli (G-56 screenshot frame, G-11 deck screenshots, G-57 video look, G-63 imagery, G-69 principles)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium), Pillow and python-pptx in a throwaway environment.
+- **Purpose:** one screenshot frame for the deck, the screenshots themselves, the backup video look and two design rule docs.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков". Transcript kept locally.
+- **What it produced or changed:** `docs/design/screenshots.md`, `docs/design/screenshots/take_screenshots.py`, slide 5 in the slide template, `docs/design/video.md` and the cards in `docs/design/video/`, `docs/design/imagery.md`, `docs/design/PRINCIPLES.md`, one row in `docs/README.md`; 20 screenshots outside git.
+- **How I verified it, and who verified it:**
+  - Every screenshot was opened and checked by eye: no faces, people or licence plates (the samples are drawings), and the Mock or demo badge is in the frame.
+  - The three frame variants were drawn side by side on the slide background before choosing.
+  - The cards were rendered in Chromium with Overpass and JetBrains Mono loaded and checked as images.
+  - Every quoted string, file and line in PRINCIPLES.md and imagery.md was looked up in the code; the footer credits were compared with `web/lib/credits.ts`.
+  - The new template slide was checked by reading the shape positions back from the .pptx; it was not opened in Canva yet.
+- **What I rejected or corrected:** a draft said the IOAI callout on the Model page is labelled "Not our runs" in the page code; that sentence comes from the results file, so the doc now says so. A draft gave the Model page no pothole credit; it has one, read from the results file. No copy in `web/` was changed; the copy fixes are listed for W-21 and R-12.

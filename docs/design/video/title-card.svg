@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" role="img" aria-label="Qarau, backup demo, title card">
+  <!-- Title card for the backup demo video (G-57, docs/design/video.md). Light tokens from web/app/tokens.css;
+       mark from web/app/icon.svg; name, meaning and tagline from web/lib/brand.ts. Shown for 3 s. -->
+  <rect width="1920" height="1080" fill="#f3f2ee"/>
+  <g transform="translate(160 236) scale(5)"><rect x="1" y="1" width="30" height="30" rx="7" fill="#f2a900"/><path d="M8 13.5V8h5.5M18.5 8H24v5.5M24 18.5V24h-5.5M13.5 24H8v-5.5" fill="none" stroke="#1b1c1e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="16" cy="16.5" rx="3.6" ry="2.4" fill="#1b1c1e"/></g>
+  <text x="358" y="361" font-family="Overpass, 'Helvetica Neue', Arial, sans-serif" font-size="150" font-weight="700" letter-spacing="-1" fill="#1b1c1e">Qarau</text>
+  <text x="160" y="482" font-family="Overpass, 'Helvetica Neue', Arial, sans-serif" font-size="28" font-weight="700" letter-spacing="4" fill="#855700">ҚАРАУ ·&#160; KAZAKH FOR “TO INSPECT”</text>
+  <text font-family="Overpass, 'Helvetica Neue', Arial, sans-serif" font-size="48" fill="#4f5156">
+    <tspan x="160" y="572">Computer vision inspection of public infrastructure</tspan>
+    <tspan x="160" y="636">from photos, with rules you can read.</tspan>
+  </text>
+  <text x="160" y="790" font-family="Overpass, 'Helvetica Neue', Arial, sans-serif" font-size="38" font-weight="700" fill="#1b1c1e">Backup demo ·&#160; Roads and Restrooms</text>
+  <text x="160" y="846" font-family="'JetBrains Mono', Menlo, monospace" font-size="26" fill="#66686d">ICT1103 · QAIRU · Group project, Assignment 2</text>
+  <!-- Road stripe: asphalt band with the amber centre line, as on slide 1 and the landing page -->
+  <rect x="0" y="991" width="1920" height="60" fill="#26282b"/>
+  <g fill="#f2a900">
+    <rect x="43.2" y="1016" width="89.3" height="10" rx="5"/>
+    <rect x="193.0" y="1016" width="89.3" height="10" rx="5"/>
+    <rect x="342.7" y="1016" width="89.3" height="10" rx="5"/>
+    <rect x="492.5" y="1016" width="89.3" height="10" rx="5"/>
+    <rect x="642.3" y="1016" width="89.3" height="10" rx="5"/>
+    <rect x="792.0" y="1016" width="89.3" height="10" rx="5"/>
+    <rect x="941.8" y="1016" width="89.3" height="10" rx="5"/>
+    <rect x="1091.5" y="1016" width="89.3" height="10" rx="5"/>
+    <rect x="1241.3" y="1016" width="89.3" height="10" rx="5"/>
+    <rect x="1391.1" y="1016" width="89.3" height="10" rx="5"/>
+    <rect x="1540.8" y="1016" width="89.3" height="10" rx="5"/>
+    <rect x="1690.6" y="1016" width="89.3" height="10" rx="5"/>
+    <rect x="1840.4" y="1016" width="89.3" height="10" rx="5"/>
+  </g>
+</svg>
