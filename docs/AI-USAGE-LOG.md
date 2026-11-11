@@ -689,3 +689,21 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** `docs/design/deck-critique.md` (18 must-fix and 36 nice-to-have findings, measurements per slide); the G-58 claim line in `docs/TASKS.md`. The deck, `SLIDES.md` and `make_deck.py` were not changed.
 - **How I verified it, and who verified it:** fonts, sizes, word counts and pictures read from the .pptx with python-pptx; every number on the slide faces and in the scripts compared by hand with its source file; each chart opened and its placed size computed from its pixels and DPI; the AI-log count recounted on `origin/main`. Roma and Tair still have to go through the findings.
 - **What I rejected or corrected:** the first count for slide 9's script cut did not add up to the 18 words it promised and was corrected; a slide render was not faked: Quick Look gave no image, so the critique says no render was made and estimates overflow from box sizes instead.
+### 11 November 2026, Dameli (G-59 motion tokens, G-54 demo pause, G-64 reduce-motion switch)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** name every animation timing, add a pause button to the landing demos and a Reduce motion switch in Settings.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков". Transcript kept locally.
+- **What it produced or changed:**
+  - `web/lib/motion.ts` tokens and `--duration-ui`; `web/components/landing/demo-pause-button.tsx` and the two demos.
+  - `web/components/motion/motion-preference.tsx`, `motionStore`, the inline script, the Settings switch and a CSS block.
+  - Two tests; the R7 line in ANTI-SLOP.md; a note in DESIGN-BRIEF.md.
+- **How I verified it, and who verified it:**
+  - lint, typecheck, all 148 tests and the build pass after the rebase on `main`.
+  - A Playwright run on port 3102 read every animation frame for 3 s on the four routes. Switch on: no element took more than one value. Baseline: chart bars took 20 values, KPI numbers 10.
+  - The same run with the device setting emulated gave the same result as the switch.
+  - Pause and Play worked with Enter, Space and a click.
+- **What I rejected or corrected:**
+  - Did not hide the pause button with conditional markup (hydration mismatch); CSS hides it instead.
+  - Did not touch the chart files or the count-up rendering, which other tasks edit today.
+  - A first test of the sign demo failed because it sits in a closed `<details>`; the test now opens it first.

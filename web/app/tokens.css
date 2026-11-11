@@ -315,12 +315,13 @@
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-emphasized: cubic-bezier(0.3, 0, 0, 1);
   --ease-exit: cubic-bezier(0.4, 0, 1, 1);
-  --default-transition-duration: 160ms;
+  --default-transition-duration: var(--duration-ui);
   --default-transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
 }
 
 :root {
   --duration-fast: 120ms;
+  --duration-ui: 160ms;
   --duration-base: 200ms;
   --duration-slow: 420ms;
   --duration-draw: 700ms;

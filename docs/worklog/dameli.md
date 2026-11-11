@@ -23,6 +23,32 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **What I learned / can explain at the defense:** the deck was reviewed against a written checklist (Lec3-HCI p21, aesthetic and minimalist design; Lec4-DMViz p31, honest charts), and every number was traced to a committed file a second time, separately from the build script's own check.
 - **AI use:** Claude Code ran the measurements and drafted the critique, including the two severity lines; I go through them with Roma and Tair (entry in docs/AI-USAGE-LOG.md).
 - **Open questions / next:** go through the 18 must-fix items with Roma and Tair; Amina and Nazar redraw the slide 6 to 8 charts with the chart-style block; I place the slide 9 crops from Drive `screenshots/` in Canva (G-11) and enlarge the small labels in `architecture-slide.svg` (G-66 follow-up).
+### 2026-11-11 17:23 · G-59 (#293), G-54 (#288), G-64 (#329) · Motion tokens, demo pause, Reduce motion switch
+- **Status:** done
+- **What I did:**
+  - G-59: named every animation timing in `web/lib/motion.ts` (`timing`, `demo`) and `--duration-ui` in tokens.css, and replaced the literals: count-up 0.8 s, scan line 2.2 s, demo intervals 7 s and 5 s, demo delays, `duration-200`, the default transition 160 ms. Same values, so nothing looks or moves differently.
+  - G-54: a Pause/Play button for both landing demos.
+  - G-64: a "Reduce motion" switch in Settings that every animation follows.
+- **Result:**
+  - `web/components/landing/demo-pause-button.tsx`.
+  - `web/components/motion/motion-preference.tsx`, `motionStore` in `web/lib/store/settings.ts`, the inline script in `web/lib/theme-script.ts`, a block at the end of `web/app/globals.css`.
+  - Tests: `web/lib/motion.test.ts`, `web/lib/theme-script.test.ts`.
+- **Decisions and why:**
+  - The pause control is a real button whose word and name say what a press does next ("Pause roads demo" / "Play roads demo"). I did not use `aria-pressed`, because a changing label and a pressed state together read twice.
+  - The button is hidden under reduced motion by CSS, not by markup: nothing loops then, and conditional markup would differ from the server render.
+  - The switch has its own storage key, so the inline script reads it before first paint, and "Reset demo data" keeps it like the theme.
+  - Switch over a System/Reduced segmented control: "System" can already mean reduced, so a switch with "On: animations stop. Off: follows your device setting." is clearer.
+  - Charts follow the switch through Recharts' `AnimationControllerProvider` in one place, so the chart files (another task in progress) did not change.
+  - The count-up got its hook swap only after G-45 (#406), which edits the same file, was merged, so there was no conflict. `MotionGlobalConfig.skipAnimations` also covers any other imperative `animate()` call.
+- **What I learned / can explain at the defense:**
+  - Moving content that starts by itself and lasts more than 5 s needs a pause (WCAG 2.2.2; Lec3-HCI p.37).
+  - The choice is applied before the first paint by the same inline script as the theme, so no animation starts and then stops.
+  - Motion's `reducedMotion="user"` stops only transform animations; `skipAnimations` stops all of them, fades included.
+- **AI use:** Claude Code wrote the code and the Playwright checks from my task list (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:**
+  - The example chips in the sign demo are still 32 px on phones (G-54 step 3, left for G-30, which restyles them).
+  - The detection box delays in `detection-overlay.tsx` and the keyframe timings in `globals.css` are still numbers; the grep does not cover them.
+  - G-64 references (Mobbin, macOS) and Drive screenshots still to collect.
 
 ### 2026-11-11 17:22 · G-25 (#169), G-68 (#333) · Printable reports and photo thumbnails in table rows
 - **Status:** done

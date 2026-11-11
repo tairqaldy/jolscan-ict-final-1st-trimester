@@ -241,6 +241,10 @@ Each page needs four states: loading, empty, error, and filled.
 
 Motion explains what happened. It never blocks input, never loops without reason, and is switched off under `prefers-reduced-motion`.
 
+- **Tokens (G-59):** every timing is named. CSS: `--duration-*` and `--ease-*` in `web/app/tokens.css`. JS: `duration`, `ease`, `stagger`, `timing` and `demo` in `web/lib/motion.ts`. `web/lib/motion.test.ts` fails if the two disagree.
+- **Pause (G-54):** the two landing demos that replay (roads every 7 s, signs every 5 s) have a Pause/Play button. It is hidden under reduced motion, because nothing loops then.
+- **Reduce motion switch (G-64):** Settings, "Appearance and language". On, the app behaves as under the device setting. The inline script in `web/lib/theme-script.ts` sets `<html data-motion="reduce">` before first paint for the CSS; `web/components/motion/motion-preference.tsx` stops motion/react, the count-up and Recharts animations.
+
 ## Final checks before feature freeze
 
 - [ ] U1–U8 pass.

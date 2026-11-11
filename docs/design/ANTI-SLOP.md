@@ -30,7 +30,7 @@ Design pull requests tick "ANTI-SLOP.md checked" in the pull request template.
 | R4 fake proof | 0 | Passes. |
 | R5 lorem | 0 | Passes. |
 | R6 numbers | 2 typed percentages | **Keep, both sourced.** About page, "about 75%" per-sign gender: `docs/ML-EXPERIMENT-RESTROOM.md` line 81. Compare result, "90%" pairwise and "57%" per sign: `docs/RULES.md` line 99. Both belong to the restroom lane (Nazar); update them if the export changes. |
-| R7 motion | 3 | **Fix two in G-54 (#288):** the hero demo replays every 7 s (`web/components/landing/hero-demo.tsx` line 29) and the sign-pair demo cycles every 5 s (`web/components/landing/pair-demo.tsx` line 36); both need a pause button. **Keep one:** the scan line on Analyze (`web/components/app/analyze-client.tsx` line 206) only runs while an analysis is in progress, as a progress indicator, and is off under reduced motion. |
+| R7 motion | 3 | **Fixed in G-54 (#288):** the hero demo replays every 7 s (`web/components/landing/hero-demo.tsx`) and the sign-pair demo cycles every 5 s (`web/components/landing/pair-demo.tsx`); both now have a Pause/Play button (`web/components/landing/demo-pause-button.tsx`) and do not loop under reduced motion. **Keep one:** the scan line on Analyze (`web/components/app/analyze-client.tsx` line 206) only runs while an analysis is in progress, as a progress indicator, and is off under reduced motion. |
 | R8 families | 2 (Overpass, JetBrains Mono) | Passes, since G-4. |
 | R9 radii | 5 tokens (`xs`, `sm`, `md`, `lg`, `xl`) plus `full` | **Fix in G-49 (#283):** three values plus `full`. |
 | R10 raw colours | 2, in `web/app/layout.tsx` lines 28–29 | **Keep.** They set the browser's theme colour, and metadata cannot read CSS variables; the comment there says they mirror `--bg`. |

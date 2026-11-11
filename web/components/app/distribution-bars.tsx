@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotionConfig } from "motion/react";
 import type { LucideIcon } from "lucide-react";
-import { duration, ease } from "@/lib/motion";
+import { duration, ease, stagger } from "@/lib/motion";
 import { useHydrated } from "@/lib/store/local-store";
 
 export type DistributionItem = {
@@ -22,7 +22,7 @@ export type DistributionItem = {
  * plays for bars mounted later in the browser (never a blank chart).
  */
 export function DistributionBars({ items, unit = "items" }: { items: DistributionItem[]; unit?: string }) {
-  const reduce = useReducedMotion();
+  const reduce = useReducedMotionConfig();
   const hydrated = useHydrated();
   const total = items.reduce((s, c) => s + c.count, 0) || 1;
   const max = Math.max(...items.map((c) => c.count), 1);
@@ -42,7 +42,7 @@ export function DistributionBars({ items, unit = "items" }: { items: Distributio
                 style={{ width: `${(item.count / max) * 100}%` }}
                 initial={reduce || !hydrated ? false : { scaleX: 0 }}
                 animate={{ scaleX: 1 }}
-                transition={{ duration: duration.slow * 1.5, delay: i * 0.06, ease: ease.emphasized }}
+                transition={{ duration: duration.slow * 1.5, delay: i * stagger, ease: ease.emphasized }}
               />
             </span>
             <span className="tabular text-right font-mono">
