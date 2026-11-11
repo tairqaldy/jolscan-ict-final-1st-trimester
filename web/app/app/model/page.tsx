@@ -54,7 +54,7 @@ const ROAD_METRICS: Term[] = [
 const SIGN_METRICS: Term[] = [
   {
     term: "Top-1 matching accuracy",
-    text: "For each query sign the model picks one gallery sign: the most similar sign of the opposite gender. Top-1 accuracy is the share of queries where that pick is the true partner from the same restroom. With 10 validation queries one query is worth 0.10, so smaller differences are noise.",
+    text: "For each query sign the method picks one gallery sign as its partner (each run's rule is in its row). Top-1 accuracy is the share of queries where that pick is the true partner from the same restroom. With 10 validation queries one query is worth 0.10, so smaller differences are noise.",
     source: "Sup p27, Lec8 p42",
   },
   {

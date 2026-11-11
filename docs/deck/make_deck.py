@@ -1113,8 +1113,8 @@ def slide_restroom_results(prs) -> SlideDoc:
             "Open team decision (R-3 step 4): which one is the headline; Nazar confirms in the chat. "
             f"R4's 30/30 does not change the run choice: the rule never looks at test. Never say 'we beat the IOAI best'. "
             f"Gender numbers: {g_r1}; 5-fold cross-validation grouped by restroom. "
-            f"What the app serves today is neither {champ} nor R7: `served` is null; Match ranks by zero-shot CLIP "
-            f"{SERVED_ARCH} and the opposite predicted gender (servedNote in {wr}; task C-8). "
+            f"What the app serves: `served` = {WEB_REST.get('served')} in {wr}: since C-8 Match runs the two-step "
+            f"pipeline one query at a time ({served}), not the opposite-gender rule. "
             f"The interval and p values are exact (Clopper-Pearson, McNemar) from stored predictions ({ij}); p {p_r3} "
             f"means 3 queries to 0 is too few to tell R7 from {champ}. 'One query at a time' is {served} ({qj}): no "
             "assignment across queries, the variant the API serves after C-8; its test score was read once.")
@@ -1238,8 +1238,8 @@ def slide_limits(prs) -> SlideDoc:
         T.text(s, MARGIN, y, Inches(0.6), Inches(0.5), f"{i + 1}", size=28, color="accent_ink", font=MONO, bold=True)
         rich(s, MARGIN + Inches(0.65), y, Inches(11.2), Inches(0.95),
              [[(head, {"bold": True, "size": 22})], [(line, {"color": "muted"})]], size=BODY, line=1.1)
-    nxt = ("Next: an external test set of screened local photos, the two-step pipeline served in the app (C-8), "
-           "and repeat runs with other seeds.")
+    nxt = ("Next: an external test set of screened local photos, accessible and all-gender signs for the restroom "
+           "model, and repeat runs with other seeds.")
     card(s, MARGIN, Inches(5.0), CONTENT_W, Inches(1.15), fill="surface2", line=None)
     T.text(s, MARGIN + Inches(0.3), Inches(5.0), CONTENT_W - Inches(0.6), Inches(1.15), nxt, size=BODY,
            anchor=MSO_ANCHOR.MIDDLE, line=1.12)

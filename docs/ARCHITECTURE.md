@@ -151,7 +151,9 @@ type MatchResult = {               // one query sign against a gallery of signs
   latencyMs: number;
   query: SignPrediction;
   candidates: Array<{ id: string; similarity: number; prediction: SignPrediction }>;  // sorted, most similar first
-  bestMatchId: string | null;      // most similar candidate of the opposite gender
+  bestMatchId: string | null;      // local/cloud: the two-step pipeline (api/restroom_pipeline.py: SIFT + pixel check,
+                                   // then colour + CLIP); mock: most similar candidate of the opposite gender
+  ownId?: string | null;           // the gallery image the query was cropped from, or null (task C-8)
 };
 ```
 
@@ -195,7 +197,7 @@ type RestroomExperimentsFile = {
     latencyMs: number | null;      // per image, batch size 1
     device: string | null;         // e.g. "Apple M3 CPU", "Colab T4"
   }>;                              // R7 is the two-step pipeline (no training): genderAccCv and latencyMs are null
-  served?: string | null;          // run id whose method /restroom/match runs; null until the API runs the pipeline (C-8)
+  served?: string | null;          // run id whose method /restroom/match runs: "R7", one query at a time since C-8
   servedNote?: string;             // what the app serves today, in words
   pipeline?: {                     // every approach of ml/restroom/pipeline.py (task C-12)
     champion: string;              // chosen on training episodes, then validation; test read once
