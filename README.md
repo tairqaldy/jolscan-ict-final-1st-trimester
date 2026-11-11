@@ -87,12 +87,12 @@ docs/          plan, tasks, architecture, course grounding, presentation
 | Nazar | Restroom model | @Akanov-Kanta |
 | Amina | Pothole data, model and rules | @omodotori |
 | Alizhan | Serving and performance | @byahsaa |
-| Roma | Research, deck, video, QA | to be added |
+| Roma | Research, deck, video, QA | @dyharonking |
 
 ## Data credits
 
 - Restroom signs: IOAI 2025 Individual Contest, "Restroom Icon Matching", https://github.com/IOAI-official/IOAI-2025, CC-BY-4.0.
-- Potholes: dataset card in [data/README.md](data/README.md) (licence check in progress, task D-1).
+- Potholes: Annotated Potholes Image Dataset by Atikur Rahman Chitholian, Kaggle, ODbL (database) and DbCL (contents); dataset card in [data/README.md](data/README.md) (task D-1).
 
 ## Rules for this repository
 

@@ -123,9 +123,8 @@ Proposed from what each person asked for in the group chat: Nazar suggested the 
 ## 7. Open questions for the team
 
 1. Defense slot: Thursday is assumed from the chat. Who books it, and which list (Olzhas or Dilnura)? All six must have the same lab instructor (A2 p1).
-2. Roboflow dataset: which Universe dataset was forked, what is its licence, and does the instructor accept a source outside the syllabus list (Kaggle, UCI, OpenML, egov, stat.gov)?
-   Also: does Assignment #2 need an LMS upload? The syllabus and the assignment sheet disagree.
+2. ~~Roboflow dataset and licence~~ **Answered (D-1, 11 Nov):** the source is the Kaggle dataset by Atikur Rahman Chitholian (ODbL / DbCL), an allowed source (Syl p.9). LMS upload: the syllabus says assignments are submitted through the LMS before the start of the class in which they are defended (Syl p.7); task X-11.
 3. Who presents which slide? A proposal is in PRESENTATION.md.
-4. Roma's GitHub username, to add to the repo.
+4. ~~Roma's GitHub username~~ **Decided by Tair (lead), 11 Nov:** `dyharonking`, whose PR #13 claimed R-7 for Roma (task X-4).
 5. Product name: Qarau is a working name, set in `web/lib/brand.ts`.
-6. Lanes changed with the second module: Nazar moves to the restroom model, Amina takes the pothole model with Alizhan running Colab jobs. Confirm at kickoff.
+6. ~~Lanes~~ **Settled in practice:** Nazar runs the restroom model, Amina the pothole data, rules and E8, Alizhan the API; Tair trained E0–E7 on one laptop GPU so the runs are comparable (11 Nov).

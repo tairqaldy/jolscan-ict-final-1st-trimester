@@ -10,6 +10,17 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 ## Entries
 
+### 2026-11-11 ? M-4 (#53) ? Prepare E1 without training
+- **Status:** in progress; compatibility confirmation required before training.
+- **What I did:** Claimed available E1 for omodotori, compared the actual E0 tagged trainer and explicit JSON configuration with E1, and prepared [separate Colab instructions](../E1-COLAB.md).
+- **Result:** Only model weights and descriptive change label differ in effective E0/E1 settings. Trainer and requirements match e0-trainer. Existing M-1 notebook is smoke-only and was preserved.
+- **Decisions and why:** Do not run Colab until Tair confirms resolved E0 args, environment, archive identity and MPS/CUDA comparability. Do not duplicate E0 or overwrite smoke/results evidence.
+- **What I learned / can explain at the defense:** Matching explicit hyperparameters does not prove identical framework defaults, augmentations or hardware behavior. E1 tests model size with the same frozen split and budget.
+- **AI use:** Codex assisted with inspection and the runbook; see AI-USAGE-LOG.md.
+- **Open questions / next:** Tair's actual command, args.yaml, package versions, dataset hash and approved source/backend compatibility are still needed. No training or result is claimed.
+
+
+
 ### 2026-11-11 ? M-0 (#49) ? Final selection and E8 policy
 - **Status:** complete on merge of [PR #369](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/pull/369), subject to green checks and current main.
 - **What I did:** Confirmed the validation-only champion rule and documented E8 qualification. Revised the earlier E0-champion override before comparison runs, then added smoke-flag filtering to the exporter with three offline regression tests.

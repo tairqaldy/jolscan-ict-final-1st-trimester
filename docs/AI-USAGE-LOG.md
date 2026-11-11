@@ -22,6 +22,16 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Amina (M-4, preparation only)
+
+- **Tool and version:** Codex, GPT-6 family.
+- **Purpose:** Claim available E1 and prepare exact Colab instructions without training.
+- **Key prompt:** "Check current issue #53 (M-4 / E1), task claims, experiment specification and training code. Do not start training yet." "Do not run E1 or duplicate E0 until configuration compatibility is confirmed." Full transcript archival remains outstanding under X-13.
+- **What it produced:** Claim-only main commit, separate model/m4-e1 branch, docs/E1-COLAB.md and worklog. Trainer, smoke notebook and evidence unchanged.
+- **How verified:** Live assignment/claims checked; fetched e0-trainer; trainer/requirements diff against it is empty. Offline AST inspection confirms effective E1/E0 differs only in weights and descriptive label; E0 JSON explicit params match BASE. Reviewed runbook code syntax and git diff --check. Colab cells and training were not executed.
+- **What rejected or corrected:** No guessed E0 defaults, automatic Torch upgrade policy, smoke commit reuse, training, E0 duplication or fabricated result. Explicitly identified missing resolved E0 args/environment and CUDA/MPS difference.
+
+
 ### 11 November 2026, Alizhan (S-4, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6 family.
@@ -358,6 +368,14 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How I verified it, and who verified it:** ran the script on this laptop; `/health`, the warm-up and a real photo through the web app worked; the servers were stopped afterwards.
 - **What I rejected or corrected:** the first version checked only that `web/.next` exists, which a dev server also creates; it now checks for the production build's `BUILD_ID`.
 
+### 11 November 2026, Tair (W-22 study card draft)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** a first draft of my study card for the individual question.
+- **Key prompt(s), with a link to the transcript:** "complete some bare minimum tasks". Transcript kept locally.
+- **What it produced or changed:** the "Tair" practice answers and diagram in `docs/PRESENTATION.md`.
+- **How I verified it, and who verified it:** the facts were checked against the code (timeouts, error codes, file paths); I still have to answer from memory in Rehearsal 1.
+- **What I rejected or corrected:** left out lecture page numbers that were not checked against the PDFs.
 
 ### 11 November 2026, Tair (W-62 first-result path, W-30 demo path card)
 
