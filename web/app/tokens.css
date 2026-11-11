@@ -394,12 +394,13 @@
   /* Spacing: Tailwind multiplies this base (p-4 = 1rem). */
   --spacing: 0.25rem;
 
-  /* Radii: road signs have gently rounded corners */
-  --radius-xs: 2px;
+  /* Radii: road signs have gently rounded corners. Three steps plus pills
+     (G-49, DESIGN-BRIEF.md "Corner radii"): sm for small marks inside other
+     parts, md for controls, lg for cards, panels and dialogs. Do not use
+     Tailwind's built-in rounded-xs, rounded-xl or larger. */
   --radius-sm: 4px;
   --radius-md: 6px;
   --radius-lg: 10px;
-  --radius-xl: 16px;
   --radius-full: 9999px;
   --font-weight-bold: 600;
 
