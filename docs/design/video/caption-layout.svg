@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" role="img" aria-label="Video frame layout: the screen recording on top, the caption bar below">
+  <!-- Layout of every app shot in the backup video (G-57, docs/design/video.md). The recording fills the top
+       1920 x 960; captions live only in the 120 px bar, so they never cover the result or a Demo badge. -->
+  <rect width="1920" height="960" fill="#ebe9e3"/>
+  <rect x="0.5" y="0.5" width="1919" height="959" fill="none" stroke="#b3afa4" stroke-dasharray="12 10"/>
+  <text x="960" y="452" text-anchor="middle" font-family="Overpass, 'Helvetica Neue', Arial, sans-serif" font-size="44" font-weight="700" fill="#4f5156">Screen recording ·&#160; 1920 × 960 (2:1)</text>
+  <text x="960" y="512" text-anchor="middle" font-family="'JetBrains Mono', Menlo, monospace" font-size="26" fill="#66686d">Record Selected Portion over the page area, for example 1440 × 720 points</text>
+  <rect y="960" width="1920" height="120" fill="#1c1d1f"/>
+  <text x="64" y="1031" font-family="'JetBrains Mono', Menlo, monospace" font-size="32" fill="#f2a900">02</text>
+  <text x="150" y="1034" font-family="Overpass, 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="600" fill="#f3f2ee">Each box is one pothole; six rules turn them into a repair priority</text>
+</svg>

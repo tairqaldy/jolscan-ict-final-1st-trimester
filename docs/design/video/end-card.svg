@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" role="img" aria-label="Qarau, end card with the repository and live demo links">
+  <!-- End card for the backup demo video (G-57, docs/design/video.md). Same tokens and stripe as the title card;
+       links as on the closing slide of the template; data credits from web/lib/credits.ts. Shown for 4 s. -->
+  <rect width="1920" height="1080" fill="#f3f2ee"/>
+  <text x="160" y="190" font-family="Overpass, 'Helvetica Neue', Arial, sans-serif" font-size="28" font-weight="700" letter-spacing="4" fill="#855700">END OF THE BACKUP DEMO</text>
+  <text x="160" y="290" font-family="Overpass, 'Helvetica Neue', Arial, sans-serif" font-size="76" font-weight="700" fill="#1b1c1e">Repository and live demo</text>
+  <g font-size="36">
+    <text x="160" y="410" font-family="Overpass, 'Helvetica Neue', Arial, sans-serif" fill="#4f5156">Repository</text>
+    <text x="520" y="410" font-family="'JetBrains Mono', Menlo, monospace" fill="#1b1c1e">github.com/tairqaldy/qarau-ict-final-1st-trimester</text>
+    <text x="160" y="480" font-family="Overpass, 'Helvetica Neue', Arial, sans-serif" fill="#4f5156">Live demo</text>
+    <text x="520" y="480" font-family="'JetBrains Mono', Menlo, monospace" fill="#1b1c1e">qarau.vercel.app</text>
+    <text x="160" y="550" font-family="Overpass, 'Helvetica Neue', Arial, sans-serif" fill="#4f5156">Team</text>
+    <text x="520" y="550" font-family="Overpass, 'Helvetica Neue', Arial, sans-serif" fill="#1b1c1e">Tair ·&#160; Dameli ·&#160; Nazar ·&#160; Amina ·&#160; Alizhan ·&#160; Roma</text>
+  </g>
+  <text font-family="Overpass, 'Helvetica Neue', Arial, sans-serif" font-size="26" fill="#66686d">
+    <tspan x="160" y="660">Screens marked “Demo data” or “Mock result” show invented data. The model page shows our real results.</tspan>
+    <tspan x="160" y="702">Data: Annotated Potholes Image Dataset, by Atikur Rahman Chitholian (Kaggle, ODbL / DbCL).</tspan>
+    <tspan x="160" y="744">IOAI 2025 Individual Contest, “Restroom Icon Matching” (CC-BY-4.0).</tspan>
+  </text>
+  <g transform="translate(160 828) scale(2.4)"><rect x="1" y="1" width="30" height="30" rx="7" fill="#f2a900"/><path d="M8 13.5V8h5.5M18.5 8H24v5.5M24 18.5V24h-5.5M13.5 24H8v-5.5" fill="none" stroke="#1b1c1e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="16" cy="16.5" rx="3.6" ry="2.4" fill="#1b1c1e"/></g>
+  <text x="252" y="889" font-family="Overpass, 'Helvetica Neue', Arial, sans-serif" font-size="56" font-weight="700" fill="#1b1c1e">Qarau</text>
+  <text x="1760" y="889" text-anchor="end" font-family="'JetBrains Mono', Menlo, monospace" font-size="24" fill="#66686d">ICT1103 · QAIRU</text>
+  <!-- Road stripe: asphalt band with the amber centre line, as on slide 1 and the landing page -->
+  <rect x="0" y="991" width="1920" height="60" fill="#26282b"/>
+  <g fill="#f2a900">
+    <rect x="43.2" y="1016" width="89.3" height="10" rx="5"/>
+    <rect x="193.0" y="1016" width="89.3" height="10" rx="5"/>
+    <rect x="342.7" y="1016" width="89.3" height="10" rx="5"/>
+    <rect x="492.5" y="1016" width="89.3" height="10" rx="5"/>
+    <rect x="642.3" y="1016" width="89.3" height="10" rx="5"/>
+    <rect x="792.0" y="1016" width="89.3" height="10" rx="5"/>
+    <rect x="941.8" y="1016" width="89.3" height="10" rx="5"/>
+    <rect x="1091.5" y="1016" width="89.3" height="10" rx="5"/>
+    <rect x="1241.3" y="1016" width="89.3" height="10" rx="5"/>
+    <rect x="1391.1" y="1016" width="89.3" height="10" rx="5"/>
+    <rect x="1540.8" y="1016" width="89.3" height="10" rx="5"/>
+    <rect x="1690.6" y="1016" width="89.3" height="10" rx="5"/>
+    <rect x="1840.4" y="1016" width="89.3" height="10" rx="5"/>
+  </g>
+</svg>
