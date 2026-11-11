@@ -49,7 +49,7 @@ export function PlatformOverviewClient() {
         description={
           <span className="inline-flex flex-wrap items-center gap-2">
             Both modules at a glance: the 30 days to {formatDate(MOCK_ANCHOR)} (demo sets) plus work done in this browser.{" "}
-            <DemoBadge module="any" />
+            <DemoBadge show label="Includes demo data" />
           </span>
         }
       />

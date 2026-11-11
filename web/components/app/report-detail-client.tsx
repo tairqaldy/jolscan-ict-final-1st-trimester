@@ -45,7 +45,7 @@ export function ReportDetailClient({ id }: { id: string }) {
         description={
           <span className="inline-flex flex-wrap items-center gap-2">
             Analysed {formatDateTime(analysis.createdAt)} (Astana time)
-            {analysis.source === "demo" ? <DemoBadge /> : <span className="text-subtle">· made in this browser</span>}
+            {analysis.source === "demo" ? <DemoBadge show /> : <span className="text-subtle">· made in this browser</span>}
           </span>
         }
       />
