@@ -44,6 +44,16 @@ Three mark directions were drawn on the tokens and compared at 16, 32 and 128 px
 
 Files: `web/app/icon.svg` (favicon), `web/app/apple-icon.png` (180 px), `web/app/opengraph-image.png` (1200 × 630, name, meaning and tagline from `web/lib/brand.ts`), `web/public/brand/logo-mark.svg` and `wordmark.svg` for the deck. Static brand files use the road-sign amber `#f2a900` with graphite `#1b1c1e`; inside the app the mark follows the theme's `--accent`.
 
+### Slide template (G-10)
+
+The deck is made in Canva, which imports PowerPoint files as editable presentations. `docs/design/slide-template/qarau-slide-template.pptx` is built by `make_slide_template.py` in the same folder from the light-theme tokens, so a token change means running the script again.
+
+- **Size and slides:** 16:9, eight slides covering the seven layouts: title; a section divider per module (Roads, Restrooms); one point plus a screenshot; one point plus a chart; a results table; a two-option comparison; a closing slide with the links.
+- **Colours:** background `--bg`, text `--fg` and `--muted`. The accent is a fill only, with `--accent-fg` text; amber text uses `--accent-ink`. Section dividers use `--inverse`. The logo and the road stripe use the brand amber `#f2a900`. Every hex value is in the first slide's speaker notes.
+- **Type:** Overpass for titles and text, JetBrains Mono for numbers and the footer "Qarau · ICT1103 · QAIRU".
+- **Honesty:** a "Demo data" label in the app's badge colours for demo screens. Placeholders only: the table shows dashes, and the chart bars carry no values.
+- **After import:** check one slide on Roma's device. If Canva shows another font, set Overpass or JetBrains Mono on that text.
+
 ### Contrast audit (G-3, preliminary)
 
 Ratios below were calculated from the hex tokens using WCAG relative luminance. Text and `-ink` rows are checked against both backgrounds; solid marks are checked for a 3:1 target on `--surface`. Badges also need their actual ink/soft pair checked. Contrast numbers alone do not establish overall accessibility or colour-blind distinguishability; browser and grayscale review remains outstanding. The dark theme is unchanged.
