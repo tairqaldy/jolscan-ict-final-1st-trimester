@@ -10,6 +10,33 @@
 
 ## Entries
 
+### 2026-11-12 01:48 · R-31 (#240) · Write the examiner's hardest questions with honest answers
+- **Status:** done
+- **What I did:** Created [`docs/DEFENSE-QA.md`](../DEFENSE-QA.md) containing 18 uncomfortable defense questions covering all 6 lanes (coordination, data, YOLO detection, CLIP restroom matching, FastAPI serving, and Next.js frontend). Structured every answer with a strict constraint of at most three sentences, an upfront acknowledgement of the limitation, and exact citations to repository files or course lectures. Added the "If you do not know" protocol and confirmation tags for each lane owner. Linked the document from `docs/README.md` and `docs/PRESENTATION.md`.
+- **Result:** Complete defense Q&A guide in `docs/DEFENSE-QA.md` unblocking R-32 and R-35.
+- **Decisions and why:** Framed answers to state limits before the examiner identifies them (CLO 6 reasoning criteria), ensuring the team avoids defensive claims ("our model is better") and instead relies on verifiable evidence files.
+- **What I learned / can explain at the defense:** Why honest admission of dataset/benchmark assumptions (e.g. IOAI test leakage guards, synthetic pairing constraints) demonstrates scientific rigor under CLO 6.
+- **AI use:** Assistant used to draft questions and format markdown constraints; content grounded in existing repo files.
+- **Open questions / next:** Coordinate with lane owners for oral mock drill rehearsal (R-35).
+
+### 2026-11-12 01:40 · D-21 (#180) · Tag validation and test photos for framing and conditions
+- **Status:** done
+- **What I did:** Wrote `data/tag_conditions.py` and generated `data/exports/potholes_yolo_v1/condition_tags.csv` with 200 rows (100 val, 100 test). Formulated tags for framing (`close-up` vs `dashcam`), lighting, surface moisture, occlusion, and D-2 quality review notes without consulting any model predictions.
+- **Result:** 200-row condition tag dataset in `data/exports/potholes_yolo_v1/condition_tags.csv` unblocking M-36.
+- **Decisions and why:** Maintained strict blinding rule (data/README.md rule 2) so tags are written before evaluating model recall across conditions.
+- **What I learned / can explain at the defense:** How visual review flags and condition metadata prevent model selection bias and enable fine-grained failure slice analysis.
+- **AI use:** Assistant used to write script parsing split_manifest.json and cross-referencing D-2 notes.
+- **Open questions / next:** Hand over to Amina for condition breakdown report (M-36).
+
+### 2026-11-12 01:30 · R-46 (#255) · Write step-by-step test scripts for the live site
+- **Status:** done
+- **What I did:** Authored `docs/QA-SCRIPTS.md` providing 14 detailed manual test scripts (TS-01 through TS-14) covering all system interfaces: API liveness/health, roads upload & rules scoring, confidence thresholding, file rejection, restroom compare & match, analytics, experiment tables, mobile viewport responsiveness, theme tokens, offline fallback, concurrency locks, and landing page.
+- **Result:** 14 structured test scripts in `docs/QA-SCRIPTS.md` with preconditions and expected results per step, unblocking R-47 and R-48.
+- **Decisions and why:** Grounded scripts directly in API contracts (`api/schemas.py`, `api/main.py`) and design tokens (`docs/DESIGN-BRIEF.md`) rather than generic web tests.
+- **What I learned / can explain at the defense:** How system boundaries, failure modes, and client-side graceful degradation are verified empirically before presentation day.
+- **AI use:** Assistant used to compile script details from source code specifications.
+- **Open questions / next:** Execute device matrix pass across phones and browsers (R-47).
+
 ### 2026-11-12 01:05 · R-38 (#247) · Write the course glossary the team must use correctly
 - **Status:** done
 - **What I did:** Wrote `docs/research/glossary.md` covering 38 foundational terms across 5 course categories: computer vision & detection (Lec8), machine learning evaluation & metrics (Sup), clustering (Unsup), architecture & MLOps (Lec2, Lec5, Lec9), and HCI/ethics (Lec3, Lec4, Syl). Added a defense "Do Not Say" table and mapped cross-lane terminology standards to prevent oral grading penalties. Linked the file from `docs/README.md` and `docs/COURSE-GROUNDING.md`.
