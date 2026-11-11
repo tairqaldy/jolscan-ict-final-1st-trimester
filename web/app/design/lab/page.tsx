@@ -107,7 +107,7 @@ function LabColumn({ set, variant, theme }: { set: LabSet; variant: LabVariant; 
       data-lab-variant={variant.id}
       style={overrides as CSSProperties}
       aria-label={`${variant.name}, ${theme} theme`}
-      className="grid min-w-0 gap-5 rounded-xl border border-border bg-bg p-4 text-fg sm:p-5"
+      className="grid min-w-0 gap-5 rounded-lg border border-border bg-bg p-(--card-pad) text-fg"
     >
       <div className="grid gap-1">
         <h4 className="text-lg font-bold">{variant.name}</h4>
