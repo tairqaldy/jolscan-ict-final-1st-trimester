@@ -73,13 +73,13 @@ export function AnalysisView({ analysis, title }: { analysis: StoredAnalysis; ti
           <CardBody className="grid gap-5">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">Repair priority</p>
+                <p className="eyebrow text-muted">Repair priority</p>
                 <div className="mt-2">
                   <SeverityBadge severity={analysis.severity} size="lg" />
                 </div>
               </div>
               <div className="text-right">
-                <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">Score</p>
+                <p className="eyebrow text-muted">Score</p>
                 <p className="tabular font-display text-5xl leading-none font-bold">{formatScore(analysis.score)}</p>
               </div>
             </div>
