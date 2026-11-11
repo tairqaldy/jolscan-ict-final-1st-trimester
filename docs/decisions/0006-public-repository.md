@@ -3,7 +3,7 @@
 - **Date:** 2026-11-10
 - **Decided by:** Tair and the team
 - **Task / issue:** X-18
-- **Status:** decided
+- **Status:** decided; its automatic deploys are turned off by [0010](0010-deploy-on-go-ahead.md)
 
 ## Context
 The repository started private. On the Vercel Hobby plan, a private repository only deploys commits authored by the account owner (decision 0005), and GitHub Free offers no branch rules for private repositories.

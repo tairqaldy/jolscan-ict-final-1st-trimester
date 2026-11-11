@@ -15,3 +15,4 @@ Write one when you pick a dataset, a model, a metric or a threshold, change a co
 | [0007](0007-validation-only-m1-smoke.md) | Keep the M-1 smoke run validation-only | 2026-11-11 | Amina |
 | [0008](0008-api-python-312.md) | Python 3.12 for the API environment | 2026-11-11 | Accepted by Tair (lead) |
 | [0009](0009-m0-e8-policy.md) | Finalize M-0 E8 settings independently of champion selection | 2026-11-11 | Amina; pre-run team confirmation |
+| [0010](0010-deploy-on-go-ahead.md) | Production deploys only on Tair's go-ahead; pushes no longer deploy | 2026-11-11 | Tair |

@@ -818,3 +818,14 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - The scroll padding first did nothing because the dev server served old CSS; after clearing `.next/dev` it applied.
   - Scroll padding alone would have pushed the analyze and compare results and the section anchors lower; their scroll margins were reduced so they land where they did.
   - Did not use `overflow-x: hidden` on `body`, and did not hide the Demo badge or any control.
+
+### 11 November 2026, Tair (automatic Vercel deploys turned off, decision 0010)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with the Vercel connector for the deployment list.
+- **Purpose:** stop Vercel from building on every push, so the live site changes only when I ask for a deploy.
+- **Key prompt(s), with a link to the transcript:** "dont redeploy everytime, please deploy only when needed really. i will only tell you when we can do that.", then "Yes, turn off". Transcript kept locally.
+- **What it produced or changed:** `web/vercel.json` with `git.deploymentEnabled: false`, decision 0010, and the deploy lines in README.md, CONTRIBUTING.md and docs/HANDOFF-DAMELI.md.
+- **How I verified it, and who verified it:**
+  - Before: the Vercel deployment list showed 40 Git deployments in about 80 minutes, all from pushes (claim commits on `main` and pull-request branches), none started by hand.
+  - After: the result for this branch and for the merge commit is in a comment on the pull request.
+- **What I rejected or corrected:** an Ignored Build Step that skips commits outside `web/` (every web merge and every preview would still build), and only batching claim commits (previews would still build).

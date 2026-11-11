@@ -14,7 +14,7 @@ Qarau is one web app with two computer-vision modules, each followed by rules th
 | Where | Link |
 |---|---|
 | Repository (public) | https://github.com/tairqaldy/qarau-ict-final-1st-trimester |
-| Live site (Vercel, deploys every push to `main`) | https://qarau.vercel.app |
+| Live site (Vercel, deployed from `main` on Tair's go-ahead, not on every push; decision 0010) | https://qarau.vercel.app |
 | Start here: all tasks by collection | [#328](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/328) |
 | Bare minimum (what the defense cannot do without) | [#178](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/178) |
 | Team workflow | [#11](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/11) and [CONTRIBUTING.md](../CONTRIBUTING.md) |
@@ -142,7 +142,7 @@ Tair asked that teammates' PRs get reviewed, fixed if needed, and merged. The sa
 5. **Wait for the three checks, then squash-merge.** Their authorship is kept.
 6. **After merging:**
    - close the task issue with a one-line evidence comment, if the PR did not close it;
-   - check that https://qarau.vercel.app still loads.
+   - merging does not deploy (decision 0010), so check the change with `pnpm dev`; the live site changes only when Tair asks for a deploy.
 7. **Only one person merges at a time.** Tair's sessions also merge. Before starting a merge round, say "I am merging #X–#Y" in the team chat or in a PR comment.
 
 ## 6. Setting up and running
