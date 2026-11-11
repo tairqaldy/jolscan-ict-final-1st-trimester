@@ -63,6 +63,19 @@ describe("placeTags (G-28 follow-up)", () => {
     expect(placeTags(items, frame)).toEqual(items.map((it) => placeTag(it.box, it.tag, frame)));
   });
 
+  it("tries below the box first, then inside the box", () => {
+    const tag = { w: 200, h: 40 };
+    const items = [
+      { box: { x: 100, y: 100, h: 20 }, tag }, // tag at y 60
+      { box: { x: 100, y: 500, h: 20 }, tag }, // tag at y 460
+      { box: { x: 100, y: 100, h: 360 }, tag }, // above and below are taken
+      { box: { x: 700, y: 300, h: 20 }, tag },
+    ];
+    const spots = placeTags(items, frame);
+    expect(spots[2]).toEqual({ x: 100, y: 100 });
+    expect(placeTags([items[0], { box: { x: 150, y: 110, h: 20 }, tag }], frame)[1]).toEqual({ x: 150, y: 130 });
+  });
+
   it("moves tag 3 off tag 1 on sample s05 at 375 px, inside the photo", () => {
     const sample = getSample("s05")!;
     const font = tagFontSize(1280, 343 / 1280); // 11 px on screen
