@@ -22,7 +22,7 @@ Every app screenshot in the deck uses one size, one scale and one frame, so the 
 ### Chrome to hide and to keep
 
 - **Hidden:** all browser chrome. Shots come from headless Chromium, so there is no address bar, tab strip, bookmarks bar, extension icon or personal tab to leak. The Next.js dev indicator and the scrollbars are hidden with CSS. The mouse pointer is parked in the top-left corner and is not drawn.
-- **Kept:** everything the app draws: the sidebar, the module switcher, the provider badge, the theme button, and every "Demo data", "Includes demo data", "Mock result" and "Sample result" badge. They are part of the product and of the honesty rule.
+- **Kept:** everything the app draws: the sidebar, the module switcher, the provider badge, the theme button, and every provenance badge ("Demo data", "Includes demo data", "Invented demo record", "Mock result", "Mock predictions", "Sample result"). They are part of the product and of the honesty rule.
 - **Motion:** shots are taken with reduced motion, so count-ups and box drawing have finished. The end state is the same as with motion on.
 
 ## Why this frame
