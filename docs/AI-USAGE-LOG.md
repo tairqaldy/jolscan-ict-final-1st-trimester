@@ -24,6 +24,8 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ### 11 November 2026, Amina (R-22 and R-23, presentation drafts)
 
+- **Review correction:** User asked to distinguish the project's 0.02 reporting convention from statistical equivalence/significance and dataset-level licence metadata from unresolved individual-photo rights. Verified protocol history (`6bc6c07`), `docs/ML-EXPERIMENT.md`, the source index and `data/README.md`; revised the spoken scripts and notes accordingly. Personal rehearsal and live Rules-page checks remain pending.
+
 - **Tool and version:** Codex, GPT-6 family.
 - **Purpose:** Prepare Amina's existing Roads slides as GitHub documents, preserving correct attribution and numerical evidence.
 - **Key prompt:** "Update only Slides 5 and 6 in docs/deck/SLIDES.md." "Clearly distinguish my dataset, clustering, selection-policy and smoke work from Tair's full E0-E8 training." "Do not claim a timed rehearsal occurred." Full transcript archival remains outstanding under X-13.
