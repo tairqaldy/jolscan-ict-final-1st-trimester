@@ -220,12 +220,14 @@ Each page needs four states: loading, empty, error, and filled.
 
 ## Charts (Lec4 visualisation decks)
 
-- Bars for categories (severity breakdown, model comparison), with a zero baseline.
-- Line for time (detections per day).
-- Histogram for distributions (confidence, latency).
+- Bars for categories (severity breakdown, latency by provider, model comparison), with a zero baseline.
+- Columns for detections per day, stacked into counted and needs review. Each day is a separate count, so columns compare the days directly and show the split. A line would draw slopes between days, and with demo data it drops to zero on every day without photos, which makes "are detections rising?" harder to read (tried both on 11 November, G-51; Lec4-VizBasics p4: line for change over time, bars for comparing counts).
+- Histogram for distributions (confidence, sign similarity, gap between the doors). Ticks sit on the bin edges.
 - No pie chart with more than four slices. No 3D, no dual axes.
 - Severity colours carry meaning, so other series use neutral tones.
 - Every chart: title that states the takeaway, axis labels with units, tooltip with exact values.
+- One style for every chart, set once in `web/components/charts/chart-kit.tsx`: `--chart-1` for the main series, `--chart-2` for the one highlight, muted axes and ticks, a light grid on the value axis only, the y-axis title left of the tick labels, one tooltip.
+- Rule thresholds are drawn where the data is: a dashed ink line with the rule and its current value above the plot ("R1 0.40", "S2 0.05"), plus "(your setting)" when it differs from the default. The values come from the rule stores, so the line moves when a rule changes. Outside reference values (the IOAI scores) are dashed and muted, with their name and value.
 
 ## Motion
 
