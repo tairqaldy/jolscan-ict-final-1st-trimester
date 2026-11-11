@@ -903,6 +903,24 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
   - Swapping the solid box for a dashed one when the animation ends (a visible jump).
   - The first fallback put tag 3 inside its own box, which hid the 17 × 8 px box on a phone; below the box now comes first.
 
+### 11 November 2026, Dameli (G-49 radii, G-23 eyebrow label, G-62 card inset)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) and Pillow in a throwaway environment for screenshots and pixel diffs.
+- **Purpose:** cut the corner radii to three, replace the hand-written eyebrow labels with one style, and give every card one padding per breakpoint.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-49, G-23 and G-62 among them). Transcript kept locally.
+- **What it produced or changed:** radius, eyebrow and `--card-pad` tokens in `web/app/tokens.css`; the `eyebrow` utility and two radius lines in `web/app/globals.css`; class changes in `card.tsx`, `kpi.tsx`, `badge.tsx`, `dialog.tsx`, `row-thumb.tsx`, `page-header.tsx`, the landing, analysis, restroom, overview, Settings, Model and `/design` files; three sections at the end of `docs/DESIGN-BRIEF.md`.
+- **How I verified it, and who verified it:**
+  - `grep -cE '^\s+--radius-(xs|sm|md|lg|xl):' web/app/tokens.css` prints 3; `grep -rn "tracking-\[" web/components web/app` prints nothing.
+  - Playwright on my own dev server: screenshots of five routes at 1440 and 375 px, light and dark, before and after each task, compared pixel by pixel; computed styles of the eyebrow and the card padding; the 320 px scroll check printed `false` on all five routes after each task; KPI number clipping measured at 320, 375 and 1440 px before and after.
+  - `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` (223 tests after rebasing on `main`) and `pnpm build` pass.
+- **What I rejected or corrected:**
+  - The file list for the radius replace also picked up `tokens.css`, whose new comment names `rounded-xl`; that file was left out so the comment stayed.
+  - The new token comment contained the text `tracking-[`, which made the G-23 grep fail; reworded.
+  - The issue's grep only finds `tracking-[…]`; a search for `uppercase` found five more hand-written eyebrows with `tracking-wide`, now on the utility too. Table headers were left as they are.
+  - `p-5` on phones for every card (the count winner) was dropped: it would clip KPI numbers at 375 px.
+  - `p-4 sm:p-5` on `Card` was dropped: without class merging, `sm:p-5` would override `CardBody className="px-0"` on desktop and break the edge-to-edge tables.
+  - A 2.5 % pixel change on `/app/analytics` at 1440 px after G-62 was checked: card and chart widths are identical with and without the change (measured), only the chart's tick placement differed.
+
 ### 11 November 2026, Dameli (G-21 token sync tests)
 
 - **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.

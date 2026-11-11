@@ -442,7 +442,7 @@ function TermGrid({ title, terms }: { title: string; terms: Term[] }) {
       <h3 className="text-lg font-semibold">{title}</h3>
       <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {terms.map((m) => (
-          <div key={m.term} className="rounded-lg border border-border bg-surface p-4">
+          <div key={m.term} className="rounded-lg border border-border bg-surface p-(--card-pad)">
             <dt className="font-display text-lg font-semibold">{m.term}</dt>
             <dd className="mt-1 text-sm text-muted">{m.text}</dd>
             {m.source && <dd className="mt-2 font-mono text-xs text-subtle">Course: {m.source}</dd>}

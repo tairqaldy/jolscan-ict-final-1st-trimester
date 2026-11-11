@@ -104,6 +104,7 @@ const TYPE_SCALE = [
   { cls: "text-base", label: "base body", sample: "Detections below the threshold go to the review queue." },
   { cls: "text-sm text-muted", label: "sm muted", sample: "Model time per photo on the laptop CPU." },
   { cls: "text-xs text-subtle", label: "xs subtle", sample: "Invented numbers carry a demo badge." },
+  { cls: "eyebrow text-muted", label: "eyebrow", sample: "Repair priority" },
   { cls: "font-mono text-sm", label: "mono", sample: "score = 15 · clip-vitb32-ft6 · 41 ms" },
 ];
 
@@ -158,7 +159,7 @@ export function TokenReference() {
             {[1, 2, 3, 4, 6, 8, 12, 16].map((n) => (
               <div key={n} className="flex items-center gap-3 text-xs">
                 <span className="w-10 font-mono text-subtle">{n}</span>
-                <span className="h-3 rounded-xs bg-accent" style={{ width: `calc(var(--spacing) * ${n})` }} />
+                <span className="h-3 rounded-sm bg-accent" style={{ width: `calc(var(--spacing) * ${n})` }} />
                 <span className="font-mono text-muted">{n * 4}px</span>
               </div>
             ))}
@@ -166,7 +167,7 @@ export function TokenReference() {
           <div className="grid content-start gap-4">
             <h3 className="text-lg font-semibold">Radii and shadows</h3>
             <div className="flex flex-wrap gap-3">
-              {["xs", "sm", "md", "lg", "xl"].map((r) => (
+              {["sm", "md", "lg", "full"].map((r) => (
                 <div key={r} className="grid size-16 place-items-center border border-border-strong bg-surface-2 font-mono text-xs" style={{ borderRadius: `var(--radius-${r})` }}>
                   {r}
                 </div>
@@ -207,7 +208,7 @@ export function TokenReference() {
               <TR key={c.need}>
                 <TD>
                   <span className="inline-flex items-center gap-2">
-                    <span aria-hidden className="size-3 shrink-0 rounded-xs border border-border" style={{ background: `var(--${c.swatch})` }} />
+                    <span aria-hidden className="size-3 shrink-0 rounded-sm border border-border" style={{ background: `var(--${c.swatch})` }} />
                     {c.need}
                   </span>
                 </TD>
@@ -237,7 +238,7 @@ export function ThemedShowcase() {
         <h3 className="text-xl font-bold">Colour tokens</h3>
         {COLOR_GROUPS.map((g) => (
           <div key={g.title} className="grid gap-2">
-            <p className="text-xs font-semibold tracking-wide text-muted uppercase">{g.title}</p>
+            <p className="eyebrow text-muted">{g.title}</p>
             <dl className="grid gap-x-3 gap-y-0.5 text-xs text-muted sm:grid-cols-[4.5rem_1fr]">
               <dt className="font-semibold text-fg">Use for</dt>
               <dd>{g.use}</dd>

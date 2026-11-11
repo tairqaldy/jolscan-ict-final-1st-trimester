@@ -110,7 +110,7 @@ export function SettingsClient() {
                   <div
                     key={p}
                     className={cn(
-                      "relative grid content-between gap-4 rounded-lg border-2 p-4 transition-colors",
+                      "relative grid content-between gap-4 rounded-lg border-2 p-(--card-pad) transition-colors",
                       selected
                         ? "border-accent bg-accent-soft"
                         : "border-border has-[label:hover]:border-border-strong has-[label:hover]:bg-surface-2",

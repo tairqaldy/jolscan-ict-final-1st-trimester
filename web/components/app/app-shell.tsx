@@ -67,7 +67,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             </div>
 
             <div className="grid gap-1">
-              <p className="px-3 text-xs font-semibold tracking-[0.14em] text-subtle uppercase">Both modules</p>
+              <p className="px-3 eyebrow text-subtle">Both modules</p>
               <ul className="grid gap-0.5">
                 {PLATFORM_NAV.map((item) => (
                   <SideLink key={item.href} item={item} pathname={pathname} />

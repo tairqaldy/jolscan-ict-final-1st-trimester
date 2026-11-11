@@ -175,7 +175,7 @@ function MatchResultView({
           <CardBody className="flex gap-4">
             <SignImage src={queryUrl} alt={querySample?.title ?? "Query sign"} className="w-28 shrink-0" />
             <div className="grid content-start gap-2">
-              <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">Query</p>
+              <p className="eyebrow text-muted">Query</p>
               <p className="font-medium">{querySample?.title ?? result.queryInput.fileName ?? "Uploaded sign"}</p>
               <p className="text-sm text-muted">
                 Read as <GenderTag gender={result.query.gender} confidence={result.query.confidence} />, so the answer must be{" "}
@@ -188,7 +188,7 @@ function MatchResultView({
           <CardBody className="flex gap-4">
             <SignImage src={bestSample?.file} alt={bestSample?.title ?? "Best match"} className="w-28 shrink-0" />
             <div className="grid content-start gap-2">
-              <p className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-[0.14em] text-accent-ink uppercase">
+              <p className="inline-flex items-center gap-1.5 eyebrow text-accent-ink">
                 <Trophy className="size-3.5" aria-hidden /> Best match
               </p>
               {best && bestSample ? (
@@ -260,7 +260,7 @@ function MatchResultView({
         itself only ranks; it has no threshold.
       </p>
 
-      <details className="rounded-lg border border-border bg-surface p-4 text-sm">
+      <details className="rounded-lg border border-border bg-surface p-(--card-pad) text-sm">
         <summary className="cursor-pointer font-medium">Raw JSON</summary>
         <pre className="mt-3 max-h-[24rem] overflow-auto rounded-md bg-surface-2 p-4 font-mono text-xs leading-relaxed">
           <code>{raw}</code>

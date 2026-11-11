@@ -13,7 +13,7 @@ const STEPS = [
  */
 export function LifecycleDiagram() {
   return (
-    <div className="rounded-lg border border-border bg-surface p-5">
+    <div className="rounded-lg border border-border bg-surface p-(--card-pad)">
       <ol className="grid gap-3 md:grid-cols-4 md:gap-0">
         {STEPS.map((s, i) => {
           const Icon = s.icon;
