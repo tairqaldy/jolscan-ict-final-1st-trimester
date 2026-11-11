@@ -62,9 +62,9 @@ export function PlatformOverviewClient() {
       <div className="grid gap-6 xl:grid-cols-2">
         <ModulePanel id="roads">
           <div className="grid grid-cols-3 gap-2 sm:gap-3">
-            <Kpi label="Photos" value={roads.photos} note="analysed" />
-            <Kpi label="Urgent" value={roads.urgent} note="high or critical" accentClass="bg-sev-critical" />
-            <Kpi label="To review" value={roads.review} note="low confidence" accentClass="bg-review" />
+            <Kpi label="Photos" value={roads.photos} note="analysed" nested />
+            <Kpi label="Urgent" value={roads.urgent} note="high or critical" accentClass="bg-sev-critical" nested />
+            <Kpi label="To review" value={roads.review} note="low confidence" accentClass="bg-review" nested />
           </div>
           <RecentList title="Latest road photos" moreHref="/app/roads/reports">
             {analyses.slice(0, 4).map((a) => (
@@ -83,9 +83,9 @@ export function PlatformOverviewClient() {
 
         <ModulePanel id="restrooms">
           <div className="grid grid-cols-3 gap-2 sm:gap-3">
-            <Kpi label="Pairs" value={restrooms.pairs} note="checked" />
-            <Kpi label="Confusing" value={restrooms.confusing} note="replace signs" accentClass="bg-verdict-confusing" />
-            <Kpi label="To review" value={restrooms.review} note="check on site" accentClass="bg-verdict-review" />
+            <Kpi label="Pairs" value={restrooms.pairs} note="checked" nested />
+            <Kpi label="Confusing" value={restrooms.confusing} note="replace signs" accentClass="bg-verdict-confusing" nested />
+            <Kpi label="To review" value={restrooms.review} note="check on site" accentClass="bg-verdict-review" nested />
           </div>
           <RecentList title="Latest sign checks" moreHref="/app/restrooms">
             {checks.slice(0, 4).map((c) => (
