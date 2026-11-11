@@ -12,6 +12,21 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 17:13 · G-30 (#174), G-47 (#281) · Selected states that read in greyscale, and a colour of its own for review
+- **Status:** done
+- **What I did:**
+  - G-30: made one `SelectableTile` for the pick-one tiles (sample photos on Analyze, sample signs, example pairs on Compare). Selected now means amber border, a tinted fill and a check mark in a filled circle. The Settings provider card and the Reports severity chips got the same check mark. Unselected tiles, row links and jump-link chips share one grey hover. The sample sign picker had 2 px of padding around a scroll box, which cut off the focus ring; it now has 4 px.
+  - G-47: added `--review`, `--review-ink` and `--review-soft` (violet-grey, light and dark) and moved the review box on photos from light blue to light violet. A new `ReviewBadge` (eye icon and the word) replaces the amber "review" text in the reports table and the accent badge in the detection table; the "To review" KPI stripe on `/app` uses the new colour.
+- **Result:** `web/components/ui/selectable-tile.tsx`, `ReviewBadge` in `web/components/ui/badge.tsx`, new tokens in `web/app/tokens.css`, a `review` set in `web/scripts/check-palette.mjs`, two short sections at the end of `docs/DESIGN-BRIEF.md`. Greyscale screenshots of every selected tile and chip, light and dark, 1440 and 375 px.
+- **Decisions and why:**
+  - Violet-grey for review: blue is focus and low severity, amber is the accent and medium, green, orange and red are severities. I made it darker than low severity in the light theme so the two stay apart for colour-blind readers too (ΔE 14.5 or more simulated).
+  - The review badge uses an eye, not the circle with an exclamation mark, because medium severity already uses that icon in the same table row.
+  - A check mark, not only a thicker border: in greyscale the amber border looks like any dark grey border.
+  - I left the restroom verdict "review" amber and the analytics "Needs review" bar on `chart-2`: neither was blue, and they belong to other lanes.
+- **What I learned / can explain at the defense:** status is never shown by colour alone (U3): selection has a check mark, review has a dashed box, an eye and the word. The palette check measures colour distance (CIE76 ΔE) with simulated colour blindness; focus and low severity are still both blue, which is fine because focus is only an outline and never a status.
+- **AI use:** Claude Code made the code changes, the screenshots and the contrast numbers from my brief (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** look at the violet box on real photos (G-48). The legend swatches under the photo are pale on the light theme (as before); a darker legend could be a follow-up.
+
 ### 2026-11-11 17:07 · G-66 (#331) · Architecture diagrams for slide 4 and the backup slide
 - **Status:** drawn and on this branch; still needs the two PNGs in Drive `slides/` and Alizhan's OK in the chat.
 - **What I did:** Drew the slide 4 diagram (five boxes, one photo's path numbered 1 to 5) and a detailed version for the backup slide, both as SVG in the light tokens and the deck fonts, and exported 3840×2160 PNGs.
