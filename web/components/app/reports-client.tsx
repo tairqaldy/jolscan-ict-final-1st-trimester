@@ -1,6 +1,6 @@
 "use client";
 
-import { FilterX, SearchX } from "lucide-react";
+import { Check, FilterX, SearchX } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -67,11 +67,14 @@ export function ReportsClient() {
                     onClick={() => setSeverities((prev) => (on ? prev.filter((x) => x !== s) : [...prev, s]))}
                     className={cn(
                       "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
-                      on ? cn(SEVERITY_CLASSES[s].badge, SEVERITY_CLASSES[s].border) : "border-border-strong text-muted hover:text-fg",
+                      on
+                        ? cn(SEVERITY_CLASSES[s].badge, SEVERITY_CLASSES[s].border)
+                        : "border-border-strong text-muted hover:bg-surface-2 hover:text-fg",
                     )}
                   >
                     <Icon className="size-4" aria-hidden />
                     {SEVERITY_META[s].label}
+                    {on && <Check className="size-4" strokeWidth={3} aria-hidden />}
                   </button>
                 );
               })}
