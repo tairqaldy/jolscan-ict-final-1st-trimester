@@ -377,7 +377,7 @@ export default function LandingPage() {
         {/* Course */}
         <section id="course" className="container-page public-container scroll-mt-20 pt-[var(--section-gap)]" aria-labelledby="course-h">
           <details>
-            <summary className="cursor-pointer text-sm font-semibold text-accent-ink">Explore the course foundations</summary>
+            <summary className="cursor-pointer text-sm font-semibold text-accent-ink">Show the course topics behind the project</summary>
             <div className="mt-6"><SectionTitle id="course-h" eyebrow={`Built on ${COURSE.code}`} title="What the course taught, applied" /></div>
           <Stagger className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {COURSE_TOPICS.map((t) => (
