@@ -73,3 +73,14 @@ python docs/design/screenshots/take_screenshots.py --out ../deck-screenshots --o
 It sets the theme the way the app does: the JSON string `"light"` or `"dark"` in localStorage `qarau:theme` (`web/lib/theme-script.ts`), plus the matching `prefers-color-scheme`. `--provider local` stores the Local provider in `qarau:settings` for shots of the trained model; the API must be running for that.
 
 Retake a shot only when its page changes. Before using a shot, open it at full size and check: no face, no licence plate (the samples are drawings today, see `imagery.md`), the Demo or Mock badge is in the frame where the data is demo data, and no dev overlay.
+
+## Markers on a shot (G-72)
+
+The annotated road and sign results (`annotations.md`, drawn by `screenshots/annotate.py`) follow these rules; use them for any other annotated shot.
+
+- At most four markers per shot. A marker is a numbered circle in `--accent` with the number in `--accent-fg`, a 3 px outline around its target and, if the circle sits away from the target, a thin leader line.
+- Circles go in empty space next to the target, never on text, a value or a badge. Nothing is dimmed.
+- The legend sits beside the shot: the same circle, a label of two to four words and at most one short line, all at 18 pt or more on the slide.
+- A label repeats what the screen shows and adds no number or claim that is not visible in the shot.
+- The Mock, demo and provider badges stay visible and uncovered (U8). The script stops if a marker touches one.
+- After a retake, move the markers to the new positions and check every label against the new screen.
