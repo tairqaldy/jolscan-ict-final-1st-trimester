@@ -15,7 +15,7 @@ export default function ReportsPage() {
         title="All road analyses"
         description={
           <span className="inline-flex flex-wrap items-center gap-2">
-            Filter by severity, provider, date and review status. <DemoBadge />
+            Filter by severity, provider, date and review status. <DemoBadge show label="Includes demo data" />
           </span>
         }
       />

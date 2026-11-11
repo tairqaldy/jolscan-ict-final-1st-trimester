@@ -2,38 +2,35 @@
 
 Training and evaluation for the experiment in [docs/ML-EXPERIMENT.md](../docs/ML-EXPERIMENT.md).
 
-The scripts were checked against the Ultralytics and MLflow documentation but have not been run yet. Whoever runs them first (task M-1) fixes what breaks and commits the fix.
+## M-1 one-epoch smoke test
 
-## Run in Google Colab (or a Kaggle notebook with GPU)
+Open [colab_runner.ipynb](colab_runner.ipynb) in Colab and run its cells from top to bottom with a GPU runtime. It checks out the pinned M-1 trainer commit, installs `ml/requirements.txt`, finds the already-uploaded `potholes_yolo_v1.zip` in mounted Drive, and verifies the archive manifest before running:
 
-1. Runtime → Change runtime type → T4 GPU.
-2. Clone the repository and install the pinned versions:
+```bash
+python ml/train.py --run E0 --data /content/data/data.yaml --dataset-version potholes_yolo_v1 --smoke
+```
 
-   ```bash
-   git clone https://github.com/tairqaldy/qarau-ict-final-1st-trimester.git jolscan && cd jolscan && pip install -q -r ml/requirements.txt
-   ```
+The validation-only smoke run completed on a Tesla T4 for one epoch using trainer commit `3004fdfe8f59e7a261743ec01c390e40d811d791`. The supplied run was reported as MLflow `E0-smoke`, ID `de59363e3bcd42389b608c2321690ca6`, status `FINISHED`. Its actual files are [E0-smoke.json](results/runs/E0-smoke.json) and [E0-smoke-results.csv](results/runs/E0-smoke-results.csv).
 
-3. Get the dataset: download the exported version zip from the shared Drive folder and unzip it. Nobody needs the Roboflow API key.
-4. Smoke test with one epoch:
+The CSV records the training epoch and the validation pass performed during training. The JSON's `metrics` are from a separate post-training validation pass (including the app's confidence-0.40 operating point); these values are not expected to match the CSV's training-loop metrics.
 
-   ```bash
-   python ml/train.py --run E0 --data /content/jolscan/pothole/data.yaml --dataset-version v1 --smoke
-   ```
+**M-1 is still in progress:** the validation-only smoke execution succeeded, but issue #50 still requires 12 metrics including `test_map50`, conflicting with the chosen test-split policy in `docs/ML-EXPERIMENT.md`. Do not add a fabricated test metric or mark the full E0 baseline complete. The team must align the issue criteria before M-1 can be completed.
 
-5. The real run:
+The notebook downloads a ZIP containing only the actual JSON and CSV for collection. Review those files before committing them. Never commit the dataset ZIP, model weights, tokens, or temporary Colab files.
 
-   ```bash
-   python ml/train.py --run E0 --data /content/jolscan/pothole/data.yaml --dataset-version v1
-   ```
+## Full experiments
 
-6. Colab storage disappears when the session ends. After every run:
-   - Commit `ml/results/runs/<run>.json` and push. This file is the result.
-   - Copy `runs/<run>/weights/best.pt` to the shared Drive as `jolscan-<run>.pt`.
-   - Optionally copy `mlflow.db` and `mlruns/` to Drive, to show the MLflow UI later.
+Do not run full E0 as part of M-1. After the smoke path passes and the team authorizes the experiment, full runs use the same frozen split, seed and budget documented in [docs/ML-EXPERIMENT.md](../docs/ML-EXPERIMENT.md). For example:
+
+```bash
+python ml/train.py --run E0 --data /content/data/data.yaml --dataset-version potholes_yolo_v1
+```
+
+Only full experiment runs evaluate the test split, at the end of the run. Colab storage disappears when the session ends; commit each actual run JSON and its CSV. Copy `runs/<run>/weights/best.pt` to the shared Drive as `jolscan-<run>.pt`. MLflow remains per Colab account and is supplementary to the committed result files.
 
 ## Why a JSON file per run
 
-MLflow 3 keeps its tracking data in a local SQLite file, `mlflow.db`. Three people training in three Colab accounts get three separate files that cannot be merged by copying. So `train.py` also writes one small JSON file per run, and the results table is built from those. MLflow is still used for tracking inside each session, as in Lab 8.
+MLflow 3 keeps its tracking data in a local SQLite file, `mlflow.db`. Three people training in three Colab accounts get three separate files that cannot be merged by copying. So `train.py` also writes one small JSON file and a training-curve CSV per run, and the results table is built from the JSON files. MLflow is still used for tracking inside each session, as in Lab 8.
 
 ## After the runs
 
@@ -45,8 +42,25 @@ This writes `ml/results/experiments.csv` (for the slides) and `web/data/experime
 
 ## Files
 
-- `train.py`: one experiment per call.
+- `train.py`: one experiment per call; `--smoke` is validation-only.
+- `colab_runner.ipynb`: M-1 Colab setup and smoke-run evidence collection.
 - `export_results.py`: per-run JSON files to the CSV and the web app's JSON, and picks the champion with the selection rule.
 - `results/runs/`: one JSON per run. Committed.
 - `results/latency.json`: batch-1 latency per run, measured in task S-15.
 - `results/`: exported table and plots for the slides.
+
+## Deck plots (task M-13)
+
+```bash
+python ml/plots.py
+```
+
+It regenerates `ml/results/fig_runs_map50_recall.png` (test mAP50 and recall at 0.40 per run, champion in the accent colour, bars from zero) and `ml/results/fig_curves.png` (train and validation box loss for E0, E2 and E5, whichever exist) from the committed CSV files only.
+
+Two figures come from Ultralytics' own evaluation of the champion on the test split, the one `train.py` already runs, so test is not read again:
+
+- `fig_champion_pr_curve.png`: the precision-recall curve (Ultralytics' `BoxPR_curve.png`).
+- `fig_champion_confusion_at_040.png`: the confusion matrix at confidence 0.40, the app's counting threshold (Ultralytics' `confusion_matrix.png` from the `conf=0.40` pass). For E0: 160 potholes found, 76 missed, 23 false alarms on 236 test boxes, which gives recall 160/236 = 0.678 and precision 160/183 = 0.874, the numbers in `E0.json`.
+
+Do not use the confusion matrix from the default pass: Ultralytics evaluates at confidence 0.001 there, so it counts thousands of low-confidence boxes as false alarms that the app never shows. After a new champion (E8), copy its two figures from the run's `runs/detect/val-*` folders of the test passes and rerun `ml/plots.py`.
+
