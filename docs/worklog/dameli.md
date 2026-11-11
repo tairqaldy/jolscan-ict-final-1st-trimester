@@ -12,6 +12,17 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 17:30 · G-58 (#292) · Deck critique against the anti-slop checklist
+- **Status:** critique written; the comments still have to be resolved with Roma and Tair, so G-58 stays open.
+- **What I did:** Checked all 12 slides and 5 backups of Tair's deck draft against `docs/design/ANTI-SLOP.md`, `docs/design/chart-style.md` and the slide template: fonts, sizes, word counts and pictures per slide with python-pptx, the slide XML for gradients, effects, animations and colours, every number against the file its `Sources:` line names, and each chart's text size once it is shrunk onto the slide. I did not change the deck, `SLIDES.md` or `make_deck.py`.
+- **Result:** `docs/design/deck-critique.md`: 18 must-fix and 36 nice-to-have findings, each with the rule, the exact text or element and a one-line fix. No number is wrong; the AI-log count on slide 10 is stale (50 on the slide, 62 on `main` at 17:30), four slots are still placeholders, and slide 7 says 0.78 where its plot ends at 0.83. Body text is 12 to 15 pt against the template's 18, and the main charts land at 4 to 6 pt.
+- **Decisions and why:**
+  - Under 14 pt on slides 1 to 12 counts as unreadable (must-fix), 14 to 17.5 pt as nice-to-have: on a 13.33 in slide even 18 pt is small, and a line between the two keeps the must-fix list to what really blocks reading.
+  - Overpass plus JetBrains Mono counts as two families, which R8 allows, so no font finding; chart text follows chart-style.md, which accepts a fallback font.
+  - No slide render: Quick Look gave no image, LibreOffice is not installed and the deck fonts are not on this Mac, so I estimated overflow from box sizes instead and said so.
+- **What I learned / can explain at the defense:** the deck was reviewed against a written checklist (Lec3-HCI p21, aesthetic and minimalist design; Lec4-DMViz p31, honest charts), and every number was traced to a committed file a second time, separately from the build script's own check.
+- **AI use:** Claude Code ran the measurements and drafted the critique, including the two severity lines; I go through them with Roma and Tair (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** go through the 18 must-fix items with Roma and Tair; Amina and Nazar redraw the slide 6 to 8 charts with the chart-style block; I place the slide 9 crops from Drive `screenshots/` in Canva (G-11) and enlarge the small labels in `architecture-slide.svg` (G-66 follow-up).
 ### 2026-11-11 17:23 · G-59 (#293), G-54 (#288), G-64 (#329) · Motion tokens, demo pause, Reduce motion switch
 - **Status:** done
 - **What I did:**
