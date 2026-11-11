@@ -197,8 +197,8 @@ export function CompareClient() {
             </p>
           )}
         </div>
-        {/* scroll-mt keeps a gap above the result (and clears the sticky top bar below lg). */}
-        <div ref={resultRef} tabIndex={-1} className="scroll-mt-32 outline-none lg:scroll-mt-4">
+        {/* scroll-mt keeps a gap above the result; below lg the html scroll-padding in globals.css clears the sticky top bar. */}
+        <div ref={resultRef} tabIndex={-1} className="scroll-mt-4 outline-none">
           {status.state === "done" ? (
             <CompareResultView check={status.check} />
           ) : status.state === "loading" ? (
