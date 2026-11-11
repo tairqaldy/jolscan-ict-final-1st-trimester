@@ -92,7 +92,10 @@ describe("text field", () => {
 });
 
 describe("primitive motion (globals.css, G-6 block)", () => {
-  const block = css.slice(css.indexOf("G-6: motion of the UI primitives"));
+  // Only the G-6 block: from its header to the next top-level "/*\n * G-" block (other tasks append their own).
+  const start = css.indexOf("G-6: motion of the UI primitives");
+  const next = css.indexOf("\n/*\n * G-", start);
+  const block = css.slice(start, next === -1 ? undefined : next);
 
   it("uses the duration and easing tokens and never loops", () => {
     for (const line of block.split("\n").filter((l) => l.includes("animation:"))) {
