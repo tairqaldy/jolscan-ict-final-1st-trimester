@@ -2,3 +2,6 @@ run,changed,precision,recall,map50,map50_95,precisionAtRulesConf,recallAtRulesCo
 E0,baseline,0.8667,0.678,0.7992,0.5173,0.8743,0.678,,5.44,0.8235,0.6951,potholes_yolo_v1,Apple M5 GPU (mps)
 E2,no transfer learning: random weights,0.5721,0.4746,0.5302,0.2472,0.7658,0.3602,,5.37,0.4391,0.2918,potholes_yolo_v1,Apple M5 GPU (mps)
 E3,frozen backbone: layers 0-10,0.7908,0.7049,0.7632,0.4843,0.8083,0.661,,5.44,0.7789,0.6459,potholes_yolo_v1,Apple M5 GPU (mps)
+E4,optimizer: AdamW,0.8746,0.7389,0.8313,0.5629,0.8744,0.7373,,5.44,0.8276,0.7279,potholes_yolo_v1,Apple M5 GPU (mps)
+E5,standard augmentations off,0.8594,0.6568,0.7299,0.4667,0.8708,0.6568,,5.44,0.7119,0.6098,potholes_yolo_v1,Apple M5 GPU (mps)
+E7,architecture: extra P2 small-object scale,0.8224,0.7161,0.7949,0.4493,0.8511,0.678,,5.6,0.789,0.6295,potholes_yolo_v1,Apple M5 GPU (mps)
