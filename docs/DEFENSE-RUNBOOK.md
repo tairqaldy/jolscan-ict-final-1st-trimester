@@ -30,7 +30,7 @@ Say it aloud during the demo (PRESENTATION.md, demo script step 5).
 
 ## The day before (online)
 
-1. Pull `main`. Copy the served weights from the shared Drive (`weights/`) to `api/weights/jolscan-e1.pt`, the champion `championModelName` in `web/data/experiments.json` names (if E8 becomes champion, `jolscan-e8.pt` once E8 exists). Weights never go into git.
+1. Pull `main`. Copy the served weights from the shared Drive (`weights/`) to `api/weights/jolscan-e1.pt`, the champion `championModelName` in `web/data/experiments.json` names (if E8 becomes champion, `jolscan-e8.pt` once E8 exists). Weights never go into git. Check the copy you received: `shasum -a 256 api/weights/jolscan-e1.pt` must print `dd57594304181a5362a138a9c860796562537c04921e91a1534acf360e0af45a` (20,297,157 bytes; the E1 run's `best.pt`, trained on Tair's M5 on 11 Nov).
 2. API environment: `cd api && python3.12 -m venv .venv && .venv/bin/pip install -r requirements.txt` (api/README.md).
 3. Web app: `cd web && corepack enable && pnpm install && pnpm build`. Build online: `next/font/google` downloads the fonts at build time.
 4. Warm every model once **online**, so all weights are cached on disk:

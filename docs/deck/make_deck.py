@@ -10,6 +10,7 @@ colours read from web/app/tokens.css.
 
     .venv/bin/python docs/deck/make_deck.py
     .venv/bin/python docs/deck/make_deck.py --preview /tmp/deck-preview   # one .pptx per slide
+    .venv/bin/python docs/deck/make_deck.py --roads-only  # preserve all other existing slide parts/text
 
 Writes
     docs/deck/qarau-defense-deck.pptx   12 slides plus backups; script and Sources in the notes
@@ -36,6 +37,7 @@ import io
 import json
 import logging
 import re
+from zipfile import ZIP_DEFLATED, ZipFile
 from dataclasses import dataclass, field
 from decimal import ROUND_HALF_UP, Decimal
 from fractions import Fraction
@@ -734,7 +736,7 @@ def slide_roads_data(prs) -> SlideDoc:
     card(s, lx, top, lw, Inches(3.5))
     data_paras = [
         [("Data", {"bold": True, "size": 22})],
-        {"runs": [("Kaggle “Annotated Potholes Image Dataset”; ODbL and DbCL licence", {})], "bullet": True, "space_before": 8},
+        {"runs": [("Kaggle “Annotated Potholes Image Dataset”; ODbL / DbCL metadata; watermarked-photo rights unresolved", {})], "bullet": True, "space_before": 8},
         {"runs": [(f"{n_img} photos, {n_box} boxes, {n_cls} class", {})], "bullet": True, "space_before": 8},
         {"runs": [(f"No duplicates found before the split; split by photo, seed {seed_s}: {split}", {})],
          "bullet": True, "space_before": 8},
@@ -742,48 +744,65 @@ def slide_roads_data(prs) -> SlideDoc:
     rich(s, lx + Inches(0.3), top + Inches(0.25), lw - Inches(0.55), Inches(3.4), data_paras, size=BODY, line=1.1)
     rx = MARGIN + lw + Inches(0.35)
     rw = CONTENT_W - lw - Inches(0.35)
-    rows = [["Run", "What changes against E0"]] + [[r, short_label(POT[r]["changed"])] for r in runs]
+    rows = [["Run", "What changes against E0"]] + [[r, "standard augmentations off" if r == "E5" else short_label(POT[r]["changed"])] for r in runs]
     table(s, rx, top, [Inches(0.85), rw - Inches(0.85)], rows, row_h=Inches(0.35), mono_cols=(0,))
     p = E0["params"]
     fixed = [R(str(p["epochs"]), "ml/results/runs/E0.json", "params.epochs", p["epochs"]),
              R(str(p["imgsz"]), "ml/results/runs/E0.json", "params.imgsz", p["imgsz"]),
              R(str(p["seed"]), "ml/results/runs/E0.json", "params.seed", p["seed"])]
-    fixed_line = f"Every run: {fixed[0]} epochs and seed {fixed[2]}; {fixed[1]} px input unless the row says 960."
+    fixed_line = f"Every full run: {fixed[0]} epochs and seed {fixed[2]}; {fixed[1]} px input unless the row says 960."
     tie = R(d(EXPORT.TIE, 2), "ml/export_results.py", "TIE (selection rule)", EXPORT.TIE)
     conf = R(d(OP["conf"], 2), "ml/results/operating_point.json", "conf", OP["conf"])
-    rule_line = f"Chosen on validation mAP50; ties within {tie} go to validation recall at {conf}; test read once."
+    rule_line = f"Selection: validation mAP50; ties within {tie} use validation recall at {conf}; test does not choose."
     rich(s, MARGIN, Inches(5.6), CONTENT_W, Inches(1.25),
          [[(rule_line, {"bold": True})], {"runs": [(fixed_line, {"color": "muted"})], "space_before": 4}], size=BODY, line=1.08)
     numbered_footer(s, "05")
-    script = (f"Our road data is the Annotated Potholes Image Dataset from Kaggle, under ODbL and DbCL, and Kaggle is "
-              f"a source the syllabus allows. It has {n_img} photos with {n_box} boxes and one class. Before splitting, we "
-              f"checked for exact and near-duplicate photos, because a copy in both train and test would inflate the test "
-              f"score. We found none. Then we split by photo with seed {seed_s}: {ic['train']} for training, {ic['val']} "
-              f"for validation and {ic['test']} for test. This is Option A. Data, seed and budget stay fixed, and each run "
-              f"changes one thing against the baseline E0, such as model width, pretraining or the optimizer. We choose on "
-              f"validation mAP50, and recall at our threshold of {conf} breaks ties. Test is read once. "
-              f"Here is what came out.")
-    cues = (f"Not on the slide, for questions: author Atikur Rahman Chitholian; version {MANIFEST['version']}; boxes per "
-            f"split {thousands(oc['train'])} / {oc['val']} / {oc['test']}; batch {p['batch']}, {p['optimizer']} with lr "
-            f"{p['lr0']}, COCO-pretrained (runs/E0.json). The duplicate check is exact and perceptual hash (data/README.md, "
-            "D-4). Do not say '70/15/15 stratified': the split is random by photo with seed 42; with one class nothing is "
-            "stratified. Do not name Roboflow as the source: the frozen version is the Colab export "
-            "(docs/decisions/0002-colab-export-dataset.md). Three photos carry stock watermarks and are never shown "
-            "(D-12). E8 is E0's settings: no change beat E0 by more than 0.01 on validation, and E8 reproduced E0 exactly "
-            "(docs/ML-EXPERIMENT.md, 'E8 as applied'). The full `changed` text of each run is on backup B1.")
+    script = (f"I prepared and reviewed our pothole data, checked duplicates and XML annotations, corrected one invalid box, and exported the frozen YOLO split. The Kaggle dataset has {n_img} photos and {n_box} boxes; its metadata lists ODbL and DbCL, but rights to individual watermarked photos remain unresolved and require separate verification. We found no exact or near duplicates before splitting by photo: {ic['train']} for training, {ic['val']} for validation and {ic['test']} for test, with seed {seed_s}. My smoke run checked the training pipeline using validation only; Tair performed all full experiment runs. Our comparison changes model settings against baseline E0, keeping frozen data and training budget fixed across runs. Validation chooses settings; test reports performance. The notes explain prior test-photo review and separate evaluation passes. Here is what came out.")
+    cues = (('- **My contribution:** D-2 visual review/preparation; D-4 exact/near-duplicate and XML '
+ 'completeness/validity checks; removal of the zero-width object in `img-415.xml` in a separate corrected '
+ 'archive, preserving the image, its other annotations and the original archive; D-3 XML-to-YOLO export and '
+ 'frozen split; D-11 training-only k-means size bands; M-0 selection/E8 policy; successful M-1 '
+ 'validation-only smoke. Evidence: `data/README.md`, `ml/results/pothole_area_clusters.json`, decision 0009, '
+ "`ml/results/runs/E0-smoke.json` and its CSV, `docs/worklog/amina.md`. Do not present Tair's full E0-E8 "
+ 'training as my work.\n'
+ '- **Dataset and controls:** author Atikur Rahman Chitholian; version `potholes_yolo_v1`; boxes per split '
+ '1,198 / 305 / 236. Batch 16, SGD with lr 0.01 and COCO-pretrained weights describe baseline E0, not every '
+ 'variant: E2 removes pretraining, E4 uses AdamW with its specified learning-rate settings, E5 disables '
+ 'standard augmentation, E6 changes input size. Full runs were performed by Tair on the same laptop; source '
+ 'revisions are recorded per run, not claimed identical.\n'
+ '- **Honest limits:** no exact/near-duplicate candidates were found under the documented methods; that is '
+ 'not proof of no possible leakage. The D-2 review sample later proved identical to test (D-20); no test '
+ 'label was changed and the review must not guide model or threshold selection. The full trainer performs '
+ 'separate default-confidence and confidence-0.40 validation/test evaluations after training, and the '
+ 'champion has an additional fixed-threshold operating-point evaluation; do not say the test set was never '
+ 'seen or evaluated only once overall. Smoke excludes test entirely.\n'
+ '- **Licence and provenance:** the displayed licence wording is copied from the D-1 card. These are '
+ 'dataset-level licence metadata, not verified clearance for each image: provenance and usage rights of the '
+ 'watermarked photos remain unresolved, and those photos are not for public display. The team decision to '
+ 'proceed does not verify those rights. No local Kazakhstan dataset was used. K-means bands describe '
+ 'image-relative box area, not physical pothole dimensions or validated severity.\n'
+ '- **Handover:** "Here is what came out." Script time is an estimate; R-22\'s 0:55-1:05 personal reading '
+ 'criterion is still pending.'))
     R(thousands(oc["train"]), mf, "object_counts.train", oc["train"])
     R(str(oc["val"]), mf, "object_counts.val", oc["val"])
     R(str(oc["test"]), mf, "object_counts.test", oc["test"])
     R(str(p["batch"]), "ml/results/runs/E0.json", "params.batch", p["batch"])
     R(str(p["lr0"]), "ml/results/runs/E0.json", "params.lr0", p["lr0"])
     return SlideDoc("5", "Roads: data and experiment", "Amina", "1:00", title_words,
-                    ["Data: Kaggle “Annotated Potholes Image Dataset”; ODbL and DbCL licence",
+                    ["Data: Kaggle “Annotated Potholes Image Dataset”; ODbL / DbCL metadata; watermarked-photo rights unresolved",
                      f"{n_img} photos, {n_box} boxes, {n_cls} class",
                      f"No duplicates found before the split; split by photo, seed {seed_s}: {split}",
-                     "Table: " + "; ".join(f"{r} {short_label(POT[r]['changed'])}" for r in runs), rule_line, fixed_line],
+                     "Table: " + "; ".join(f"{r} {'standard augmentations off' if r == 'E5' else short_label(POT[r]['changed'])}" for r in runs), rule_line, fixed_line],
                     "Run table with short labels (full `changed` text on B1), no image", script, cues=cues,
-                    extra_sources=["data/README.md (dataset card D-1, 'Duplicate check' D-4)",
-                                   "docs/ML-EXPERIMENT.md ('Selection rule')"])
+                    extra_sources=['data/README.md (dataset-level licence metadata; unresolved photo rights; D-2/D-4 review and correction; '
+ 'YOLO export; D-20 test overlap; training-only clustering)',
+ 'ml/results/pothole_area_clusters.json (method; split; boxes; area_thresholds)',
+ 'ml/results/runs/E0-smoke.json and E0-smoke-results.csv (successful validation-only smoke, no test metrics)',
+ 'docs/decisions/0009-m0-e8-policy.md (personal selection/E8 policy)',
+ 'ml/train.py (evaluate; smoke_dataset_yaml)',
+ 'ml/operating_point.py (separate fixed-threshold evaluation)',
+ 'docs/worklog/amina.md (personal contribution)',
+ 'docs/ML-EXPERIMENT.md (Selection rule; test-use limits)'])
 
 
 # 6 · Roads: results and rules ---------------------------------------------------------------
@@ -867,19 +886,21 @@ def slide_roads_results(prs) -> SlideDoc:
     prec = R(d(OP["precision"]), "ml/results/operating_point.json", "precision", OP["precision"])
     rec = R(d(OP["recall"]), "ml/results/operating_point.json", "recall", OP["recall"])
     fp = R(str(OP["fp"]), "ml/results/operating_point.json", "fp", OP["fp"])
+    fn = R(str(OP["fn"]), "ml/results/operating_point.json", "fn", OP["fn"])
+    iou = R(g(OP["iou"]), "ml/results/operating_point.json", "iou", OP["iou"])
     flagged = R(str(OP["tp"] + OP["fp"]), "ml/results/operating_point.json", "tp + fp", OP["tp"] + OP["fp"])
     conf = R(d(OP["conf"], 2), "ml/results/operating_point.json", "conf", OP["conf"])
-    op_line = f"{champion} at {conf}: recall {rec} ({tp} of {boxes}), precision {prec} ({tp} of {flagged}), {fp} false alarms."
+    op_line = f"{champion} at confidence {conf}: recall {rec} ({tp} of {boxes}), precision {prec} ({tp} of {flagged}), {fp} false alarms; IoU {iou}."
     e4_gap = Decimal(POT["E4"]["map50"]) - Decimal(POT[champion]["map50"])
     gap_s = R(d(e4_gap), csvf, f"E4 map50 − {champion} map50 = {POT['E4']['map50']} − {POT[champion]['map50']}", e4_gap)
     no_claim = R("0.02", "docs/ML-EXPERIMENT.md", "'Selection rule': differences below 0.02 on test are not claimed",
                  grab(r"Differences below ([\d.]+) on the test split are not claimed", "docs/ML-EXPERIMENT.md").group(1))
-    honesty = f"E4 is {gap_s} higher on test: below {no_claim}, so not claimed. Test never chooses."
+    honesty = f"Reporting policy: no test-gain claims below {no_claim}; E4 gap {gap_s}. Not statistical equivalence."
     ex = worked_example()
     cfg = "web/lib/rules/config.ts"
     score = R(g(ex["score"]), cfg, "worked example A, computed: (4 × 1.5 + 2 × 1.5 + 1) × r5.highway", ex["score"])
     sla = R(ex["sla"], cfg, f"SEVERITY_BANDS.{ex['severity']}.slaHours", ex["sla"])
-    rules_line = f"Rules example (backup B4): a highway photo with three potholes scores {score} → {ex['severity']}, repair within {sla} h."
+    rules_line = f"Example A: score {score}, {ex['severity']}; project repair guidance {sla} h, not an official standard."
     rich(s, MARGIN, Inches(5.38), CONTENT_W, Inches(1.5),
          [[(op_line, {"bold": True})], {"runs": [(honesty, {})], "space_before": 4},
           {"runs": [(rules_line, {"color": "muted"})], "space_before": 4}], size=BODY, line=1.05)
@@ -891,24 +912,52 @@ def slide_roads_results(prs) -> SlideDoc:
     ch_rec = R(d(POT[champion]["valRecallAtRulesConf"]), csvf, f"{champion} row, valRecallAtRulesConf",
                POT[champion]["valRecallAtRulesConf"])
     number_words = {3: "Three", 4: "Four", 5: "Five", 6: "Six"}
-    script = (f"{best} has the highest validation mAP50, {best_val}. {number_words.get(len(tied), n_tied)} other runs are "
-              f"within {tie_s()} of it, so the tie-break decides: {champion}, the small model, has the highest validation "
-              f"recall at {conf}, {ch_rec}. On test, at the app's threshold, {champion} finds {tp} of {boxes} potholes, "
-              f"recall {rec}, with {fp} false alarms. E4 is {gap_s} higher on test mAP50, but we do not claim differences "
-              f"below {no_claim}, and test never chooses. The rules then turn boxes into a priority: in our example, a "
-              f"highway photo scores {score}, critical. Nazar takes the second module.")
-    cues = ("The chart shows test values; the table's validation column is what chose the model. The chart's recall is "
-            "Ultralytics' pass (IoU 0.45); the line under the table is ml/operating_point.py (IoU 0.5), the number for "
-            "the slides. Both round to 0.75. The size bands and the full worked example are on backup B4 "
-            "(RULES.md part 1, example A, recomputed from web/lib/rules/config.ts; web/lib/rules/engine.test.ts checks the "
-            "same result). Check it once on /app/roads/rules with the same inputs before the talk.")
+    script = (f'Tair trained the full experiments. {best} leads validation mAP50, but our {tie_s()} tie band includes {champion}. {champion} wins because its validation recall at {conf} is highest, {ch_rec}. At the test operating point, {champion} finds {tp} of {boxes} potholes, with {fp} false alarms and {fn} misses. Test never chooses the model. My training-only clustering supplies image-relative size bands; the worked highway example scores {score}, critical. Our project policy withholds test-gain claims below {no_claim}, without claiming statistical equivalence. These are project rules, not an official repair standard. Nazar takes the second module.')
+    cues = (('- **Who did what:** Tair performed full E0-E8 training and generated the results being presented. My '
+ 'contribution is data review/preparation and validation, duplicate/XML checks, the invalid-annotation '
+ 'correction and YOLO export, training-only k-means bands, the M-0 selection/E8 policy, and the successful '
+ 'M-1 validation-only smoke. Smoke is a pipeline check, not E0 training or a champion candidate.\n'
+ '- **Champion versus E8:** E4 has the best validation mAP50, 0.8276; E0, E1, E6 and E8 lie within 0.01. E1 '
+ 'has the highest validation recall at 0.40 among those tied candidates, 0.7377, so it wins. E8 construction '
+ 'separately considers only E1/E3/E4/E7 changes exceeding E0 by strictly more than 0.01; none qualified, so '
+ 'E8 used E0 settings. E2/E5 are not combined but remain eligible for the general champion rule. Reproducing '
+ 'E0 in this E8 run does not establish seed-to-seed stability.\n'
+ '- **Operating-point evidence:** `operating_point.json` is for E1, 100 test photos, confidence 0.40 and IoU '
+ '0.5: TP 176, FP 30, FN 60; 236 labelled and 206 predicted boxes. Precision is 176/206 = 0.8544, recall is '
+ '176/236 = 0.7458, F1 is 0.7964. Each labelled box is matched at most once, highest-confidence prediction '
+ "first (`ml/operating_point.py`). The chart/CSV's Ultralytics recall pass uses a different "
+ 'matching/reporting protocol; the confusion-matrix counts 178/34/58 are not interchangeable with 176/30/60. '
+ 'See `docs/ML-EXPERIMENT.md` for its IoU 0.45 and F1-best-threshold distinction.\n'
+ '- **Clustering and worked example:** training boxes only; small below 1.15%, large from 7.27% of image '
+ 'area (rounded display thresholds; actual config retains full precision). For example A: small contribution '
+ '1; large and medium in lane give 4 x 1.5 + 2 x 1.5 = 9; no cluster bonus; highway gives (1 + 9) x 1.5 = '
+ '15, critical. These bands measure apparent box area, not real dimensions or calibrated repair severity. '
+ 'Browser verification of `/app/roads/rules` is still pending; this update starts no QA.\n'
+ '- **Limits and handover:** test is reporting evidence, not a tuning set; preserve the prior D-2/test '
+ 'overlap and multiple evaluation-pass caveats on slide 5. The raw E4-E1 test mAP50 gap is 0.0158, displayed '
+ 'as 0.016; the project reporting policy withholds test-gain claims below 0.02. This cutoff comes from the '
+ 'Selection rule in `docs/ML-EXPERIMENT.md` (introduced in protocol commit `6bc6c07` and indexed by '
+ '`docs/research/deck-sources.md`); it is not derived here from a statistical test, a confidence interval or '
+ 'a power calculation. It establishes neither statistical equivalence below 0.02 nor statistical '
+ 'significance above it, and is not a universal significance threshold. The separate 0.01 validation tie '
+ 'band is a model-selection policy, not a significance test either. No uncertainty interval or latency is '
+ 'invented. Personal timed reading remains pending. End with "Nazar takes the second module."'))
     return SlideDoc("6", "Roads: results", "Amina", "0:45", title_words,
                     ["Table: " + "; ".join(f"{r[0]} validation {r[1]}, test {r[2]}" for r in rows[1:]),
                      op_line, honesty, rules_line],
                     "Chart drawn by make_deck.py from ml/results/experiments.csv at its placed size: test mAP50 and "
                     "recall at 0.40 per run, champion in the accent colour", script, cues=cues,
-                    extra_sources=["ml/export_results.py (pick_champion: the selection rule, applied at build time)",
-                                   "docs/RULES.md (part 1, worked example A)"])
+                    extra_sources=['ml/export_results.py (pick_champion: validation-only rule)',
+ 'docs/RULES.md (part 1, worked example A)',
+ 'docs/ML-EXPERIMENT.md (0.02 is a project reporting policy, not a statistical equivalence/significance '
+ 'threshold; evaluation limits)',
+ 'ml/results/operating_point.json (run; images; fn; iou; f1; precision; recall)',
+ 'ml/operating_point.py (confidence-ordered one-to-one matching)',
+ 'ml/results/pothole_area_clusters.json (split; area_thresholds; image-relative limitation)',
+ 'data/README.md (personal dataset/clustering work; D-20)',
+ 'ml/results/runs/E0-smoke.json and E0-smoke-results.csv (smoke only)',
+ 'docs/decisions/0009-m0-e8-policy.md (E8 construction versus champion)',
+ 'docs/worklog/amina.md (personal contribution)'])
 
 
 def tie_s() -> str:
@@ -1641,17 +1690,107 @@ def write_sources_md() -> None:
     SOURCES_MD.write_text(new, encoding="utf-8")
 
 
+def save_roads_only(prs, docs: list[SlideDoc], out: Path) -> None:
+    """Update only Roads slide/notes parts and text; reject changed shared resources.
+
+    Full builds can refresh unrelated artifact-derived values (for example slide 10's
+    AI-log count). This mode preserves those independently maintained slide artifacts.
+    It intentionally cannot add/change shared media, relationships, themes or layouts;
+    such a change needs a separately reviewed full rebuild.
+    """
+    global SLIDES_MD, SOURCES_MD
+    required = (out, SLIDES_MD, SOURCES_MD)
+    if not all(path.is_file() for path in required):
+        raise SystemExit("--roads-only requires an existing PPTX, SLIDES.md and source index")
+    buffer = io.BytesIO()
+    prs.save(buffer)
+    selected = {f"ppt/{folder}/{stem}{n}.xml" for n in (5, 6)
+                for folder, stem in (("slides", "slide"), ("notesSlides", "notesSlide"))}
+    slide_part = re.compile(r"ppt/(?:slides/slide|notesSlides/notesSlide)\d+\.xml$")
+    with ZipFile(out) as previous, ZipFile(buffer) as rebuilt:
+        if set(previous.namelist()) != set(rebuilt.namelist()):
+            raise SystemExit("--roads-only cannot change package resources; review a full rebuild")
+        shared_changes = [name for name in previous.namelist()
+                          if not slide_part.fullmatch(name) and previous.read(name) != rebuilt.read(name)]
+        if shared_changes:
+            raise SystemExit("--roads-only cannot change shared resources: " + ", ".join(shared_changes))
+        merged = io.BytesIO()
+        with ZipFile(merged, "w", ZIP_DEFLATED) as result:
+            for info in previous.infolist():
+                result.writestr(info, rebuilt.read(info.filename) if info.filename in selected
+                                else previous.read(info.filename))
+
+    # Generate candidate text in memory, using the normal writers, before changing anything.
+    import tempfile
+    old_slides, old_sources = SLIDES_MD, SOURCES_MD
+    previous_md, previous_sources = old_slides.read_text(encoding="utf-8"), old_sources.read_text(encoding="utf-8")
+    try:
+        with tempfile.TemporaryDirectory() as directory:
+            SLIDES_MD, SOURCES_MD = Path(directory) / "SLIDES.md", Path(directory) / "sources.md"
+            SOURCES_MD.write_text(previous_sources, encoding="utf-8")
+            write_slides_md(docs)
+            write_sources_md()
+            candidate_md = SLIDES_MD.read_text(encoding="utf-8")
+            candidate_sources = SOURCES_MD.read_text(encoding="utf-8")
+    finally:
+        SLIDES_MD, SOURCES_MD = old_slides, old_sources
+
+    def section(text: str, n: int) -> tuple[int, int]:
+        match = re.search(rf"^## Slide {n} .*?(?=^## |\Z)", text, re.M | re.S)
+        if not match:
+            raise SystemExit(f"Missing slide {n} text for scoped generation")
+        return match.span()
+
+    updated = previous_md
+    seconds_delta = 0
+    for n in (5, 6):
+        a, b = section(updated, n)
+        x, y = section(candidate_md, n)
+        updated = updated[:a] + candidate_md[x:y] + updated[b:]
+        row = re.compile(rf"^\| {n} \|.*$", re.M)
+        old_row, new_row = row.search(previous_md), row.search(candidate_md)
+        if not old_row or not new_row:
+            raise SystemExit(f"Missing slide {n} summary row")
+        old_time = re.search(r"(\d+):(\d+) \|$", old_row.group())
+        new_time = re.search(r"(\d+):(\d+) \|$", new_row.group())
+        seconds_delta += (int(new_time[1]) * 60 + int(new_time[2])
+                          - int(old_time[1]) * 60 - int(old_time[2]))
+        updated = row.sub(lambda _: new_row.group(), updated)
+    if seconds_delta:
+        total = re.compile(r"(Estimated total for slides .*?: )(\d+):(\d+)(\.)")
+        updated = total.sub(lambda m: m[1] + mmss(int(m[2]) * 60 + int(m[3]) + seconds_delta) + m[4], updated)
+
+    # Preserve every non-Roads source row and all manual text outside generated markers.
+    source_lines = previous_sources.splitlines(keepends=True)
+    for n in (5, 6):
+        indexes = [i for i, line in enumerate(source_lines) if line.startswith(f"| {n} |")]
+        rows = [line for line in candidate_sources.splitlines(keepends=True) if line.startswith(f"| {n} |")]
+        if not indexes or not rows:
+            raise SystemExit(f"Missing slide {n} source rows")
+        if indexes != list(range(indexes[0], indexes[-1] + 1)):
+            raise SystemExit(f"Non-contiguous slide {n} source rows")
+        source_lines[indexes[0]:indexes[-1] + 1] = rows
+    out.write_bytes(merged.getvalue())
+    old_slides.write_text(updated, encoding="utf-8")
+    old_sources.write_text("".join(source_lines), encoding="utf-8")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.split("\n", 1)[0])
     parser.add_argument("--out", type=Path, default=OUT)
+    parser.add_argument("--roads-only", action="store_true",
+                        help="update only existing slides 5-6, their notes and source rows; preserve all other slides")
     parser.add_argument("--screenshots", type=Path, default=None,
                         help="folder outside the repository with the three slide 9 crops (09-heuristic-*.png)")
     parser.add_argument("--preview", type=Path, help="also write one .pptx per slide into this folder")
     args = parser.parse_args()
     prs, docs = build(args.screenshots)
-    prs.save(args.out)
-    write_slides_md(docs)
-    write_sources_md()
+    if args.roads_only:
+        save_roads_only(prs, docs, args.out)
+    else:
+        prs.save(args.out)
+        write_slides_md(docs)
+        write_sources_md()
     print(f"wrote {args.out.relative_to(ROOT) if args.out.is_relative_to(ROOT) else args.out} ({len(prs.slides)} slides), "
           f"{SLIDES_MD.relative_to(ROOT)}, {SOURCES_MD.relative_to(ROOT)}")
     print(f"{len(R.rows)} numbers checked against their files, {len(R.gaps)} open gaps, no main-slide text under {MIN_PT} pt")
