@@ -12,6 +12,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-11 · R-4 (#87) · Defense script snapshot
+- **Status:** in progress; speaker review and a timed group read-through remain.
+- **What I did:** Copied all 12 existing slide scripts and their estimated timings into `docs/PRESENTATION.md` without changing slide design or claiming a completed rehearsal.
+- **Result:** The 12 scripts are in one place. Flagged that slide 11's notes still call the two-step pipeline a next step even though C-8 has been merged, and that some same-speaker handovers are implicit.
+- **Decisions and why:** Preserved the actual current notes for a reliable comparison instead of silently changing the presentation or inventing measured timings.
+- **What I learned / can explain at the defense:** Timed estimates do not replace rehearsal; notes need to match both the deployed behavior and the spoken script.
+- **AI use:** Codex desktop, GPT-6; personal review pending.
+- **Open questions / next:** Team corrects the stale note in the deck source, checks every speaker's own text and handovers, and records a full timed read-through.
+
 ### 2026-11-11 · R-15 (#99) · Independent recheck of deck and intervals
 - **Status:** in progress; the final freeze rebuild and outstanding R-6 audit remain.
 - **What I did:** Rebuilt the deck at `2d37b34` in an isolated copy, compared all slide and notes text and the embedded media hashes, and independently recomputed the stored restroom confidence intervals and paired p-values.

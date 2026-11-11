@@ -27,6 +27,76 @@ Total about 8:10. If Rehearsal 1 runs long, merge slides 10 and 11. If the potho
 
 Backup slides after the closing: architecture diagram in detail, full metrics table, MLflow screenshot, training curves, error-analysis grid, database schema, contribution log.
 
+## Script
+
+Working snapshot copied from `docs/deck/SLIDES.md` at commit `1c28a49`. The final deck and speaker notes are generated from `docs/deck/make_deck.py`; reconcile changes there before the defense. Word counts and durations below are estimates, not a timed group rehearsal. Speakers must check their own wording and complete R-10.
+
+**Known gap:** slide 11 currently describes serving the two-step pipeline as a next step, but C-8 has since been merged. Verify the current serving configuration and update the deck source and notes before presenting; this draft preserves the existing script rather than silently changing it.
+
+**Full timed read-through:** not yet recorded. The deck estimates 8:02 with the 1:30 live demo; a real timed rehearsal is still required.
+
+### 1. Title
+**Speaker and budget:** Tair · **budget** 0:15 · **script** 32 words, about 0:15
+
+> Good morning. We are Qarau, Kazakh for “to inspect”. From photos, our app finds potholes and checks restroom door signs, then applies rules you can read. Roma will start with the problem.
+
+### 2. Problem
+**Speaker and budget:** Roma · **budget** 0:35 · **script** 66 words, about 0:30
+
+> Today, roads and public buildings are inspected by eye, so potholes are found late. In West Kazakhstan Region, 60 percent of local roads were in normative condition at the start of 2026. For restroom signs we found no figure, and no place to report them. A photo goes in, a model finds what matters, and readable rules decide what happens next. Tair will show it live.
+
+### 3. Live demo
+**Speaker and budget:** Tair · **budget** 1:30 · **script** 106 words, about 0:49
+
+> This is Qarau. I open the Roads module and drop a road photo. It runs on our own model, here on this laptop. Here are the potholes it found, the severity, and one rule that fired: [read one rule hit aloud]. Now Restrooms, Compare. I pick a mismatched pair. Here are the two genders, how alike the signs are, and the verdict with the rule that failed. This is the platform overview. These tiles and charts run on demo data. The two analyses you just saw and the model page are real. On the model page are both experiment tables; we come back to these. Alizhan will explain how it works.
+
+### 4. How it works
+**Speaker and budget:** Alizhan · **budget** 0:40 · **script** 91 words, about 0:42
+
+> This is the path of one photo. The browser sends it to our Next.js server, which uses the provider chosen in Settings: mock for offline demo data, local for the model on this laptop, or cloud. Local calls our FastAPI service, where YOLO finds potholes and CLIP reads restroom signs. The detections come back, and the rules run in the web server, so every provider is scored by the same rules. Cloud is opt-in, because road photos can show faces and plates. Amina will show what the roads model learned from.
+
+### 5. Roads: data and experiment
+**Speaker and budget:** Amina · **budget** 1:00 · **script** 127 words, about 0:59
+
+> Our road data is the Annotated Potholes Image Dataset from Kaggle, under ODbL and DbCL, and Kaggle is a source the syllabus allows. It has 665 photos with 1,739 boxes and one class. Before splitting, we checked for exact and near-duplicate photos, because a copy in both train and test would inflate the test score. We found none. Then we split by photo with seed 42: 465 for training, 100 for validation and 100 for test. This is Option A. Data, seed and budget stay fixed, and each run changes one thing against the baseline E0, such as model width, pretraining or the optimizer. We choose on validation mAP50, and recall at our threshold of 0.40 breaks ties. Test is read once. Here is what came out.
+
+### 6. Roads: results
+**Speaker and budget:** Amina · **budget** 0:45 · **script** 90 words, about 0:42
+
+> E4 has the highest validation mAP50, 0.828. Four other runs are within 0.01 of it, so the tie-break decides: E1, the small model, has the highest validation recall at 0.40, 0.738. On test, at the app's threshold, E1 finds 176 of 236 potholes, recall 0.746, with 30 false alarms. E4 is 0.016 higher on test mAP50, but we do not claim differences below 0.02, and test never chooses. The rules then turn boxes into a priority: in our example, a highway photo scores 15, critical. Nazar takes the second module.
+
+### 7. Restrooms: data and experiment
+**Speaker and budget:** Nazar · **budget** 0:50 · **script** 99 words, about 0:46
+
+> The restroom task comes from the IOAI 2025 olympiad. Given a cropped door sign, the model must find the other door of the same restroom, the opposite gender, in a gallery. The data is small: 82 training restrooms, 10 validation and 30 test queries. We ran three groups. Zero-shot CLIP, which is IOAI's baseline. Our Option A change: fine-tuning the last one, three or six transformer blocks. And a two-step pipeline with no training. The figure shows why depth matters: the middle blocks find the partner best, and gender rises only at the end. Here is what came out.
+
+### 8. Restrooms: results
+**Speaker and budget:** Nazar · **budget** 0:50 · **script** 111 words, about 0:51
+
+> Zero-shot CLIP matches 23 of 30 test queries, the same as IOAI's published baseline of 0.77. Fine-tuning the last three blocks, run R3, gives 27; R3 is the run our rule picks on validation. The two-step pipeline gets all 30, also one query at a time, as the app will answer. IOAI's best, 0.90, is their number, not a contest we entered. Thirty queries are few: for 30/30 the 95 % interval starts at 0.884. The pipeline beats zero-shot CLIP, p 0.016, but not provably R3, p 0.25. It also uses two facts of this benchmark that a real building does not give. Dameli will show how the interface makes this usable.
+
+### 9. Design decisions
+**Speaker and budget:** Dameli · **budget** 0:35 · **script** 77 words, about 0:36
+
+> I designed Qarau for a road dispatcher. Visibility of system status: the app always shows which model answers and whether it is connected. Error recovery: if the model service is down, the message says why and offers one click to the mock provider. Recognition over recall: you pick a sample instead of guessing what to upload. Charts start at zero, and every text colour passes WCAG AA in both themes. Roma now explains how we used AI.
+
+### 10. AI use and its limits
+**Speaker and budget:** Roma · **budget** 0:35 · **script** 80 words, about 0:37
+
+> We used AI tools, mainly Claude Code, Codex and Copilot, to write and review code and tests, to draft documents, and to check text against our result files. Every use is logged with its prompt: 100 entries. Whoever used a tool checked its output, with tests and CI, and every number on these slides is traced to a committed file. We planned an audit of two vision-language models; it is not finished, so we show no numbers. Next, the limits.
+
+### 11. Limitations and next steps
+**Speaker and budget:** Roma · **budget** 0:25 · **script** 52 words, about 0:24
+
+> Three limits. Box area is not physical size: a far pothole looks small. The restroom data has 82 training restrooms and two classes, so accessible and all-gender signs are missing. And none of our road photos are from Kazakhstan. Next: screened local photos and the two-step pipeline in the app. Tair closes.
+
+### 12. Closing
+**Speaker and budget:** Tair · **budget** 0:10 · **script** 21 words, about 0:10
+
+> Thank you. The code, both results tables and our AI log are in this repository. We are ready for your questions.
+
+**Handover check:** Slides 5→6, 7→8 and 10→11 continue with the same speaker and do not explicitly name that speaker in the existing notes. Slide 12 closes for questions. Team review is needed before claiming every requested handover is present.
+
 ## Demo script (slide 3, 90 seconds)
 
 1. Landing page, one sentence, open the Roads module.
