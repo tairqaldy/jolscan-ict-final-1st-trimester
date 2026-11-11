@@ -37,8 +37,12 @@ export const demo = {
   heroReplay: 7,
   /** The sign demo moves to the next example pair this often. */
   pairCycle: 5,
-  /** The result line (priority or verdict) appears once the drawing is done. */
-  resultDelay: 1.4,
+  /**
+   * The result line (priority or verdict) appears once the drawing is done:
+   * the road boxes are in by 0.6 s, the similarity bar by
+   * similarityDelay + duration.draw = 1.0 s.
+   */
+  resultDelay: 1.0,
   /** The first door's gender tag appears; the second one follows a step later. */
   tagDelay: 0.35,
   tagStep: 0.15,
