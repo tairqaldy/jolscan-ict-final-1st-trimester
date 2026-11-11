@@ -12,11 +12,11 @@
 | Do NOT Say | Say Instead | Why (Defense Grading Penalty) |
 |---|---|---|
 | *"The AI decides the road severity"* | **"The YOLO model detects potholes; our rule engine calculates severity"** | Graded on system architecture: models output bounding boxes and probabilities, deterministic business logic executes policy. |
-| *"The road detector accuracy is 85%"* | **"The road detector achieves 0.741 mAP50"** | Object detection cannot be measured with standard accuracy; mAP incorporates both localization (IoU) and classification. |
+| *"The road detector accuracy is 85%"* | **"The road detector (E1) reaches 0.816 mAP50 on the test split"** (`web/data/experiments.json`) | Object detection cannot be measured with standard accuracy; mAP incorporates both localization (IoU) and classification. |
 | *"We trained the model on the test set"* | **"We evaluated on the held-out test split exactly once"** | Training on test data is fatal data leakage. |
 | *"We tested it on the validation set at the end"* | **"Validation was used for checkpoint selection; the test set was used for final reporting"** | Mixing validation and test sets misrepresents generalization error. |
-| *"Our restroom matching is 100% accurate"* | **"Our fine-tuned pipeline achieves 30/30 (100.0%) top-1 test matching accuracy on the benchmark"** | Generalizing 30 queries to absolute perfection invites harsh examiner skepticism. |
-| *"Our app works in real time"* | **"Our pipeline runs locally with an inference latency of 24.7 ms"** | "Real time" is vague marketing jargon; examiners require concrete benchmark millisecond numbers. |
+| *"Our restroom matching is 100% accurate"* | **"Our two-step pipeline finds the partner on 30 of 30 test queries; with only 30 queries the 95% interval is 0.884–1.000"** (`ml/results/restroom/intervals.json`) | Generalizing 30 queries to absolute perfection invites harsh examiner skepticism; the pipeline is not fine-tuned (R7: SIFT, a pixel check, colour and zero-shot CLIP). |
+| *"Our app works in real time"* | **"On the laptop CPU, CLIP embeds one sign in 25.7 ms"** (R1, `ml/results/restroom/experiments.csv`) | "Real time" is vague marketing jargon; examiners require concrete benchmark millisecond numbers. |
 | *"Vision Transformers are strictly better than CNNs"* | **"ViTs lack inductive bias and require large pre-training, whereas CNNs excel on small data without massive pre-training"** | Lec8 p54: architectural superiority depends on data scale and task structure. |
 | *"We sent pothole photos to commercial VLMs"* | **"We screened data and sent only CC-BY-4.0 abstract restroom icons to commercial VLMs"** | Sending road photos with identifiable faces or license plates violates syllabus privacy rules (Syl p.9). |
 
