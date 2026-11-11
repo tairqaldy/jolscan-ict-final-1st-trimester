@@ -27,7 +27,8 @@ export function Segmented<T extends string>({
   return (
     <fieldset className={cn("grid gap-1.5", className)}>
       <legend className={cn("mb-1.5 text-sm font-medium", hideLabel && "sr-only")}>{label}</legend>
-      <div className="inline-flex w-fit rounded-md border border-border-strong bg-surface-2 p-0.5">
+      {/* flex-wrap: on a phone the options wrap onto a second row instead of widening the page. */}
+      <div className="inline-flex w-fit max-w-full flex-wrap rounded-md border border-border-strong bg-surface-2 p-0.5">
         {options.map((o) => {
           const Icon = o.icon;
           const active = o.value === value;
