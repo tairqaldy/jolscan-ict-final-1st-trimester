@@ -504,3 +504,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **How I verified it, and who verified it:** the tests check IoU, one match per labelled box and the summary formulas; `tp + fn` equals the 236 test boxes; the counts were compared with Ultralytics' 0.40 confusion matrix.
 - **What I rejected or corrected:** nothing rejected; the difference to Ultralytics' counts is explained in the doc instead of hidden.
 
+### 11 November 2026, Dameli (G-22 colour-blind check)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** a repeatable check that our colour sets stay distinguishable for colour-blind readers.
+- **Key prompt(s), with a link to the transcript:** "do all of these, deadline is too close" (G-22 among them). Transcript kept locally.
+- **What it produced or changed:** `web/scripts/check-palette.mjs`, the result tables and the decision rows in DESIGN-BRIEF.md.
+- **How I verified it, and who verified it:**
+  - The simulation matrices were read from the authors' page, which is cited in the script, and compared with the values used.
+  - The script runs and resolves the verdict aliases.
+  - The claim that `chart-3` and `chart-4` are unused was checked by searching the web code.
+  - The visual check in Chrome DevTools is still for me to do.
+- **What I rejected or corrected:** a first draft said the analytics page "uses only chart-1 and chart-2"; it now says no chart uses `chart-3` or `chart-4`, which is what the search showed. No token was changed without Tair.
