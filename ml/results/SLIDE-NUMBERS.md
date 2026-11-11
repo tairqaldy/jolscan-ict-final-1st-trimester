@@ -1,7 +1,7 @@
 # Slide numbers: source inventory
 
-Generated (UTC): 2026-11-11T17:21:47+00:00
-Git HEAD at generation: `29fc0f3` (working-tree changes, if any, are not captured by the hash).
+Generated (UTC): 2026-11-11T18:24:10+00:00
+Git HEAD at generation: `08098b2` (working-tree changes, if any, are not captured by the hash).
 
 Values are read from files, not necessarily used in the final slides. Missing values are marked explicitly. Re-run after updates and verify the final deck.
 

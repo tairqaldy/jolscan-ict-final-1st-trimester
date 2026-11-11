@@ -252,13 +252,13 @@ Each gap is off the slide face. The script already says the fallback sentence; w
 **On the slide:**
 
 - Claude Code, Codex, GitHub Copilot: Writing and reviewing code and tests; Drafting documents, study cards and slide text; Checking text against the result files
-- How we checked: Unit tests and CI on every pull request; Every number traced to a committed file (docs/research/deck-sources.md); Each use logged with its prompt and check: 105 entries in docs/AI-USAGE-LOG.md
+- How we checked: Unit tests and CI on every pull request; Every number traced to a committed file (docs/research/deck-sources.md); Each use logged with its prompt and check: 108 entries in docs/AI-USAGE-LOG.md
 
 **Visual:** Two cards, no image
 
 **Script:**
 
-> We used AI tools, mainly Claude Code, Codex and Copilot, to write and review code and tests, to draft documents, and to check text against our result files. Every use is logged with its prompt: 105 entries. Whoever used a tool checked its output, with tests and CI, and every number on these slides is traced to a committed file. We planned an audit of two vision-language models; it is not finished, so we show no numbers. Next, the limits.
+> We used AI tools, mainly Claude Code, Codex and Copilot, to write and review code and tests, to draft documents, and to check text against our result files. Every use is logged with its prompt: 108 entries. Whoever used a tool checked its output, with tests and CI, and every number on these slides is traced to a committed file. We planned an audit of two vision-language models; it is not finished, so we show no numbers. Next, the limits.
 
 **OPEN GAP (R-6, #85, Roma):** R-6 (#85) audit of two vision-language models: count error on screened test photos, docs/research/vlm-evaluation.md is not on main. Not on the slide. Until it is filled, the script uses: “We planned an audit of two vision-language models; it is not finished, so we show no numbers.” When it lands, add the number with its source here and in docs/research/deck-sources.md, then rebuild.
 
