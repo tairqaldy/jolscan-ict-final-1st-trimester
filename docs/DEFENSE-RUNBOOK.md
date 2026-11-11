@@ -3,7 +3,7 @@
 How to run the live demo with the real models on the presenting laptop, and what to do when something fails. Follow it once in Rehearsal 2 (R-10) and correct every step that did not work as written.
 
 - **Defense:** Thursday 12 November 2026, 10 minutes (7+ talk, 2–3 Q&A). Slot: see `docs/PLAN.md` (task X-3).
-- **Presenting laptop (proposed, confirm in the chat):** Tair's MacBook (Apple M5). E0 was trained on it, and the real-model demo below was run on it on 11 November 2026.
+- **Presenting laptop (decided by Tair, lead, 11 Nov):** Tair's MacBook (Apple M5). E0 was trained on it, and the real-model demo below was run on it on 11 November 2026.
 - **Who clicks:** Tair (slide 3, demo). **Who watches the time:** Roma (one-minute warning). **Who opens code if asked:** the owner of the lane (source-code tour, R-30).
 
 ## What "real" means in the demo
