@@ -22,6 +22,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Alizhan (R-15 post-23:00 recheck, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Repeat the numbers audit on the current deck after the planned code-freeze time.
+- **Key prompt:** "можешь параллельно выполнять задания, которые отмечены, как bare minimum и никем не выполнены?" This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** A dated recheck note and worklog entry; no presentation file was edited.
+- **How it was verified:** Rebuilt main commit `b985171` in an isolated copy, compared slide/notes text and seven media hashes, and counted AI-log entries. Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** Did not call the snapshot final, since the `defense` tag was absent, R-6 remained open and this AI-log entry requires a further deck refresh.
+
 ### 11 November 2026, Alizhan (R-4, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.
