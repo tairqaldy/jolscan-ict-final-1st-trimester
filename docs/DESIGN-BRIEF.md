@@ -404,3 +404,49 @@ Ratios from `node web/scripts/check-contrast.mjs` (WCAG 2.x relative luminance, 
 0 values below target. For comparison, light `subtle` is 4.98:1 on bg and `muted` 7.09:1; here they are 8.30:1 and 12.13:1.
 
 **Severity still distinct.** `node web/scripts/check-palette.mjs` now also checks this theme. No pair in it is below ΔE 10 in normal vision or in any of the three simulations. The smallest values are 11.6 (tritan) for `sev-clear` / `sev-low` and for `focus` / `sev-low`, and 17.4 (deutan) for `sev-medium` / `sev-high`, the pair the light theme flags at 2.0. Medium, high and critical step down in lightness (3.29, 5.80, 9.48:1 on bg), so they separate in greyscale too. Severity keeps its icon and word in every theme (U3).
+
+## Box colours on real photos (G-48)
+
+**What the samples are.** The six bundled road samples (`web/public/samples/samples.json`, `s01` to `s06`) are still drawings, not photos; D-5 (#43), which brings real test photos, has not merged. So this check was run on the drawings the demo shows today, and on flat colours for the surfaces the drawings do not have (yellow markings, concrete, wet asphalt). Run it again on the real photos when D-5 lands.
+
+**How.** Three variants on `/app/roads/analyze?sample=s01` to `s06`, set by injecting CSS into the running page, so no source file changed for the test:
+
+- A, current: amber box, black halo at 45%, halo 2.4 times the stroke.
+- B: white box, amber tag.
+- C: amber box, thicker and darker halo (60%, 4 times the stroke).
+
+Every sample was screenshot at 1440 and 375 px wide, light and dark theme (Playwright, Chromium, device scale 1). For the numbers, each sample was rendered at 1280 x 720 (the overlay's own coordinates). Along every box edge, the photo just inside and just outside the stroke was darkened by the halo and compared with the stroke colour (WCAG contrast; 3:1 is the target for a mark that must be seen).
+
+**Results on the samples** (10 boxes on 5 samples; `s06` has none):
+
+| Variant | Worst stroke against the halo-darkened photo | Boxes below 3:1 at their worst point | Dark rim beside the stroke, 375 / 1440 px |
+|---|---|---|---|
+| A, current | 2.10 (`s03`) | 6 of 10 | 0.75 / 1.43 |
+| B, white box | 4.22 | 0 | 0.75 / 1.43 |
+| C, thicker halo at 60% | 3.46 | 0 | 1.61 / 3.06 |
+| **Pick: C with the halo at 65%** | 4.12 | 0 | 1.61 / 3.06 |
+
+**Flat surfaces.** The colours are assumptions, not measured from photos. Values are the stroke against the halo-darkened surface; the first number column is amber with no halo.
+
+| Surface | Colour | Amber, no halo | A | B | C | Pick, amber | Pick, review violet |
+|---|---|---|---|---|---|---|---|
+| White marking, pure white (overexposed) | `#ffffff` | 2.0 | 1.7 | 3.4 | 2.9 | 3.5 | 3.3 |
+| White marking, as drawn | `#efede4` | 1.7 | 1.9 | 3.8 | 3.2 | 3.8 | 3.7 |
+| Yellow marking, fresh (about RAL 1023) | `#f7b500` | 1.1 | 2.7 | 5.5 | 4.2 | 4.9 | 4.7 |
+| Yellow marking, worn | `#d8b04a` | 1.0 | 3.0 | 6.0 | 4.5 | 5.2 | 5.0 |
+| Grey concrete | `#a3a29c` | 1.3 | 3.5 | 7.0 | 5.1 | 5.8 | 5.5 |
+| Dry asphalt, as drawn | `#4a4b4d` | 4.3 | 7.2 | 14.5 | 8.3 | 8.6 | 8.3 |
+| Wet dark asphalt | `#1f2022` | 8.1 | 9.4 | 18.8 | 9.7 | 9.8 | 9.4 |
+
+**Hardest samples.** `s03` and `s02`: the box crosses a white centre-line dash, where amber on white is 1.7:1 and only the halo separates them. `s01` is the darkest sample with boxes (lower half mean grey 76 of 255) and was easy: amber on dark asphalt is 4.3:1 even without the halo. `s04` has the only yellow in the samples (the school sign); no box touches it. No sample has yellow road markings, so the flat-colour table stands in for them.
+
+**Pick: C, with the halo at 65%.** It is the only option that keeps the amber "counted" colour and stays above 3:1 on every surface, pure white included (that needs 63%). The wider halo matters on phones: at 375 px the old rim was under 1 px. Not B: white is already the colour of the hovered or selected box (`--box-active`), and a white box drops the amber "counted" swatch of the legend under the photo (`web/components/app/analysis-view.tsx`).
+
+**Changes.** `--box-halo` 0.45 to 0.65 in `web/app/tokens.css`, and the same line in the print copy (`web/app/print.css`, kept equal to the light theme by `web/lib/print-tokens.test.ts`). Halo width 2.4 to 4 times the stroke (`HALO_SCALE` in `web/components/app/detection-overlay.tsx`), with a test in `web/lib/detection-overlay.test.ts`. The box colours did not change; `node web/scripts/check-palette.mjs` still gives box / box-review 108.5 normal, 106.5 protan, 104.8 deutan, 34.2 tritan (no value below 10).
+
+**Tags.** Text on the amber tag is 9.17:1, on the violet tag 8.78:1, whatever the photo. The tag has no halo, so its edge can fade into yellow or white areas (down to about 1:1); the dark text keeps it readable.
+
+**Found, not fixed here** (outside the colour tokens):
+
+1. At 375 px on `s05`, the tag of box 3 covers the end of the tag of box 1 ("review" loses its last letter). `placeTag` keeps tags inside the photo but does not move them away from each other.
+2. Review and ignored boxes are meant to be dashed but draw solid: the draw-in animation sets `pathLength`, and motion then writes `stroke-dasharray="1 1"` over the dash pattern (seen in the page DOM). The legend under the photo still shows a dashed swatch for "needs review". The violet colour and the word "review" on the tag still mark these boxes.
