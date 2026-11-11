@@ -10,6 +10,17 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 ## Entries
 
+### 2026-11-11 ? M-37 (#195) ? Why not accuracy
+- **Status:** complete in this PR; M-18 timed practice remains incomplete.
+- **What I did:** Verified photo/object counts from the frozen manifest and the R1 gender confusion matrix, added a five-sentence explanation to ML-EXPERIMENT.md and a two-sentence answer for R-5/M-18 in PRESENTATION.md.
+- **Result:** [Why not accuracy](../ML-EXPERIMENT.md#why-not-accuracy): an always-positive image answer is 100/100 correct on presence while locating no boxes. Train/val/test contain 465/100/100 photos, zero without potholes, with per-photo object ranges 1-18 / 1-19 / 1-14. R1 gender rows sum to 164/164.
+- **Decisions and why:** Separate image-presence accuracy from box detection and fixed-label classification; do not describe the issue as ordinary class imbalance or alter selection policy.
+- **What I learned / can explain at the defense:** A perfect answer to the easier presence question does not measure whether a detector finds and localizes objects. Background regions have no unique count for detection true negatives.
+- **AI use:** Codex assisted with inspection and wording, logged in AI-USAGE-LOG.md.
+- **Verification / next:** Manifest and R1 assertions passed; ml/check_results.py passed and five test_check_results.py tests passed; git diff --check passed. No training or evaluation rerun. Roma can use the sourced answer in R-5; real timed teammate practice remains required for M-18.
+
+
+
 ### 2026-11-11 ? M-4 (#53) ? Prepare E1 without training
 - **Status:** in progress; compatibility confirmation required before training.
 - **What I did:** Claimed available E1 for omodotori, compared the actual E0 tagged trainer and explicit JSON configuration with E1, and prepared [separate Colab instructions](../E1-COLAB.md).
