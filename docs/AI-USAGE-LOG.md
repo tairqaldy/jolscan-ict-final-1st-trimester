@@ -988,3 +988,19 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 - **What it produced or changed:** `docs/design/dashboard-review.md` and its screenshots; `web/components/app/link-row.ts`; class changes in the three overview clients, `kpi.tsx`, `demo-path.tsx`, `analyses-table.tsx` and `checks-table.tsx`.
 - **How I verified it:** Playwright on a dev server: screenshots at 1440 and 375 px in both themes, element positions against the fold, computed transition values with Reduce motion on and off, and a script that measures every KPI number against its tile at 320 to 1440 px (4 overflowing pages before, 0 after). `pnpm lint`, `pnpm typecheck`, `pnpm exec vitest run --maxWorkers=2` pass.
 - **What I rejected or corrected:** a first try passed `shadow-none` through `className`, which did nothing because `cn()` does not merge classes; replaced by a `nested` prop. Moving the review queues was left to W-7 because the page order is Tair's.
+
+### 11 November 2026, Dameli (G-6 component states)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app, with Playwright (Chromium) in a throwaway environment for the checks.
+- **Purpose:** clear hover, pressed, focus, disabled, loading and error states with small motion for the UI primitives, and a states grid on `/design`.
+- **Key prompt(s), with a link to the transcript:** "мне просто нужно сейчас сделать просто максимальное колво тасков" (G-6 among them). Transcript kept locally.
+- **What it produced or changed:** class changes and a `forceState` prop in `button.tsx`, `switch.tsx`, `slider.tsx`, `tabs.tsx`, `select.tsx`; states in `input.tsx` (with an `error` prop), `segmented.tsx`, `table.tsx`, `dialog.tsx`; `web/components/ui/states.ts`; a G-6 motion block in `web/app/globals.css`; `web/components/design/states-grid.tsx`; `web/lib/ui-states.test.ts`; a section in `docs/DESIGN-BRIEF.md`.
+- **How I verified it, and who verified it:**
+  - Playwright on my own dev server: `/design` at 1440 and 375 px, light, dark and high contrast; button heights, dialog open and close animations, press scale, focus animation, and reduced motion from the OS and from the Settings attribute (0.01 ms).
+  - Computed transitions on the reference site (dope.security) for the timings: 100 to 150 ms on links and buttons.
+  - `pnpm lint`, `pnpm typecheck` and `pnpm exec vitest run --maxWorkers=2` (233 tests) pass.
+- **What I rejected or corrected:**
+  - Rows marked with `aria-selected` (not valid outside a grid); they use `data-state="selected"`.
+  - A focus ring outside the tab: the scrolling tab list clipped it. It is drawn inside now.
+  - A grey hover underline in `--border-strong`: about 2:1 on the dark background, not visible; it uses `--subtle`.
+  - Plain keyframe names like `fade-in`, which another branch could also define; they are prefixed `ui-`.
