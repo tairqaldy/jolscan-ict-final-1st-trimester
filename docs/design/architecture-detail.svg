@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" role="img" aria-labelledby="t d">
   <title id="t">Qarau architecture in detail, backup slide</title>
-  <desc id="d">Serving: the browser sends a photo to the Next.js server (/api/analyze, /api/restroom, /api/health), which picks a provider (mock, the local FastAPI service with /health, /ready, /predict on YOLO and /restroom/compare and /restroom/match on CLIP, or the opt-in cloud copy), applies rules R1 to R6 or S1 to S3 and returns the result. Training happens before the demo: ml/ on Colab with Ultralytics and MLflow produces the pothole weights, ml/restroom/ produces an optional restroom checkpoint and probe, and ml/export_results.py writes the results table the Model page shows. There is no database.</desc>
+  <desc id="d">Serving: the browser sends a photo to the Next.js server (/api/analyze, /api/restroom, /api/health), which picks a provider (mock, the local FastAPI service with /health, /ready, /predict on YOLO and /restroom/compare and /restroom/match on CLIP, or the opt-in cloud copy), applies rules R1 to R6 or S2 and S3 and returns the result. Training happens before the demo: ml/ on Colab with Ultralytics and MLflow produces the pothole weights, ml/restroom/ produces an optional restroom checkpoint and probe, and ml/export_results.py writes the results table the Model page shows. There is no database.</desc>
   <!-- Source: docs/ARCHITECTURE.md section 1. Checked with: ls web/app/api; grep -nE "@app|@router" api/main.py api/restroom.py. Colours: light theme of web/app/tokens.css. G-66. -->
   <defs>
     <marker id="ah-accent" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto-start-reverse">
@@ -48,7 +48,7 @@
   <line class="rule" x1="518" y1="440" x2="982" y2="440"/>
   <text class="t b" x="518" y="480" font-size="24">Rules applied here</text>
   <text class="m" x="518" y="514" font-size="20">web/lib/rules</text><text class="t" x="740" y="514" font-size="20">R1–R6, roads</text>
-  <text class="m" x="518" y="546" font-size="20">web/lib/signage</text><text class="t" x="740" y="546" font-size="20">S1–S3, restrooms</text>
+  <text class="m" x="518" y="546" font-size="20">web/lib/signage</text><text class="t" x="740" y="546" font-size="20">S2, S3, restrooms</text>
   <line class="rule" x1="518" y1="572" x2="982" y2="572"/>
   <text class="t b" x="518" y="610" font-size="22">Returns the analysis JSON</text>
   <text class="t muted" x="518" y="640" font-size="20">with a severity (roads) or a verdict (signs)</text>

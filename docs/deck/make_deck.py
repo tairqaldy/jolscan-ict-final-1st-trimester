@@ -626,7 +626,7 @@ def slide_architecture(prs) -> SlideDoc:
          [[("Next.js server", {"bold": True, "size": 21})],
           {"runs": [("The rules run here", {"bold": True, "color": "accent_ink"})], "space_before": 10},
           {"runs": [("R1–R6 roads", {})], "space_before": 6},
-          {"runs": [("S1–S3 restrooms", {})], "space_before": 2},
+          {"runs": [("S2 and S3 restrooms", {})], "space_before": 2},
           {"runs": [("same rules for every provider", {"color": "muted"})], "space_before": 8}], size=16)
     ph = (bh - Inches(0.2)) // 3
     providers = [("mock", "demo data"), ("local", "this laptop"), ("cloud", "opt-in, not used")]
@@ -673,7 +673,7 @@ def slide_architecture(prs) -> SlideDoc:
             f"{SERVED_ARCH}). ml/results/latency.json (S-15, #28) does not exist yet, so no pothole latency. "
             "A drawn version of this diagram with numbered steps is docs/design/architecture-slide.svg (G-66).")
     return SlideDoc("4", "How it works", "Alizhan", "0:40", title_words,
-                    ["Browser (shows the result) → Next.js server (the rules run here: R1–R6 roads, S1–S3 restrooms; "
+                    ["Browser (shows the result) → Next.js server (the rules run here: R1–R6 roads, S2 and S3 restrooms; "
                      "same rules for every provider) → provider: mock (demo data), local (this laptop), cloud (opt-in, "
                      "not used) → FastAPI service (/predict: YOLO finds potholes; /restroom: CLIP reads the signs)",
                      "Arrows: photo forward; JSON and the result back", latency_line],
