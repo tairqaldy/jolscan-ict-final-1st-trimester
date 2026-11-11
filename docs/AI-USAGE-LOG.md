@@ -22,6 +22,15 @@ Never paste into an AI tool: photos with faces or licence plates, other people's
 
 ## Entries
 
+### 11 November 2026, Alizhan (R-2, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Find a primary, dated road-condition indicator for the problem statement.
+- **Key prompt:** "делай еще" following a request to do available non-design tasks. This is an excerpt; no full transcript is available in the repository.
+- **What it produced or changed:** A cited regional government source, a brief original-language excerpt and a proposed English sentence in `docs/research/deck-sources.md`.
+- **How it was verified:** Opened the primary government page, checked its author, date, geography and exact indicator. Alizhan has not yet personally reviewed the source.
+- **What was rejected or corrected:** Did not describe the reported share as a national pothole count or present the source as proof of model accuracy; slide and speaker timing remain unverified.
+
 ### 11 November 2026, Alizhan (R-15, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.

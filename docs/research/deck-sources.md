@@ -4,7 +4,11 @@ Where every number on the defense slides comes from (tasks R-2, R-14, R-15).
 
 ## Slide 2
 
-The problem statistic (R-2, #84): not chosen yet. Record here the exact quote, publisher, the year the number describes, the URL and the access date.
+**Candidate primary source for R-2; not yet added to the slide.** The West Kazakhstan Region Department of Passenger Transport and Highways reports the condition of its road network as of 1 January 2026. Its original Kazakh text states: “2026 жылғы 1 қаңтардағы жағдай бойынша … жергілікті маңызы бар автожолдардың үлесі – 60% құрады.” The omitted words identify the share as roads in the normative condition. [Source: Жол шаруашылығы, updated 11 March 2026](https://www.gov.kz/org/bko-kolik/press/article/details/2284), accessed 11 November 2026.
+
+**Accurate English wording:** “As of 1 January 2026, 60% of local roads in West Kazakhstan Region were reported to be in normative condition.” This is a regional indicator for local roads, not a count of potholes, a nationwide statistic, a crash estimate, or evidence that a particular road is unsafe. The page does not explain the measurement method. It also reports 98% for roads of republican significance in that region; do not combine the two networks. It does not establish the cause of road damage or demonstrate model performance.
+
+**Next:** The team should decide whether this regional indicator fits the presentation, insert the source and wording into slide 2 and its notes, and time the speaker's actual delivery. R-2 remains open; no slide was changed in this research-only contribution.
 
 ## Independent audit, 11 November 2026 (R-15; incomplete)
 
