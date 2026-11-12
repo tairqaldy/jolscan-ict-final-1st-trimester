@@ -60,3 +60,28 @@ describe("restroom HTTP provider: match gallery", () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 });
+
+import { normaliseCompare, normaliseMatch } from "./restroom-http";
+
+describe("restroom response normalisation", () => {
+  const male = { gender: "male", confidence: 0.97 };
+  const female = { gender: "female", confidence: 0.94 };
+  it("accepts a compare contract and rejects unknown genders or missing similarity", () => {
+    const body = { model: "test", latencyMs: 12, a: male, b: female, similarity: 0.94 };
+    expect(normaliseCompare(body, "local")).toMatchObject(body);
+    expect(() => normaliseCompare({ ...body, a: { ...male, gender: "other" } }, "local")).toThrow(ProviderError);
+    const missing = { ...body, similarity: undefined };
+    expect(() => normaliseCompare(missing, "local")).toThrow(ProviderError);
+  });
+  it("maps upload indices, sorts candidates and uses the fallback if bestMatchId is missing", () => {
+    const gallery = [getRestroomSample("classic-m")!, getRestroomSample("classic-f")!];
+    const body = { model: "test", query: male, candidates: [
+      { id: "0", similarity: 0.4, prediction: male },
+      { id: "1", similarity: 0.9, prediction: female },
+    ] };
+    const result = normaliseMatch(body, "local", gallery);
+    expect(result.candidates.map((c) => c.id)).toEqual(["classic-f", "classic-m"]);
+    expect(result.bestMatchId).toBe("classic-f");
+    expect(normaliseMatch({ ...body, bestMatchId: null }, "local", gallery).bestMatchId).toBeNull();
+  });
+});

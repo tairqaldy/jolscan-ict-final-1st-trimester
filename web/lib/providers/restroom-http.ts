@@ -108,7 +108,7 @@ export function normaliseMatch(body: unknown, provider: Provider, gallery: Restr
     latencyMs: Math.round(Number(b.latencyMs) || 0),
     query,
     candidates: sorted,
-    bestMatchId: given ?? pickBestMatch(query.gender, sorted),
+    bestMatchId: b.bestMatchId === null ? null : given ?? pickBestMatch(query.gender, sorted),
   };
 }
 

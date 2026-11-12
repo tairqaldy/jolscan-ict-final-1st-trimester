@@ -168,6 +168,9 @@ export function normaliseInference(body: unknown, provider: Provider): Inference
   }
   if (b && Array.isArray(b.predictions) && b.image && typeof b.image === "object") {
     const { width, height } = b.image as { width: number; height: number };
+    if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) {
+      throw new ProviderError("bad_response", `The ${provider} model service returned invalid image dimensions.`, 502);
+    }
     const detections = (b.predictions as Record<string, number>[]).map((p, i) => ({
       id: String(p.detection_id ?? `d${i + 1}`),
       label: "pothole" as const,
