@@ -275,3 +275,9 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **What changed:** Added checks for sample files, dimensions, boxes, sets, presets and orphaned images.
 - **Verification:** Current manifest passes; intentionally naming a missing file failed with the filename. Web CI results are linked from the PR.
 - **Next:** Review the PR; do not mark the task done until it is on main and all acceptance checks pass.
+
+### 2026-11-13 · M-41 (#199) · Pothole model card
+- **Status:** draft for review; actual served weight hash remains unverified.
+- **What changed:** Added a source-backed card with model configuration, metrics, scope, data limitations and reproduction notes.
+- **Verification:** Compared E1 and operating-point values to the committed JSON files and the API default. No new inference was run.
+- **Next:** Verify the trained file and hash on the presenting laptop; confirm the card with the model owner.

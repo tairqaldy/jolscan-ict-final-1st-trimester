@@ -1,5 +1,7 @@
 # api/
 
+[Pothole model card](../ml/MODEL_CARD.md) — scope, reported metrics and limitations.
+
 The model service. It turns a road photo into pothole detections, and restroom door signs into gender predictions and a similarity score. Nothing else: the severity rules and the signage rules are applied by the web app, so every provider is scored the same way. The contract is in [docs/ARCHITECTURE.md](../docs/ARCHITECTURE.md), sections 2 and 2b.
 
 Both models are loaded on the first request that needs them, not at start-up. The service starts even without the YOLO weights file: `/predict` then answers 503 with a message, and the restroom endpoints still work. `/health` shows which models are loaded.
