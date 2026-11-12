@@ -12,6 +12,7 @@
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
+    "check-routes": "node scripts/check-routes.mjs",
     "draw-samples": "node scripts/draw-samples.mjs",
     "draw-restroom-samples": "node scripts/draw-restroom-samples.mjs"
   },

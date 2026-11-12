@@ -23,6 +23,7 @@ pnpm dev                  # http://localhost:3000 (check the port is free first)
 | Command | What it does |
 |---|---|
 | `pnpm build` then `pnpm start` | Production build and server |
+| `pnpm check-routes` | Check a running production server (default `http://localhost:3000`; set `BASE_URL` for another server) |
 | `pnpm lint` | ESLint |
 | `pnpm typecheck` | `next typegen && tsc --noEmit` |
 | `pnpm test` | Both rules engines (`vitest run`): RULES.md worked examples, boundaries, sample manifests |
