@@ -1368,3 +1368,13 @@ What we take from it. Fluent output can contain false facts (Lec7 p64: "Verify i
 - **What it produced or changed:** with Local or Cloud chosen, the drawing samples (which only Mock can read) are disabled with a note instead of failing with a 422; Compare shows only the real IOAI pairs; the demo path's restroom steps use real IOAI signs; the map page says why clear roads are not listed and why uploads have no place; the header theme button's first click always changes the theme; clearer text for the Mock connection check, the cloud hint and the "Switch the app to Mock" button; no developer hint ("samples.json manifest") in a user error.
 - **How I verified it, and who verified it:** lint, types, 287 Vitest tests, the production build, 72 API and ML tests; `scripts/demo_check.py` 6/6 on the real models; a Playwright script that checked each fix on Local (tiles disabled, four IOAI presets, demo path steps 3 to 6 give Pair, Not a pair, Pair and the partner first, no console errors).
 - **What I rejected or corrected:** the sub-agent's report that preset "Real pair, both read as male" was a bug: alone both signs read as male, but compared with each other the verdict is Pair, which is the point of decision 0003; the demo path now says so. Left as known limits: any image is accepted as a door sign, and rule tables scroll inside their card at 375 px.
+
+### 13 November 2026, Tair (S-8 and S-7: the API image as a Hugging Face Space)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5), with Docker 29.9 for the local build and `huggingface_hub` 2.4.0 for the deploy.
+- **Purpose:** make the API's Docker image run as a Hugging Face Space and publish it as the web app's cloud provider.
+- **Key prompt(s), with a link to the transcript:** "Cloud provider (S-7). If huggingface whoami prints a user: push feat/cloud-space, open a PR and merge it when CI is green. Run scripts/deploy_space.py". Transcript kept locally.
+- **What it produced or changed:** the Dockerfile changes for a non-root Space, `scripts/deploy_space.py`, and a clear stop when Hugging Face refuses the Space; api/README.md and the S-7 row record the result.
+- **How I verified it, and who verified it:** the image was built and run locally as uid 1000 and answered `/health`, `/predict` and `/restroom/compare` (api/README.md, S-8 check). The deploy itself was run on 13 November and Hugging Face answered 402 (Docker Spaces on free cpu-basic need PRO); the script was re-run after the change and stopped with that message, before uploading anything.
+- **What I rejected or corrected:** subscribing or moving the API to another paid host without the owner's decision.
+
