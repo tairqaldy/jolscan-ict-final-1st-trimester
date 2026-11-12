@@ -30,7 +30,7 @@ Keep the look that is on `main`: warm stone light and asphalt dark tokens with o
 
 ## Consequences
 - `web/app/tokens.css` and the fonts in `web/app/layout.tsx` stay as they are. `/design/lab` keeps the alternatives one URL away; a new comparison is one more set in `web/lib/design-lab.ts`.
-- JetBrains Mono draws only ө ү і of the nine Kazakh letters; ә ғ қ ң ұ һ fall back to a system font. Keep Kazakh and Russian text out of `font-mono`. If mono ever has to carry Kazakh, IBM Plex Mono covers all nine.
+- JetBrains Mono draws only ө ү і of the nine Kazakh letters; ә ғ қ ң ұ һ fall back to a system font. Keep Kazakh and Russian text out of `font-mono`. If mono ever has to carry Kazakh, IBM Plex Mono covers all nine. Settled on 12 November (G-43, #277): mono stays JetBrains Mono, because no page sets Kazakh or Russian text in mono (all 32 files with `font-mono` show code, IDs, paths or numbers) and changing the mono the day of the defense would touch every number on every page. Revisit when W-58 (#163) wires Kazakh into the app.
 - Amber on white is 3.46:1: right for fills with a dark label and for marks, wrong for text. Amber text uses `--accent-ink` (5.58:1).
 - The photo boxes and the static brand files keep the brighter `#f2a900`, which is tuned for photos and the logo, not for white surfaces.
 - Watch Russian and Kazakh text lengths in buttons and table headers (W-65, #303): Overpass is slightly wider than Barlow.
