@@ -4,5 +4,5 @@ R1,"backbone: ViT-B/32 instead of ViT-B/16, still zero-shot",True,0.8,0.7667,0.7
 R2,"fine-tune last 1 block of ViT-B/32, two models, two-step matching (IOAI reference recipe)",True,1.0,0.8667,0.6799,25.8,Apple M5 CPU
 R3,"as R2, last 3 blocks fine-tuned",True,1.0,0.9,0.753,26.9,Apple M5 CPU
 R4,"as R2, last 6 blocks fine-tuned (the reference solution's setting)",True,1.0,1.0,0.6433,24.7,Apple M4 CPU
-R6,gender probe: logistic regression on frozen ViT-B/32 embeddings; match = most similar candidate of the opposite predicted gender (the API's rule),True,0.5,0.3,0.7409,26.3,Apple M5 CPU
+R6,gender probe: logistic regression on frozen ViT-B/32 embeddings; match = most similar candidate of the opposite predicted gender (the API's former rule before C-8),True,0.5,0.3,0.7409,26.3,Apple M5 CPU
 R7,"two-step pipeline, no training: SIFT and a pixel check find the crop's original, colour histogram and zero-shot CLIP ViT-B/32 find its partner",True,1.0,1.0,,,Apple M4 CPU

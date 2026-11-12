@@ -13,7 +13,7 @@ Runs (one change at a time against the previous one, see README.md):
     R4  ... last 6 blocks (the reference solution's setting)
     R5  R4 + augmentation
     R6  gender focus: zero-shot prompts vs scikit-learn classifiers on frozen ViT-B/32
-        embeddings; matching = most similar opposite-gender candidate (the API's rule)
+        embeddings; matching = most similar opposite-gender candidate (the API's former rule before C-8)
 
 Usage, from the repository root:
     python ml/restroom/get_data.py
@@ -55,7 +55,7 @@ RUNS: dict[str, dict] = {
                changed="R4 + augmentation: resized crop, flip, small rotation/shift, colour jitter, greyscale"),
     "R6": dict(arch="ViT-B-32", mode="gender", matching="gender_filter_probe",
                changed="gender probe: logistic regression on frozen ViT-B/32 embeddings; match = most similar "
-                       "candidate of the opposite predicted gender (the API's rule)"),
+                       "candidate of the opposite predicted gender (the API's former rule before C-8)"),
 }
 
 
