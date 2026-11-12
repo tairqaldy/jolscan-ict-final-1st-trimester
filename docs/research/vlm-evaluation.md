@@ -177,3 +177,55 @@ Word-for-word answers recorded across both models against ground truth:
 The first version compared the hosted models' gender accuracy on 20 signs with run R4's partner-matching score on the 30 test queries (100%, 24.7 ms). Those are two different tasks, and R4 was cited because it scored best on test, while the team's rule is that test never chooses a run (the validation rule picks R3). The comparison now puts gender next to gender (R1, 0.741, cross-validated) and states partner matching separately (R7, the served pipeline, 30/30; R3, 27/30). The audit itself, its 20 answers per model and its findings are unchanged.
 
 Later on 12 November: R1's 0.741 is a logistic probe on CLIP features in cross-validation, not the zero-shot prompts. The app's gender head is the zero-shot prompts, which score 0.756 on all 328 training signs (`ml/results/restroom/runs/R1.json`, `gender.zero_shot_prompts`), so that is the number set next to the hosted models here and on slide 10. Both numbers are below 17/20.
+
+---
+
+## 8. AI-4 Evaluation Criteria (Syllabus p.9)
+
+> **Task R-42 (CLO 7)** · Maps this audit to the six AI-4 evaluation criteria required by the course syllabus (p.9) for any AI system evaluation. Each criterion is addressed by a named section of this report.
+
+| # | Criterion | How This Audit Satisfies It | Report Section |
+|---|---|---|---|
+| 1 | **Model selection** | Two models from two separate companies selected: Google Gemini Auto (web, accessed 11 Nov 2026) and Anthropic Claude 3.5 Sonnet (web, accessed 11–12 Nov 2026). Both are free-tier hosted services; model names, provider, tier, and access dates are on record. | §2 Audit Protocol |
+| 2 | **Data** | 20 IOAI restroom-sign images, CC-BY-4.0 licence, balanced 10 men / 10 women. Downloaded and renamed to opaque IDs `A01`–`A20` before upload. Contains no human faces, biometric identifiers, or PII; ground truth derived from dataset folder labels (`male/`, `female/`). | §3 Dataset |
+| 3 | **Prompts** | Fixed, verbatim, minimalist prompt: *"Is this a men's or women's restroom sign? Answer with one word only: "men" or "women"."* Identical across all 40 queries. Each query was issued in a brand-new chat session (zero cross-contamination). | §2 §4 |
+| 4 | **Validation** | Scoring performed against IOAI ground-truth folder labels. All 40 responses captured as timestamped full-window desktop screenshots archived in Drive `audit/screens/`. Gemini filename leakage documented as a protocol finding. Local R1 pipeline included as a third reference column. | §4 Results §5 |
+| 5 | **Risks** | (a) Hallucination: A17 failure due to apron/dress shape conflation. (b) Model non-stationarity: hosted models update silently without version announcements. (c) Training-data contamination: IOAI images are publicly available since 2025 and may appear in pretraining corpora. (d) English-only prompts: performance on non-English cues is untested. | §10 Threats |
+| 6 | **Responsibility** | Roma (`dyharonking`) ran all 40 evaluations manually on 11–12 November 2026. All screenshots archived in Drive `audit/screens/` for peer inspection. This report is the primary accountability document at `docs/research/vlm-evaluation.md`. | §2 §7 |
+
+---
+
+## 9. Statistical Confidence Intervals
+
+Both models scored **17 correct out of 20** (85.0%). We computed exact (Clopper–Pearson) 95% binomial confidence intervals using `scipy.stats.binomtest`:
+
+```python
+from scipy.stats import binomtest
+result = binomtest(17, 20)
+ci = result.proportion_ci(confidence_level=0.95, method='exact')
+# ConfidenceInterval(low=0.6211, high=0.9679)
+```
+
+| Model | n correct | n total | Accuracy | 95% CI (exact) |
+|---|---|---|---|---|
+| Google Gemini Auto | 17 | 20 | 85.0% | [0.621, 0.968] |
+| Anthropic Claude 3.5 Sonnet | 17 | 20 | 85.0% | [0.621, 0.968] |
+
+Because both models have identical scores, they have **identical confidence intervals**. The intervals span more than 34 percentage points (0.621 → 0.968), reflecting the high uncertainty inherent in a sample of only N = 20. **The two models cannot be statistically distinguished on this benchmark.** Any ranking would be meaningless: both could plausibly have a true accuracy anywhere between 62% and 97%.
+
+---
+
+## 10. Threats to Validity
+
+The following threats limit how far the conclusions of this audit can be generalised:
+
+- **Sample size (N = 20).** Each misclassified item shifts accuracy by exactly ±5 percentage points. The 95% binomial CI spans [0.621, 0.968], meaning the true accuracy of either model could lie anywhere in a 35-point range. The audit is sufficient evidence that both models *can* identify standard restroom icons, but it cannot reliably rank them or quantify fine-grained differences.
+- **Cloud model non-stationarity.** Gemini and Claude are served from continuously updated hosted infrastructure. Neither provider guarantees that the model weights, prompt-handling logic, or vision encoder version will remain constant between evaluation sessions. Results obtained on 11–12 November 2026 may not be reproducible on a different date even with identical inputs.
+- **English-only prompts.** The evaluation prompt was written exclusively in English. Performance on the same images with prompts in Kazakh, Russian, or other languages is unknown and may differ substantially.
+- **Possible IOAI training-data contamination.** The IOAI 2025 dataset images have been publicly available since mid-2025 and may have been included in the pretraining corpora of either model. If so, model performance could reflect memorisation of training examples rather than genuine out-of-distribution generalisation, inflating the apparent accuracy above what would be observed on novel restroom sign imagery.
+
+---
+
+## 11. Conclusion (Revised — R-42)
+
+Both Google Gemini Auto and Anthropic Claude 3.5 Sonnet reached **17/20 (85.0%)** correct on the 20-image IOAI restroom-sign benchmark, with exact 95% binomial confidence intervals of **[0.621, 0.968]** that overlap completely, confirming the two models are statistically indistinguishable on this sample size. Failure was concentrated on non-standard iconography: image A17 (a blocky robotic torso) was misclassified by both models due to apron-shape hallucination, while A03 (vertical bar abstraction), A11/A12 (chopstick metaphor icons) and A13 (crossed-knee silhouette) caused divergent errors: Gemini missed A03, A11 and A17, Claude missed A12, A13 and A17, which accounts for all 6 misclassified items across 40 queries. **Users should not rely on these models for binary sign identification without a manual verification step, as both failed on 15% of cases including abstract and non-standard iconography**; additionally, Gemini exhibited metadata leakage in 2/20 responses, reinforcing the necessity of filename anonymisation in any reproducible VLM audit protocol.
