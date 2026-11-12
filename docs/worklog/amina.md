@@ -10,6 +10,16 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 ## Entries
 
+### 2026-11-12 · R-47 (#256) · Windows Roads validation and API recovery
+
+- **Status:** in progress; my scoped run is recorded, but the shared five-device matrix and full checklist remain incomplete.
+- **What I did:** with Codex automation, exercised the actual local Roads UI in installed Chrome: empty JPEG, text renamed JPEG, unsupported GIF, and 10 MiB + 1 byte upload. Coordinated a temporary API interruption, verified restart preflight, observed the Local error and successful retry, and confirmed the visible result after restoration. Earlier photo uploads were my manual observations; Codex independently replayed their exported detections through the rules engine.
+- **Result:** [Device matrix and sanitized execution report](../QA-SCRIPTS.md#device-matrix-r-47), report commit `a696524`. Four invalid-file checks passed without analysis requests; API-down UI showed 503/unreachable without switching to Mock; restored E1 service returned a visible Local result. Actual commands, timestamps, expected/actual messages and pending checks are in the report.
+- **Decisions and why:** used a fresh browser context and synthetic invalid inputs/white PNG; preserved existing user browser data, notebook edits and all prior branches. Kept raw exports/photos/process settings out of Git. No API or frontend change was justified by these checks. My harness had an ambiguous saved-status locator after a successful retry; a separate precise-selector run confirmed the visible restored result.
+- **What I learned / can explain at the defense:** client-side rejection can prevent any API call; an HTTP-only test does not prove the UI. A 31.21% review detection is excluded from scoring; the two observed photo scores replay exactly as 8 and 3, without measuring model accuracy.
+- **AI use:** Codex inspected code, drove the browser, verified rules and drafted sanitized documentation; see AI-USAGE-LOG.md. My consent covered interruption only after a verified restart procedure.
+- **Open questions / next:** remaining scripts, direct API invalid uploads, mobile/other browsers, image pixel boundary and independent checkpoint provenance remain pending. No complete Roads QA or rehearsal is claimed. Tair performed full E0–E8 training; this work did not repeat training.
+
 ### 2026-11-11 - R-22 (#231), R-23 (#232) - Prepare personal Roads presentation material
 - **Status:** prepared for review; personal timed reading and live rules-page check remain pending; neither task is marked complete.
 - **Generator/PPTX follow-up:** The original PPTX lacked the manually edited scripts and a normal rebuild would discard them. Moved both scripts, attribution and caveats into the two generator functions; added five regression checks and the documented `--roads-only` mode. Regenerated `docs/deck/qarau-defense-deck.pptx`, SLIDES.md and only the corresponding source-index rows. Verified exact latest scripts in actual PPTX notes, repeatability, all 17 slides retained, and only slide5/slide6 plus their notes differ from the saved pre-build PPTX. PowerPoint rendered both updated slides without visible clipping. Full regeneration also refreshed the unrelated slide-10 AI-log count; scoped generation deliberately preserved that colleague-owned artifact instead.
