@@ -7,7 +7,7 @@ export function validateImageFile(file: { type: string; size: number }): string 
     return "Only JPEG, PNG or WebP images are accepted.";
   }
   if (file.size > MAX_UPLOAD_BYTES) {
-    return `The image is ${(file.size / 1024 / 1024).toFixed(1)} MB. The limit is 10 MB.`;
+    return `The image is larger than 10 MB (${(file.size / 1024 / 1024).toFixed(1)} MB).`;
   }
   if (file.size === 0) return "The file is empty.";
   return null;

@@ -37,6 +37,15 @@ What we take from it. Fluent output can contain false facts (Lec7 p64: "Verify i
 
 ## Entries
 
+### 13 November 2026, Alizhan (W-48 helper tests, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Test formatting helpers and upload limits.
+- **Key prompt:** “окей. выполни их, также делай ребейз и тесты”. Full transcript not committed.
+- **What it produced or changed:** Added format and upload tests; clarified the over-limit message; refreshed the deck log count.
+- **How it was verified:** Targeted helper tests and web checks reported in the PR. Alizhan has not personally reviewed the work.
+- **What was rejected or corrected:** Avoided locale-dependent time formatting tests.
+
 ### 12 November 2026, Alizhan (W-51 sample manifest tests, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.

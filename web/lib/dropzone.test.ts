@@ -29,7 +29,7 @@ describe("takeFile", () => {
     const onFile = vi.fn();
     const onReject = vi.fn();
     takeFile(file("huge.png", "image/png", 11 * 1024 * 1024), onFile, onReject);
-    expect(onReject).toHaveBeenCalledWith("The image is 11.0 MB. The limit is 10 MB.");
+    expect(onReject).toHaveBeenCalledWith("The image is larger than 10 MB (11.0 MB).");
     expect(onFile).not.toHaveBeenCalled();
   });
 

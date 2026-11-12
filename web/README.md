@@ -25,7 +25,7 @@ pnpm dev                  # http://localhost:3000 (check the port is free first)
 | `pnpm build` then `pnpm start` | Production build and server |
 | `pnpm lint` | ESLint |
 | `pnpm typecheck` | `next typegen && tsc --noEmit` |
-| `pnpm test` | Both rules engines (`vitest run`): RULES.md worked examples, boundaries, sample manifests |
+| `pnpm test` | Rules engines and helpers (`vitest run`): worked examples, boundaries, sample manifests, formatting and uploads |
 | `pnpm draw-samples` | Redraws the six road scenes from `public/samples/samples.json` |
 | `pnpm draw-restroom-samples` | Redraws the twelve restroom sign icons in `public/samples/restrooms/` |
 
