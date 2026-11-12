@@ -1,5 +1,7 @@
 # ml/
 
+[Pothole model card](MODEL_CARD.md) — scope, reported metrics and limitations.
+
 Training and evaluation for the experiment in [docs/ML-EXPERIMENT.md](../docs/ML-EXPERIMENT.md).
 
 ## Source inventory for slides (S-26)

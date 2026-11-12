@@ -37,6 +37,15 @@ What we take from it. Fluent output can contain false facts (Lec7 p64: "Verify i
 
 ## Entries
 
+### 13 November 2026, Alizhan (M-41 pothole model card, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Document the configured pothole model, its measured results and limitations.
+- **Key prompt:** “окей. выполни их, также делай ребейз и тесты”. Full transcript not committed.
+- **What it produced or changed:** Drafted a model card with links from API and ML READMEs; refreshed the deck log count.
+- **How it was verified:** Checked the configured filename, E1 result JSON, operating-point counts and dataset card; no model weights were available. Alizhan has not personally reviewed it.
+- **What was rejected or corrected:** Did not claim a weight hash, production deployment, external validation or model-weight licence without evidence.
+
 ### 12 November 2026, Alizhan (W-51 sample manifest tests, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.
