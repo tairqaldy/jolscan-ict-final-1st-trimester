@@ -1,6 +1,8 @@
 """Publish the model service (api/) as a Hugging Face Docker Space: the web app's cloud provider (S-7).
 
-Run it from a machine where `hf auth login` has been done with a write token:
+Run it from a machine where `hf auth login` has been done with a write token. Since November 2026 Hugging Face
+hosts Docker Spaces on the free cpu-basic hardware only for PRO accounts; without PRO the script stops with that
+reason before uploading anything (checked on 13 November 2026):
 
     .venv/bin/python scripts/deploy_space.py --space <hf-user>/qarau-api
 
@@ -20,6 +22,7 @@ import tempfile
 from pathlib import Path
 
 from huggingface_hub import HfApi
+from huggingface_hub.errors import HfHubHTTPError
 
 ROOT = Path(__file__).resolve().parent.parent
 API = ROOT / "api"
@@ -54,7 +57,14 @@ def main() -> None:
         raise SystemExit(f"api/{WEIGHTS} is missing: copy the champion weights there first (DEFENSE-RUNBOOK.md)")
 
     api = HfApi()
-    api.create_repo(args.space, repo_type="space", space_sdk="docker", exist_ok=True)
+    try:
+        api.create_repo(args.space, repo_type="space", space_sdk="docker", exist_ok=True)
+    except HfHubHTTPError as e:
+        if e.response is not None and e.response.status_code == 402:
+            raise SystemExit("Hugging Face refused to create the Space (402): Docker Spaces on free cpu-basic hardware "
+                             "need a PRO subscription on the account that owns the Space. Subscribe at "
+                             "https://huggingface.co/pro, or use an organisation that has it, then run this again.")
+        raise
     with tempfile.TemporaryDirectory() as tmp:
         stage = Path(tmp)
         for name in CODE:

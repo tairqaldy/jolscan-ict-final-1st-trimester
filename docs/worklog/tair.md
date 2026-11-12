@@ -10,6 +10,16 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 ## Entries
 
+### 13 November 2026 · S-8 (#29), S-7 (#31) · Docker image as a Space; the Space is blocked on PRO
+
+- **Status:** S-8 done; S-7 blocked (needs a Hugging Face PRO subscription).
+- **What I did:** the API's Dockerfile now runs as a non-root Hugging Face Space (writable Ultralytics settings, offline CLIP cache) and was built and run locally as uid 1000. `scripts/deploy_space.py` publishes the API, the Dockerfile and the champion weights to a Space. Running it for `tairqaldy/qarau-api` returned 402: Hugging Face now hosts Docker Spaces on free cpu-basic hardware only for PRO accounts. The script now stops with that reason and the next step.
+- **Result:** this pull request; api/README.md, Hosting, records the S-8 check and the 402.
+- **Decisions and why:** no paid subscription without the owner's decision; the defense demo runs on Local and the live site on Mock, as the runbook says, so nothing in the demo depends on the Space.
+- **What I learned / can explain:** why the container must run as a non-root user on Spaces, and why the CLIP weights are baked into the image at build time (a cold request would otherwise wait for a 600 MB download).
+- **AI use:** Claude Code (Claude Opus 5.5); see docs/AI-USAGE-LOG.md.
+- **Open questions / next:** with PRO on the account, run `.venv/bin/python scripts/deploy_space.py --space tairqaldy/qarau-api`, wait for `/health`, then set `CLOUD_MODEL_API_URL` on Vercel.
+
 ### 12 November 2026 · Functional QA before the defense
 
 - **Status:** done
