@@ -275,3 +275,9 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **What changed:** Added checks for sample files, dimensions, boxes, sets, presets and orphaned images.
 - **Verification:** Current manifest passes; intentionally naming a missing file failed with the filename. Web CI results are linked from the PR.
 - **Next:** Review the PR; do not mark the task done until it is on main and all acceptance checks pass.
+
+### 2026-11-13 · W-48 (#153) · Formatting and upload checks
+- **Status:** prepared for review; personal review pending.
+- **What changed:** Tested UTC+5 dates, numeric formatting, statistics and upload boundaries; clarified the size-limit message.
+- **Verification:** Targeted tests passed; web checks are reported in the PR.
+- **Next:** Review and merge after checks.
