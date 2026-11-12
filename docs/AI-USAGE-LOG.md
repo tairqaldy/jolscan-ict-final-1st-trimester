@@ -1306,3 +1306,12 @@ What we take from it. Fluent output can contain false facts (Lec7 p64: "Verify i
 - **What it produced or changed:** three backup slides in `docs/deck/make_deck.py` (B6 CLO 5 methods and metrics, B7 CLO 6 prototype and documentation, B8 CLO 7 checking the AI tools), each with the syllabus wording read from `docs/COURSE-GROUNDING.md` and every number or count read from its file (R1.json, pipeline.json, operating_point.json, pothole_area_clusters.json, ci.yml, QA-SCRIPTS.md, DEFENSE-QA.md, demo_check.py, AI-USAGE-LOG.md, vlm-evaluation.md); one deck test.
 - **How I verified it, and who verified it:** the CLO 5, 6 and 7 wording against `Syllabus.pdf` pages 2 and 3; the deck build checked every number against its file with no open gaps; all deck tests pass; B6–B8 rendered and checked for overlaps.
 - **What I rejected or corrected:** the glossary's "38 terms" (its table has 43 rows; the heading, the docs map and the B7 note now say 43); "test read once" for potholes (every run was scored on test, the choice used validation only); the COURSE-GROUNDING page reference, which put all three CLOs on p.3 (CLO 5 and 6 are on p.2).
+
+### 12 November 2026, Dameli (G-43 font pairing decided)
+
+- **Tool and version:** Claude Code (Claude Opus 5.5) in the Claude desktop app.
+- **Purpose:** close G-43 (#277), left open on 11 November because JetBrains Mono misses six Kazakh letters: find out whether any page sets Kazakh or Russian text in mono before choosing between keeping it and switching to IBM Plex Mono.
+- **Key prompt(s), with a link to the transcript:** "Yes, G-43" (after a GitHub review of open tasks). Transcript kept locally.
+- **What it produced or changed:** the G-43 row in `docs/TASKS.md` ticked, one paragraph in `docs/decisions/0011-visual-direction.md` ("Consequences"), a worklog entry. No app code changed.
+- **How I verified it, and who verified it:** a search of all 32 files with `font-mono` in `web/app`, `web/components` and `web/lib` (lab excluded) for Cyrillic text and translated strings; every hit is code, an ID, a path, a number or English. I read the list and chose to keep JetBrains Mono.
+- **What I rejected or corrected:** switching the mono to IBM Plex Mono on the day of the defense (it changes every number on every page and fixes nothing a viewer can see today).
