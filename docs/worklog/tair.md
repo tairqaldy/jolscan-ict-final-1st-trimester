@@ -10,6 +10,16 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 ## Entries
 
+### 12 November 2026 · Functional QA before the defense
+
+- **Status:** done
+- **What I did:** tested every page on the real models (Local), fixed the traps: drawing samples are disabled when a real model is chosen, Compare shows the real IOAI pairs, the demo path uses real signs, plus clearer map, theme and error text.
+- **Result:** `scripts/demo_check.py` 6/6; every demo path step works on Local; all checks green.
+- **Decisions and why:** disable, not hide, the road samples (there are no screened real road photos to replace them, D-12); hide the drawing presets on Compare, because four real pairs remain.
+- **What I learned / can explain:** why a sign judged alone can read as male while the pair is still right (decision 0003).
+- **AI use:** Claude Code and a QA sub-agent; see docs/AI-USAGE-LOG.md.
+- **Open questions / next:** the cloud provider (S-7) on a Hugging Face Space.
+
 ### 12 November 2026 · R-26 (#235) · CLO backup slides B6–B8 in the deck
 
 - **Status:** done

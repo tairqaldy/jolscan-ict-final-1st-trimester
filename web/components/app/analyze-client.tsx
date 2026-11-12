@@ -146,6 +146,9 @@ export function AnalyzeClient() {
   const previewImage = source?.kind === "sample" ? source.sample.file : source?.previewUrl;
   const providerMeta = PROVIDER_META[settings.provider];
   const hydrated = useHydrated();
+  // The sample photos are SVG drawings with fixed boxes: only the mock provider can read them (a real model refuses them).
+  const realModel = hydrated && settings.provider !== "mock";
+  const drawingPicked = realModel && source?.kind === "sample";
 
   // G-75: a live region that stays mounted while the view switches to the result,
   // so screen readers announce the save (a region that mounts with its text is often skipped).
@@ -247,7 +250,13 @@ export function AnalyzeClient() {
             {SAMPLES.map((s) => {
               const selected = source?.kind === "sample" && source.sample.id === s.id;
               return (
-                <SelectableTile key={s.id} selected={selected} onClick={() => pickSample(s)} className="group overflow-hidden">
+                <SelectableTile
+                  key={s.id}
+                  selected={selected}
+                  disabled={realModel && !selected}
+                  onClick={() => pickSample(s)}
+                  className="group overflow-hidden"
+                >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={s.file} alt="" className="aspect-video w-full object-cover" loading="lazy" />
                   <span className="block px-2 py-1.5 text-xs leading-snug font-medium">{s.title}</span>
@@ -255,7 +264,11 @@ export function AnalyzeClient() {
               );
             })}
           </div>
-          <p className="mt-2 text-xs text-muted">Samples are drawings, not real photos. Their boxes are fixed in samples.json.</p>
+          <p className="mt-2 text-xs text-muted">
+            {realModel
+              ? `Samples are drawings that only the Mock provider can read. With ${providerMeta.label}, drop a real road photo above.`
+              : "Samples are drawings, not real photos; the Mock provider returns fixed boxes for them."}
+          </p>
         </fieldset>
       </div>
 
@@ -299,7 +312,7 @@ export function AnalyzeClient() {
                 </Link>
               </p>
             </div>
-            <Button size="lg" disabled={!source || status.state === "loading"} onClick={() => void analyze()}>
+            <Button size="lg" disabled={!source || drawingPicked || status.state === "loading"} onClick={() => void analyze()}>
               {status.state === "loading" ? (
                 <>
                   <LoaderCircle className="animate-spin" aria-hidden /> Analysing…
@@ -314,6 +327,15 @@ export function AnalyzeClient() {
               {status.state === "loading" ? `Running the ${providerMeta.label} model` : ""}
             </p>
             {!source && <p className="text-center text-xs text-muted">Choose a photo first.</p>}
+            {drawingPicked && (
+              <p className="text-center text-xs text-muted">
+                This sample is a drawing, which only Mock can read. Drop a real photo, or switch to Mock in{" "}
+                <Link href="/app/settings" className="text-accent-ink underline underline-offset-2">
+                  Settings
+                </Link>
+                .
+              </p>
+            )}
           </CardBody>
         </Card>
 
@@ -334,7 +356,7 @@ export function AnalyzeClient() {
                       void analyze("mock");
                     }}
                   >
-                    Use the mock provider <ArrowRight aria-hidden />
+                    Switch the app to Mock <ArrowRight aria-hidden />
                   </Button>
                 )}
               </>

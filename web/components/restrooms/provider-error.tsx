@@ -38,7 +38,7 @@ export function ProviderErrorCallout({
                 onRetry("mock");
               }}
             >
-              Use the mock provider <ArrowRight aria-hidden />
+              Switch the app to Mock <ArrowRight aria-hidden />
             </Button>
           )}
         </>

@@ -14,6 +14,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { RESTROOM_PRESETS, getRestroomSample } from "@/lib/mock/restroom-samples";
 import { VERDICT_META } from "@/lib/signage-ui";
 import { addRestroomCheck } from "@/lib/store/restroom-history";
+import { useHydrated } from "@/lib/store/local-store";
 import { settingsStore, signageRulesStore } from "@/lib/store/settings";
 import type { Provider, StoredSignageCheck } from "@/lib/types";
 import type { ApiError } from "@/lib/upload";
@@ -43,6 +44,11 @@ export function CompareClient() {
   const resultRef = useRef<HTMLDivElement>(null);
   useRevokePreviews([a, b]);
 
+  // The drawing presets are for the mock provider only; with a real model show the real IOAI pairs.
+  const realModel = useHydrated() && settings.provider !== "mock";
+  const presets = RESTROOM_PRESETS.filter(
+    (p) => !realModel || ![p.a, p.b].some((id) => getRestroomSample(id)?.file.endsWith(".svg")),
+  );
   const activePreset = RESTROOM_PRESETS.find(
     (p) => a?.kind === "sample" && b?.kind === "sample" && a.sample.id === p.a && b.sample.id === p.b,
   );
@@ -98,7 +104,7 @@ export function CompareClient() {
           Try an example pair
         </h2>
         <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
-          {RESTROOM_PRESETS.map((p) => {
+          {presets.map((p) => {
             const pa = getRestroomSample(p.a)!;
             const pb = getRestroomSample(p.b)!;
             const on = activePreset?.id === p.id;

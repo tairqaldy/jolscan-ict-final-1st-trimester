@@ -277,7 +277,7 @@ Every example below was checked in the running app on 11 November, and every lec
 
 1. **Three heuristics, each with a page to open** (Nielsen's ten are HCI p13; one slide each on p14–23).
    - *Visibility of system status* (HCI p14). The sidebar always shows the provider (Mock, Local or Cloud). While a photo runs, the button says "Analysing…" and a line scans the photo. Settings → Model provider → **Check connection** says "Connected" or why not. Open: `/app/settings`.
-   - *Help users recognise, diagnose and recover from errors* (HCI p22). With Local chosen and the model service off, Compare says "The local model service is not running or cannot be reached", how to start it, and offers **Try again** or **Use the mock provider**. One click on the second gives a result. Open: `/app/restrooms/compare`.
+   - *Help users recognise, diagnose and recover from errors* (HCI p22). With Local chosen and the model service off, Compare says "The local model service is not running or cannot be reached", how to start it, and offers **Try again** or **Switch the app to Mock**. One click on the second gives a result. Open: `/app/restrooms/compare`.
    - *Recognition rather than recall* (HCI p19). Analyze shows six labelled sample images ("Highway, three potholes", "Faint damage, needs review"…), and the accepted formats sit next to the upload box, so nobody has to remember what to upload. Open: `/app/roads/analyze`.
    - Spare: *Error prevention* (HCI p18). The file is checked before upload: JPEG, PNG or WebP, at most 10 MB (`web/lib/upload.ts`).
 2. **Contrast and accessibility.**

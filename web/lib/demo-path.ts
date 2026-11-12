@@ -35,25 +35,26 @@ export const DEMO_PATH: DemoStep[] = [
     note: "Faint damage: the model is unsure, so the photo goes to review.",
     href: "/app/roads/analyze?sample=s05",
   },
+  // The restroom steps use real IOAI signs, so they run on every provider (C-13).
   {
-    title: "Restrooms: matching pair",
-    note: "One set, two genders: the verdict is Pair.",
-    href: compareHref("matching"),
+    title: "Restrooms: real pair",
+    note: "Two doors of one IOAI restroom: the verdict is Pair.",
+    href: compareHref("ioai-matching"),
   },
   {
-    title: "Restrooms: two sets",
-    note: "An old sign next to a new one. Point at the rule that fails.",
-    href: compareHref("mismatched"),
+    title: "Restrooms: two restrooms",
+    note: "Signs from two different restrooms. Point at the rule that fails.",
+    href: compareHref("ioai-mismatched"),
   },
   {
-    title: "Restrooms: both look male",
-    note: "Both figures wear trousers, so the doors look the same.",
-    href: compareHref("same"),
+    title: "Restrooms: compare, not judge alone",
+    note: "Alone, both signs read as male; compared with each other, the verdict is still Pair.",
+    href: compareHref("ioai-faint"),
   },
   {
     title: "Restrooms: match a sign",
-    note: "Find the partner of a faint sign among the samples.",
-    href: "/app/restrooms/match?q=faint-f",
+    note: "Find the partner of a real sign: it should rank first.",
+    href: "/app/restrooms/match?q=ioai-v9",
   },
   {
     title: "Model page",

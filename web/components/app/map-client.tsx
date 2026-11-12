@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { SeverityBadge, SeverityDot } from "@/components/ui/badge";
-import { Card, CardBody, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDateTime } from "@/lib/format";
 import { SEVERITY_META } from "@/lib/severity";
@@ -19,6 +19,9 @@ const MapView = dynamic(() => import("./map-view"), {
 export function MapClient() {
   const analyses = useAnalyses();
   const located = analyses.filter((a) => a.location && a.severity !== "clear");
+  const cleared = analyses.filter((a) => a.location && a.severity === "clear").length;
+  // Uploaded photos carry no location (the app never reads one), so only the sample reports have a place.
+  const unplaced = analyses.filter((a) => !a.location).length;
 
   return (
     <div className="grid gap-4">
@@ -35,7 +38,16 @@ export function MapClient() {
       </div>
       <Card>
         <CardHeader>
-          <CardTitle>Findings on the map ({located.length})</CardTitle>
+          <div>
+            <CardTitle>Findings on the map ({located.length})</CardTitle>
+            {(cleared > 0 || unplaced > 0) && (
+              <CardDescription>
+                {cleared > 0 && `${cleared} clear ${cleared === 1 ? "road is" : "roads are"} on the map but not listed. `}
+                {unplaced > 0 &&
+                  `${unplaced} ${unplaced === 1 ? "analysis has" : "analyses have"} no location (uploaded photos carry none), so ${unplaced === 1 ? "it is" : "they are"} only in Reports.`}
+              </CardDescription>
+            )}
+          </div>
         </CardHeader>
         <CardBody>
           <ul className="grid gap-2 sm:grid-cols-2">
