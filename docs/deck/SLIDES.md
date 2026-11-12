@@ -244,14 +244,14 @@ Times are estimates at 130 words per minute; read each script aloud with a timer
 **On the slide:**
 
 - Claude Code, Codex, GitHub Copilot: Writing and reviewing code and tests; Drafting documents, study cards and slide text; Checking text against the result files
-- How we checked: Unit tests and CI on every pull request; Every number traced to a committed file (docs/research/deck-sources.md); Each use logged with its prompt and check: 120 entries in docs/AI-USAGE-LOG.md
+- How we checked: Unit tests and CI on every pull request; Every number traced to a committed file (docs/research/deck-sources.md); Each use logged with its prompt and check: 123 entries in docs/AI-USAGE-LOG.md
 - Audit of two vision-language models (R-6): Gemini 17/20 and Claude 17/20 on the gender of 20 IOAI signs; our served CLIP: 0.756 on all 328 training signs. 20 signs are too few to rank them.
 
 **Visual:** Two cards and one audit line, no image
 
 **Script:**
 
-> We used Claude Code, Codex and Copilot to write and review code, draft documents and check text against our results. Every use is logged with its prompt and check: 120 entries, and every number here is traced to a committed file. We also audited Gemini and Claude on 20 IOAI signs: each named the gender correctly on 17. Our CLIP gets 0.756 on all 328 training signs; 20 signs are too few to rank them. Next, the limits.
+> We used Claude Code, Codex and Copilot to write and review code, draft documents and check text against our results. Every use is logged with its prompt and check: 123 entries, and every number here is traced to a committed file. We also audited Gemini and Claude on 20 IOAI signs: each named the gender correctly on 17. Our CLIP gets 0.756 on all 328 training signs; 20 signs are too few to rank them. Next, the limits.
 
 **Cues:** The entry count is read when the deck is built; rebuild after the last merge so it is final. Audit (docs/research/vlm-evaluation.md, Roma): one fresh chat per sign, the same one-word prompt, files renamed A01–A20 first; Gemini still echoed the filename in 2 of 20 answers. Both models missed A17, the robot figure. Exact 95% interval for 17/20: 0.621–0.968 (section 9), which is why we do not rank them. The app's Compare uses zero-shot CLIP for gender (0.756); Match does not need gender: the served pipeline R7 finds the partner on 30/30 test queries. Never quote R4's 100%: it was picked on test.
 
@@ -442,7 +442,7 @@ Times are estimates at 130 words per minute; read each script aloud with a timer
 - Errors we recorded · 6 cases where an AI tool was wrong, each caught outside the tool: a primary source, a measurement, or a second reviewer (a person or another model)
 - Our rule · No number from an AI tool goes on a slide until it is traced to a committed file; this deck stops building when a slide and its file disagree (Lec7 p70: “Choose evidence over fluency”)
 - Privacy and law · No personal or biometric data to external AI services (Syllabus p.9); the audit sent only IOAI icons. What may go out, per type of data: docs/research/privacy-and-law.md
-- Prompt log · 120 entries in docs/AI-USAGE-LOG.md, each with the tool, the prompt and how it was checked
+- Prompt log · 123 entries in docs/AI-USAGE-LOG.md, each with the tool, the prompt and how it was checked
 
 **Visual:** Table, no image
 
