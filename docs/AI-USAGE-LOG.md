@@ -37,6 +37,15 @@ What we take from it. Fluent output can contain false facts (Lec7 p64: "Verify i
 
 ## Entries
 
+### 12 November 2026, Alizhan (W-51 sample manifest tests, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Catch broken sample files and invalid mock detections before a demo.
+- **Key prompt:** “начинай выполнять все задачи подряд кроме тех, которые связаны с дизайномэ”. Full transcript not committed.
+- **What it produced or changed:** Added manifest tests for roads and restrooms and refreshed the generated deck count.
+- **How it was verified:** Ran the tests and checked that an intentionally missing sample produced a clear failure; web checks are recorded in the PR. Alizhan has not yet personally reviewed the work.
+- **What was rejected or corrected:** No sample images or design were changed.
+
 ### 12 November 2026, Alizhan (X-7 contribution evidence, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.
