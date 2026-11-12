@@ -63,6 +63,7 @@ SOURCES_MD = ROOT / "docs/research/deck-sources.md"
 SOURCES_REL = "docs/research/deck-sources.md"
 PRESENTATION_MD = ROOT / "docs/PRESENTATION.md"
 VLM_REL = "docs/research/vlm-evaluation.md"
+AUDIT_CI = r"\| Google Gemini Auto \| (\d+) \| (\d+) \| [\d.]+% \| \[([\d.]+), ([\d.]+)\] \|"  # section 9 table
 WPM = 130  # speaking rate used for every time estimate (docs/PRESENTATION.md, R-20 step 3)
 
 # Type scale (template G-10: body 18, tables 16; deck-critique.md: nothing the room needs below 14)
@@ -1308,6 +1309,7 @@ def slide_ai(prs) -> SlideDoc:
     zs_n = R(str(zs_n_val), "ml/results/restroom/runs/R1.json", "gender.zero_shot_prompts confusion matrix, sum", zs_n_val)
     audit_line = (f"Gemini {gem} and Claude {cla} on the gender of {n_audit} IOAI signs; our served CLIP: "
                   f"{zs_acc} on all {zs_n} training signs. {n_audit} signs are too few to rank them.")
+    ci10 = grab(AUDIT_CI, VLM_REL)
     each_right = (f"each named the gender correctly on {vm[1]}" if vm[1] == vm[3]
                   else f"Gemini named the gender correctly on {vm[1]}, Claude on {vm[3]}")
     rich(s, MARGIN, top + ch + Inches(0.2), CONTENT_W, Inches(1.0),
@@ -1321,7 +1323,8 @@ def slide_ai(prs) -> SlideDoc:
     cues = ("The entry count is read when the deck is built; rebuild after the last merge so it is final. Audit "
             "(docs/research/vlm-evaluation.md, Roma): one fresh chat per sign, the same one-word prompt, files renamed "
             "A01–A20 first; Gemini still echoed the filename in 2 of 20 answers. Both models missed A17, the robot "
-            f"figure. The app's Compare uses zero-shot CLIP for gender ({zs_acc}); Match does not need gender: the "
+            f"figure. Exact 95% interval for {ci10[1]}/{ci10[2]}: {ci10[3]}–{ci10[4]} (section 9), which is why we do "
+            f"not rank them. The app's Compare uses zero-shot CLIP for gender ({zs_acc}); Match does not need gender: the "
             "served pipeline R7 finds the partner on 30/30 test queries. Never quote R4's 100%: it was picked on test.")
     return SlideDoc("10", "AI use and its limits", "Roma", "0:35", title_words,
                     [f"{cols[0][0]}: {'; '.join(cols[0][1])}", f"{cols[1][0]}: {'; '.join(cols[1][1])}",
@@ -1743,7 +1746,11 @@ def slide_backup_clo7(prs) -> SlideDoc:
     cla = R(f"{vm[3]}/{vm[4]}", VLM_REL, "section 5, Anthropic Claude, gender of one sign", f"{vm[3]}/{vm[4]}")
     n_audit = R(vm[2], VLM_REL, "section 3, audit sample size", vm[2])
     echo = grab(r"echoed image filenames in (\d+) of (\d+) responses", VLM_REL)
-    n_echo = R(echo[1], VLM_REL, "findings 4, responses that echoed the filename", echo[1])
+    ci = grab(AUDIT_CI, VLM_REL)
+    if (ci[1], ci[2]) != (vm[1], vm[2]):
+        raise SystemExit(f"{VLM_REL}: the section 9 interval is not for Gemini's {vm[1]}/{vm[2]}")
+    lo = R(ci[3], VLM_REL, "section 9, exact 95% interval, low", ci[3])
+    hi = R(ci[4], VLM_REL, "section 9, exact 95% interval, high", ci[4])
     wrong = read(log).split("## What the AI tools got wrong", 1)[1].split("\n## ", 1)[0]
     n_err = len(re.findall(r"^\| \d+ \|", wrong, re.M))
     n_err_s = R(str(n_err), log, "'What the AI tools got wrong': table rows", n_err)
@@ -1751,9 +1758,9 @@ def slide_backup_clo7(prs) -> SlideDoc:
     n_entries = ai_log_entries()
     n_s = R(str(n_entries), log, "number of '### ' entries under 'Entries' at build time", n_entries)
     rows = [["Part", "What we did"],
-            ["Audit of two VLMs (R-6)", f"Gemini and Claude, one new chat per sign, files renamed A01–A{n_audit}: {gem} and "
-             f"{cla} on gender. Both missed A17; Gemini echoed the file name in {n_echo} of {n_audit}. {n_audit} signs are "
-             "too few to rank them."],
+            ["Audit of two VLMs (R-6)", f"Gemini and Claude, one new chat per sign, files renamed A01–A{n_audit}: "
+             f"{gem + ' each' if gem == cla else gem + ' and ' + cla} on gender (exact 95% interval {lo}–{hi}), so "
+             f"{n_audit} signs are too few to rank them. Both missed A17."],
             ["Errors we recorded", f"{n_err_s} cases where an AI tool was wrong, each caught outside the tool: a primary "
              "source, a measurement, or a second reviewer (a person or another model)"],
             ["Our rule", f"No number from an AI tool goes on a slide until it is traced to a committed file; this deck "
@@ -1765,7 +1772,8 @@ def slide_backup_clo7(prs) -> SlideDoc:
     quote = clo_slide(prs, "B8", 7, 3, title_words, rows, [2.4])
     return SlideDoc("B8", "Backup: CLO 7, evaluating AI tools", "Roma", "on request", title_words,
                     [quote] + [" · ".join(r) for r in rows[1:]], "Table, no image", "Only on request.",
-                    cues="The six cases are in docs/AI-USAGE-LOG.md ('What the AI tools got wrong'). Model versions: "
+                    cues=f"Gemini echoed the file name in {echo[1]} of {echo[2]} answers; the renaming kept the answer "
+                         "out of the names. The six cases are in docs/AI-USAGE-LOG.md ('What the AI tools got wrong'). Model versions: "
                          "say what the free web apps showed on the day; the report does not prove a version.",
                     extra_sources=[f"{GROUNDING_REL} (CLO 7 wording, Syllabus p.3)", "docs/research/privacy-and-law.md"])
 
