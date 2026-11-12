@@ -8,6 +8,8 @@ import { Dropzone } from "@/components/ui/dropzone";
 import { Segmented } from "@/components/ui/segmented";
 import { SelectableTile } from "@/components/ui/selectable-tile";
 import { cn } from "@/lib/cn";
+import { useHydrated } from "@/lib/store/local-store";
+import { settingsStore } from "@/lib/store/settings";
 import {
   RESTROOM_IOAI_CATALOGUE,
   RESTROOM_IOAI_CREDIT,
@@ -40,6 +42,8 @@ export function SamplePicker({
     const picked = RESTROOM_IOAI_CATALOGUE.find((s) => s.id === selectedId);
     return picked ? picked.group : "bundled";
   });
+  // The bundled drawings (SVG) are for the mock provider only; a real model refuses them.
+  const realModel = useHydrated() && settingsStore.useStore().provider !== "mock";
   const list: RestroomSample[] =
     group === "bundled" ? RESTROOM_SAMPLES : RESTROOM_IOAI_CATALOGUE.filter((s) => s.group === group);
   return (
@@ -56,6 +60,9 @@ export function SamplePicker({
               ...RESTROOM_IOAI_GROUPS.map((g) => ({ value: g.id as PickerGroup, label: `${g.label} (${g.count})` })),
             ]}
           />
+          {group === "bundled" && realModel && (
+            <p className="text-xs text-muted">These samples are drawings that only the Mock provider can read. Pick a real IOAI sign above.</p>
+          )}
           {group !== "bundled" && (
             <p className="text-xs text-muted">
               Real IOAI door signs. With the mock provider their gender, confidence and similarity are real zero-shot CLIP
@@ -69,7 +76,12 @@ export function SamplePicker({
           const selected = s.id === selectedId;
           return (
             <li key={s.id}>
-              <SelectableTile selected={selected} onClick={() => onPick(s)} className="grid w-full gap-1 p-1.5">
+              <SelectableTile
+                selected={selected}
+                disabled={realModel && !selected && s.file.endsWith(".svg")}
+                onClick={() => onPick(s)}
+                className="grid w-full gap-1 p-1.5"
+              >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={s.file} alt="" className="aspect-[5/6] w-full object-contain" loading="lazy" />
                 <span className="text-xs leading-snug font-medium">{s.title}</span>

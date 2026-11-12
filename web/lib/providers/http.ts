@@ -35,7 +35,7 @@ export async function readPublicImage(file: string, title: string) {
       "unsupported_input",
       `Sample "${title}" is an SVG drawing, which a real model cannot read.`,
       422,
-      "Upload a real JPEG, PNG or WebP image, or switch the provider to mock. Real sample images can be added in the samples.json manifest.",
+      "Upload a real JPEG, PNG or WebP photo, or switch to the Mock provider in Settings.",
     );
   }
   const bytes = await readFile(path.join(process.cwd(), "public", file));

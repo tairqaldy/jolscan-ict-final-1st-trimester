@@ -38,7 +38,7 @@ export function SelectableTile({
       type="button"
       aria-pressed={selected}
       className={cn(
-        "relative rounded-md border-2 text-left transition-colors",
+        "relative rounded-md border-2 text-left transition-colors disabled:cursor-not-allowed disabled:opacity-45",
         selected ? "border-accent bg-accent-soft" : "border-border bg-surface hover:border-border-strong hover:bg-surface-2",
         className,
       )}

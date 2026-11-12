@@ -37,8 +37,9 @@ export function DemoPath() {
         <div className="min-w-0 max-w-2xl">
           <CardTitle id="demo-path-h">Demo path</CardTitle>
           <CardDescription>
-            The 90-second demo, one click per step. A link only picks the input; you press Analyze or Compare. The samples are
-            drawings that only Mock can read, so on Local drop real photos instead.
+            The 90-second demo, one click per step. A link only picks the input; you press Analyze or Compare. The two road
+            samples are drawings that only Mock can read, so on Local drop a road photo instead. The restroom steps use real
+            IOAI signs and work with every provider.
           </CardDescription>
         </div>
         <div className="flex items-center gap-2">

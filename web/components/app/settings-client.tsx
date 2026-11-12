@@ -143,7 +143,9 @@ export function SettingsClient() {
                         {c.state === "done" &&
                           (c.result.ok ? (
                             <p className="text-sev-clear-ink">
-                              Connected · {c.result.model ?? "model"} on {c.result.device ?? "?"} ({c.result.latencyMs} ms)
+                              {p === "mock"
+                                ? "Ready · canned demo results, no model runs"
+                                : `Connected · ${c.result.model ?? "model"} on ${c.result.device ?? "?"} (${c.result.latencyMs} ms)`}
                             </p>
                           ) : (
                             <p className="text-sev-critical-ink">{c.result.message ?? `Not available (${c.result.status}).`}</p>
