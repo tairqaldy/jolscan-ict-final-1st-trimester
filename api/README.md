@@ -4,7 +4,7 @@ The model service. It turns a road photo into pothole detections, and restroom d
 
 Both models are loaded on the first request that needs them, not at start-up. The service starts even without the YOLO weights file: `/predict` then answers 503 with a message, and the restroom endpoints still work. `/health` shows which models are loaded.
 
-The FastAPI service was run with real stock YOLO weights on Windows for S-1; see the verification record below. Gradio and Docker still need their own runtime checks (S-5, S-8).
+The FastAPI service was run with real stock YOLO weights on Windows for S-1; see the verification record below. The Docker image was built and run on 12 November 2026 (S-8, below); Gradio still needs its own runtime check (S-5).
 
 ## Prediction call log
 
@@ -155,7 +155,8 @@ python gradio_app.py
 
 ## Hosting (tasks S-6, S-7)
 
-- Web app's cloud provider: a Hugging Face **Docker** Space built from this folder. In the Space's README front matter set `sdk: docker` and `app_port: 8000`. It then answers `/health` and `/predict` exactly like the local service. Set `PROVIDER_NAME=cloud` in the Space settings.
+- Web app's cloud provider: a Hugging Face **Docker** Space built from this folder. `scripts/deploy_space.py --space <hf-user>/qarau-api` uploads the Dockerfile, the code and the champion weights, writes the Space README (`sdk: docker`, `app_port: 8000`) and sets `PROVIDER_NAME=cloud` and `WARMUP=1`. The Space then answers `/health`, `/predict` and `/restroom/*` exactly like the local service; put its address (`https://<hf-user>-qarau-api.hf.space`) into `CLOUD_MODEL_API_URL` on Vercel.
+- S-8 check (12 November 2026, Apple M5, Docker 29.9): the image built from the same files the script uploads (3.45 GB), ran as uid 1000 like a Space, and answered `/health` (ready, `jolscan-e1`, CLIP ViT-B-32), `/predict` on `img-18.jpg` (5 potholes, 391 ms on the first call) and `/restroom/compare` on `ioai-v9` and `ioai-v15` (male and female, similarity 0.953).
 - Gradio demo: a separate Hugging Face **Gradio** Space with `app_file: gradio_app.py`. If it fails on `libGL.so.1`, add a `packages.txt` containing `libgl1`.
 - Public Spaces only ever receive images from the public dataset, screened in task D-12.
 
