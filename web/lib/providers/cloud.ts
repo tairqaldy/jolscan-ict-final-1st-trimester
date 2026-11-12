@@ -12,9 +12,10 @@ export function cloudTarget() {
   if (!env.cloudModelApiUrl) {
     throw new ProviderError(
       "not_configured",
-      "The cloud provider is not configured.",
+      "The cloud provider is not set up on this site yet.",
       503,
-      "Set CLOUD_MODEL_API_URL (web/.env.local, or the Vercel project settings) and restart the app, or choose the Mock or Local provider in Settings.",
+      // The setting itself (CLOUD_MODEL_API_URL) is documented in ARCHITECTURE.md section 6; a visitor only needs the way out.
+      "Choose Local or Mock in Settings.",
     );
   }
   return {

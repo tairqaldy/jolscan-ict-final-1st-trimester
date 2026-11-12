@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeftRight, CircleCheck, GitCompareArrows, LoaderCircle } from "lucide-react";
+import { ArrowLeftRight, ArrowRight, CircleCheck, GitCompareArrows, LoaderCircle } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useRef, useState } from "react";
@@ -190,7 +190,7 @@ export function CompareClient() {
             <ProviderErrorCallout error={status.error} provider={settings.provider} onRetry={(p) => void run(p)} />
           )}
           <ButtonLink href="/app/restrooms/rules" variant="ghost" className="justify-start">
-            How is the verdict decided?
+            How is the verdict decided? <ArrowRight aria-hidden />
           </ButtonLink>
         </div>
       </div>

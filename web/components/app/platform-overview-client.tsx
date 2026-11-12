@@ -71,7 +71,7 @@ export function PlatformOverviewClient() {
               <li key={a.id}>
                 <Link href={`/app/roads/reports/${a.id}`} className={cn("flex items-center justify-between gap-3 rounded-md px-2 py-2", LINK_ROW)}>
                   <span className="min-w-0">
-                    <span className="block truncate text-sm font-medium">{a.location?.label ?? a.photo.fileName ?? "Uploaded photo"}</span>
+                    <span className="block truncate text-sm font-medium">{a.location?.label ?? a.photo.fileName ?? "Road photo"}</span>
                     <span className="tabular block text-xs text-muted">{formatDateTime(a.createdAt)}</span>
                   </span>
                   <SeverityBadge severity={a.severity} />
@@ -148,7 +148,12 @@ function ModulePanel({ id, children }: { id: ModuleId; children: ReactNode }) {
           </span>
           <div>
             <h2 id={`mod-${id}`} className="text-xl font-bold">
-              {m.name} <span className="font-normal text-muted">· {m.task}</span>
+              {m.name}{" "}
+              {/* On a phone the task goes on its own line, so no line can start with the dot. */}
+              <span className="block font-normal text-muted sm:inline">
+                <span className="hidden sm:inline">· </span>
+                {m.task}
+              </span>
             </h2>
             <p className="max-w-md text-sm text-muted">{m.summary}</p>
           </div>

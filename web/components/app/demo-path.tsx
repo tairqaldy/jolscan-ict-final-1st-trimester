@@ -5,8 +5,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/cn";
-import { DEMO_PATH } from "@/lib/demo-path";
+import { demoPathFor } from "@/lib/demo-path";
 import { demoPathHiddenStore } from "@/lib/store/demo-path";
+import { settingsStore } from "@/lib/store/settings";
 import { LINK_ROW } from "./link-row";
 import { ProviderBadge } from "./provider-badge";
 
@@ -16,6 +17,8 @@ import { ProviderBadge } from "./provider-badge";
  */
 export function DemoPath() {
   const hidden = demoPathHiddenStore.useStore();
+  const { provider } = settingsStore.useStore();
+  const steps = demoPathFor(provider);
 
   if (hidden) {
     return (
@@ -37,9 +40,8 @@ export function DemoPath() {
         <div className="min-w-0 max-w-2xl">
           <CardTitle id="demo-path-h">Demo path</CardTitle>
           <CardDescription>
-            The 90-second demo, one click per step. A link only picks the input; you press Analyze or Compare. The two road
-            samples are drawings that only Mock can read, so on Local drop a road photo instead. The restroom steps use real
-            IOAI signs and work with every provider.
+            One click per step. A link only picks the input; you press Analyze or Compare. The steps follow the provider:
+            on Local or Cloud the road step takes a real photo instead of the drawn samples.
           </CardDescription>
         </div>
         <div className="flex items-center gap-2">
@@ -53,7 +55,7 @@ export function DemoPath() {
       </CardHeader>
       <CardBody className="pt-4">
         <ol className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
-          {DEMO_PATH.map((step, i) => (
+          {steps.map((step, i) => (
             <li key={step.href}>
               <Link
                 href={step.href}

@@ -6,7 +6,7 @@
  * This test fails instead.
  */
 import { describe, expect, it } from "vitest";
-import { DEMO_PATH } from "./demo-path";
+import { DEMO_PATH, REAL_ROAD_STEP, demoPathFor } from "./demo-path";
 import { getRestroomSample } from "./mock/restroom-samples";
 import { getSample } from "./mock/samples";
 
@@ -29,6 +29,16 @@ describe("Demo path (W-30)", () => {
     } else {
       // The model page is the only step without an input to select.
       expect(url.pathname).toBe("/app/model");
+    }
+  });
+
+  it("on a real model swaps the two drawn road samples for one real photo step", () => {
+    expect(demoPathFor("mock")).toEqual(DEMO_PATH);
+    for (const provider of ["local", "cloud"] as const) {
+      const steps = demoPathFor(provider);
+      expect(steps[0]).toEqual(REAL_ROAD_STEP);
+      expect(steps.filter((s) => s.href.includes("sample="))).toHaveLength(0);
+      expect(steps).toHaveLength(DEMO_PATH.length - 1);
     }
   });
 });

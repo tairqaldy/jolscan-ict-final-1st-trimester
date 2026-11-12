@@ -12,7 +12,7 @@ export default function ReportsPage() {
     <div className="grid gap-8">
       <PageHeader
         eyebrow="Roads · Reports"
-        title="All road analyses"
+        title="Road reports"
         description={
           <span className="inline-flex flex-wrap items-center gap-2">
             Filter by severity, provider, date and review status. <DemoBadge show label="Includes demo data" />

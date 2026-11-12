@@ -310,7 +310,7 @@ function BestPairPanel({ status }: { status: Status }) {
           <figure className="grid content-start gap-2">
             <SignImage src={bestSample?.file} alt={bestSample?.title ?? "Best match"} className={cn(best && "border-accent")} />
             <figcaption className="grid gap-1 text-sm">
-              <span className="text-xs font-semibold tracking-[0.14em] text-accent-ink uppercase">Its other door</span>
+              <span className="eyebrow text-accent-ink">Its other door</span>
               {best && bestSample ? (
                 <>
                   <span className="font-medium">{bestSample.title}</span>

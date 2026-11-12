@@ -38,7 +38,7 @@ export function TabsTrigger({
   return (
     <RadixTabs.Trigger
       className={cn(
-        "relative -mb-px border-b-2 border-transparent px-3 py-2 text-sm font-medium whitespace-nowrap text-muted transition-colors duration-[var(--duration-fast)] ease-standard focus-ring-in focus-visible:-outline-offset-2 after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:scale-x-0 after:bg-subtle after:transition-[scale,background-color] after:duration-[var(--duration-base)] after:ease-standard enabled:hover:text-fg enabled:hover:after:scale-x-100 disabled:cursor-not-allowed disabled:opacity-50 data-[state=active]:text-fg data-[state=active]:after:scale-x-100 data-[state=active]:after:bg-accent",
+        "relative -mb-px border-b-2 border-transparent px-2 py-2 text-sm sm:px-3 font-medium whitespace-nowrap text-muted transition-colors duration-[var(--duration-fast)] ease-standard focus-ring-in focus-visible:-outline-offset-2 after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:scale-x-0 after:bg-subtle after:transition-[scale,background-color] after:duration-[var(--duration-base)] after:ease-standard enabled:hover:text-fg enabled:hover:after:scale-x-100 disabled:cursor-not-allowed disabled:opacity-50 data-[state=active]:text-fg data-[state=active]:after:scale-x-100 data-[state=active]:after:bg-accent",
         forceState === "hover" && TABS_HOVER,
         forceState === "focus" && TABS_FOCUS,
         className,

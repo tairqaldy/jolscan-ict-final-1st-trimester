@@ -56,7 +56,8 @@ export function HeroDemo() {
         <SeverityBadge severity={result.severity} size="lg" />
         <span className="tabular font-display text-2xl font-bold text-fg">score {result.score}</span>
         <span className="text-sm text-muted">
-          {result.recommendedAction} · {formatSla(result.slaHours)}
+          {/* No-break spaces keep the dot with the target time, so a line never ends on the dot. */}
+          {result.recommendedAction}{"\u00a0·\u00a0"}{formatSla(result.slaHours)}
         </span>
       </motion.div>
       <div className="demo-loop-control flex justify-end">

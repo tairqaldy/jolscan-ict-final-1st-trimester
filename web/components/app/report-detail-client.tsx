@@ -48,11 +48,13 @@ export function ReportDetailClient({ id }: { id: string }) {
       <PageHeader
         actions={<PrintButton />}
         eyebrow={`Report · ${analysis.id}`}
-        title={analysis.location?.label ?? analysis.photo.fileName ?? "Uploaded photo"}
+        // The file name of an upload (often a camera name like img-18.jpg) is not a title; it goes in the line below.
+        title={analysis.location?.label ?? "Road photo"}
         description={
           <span className="inline-flex flex-wrap items-center gap-2">
             Analysed {formatDateTime(analysis.createdAt)} (Astana time)
-            {analysis.source === "demo" ? <DemoBadge show /> : <span className="text-subtle">· made in this browser</span>}
+            {!analysis.location?.label && analysis.photo.fileName && <span className="font-mono text-xs text-subtle">{analysis.photo.fileName}</span>}
+            {analysis.source === "demo" ? <DemoBadge show /> : <span className="text-subtle">Made in this browser</span>}
           </span>
         }
       />

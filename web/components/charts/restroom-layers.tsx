@@ -99,7 +99,8 @@ export function RestroomLayersChart() {
           <XAxis dataKey="n" type="number" domain={[0, "dataMax"]} ticks={data.map((d) => d.n)} {...axisProps}>
             {xAxisTitle(BACKBONE[backbone].unit)}
           </XAxis>
-          <YAxis domain={[0.5, 1]} ticks={[0.5, 0.6, 0.7, 0.8, 0.9, 1]} width={yAxisWidth(4)} {...axisProps}>
+          {/* 1.02, not 1: the training line sits at exactly 1.0, and the plot edge would cut its dots in half. */}
+          <YAxis domain={[0.5, 1.02]} ticks={[0.5, 0.6, 0.7, 0.8, 0.9, 1]} width={yAxisWidth(4)} {...axisProps}>
             {yAxisTitle("Share right")}
           </YAxis>
           <Tooltip {...tooltipProps} formatter={(v) => (typeof v === "number" ? v.toFixed(3) : String(v))} labelFormatter={(n) => `${n} trained`} />

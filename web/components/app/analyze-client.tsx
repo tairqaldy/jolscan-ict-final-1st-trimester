@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, CircleCheck, ImageUp, LoaderCircle, RotateCcw, ScanSearch } from "lucide-react";
+import { ArrowRight, CircleCheck, LoaderCircle, RotateCcw, ScanSearch } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotionConfig } from "motion/react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -9,8 +9,6 @@ import { Button, ButtonLink } from "@/components/ui/button";
 import { Callout } from "@/components/ui/callout";
 import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dropzone } from "@/components/ui/dropzone";
-import { EmptyRoad } from "@/components/illustrations";
-import { EmptyState } from "@/components/ui/empty-state";
 import { Select } from "@/components/ui/select";
 import { SelectableTile } from "@/components/ui/selectable-tile";
 import { Switch } from "@/components/ui/switch";
@@ -191,7 +189,8 @@ export function AnalyzeClient() {
     <div key="form" className="grid gap-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
       {/* Left: photo */}
       <div className="grid content-start gap-4">
-        {previewImage ? (
+        {/* No separate "no photo" box: the drop zone below already says what to do, and two empty boxes read as one broken page. */}
+        {previewImage && (
           <figure
             className="relative overflow-hidden rounded-lg border border-border bg-surface-3"
             style={{
@@ -226,17 +225,15 @@ export function AnalyzeClient() {
               )}
             </AnimatePresence>
           </figure>
-        ) : (
-          <EmptyState icon={ImageUp} illustration={<EmptyRoad />} title="No photo selected">
-            Drop a road photo below or pick one of the sample photos. Results appear here.
-          </EmptyState>
         )}
 
         <Dropzone
-          title="Drop a photo here, or click to choose"
+          title={previewImage ? "Drop another photo to replace it, or click to choose" : "Drop a road photo here, or click to choose"}
           onFile={pickFile}
           onReject={setFileError}
           invalid={fileError !== null}
+          // Before a photo is chosen the drop zone is the page's main area, so it gets the photo's height.
+          className={previewImage ? undefined : "[&>span]:min-h-72"}
         />
         {fileError && (
           <Callout tone="danger" title="That file cannot be used">
@@ -244,8 +241,11 @@ export function AnalyzeClient() {
           </Callout>
         )}
 
-        <fieldset>
-          <legend className="mb-2 text-sm font-medium">Or use a sample photo</legend>
+        {/* With a real model the drawn samples cannot be analysed, so they fold away instead of showing six faded tiles. */}
+        <details open={!realModel} className="group">
+          <summary className="mb-2 w-fit text-sm font-medium">
+            {realModel ? "Sample drawings (Mock provider only)" : "Or use a sample photo"}
+          </summary>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             {SAMPLES.map((s) => {
               const selected = source?.kind === "sample" && source.sample.id === s.id;
@@ -269,7 +269,7 @@ export function AnalyzeClient() {
               ? `Samples are drawings that only the Mock provider can read. With ${providerMeta.label}, drop a real road photo above.`
               : "Samples are drawings, not real photos; the Mock provider returns fixed boxes for them."}
           </p>
-        </fieldset>
+        </details>
       </div>
 
       {/* Right: metadata and run */}

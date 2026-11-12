@@ -57,7 +57,7 @@ export function RulesClient() {
       <div className="grid content-start gap-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="text-sm text-muted">
-            {changed ? "You have changed the defaults. Changes are saved in this browser." : "Showing the team defaults from RULES.md."}
+            {changed ? "You have changed the defaults. Changes are saved in this browser." : "Showing the team's default values."}
           </p>
           <Button variant="secondary" size="sm" onClick={() => rulesStore.reset()} disabled={!changed}>
             <RotateCcw aria-hidden /> Reset to defaults

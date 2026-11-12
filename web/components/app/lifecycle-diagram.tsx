@@ -19,7 +19,7 @@ export function LifecycleDiagram() {
           const Icon = s.icon;
           return (
             <li key={s.title} className="flex items-center gap-3 md:flex-col md:items-stretch md:gap-0">
-              <div className="flex flex-1 items-center md:w-full">
+              <div className="flex flex-1 items-stretch md:w-full">
                 <div className="flex min-w-0 flex-1 items-start gap-3 rounded-md border border-border-strong bg-surface-2 p-3">
                   <span className="grid size-9 shrink-0 place-items-center rounded-md bg-accent text-accent-fg">
                     <Icon className="size-4.5" aria-hidden />
@@ -30,7 +30,7 @@ export function LifecycleDiagram() {
                     <span className="block text-xs text-muted">{s.where}</span>
                   </span>
                 </div>
-                {i < STEPS.length - 1 && <ArrowRight className="mx-1 hidden size-5 shrink-0 text-subtle md:block" aria-hidden />}
+                {i < STEPS.length - 1 && <ArrowRight className="mx-1 hidden size-5 shrink-0 self-center text-subtle md:block" aria-hidden />}
               </div>
             </li>
           );

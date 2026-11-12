@@ -93,7 +93,7 @@ export function DashboardClient() {
 
       <Stagger inView className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
         <StaggerItem>
-          <Card className="h-full">
+          <Card>
             <CardHeader>
               <div>
                 <CardTitle>Severity distribution</CardTitle>
@@ -110,15 +110,15 @@ export function DashboardClient() {
           <Card className="h-full">
             <CardHeader>
               <div>
-                <CardTitle>Recent analyses</CardTitle>
+                <CardTitle>Recent reports</CardTitle>
                 <CardDescription>Newest first. Open a row for the full report.</CardDescription>
               </div>
               <ButtonLink href="/app/roads/reports" variant="ghost" size="sm">
-                All reports <ArrowRight aria-hidden />
+                All road reports <ArrowRight aria-hidden />
               </ButtonLink>
             </CardHeader>
             <CardBody className="px-0 pb-2">
-              <AnalysesTable analyses={analyses.slice(0, 6)} caption="Recent analyses" />
+              <AnalysesTable analyses={analyses.slice(0, 6)} caption="Recent reports" />
             </CardBody>
           </Card>
         </StaggerItem>
@@ -145,7 +145,7 @@ export function DashboardClient() {
                         className={cn("flex items-center justify-between gap-3 rounded-md border border-border px-3 py-2.5", LINK_ROW)}
                       >
                         <span className="min-w-0">
-                          <span className="block truncate font-medium">{a.location?.label ?? a.photo.fileName ?? "Uploaded photo"}</span>
+                          <span className="block truncate font-medium">{a.location?.label ?? a.photo.fileName ?? "Road photo"}</span>
                           <span className="tabular text-xs text-muted">
                             {formatDateTime(a.createdAt)} · lowest confidence{" "}
                             {Math.round(Math.min(...a.detections.map((d) => d.confidence)) * 100)}%

@@ -364,8 +364,8 @@
   --color-box-review: var(--box-review);
 
   /* Type. Families come from next/font in app/layout.tsx. */
-  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Qarau Separator", var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Qarau Separator", var(--font-body), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-code), ui-monospace, "SFMono-Regular", Menlo, monospace;
 
   /* Type scale (rem / line-height). Display sizes are condensed caps-friendly.

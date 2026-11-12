@@ -27,8 +27,9 @@ export function Segmented<T extends string>({
   return (
     <fieldset className={cn("grid gap-1.5", className)}>
       <legend className={cn("mb-1.5 text-sm font-medium", hideLabel && "sr-only")}>{label}</legend>
-      {/* flex-wrap: on a phone the options wrap onto a second row instead of widening the page. */}
-      <div className="inline-flex w-fit max-w-full flex-wrap rounded-md border border-border-strong bg-surface-2 p-0.5">
+      {/* flex-wrap: on a phone the options wrap onto a second row instead of widening the page, and each row fills the
+          width, so a lone option on the second row reads as part of the control rather than a broken one. */}
+      <div className="inline-flex w-full max-w-full flex-wrap rounded-md border border-border-strong bg-surface-2 p-0.5 sm:w-fit">
         {options.map((o) => {
           const Icon = o.icon;
           const active = o.value === value;
@@ -37,7 +38,7 @@ export function Segmented<T extends string>({
               key={o.value}
               className={cn(
                 // G-6: 48 px tall below sm (U6). A disabled option has no hover.
-                "relative inline-flex min-h-12 cursor-pointer items-center gap-1.5 rounded-sm px-3 py-1.5 text-sm font-medium transition-[color,background-color,box-shadow] duration-[var(--duration-fast)] ease-standard has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-focus sm:min-h-0",
+                "relative inline-flex min-h-12 flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-sm px-3 py-1.5 text-sm font-medium sm:flex-none transition-[color,background-color,box-shadow] duration-[var(--duration-fast)] ease-standard has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-focus sm:min-h-0",
                 active ? "bg-surface text-fg shadow-sm" : !o.disabled && "text-muted hover:text-fg",
                 o.disabled && "cursor-not-allowed text-muted opacity-50",
               )}

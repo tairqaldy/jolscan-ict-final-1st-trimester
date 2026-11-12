@@ -51,7 +51,10 @@ export function Select({
             triggerClassName,
           )}
         >
-          <RadixSelect.Value />
+          {/* One left-aligned line; a long value is cut with an ellipsis here and shown in full in the list. */}
+          <span className="min-w-0 flex-1 truncate text-left">
+            <RadixSelect.Value />
+          </span>
           <RadixSelect.Icon>
             <ChevronDown className="size-4 text-muted transition-[rotate] duration-[var(--duration-fast)] ease-standard group-data-[state=open]:rotate-180" aria-hidden />
           </RadixSelect.Icon>
