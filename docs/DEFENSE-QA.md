@@ -73,7 +73,7 @@ mAP50 measures detection success requiring an IoU overlap of at least 50%, refle
 *Confirmed by: Amina (pothole model)*
 
 ### Q18. How did your team ensure contrast accessibility across both light and dark themes?
-All color pairs were audited using WCAG relative luminance equations, ensuring text tokens (`--fg`, `--muted`, `--accent-ink`) exceed 4.5:1 on light and dark surfaces ([`docs/DESIGN-BRIEF.md`](DESIGN-BRIEF.md)). To support color-blind users (protanopia, deuteranopia, tritanopia), all severity states and restroom verdicts pair color with distinct icons and text labels rather than color alone ([`web/tokens.css`](../web/tokens.css)). Severity tokens maintain a minimum perceptual difference (CIE76 ΔE > 10) across simulated vision impairments.
+All color pairs were audited using WCAG relative luminance equations, ensuring text tokens (`--fg`, `--muted`, `--accent-ink`) exceed 4.5:1 on light and dark surfaces ([`docs/DESIGN-BRIEF.md`](DESIGN-BRIEF.md)). To support color-blind users (protanopia, deuteranopia, tritanopia), all severity states and restroom verdicts pair color with distinct icons and text labels rather than color alone ([`web/app/tokens.css`](../web/app/tokens.css)). Severity tokens maintain a minimum perceptual difference (CIE76 ΔE > 10) across simulated vision impairments.
 *Confirmed by: Dameli (design system)*
 
 ---

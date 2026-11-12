@@ -37,6 +37,15 @@ What we take from it. Fluent output can contain false facts (Lec7 p64: "Verify i
 
 ## Entries
 
+### 13 November 2026, Alizhan (R-49 documentation links, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Check documentation links after the freeze.
+- **Key prompt:** “окей. выполни их, также делай ребейз и тесты”. Full transcript not committed.
+- **What it produced or changed:** Fixed a missing relative link, added a repeatable basic link checker and QA-10 instructions; refreshed the deck log count.
+- **How it was verified:** The checker passes on tracked Markdown and detects an injected missing link. Automated HEAD checks were attempted for 101 external URLs; results and limits are in the PR. Alizhan has not personally reviewed this entry.
+- **What was rejected or corrected:** HTTP checks do not establish browser access or correct anchor contents; no Drive permissions were changed.
+
 ### 12 November 2026, Alizhan (W-51 sample manifest tests, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.

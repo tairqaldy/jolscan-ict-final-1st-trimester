@@ -275,3 +275,9 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **What changed:** Added checks for sample files, dimensions, boxes, sets, presets and orphaned images.
 - **Verification:** Current manifest passes; intentionally naming a missing file failed with the filename. Web CI results are linked from the PR.
 - **Next:** Review the PR; do not mark the task done until it is on main and all acceptance checks pass.
+
+### 2026-11-13 · R-49 (#258) · Documentation links
+- **Status:** partial link audit prepared for review; personal review pending.
+- **What changed:** Fixed a broken relative link, added an internal-link checker and QA-10 instructions.
+- **Verification:** Checker passes and rejects an injected missing link. Automated checks of 101 external URLs are summarized in the PR; Kaggle returned 404 and needs human confirmation.
+- **Next:** Complete manual external-link and anchor review before marking the task complete.
