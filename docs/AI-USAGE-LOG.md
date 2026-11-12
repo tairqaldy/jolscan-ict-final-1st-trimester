@@ -1271,6 +1271,15 @@ What we take from it. Fluent output can contain false facts (Lec7 p64: "Verify i
 - **How I verified it, and who verified it:** production build on my laptop with the API (`jolscan-e1`, CLIP ViT-B/32). The check gave 6/6 and 0 errors in 24 s. With the API stopped it failed as it should: 1/6, HTTP 503. The 2-minute video was watched frame by frame at each result: Critical 17 on `img-300`, Pair, Not a pair, Match rank 1 = the true partner (similarity 0.95). The demo photos were compared with their labels through `/predict`.
 - **What I rejected or corrected:** `img-172` (5 of 5 found, but a person's foot is in the frame); counting requests the browser cancels on navigation (ERR_ABORTED prefetches) as failures; Playwright's own video recorder (needs a separate ffmpeg download; Chrome's screencast and OpenCV need nothing new).
 
+### 12 November 2026, Roma (R-42: AI-4 criteria mapping, confidence intervals, threats to validity)
+
+- **Tool and version:** Antigravity (Gemini 2.0 Flash).
+- **Purpose:** Expand `docs/research/vlm-evaluation.md` with the AI-4 course criteria table (Syl p.9), exact 95% binomial confidence intervals for 17/20, a threats-to-validity section, and a revised numeric conclusion paragraph. Satisfy R-42 (#251) acceptance criteria.
+- **Key prompt(s):** "append sections 8–11 to vlm-evaluation.md: AI-4 criteria table, CI table with scipy binomtest 17/20, threats to validity (4 bullets), revised conclusion". Transcript kept locally.
+- **What it produced or changed:** §8 AI-4 criteria table, §9 CI table (both models [0.621, 0.968]), §10 Threats to validity, §11 revised conclusion appended to `docs/research/vlm-evaluation.md`; R-42 row marked `[x]` in `docs/TASKS.md`; this entry.
+- **How it was verified:** CI computed from `binomtest(17, 20).proportion_ci(method='exact')` — confirmed `low=0.6211, high=0.9679`. All 6 AI-4 criteria rows checked against Syl p.9. Threats section checked against audit findings from R-6. Conclusion sentence numbers verified against audit data (17/20, 85.0%, A17 failure, 2/20 leakage events).
+- **What I rejected or corrected:** Draft initially said "both models failed on 3 items each" — corrected to "6 misclassified items across 40 queries" (3 per model, some overlap). Ensured conclusion paragraph uses only numbers from earlier sections.
+
 ### 12 November 2026, Roma (R-6: VLM audit on restroom signs)
 
 - **Tool and version:** Antigravity Coding Assistant (Claude 3.5 Sonnet / Gemini 3.8 Flash).
