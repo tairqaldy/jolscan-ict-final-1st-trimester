@@ -37,6 +37,15 @@ What we take from it. Fluent output can contain false facts (Lec7 p64: "Verify i
 
 ## Entries
 
+### 13 November 2026, Alizhan (R-15 result-label review, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Check the live model results against the source and current serving method.
+- **Key prompt:** “выполни все таски по проверке результатов и данных”. Full transcript not committed.
+- **What it produced or changed:** Corrected the R6 description in the result sources and exports to identify it as the former API rule; refreshed generated inventories and deck count.
+- **How it was verified:** Compared the live model table, result files and `/restroom/match` implementation; checked result exports and preserved numerical metrics. Alizhan has not yet personally reviewed the result.
+- **What was rejected or corrected:** Did not claim the whole live table was independently audited or that unavailable team logs were reviewed.
+
 ### 12 November 2026, Alizhan (W-51 sample manifest tests, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.

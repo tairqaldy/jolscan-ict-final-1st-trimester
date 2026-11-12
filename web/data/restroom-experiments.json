@@ -60,7 +60,7 @@
     },
     {
       "run": "R6",
-      "changed": "gender probe: logistic regression on frozen ViT-B/32 embeddings; match = most similar candidate of the opposite predicted gender (the API's rule)",
+      "changed": "gender probe: logistic regression on frozen ViT-B/32 embeddings; match = most similar candidate of the opposite predicted gender (the API's former rule before C-8)",
       "isReal": true,
       "matchTop1Val": 0.5,
       "matchTop1Test": 0.3,

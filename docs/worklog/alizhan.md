@@ -275,3 +275,9 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **What changed:** Added checks for sample files, dimensions, boxes, sets, presets and orphaned images.
 - **Verification:** Current manifest passes; intentionally naming a missing file failed with the filename. Web CI results are linked from the PR.
 - **Next:** Review the PR; do not mark the task done until it is on main and all acceptance checks pass.
+
+### 2026-11-13 · R-15 (#99) · Correct stale R6 result description
+- **Status:** correction prepared for review; full slide audit remains open.
+- **What changed:** Identified the R6 gender-filter matching rule as the former API method, consistent with the served R7 pipeline. No experiment metrics changed.
+- **Verification:** Compared the live table, result sources and API code; checked exports and generated source inventory. Alizhan has not yet personally reviewed this entry.
+- **Next:** Complete the live-table and slide source audit; review teammate AI logs and shared Drive only with access and their confirmations.

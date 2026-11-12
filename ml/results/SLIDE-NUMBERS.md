@@ -1,7 +1,7 @@
 # Slide numbers: source inventory
 
-Generated (UTC): 2026-11-11T19:41:18+00:00
-Git HEAD at generation: `079a88b` (working-tree changes, if any, are not captured by the hash).
+Generated (UTC): 2026-11-12T20:07:01+00:00
+Git HEAD at generation: `c075e3b` (working-tree changes, if any, are not captured by the hash).
 
 Values are read from files, not necessarily used in the final slides. Missing values are marked explicitly. Re-run after updates and verify the final deck.
 
@@ -158,7 +158,7 @@ Values are read from files, not necessarily used in the final slides. Missing va
 | R4 genderAccCv | 0.6433 | 0.643 | `ml/results/restroom/experiments.csv → R4.genderAccCv` |
 | R4 latencyMs | 24.7 | 24.700 | `ml/results/restroom/experiments.csv → R4.latencyMs` |
 | R4 device | Apple M4 CPU | Apple M4 CPU | `ml/results/restroom/experiments.csv → R4.device` |
-| R6 changed | gender probe: logistic regression on frozen ViT-B/32 embeddings; match = most similar candidate of the opposite predicted gender (the API's rule) | gender probe: logistic regression on frozen ViT-B/32 embeddings; match = most similar candidate of the opposite predicted gender (the API's rule) | `ml/results/restroom/experiments.csv → R6.changed` |
+| R6 changed | gender probe: logistic regression on frozen ViT-B/32 embeddings; match = most similar candidate of the opposite predicted gender (the API's former rule before C-8) | gender probe: logistic regression on frozen ViT-B/32 embeddings; match = most similar candidate of the opposite predicted gender (the API's former rule before C-8) | `ml/results/restroom/experiments.csv → R6.changed` |
 | R6 isReal | True | True | `ml/results/restroom/experiments.csv → R6.isReal` |
 | R6 matchTop1Val | 0.5 | 0.500 | `ml/results/restroom/experiments.csv → R6.matchTop1Val` |
 | R6 matchTop1Test | 0.3 | 0.300 | `ml/results/restroom/experiments.csv → R6.matchTop1Test` |
