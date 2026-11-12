@@ -12,6 +12,15 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 <!-- Newest first. Copy the entry template from docs/worklog/README.md. -->
 
+### 2026-11-12 08:55 · G-43 (#277) · Font pairing decided: mono stays JetBrains Mono
+- **Status:** done
+- **What I did:** settled the question left open on 11 November. Checked every file that uses `font-mono` (32 in `web/app`, `web/components` and `web/lib`, the lab excluded) for Kazakh or Russian text.
+- **Result:** none. Mono only sets code paths, model IDs, run names, numbers, the 404 code and two English landing captions. The Kazakh UI is not wired yet (W-58, #163), so no Kazakh letter reaches JetBrains Mono today. Ticked G-43 and added the outcome to `docs/decisions/0011-visual-direction.md`, "Consequences".
+- **Decisions and why:** keep Overpass with JetBrains Mono. Overpass draws all nine Kazakh letters; JetBrains Mono misses ә ғ қ ң ұ һ, but it never carries them. Switching to IBM Plex Mono would change every number on every page the day of the defense for no visible gain. Rule: Kazakh and Russian text stays out of `font-mono`; switch to IBM Plex Mono if W-58 ever needs Kazakh in mono.
+- **What I learned / can explain at the defense:** a font can claim a Cyrillic subset and still miss Kazakh letters, so we checked the rendered font per letter (DevTools) and then checked where each font is actually used before deciding.
+- **AI use:** Claude Code searched the `font-mono` uses and drafted these notes; I made the decision (entry in docs/AI-USAGE-LOG.md).
+- **Open questions / next:** none for G-43.
+
 ### 2026-11-11 21:10 · G-73 (#432), G-74 (#433), G-75 (#434), G-9 (#126) · Motion grill: fixes and two review rounds
 - **Status:** done (follow-up; the four tasks were already closed, no TASKS.md change)
 - **What I did:**
