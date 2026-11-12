@@ -37,6 +37,15 @@ What we take from it. Fluent output can contain false facts (Lec7 p64: "Verify i
 
 ## Entries
 
+### 13 November 2026, Alizhan (W-52 route smoke checks, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Add a reproducible check for important routes and redirects before a demo.
+- **Key prompt:** “окей. выполни их, также делай ребейз и тесты”. Full transcript not committed.
+- **What it produced or changed:** Added `web/scripts/check-routes.mjs`, a package command and usage note; refreshed the deck log count.
+- **How it was verified:** Built the web app and ran all 26 checks against a local production server and the published site; Alizhan has not yet personally reviewed this entry.
+- **What was rejected or corrected:** An HTTP response is only a smoke check, not proof of browser interaction or model correctness.
+
 ### 12 November 2026, Alizhan (W-51 sample manifest tests, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.
