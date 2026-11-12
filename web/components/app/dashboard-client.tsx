@@ -66,7 +66,7 @@ export function DashboardClient() {
         title="Road condition overview"
         description={
           <span className="inline-flex flex-wrap items-center gap-2">
-            Photos analysed in the 30 days to {formatDate(MOCK_ANCHOR)} (demo set) and in this browser. <DemoBadge show label="Includes demo data" />
+            Photos analyzed in the 30 days to {formatDate(MOCK_ANCHOR)} (demo set) and in this browser. <DemoBadge show label="Includes demo data" />
           </span>
         }
         actions={
@@ -78,7 +78,7 @@ export function DashboardClient() {
 
       <Stagger className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
         <StaggerItem>
-          <Kpi label="Photos analysed" value={kpis.photos} note="all providers" />
+          <Kpi label="Photos analyzed" value={kpis.photos} note="all providers" />
         </StaggerItem>
         <StaggerItem>
           <Kpi label="Potholes found" value={kpis.potholes} note={`confidence ≥ ${rules.r1.threshold.toFixed(2)}`} />
@@ -93,11 +93,11 @@ export function DashboardClient() {
 
       <Stagger inView className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
         <StaggerItem>
-          <Card className="h-full">
+          <Card>
             <CardHeader>
               <div>
                 <CardTitle>Severity distribution</CardTitle>
-                <CardDescription>How urgent the analysed segments are.</CardDescription>
+                <CardDescription>How urgent the analyzed segments are.</CardDescription>
               </div>
             </CardHeader>
             <CardBody>
@@ -110,15 +110,15 @@ export function DashboardClient() {
           <Card className="h-full">
             <CardHeader>
               <div>
-                <CardTitle>Recent analyses</CardTitle>
+                <CardTitle>Recent reports</CardTitle>
                 <CardDescription>Newest first. Open a row for the full report.</CardDescription>
               </div>
               <ButtonLink href="/app/roads/reports" variant="ghost" size="sm">
-                All reports <ArrowRight aria-hidden />
+                All road reports <ArrowRight aria-hidden />
               </ButtonLink>
             </CardHeader>
             <CardBody className="px-0 pb-2">
-              <AnalysesTable analyses={analyses.slice(0, 6)} caption="Recent analyses" />
+              <AnalysesTable analyses={analyses.slice(0, 6)} caption="Recent reports" />
             </CardBody>
           </Card>
         </StaggerItem>

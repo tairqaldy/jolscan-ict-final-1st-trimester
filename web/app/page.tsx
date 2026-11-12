@@ -139,7 +139,7 @@ export default function LandingPage() {
             </StaggerItem>
             <StaggerItem>
               <p className="inline-flex flex-wrap items-center gap-2 text-sm text-muted">
-                {COURSE.code} course prototype. Runs on demo data until the trained models are connected. <DemoBadge show />
+                {COURSE.code} course project. Without our model service running, analyses use demo results. <DemoBadge show />
               </p>
             </StaggerItem>
           </Stagger>
@@ -279,7 +279,7 @@ export default function LandingPage() {
               effect={`+${roadHit.points} points`}
               outcome={
                 <>
-                  <SeverityBadge severity={roadResult.severity} /> score {roadResult.score} · {formatSla(roadResult.slaHours)}
+                  <SeverityBadge severity={roadResult.severity} /> score {roadResult.score}{"\u00a0·\u00a0"}{formatSla(roadResult.slaHours)}
                 </>
               }
               href="/app/roads/rules"
@@ -311,8 +311,12 @@ export default function LandingPage() {
           </p>
           <div className="mt-8 grid gap-4 lg:grid-cols-2">
             <ResultsCard module="roads" badge={<DemoBadge show={IS_DEMO_DATA} label="Placeholder numbers" />}>
-              <Metric label="mAP50-95" value={CHAMPION.map5095?.toFixed(2) ?? "—"} note={`baseline ${BASELINE.map5095?.toFixed(2) ?? "—"}`} />
-              <Metric label="Recall" value={CHAMPION.recall?.toFixed(2) ?? "—"} note={`baseline ${BASELINE.recall?.toFixed(2) ?? "—"}`} />
+              <Metric label="Test mAP50" value={CHAMPION.map50?.toFixed(2) ?? "—"} note={`baseline ${BASELINE.id} ${BASELINE.map50?.toFixed(2) ?? "—"}`} />
+              <Metric
+                label="Test recall at 0.40"
+                value={CHAMPION.recallAtRulesConf?.toFixed(2) ?? "—"}
+                note={`baseline ${BASELINE.id} ${BASELINE.recallAtRulesConf?.toFixed(2) ?? "—"}`}
+              />
               <p className="col-span-2 text-sm text-muted">
                 {EXPERIMENTS.runs.length} runs. Selected: <span className="font-mono">{CHAMPION.id}</span> ({CHAMPION.changed.toLowerCase()}).
               </p>
@@ -329,9 +333,9 @@ export default function LandingPage() {
                 small={RESTROOM_CHAMPION?.matchTop1Test == null}
               />
               <Metric
-                label="IOAI reference"
-                value={`${RESTROOM_EXPERIMENTS.reference.ioaiBaseline.toFixed(2)} / ${RESTROOM_EXPERIMENTS.reference.ioaiBest.toFixed(2)}`}
-                note="baseline / best, published by IOAI, not our runs"
+                label="IOAI baseline (reference)"
+                value={RESTROOM_EXPERIMENTS.reference.ioaiBaseline.toFixed(2)}
+                note={`best ${RESTROOM_EXPERIMENTS.reference.ioaiBest.toFixed(2)}; published by IOAI, not our runs`}
               />
             </ResultsCard>
           </div>

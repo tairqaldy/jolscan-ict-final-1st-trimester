@@ -8,12 +8,15 @@
  * checks every link, so a renamed sample breaks the test, not the demo.
  */
 import { RESTROOM_PRESETS } from "@/lib/mock/restroom-samples";
+import type { Provider } from "@/lib/types";
 
 export type DemoStep = {
   title: string;
   /** One line to say aloud at this step. */
   note: string;
   href: string;
+  /** The step opens a drawn sample, which only the Mock provider can read. */
+  mockOnly?: boolean;
 };
 
 /** Compare link for one of the example pairs in the restroom manifest, by preset id. */
@@ -29,11 +32,13 @@ export const DEMO_PATH: DemoStep[] = [
     title: "Roads: worked example A",
     note: "Three potholes. Point at the boxes, the severity and a rule hit.",
     href: "/app/roads/analyze?sample=s01",
+    mockOnly: true,
   },
   {
     title: "Roads: needs review",
     note: "Faint damage: the model is unsure, so the photo goes to review.",
     href: "/app/roads/analyze?sample=s05",
+    mockOnly: true,
   },
   // The restroom steps use real IOAI signs, so they run on every provider (C-13).
   {
@@ -62,3 +67,16 @@ export const DEMO_PATH: DemoStep[] = [
     href: "/app/model#roads",
   },
 ];
+
+/** With a real model (Local or Cloud) the two drawn road samples cannot be analysed, so one step opens Analyze empty. */
+export const REAL_ROAD_STEP: DemoStep = {
+  title: "Roads: analyze a road photo",
+  note: "Drop the prepared road photo. Point at the boxes, the severity and a rule hit.",
+  href: "/app/roads/analyze",
+};
+
+/** The steps for the chosen provider: every step on Mock; on Local or Cloud, a real photo instead of the drawings. */
+export function demoPathFor(provider: Provider): DemoStep[] {
+  if (provider === "mock") return DEMO_PATH;
+  return [REAL_ROAD_STEP, ...DEMO_PATH.filter((step) => !step.mockOnly)];
+}

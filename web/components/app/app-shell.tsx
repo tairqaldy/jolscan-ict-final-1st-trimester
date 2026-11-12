@@ -97,7 +97,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <div className="flex h-14 items-center justify-between gap-2 px-4">
           <Logo href="/" />
           <div className="flex items-center gap-1.5">
-            <DemoBadge show label="Demo" />
+            <DemoBadge show label="Demo data" />
             <ProviderBadge />
             <ThemeToggle />
           </div>

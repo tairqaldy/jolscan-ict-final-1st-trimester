@@ -25,7 +25,8 @@ export function MapClient() {
 
   return (
     <div className="grid gap-4">
-      <div className="h-[55vh] min-h-80 overflow-hidden rounded-lg border border-border bg-surface-2 shadow-sm">
+      {/* isolate keeps Leaflet's pane z-indexes (200 to 1000) inside the map, so it cannot paint over the phone's top and tab bars. */}
+      <div className="isolate h-[55vh] min-h-80 overflow-hidden rounded-lg border border-border bg-surface-2 shadow-sm">
         <MapView analyses={analyses} />
       </div>
       <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted" aria-label="Legend">
@@ -34,7 +35,7 @@ export function MapClient() {
             <SeverityDot severity={s} className="rounded-full" /> {SEVERITY_META[s].label}
           </span>
         ))}
-        <span>· bigger circle = more severe</span>
+        <span>Bigger circle = more severe</span>
       </div>
       <Card>
         <CardHeader>

@@ -62,7 +62,7 @@ export function PlatformOverviewClient() {
       <div className="grid gap-6 xl:grid-cols-2">
         <ModulePanel id="roads">
           <div className="grid grid-cols-3 gap-2 sm:gap-3">
-            <Kpi label="Photos" value={roads.photos} note="analysed" nested />
+            <Kpi label="Photos" value={roads.photos} note="analyzed" nested />
             <Kpi label="Urgent" value={roads.urgent} note="high or critical" accentClass="bg-sev-critical" nested />
             <Kpi label="To review" value={roads.review} note="low confidence" accentClass="bg-review" nested />
           </div>
@@ -148,7 +148,12 @@ function ModulePanel({ id, children }: { id: ModuleId; children: ReactNode }) {
           </span>
           <div>
             <h2 id={`mod-${id}`} className="text-xl font-bold">
-              {m.name} <span className="font-normal text-muted">· {m.task}</span>
+              {m.name}{" "}
+              {/* On a phone the task goes on its own line, so no line can start with the dot. */}
+              <span className="block font-normal text-muted sm:inline">
+                <span className="hidden sm:inline">· </span>
+                {m.task}
+              </span>
             </h2>
             <p className="max-w-md text-sm text-muted">{m.summary}</p>
           </div>

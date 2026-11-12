@@ -2,7 +2,6 @@
 
 import { Contrast, Download, LoaderCircle, Monitor, Moon, PlugZap, RotateCcw, Sun, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Callout } from "@/components/ui/callout";
 import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -285,11 +284,9 @@ export function SettingsClient() {
             </Callout>
           )}
           <p className="text-xs text-muted">
-            Everything here lives in this browser&apos;s localStorage. There is no account and no database in the prototype.
+            Everything here is saved in this browser only. There is no account and no database. Model service addresses and
+            keys stay on the server and never reach this browser.
           </p>
-          <Badge tone="outline" className="w-fit whitespace-normal!">
-            Provider URLs and keys are read on the server only
-          </Badge>
         </CardBody>
       </Card>
     </div>

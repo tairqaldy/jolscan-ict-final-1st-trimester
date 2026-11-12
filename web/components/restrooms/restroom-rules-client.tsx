@@ -36,7 +36,7 @@ export function RestroomRulesClient() {
       <div className="grid content-start gap-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="text-sm text-muted">
-            {changed ? "You have changed the defaults. Changes are saved in this browser and used for every new comparison." : "Showing the team defaults from RULES.md, part 2."}
+            {changed ? "You have changed the defaults. Changes are saved in this browser and used for every new comparison." : "Showing the team's default values."}
           </p>
           <Button variant="secondary" size="sm" onClick={() => signageRulesStore.reset()} disabled={!changed}>
             <RotateCcw aria-hidden /> Reset to defaults
@@ -92,7 +92,7 @@ export function RestroomRulesClient() {
           <CardHeader>
             <div>
               <CardTitle>Live preview</CardTitle>
-              <CardDescription>Judges a sample pair as you change the thresholds. Mock predictions from the sample manifest.</CardDescription>
+              <CardDescription>Judges a sample pair as you change the thresholds, using fixed demo predictions for that pair.</CardDescription>
             </div>
           </CardHeader>
           <CardBody className="grid gap-4">
@@ -136,7 +136,7 @@ export function RestroomRulesClient() {
                 <li key={h.ruleId} className="grid grid-cols-[auto_minmax(0,1fr)_auto] gap-2 border-b border-border pb-1.5 last:border-0">
                   <span className="font-mono text-xs text-muted">{h.ruleId}</span>
                   <span className="text-muted">{h.detail}</span>
-                  {h.passed ? <Badge tone="outline">Pass</Badge> : <Badge tone="accent">Fail</Badge>}
+                  {h.passed ? <Badge tone="outline" className="self-start">Passed</Badge> : <Badge tone="accent" className="self-start">Failed</Badge>}
                 </li>
               ))}
             </ul>
@@ -159,7 +159,7 @@ function RuleCard({ id, passed, children }: { id: SignageRuleId; passed: boolean
             <div className="flex flex-wrap items-center justify-between gap-2">
               <h2 className="font-display text-lg font-semibold">{SIGNAGE_RULE_TITLES[id]}</h2>
               <span className="text-xs text-muted">
-                Preview pair: {passed ? <Badge tone="outline">passes</Badge> : <Badge tone="accent">fails</Badge>}
+                Preview pair: {passed ? <Badge tone="outline">Passed</Badge> : <Badge tone="accent">Failed</Badge>}
               </span>
             </div>
             <p className="mt-0.5 text-sm text-muted">{DESCRIPTIONS[id]}</p>

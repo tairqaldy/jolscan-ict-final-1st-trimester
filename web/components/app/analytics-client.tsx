@@ -131,6 +131,7 @@ export function RoadsAnalytics() {
       <StaggerItem>
         <ChartCard
           title="Severity breakdown"
+          badge={<DemoBadge show label="Includes demo data" />}
           description={`Analyses per week, stacked by severity. Weeks end on ${formatDate(new Date(windowEnd).toISOString())}.`}
           legend={SEVERITIES.map((s) => (
             <LegendSwatch key={s} color={SEVERITY_META[s].cssVar} label={SEVERITY_META[s].label} />
@@ -163,6 +164,7 @@ export function RoadsAnalytics() {
       <StaggerItem>
         <ChartCard
           title="Confidence histogram"
+          badge={<DemoBadge show label="Includes demo data" />}
           description={`All boxes by model confidence. The lines are rule R1 at ${tau.toFixed(2)} and its review floor at ${floor.toFixed(2)}: boxes at or above R1 are counted, boxes between the lines go to review, boxes below the floor are ignored.`}
           legend={
             <>
@@ -196,6 +198,7 @@ export function RoadsAnalytics() {
       <StaggerItem>
         <ChartCard
           title="Latency by provider"
+          badge={<DemoBadge show label="Includes demo data" />}
           description="Model time per photo. Cloud adds network time on the hosted side."
           legend={
             <>

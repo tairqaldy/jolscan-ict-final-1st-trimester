@@ -97,7 +97,7 @@ export function CompareResultView({ check, reveal = false }: { check: StoredSign
           </CardBody>
         </Card>
 
-        <Card className={cn("border-t-4", VERDICT_CLASSES[check.verdict].border, cardStage.className)} style={cardStage.style}>
+        <Card className={cn("border-t-4 lg:self-start", VERDICT_CLASSES[check.verdict].border, cardStage.className)} style={cardStage.style}>
           <CardBody className="grid content-start gap-5">
             <div>
               <p className="eyebrow text-muted">Verdict</p>
@@ -152,18 +152,20 @@ export function CompareResultView({ check, reveal = false }: { check: StoredSign
                 <THead>
                   <tr>
                     <TH>Rule</TH>
-                    <TH>What happened</TH>
+                    <TH className="hidden sm:table-cell">What happened</TH>
                     <TH className="text-right">Result</TH>
                   </tr>
                 </THead>
                 <tbody>
                   {check.ruleHits.map((h, i) => (
                     <TR key={h.ruleId} {...stage(staged, rowDelay(i))}>
-                      <TD className="whitespace-nowrap">
+                      <TD className="sm:whitespace-nowrap">
                         <span className="font-mono text-xs text-muted">{h.ruleId}</span>{" "}
                         <span className="font-medium">{h.title}</span>
+                        {/* On a phone the explanation goes under the rule instead of a third column. */}
+                        <p className="mt-1 whitespace-normal text-muted sm:hidden">{h.detail}</p>
                       </TD>
-                      <TD className="min-w-64 text-muted">{h.detail}</TD>
+                      <TD className="hidden min-w-64 text-muted sm:table-cell">{h.detail}</TD>
                       <TD className="text-right">
                         {h.passed ? <Badge tone="outline">Passed</Badge> : <Badge tone="accent">Failed</Badge>}
                       </TD>

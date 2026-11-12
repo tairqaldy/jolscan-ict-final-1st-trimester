@@ -37,3 +37,7 @@ Design pull requests tick "ANTI-SLOP.md checked" in the pull request template.
 | R11 AI copy | 0 | Passes. |
 | R12 letter spacing | 15 hand-written `tracking-[…]` values | **Fix in G-23 (#167):** one `stamp` label style. |
 | R13 Demo badge | 46 uses | Passes. Keep it: it is the honesty rule. |
+
+## Recheck: overnight polish, 13 November 2026
+
+R1 to R12 rerun on the polish branch: no new hits. R12 is now 0: the Match page's "Its other door" label uses the `eyebrow` style instead of its own letter spacing. The one R1 hit (`web/app/globals.css`, an underline drawn as a background) and the two R10 hits (theme colour in `web/app/layout.tsx`) are the ones kept in the first audit. R13: the Severity breakdown, Confidence histogram and Latency by provider charts on Analytics are drawn from the seeded history and now carry "Includes demo data".

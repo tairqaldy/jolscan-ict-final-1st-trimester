@@ -199,9 +199,11 @@ export function ChartCard({
         </div>
         {badge}
       </CardHeader>
-      <CardBody className="grid gap-3">
+      {/* grid-cols-1 is minmax(0, 1fr): without it the track grows to the SVG's first measured width and the chart
+          spills past the card's right edge instead of shrinking with it. */}
+      <CardBody className="grid grid-cols-1 gap-3">
         {legend && <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted">{legend}</div>}
-        <div style={{ height }} role="img" aria-label={`${title} chart. The data table below has the same numbers.`}>
+        <div style={{ height }} className="min-w-0" role="img" aria-label={`${title} chart. The data table below has the same numbers.`}>
           {hydrated ? children : <Skeleton className="size-full" />}
         </div>
         {table && (

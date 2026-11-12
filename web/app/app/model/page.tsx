@@ -19,6 +19,14 @@ import { RESTROOM_EXPERIMENTS, RESTROOM_IS_DEMO } from "@/lib/mock/restroom-expe
 
 export const metadata: Metadata = { title: "Model" };
 
+/*
+ * Columns with nothing to compare stay out of the runs table, so it fits a 1440 px projector without scrolling:
+ * latency only appears once a run has one (S-15), and a device shared by every run is said once above the table.
+ */
+const HAS_LATENCY = EXPERIMENTS.runs.some((r) => r.latencyMs !== null);
+const RUN_DEVICES = new Set(EXPERIMENTS.runs.map((r) => r.device));
+const SHARED_DEVICE = RUN_DEVICES.size === 1 ? [...RUN_DEVICES][0] : null;
+
 type Term = { term: string; text: ReactNode; source?: string };
 
 const ROAD_METRICS: Term[] = [
@@ -106,7 +114,10 @@ function Score({ value, digits = 2 }: { value: number | null; digits?: number })
   return <>{value.toFixed(digits)}</>;
 }
 
-/** Shows a text and turns the first web address in it into a link (the dataset source). */
+/**
+ * Shows a text and turns the first web address in it into a link labelled "dataset page" (the dataset source). A raw
+ * address as link text breaks in the middle of a word in a narrow column.
+ */
 function TextWithLink({ text }: { text: string }) {
   const url = text.match(/https?:\/\/[^\s)]+/)?.[0];
   if (!url) return <>{text}</>;
@@ -114,8 +125,8 @@ function TextWithLink({ text }: { text: string }) {
   return (
     <>
       {before}
-      <a href={url} className="break-all text-accent-ink underline underline-offset-2">
-        {url}
+      <a href={url} className="text-accent-ink underline underline-offset-2">
+        dataset page
       </a>
       {after}
     </>
@@ -155,7 +166,11 @@ export default function ModelPage() {
               <CardTitle className="flex flex-wrap items-center gap-2">
                 Pothole runs <DemoBadge label={IS_DEMO_DATA ? "Demo data: placeholder numbers" : undefined} />
               </CardTitle>
-              <CardDescription>{EXPERIMENTS.protocol}</CardDescription>
+              <CardDescription>
+                {EXPERIMENTS.protocol}
+                {SHARED_DEVICE && ` Every run trained on ${SHARED_DEVICE}.`}
+                {!HAS_LATENCY && " Latency per run is not measured yet."}
+              </CardDescription>
             </div>
           </CardHeader>
           <CardBody className="px-0 pb-2">
@@ -164,16 +179,16 @@ export default function ModelPage() {
                 <tr>
                   <TH>Run</TH>
                   <TH>What changed</TH>
-                  <TH className="text-right">Val mAP50</TH>
-                  <TH className="text-right">Val recall at 0.40</TH>
-                  <TH className="text-right">mAP50</TH>
-                  <TH className="text-right">mAP50-95</TH>
+                  <TH className="text-right">Val <span className="normal-case">mAP50</span></TH>
+                  <TH className="text-right whitespace-normal!">Val recall at 0.40</TH>
+                  <TH className="text-right normal-case">mAP50</TH>
+                  <TH className="text-right normal-case">mAP50-95</TH>
                   <TH className="text-right">Precision</TH>
                   <TH className="text-right">Recall</TH>
-                  <TH className="text-right">Recall at 0.40</TH>
-                  <TH className="text-right">Latency ms</TH>
+                  <TH className="text-right whitespace-normal!">Recall at 0.40</TH>
+                  {HAS_LATENCY && <TH className="text-right">Latency ms</TH>}
                   <TH className="text-right">Size MB</TH>
-                  <TH>Device</TH>
+                  {!SHARED_DEVICE && <TH>Device</TH>}
                 </tr>
               </THead>
               <tbody>
@@ -183,7 +198,7 @@ export default function ModelPage() {
                   const d = baseline ? null : delta(r.map50, BASELINE.map50);
                   return (
                     <TR key={r.id} className={cn(champion && "bg-accent-soft")}>
-                      <TD className="whitespace-nowrap">
+                      <TD className="sm:whitespace-nowrap">
                         <span className="font-mono font-medium">{r.id}</span>{" "}
                         {champion && (
                           <Badge tone="inverse" className="ml-1">
@@ -219,11 +234,13 @@ export default function ModelPage() {
                       <TD className="tabular text-right font-mono">
                         <Score value={r.recallAtRulesConf} />
                       </TD>
-                      <TD className="tabular text-right font-mono">
-                        {r.latencyMs !== null ? Math.round(r.latencyMs) : <NotRun text="not measured" />}
-                      </TD>
+                      {HAS_LATENCY && (
+                        <TD className="tabular text-right font-mono">
+                          {r.latencyMs !== null ? Math.round(r.latencyMs) : <NotRun text="not measured" />}
+                        </TD>
+                      )}
                       <TD className="tabular text-right font-mono">{r.sizeMB !== null ? r.sizeMB.toFixed(1) : <NotRun text="—" />}</TD>
-                      <TD className="whitespace-nowrap text-muted">{r.device ?? <NotRun text="not recorded" />}</TD>
+                      {!SHARED_DEVICE && <TD className="whitespace-nowrap text-muted">{r.device ?? <NotRun text="not recorded" />}</TD>}
                     </TR>
                   );
                 })}
@@ -247,7 +264,7 @@ export default function ModelPage() {
                   <Database className="size-5" aria-hidden /> Pothole dataset card
                 </CardTitle>
                 <CardDescription>
-                  From the dataset card (data/README.md) and the split manifest, through the results file.
+                  From the team&apos;s dataset card and the frozen split, as written to the results file.
                 </CardDescription>
               </div>
             </CardHeader>
@@ -329,7 +346,7 @@ export default function ModelPage() {
                   const n = (v: number | null) => (v === null ? <NotRun /> : v.toFixed(2));
                   return (
                     <TR key={r.run} className={cn(champion && "bg-accent-soft")}>
-                      <TD className="whitespace-nowrap">
+                      <TD className="sm:whitespace-nowrap">
                         <span className="font-mono font-medium">{r.run}</span>{" "}
                         {champion && (
                           <Badge tone="inverse" className="ml-1">
@@ -374,8 +391,8 @@ export default function ModelPage() {
                 <dd>{DATA_CREDITS.restroom.name}</dd>
                 <dt className="text-muted">Source</dt>
                 <dd>
-                  <a href={DATA_CREDITS.restroom.url} className="break-all text-accent-ink underline underline-offset-2">
-                    {DATA_CREDITS.restroom.url}
+                  <a href={DATA_CREDITS.restroom.url} className="text-accent-ink underline underline-offset-2">
+                    IOAI-2025 repository on GitHub
                   </a>
                 </dd>
                 <dt className="text-muted">Licence</dt>

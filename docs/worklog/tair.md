@@ -10,6 +10,16 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 ## Entries
 
+### 13 November 2026 · Overnight polish of the demo path (1440 px and 375 px, light and dark)
+
+- **Status:** done
+- **What I did:** walked the defense demo path on the real models (Local) at 1440 and 375 px in both themes, had two reviewers list what looked unfinished, and fixed what shows in the demo or breaks a rule: the middle dot now has even spaces everywhere; the landing hero no longer says the models are not connected, and the results teaser shows test mAP50 and recall at 0.40 like the slides and the Model page; the Model runs table fits a 1440 px projector; charts shrink with their card; Analyze shows one drop zone and folds the drawn samples away on Local; the Demo path card follows the provider; three Analytics charts built on the seeded history now carry the demo badge; rule, detection and report tables fit a phone; the map no longer paints over the phone's tab bar; plainer copy where the UI named repository files.
+- **Result:** pull request for the overnight polish; before and after screenshots in the morning report.
+- **Decisions and why:** fix the separator once in CSS (a font face for U+00B7 only) instead of wrapping every dot; hide table columns on a phone and fold their values into the first cell, so no table scrolls inside its card on the demo path; keep "Find the counterpart" and "Raw JSON" as they are, because `scripts/demo_check.py` clicks them by name.
+- **What I learned / can explain:** the honesty rule (R13) covers charts too: a chart drawn from seeded history needs the badge even when the page header has none.
+- **AI use:** Claude Code (Claude Opus 5.5) with two review sub-agents; see docs/AI-USAGE-LOG.md.
+- **Open questions / next:** the cloud Space waits for a Hugging Face PRO decision (S-7); any image is still accepted as a door sign (known limit).
+
 ### 13 November 2026 · S-8 (#29), S-7 (#31) · Docker image as a Space; the Space is blocked on PRO
 
 - **Status:** S-8 done; S-7 blocked (needs a Hugging Face PRO subscription).

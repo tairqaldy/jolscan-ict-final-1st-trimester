@@ -1,9 +1,12 @@
 import { TEAM } from "@/lib/team";
 
-/** Six team members. Names and roles come from lib/team.ts. */
-export function TeamGrid() {
+/**
+ * Six team members. Names and roles come from lib/team.ts. `narrow` keeps three columns for a reading-width page
+ * (About), where six would leave each card about 100 px wide and break the roles one word per line.
+ */
+export function TeamGrid({ narrow = false }: { narrow?: boolean }) {
   return (
-    <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+    <ul className={narrow ? "grid grid-cols-2 gap-4 sm:grid-cols-3" : "grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6"}>
       {TEAM.map((m) => (
         <li
           key={m.name}

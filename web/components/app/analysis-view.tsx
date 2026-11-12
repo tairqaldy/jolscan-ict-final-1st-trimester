@@ -64,7 +64,7 @@ export function AnalysisView({ analysis, title, reveal = false }: { analysis: St
             activeId={activeId}
             onActiveChange={setActiveId}
             replayKey={analysis.id}
-            alt={title ?? analysis.location?.label ?? "Analysed road photo"}
+            alt={title ?? analysis.location?.label ?? "Analyzed road photo"}
           />
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted">
             <span className="inline-flex items-center gap-1.5">
@@ -73,11 +73,12 @@ export function AnalysisView({ analysis, title, reveal = false }: { analysis: St
             <span className="inline-flex items-center gap-1.5">
               <span aria-hidden className="inline-block h-2.5 w-4 rounded-sm border-2 border-dashed border-box-review" /> needs review
             </span>
-            <span>Hover a box or a row to match them.</span>
+            {/* Phones have no hover. */}
+            <span className="pointer-coarse:hidden">Hover a box or a row to match them.</span>
           </div>
         </div>
 
-        <Card className={cn("border-t-4", sev.border, cardStage.className)} style={cardStage.style}>
+        <Card className={cn("border-t-4 lg:self-start", sev.border, cardStage.className)} style={cardStage.style}>
           <CardBody className="grid gap-5">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
@@ -127,7 +128,7 @@ export function AnalysisView({ analysis, title, reveal = false }: { analysis: St
               <Meta icon={Timer} label="Model latency">
                 <span className="tabular">{analysis.latencyMs} ms</span>
               </Meta>
-              <Meta icon={Clock} label="Analysed">
+              <Meta icon={Clock} label="Analyzed">
                 {formatDateTime(analysis.createdAt)}
               </Meta>
               <Meta icon={Route} label="Road class">
@@ -166,7 +167,7 @@ export function AnalysisView({ analysis, title, reveal = false }: { analysis: St
                   <THead>
                     <tr>
                       <TH>Rule</TH>
-                      <TH>What happened</TH>
+                      <TH className="hidden sm:table-cell">What happened</TH>
                       <TH className="text-right">Points</TH>
                     </tr>
                   </THead>
@@ -176,15 +177,16 @@ export function AnalysisView({ analysis, title, reveal = false }: { analysis: St
                         <TD>
                           <span className="font-mono text-xs text-muted">{h.ruleId}</span>{" "}
                           <span className="font-medium">{h.title}</span>
+                          {/* On a phone the explanation goes under the rule instead of a third column. */}
+                          <p className="mt-1 text-muted sm:hidden">{h.detail}</p>
                         </TD>
-                        <TD className="text-muted">{h.detail}</TD>
+                        <TD className="hidden text-muted sm:table-cell">{h.detail}</TD>
                         <TD className="tabular text-right font-mono">{h.points > 0 ? `+${formatScore(h.points)}` : formatScore(h.points)}</TD>
                       </TR>
                     ))}
                     <TR className={cn("bg-surface-2", totalStage.className)} style={totalStage.style}>
-                      <TD colSpan={2} className="font-semibold">
-                        Score
-                      </TD>
+                      <TD className="font-semibold">Score</TD>
+                      <TD className="hidden sm:table-cell" />
                       <TD className="tabular text-right font-mono font-semibold">{formatScore(Math.round(totalPoints * 100) / 100)}</TD>
                     </TR>
                   </tbody>
@@ -201,10 +203,10 @@ export function AnalysisView({ analysis, title, reveal = false }: { analysis: St
                     <tr>
                       <TH>#</TH>
                       <TH>Confidence</TH>
-                      <TH>Size</TH>
-                      <TH>Area</TH>
-                      <TH>Lane</TH>
-                      <TH>Status</TH>
+                      <TH className="hidden sm:table-cell">Size</TH>
+                      <TH className="hidden sm:table-cell">Area</TH>
+                      <TH className="hidden sm:table-cell">Lane</TH>
+                      <TH className="hidden sm:table-cell">Status</TH>
                       <TH className="text-right">Points</TH>
                     </tr>
                   </THead>
@@ -212,6 +214,13 @@ export function AnalysisView({ analysis, title, reveal = false }: { analysis: St
                     {analysis.detections.map((d, i) => {
                       const info = derived[i];
                       const active = activeId === d.id;
+                      const status = info.counted ? (
+                        <Badge>Counted</Badge>
+                      ) : info.review ? (
+                        <ReviewBadge />
+                      ) : (
+                        <Badge tone="outline">Ignored</Badge>
+                      );
                       return (
                         <TR
                           key={d.id}
@@ -224,19 +233,18 @@ export function AnalysisView({ analysis, title, reveal = false }: { analysis: St
                           aria-label={`Detection ${i + 1}`}
                         >
                           <TD className="font-mono">{i + 1}</TD>
-                          <TD className="tabular font-mono">{formatPct(d.confidence)}</TD>
-                          <TD className="capitalize">{info.size}</TD>
-                          <TD className="tabular font-mono">{info.areaPct.toFixed(2)}%</TD>
-                          <TD>{info.inLane ? "In lane" : "Off lane"}</TD>
-                          <TD>
-                            {info.counted ? (
-                              <Badge>Counted</Badge>
-                            ) : info.review ? (
-                              <ReviewBadge />
-                            ) : (
-                              <Badge tone="outline">Ignored</Badge>
-                            )}
+                          <TD className="tabular font-mono">
+                            {formatPct(d.confidence)}
+                            {/* On a phone size, area, lane and status go under the confidence instead of four more columns. */}
+                            <span className="mt-0.5 block font-sans text-xs text-muted sm:hidden">
+                              <span className="capitalize">{info.size}</span>, {info.areaPct.toFixed(2)}%, {info.inLane ? "in lane" : "off lane"}
+                            </span>
+                            <span className="mt-1 block font-sans sm:hidden">{status}</span>
                           </TD>
+                          <TD className="hidden capitalize sm:table-cell">{info.size}</TD>
+                          <TD className="tabular hidden font-mono sm:table-cell">{info.areaPct.toFixed(2)}%</TD>
+                          <TD className="hidden whitespace-nowrap sm:table-cell">{info.inLane ? "In lane" : "Off lane"}</TD>
+                          <TD className="hidden sm:table-cell">{status}</TD>
                           <TD className="tabular text-right font-mono">{formatScore(info.points)}</TD>
                         </TR>
                       );

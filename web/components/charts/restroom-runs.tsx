@@ -1,15 +1,17 @@
 "use client";
 
-import { Bar, BarChart, CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, Cell, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { DemoBadge } from "@/components/app/demo-badge";
-import { RESTROOM_EXPERIMENTS, RESTROOM_IS_DEMO } from "@/lib/mock/restroom-experiments";
+import { RESTROOM_CHAMPION, RESTROOM_EXPERIMENTS, RESTROOM_IS_DEMO } from "@/lib/mock/restroom-experiments";
 import {
   axisProps,
   barRadius,
   ChartCard,
   chartMargin,
   DataTable,
+  FADED_OPACITY,
   gridProps,
+  HIGHLIGHT,
   LegendSwatch,
   referenceLabel,
   referenceLineProps,
@@ -26,11 +28,13 @@ const show = (v: number | null) => (v === null ? "not run yet" : v.toFixed(2));
  * Restrooms: top-1 matching accuracy per run (validation and test), bars from
  * zero, with the two IOAI committee reference points as dashed lines. Runs
  * without numbers keep their slot on the axis, so the chart reads the same
- * before and after the experiment.
+ * before and after the experiment. Colours follow the pothole chart next to it: amber marks only the champion run,
+ * validation is solid and test is faded.
  */
 export function RestroomRunsChart() {
   const { runs, reference } = RESTROOM_EXPERIMENTS;
-  const data = runs.map((r) => ({ run: r.run, val: r.matchTop1Val, test: r.matchTop1Test }));
+  const data = runs.map((r) => ({ run: r.run, champion: r.run === RESTROOM_CHAMPION?.run, val: r.matchTop1Val, test: r.matchTop1Test }));
+  const colour = (champion: boolean) => (champion ? HIGHLIGHT : SERIES[0]);
   const anyNumbers = data.some((d) => d.val !== null || d.test !== null);
   return (
     <ChartCard
@@ -45,7 +49,8 @@ export function RestroomRunsChart() {
       legend={
         <>
           <LegendSwatch color={SERIES[0]} label="Validation (10 queries)" />
-          <LegendSwatch color={SERIES[1]} label="Test (30 queries)" />
+          <LegendSwatch color={SERIES[0]} faded label="Test (30 queries)" />
+          {RESTROOM_CHAMPION && <LegendSwatch color={HIGHLIGHT} label={`Champion (${RESTROOM_CHAMPION.run})`} />}
           <LegendSwatch color={referenceLineProps.stroke} dashed label="IOAI reference" />
         </>
       }
@@ -76,8 +81,16 @@ export function RestroomRunsChart() {
           <ReferenceLine y={reference.ioaiBest} {...referenceLineProps}>
             {referenceLabel(`IOAI best ${reference.ioaiBest.toFixed(2)}`)}
           </ReferenceLine>
-          <Bar dataKey="val" name="Validation" fill={SERIES[0]} radius={barRadius} />
-          <Bar dataKey="test" name="Test" fill={SERIES[1]} radius={barRadius} />
+          <Bar dataKey="val" name="Validation" radius={barRadius}>
+            {data.map((d) => (
+              <Cell key={d.run} fill={colour(d.champion)} />
+            ))}
+          </Bar>
+          <Bar dataKey="test" name="Test" radius={barRadius}>
+            {data.map((d) => (
+              <Cell key={d.run} fill={colour(d.champion)} fillOpacity={FADED_OPACITY} />
+            ))}
+          </Bar>
         </BarChart>
       </ResponsiveContainer>
     </ChartCard>

@@ -143,8 +143,8 @@ export default function AboutPage() {
               <dt>Restroom task</dt>
               <dd className="text-fg">
                 {DATA_CREDITS.restroom.name}, by the IOAI 2025 committee, licensed {DATA_CREDITS.restroom.licence}:{" "}
-                <a href={DATA_CREDITS.restroom.url} className="break-all text-accent-ink underline underline-offset-2">
-                  {DATA_CREDITS.restroom.url}
+                <a href={DATA_CREDITS.restroom.url} className="text-accent-ink underline underline-offset-2">
+                  IOAI-2025 repository on GitHub
                 </a>
                 . The reference scores (baseline 0.77, best 0.90) are theirs, not ours. The twelve real sample signs are images
                 from its validation set, by the {DATA_CREDITS.restroomSamples.author}, licensed{" "}
@@ -171,7 +171,7 @@ export default function AboutPage() {
           </Section>
 
           <Section id="team" title="Team">
-            <TeamGrid />
+            <TeamGrid narrow />
           </Section>
         </div>
       </main>
