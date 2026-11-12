@@ -316,3 +316,52 @@ API version (git sha): …
 ```
 
 Results from actual runs go in [R-47](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/256) (device matrix) and [R-48](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/257) (usability test).
+
+## Device matrix (R-47)
+
+This records scoped executions, not completion of the full checklist. The issue's original QA-1–QA-9 names have no defined mapping to this document's TS-01–TS-14; the executed TS steps are named below rather than inventing a mapping. Other members can add rows. Five different device/browser combinations, mobile checks and the remaining scripts are still pending.
+
+| Tester | Device / OS | Browser and viewport | Provider / environment | Executed checks | Date (UTC+05:00) | Status |
+|---|---|---|---|---|---|---|
+| Amina, with Codex browser automation | Windows laptop, Intel Iris Xe; exact Windows build not recorded | Installed Chrome 157.0.8103.39, headless, 1440×1000 | Local; web `http://localhost:3000`, API `http://127.0.0.1:8000`, CPU | TS-04 steps 1–2; TS-03 oversized-file check; TS-11 Local unavailable/recovery subset | 2026-11-12 13:28–13:32 | Scoped PASS; full scripts remain pending |
+
+### Amina: Windows Roads evidence, 12 November 2026
+
+**Scope and provenance.** R-47 contribution only; no completion claim for R-7, R-47, the whole Roads module, or a rehearsal. No changes to Alizhan's API/integration implementation or Roma's canonical scripts. Code under test: `5ccfcc5` (claim-only commit `3fe276f` follows it). Existing notebook edits were preserved. Python 3.12.10, Node 24.18.0. Browser automation used Playwright 1.65.1 in a separate ignored environment and a fresh Chrome context; Amina's browser profile/history was not modified. This is local-stack evidence, not evidence that Vercel runs real inference.
+
+**Actual limits and expected behavior.** `web/lib/upload.ts`: JPEG, PNG or WebP; at most **10,485,760 bytes** (UI calls this “10 MB”); empty files rejected. `api/imaging.py` independently checks actual image bytes and limits decoded images to **40,000,000 pixels**. Client rejection does not need to send a request or produce an HTTP 400; direct-API rejection is a separate check. These runs did not test the 40-megapixel limit.
+
+| Check | Input / action | Expected | Actual UI / network observation | Result / time UTC+05:00 |
+|---|---|---|---|---|
+| Empty file | `empty.jpg`, MIME `image/jpeg`, 0 bytes | Clear rejection; no analysis | `The file is empty.`; Analyze disabled; 0 POST `/api/analyze`; Local retained | PASS, 13:28:25 |
+| Text renamed `.jpg` | `fake.jpg`, MIME `image/jpeg`, bytes `This is QA text, not an image.` | Reject unreadable image | `This file could not be opened as an image.`; Analyze disabled; 0 analysis POSTs; Local retained | PASS, 13:28:26 |
+| Unsupported type | `unsupported.gif`, MIME `image/gif`, bytes `GIF89a` | Reject format | `Only JPEG, PNG or WebP images are accepted.`; Analyze disabled; 0 analysis POSTs; Local retained | PASS, 13:28:27 |
+| Oversized file | `oversized.jpg`, MIME `image/jpeg`, 10,485,761 `X` bytes | Reject above the documented byte limit | `The image is 10.0 MB. The limit is 10 MB.`; Analyze disabled; 0 analysis POSTs; Local retained | PASS, 13:28:29 |
+| Local API unavailable | With user consent and verified restart preflight, stop Uvicorn; submit generated white 640×640 PNG through UI | Visible service error; retry available; no automatic Mock | POST `/api/analyze` returned 503; UI displayed `The local model service is not running or cannot be reached.` and `code: unreachable`; Local retained; Mock button not clicked | PASS, 13:31:20–13:31:33 |
+| Recovery | Restore API; click **Try again**; then independently verify visible result with another white PNG upload | Successful Local result after restart | Retry response was 200/Local/E1. Initial harness then hit an ambiguous text selector (two saved-status elements), not an app failure. Follow-up upload confirmed a visible result with **Open as report**, `Model result: jolscan-e1`, HTTP 200, Local, score 0/Clear, 0 detections | PASS, follow-up 13:32:09 |
+
+**Restart safety and restoration.** Read the original process command line, parent launcher, working directory and an allowlist of non-secret API settings; did not assume they matched the terminal. Verified working directory `api/`, launcher `api/.venv/Scripts/python.exe`, arguments `-m uvicorn main:app --host 127.0.0.1 --port 8000`; `MODEL_WEIGHTS=weights/jolscan-e1.pt`, `ANY_CLASS` and `WARMUP` unset. First preflight using the base-Python child failed (`No module named uvicorn`), while the original API remained running. The recovered virtual-environment parent then passed a port-8001 `/health` preflight before the original was stopped. Restored the service using that launcher and configuration, then `/ready` restored both previously loaded backends. Final `/health`: `status=ok`, `ready=true`, `model=jolscan-e1`, `device=cpu`, pothole loaded and weights found; restroom backend loaded. No stock weights or Mock fallback used. White-image inference checks availability only, not detection accuracy or checkpoint provenance.
+
+**Reproduction and execution evidence.** Actual local commands (harnesses and raw logs remain ignored, outside the PR):
+
+```powershell
+.\.worktrees\roads-qa\.venv\Scripts\python.exe .worktrees/roads-qa/negative-ui.py
+.\api\.venv\Scripts\python.exe .worktrees/roads-qa/recovery-ui.py
+.\api\.venv\Scripts\python.exe .worktrees/roads-qa/verify-restored-ui.py
+Invoke-RestMethod http://127.0.0.1:8000/health
+```
+
+The first harness exited 0 with four passing cases. Recovery harness passed restart preflight, observed the 503 and successful retry, then exited 1 solely at its ambiguous text locator; the follow-up UI harness exited 0 and final health was healthy. To repeat the file cases: open `/app/roads/analyze` in a fresh browser context with Local selected, choose each input above, read the displayed error and disabled Analyze state, and inspect the network log for analysis POSTs. Automation used `input[type=file].set_input_files({name, mimeType, buffer})`, testing the real browser input handler rather than only API calls; the unsupported input deliberately bypasses the native file chooser's extension filter. To repeat interruption, first coordinate the outage and verify the restart procedure, upload the white PNG, stop only that API, click Analyze, restore it, and click Try again. Never click **Use the mock provider** during this test. No screenshots are claimed for this automated session.
+
+#### Earlier user-observed E1 uploads, independently replayed rules
+
+Amina manually uploaded two photos on 12 November at 13:19 (UTC+05:00). Screenshots and a private browser export show `source=device`, `provider=local`, `model=jolscan-e1`. These are user-observed UI executions, **not independent accuracy measurements** or independent verification of the checkpoint's origin. The sanitized evidence below excludes image data, filenames, export identifiers, personal paths and the raw export itself.
+
+| Upload | Recorded confidence and geometry | Independently replayed current-default rules | Recorded UI |
+|---|---|---|---|
+| First | 91.17%: area 8.605143%, large/in-lane; 78.13%: 0.440478%, small/off-lane; 67.66%: 0.590001%, small/off-lane; 31.21%: 1.092501%, review-only | `6 + 1 + 1 + 0 = 8`; R2=6, R3=2; removing the review detection leaves 8 | High; repair crew; 72 h; model latency 241 ms |
+| Second | 90.49%: area 7.113027%, medium/in-lane (below large boundary 7.269630165893015%) | `2 × 1.5 = 3`; R2=2, R3=1 | Medium; patch repair; 336 h; model latency 257 ms |
+
+Replay used `scoreDetections` from `web/lib/rules/engine.ts` and `DEFAULT_RULES` from `config.ts`. Both records exactly matched score, severity, needsReview, recommended action, SLA and ruleHits. The 31.21% detection has `counted=false`, `review=true`, `points=0`; it contributes neither score nor cluster eligibility. Both use residential default and no school zone. The export contains no saved rules snapshot, so exact agreement establishes consistency with current defaults, not the historical full configuration. `vitest run lib/rules/engine.test.ts --maxWorkers=2`: 37 tests passed. Seeded `demo-*` history was excluded even where it labels the model E1; the earlier misplaced boxes were explicitly Mock results and are **not an E1 defect**.
+
+**Pending, not passed:** complete TS-01–TS-14, direct API invalid-upload cases, exact size-boundary acceptance, all unsupported formats, 40-megapixel boundary, negative upload after an existing selection, prolonged outage/timeouts, remaining browsers/mobile/themes, highway worked example in UI, independent real-photo inference/accuracy and checkpoint hash provenance, five-device matrix and personal rehearsal. No product bug was confirmed by this scoped run; no application/API fix was made.
