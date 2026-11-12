@@ -37,6 +37,15 @@ What we take from it. Fluent output can contain false facts (Lec7 p64: "Verify i
 
 ## Entries
 
+### 12 November 2026, Alizhan (X-7 contribution evidence, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Update the contribution log with Roma's newly merged work.
+- **Key prompt:** “продолжай работать”. The full transcript is not committed.
+- **What it produced or changed:** Added task IDs, file paths and PR links for R-6, R-13 and R-38 to the draft row; refreshed generated deck counts.
+- **How it was verified:** Checked the author, merged status, titles and files of PRs #472, #475 and #476; Roma and Alizhan have not yet personally reviewed this entry.
+- **What was rejected or corrected:** Did not infer individual participation beyond the recorded PR author or claim work outside git.
+
 ### 11 November 2026, Alizhan (S-13 serving card correction, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.

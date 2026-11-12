@@ -101,7 +101,7 @@ Working snapshot copied from `docs/deck/SLIDES.md` at commit `1c28a49`. The fina
 ### 10. AI use and its limits
 **Speaker and budget:** Roma · **budget** 0:35 · **script** 78 words, about 0:36
 
-> We used Claude Code, Codex and Copilot to write and review code, draft documents and check text against our results. Every use is logged with its prompt and check: 115 entries, and every number here is traced to a committed file. We also audited Gemini and Claude on 20 IOAI signs: each named the gender correctly on 17. Our CLIP gets 0.756 on all 328 training signs; 20 signs are too few to rank them. Next, the limits.
+> We used Claude Code, Codex and Copilot to write and review code, draft documents and check text against our results. Every use is logged with its prompt and check: 116 entries, and every number here is traced to a committed file. We also audited Gemini and Claude on 20 IOAI signs: each named the gender correctly on 17. Our CLIP gets 0.756 on all 328 training signs; 20 signs are too few to rank them. Next, the limits.
 
 **AI errors and verification (R-41, CLO 7):** six cases where an AI tool was wrong, each with the check that caught it (a primary source, a measurement or a second reviewer), are in [`docs/AI-USAGE-LOG.md`](AI-USAGE-LOG.md), section 'What the AI tools got wrong'. The lesson is Lec7 p64 ("Verify important claims") and p70 ("Choose evidence over fluency").
 
