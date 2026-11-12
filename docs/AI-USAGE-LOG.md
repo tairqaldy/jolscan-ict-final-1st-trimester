@@ -37,6 +37,15 @@ What we take from it. Fluent output can contain false facts (Lec7 p64: "Verify i
 
 ## Entries
 
+### 13 November 2026, Alizhan (R-15 model-page test-use wording, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Reconcile the model page with the documented test-photo review and evaluation passes.
+- **Key prompt:** “окей, окей, выполни эти задачи”. Full transcript not committed.
+- **What it produced or changed:** Replaced three overbroad test-read-once claims with validation-selection and test-reporting wording; refreshed the generated deck log count.
+- **How it was verified:** Checked `ml/train.py`, `ml/operating_point.py`, the D-20 data note and the slide 5 cues; web checks are listed in the PR. Alizhan has not personally reviewed this work.
+- **What was rejected or corrected:** Did not claim that test was never reviewed or evaluated more than once.
+
 ### 12 November 2026, Alizhan (W-51 sample manifest tests, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.

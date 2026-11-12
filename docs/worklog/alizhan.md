@@ -275,3 +275,9 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 - **What changed:** Added checks for sample files, dimensions, boxes, sets, presets and orphaned images.
 - **Verification:** Current manifest passes; intentionally naming a missing file failed with the filename. Web CI results are linked from the PR.
 - **Next:** Review the PR; do not mark the task done until it is on main and all acceptance checks pass.
+
+### 2026-11-13 · R-15 (#99) · Clarify test-set use
+- **Status:** prepared for review; personal review pending.
+- **What changed:** Removed three misleading read-once claims from the model page, preserving validation-only model selection.
+- **Verification:** Checked the full-run evaluation code, fixed-threshold evaluation and the D-20 overlap note. No new training or test inference was run.
+- **Next:** Finish the independent slide source audit and review the PR.
