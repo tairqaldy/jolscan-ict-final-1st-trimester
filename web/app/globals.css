@@ -4,12 +4,12 @@
 
 /* Overpass draws the middle dot "·" with no advance width and its ink to the right of the pen, so in
    "Roads · Analyze" or "score 12 · 24 h" the dot sat against the next word. This face covers only U+00B7
-   and takes the dot from a system sans whose dot is centred; every other character still comes from
-   Overpass. If none of these fonts is installed, the browser falls back to Overpass as before. */
+   and takes the dot from a system sans whose dot is centred (macOS, Windows, Android, Linux); every other
+   character still comes from Overpass. If none of these fonts is found, the browser falls back to Overpass. */
 @font-face {
   font-family: "Qarau Separator";
   src: local("Helvetica Neue"), local("HelveticaNeue"), local("Arial"), local("ArialMT"), local("Segoe UI"),
-    local("DejaVu Sans"), local("Liberation Sans");
+    local("Roboto"), local("Roboto-Regular"), local("DejaVu Sans"), local("Liberation Sans");
   unicode-range: U+00B7;
 }
 

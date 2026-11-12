@@ -64,7 +64,7 @@ export function AnalysisView({ analysis, title, reveal = false }: { analysis: St
             activeId={activeId}
             onActiveChange={setActiveId}
             replayKey={analysis.id}
-            alt={title ?? analysis.location?.label ?? "Analyzed road photo"}
+            alt={title ?? analysis.location?.label ?? "Analysed road photo"}
           />
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted">
             <span className="inline-flex items-center gap-1.5">
@@ -128,7 +128,7 @@ export function AnalysisView({ analysis, title, reveal = false }: { analysis: St
               <Meta icon={Timer} label="Model latency">
                 <span className="tabular">{analysis.latencyMs} ms</span>
               </Meta>
-              <Meta icon={Clock} label="Analyzed">
+              <Meta icon={Clock} label="Analysed">
                 {formatDateTime(analysis.createdAt)}
               </Meta>
               <Meta icon={Route} label="Road class">

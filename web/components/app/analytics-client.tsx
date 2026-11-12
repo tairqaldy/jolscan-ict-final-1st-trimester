@@ -199,7 +199,7 @@ export function RoadsAnalytics() {
         <ChartCard
           title="Latency by provider"
           badge={<DemoBadge show label="Includes demo data" />}
-          description="Model time per photo. Cloud adds network time on the hosted side."
+          description="Model time per photo. The cloud service is not deployed, so every Cloud bar comes from the demo set."
           legend={
             <>
               <LegendSwatch color={SERIES[0]} label="Median" />

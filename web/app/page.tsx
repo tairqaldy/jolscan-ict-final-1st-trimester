@@ -139,7 +139,7 @@ export default function LandingPage() {
             </StaggerItem>
             <StaggerItem>
               <p className="inline-flex flex-wrap items-center gap-2 text-sm text-muted">
-                {COURSE.code} course project. Without our model service running, analyses use demo results. <DemoBadge show />
+                {COURSE.code} course project. Analyses use demo results (Mock) unless you choose Local in Settings with our model service running. <DemoBadge show />
               </p>
             </StaggerItem>
           </Stagger>
@@ -311,12 +311,12 @@ export default function LandingPage() {
           </p>
           <div className="mt-8 grid gap-4 lg:grid-cols-2">
             <ResultsCard module="roads" badge={<DemoBadge show={IS_DEMO_DATA} label="Placeholder numbers" />}>
-              <Metric label="Test mAP50" value={CHAMPION.map50?.toFixed(2) ?? "—"} note={`baseline ${BASELINE.id} ${BASELINE.map50?.toFixed(2) ?? "—"}`} />
               <Metric
                 label="Test recall at 0.40"
                 value={CHAMPION.recallAtRulesConf?.toFixed(2) ?? "—"}
-                note={`baseline ${BASELINE.id} ${BASELINE.recallAtRulesConf?.toFixed(2) ?? "—"}`}
+                note={baselineNote(CHAMPION.recallAtRulesConf, BASELINE.recallAtRulesConf)}
               />
+              <Metric label="Test mAP50" value={CHAMPION.map50?.toFixed(2) ?? "—"} note={baselineNote(CHAMPION.map50, BASELINE.map50)} />
               <p className="col-span-2 text-sm text-muted">
                 {EXPERIMENTS.runs.length} runs. Selected: <span className="font-mono">{CHAMPION.id}</span> ({CHAMPION.changed.toLowerCase()}).
               </p>
@@ -335,7 +335,7 @@ export default function LandingPage() {
               <Metric
                 label="IOAI baseline (reference)"
                 value={RESTROOM_EXPERIMENTS.reference.ioaiBaseline.toFixed(2)}
-                note={`best ${RESTROOM_EXPERIMENTS.reference.ioaiBest.toFixed(2)}; published by IOAI, not our runs`}
+                note={`best ${RESTROOM_EXPERIMENTS.reference.ioaiBest.toFixed(2)}; on IOAI's own test set, not our runs`}
               />
             </ResultsCard>
           </div>
@@ -487,6 +487,16 @@ function ResultsCard({ module, badge, children }: { module: ModuleId; badge: Rea
       <div className="grid grid-cols-2 gap-3">{children}</div>
     </article>
   );
+}
+
+/**
+ * The line under a test score. Test differences below 0.02 are not claimed as real (the champion rule on the Model
+ * page), so such a gap says so instead of reading as a gain once both numbers are rounded.
+ */
+function baselineNote(champion: number | null, baseline: number | null): string {
+  if (champion === null || baseline === null) return `baseline ${BASELINE.id}: —`;
+  const base = `baseline ${BASELINE.id} ${baseline.toFixed(2)}`;
+  return Math.abs(champion - baseline) < 0.02 ? `${base}; a gap under 0.02 is not claimed` : base;
 }
 
 function Metric({ label, value, note, small }: { label: string; value: string; note: string; small?: boolean }) {

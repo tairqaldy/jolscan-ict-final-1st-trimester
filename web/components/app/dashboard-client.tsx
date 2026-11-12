@@ -66,7 +66,7 @@ export function DashboardClient() {
         title="Road condition overview"
         description={
           <span className="inline-flex flex-wrap items-center gap-2">
-            Photos analyzed in the 30 days to {formatDate(MOCK_ANCHOR)} (demo set) and in this browser. <DemoBadge show label="Includes demo data" />
+            Photos analysed in the 30 days to {formatDate(MOCK_ANCHOR)} (demo set) and in this browser. <DemoBadge show label="Includes demo data" />
           </span>
         }
         actions={
@@ -78,7 +78,7 @@ export function DashboardClient() {
 
       <Stagger className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
         <StaggerItem>
-          <Kpi label="Photos analyzed" value={kpis.photos} note="all providers" />
+          <Kpi label="Photos analysed" value={kpis.photos} note="all providers" />
         </StaggerItem>
         <StaggerItem>
           <Kpi label="Potholes found" value={kpis.potholes} note={`confidence ≥ ${rules.r1.threshold.toFixed(2)}`} />
@@ -97,7 +97,7 @@ export function DashboardClient() {
             <CardHeader>
               <div>
                 <CardTitle>Severity distribution</CardTitle>
-                <CardDescription>How urgent the analyzed segments are.</CardDescription>
+                <CardDescription>How urgent the analysed segments are.</CardDescription>
               </div>
             </CardHeader>
             <CardBody>
@@ -145,7 +145,7 @@ export function DashboardClient() {
                         className={cn("flex items-center justify-between gap-3 rounded-md border border-border px-3 py-2.5", LINK_ROW)}
                       >
                         <span className="min-w-0">
-                          <span className="block truncate font-medium">{a.location?.label ?? a.photo.fileName ?? "Uploaded photo"}</span>
+                          <span className="block truncate font-medium">{a.location?.label ?? a.photo.fileName ?? "Road photo"}</span>
                           <span className="tabular text-xs text-muted">
                             {formatDateTime(a.createdAt)} · lowest confidence{" "}
                             {Math.round(Math.min(...a.detections.map((d) => d.confidence)) * 100)}%

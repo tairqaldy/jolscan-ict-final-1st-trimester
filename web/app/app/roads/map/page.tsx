@@ -13,7 +13,7 @@ export default function MapPage() {
         title="Where the potholes are"
         description={
           <span className="inline-flex flex-wrap items-center gap-2">
-            Analyzed photos around Astana, coloured by severity. Demo locations are invented. <DemoBadge show label="Includes demo data" />
+            Analysed photos around Astana, coloured by severity. Demo locations are invented. <DemoBadge show label="Includes demo data" />
           </span>
         }
       />

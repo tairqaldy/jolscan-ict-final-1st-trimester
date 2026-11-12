@@ -62,7 +62,7 @@ export function PlatformOverviewClient() {
       <div className="grid gap-6 xl:grid-cols-2">
         <ModulePanel id="roads">
           <div className="grid grid-cols-3 gap-2 sm:gap-3">
-            <Kpi label="Photos" value={roads.photos} note="analyzed" nested />
+            <Kpi label="Photos" value={roads.photos} note="analysed" nested />
             <Kpi label="Urgent" value={roads.urgent} note="high or critical" accentClass="bg-sev-critical" nested />
             <Kpi label="To review" value={roads.review} note="low confidence" accentClass="bg-review" nested />
           </div>
@@ -71,7 +71,7 @@ export function PlatformOverviewClient() {
               <li key={a.id}>
                 <Link href={`/app/roads/reports/${a.id}`} className={cn("flex items-center justify-between gap-3 rounded-md px-2 py-2", LINK_ROW)}>
                   <span className="min-w-0">
-                    <span className="block truncate text-sm font-medium">{a.location?.label ?? a.photo.fileName ?? "Uploaded photo"}</span>
+                    <span className="block truncate text-sm font-medium">{a.location?.label ?? a.photo.fileName ?? "Road photo"}</span>
                     <span className="tabular block text-xs text-muted">{formatDateTime(a.createdAt)}</span>
                   </span>
                   <SeverityBadge severity={a.severity} />

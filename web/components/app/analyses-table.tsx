@@ -45,7 +45,7 @@ export function AnalysesTable({ analyses, caption }: { analyses: AnalysisWithSou
             onClick={() => router.push(`/app/roads/reports/${a.id}`)}
           >
             <TD className="tabular whitespace-nowrap text-muted">{formatDateTime(a.createdAt)}</TD>
-            <TD className="sm:min-w-60">
+            <TD className="max-sm:pr-5 sm:min-w-60">
               <div className="flex items-center gap-3">
                 <RowThumb src={a.photo.imageUrl} alt={photoAlt(a)} />
                 <div className="min-w-0">
@@ -54,7 +54,7 @@ export function AnalysesTable({ analyses, caption }: { analyses: AnalysisWithSou
                     className="font-medium link-underline"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    {a.location?.label ?? a.photo.fileName ?? "Uploaded photo"}
+                    {a.location?.label ?? a.photo.fileName ?? "Road photo"}
                   </Link>
                   {a.needsReview && <ReviewBadge className="ml-2">review</ReviewBadge>}
                   {a.source === "device" && <span className="ml-2 text-xs text-subtle">this device</span>}

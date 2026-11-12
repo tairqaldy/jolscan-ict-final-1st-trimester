@@ -52,7 +52,7 @@ export function ReportDetailClient({ id }: { id: string }) {
         title={analysis.location?.label ?? "Road photo"}
         description={
           <span className="inline-flex flex-wrap items-center gap-2">
-            Analyzed {formatDateTime(analysis.createdAt)} (Astana time)
+            Analysed {formatDateTime(analysis.createdAt)} (Astana time)
             {!analysis.location?.label && analysis.photo.fileName && <span className="font-mono text-xs text-subtle">{analysis.photo.fileName}</span>}
             {analysis.source === "demo" ? <DemoBadge show /> : <span className="text-subtle">Made in this browser</span>}
           </span>
