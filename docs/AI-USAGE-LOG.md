@@ -37,6 +37,15 @@ What we take from it. Fluent output can contain false facts (Lec7 p64: "Verify i
 
 ## Entries
 
+### 13 November 2026, Alizhan (W-49 provider response checks, AI-assisted; personal review pending)
+
+- **Tool and version:** Codex desktop, GPT-6.
+- **Purpose:** Validate model-service response handling and reject invalid image dimensions.
+- **Key prompt:** “окей. выполни их, также делай ребейз и тесты”. Full transcript not committed.
+- **What it produced or changed:** Added road and restroom normaliser tests, a server-only Vitest alias, a zero-dimension guard and preservation of an explicit null match; refreshed the deck log count.
+- **How it was verified:** Ran provider tests and web checks listed in the PR. Alizhan has not personally reviewed this work.
+- **What was rejected or corrected:** Invalid Roboflow image dimensions are rejected instead of producing invalid coordinates; the tests use fake responses, not real inference.
+
 ### 12 November 2026, Alizhan (W-51 sample manifest tests, AI-assisted; personal review pending)
 
 - **Tool and version:** Codex desktop, GPT-6.
