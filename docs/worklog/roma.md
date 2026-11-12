@@ -10,6 +10,14 @@
 
 ## Entries
 
+### 2026-11-12 14:00 · R-42 (#251) · Map the audit to the AI-4 criteria and size its conclusion
+- **Status:** done
+- **What I did:** Expanded `docs/research/vlm-evaluation.md` with four new sections (§8–§11): (1) a 6-row AI-4 evaluation criteria table (Syl p.9) mapping Model selection, Data, Prompts, Validation, Risks, and Responsibility each to a named section of the report; (2) a statistical confidence intervals section computing exact 95% binomial CIs for 17/20 → [0.621, 0.968] via `scipy.stats.binomtest`; (3) a 4-bullet Threats to Validity section; (4) a fully revised 3-sentence conclusion paragraph where every sentence is grounded in a number from the report. Marked R-42 `[x]` in `docs/TASKS.md`.
+- **Result:** `vlm-evaluation.md` now satisfies the full R-42 acceptance criteria. Both models score identically (17/20) → identical CIs → cannot be statistically ranked on N=20.
+- **Decisions:** Used Clopper–Pearson (exact) method for CI as the most conservative and standard choice for small-N binomial data. Included 4 threats rather than 3 to cover all material limitations identified in the audit.
+- **What I learned:** With N=20, each error moves accuracy by 5pp and the 95% CI spans >34pp — the benchmark is too small to rank models; it can only demonstrate capability vs. failure modes.
+- **AI use:** Antigravity (Gemini) drafted sections; Roma verified all numbers against precomputed CI values and audit data recorded during R-6 on 11–12 November 2026.
+
 ### 2026-11-12 02:20 · R-45 (#254) · Decide which of our data may go to external AI services
 - **Status:** done
 - **What I did:** Authored [`docs/research/privacy-and-law.md`](../research/privacy-and-law.md) defining the data classification and external AI transmission policy. Verified Kazakhstan statutory framework on `adilet.zan.kz`, confirming Law No. 94-V (*On Personal Data and their Protection*) as the binding statutory authority in force, and noting the Digital Code (No. 255-VIII) and AI Law (No. 230-VIII) as legislative drafts in Parliament. Formulated the 5-row data classification matrix, grounded policy in Lecture 9 (p.50, public demo risks) and Lecture 4 (p.14, restricted data tier), and synchronized limitations with Slide 11 and task D-7. Linked document from `docs/README.md`.
