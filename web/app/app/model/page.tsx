@@ -49,7 +49,7 @@ const ROAD_METRICS: Term[] = [
   },
   {
     term: "Validation and test",
-    text: "The champion is chosen on the validation split. The test split is read once at the end and only reported, so it stays an honest estimate.",
+    text: "The champion is chosen on validation; test results are reported rather than used to select the model. Test photos were reviewed before the split was recognized, and separate evaluation passes were run; see the experiment notes.",
     source: "Sup p10",
   },
   {
@@ -141,7 +141,7 @@ export default function ModelPage() {
       <PageHeader
         eyebrow="Model · both modules"
         title="Experiments and model cards"
-        description="Assignment Option A in both modules: one change per run against a fixed baseline, chosen on validation, test read once. Every run is tracked in MLflow."
+        description="Assignment Option A in both modules: compare changes against a fixed baseline, choose on validation and report test results. Every run is tracked in MLflow."
       />
 
       <nav aria-label="On this page" className="-mt-4 flex flex-wrap gap-2 text-sm">
@@ -249,7 +249,7 @@ export default function ModelPage() {
             <p className="px-5 pt-3 pb-2 text-sm text-muted">
               <span className="font-medium text-fg">Champion rule:</span> {EXPERIMENTS.championRule} Val mAP50 and val recall at 0.40
               are the validation numbers the rule uses, shown with three decimals so the 0.01 tie band is visible; every other score is on
-              the test split, read once. Small numbers next to the test mAP50
+              the test split. Separate test evaluation passes and prior photo review are documented in the experiment notes. Small numbers next to the test mAP50
               are the change against the baseline {BASELINE.id}; differences below 0.02 on test are not claimed as real.
             </p>
           </CardBody>
