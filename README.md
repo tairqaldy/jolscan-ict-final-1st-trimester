@@ -4,10 +4,10 @@
 
 Qarau analyses infrastructure photos with computer vision and human-readable rules. Its two modules inspect road potholes and compare restroom door signs.
 
-- **What is real:** the [road results](ml/results/experiments.csv), [restroom results](ml/results/restroom/experiments.csv), and analyses produced by the locally configured model service use real runs. The [live demo](https://qarau.vercel.app) uses mock analysis results; overview screens also include demo data. Local inference requires the model dependencies and weights described in [api/README.md](api/README.md).
-- **Evidence and methods:** [requirements and open gaps](docs/PLAN.md#1-what-is-graded), [road experiment](docs/ML-EXPERIMENT.md), [restroom experiment](docs/ML-EXPERIMENT-RESTROOM.md), [rules](docs/RULES.md), [AI-use log](docs/AI-USAGE-LOG.md), [contributions](docs/CONTRIBUTION-LOG.md), and [documentation map](docs/README.md). The comparative VLM audit remains [open](https://github.com/tairqaldy/qarau-ict-final-1st-trimester/issues/85).
+- **What is real:** the [road results](ml/results/experiments.csv) (nine runs, champion E1), the [restroom results](ml/results/restroom/experiments.csv), and every analysis made with the Local or Cloud provider, which run our trained models. On the [live site](https://qarau.vercel.app) analyses use Mock by default; Settings → Cloud runs the real models on our Hugging Face Space ([api/README.md](api/README.md), Hosting). Overview screens include seeded demo history, marked "Includes demo data".
+- **Evidence and methods:** [requirements and open gaps](docs/PLAN.md#1-what-is-graded), [road experiment](docs/ML-EXPERIMENT.md), [restroom experiment](docs/ML-EXPERIMENT-RESTROOM.md), [rules](docs/RULES.md), [AI-use log](docs/AI-USAGE-LOG.md), [contributions](docs/CONTRIBUTION-LOG.md), the [audit of two vision-language models](docs/research/vlm-evaluation.md), and the [documentation map](docs/README.md).
 - **Run locally:** with Node 22, Python 3.12 and the prerequisites below, start the site with `cd web && pnpm install && pnpm dev` and the API in a second terminal with `cd api && pip install -r requirements-dev.txt && uvicorn main:app --port 8000`. See [API setup](api/README.md) for weights and [restroom reproduction](ml/restroom/README.md) for model results.
-- **Freeze and defense:** the planned code freeze is Wednesday 11 November, 23:00 (UTC+05:00), with the defense on 12 November 2026; see the [plan](docs/PLAN.md) and [runbook](docs/DEFENSE-RUNBOOK.md) for current gaps and rehearsal checks.
+- **Defense:** the [runbook](docs/DEFENSE-RUNBOOK.md) has the demo steps, the morning check (`scripts/demo_check.py`) and the fallbacks; the [deck](docs/deck/SLIDES.md) is generated from the result files by `docs/deck/make_deck.py`.
 
 ## Overview
 
@@ -22,9 +22,9 @@ Two modules, one app:
 
 Group project for ICT1103 (Information and Communication Technologies) at QAIRU, Assignment #2, Computer Vision track.
 
-**Live demo (demo data):** https://qarau.vercel.app. Deployed from `main` when Tair asks for a deploy; pushes do not deploy on their own ([decision 0010](docs/decisions/0010-deploy-on-go-ahead.md); Vercel, root directory `web`).
+**Live site:** https://qarau.vercel.app (Mock by default; Cloud runs the real models). Deployed from `main` when Tair asks for a deploy; pushes do not deploy on their own ([decision 0010](docs/decisions/0010-deploy-on-go-ahead.md); Vercel, root directory `web`). **Model service on Hugging Face:** https://huggingface.co/spaces/tairqaldy/qarau-api.
 
-**Status, 10 November 2026:** plan, architecture and course grounding are written. The web prototype runs both modules on demo data. Model training and the real results are in progress; see [docs/TASKS.md](docs/TASKS.md).
+**Status, 13 November 2026:** both models are trained and served. Roads: nine YOLO runs (E0–E8), champion E1 chosen on validation, 176 of 236 test potholes found at confidence 0.40 ([operating point](ml/results/operating_point.json)). Restrooms: CLIP runs R0–R7 against the IOAI 2025 baseline. The web app runs both modules on Mock, Local (this laptop) or Cloud (Hugging Face Space); open tasks are in [docs/TASKS.md](docs/TASKS.md).
 
 ## Start here
 

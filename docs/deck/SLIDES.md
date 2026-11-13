@@ -29,7 +29,7 @@ Times are estimates at 130 words per minute; read each script aloud with a timer
 
 - Qarau · Қарау · Kazakh for “to inspect”
 - Computer vision inspection of public infrastructure from photos, with rules you can read.
-- ICT1103 · QAIRU · Assignment #2 · Computer Vision · 12 November 2026
+- ICT1103 · QAIRU · Assignment #2 · Computer Vision · 13 November 2026
 - Team: Tair (Web app and coordination) · Dameli (Design system and visuals) · Nazar (Restroom model) · Amina (Pothole model and data) · Alizhan (Serving and performance) · Roma (Research, deck and QA)
 
 **Visual:** Logo mark and the road band from the template
@@ -94,7 +94,7 @@ Times are estimates at 130 words per minute; read each script aloud with a timer
 
 **On the slide:**
 
-- Browser (shows the result) → Next.js server (the rules run here: R1–R6 roads, S2 and S3 restrooms; same rules for every provider) → provider: mock (demo data), local (this laptop), cloud (opt-in, not used) → FastAPI service (/predict: YOLO finds potholes; /restroom: CLIP reads the signs)
+- Browser (shows the result) → Next.js server (the rules run here: R1–R6 roads, S2 and S3 restrooms; same rules for every provider) → provider: mock (demo data), local (this laptop), cloud (opt-in, Hugging Face Space) → FastAPI service (/predict: YOLO finds potholes; /restroom: CLIP reads the signs)
 - Arrows: photo forward; JSON and the result back
 - Restroom model (CLIP ViT-B/32) on the laptop CPU: 25.7 ms per image. Pothole latency is not measured yet.
 
@@ -104,9 +104,9 @@ Times are estimates at 130 words per minute; read each script aloud with a timer
 
 > This is the path of one photo. The browser sends it to our Next.js server, which uses the provider chosen in Settings: mock for offline demo data, local for the model on this laptop, or cloud. Local calls our FastAPI service, where YOLO finds potholes and CLIP reads restroom signs. The detections come back, and the rules run in the web server, so every provider is scored by the same rules. Cloud is opt-in, because road photos can show faces and plates. Amina will show what the roads model learned from.
 
-**Cues:** Providers, said aloud and not on the slide: mock is offline demo data; local is the model on this laptop, photos stay here; cloud is designed and opt-in, photos would leave the device, and it is not used in this demo because S-7 (#31) is not deployed. Routes: /api/analyze and /api/restroom on the Next.js server; /predict, /restroom/compare and /restroom/match on FastAPI. The live site qarau.vercel.app runs the mock provider for analyses: the real models run only on this laptop (web/lib/providers/env.ts reads MODEL_API_URL on the server). The latency is the restroom model the API serves (R1's zero-shot ViT-B/32). ml/results/latency.json (S-15, #28) does not exist yet, so no pothole latency. A drawn version of this diagram with numbered steps is docs/design/architecture-slide.svg (G-66).
+**Cues:** Providers, said aloud and not on the slide: mock is offline demo data; local is the model on this laptop, photos stay here; cloud is opt-in and photos leave the device: since 13 November it is our API on a Hugging Face Space (S-7, #31), several seconds per photo on a shared CPU, so this demo uses local. Routes: /api/analyze and /api/restroom on the Next.js server; /predict, /restroom/compare and /restroom/match on FastAPI. The live site qarau.vercel.app runs the mock provider by default and the real models on Cloud (web/lib/providers/env.ts reads MODEL_API_URL and CLOUD_MODEL_API_URL on the server). The latency is the restroom model the API serves (R1's zero-shot ViT-B/32). ml/results/latency.json (S-15, #28) does not exist yet, so no pothole latency. A drawn version of this diagram with numbered steps is docs/design/architecture-slide.svg (G-66).
 
-**Sources:** ml/results/restroom/experiments.csv (R1 row, latencyMs (zero-shot CLIP ViT-B/32, the model the API serves)) · docs/ARCHITECTURE.md sections 1 and 3 ('Local and cloud modes', 'Cloud is opt-in') · web/lib/providers/env.ts · api/restroom.py (ARCH default ViT-B/32)
+**Sources:** ml/results/restroom/experiments.csv (R1 row, latencyMs (zero-shot CLIP ViT-B/32, the model the API serves)) · docs/ARCHITECTURE.md sections 1 and 3 ('Local and cloud modes', 'Cloud is opt-in') · api/README.md ('Hosting', S-7) · web/lib/providers/env.ts · api/restroom.py (ARCH default ViT-B/32)
 
 ## Slide 5 · Roads: data and experiment
 
@@ -244,14 +244,14 @@ Times are estimates at 130 words per minute; read each script aloud with a timer
 **On the slide:**
 
 - Claude Code, Codex, GitHub Copilot: Writing and reviewing code and tests; Drafting documents, study cards and slide text; Checking text against the result files
-- How we checked: Unit tests and CI on every pull request; Every number traced to a committed file (docs/research/deck-sources.md); Each use logged with its prompt and check: 123 entries in docs/AI-USAGE-LOG.md
+- How we checked: Unit tests and CI on every pull request; Every number traced to a committed file (docs/research/deck-sources.md); Each use logged with its prompt and check: 125 entries in docs/AI-USAGE-LOG.md
 - Audit of two vision-language models (R-6): Gemini 17/20 and Claude 17/20 on the gender of 20 IOAI signs; our served CLIP: 0.756 on all 328 training signs. 20 signs are too few to rank them.
 
 **Visual:** Two cards and one audit line, no image
 
 **Script:**
 
-> We used Claude Code, Codex and Copilot to write and review code, draft documents and check text against our results. Every use is logged with its prompt and check: 123 entries, and every number here is traced to a committed file. We also audited Gemini and Claude on 20 IOAI signs: each named the gender correctly on 17. Our CLIP gets 0.756 on all 328 training signs; 20 signs are too few to rank them. Next, the limits.
+> We used Claude Code, Codex and Copilot to write and review code, draft documents and check text against our results. Every use is logged with its prompt and check: 125 entries, and every number here is traced to a committed file. We also audited Gemini and Claude on 20 IOAI signs: each named the gender correctly on 17. Our CLIP gets 0.756 on all 328 training signs; 20 signs are too few to rank them. Next, the limits.
 
 **Cues:** The entry count is read when the deck is built; rebuild after the last merge so it is final. Audit (docs/research/vlm-evaluation.md, Roma): one fresh chat per sign, the same one-word prompt, files renamed A01–A20 first; Gemini still echoed the filename in 2 of 20 answers. Both models missed A17, the robot figure. Exact 95% interval for 17/20: 0.621–0.968 (section 9), which is why we do not rank them. The app's Compare uses zero-shot CLIP for gender (0.756); Match does not need gender: the served pipeline R7 finds the partner on 30/30 test queries. Never quote R4's 100%: it was picked on test.
 
@@ -289,7 +289,7 @@ Times are estimates at 130 words per minute; read each script aloud with a timer
 **On the slide:**
 
 - Repository: github.com/tairqaldy/qarau-ict-final-1st-trimester
-- Live site: qarau.vercel.app (real model page; analyses there run on demo data)
+- Live site: qarau.vercel.app (real model page; analyses on Mock by default, real models on Cloud)
 - Results: ml/results/experiments.csv, ml/results/restroom/experiments.csv, docs/research/vlm-evaluation.md
 - How we worked: docs/AI-USAGE-LOG.md, docs/CONTRIBUTION-LOG.md
 - Real: both analyze flows on this laptop and the model page. Demo data: the overview tiles and charts, marked with a badge.
@@ -302,7 +302,7 @@ Times are estimates at 130 words per minute; read each script aloud with a timer
 
 **Cues:** Leave this slide up during questions. docs/research/vlm-evaluation.md is listed automatically once it exists on main (R-20 'Watch out': no path that does not exist). If asked for code, open ml/train.py, then web/lib/rules/, then api/main.py (docs/PRESENTATION.md 'Showing source code').
 
-**Sources:** README.md ('Live demo') · docs/decisions/0006-public-repository.md · docs/PRESENTATION.md (demo script, step 5)
+**Sources:** README.md ('Live demo') · docs/DEFENSE-RUNBOOK.md (qarau.vercel.app row) · api/README.md ('Hosting', S-7) · docs/decisions/0006-public-repository.md · docs/PRESENTATION.md (demo script, step 5)
 
 ## Backup B1 · Backup: full pothole metrics table
 
@@ -417,7 +417,7 @@ Times are estimates at 130 words per minute; read each script aloud with a timer
 **On the slide:**
 
 - Assessed on “the working state of the prototype, completeness of documentation and quality of the defence” (Syllabus p.2).
-- Working prototype · A web app (Next.js) and a model service (FastAPI) on this laptop: E1 (YOLO) for potholes, CLIP ViT-B/32 and the two-step pipeline for restroom signs. Shown live on slide 3.
+- Working prototype · A web app (Next.js) and a model service (FastAPI) on this laptop: E1 (YOLO) for potholes, CLIP ViT-B/32 and the two-step pipeline for restroom signs. Shown live on slide 3. The same service runs as a Hugging Face Space for the live site's Cloud provider (S-7).
 - Documentation · Document map docs/README.md; JSON contracts in docs/ARCHITECTURE.md; rules in docs/RULES.md; two experiment reports; 11 decision records in docs/decisions/
 - Automated checks · CI on every pull request, 3 jobs: web (lint, types, unit tests, build); python (result files and hygiene, slide-number sources, API tests); up-to-date (the branch has the latest main)
 - Manual checks · 14 test scripts in docs/QA-SCRIPTS.md; scripts/demo_check.py runs 6 checks on the real models before the defence
@@ -442,10 +442,116 @@ Times are estimates at 130 words per minute; read each script aloud with a timer
 - Errors we recorded · 6 cases where an AI tool was wrong, each caught outside the tool: a primary source, a measurement, or a second reviewer (a person or another model)
 - Our rule · No number from an AI tool goes on a slide until it is traced to a committed file; this deck stops building when a slide and its file disagree (Lec7 p70: “Choose evidence over fluency”)
 - Privacy and law · No personal or biometric data to external AI services (Syllabus p.9); the audit sent only IOAI icons. What may go out, per type of data: docs/research/privacy-and-law.md
-- Prompt log · 123 entries in docs/AI-USAGE-LOG.md, each with the tool, the prompt and how it was checked
+- Prompt log · 125 entries in docs/AI-USAGE-LOG.md, each with the tool, the prompt and how it was checked
 
 **Visual:** Table, no image
 
 **Cues:** Gemini echoed the file name in 2 of 20 answers; the renaming kept the answer out of the names. The six cases are in docs/AI-USAGE-LOG.md ('What the AI tools got wrong'). Model versions: say what the free web apps showed on the day; the report does not prove a version.
 
 **Sources:** docs/research/vlm-evaluation.md (section 5, Google Gemini, gender of one sign; section 5, Anthropic Claude, gender of one sign; section 3, audit sample size; section 9, exact 95% interval, low; section 9, exact 95% interval, high) · docs/AI-USAGE-LOG.md ('What the AI tools got wrong': table rows; number of '### ' entries under 'Entries' at build time) · docs/COURSE-GROUNDING.md (CLO 7 wording, Syllabus p.3) · docs/research/privacy-and-law.md
+
+## Backup B9 · Backup: demo fallback
+
+**Speaker (notes only):** Tair · **budget** on request
+
+**Title:** If the live demo fails: the same two analyses on our models
+
+**On the slide:**
+
+- Screenshot 1 (backup-demo-roads-local-light.png): Roads on Local: img-18.jpg from the test split. Expected: 5 potholes counted, 1 for review, Critical, score 12
+- Screenshot 2 (backup-demo-compare-local-light.png): Restrooms on Local: Compare on ioai-v9 and ioai-v15. Expected: Pair (one IOAI restroom), similarity 0.95
+
+**Visual:** Two framed screenshots (G-56 frame) of real Local results, embedded only with --screenshots (frames only in the generated file)
+
+**Cues:** Use only if slide 3 fails and the backup video cannot play. The screenshots are embedded only in a local build with --screenshots DIR (screenshots never go into git; docs/design/screenshots.md); the committed deck has empty frames. The 'Expected' lines are the recorded results (docs/DEFENSE-RUNBOOK.md 'Measured' for img-18.jpg; api/README.md 'Hosting' for the IOAI pair), not read off the screenshots. Both shots carry the 'Local' provider badge and 'Model result: <model>', so they are real results, not Mock. Screenshots not embedded in this build.
+
+**Sources:** docs/DEFENSE-RUNBOOK.md ('Measured', demo photo img-18.jpg: boxes counted; 'Measured', demo photo img-18.jpg: boxes in the review band; 'Measured', demo photo img-18.jpg: score) · api/README.md ('Hosting', S-8 check: /restroom/compare on ioai-v9 and ioai-v15, similarity) · scripts/demo_check.py (PAIR = ioai-v9, ioai-v15) · docs/design/screenshots.md (frame and file names)
+
+## Backup B10 · Backup: who built what
+
+**Speaker (notes only):** Tair (each person answers for their own row) · **budget** on request
+
+**Title:** Who built what
+
+**On the slide:**
+
+- Tair, Web app, UX, coordination: Web app with both modules and the model page (W-11, #362); trained pothole runs E0–E8 on his laptop (M-3, M-11); task board, CI checks (#134) and the cloud Space (S-7)
+- Dameli, Design system and visuals: Contrast audit and light accent (G-3, #380); landing hero, Overpass type and logo set (#381, #382); slide template (G-10, #387) and slide 9 (G-13)
+- Nazar, Restroom model: Two-step matching pipeline without training: SIFT with a pixel check, colour histograms and CLIP; layer sweep, 42 runs on a Kaggle GPU (C-11); the pipeline in the API's Match (C-8)
+- Amina, Pothole data, model and rules: Reviewed 100 image and annotation pairs and checked all 665 images for duplicates (D-2, D-4); the YOLO export of the dataset (D-3); k-means size bands for rule R2 (D-11); selection rule and E8 policy (M-0, #369)
+- Alizhan, Serving and performance: Model service and its tests (S-1, #71); API checks in CI and the readiness check (S-16, S-20); results validation and validation-only model selection (S-24, S-25, S-28)
+- Roma, Research, deck, video, QA: Audit of two vision-language models on IOAI signs (R-6, #472); 14 manual test scripts (R-46); 18 examiner questions with answers (R-31)
+
+**Visual:** Table, no image
+
+**Cues:** Every item is in the person's row of docs/CONTRIBUTION-LOG.md or in docs/worklog/<name>.md; the build stops if a task ID on this slide is in neither. Dameli's, Alizhan's and Roma's rows in the contribution log are drafts from merged pull requests that each of them still confirms. The syllabus asks each member an individual question about their own part (Syl p.5).
+
+**Sources:** docs/CONTRIBUTION-LOG.md (Nazar row: runs on a Kaggle GPU (C-11); Amina row: image/annotation pairs reviewed (D-2); Amina row: images checked for duplicates (D-4)) · docs/QA-SCRIPTS.md (number of '## TS-NN' sections) · docs/DEFENSE-QA.md (number of '### QN.' answers) · docs/CONTRIBUTION-LOG.md (lanes and rows) · docs/worklog/<name>.md · docs/TASKS.md
+
+## Backup B11 · Backup: timeline
+
+**Speaker (notes only):** Tair · **budget** on request
+
+**Title:** From the first commit to the defense
+
+**On the slide:**
+
+- 10 Nov · Start: plan, architecture and a web prototype on demo data; one app, two modules (decision 0001)
+- 10 Nov · Pothole data frozen: 665 photos split 465 / 100 / 100, seed 42 (Amina's export, decision 0002)
+- 10 Nov · Restroom runs: R0–R4, R6, R7, the last one the two-step pipeline the app serves for Match (Nazar)
+- 10 Nov · Rules: R1–R6 for roads, door-pair rules for restrooms (decision 0003); k-means bands for R2 (Amina)
+- 10 Nov · Live site: qarau.vercel.app (decision 0005); from 11 Nov, deploys only on Tair's go-ahead (decision 0010)
+- 11 Nov · Pothole runs: E0–E8, 9 runs on one laptop; E1 is the champion by the rule fixed before the runs
+- 11–12 Nov · Checks: the morning check passes 6/6 on the real models; QA scripts and a first recorded run on Windows
+- 13 Nov · Cloud: the API runs as a Hugging Face Space, so the live site can run our real models (S-7)
+
+**Visual:** Vertical timeline drawn with shapes
+
+**Cues:** Every date is read from a committed file when the deck is built: the decision records' Date lines (0001, 0002, 0003, 0005, 0010), the run timestamps in ml/results/restroom/runs/*.json and pipeline.json, updatedAt in web/data/experiments.json, the runbook's demo_check record, the R-47 row in docs/QA-SCRIPTS.md and api/README.md 'Hosting'. They agree with git log (first commit 10 Nov; E0 to E8 merged on 11 Nov; the Space, #489 and #499, on 13 Nov). Before 10 Nov the team chose the ideas in the group chat (docs/CONTRIBUTION-LOG.md, 'Decisions made together').
+
+**Sources:** data/exports/potholes_yolo_v1/split_manifest.json (image_counts, sum; image_counts.train; image_counts.val; image_counts.test; seed) · ml/results/experiments.csv (number of rows (runs)) · docs/DEFENSE-RUNBOOK.md (scripts/demo_check.py run, evening of 11 Nov) · docs/decisions/0001, 0002, 0003, 0005, 0010 (Date) · ml/results/restroom/runs/*.json, ml/results/restroom/pipeline.json (timestamp) · web/data/experiments.json (updatedAt, champion) · docs/QA-SCRIPTS.md (R-47 row) · api/README.md ('Hosting')
+
+## Backup B12 · Backup: terms in plain words
+
+**Speaker (notes only):** Amina, Nazar, Alizhan (by lane) · **budget** on request
+
+**Title:** Terms in plain words, on our own data
+
+**On the slide:**
+
+- IoU: Overlap of our box and the labelled pothole, divided by their joint area; a hit needs 0.5 or more (Lec8 p42)
+- Precision, recall: Precision: share of our boxes that are real potholes. Recall: share of real potholes we found (Sup p27)
+- mAP50: Precision averaged over all confidence levels, a hit needing IoU of at least one half; it picks the pothole model (Lec8 p42)
+- YOLO: A one-stage detector: one pass over the photo gives every pothole box and its confidence (Lec8 p40)
+- CLIP, ViT: CLIP puts images and text in one space; its image half, a Vision Transformer, reads the sign as patches (Lec8 p56, p46–47)
+- Embedding, cosine: A sign becomes a vector of numbers; their cosine says how alike two designs are. Rule S3: one set from 0.88 (no lecture reference)
+- Zero-shot, fine-tuning: Zero-shot: CLIP names the gender from text prompts, no training. Fine-tuning: retrain the last layers of a pretrained model on our data (Lec8 p56, p38)
+- k-means: Groups the training boxes by area into k = 3 size bands, small, medium and large, for rule R2 (no lecture reference)
+- Operating point 0.40: The confidence from which a box counts (rule R1); from 0.25 to 0.40 it goes to review (Sup p27)
+- Provider: Where the model runs: mock (canned demo results), local (our API on this laptop), cloud (the same API on a Hugging Face Space) (Lec9 p42, Lec7 p19)
+
+**Visual:** Table, no image
+
+**Cues:** Lecture references are the ones in docs/COURSE-GROUNDING.md; the build stops if one is not there. A dash means that page names no lecture for the term (k-means is clustering, which CLO 5 names, Syl p.2). Our similarity is the cosine rescaled to 0 to 1 the way the IOAI baseline does it (api/restroom.py, _similarity). Roads terms: Amina; CLIP, embeddings and zero-shot: Nazar; provider: Alizhan.
+
+**Sources:** ml/results/operating_point.json (iou; conf) · web/lib/rules/config.ts (DEFAULT_RULES.r1.reviewFloor) · web/lib/signage/config.ts (DEFAULT_SIGNAGE_RULES.s3.minSimilarity) · ml/results/pothole_area_clusters.json (k) · docs/COURSE-GROUNDING.md (lecture references) · docs/research/glossary.md · api/restroom.py (_similarity)
+
+## Backup B13 · Backup: how we tested
+
+**Speaker (notes only):** Roma, Alizhan · **budget** on request
+
+**Title:** How we tested
+
+**On the slide:**
+
+- CI on every pull request · 3 jobs: web (lint, types, 27 Vitest test files, build), python (result files, hygiene, 10 API and export test files), up-to-date (has the latest main). We merge only when all are green · .github/workflows/ci.yml; the pull request page
+- Morning check, real models · scripts/demo_check.py clicks through the app on Local: 6 checks (connection, road photo, two Compare cases, Match, every page) · 6/6 passed on the evening of 11 Nov (docs/DEFENSE-RUNBOOK.md)
+- Cloud check · The same road photo and IOAI pair on the Cloud provider give the Local results; with 'Keep photos on this device only' on, no photo is sent · 4/4 passed (api/README.md 'Hosting'; docs/AI-USAGE-LOG.md)
+- Manual test scripts · 14 scripts with steps and expected results (Roma, R-46) · One run recorded: 6 checks passed on Windows, 12 Nov (Amina, R-47); the rest pending
+- Honesty rule · Every result shows one badge: Mock result, Model result: <name>, or Invented demo record; demo data keeps its Demo data badge · Unit test web/lib/demo-badges.test.ts, run by CI
+
+**Visual:** Table, no image
+
+**Cues:** Counts are read from the repository when the deck is built (test files, CI jobs, demo_check steps, TS sections); the pass counts are the runs recorded in the files named on the slide. Not in CI and run by hand: ml/test_train.py, ml/test_operating_point.py, ml/test_size_bands.py and this deck's own tests. The QA device matrix (R-47) is only partly done: the file says the remaining scripts are pending.
+
+**Sources:** .github/workflows/ci.yml (number of jobs; python job: test files run by pytest and unittest at build time) · web/vitest.config.mts (test files matched by include 'lib/**/*.test.ts' at build time) · scripts/demo_check.py (number of check(...) steps) · docs/DEFENSE-RUNBOOK.md (scripts/demo_check.py run, evening of 11 Nov) · docs/AI-USAGE-LOG.md (13 November entry: cloud check of the production build) · docs/QA-SCRIPTS.md (number of '## TS-NN' sections; 'Amina: Windows Roads evidence': rows marked PASS) · web/lib/demo-badges.test.ts · docs/DEFENSE-RUNBOOK.md ('Measured')

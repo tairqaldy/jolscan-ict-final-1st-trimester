@@ -62,6 +62,21 @@ class RoadsDeckGenerationTests(unittest.TestCase):
             files = {n.file for n in self.deck.R.rows if n.slide == number} | set(doc.extra_sources)
             self.assertGreaterEqual(len(files), 2, number)
 
+    def test_defense_day_backups_follow_b8_with_notes(self):
+        from pptx.enum.shapes import MSO_SHAPE_TYPE
+        numbers = [doc.number for doc in self.docs]
+        start = numbers.index("B8")
+        self.assertEqual(numbers[start:], ["B8", "B9", "B10", "B11", "B12", "B13"])
+        for index in range(start + 1, len(self.docs)):
+            doc, slide = self.docs[index], self.prs.slides[index]
+            self.assertNotEqual(doc.script, "Only on request.", doc.number)
+            self.assertIn(doc.script, slide.notes_slide.notes_text_frame.text)
+        b9 = self.prs.slides[numbers.index("B9")]  # built without --screenshots: frames only, no picture
+        self.assertFalse([s for s in b9.shapes if s.shape_type == MSO_SHAPE_TYPE.PICTURE])
+        self.assertIn("Screenshots not embedded in this build.", self.docs[numbers.index("B9")].cues)
+        names = [row[0] for row in (r.split(",", 1) for r in self.docs[numbers.index("B10")].on_slide)]
+        self.assertEqual(names, ["Tair", "Dameli", "Nazar", "Amina", "Alizhan", "Roma"])
+
     def test_markdown_and_saved_pptx_have_the_same_scripts(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
