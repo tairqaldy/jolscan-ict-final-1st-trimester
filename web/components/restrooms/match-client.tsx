@@ -81,10 +81,9 @@ export function MatchClient() {
             <div>
               <CardTitle>Query sign</CardTitle>
               <CardDescription>
-                One door sign. For a bundled sample the gallery is the {RESTROOM_SAMPLES.length} bundled samples, minus this
-                one; Local and Cloud rank only the {REAL_SAMPLE_COUNT} real signs, because a real model cannot read the
-                drawings. For an IOAI sign the gallery is up to {IOAI_GALLERY_MAX} signs from its IOAI set, its true partner
-                included.
+                One door sign. The model ranks the other signs and picks the closest one of the other gender: up to{" "}
+                {IOAI_GALLERY_MAX} signs from the same IOAI set for an IOAI sign, the other bundled samples for a sample (on
+                Local and Cloud only the {REAL_SAMPLE_COUNT} real ones, because a real model cannot read the drawings).
               </CardDescription>
             </div>
           </CardHeader>

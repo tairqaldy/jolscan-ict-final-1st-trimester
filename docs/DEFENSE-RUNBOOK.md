@@ -24,7 +24,7 @@ How to run the live demo with the real models on the presenting laptop, and what
 | Restrooms Compare on **Local** | Real CLIP model on this laptop (check it in the rehearsal, see below) |
 | `/app/model` tables and charts | Real: written by `ml/export_results.py` from the committed run files |
 | Overview, analytics, reports, map | Seeded demo history, marked "Includes demo data"; seeded rows say "Demo" |
-| https://qarau.vercel.app | Deployed site: the model page is real, analyses run on Mock (the site cannot reach the laptop's model) |
+| https://qarau.vercel.app | Deployed site: the model page is real. Analyses run on Mock by default; Settings → **Cloud** runs the real models on our Hugging Face Space (S-7, 13 Nov), several seconds per photo on its shared CPU (`api/README.md`) |
 
 Say it aloud during the demo (PRESENTATION.md, demo script step 5).
 
@@ -95,7 +95,7 @@ Turn Wi-Fi off and run the demo script from PRESENTATION.md (slide 3) with a tim
 ## Fallbacks, in this order
 
 1. **The API errors or hangs:** Settings → **Mock**, and say aloud that the result is now demo data.
-2. **The local web app fails:** open https://qarau.vercel.app. Analyses run on Mock there; the model page shows the real results.
+2. **The local web app fails:** open https://qarau.vercel.app. Analyses run on Mock there; for the real models choose Settings → **Cloud** and press Check connection (allow a few seconds per photo; if the Space slept, its first answer can take a minute or two). The model page shows the real results.
 3. **The laptop fails:** play `qarau-demo.mp4` (if R-9's video is not ready, `scripts/demo_check.py --video qarau-demo.mp4` records a 2-minute click-through on the real models, with captions) and show the deck PDF from a second laptop or a USB stick. Name who carries the USB stick: ______.
 
 ## Before the talk and after it

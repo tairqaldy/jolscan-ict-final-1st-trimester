@@ -1,7 +1,9 @@
 "use client";
 
 import { ExternalLink, FileCode } from "lucide-react";
+import { useState } from "react";
 import { Card, CardBody, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Select } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LAYER_CODE, githubLines } from "@/lib/restroom-layer-code";
 
@@ -10,6 +12,7 @@ import { LAYER_CODE, githubLines } from "@/lib/restroom-layer-code";
  * per excerpt (lib/restroom-layer-code.ts, checked against the Python files).
  */
 export function LayerCode() {
+  const [excerpt, setExcerpt] = useState(LAYER_CODE[0].id);
   return (
     <Card>
       <CardHeader>
@@ -24,8 +27,16 @@ export function LayerCode() {
         </div>
       </CardHeader>
       <CardBody>
-        <Tabs defaultValue={LAYER_CODE[0].id}>
-          <TabsList aria-label="Code excerpts" className="overflow-y-hidden">
+        <Tabs value={excerpt} onValueChange={setExcerpt}>
+          {/* Five long tab names do not fit a phone (the strip was three screens wide), so a phone gets one select. */}
+          <Select
+            label="Code excerpt"
+            value={excerpt}
+            onValueChange={setExcerpt}
+            options={LAYER_CODE.map((e) => ({ value: e.id, label: e.title }))}
+            className="mb-3 sm:hidden"
+          />
+          <TabsList aria-label="Code excerpts" className="overflow-y-hidden max-sm:hidden">
             {LAYER_CODE.map((e) => (
               <TabsTrigger key={e.id} value={e.id}>
                 {e.title}

@@ -688,11 +688,11 @@ def slide_architecture(prs) -> SlideDoc:
               "rules run in the web server, so every provider is scored by the same rules. Cloud is opt-in, because road "
               "photos can show faces and plates. Amina will show what the roads model learned from.")
     cues = ("Providers, said aloud and not on the slide: mock is offline demo data; local is the model on this laptop, "
-            "photos stay here; cloud is designed and opt-in, photos would leave the device, and it is not used in this "
-            "demo because S-7 (#31) is not deployed. Routes: /api/analyze and /api/restroom on the Next.js server; "
+            "photos stay here; cloud is opt-in and photos leave the device: since 13 November it is our API on a Hugging "
+            "Face Space (S-7, #31), several seconds per photo on a shared CPU, so this demo uses local. Routes: /api/analyze and /api/restroom on the Next.js server; "
             "/predict, /restroom/compare and /restroom/match on FastAPI. The live site qarau.vercel.app runs the mock "
-            "provider for analyses: the real models run only on this laptop (web/lib/providers/env.ts reads "
-            f"MODEL_API_URL on the server). The latency is the restroom model the API serves (R1's zero-shot "
+            "provider by default and the real models on Cloud (web/lib/providers/env.ts reads MODEL_API_URL and "
+            f"CLOUD_MODEL_API_URL on the server). The latency is the restroom model the API serves (R1's zero-shot "
             f"{SERVED_ARCH}). ml/results/latency.json (S-15, #28) does not exist yet, so no pothole latency. "
             "A drawn version of this diagram with numbered steps is docs/design/architecture-slide.svg (G-66).")
     return SlideDoc("4", "How it works", "Alizhan", "0:40", title_words,

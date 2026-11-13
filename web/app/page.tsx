@@ -354,7 +354,7 @@ export default function LandingPage() {
               Both trained models run in a FastAPI service on the laptop. Images never leave the device.
             </Feature>
             <Feature icon={Cloud} title="Cloud, opt-in">
-              The same service on a hosted endpoint, for more capacity. Chosen in Settings; a privacy switch blocks it.
+              The same service on a Hugging Face Space, for when the laptop is not running it. Slower (shared CPU) and chosen in Settings; a privacy switch blocks it.
             </Feature>
             <Feature icon={ServerCog} title="Mock">
               Canned results for the bundled samples keep the demo working offline. Every number it shows is marked as demo data.

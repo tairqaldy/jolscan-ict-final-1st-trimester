@@ -9,6 +9,7 @@ import { formatDateTime, formatScore } from "@/lib/format";
 import type { AnalysisWithSource } from "@/lib/store/history";
 import { getSample } from "@/lib/mock/samples";
 import { isSeededDemo } from "@/lib/mock/seeded";
+import { DemoBadge } from "./demo-badge";
 import { PROVIDER_META } from "./provider-badge";
 
 /** What the row's picture shows: the sample drawing's title, or the uploaded file's name. */
@@ -70,7 +71,8 @@ export function AnalysesTable({ analyses, caption }: { analyses: AnalysisWithSou
             <TD className="tabular hidden text-right font-mono sm:table-cell">{formatScore(a.score)}</TD>
             <TD className="tabular hidden text-right font-mono sm:table-cell">{a.detections.length}</TD>
             <TD className="hidden whitespace-nowrap text-muted sm:table-cell">
-              {isSeededDemo(a.id) ? "Demo" : PROVIDER_META[a.provider].label}
+              {/* A seeded row has no provider: the demo badge marks it, so "Demo" never reads as a fourth provider. */}
+              {isSeededDemo(a.id) ? <DemoBadge show label="Demo" /> : PROVIDER_META[a.provider].label}
             </TD>
           </TR>
         ))}
