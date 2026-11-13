@@ -27,7 +27,7 @@ Total about 8:10. If Rehearsal 1 runs long, merge slides 10 and 11. If the potho
 
 ## Backup slides index (Task R-26)
 
-Backup slides after the closing are numbered B1–B11. Each slide has at most five lines, a visible slide number for rapid navigation ("Backup B6, please"), and an explicit `Sources:` line naming primary evidence files. B1–B8 are in the deck (`docs/deck/SLIDES.md`, written by `docs/deck/make_deck.py`). B9–B11 are notes in this file until they are added to `make_deck.py`; `SLIDES.md` is regenerated on every build, so they cannot be typed into it.
+Backup slides after the closing are numbered B1–B13, all in the deck (`docs/deck/SLIDES.md`, written by `docs/deck/make_deck.py`). Each has a visible slide number for rapid navigation ("Backup B6, please") and a `Sources:` line naming primary evidence files. N1–N3 are answers kept as notes in this file only (they were B9–B11 before 13 November, when the deck's B9–B13 were built).
 
 | # | Backup Slide Title | Speaker | Primary Trigger Question | Evidence Files |
 |---|---|---|---|---|
@@ -39,9 +39,14 @@ Backup slides after the closing are numbered B1–B11. Each slide has at most fi
 | **B6** | **CLO 5: Methods & quality metrics** | Amina / Nazar | "How do your methods satisfy CLO 5 criteria?" | Syllabus p.2, `docs/ML-EXPERIMENT.md`, `ml/results/restroom/runs/R1.json` |
 | **B7** | **CLO 6: Working prototype & verification** | Tair / Alizhan / Roma | "Prove the prototype works and tests pass" | Syllabus p.2, `api/main.py`, `.github/workflows/ci.yml`, `docs/QA-SCRIPTS.md` |
 | **B8** | **CLO 7: Generative AI evaluation & error log** | Roma | "What did AI get wrong and how did you verify it?" | Syllabus p.3, `docs/research/vlm-evaluation.md`, `docs/AI-USAGE-LOG.md` |
-| **B9** | System architecture & API contracts | Alizhan / Tair | "Show component connections and JSON shapes" | `docs/ARCHITECTURE.md`, `api/schemas.py` |
-| **B10** | Errors on the test split | Amina / Nazar | "Where do models fail on real road/sign data?" | `ml/results/operating_point.json`, `data/README.md` |
-| **B11** | Target database schema (Target, not built) | Tair | "Where is persistent inspection data stored?" | `docs/PLAN.md` section 2, `docs/ARCHITECTURE.md` section 4 |
+| **B9** | Demo fallback: real results on the Local provider (screenshots) | Tair | "The demo failed: show what it gives" | `docs/DEFENSE-RUNBOOK.md`, `api/README.md` |
+| **B10** | Who built what | Tair | "What did each of you do?" | `docs/CONTRIBUTION-LOG.md`, `docs/worklog/` |
+| **B11** | Timeline, 10 to 13 November | Tair | "How did the work go over the days?" | `docs/decisions/`, `ml/results/runs/`, `api/README.md` |
+| **B12** | Terms in plain words | Any | "What is mAP50 / CLIP / an embedding?" | `docs/COURSE-GROUNDING.md` |
+| **B13** | How we tested | Alizhan / Roma | "How do you know it works?" | `.github/workflows/`, `docs/QA-SCRIPTS.md`, `scripts/demo_check.py` |
+| **N1** | System architecture & API contracts | Alizhan / Tair | "Show component connections and JSON shapes" | `docs/ARCHITECTURE.md`, `api/schemas.py` |
+| **N2** | Errors on the test split | Amina / Nazar | "Where do models fail on real road/sign data?" | `ml/results/operating_point.json`, `data/README.md` |
+| **N3** | Target database schema (Target, not built) | Tair | "Where is persistent inspection data stored?" | `docs/PLAN.md` section 2, `docs/ARCHITECTURE.md` section 4 |
 
 ---
 
@@ -101,7 +106,7 @@ Working snapshot copied from `docs/deck/SLIDES.md` at commit `1c28a49`. The fina
 ### 10. AI use and its limits
 **Speaker and budget:** Roma · **budget** 0:35 · **script** 78 words, about 0:36
 
-> We used Claude Code, Codex and Copilot to write and review code, draft documents and check text against our results. Every use is logged with its prompt and check: 123 entries, and every number here is traced to a committed file. We also audited Gemini and Claude on 20 IOAI signs: each named the gender correctly on 17. Our CLIP gets 0.756 on all 328 training signs; 20 signs are too few to rank them. Next, the limits.
+> We used Claude Code, Codex and Copilot to write and review code, draft documents and check text against our results. Every use is logged with its prompt and check: 125 entries, and every number here is traced to a committed file. We also audited Gemini and Claude on 20 IOAI signs: each named the gender correctly on 17. Our CLIP gets 0.756 on all 328 training signs; 20 signs are too few to rank them. Next, the limits.
 
 **AI errors and verification (R-41, CLO 7):** six cases where an AI tool was wrong, each with the check that caught it (a primary source, a measurement or a second reviewer), are in [`docs/AI-USAGE-LOG.md`](AI-USAGE-LOG.md), section 'What the AI tools got wrong'. The lesson is Lec7 p64 ("Verify important claims") and p70 ("Choose evidence over fluency").
 
@@ -350,7 +355,7 @@ At most three sentences each, as R-13 asks. The audit report (R-6, `docs/researc
 
 ## Backup slide details (Task R-26)
 
-Checked against the result files on 12 November 2026 (Tair). B1–B5 match the generated deck. B6–B8 (the CLO slides) were then built into the deck from these notes; the deck's wording is in `docs/deck/SLIDES.md`. B9–B11 are notes only.
+Checked against the result files on 12 November 2026 (Tair). B1–B5 match the generated deck. B6–B8 (the CLO slides) were then built into the deck from these notes; the deck's wording is in `docs/deck/SLIDES.md`. N1–N3 (formerly B9–B11) are notes only; the deck's B9–B13 were added on 13 November.
 
 ### Backup B1 · Full pothole metrics table
 **Speaker:** Amina · **budget** on request
@@ -430,7 +435,7 @@ Checked against the result files on 12 November 2026 (Tair). B1–B5 match the g
 - Privacy: no personal or biometric data to external AI services (Syl p.9); the audit used only IOAI icons.
 **Sources:** `docs/research/vlm-evaluation.md` · `docs/AI-USAGE-LOG.md` ('What the AI tools got wrong') · `docs/research/privacy-and-law.md` · Syllabus p.3 (CLO 7), p.9
 
-### Backup B9 · System architecture and API contracts
+### Notes N1 · System architecture and API contracts
 **Speaker:** Alizhan / Tair · **budget** on request
 **Title:** Architecture: two models, three providers, one JSON contract
 **On the slide:**
@@ -440,7 +445,7 @@ Checked against the result files on 12 November 2026 (Tair). B1–B5 match the g
 - If the API cannot be reached, the app says so and how to fix it, or to switch to the mock provider in Settings (TS-11).
 **Sources:** `docs/ARCHITECTURE.md` (sections 1, 2) · `api/schemas.py` · `api/main.py` · `web/lib/providers/` · `docs/QA-SCRIPTS.md` (TS-11)
 
-### Backup B10 · Errors on the test split
+### Notes N2 · Errors on the test split
 **Speaker:** Amina / Nazar · **budget** on request
 **Title:** Where the models are wrong, and what we have not measured
 **On the slide:**
@@ -451,7 +456,7 @@ Checked against the result files on 12 November 2026 (Tair). B1–B5 match the g
 **Visual:** none committed yet.
 **Sources:** `ml/results/operating_point.json` · `docs/RULES.md` (small-detection cap) · `data/README.md` (D-2 review) · `docs/research/vlm-evaluation.md`
 
-### Backup B11 · Data model (target, not built)
+### Notes N3 · Data model (target, not built)
 **Speaker:** Tair · **budget** on request
 **Title:** Where data lives today, and the database we did not build
 **On the slide:**

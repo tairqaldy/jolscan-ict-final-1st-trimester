@@ -18,9 +18,10 @@ Writes
     docs/research/deck-sources.md       the generated "Numbers on slides" block (R-15); text
                                         outside the generated markers is kept
 
-Slide 9 screenshots (G-11) never go into git (docs/design/screenshots.md); they are placed in
-Canva from the Drive folder screenshots/. To embed them in a local build, pass --screenshots DIR
-with a folder outside the repository.
+Slide 9 screenshots (G-11) and the two B9 demo-fallback shots never go into git
+(docs/design/screenshots.md); they are placed in Canva from the Drive folder screenshots/. To embed
+them in a local build, pass --screenshots DIR with a folder outside the repository: the three slide 9
+crops 09-heuristic-*.png in DIR, the B9 shots backup-demo-*-local-light.png in DIR/framed/ or DIR.
 
 The build stops if a shown number does not match its file, if a rounding is ambiguous, or if
 text the audience needs on slides 1-12 is smaller than 14 pt (docs/design/deck-critique.md).
@@ -521,7 +522,7 @@ def slide_title(prs) -> SlideDoc:
     native = BRAND["nativeName"][0].upper() + BRAND["nativeName"][1:]
     T.eyebrow(s, f"{native} · {BRAND['meaning']}", top=Inches(2.35))
     T.text(s, MARGIN, Inches(2.8), Inches(10.6), Inches(1.2), BRAND["tagline"], size=26, color="muted", line=1.15)
-    course = f"{COURSE[0]} · {COURSE[1]} · Assignment #2 · Computer Vision · 12 November 2026"
+    course = f"{COURSE[0]} · {COURSE[1]} · Assignment #2 · Computer Vision · 13 November 2026"
     T.text(s, MARGIN, Inches(4.15), Inches(11.9), Inches(0.4), course, size=16, color="subtle", font=MONO)
     col_w = Inches(3.95)
     for i, (name, role) in enumerate(TEAM):
@@ -652,7 +653,7 @@ def slide_architecture(prs) -> SlideDoc:
           {"runs": [("S2 and S3 restrooms", {})], "space_before": 2},
           {"runs": [("same rules for every provider", {"color": "muted"})], "space_before": 8}], size=16)
     ph = (bh - Inches(0.2)) // 3
-    providers = [("mock", "demo data"), ("local", "this laptop"), ("cloud", "opt-in, not used")]
+    providers = [("mock", "demo data"), ("local", "this laptop"), ("cloud", "opt-in, Hugging Face Space")]
     for i, (name, line) in enumerate(providers):
         y = top + i * (ph + Inches(0.1))
         card(s, xs[2], y, ws[2], ph, fill="surface2" if name != "local" else "surface",
@@ -698,11 +699,11 @@ def slide_architecture(prs) -> SlideDoc:
     return SlideDoc("4", "How it works", "Alizhan", "0:40", title_words,
                     ["Browser (shows the result) → Next.js server (the rules run here: R1–R6 roads, S2 and S3 restrooms; "
                      "same rules for every provider) → provider: mock (demo data), local (this laptop), cloud (opt-in, "
-                     "not used) → FastAPI service (/predict: YOLO finds potholes; /restroom: CLIP reads the signs)",
+                     "Hugging Face Space) → FastAPI service (/predict: YOLO finds potholes; /restroom: CLIP reads the signs)",
                      "Arrows: photo forward; JSON and the result back", latency_line],
                     "Diagram drawn with shapes: four boxes, three provider chips, labelled arrows", script, cues=cues,
                     extra_sources=["docs/ARCHITECTURE.md sections 1 and 3 ('Local and cloud modes', 'Cloud is opt-in')",
-                                   "web/lib/providers/env.ts", f"api/restroom.py (ARCH default {SERVED_ARCH})"])
+                                   "api/README.md ('Hosting', S-7)", "web/lib/providers/env.ts", f"api/restroom.py (ARCH default {SERVED_ARCH})"])
 
 
 # 5 · Roads: data and experiment -------------------------------------------------------------
@@ -1379,7 +1380,7 @@ def slide_closing(prs) -> SlideDoc:
                            "docs/research/vlm-evaluation.md") if (ROOT / p).exists()]
     worked = [p for p in ("docs/AI-USAGE-LOG.md", "docs/CONTRIBUTION-LOG.md") if (ROOT / p).exists()]
     links = [("Repository", [("github.com/tairqaldy/qarau-ict-final-1st-trimester", True)]),
-             ("Live site", [("qarau.vercel.app", True), ("real model page; analyses there run on demo data", False)]),
+             ("Live site", [("qarau.vercel.app", True), ("real model page; analyses on Mock by default, real models on Cloud", False)]),
              ("Results", [(p, True) for p in results]), ("How we worked", [(p, True) for p in worked])]
     y = Inches(1.85)
     for label, values in links:
@@ -1401,10 +1402,11 @@ def slide_closing(prs) -> SlideDoc:
             "web/lib/rules/, then api/main.py (docs/PRESENTATION.md 'Showing source code').")
     return SlideDoc("12", "Closing", "Tair", "0:10", "Where everything is",
                     ["Repository: github.com/tairqaldy/qarau-ict-final-1st-trimester",
-                     "Live site: qarau.vercel.app (real model page; analyses there run on demo data)",
+                     "Live site: qarau.vercel.app (real model page; analyses on Mock by default, real models on Cloud)",
                      "Results: " + ", ".join(results), "How we worked: " + ", ".join(worked), real],
                     "Links and the road band from the template", script, cues=cues,
-                    extra_sources=["README.md ('Live demo')", "docs/decisions/0006-public-repository.md",
+                    extra_sources=["README.md ('Live demo')", "docs/DEFENSE-RUNBOOK.md (qarau.vercel.app row)", "api/README.md ('Hosting', S-7)",
+                                   "docs/decisions/0006-public-repository.md",
                                    "docs/PRESENTATION.md (demo script, step 5)"])
 
 
@@ -1720,7 +1722,8 @@ def slide_backup_clo6(prs) -> SlideDoc:
     n_checks = count(r'await check\("([^"]+)"', "scripts/demo_check.py", "number of check(...) steps")
     rows = [["Criterion", "Evidence"],
             ["Working prototype", f"A web app (Next.js) and a model service (FastAPI) on this laptop: {WEB_POT['champion']} "
-             f"(YOLO) for potholes, CLIP {SERVED_ARCH} and the two-step pipeline for restroom signs. Shown live on slide 3."],
+             f"(YOLO) for potholes, CLIP {SERVED_ARCH} and the two-step pipeline for restroom signs. Shown live on slide 3. "
+             "The same service runs as a Hugging Face Space for the live site's Cloud provider (S-7)."],
             ["Documentation", f"Document map docs/README.md; JSON contracts in docs/ARCHITECTURE.md; rules in docs/RULES.md; "
              f"two experiment reports; {n_dec} decision records in docs/decisions/"],
             ["Automated checks", f"CI on every pull request, {n_jobs} jobs: " + "; ".join(known[j] for j in jobs)],
@@ -1778,6 +1781,398 @@ def slide_backup_clo7(prs) -> SlideDoc:
                     extra_sources=[f"{GROUNDING_REL} (CLO 7 wording, Syllabus p.3)", "docs/research/privacy-and-law.md"])
 
 
+# Defense-day backups (B9-B13): demo fallback, who built what, timeline, terms, testing ---------------
+
+RUNBOOK_REL = "docs/DEFENSE-RUNBOOK.md"
+CONTRIB_REL = "docs/CONTRIBUTION-LOG.md"
+API_README_REL = "api/README.md"
+QA_REL = "docs/QA-SCRIPTS.md"
+MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+# B9 shots: framed files from docs/design/screenshots/take_screenshots.py (G-56 frame), real results on Local.
+DEMO_SHOTS = [("backup-demo-roads-local-light.png", "Roads", "img-18.jpg from the test split"),
+              ("backup-demo-compare-local-light.png", "Restrooms", "Compare on ioai-v9 and ioai-v15")]
+
+
+def shot_file(shots_dir: Path | None, name: str) -> Path | None:
+    """A screenshot from --screenshots DIR: the framed file (DIR/framed/) first, then DIR itself."""
+    if not shots_dir:
+        return None
+    for path in (shots_dir / "framed" / name, shots_dir / name):
+        if path.exists():
+            return path
+    return None
+
+
+def slide_backup_demo(prs, shots_dir: Path | None) -> SlideDoc:
+    R.slide = "B9"
+    s = new_slide(prs)
+    title_words = "If the live demo fails: the same two analyses on our models"
+    backup_header(s, "Demo fallback", title_words)
+    # The expected results are the ones recorded in the runbook and the API notes, not read off the screenshots.
+    rb = grab(r"Demo photo `img-18\.jpg` \(\d+ px, \d+ labelled\), through the web app[^:]*: (\d+) boxes, (\d+) counted "
+              r"and (\d+) in the review band.*?severity \*\*(\w+), score (\d+)\*\*", RUNBOOK_REL)
+    counted = R(rb[2], RUNBOOK_REL, "'Measured', demo photo img-18.jpg: boxes counted", rb[2])
+    review = R(rb[3], RUNBOOK_REL, "'Measured', demo photo img-18.jpg: boxes in the review band", rb[3])
+    score = R(rb[5], RUNBOOK_REL, "'Measured', demo photo img-18.jpg: score", rb[5])
+    sim_raw = grab(r"`/restroom/compare` on `ioai-v9` and `ioai-v15` \(male and female, similarity ([\d.]+)\)",
+                   API_README_REL)[1]
+    sim = R(d(sim_raw, 2), API_README_REL, "'Hosting', S-8 check: /restroom/compare on ioai-v9 and ioai-v15, similarity",
+            sim_raw)
+    expected = [f"Expected: {counted} potholes counted, {review} for review, {rb[4]}, score {score}",
+                f"Expected: Pair (one IOAI restroom), similarity {sim}"]
+    gap_w = Inches(0.33)
+    sw = (CONTENT_W - gap_w) // 2
+    top = Inches(1.75)
+    used = []
+    for i, ((name, module, what), exp) in enumerate(zip(DEMO_SHOTS, expected)):
+        x = MARGIN + i * (sw + gap_w)
+        path = shot_file(shots_dir, name)
+        if path:
+            fx, fy, fw = T.framed_file_box(x, top, sw)
+            im_w, im_h = Image.open(path).size
+            s.shapes.add_picture(png_stream(path), fx, fy, fw, int(fw * im_h / im_w))
+            used.append(name)
+        else:
+            T.screenshot_frame(s, x, top, sw)
+            sh = int(sw * T.SHOT_H_PX / T.SHOT_W_PX)
+            rich(s, x, top, sw, sh, [[("Screenshot", {"bold": True, "color": "muted"})],
+                                     {"runs": [(name, {"font": MONO, "size": 14, "color": "subtle"})], "space_before": 4},
+                                     {"runs": [("Drive: screenshots/", {"font": MONO, "size": 14, "color": "subtle"})]}],
+                 size=BODY, anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER, line=1.1)
+        sh = int(sw * T.SHOT_H_PX / T.SHOT_W_PX)
+        rich(s, x, top + sh + Inches(0.22), sw, Inches(0.9),
+             [[(f"{module} on Local: ", {"bold": True}), (what, {})], [(exp, {"color": "muted"})]], size=16, line=1.1)
+    numbered_footer(s, "B9")
+    script = ("The live demo did not work, so here are the same two analyses as screenshots of our real models on the "
+              "Local provider. Left, the road photo: the boxes, the priority and the rules that fired. Right, two doors "
+              "of one IOAI restroom: both genders, the similarity and the verdict Pair.")
+    cues = ("Use only if slide 3 fails and the backup video cannot play. The screenshots are embedded only in a local "
+            "build with --screenshots DIR (screenshots never go into git; docs/design/screenshots.md); the committed deck "
+            "has empty frames. The 'Expected' lines are the recorded results (docs/DEFENSE-RUNBOOK.md 'Measured' for "
+            "img-18.jpg; api/README.md 'Hosting' for the IOAI pair), not read off the screenshots. Both shots carry the "
+            "'Local' provider badge and 'Model result: <model>', so they are real results, not Mock."
+            + ("" if len(used) == len(DEMO_SHOTS) else " Screenshots not embedded in this build."))
+    return SlideDoc("B9", "Backup: demo fallback", "Tair", "on request", title_words,
+                    [f"Screenshot {i + 1} ({n}): {m} on Local: {w}. {e}"
+                     for i, ((n, m, w), e) in enumerate(zip(DEMO_SHOTS, expected))],
+                    "Two framed screenshots (G-56 frame) of real Local results, embedded only with --screenshots "
+                    + ("(embedded: " + ", ".join(used) + ")" if used else "(frames only in the generated file)"),
+                    script, cues=cues,
+                    extra_sources=["scripts/demo_check.py (PAIR = ioai-v9, ioai-v15)",
+                                   "docs/design/screenshots.md (frame and file names)"])
+
+
+def contribution_rows() -> dict[str, tuple[str, str]]:
+    """Person -> (lane, the whole table row) from the contribution log."""
+    table = read(CONTRIB_REL).split("## Decisions made together", 1)[0]
+    rows = {}
+    for line in table.splitlines():
+        m = re.match(r"^\| (\w+) \| ([^|]+) \|", line)
+        if m and m[1] != "Person":
+            rows[m[1]] = (m[2].strip(), line)
+    return rows
+
+
+def slide_backup_team(prs) -> SlideDoc:
+    R.slide = "B10"
+    s = new_slide(prs)
+    title_words = "Who built what"
+    backup_header(s, "Team", title_words)
+    rows = contribution_rows()
+    kaggle = grab(r"(\d+) runs on a Kaggle GPU", CONTRIB_REL)[1]
+    pairs = grab(r"visually reviewed (\d+) image/annotation pairs", CONTRIB_REL)[1]
+    images = grab(r"checked all (\d+) images for exact and perceptual-hash near duplicates", CONTRIB_REL)[1]
+    n_kaggle = R(kaggle, CONTRIB_REL, "Nazar row: runs on a Kaggle GPU (C-11)", kaggle)
+    n_pairs = R(pairs, CONTRIB_REL, "Amina row: image/annotation pairs reviewed (D-2)", pairs)
+    n_images = R(images, CONTRIB_REL, "Amina row: images checked for duplicates (D-4)", images)
+    n_ts = count(r"^## (TS-\d+) ", QA_REL, "number of '## TS-NN' sections")
+    n_q = count(r"^### (Q\d+)\. ", "docs/DEFENSE-QA.md", "number of '### QN.' answers")
+    # (person, things delivered, tokens that must appear in their contribution-log row or docs/worklog/<name>.md)
+    people = [
+        ("Tair", "Web app with both modules and the model page (W-11, #362); trained pothole runs E0–E8 on his laptop "
+                 "(M-3, M-11); task board, CI checks (#134) and the cloud Space (S-7)",
+         ["W-11", "#362", "M-3", "M-11", "#134", "S-7"]),
+        ("Dameli", "Contrast audit and light accent (G-3, #380); landing hero, Overpass type and logo set (#381, #382); "
+                   "slide template (G-10, #387) and slide 9 (G-13)",
+         ["G-3", "#380", "#381", "#382", "G-10", "#387", "G-13"]),
+        ("Nazar", f"Two-step matching pipeline without training: SIFT with a pixel check, colour histograms and CLIP; "
+                  f"layer sweep, {n_kaggle} runs on a Kaggle GPU (C-11); the pipeline in the API's Match (C-8)",
+         ["SIFT", "C-11", "C-8"]),
+        ("Amina", f"Reviewed {n_pairs} image and annotation pairs and checked all {n_images} images for duplicates "
+                  f"(D-2, D-4); the YOLO export of the dataset (D-3); k-means size bands for rule R2 (D-11); "
+                  f"selection rule and E8 policy (M-0, #369)",
+         ["D-2", "D-4", "D-3", "D-11", "M-0", "#369"]),
+        ("Alizhan", "Model service and its tests (S-1, #71); API checks in CI and the readiness check (S-16, S-20); "
+                    "results validation and validation-only model selection (S-24, S-25, S-28)",
+         ["S-1", "#71", "S-16", "S-20", "S-24", "S-25", "S-28"]),
+        ("Roma", f"Audit of two vision-language models on IOAI signs (R-6, #472); {n_ts} manual test scripts (R-46); "
+                 f"{n_q} examiner questions with answers (R-31)",
+         ["R-6", "#472", "R-46", "R-31"]),
+    ]
+    table_rows = [["Person", "Lane", "What they delivered (task IDs and pull requests)"]]
+    for name, did, tokens in people:
+        if name not in rows:
+            raise SystemExit(f"{CONTRIB_REL}: no row for {name}: update B10")
+        lane, row = rows[name]
+        evidence = row + read(f"docs/worklog/{name.lower()}.md")
+        missing = [t for t in tokens if t not in evidence]
+        if missing:
+            raise SystemExit(f"B10: {name}'s {missing} not in {CONTRIB_REL} or docs/worklog/{name.lower()}.md")
+        table_rows.append([name, lane, did])
+    widths = [Inches(1.15), Inches(2.25)]
+    widths.append(CONTENT_W - sum(widths))
+    tbl = table(s, MARGIN, Inches(1.65), widths, table_rows, row_h=Inches(0.78), size=14, head_size=13)
+    tbl.rows[0].height = Inches(0.38)
+    for r in range(1, len(table_rows)):
+        tbl.cell(r, 0).text_frame.paragraphs[0].runs[0].font.bold = True
+    numbered_footer(s, "B10")
+    script = ("One row per person: the lane and what each of us delivered, with the task and pull request to check it. "
+              "Ask any of us about our own row.")
+    cues = ("Every item is in the person's row of docs/CONTRIBUTION-LOG.md or in docs/worklog/<name>.md; the build stops "
+            "if a task ID on this slide is in neither. Dameli's, Alizhan's and Roma's rows in the contribution log are "
+            "drafts from merged pull requests that each of them still confirms. The syllabus asks each member an "
+            "individual question about their own part (Syl p.5).")
+    return SlideDoc("B10", "Backup: who built what", "Tair (each person answers for their own row)", "on request",
+                    title_words, [f"{n}, {rows[n][0]}: {did}" for n, did, _ in people], "Table, no image",
+                    script, cues=cues,
+                    extra_sources=[f"{CONTRIB_REL} (lanes and rows)", "docs/worklog/<name>.md", "docs/TASKS.md"])
+
+
+def day(iso: str) -> str:
+    """'2026-11-10' or an ISO timestamp -> '10 Nov'. Dates on B11 are read from files, never typed."""
+    y, m, dd = iso[:10].split("-")
+    if y != "2026":
+        raise SystemExit(f"B11: unexpected year in {iso!r}")
+    return f"{int(dd)} {MONTHS[int(m) - 1]}"
+
+
+def decision_date(n: str) -> str:
+    path = next((ROOT / "docs/decisions").glob(f"{n}-*.md"))
+    return day(grab(r"\*\*Date:\*\* (\d{4}-\d\d-\d\d)", str(path.relative_to(ROOT)))[1])
+
+
+def span(days: list[str]) -> str:
+    """['11 Nov', '12 Nov'] -> '11–12 Nov'."""
+    uniq = list(dict.fromkeys(days))
+    if len(uniq) == 1:
+        return uniq[0]
+    (d1, m1), (d2, m2) = uniq[0].split(), uniq[-1].split()
+    return f"{d1}–{d2} {m2}" if m1 == m2 else f"{uniq[0]}–{uniq[-1]}"
+
+
+def slide_backup_timeline(prs) -> SlideDoc:
+    R.slide = "B11"
+    s = new_slide(prs)
+    title_words = "From the first commit to the defense"
+    backup_header(s, "Timeline", title_words)
+    mf = "data/exports/potholes_yolo_v1/split_manifest.json"
+    ic = MANIFEST["image_counts"]
+    total = sum(ic.values())
+    n_total = R(str(total), mf, "image_counts, sum", total)
+    n_split = " / ".join(R(str(ic[k]), mf, f"image_counts.{k}", ic[k]) for k in ("train", "val", "test"))
+    seed = R(str(MANIFEST["seed"]), mf, "seed", MANIFEST["seed"])
+    rest_days = sorted({day(REST_RUN[r]["timestamp"]) for r in REST_RUN} | {day(PIPE["timestamp"])})
+    rest_runs = list(REST)
+    rest_names = f"{rest_runs[0]}–{rest_runs[4]}, " + ", ".join(rest_runs[5:])
+    pot_runs = list(POT)
+    n_pot = R(str(len(POT)), "ml/results/experiments.csv", "number of rows (runs)", len(POT))
+    demo = grab(r"`scripts/demo_check\.py` on the evening of (\d+) Nov, production build: (\d+)/(\d+) checks passed",
+                RUNBOOK_REL)
+    qa_day = day(grab(r"\| (\d{4}-\d\d-\d\d) \d\d:\d\d–\d\d:\d\d \| Scoped PASS", QA_REL)[1])
+    cloud = grab(r"Deployed on (\d+) (November) (\d{4}) \(S-7\)", API_README_REL)
+    milestones = [
+        (decision_date("0001"), "Start", "plan, architecture and a web prototype on demo data; one app, two "
+                                         "modules (decision 0001)"),
+        (decision_date("0002"), "Pothole data frozen", f"{n_total} photos split {n_split}, seed {seed} "
+                                                       "(Amina's export, decision 0002)"),
+        (span(rest_days), "Restroom runs", f"{rest_names}, the last one the two-step pipeline the app serves for "
+                                          "Match (Nazar)"),
+        (decision_date("0003"), "Rules", "R1–R6 for roads, door-pair rules for restrooms (decision 0003); "
+                                         "k-means bands for R2 (Amina)"),
+        (decision_date("0005"), "Live site", "qarau.vercel.app (decision 0005); from "
+                                             f"{decision_date('0010')}, deploys only on Tair's go-ahead (decision 0010)"),
+        (day(WEB_POT["updatedAt"]), "Pothole runs", f"{pot_runs[0]}–{pot_runs[-1]}, {n_pot} runs on one laptop; "
+                                                    f"{WEB_POT['champion']} is the champion by the rule fixed before the runs"),
+        (span([f"{int(demo[1])} Nov", qa_day]), "Checks",
+         f"the morning check passes {R(f'{demo[2]}/{demo[3]}', RUNBOOK_REL, 'scripts/demo_check.py run, evening of 11 Nov', f'{demo[2]}/{demo[3]}')} "
+         "on the real models; QA scripts and a first recorded run on Windows"),
+        (day(f"{cloud[3]}-{MONTHS.index(cloud[2][:3]) + 1:02d}-{int(cloud[1]):02d}"), "Cloud",
+         "the API runs as a Hugging Face Space, so the live site can run our real models (S-7)"),
+    ]
+    top, row_h = Inches(1.7), Inches(0.62)
+    line_x = MARGIN + Inches(1.55)
+    c = s.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, line_x, top + Inches(0.14), line_x,
+                               top + row_h * (len(milestones) - 1) + Inches(0.14))
+    c.line.color.rgb = T.rgb("border")
+    c.line.width = Pt(2)
+    dot = Inches(0.16)
+    for i, (when, head, what) in enumerate(milestones):
+        y = top + i * row_h
+        T.text(s, MARGIN, y, Inches(1.35), Inches(0.4), when, size=16, color="accent_ink", font=MONO, bold=True,
+               align=PP_ALIGN.RIGHT)
+        T.rect(s, line_x - dot // 2, y + Inches(0.14) - dot // 2, dot, dot, fill="accent", shape=MSO_SHAPE.OVAL)
+        rich(s, line_x + Inches(0.3), y, CONTENT_W - (line_x - MARGIN) - Inches(0.3), row_h,
+             [[(head + ": ", {"bold": True}), (what, {})]], size=16, line=1.05)
+    numbered_footer(s, "B11")
+    script = ("Here are the four days from the first commit to today. The restroom runs and the rules came on the first "
+              "day, the pothole runs on the second, the checks on the second and third, and the cloud Space this morning.")
+    cues = ("Every date is read from a committed file when the deck is built: the decision records' Date lines "
+            "(0001, 0002, 0003, 0005, 0010), the run timestamps in ml/results/restroom/runs/*.json and pipeline.json, "
+            "updatedAt in web/data/experiments.json, the runbook's demo_check record, the R-47 row in docs/QA-SCRIPTS.md "
+            "and api/README.md 'Hosting'. They agree with git log (first commit 10 Nov; E0 to E8 merged on 11 Nov; "
+            "the Space, #489 and #499, on 13 Nov). Before 10 Nov the team chose the ideas in the group chat "
+            "(docs/CONTRIBUTION-LOG.md, 'Decisions made together').")
+    return SlideDoc("B11", "Backup: timeline", "Tair", "on request", title_words,
+                    [f"{w} · {h}: {t}" for w, h, t in milestones], "Vertical timeline drawn with shapes", script,
+                    cues=cues,
+                    extra_sources=["docs/decisions/0001, 0002, 0003, 0005, 0010 (Date)",
+                                   "ml/results/restroom/runs/*.json, ml/results/restroom/pipeline.json (timestamp)",
+                                   "web/data/experiments.json (updatedAt, champion)", f"{QA_REL} (R-47 row)",
+                                   f"{API_README_REL} ('Hosting')"])
+
+
+def refs_short(refs: list[str]) -> str:
+    """['Lec8 p56', 'Lec8 p46–47'] -> 'Lec8 p56, p46–47'; no reference -> a dash."""
+    out, last = [], None
+    for ref in refs:
+        deck, page = ref.split(" ", 1)
+        out.append(page if deck == last else ref)
+        last = deck
+    return ", ".join(out) if out else "–"
+
+
+def slide_backup_terms(prs) -> SlideDoc:
+    R.slide = "B12"
+    s = new_slide(prs)
+    title_words = "Terms in plain words, on our own data"
+    backup_header(s, "Terms", title_words)
+    op, cfg = "ml/results/operating_point.json", "web/lib/rules/config.ts"
+    iou = R(d(OP["iou"], 1), op, "iou", OP["iou"])
+    conf = R(d(OP["conf"], 2), op, "conf", OP["conf"])
+    floor = rule("r1", "reviewFloor")
+    floor_s = R(d(floor, 2), cfg, "DEFAULT_RULES.r1.reviewFloor", floor)
+    s3_raw = grab(r"s3: \{ minSimilarity: ([\d.]+) \}", "web/lib/signage/config.ts")[1]
+    s3 = R(d(s3_raw, 2), "web/lib/signage/config.ts", "DEFAULT_SIGNAGE_RULES.s3.minSimilarity", s3_raw)
+    k = R(str(KM["k"]), "ml/results/pothole_area_clusters.json", "k", KM["k"])
+    terms = [
+        ("IoU", f"Overlap of our box and the labelled pothole, divided by their joint area; a hit needs {iou} or more",
+         ["Lec8 p42"]),
+        ("Precision, recall", "Precision: share of our boxes that are real potholes. Recall: share of real potholes "
+                              "we found", ["Sup p27"]),
+        ("mAP50", "Precision averaged over all confidence levels, a hit needing IoU of at least one half; it picks "
+                  "the pothole model",
+         ["Lec8 p42"]),
+        ("YOLO", "A one-stage detector: one pass over the photo gives every pothole box and its confidence",
+         ["Lec8 p40"]),
+        ("CLIP, ViT", "CLIP puts images and text in one space; its image half, a Vision Transformer, reads the sign "
+                      "as patches", ["Lec8 p56", "Lec8 p46–47"]),
+        ("Embedding, cosine", f"A sign becomes a vector of numbers; their cosine says how alike two designs are. "
+                              f"Rule S3: one set from {s3}", []),
+        ("Zero-shot, fine-tuning", "Zero-shot: CLIP names the gender from text prompts, no training. Fine-tuning: "
+                                   "retrain the last layers of a pretrained model on our data", ["Lec8 p56", "Lec8 p38"]),
+        ("k-means", f"Groups the training boxes by area into k = {k} size bands, small, medium and large, for rule R2",
+         []),
+        (f"Operating point {conf}", f"The confidence from which a box counts (rule R1); from {floor_s} to {conf} it goes "
+                                    "to review", ["Sup p27"]),
+        ("Provider", "Where the model runs: mock (canned demo results), local (our API on this laptop), cloud "
+                     "(the same API on a Hugging Face Space)", ["Lec9 p42", "Lec7 p19"]),
+    ]
+    grounding = read(GROUNDING_REL)
+    for term, _, refs in terms:
+        for ref in refs:
+            if ref not in grounding:
+                raise SystemExit(f"B12: {term}: {ref!r} is not in {GROUNDING_REL}")
+    rows = [["Term", "What it means in Qarau", "Lecture"]]
+    rows += [[t, line, refs_short(refs)] for t, line, refs in terms]
+    widths = [Inches(2.3), Inches(7.8)]
+    widths.append(CONTENT_W - sum(widths))
+    tbl = table(s, MARGIN, Inches(1.6), widths, rows, row_h=Inches(0.47), size=13, head_size=12,
+                mono_cols=(2,))
+    tbl.rows[0].height = Inches(0.34)
+    for r in range(1, len(rows)):
+        tbl.cell(r, 0).text_frame.paragraphs[0].runs[0].font.bold = True
+    numbered_footer(s, "B12")
+    script = ("If a term is unclear: each line says what it means for a pothole photo or a door sign in our app, "
+              "with the lecture page where the course teaches it.")
+    cues = (f"Lecture references are the ones in {GROUNDING_REL}; the build stops if one is not there. A dash means "
+            "that page names no lecture for the term (k-means is clustering, which CLO 5 names, Syl p.2). Our "
+            "similarity is the cosine rescaled to 0 to 1 the way the IOAI baseline does it (api/restroom.py, "
+            "_similarity). Roads terms: Amina; CLIP, embeddings and zero-shot: Nazar; provider: Alizhan.")
+    return SlideDoc("B12", "Backup: terms in plain words", "Amina, Nazar, Alizhan (by lane)", "on request", title_words,
+                    [f"{t}: {line} ({refs_short(refs) if refs else 'no lecture reference'})" for t, line, refs in terms],
+                    "Table, no image", script, cues=cues,
+                    extra_sources=[f"{GROUNDING_REL} (lecture references)", "docs/research/glossary.md",
+                                   "api/restroom.py (_similarity)"])
+
+
+def slide_backup_testing(prs) -> SlideDoc:
+    R.slide = "B13"
+    s = new_slide(prs)
+    title_words = "How we tested"
+    backup_header(s, "Testing", title_words)
+    ci = ".github/workflows/ci.yml"
+    ci_text = read(ci)
+    jobs = re.findall(r"^  ([a-z-]+):$", ci_text.split("\njobs:", 1)[1], re.M)
+    n_jobs = R(str(len(jobs)), ci, "number of jobs", len(jobs))
+    vt = "web/vitest.config.mts"
+    include = grab(r'include: \["([^"]+)"\]', vt)[1]
+    n_web = len(list((ROOT / "web").glob(include)))
+    web_files = R(str(n_web), vt, f"test files matched by include {include!r} at build time", n_web)
+    py_files: set[str] = set()
+    for args in re.findall(r"python -m pytest ([^\n]+?) -q", ci_text):
+        for a in args.split():
+            p = ROOT / a
+            py_files |= ({str(f.relative_to(ROOT)) for f in p.glob("test_*.py")} if p.is_dir() else {a})
+    for start, pattern in re.findall(r"unittest discover -s (\S+) -p (\S+)", ci_text):
+        py_files |= {str(f.relative_to(ROOT)) for f in (ROOT / start).glob(pattern)}
+    n_py = R(str(len(py_files)), ci, "python job: test files run by pytest and unittest at build time", len(py_files))
+    n_checks = count(r'await check\("([^"]+)"', "scripts/demo_check.py", "number of check(...) steps")
+    demo = grab(r"`scripts/demo_check\.py` on the evening of (\d+) Nov, production build: (\d+)/(\d+) checks passed",
+                RUNBOOK_REL)
+    demo_s = R(f"{demo[2]}/{demo[3]}", RUNBOOK_REL, "scripts/demo_check.py run, evening of 11 Nov",
+               f"{demo[2]}/{demo[3]}")
+    cl = grab(r"production build with `CLOUD_MODEL_API_URL` passed (\d+) of (\d+)", "docs/AI-USAGE-LOG.md")
+    cloud_s = R(f"{cl[1]}/{cl[2]}", "docs/AI-USAGE-LOG.md", "13 November entry: cloud check of the production build",
+                f"{cl[1]}/{cl[2]}")
+    n_ts = count(r"^## (TS-\d+) ", QA_REL, "number of '## TS-NN' sections")
+    amina = read(QA_REL).split("### Amina: Windows Roads evidence", 1)[1].split("\n####", 1)[0]
+    n_pass = len(re.findall(r"^\|.*\| PASS", amina, re.M))
+    pass_s = R(str(n_pass), QA_REL, "'Amina: Windows Roads evidence': rows marked PASS", n_pass)
+    qa_day = day(grab(r"\| (\d{4}-\d\d-\d\d) \d\d:\d\d–\d\d:\d\d \| Scoped PASS", QA_REL)[1])
+    rows = [["Check", "What it does", "Where the result is"],
+            ["CI on every pull request", f"{n_jobs} jobs: web (lint, types, {web_files} Vitest test files, build), "
+             f"python (result files, hygiene, {n_py} API and export test files), up-to-date (has the latest main). "
+             "We merge only when all are green", f"{ci}; the pull request page"],
+            ["Morning check, real models", f"scripts/demo_check.py clicks through the app on Local: {n_checks} checks "
+             "(connection, road photo, two Compare cases, Match, every page)", f"{demo_s} passed on the evening of "
+             f"{int(demo[1])} Nov ({RUNBOOK_REL})"],
+            ["Cloud check", "The same road photo and IOAI pair on the Cloud provider give the Local results; with "
+             "'Keep photos on this device only' on, no photo is sent", f"{cloud_s} passed ({API_README_REL} "
+             "'Hosting'; docs/AI-USAGE-LOG.md)"],
+            ["Manual test scripts", f"{n_ts} scripts with steps and expected results (Roma, R-46)",
+             f"One run recorded: {pass_s} checks passed on Windows, {qa_day} (Amina, R-47); the rest pending"],
+            ["Honesty rule", "Every result shows one badge: Mock result, Model result: <name>, or Invented demo "
+             "record; demo data keeps its Demo data badge", "Unit test web/lib/demo-badges.test.ts, run by CI"]]
+    widths = [Inches(2.35), Inches(5.95)]
+    widths.append(CONTENT_W - sum(widths))
+    tbl = table(s, MARGIN, Inches(1.65), widths, rows, row_h=Inches(0.86), size=14, head_size=13)
+    tbl.rows[0].height = Inches(0.38)
+    for r in range(1, len(rows)):
+        tbl.cell(r, 0).text_frame.paragraphs[0].runs[0].font.bold = True
+    numbered_footer(s, "B13")
+    script = ("We tested in four layers: CI on every pull request, a click-through on the real models before the "
+              "defense, the same check against the cloud Space, and written test scripts. Demo data always carries "
+              "its badge, and a unit test checks that.")
+    cues = ("Counts are read from the repository when the deck is built (test files, CI jobs, demo_check steps, TS "
+            "sections); the pass counts are the runs recorded in the files named on the slide. Not in CI and run by "
+            "hand: ml/test_train.py, ml/test_operating_point.py, ml/test_size_bands.py and this deck's own tests. "
+            "The QA device matrix (R-47) is only partly done: the file says the remaining scripts are pending.")
+    return SlideDoc("B13", "Backup: how we tested", "Roma, Alizhan", "on request", title_words,
+                    [" · ".join(r) for r in rows[1:]], "Table, no image", script, cues=cues,
+                    extra_sources=["web/lib/demo-badges.test.ts", "docs/DEFENSE-RUNBOOK.md ('Measured')"])
+
+
 # --------------------------------------------------------------------------------------------
 # Checks, build and write
 # --------------------------------------------------------------------------------------------
@@ -1813,7 +2208,8 @@ def build(shots_dir: Path | None):
             slide_roads_results(prs), slide_restroom_data(prs), slide_restroom_results(prs), slide_design(prs, shots_dir),
             slide_ai(prs), slide_limits(prs), slide_closing(prs), slide_backup_table(prs), slide_backup_operating(prs),
             slide_backup_curves(prs), slide_backup_kmeans(prs), slide_backup_approaches(prs), slide_backup_clo5(prs),
-            slide_backup_clo6(prs), slide_backup_clo7(prs)]
+            slide_backup_clo6(prs), slide_backup_clo7(prs), slide_backup_demo(prs, shots_dir), slide_backup_team(prs),
+            slide_backup_timeline(prs), slide_backup_terms(prs), slide_backup_testing(prs)]
     for slide, doc in zip(prs.slides, docs):
         write_notes(slide, doc)
     check_sizes(prs)
@@ -2021,7 +2417,8 @@ def main() -> None:
     parser.add_argument("--roads-only", action="store_true",
                         help="update only existing slides 5-6, their notes and source rows; preserve all other slides")
     parser.add_argument("--screenshots", type=Path, default=None,
-                        help="folder outside the repository with the three slide 9 crops (09-heuristic-*.png)")
+                        help="folder outside the repository with the three slide 9 crops (09-heuristic-*.png) and the "
+                             "B9 shots (backup-demo-*-local-light.png, in DIR/framed/ or DIR)")
     parser.add_argument("--preview", type=Path, help="also write one .pptx per slide into this folder")
     args = parser.parse_args()
     prs, docs = build(args.screenshots)

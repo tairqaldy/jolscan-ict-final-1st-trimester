@@ -10,6 +10,16 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 ## Entries
 
+### 13 November 2026 (morning) · Defense deck with screenshots, voiced demo video, README
+
+- **Status:** done
+- **What I did:** finished the generated deck for the talk (the cloud text on slides 4 and 12, real app screenshots on slide 9 and a demo fallback slide, and backup slides on who built what, the timeline, the terms in plain words and how we tested); recorded a 2:48 voiced walkthrough of the demo path on the real models; brought the README's instructor section up to date.
+- **Result:** this pull request (generator and README); the deck with screenshots and the video stay on the presenting laptop (screenshots never go into git).
+- **Decisions and why:** the 12 talk slides and their speakers and budgets stay as rehearsed; the new material goes into backups after B8, so no cited backup number changes. The voice-over uses a stock ElevenLabs voice, not a clone of a team member's voice.
+- **What I learned / can explain:** how the deck build ties every number on a slide to a committed file, and why a recording is timed to its narration instead of the other way round.
+- **AI use:** Claude Code (Claude Opus 5.5) and a deck sub-agent; ElevenLabs text to speech; see docs/AI-USAGE-LOG.md.
+- **Open questions / next:** none for the defense.
+
 ### 13 November 2026 (morning) · S-7 (#31) · The cloud Space is live; second polish pass
 
 - **Status:** done
