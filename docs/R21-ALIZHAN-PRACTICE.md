@@ -17,7 +17,7 @@ The deck estimates 42 seconds at 130 words per minute. The three supplied audio 
 ## What the diagram means
 
 1. The browser sends an image to the Next.js route (`/api/analyze` or `/api/restroom`).
-2. The chosen provider returns mock data or invokes the local/hosted model service. The cloud option is opt-in; S-7 remains open, so do not claim a hosted demo is deployed.
+2. The chosen provider returns mock data or invokes the local/hosted model service. The cloud option is opt-in. Since 13 November (S-7) it is our API on a Hugging Face Space, `tairqaldy/qarau-api`; it is several seconds per photo on a shared CPU, so the live demo runs on Local (`api/README.md`, Hosting).
 3. FastAPI exposes `/predict` for YOLO and `/restroom/compare` or `/restroom/match` for CLIP. Results return as JSON.
 4. Web-server rules turn detections or sign predictions into the displayed road severity or signage verdict.
 

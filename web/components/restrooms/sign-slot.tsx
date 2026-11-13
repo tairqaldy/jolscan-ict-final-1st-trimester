@@ -134,14 +134,22 @@ export function SignSlot({
         invalid={error !== null}
         disabled={disabled}
       />
-      <p className="min-h-5 truncate text-sm font-medium" title={title}>
+      {/* Two lines, not one cut line: the end of a name ("..., women") says which door it is. */}
+      <p className="min-h-5 text-sm font-medium line-clamp-2" title={title}>
         {title ?? <span className="text-muted">No sign chosen</span>}
       </p>
       <div className="flex flex-wrap gap-2">
         <Dialog open={pickerOpen} onOpenChange={setPickerOpen}>
           <DialogTrigger asChild>
-            <Button variant="secondary" size="sm" disabled={disabled} className="h-auto! min-h-8 py-1 whitespace-normal!">
-              <LayoutGrid aria-hidden /> Choose a sample
+            <Button
+              variant="secondary"
+              size="sm"
+              disabled={disabled}
+              aria-label={`${label}: choose a sample`}
+              className="h-auto! min-h-8 py-1 whitespace-normal!"
+            >
+              <LayoutGrid aria-hidden /> <span className="sm:hidden">Sample</span>
+              <span className="max-sm:hidden">Choose a sample</span>
             </Button>
           </DialogTrigger>
           <DialogContent title={`${label}: choose a sample sign`} description="The bundled samples, or any IOAI door sign from the validation, test or training set." className="max-w-3xl">

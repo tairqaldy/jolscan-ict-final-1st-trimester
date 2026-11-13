@@ -114,7 +114,7 @@ export function RoadsAnalytics() {
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={daily} margin={chartMargin()}>
               <CartesianGrid {...gridProps} />
-              <XAxis dataKey="label" interval="preserveStartEnd" minTickGap={24} {...axisProps} />
+              <XAxis dataKey="label" interval={0} {...axisProps} />
               <YAxis allowDecimals={false} width={yAxisWidth(3)} {...axisProps}>
                 {yAxisTitle("Boxes")}
               </YAxis>
@@ -199,7 +199,7 @@ export function RoadsAnalytics() {
         <ChartCard
           title="Latency by provider"
           badge={<DemoBadge show label="Includes demo data" />}
-          description="Model time per photo. The cloud service is not deployed, so every Cloud bar comes from the demo set."
+          description="Model time per photo, from the demo set and the analyses made in this browser. Cloud adds the trip to the hosted service."
           legend={
             <>
               <LegendSwatch color={SERIES[0]} label="Median" />

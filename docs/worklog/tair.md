@@ -10,6 +10,16 @@ Fill this in by the code freeze (Wed 23:00). Three to six bullets: what I built 
 
 ## Entries
 
+### 13 November 2026 (morning) · S-7 (#31) · The cloud Space is live; second polish pass
+
+- **Status:** done
+- **What I did:** with a Hugging Face PRO account, `scripts/deploy_space.py` published `tairqaldy/qarau-api`; I checked `/health`, `/predict` and `/restroom/compare` on it and the web app's Cloud provider end to end, including the privacy switch. Second polish pass from the review list: the layer code excerpts get a select on phones, threshold fields show 0.40, the week chart labels every bar, the map fits its markers, seeded rows carry the demo badge instead of a "Demo" provider, the phone module bar stops claiming pages that belong to both modules, a shorter Match description, and sign names on two lines.
+- **Result:** S-7 done (api/README.md, Hosting); the live site has `CLOUD_MODEL_API_URL` and was redeployed; this pull request.
+- **Decisions and why:** the live demo stays on Local: the Space's shared CPU takes 3.6 to 5.7 s per photo against 51 to 117 ms on the laptop. Dameli confirmed the middle-dot note in decision 0011.
+- **What I learned / can explain:** why a privacy option has to be enforced where the photo would leave (the Analyze and Compare actions refuse Cloud), not only in Settings.
+- **AI use:** Claude Code (Claude Opus 5.5); see docs/AI-USAGE-LOG.md.
+- **Open questions / next:** S-9 (latency of local against cloud on 50 images) is still open.
+
 ### 13 November 2026 · Overnight polish of the demo path (1440 px and 375 px, light and dark)
 
 - **Status:** done

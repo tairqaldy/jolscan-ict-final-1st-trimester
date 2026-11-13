@@ -19,6 +19,10 @@ export default function MapView({ analyses }: { analyses: AnalysisWithSource[] }
   const [tileErrors, setTileErrors] = useState(0);
   const [tilesLoaded, setTilesLoaded] = useState(false);
   const located = analyses.filter((a) => a.location);
+  // Fit the view to the markers (with room for the largest circle), so none sits half outside the frame; with fewer
+  // than two places the fixed Astana view stays.
+  const bounds: [number, number][] | undefined =
+    located.length > 1 ? located.map((a) => [a.location!.lat, a.location!.lng]) : undefined;
 
   return (
     <div className="relative h-full">
@@ -26,6 +30,8 @@ export default function MapView({ analyses }: { analyses: AnalysisWithSource[] }
       <MapContainer
         center={[ASTANA.lat, ASTANA.lng]}
         zoom={12}
+        bounds={bounds}
+        boundsOptions={{ padding: [32, 32] }}
         scrollWheelZoom={false}
         className="size-full"
         style={{ background: "var(--surface-2)" }}

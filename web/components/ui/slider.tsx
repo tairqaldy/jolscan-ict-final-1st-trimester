@@ -14,10 +14,14 @@ import { FORCED_FOCUS, type InteractionState } from "./states";
 export const SLIDER_HOVER = "shadow-md!";
 export const SLIDER_PRESSED = "scale-110!";
 
-/** Always "0.4", never "0,4": numbers in inputs are formatted the same in every browser locale. */
+/**
+ * Always a dot, never "0,4": numbers in inputs are formatted the same in every browser locale. A confidence threshold
+ * (step 0.01) keeps both decimals, "0.40", the way rule texts and charts write it; other steps drop trailing zeros
+ * ("1.5", "2"), like the points and multipliers in the rule texts.
+ */
 function formatNumber(v: number, step: number) {
   const decimals = Math.min(4, (String(step).split(".")[1] ?? "").length);
-  return Number(v.toFixed(decimals)).toString();
+  return step === 0.01 ? v.toFixed(2) : Number(v.toFixed(decimals)).toString();
 }
 
 /**

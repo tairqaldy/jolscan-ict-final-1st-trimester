@@ -231,7 +231,9 @@ function ModuleSwitcher({
           "module-thumb",
           variant === "sidebar"
             ? "inset-y-[calc(0.25rem_+_1px)] left-[calc(0.25rem_+_1px)] w-[calc((100%_-_0.75rem_-_2px)/2)] rounded-md bg-surface shadow-sm [--module-gap:0.25rem]"
-            : "bottom-0 left-0 h-0.5 w-1/2 bg-accent",
+            : // On pages for both modules (Home, Analytics, Model, Settings) the bar only remembers the last module, so its
+              // thumb goes grey instead of claiming the page with the accent.
+              cn("bottom-0 left-0 h-0.5 w-1/2", pathModule === null ? "bg-subtle" : "bg-accent"),
         )}
       />
       <ul className={cn("grid grid-cols-2", variant === "sidebar" ? "gap-1 rounded-lg border border-border-strong bg-surface-2 p-1" : "")}>
